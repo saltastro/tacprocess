@@ -1,0 +1,35 @@
+{
+  "name": "tac-site-frontend",
+  "version": "1.0.0",
+  "description": "Web frontend of the Time Allocation Committee site for the Southern African Large Telescope",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://tbd"
+  },
+  "keywords": [
+    "Time Allocation Committee",
+    "TAC",
+    "Southern African Large Telescope",
+    "SALT"
+  ],
+  "author": "Christian Hettlage",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "html-webpack-plugin": "^2.29.0",
+    "html-webpack-template": "^5.6.0",
+    "webpack": "^3.3.0"
+  },
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  }
+}
