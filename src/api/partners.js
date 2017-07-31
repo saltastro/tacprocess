@@ -1,21 +1,20 @@
-const hasInvestigatorIn = proposal => proposal.timeRequests.find(t => t.code === this.code);
+export default class Partner {
+    constructor(code, name) {
+        this.code = code;
+        this.name = name;
+    }
+
+    requestsTimeFor(proposal) {
+        return proposal.timeRequests.find(t => t.partner.code === this.code && t.time > 0) !== undefined;
+    }
+
+    static partnerByCode(code) {
+        return PARTNERS.find(partner => partner.code === code);
+    }
+}
 
 export const PARTNERS = [
-    {
-        code: 'AMNH',
-        name: 'American Museum of Natural History',
-        hasInvestigatorIn: hasInvestigatorIn
-    },
-    {
-        code: 'RSA',
-        name: 'South Africa',
-        hasInvestigatorIn: hasInvestigatorIn
-    },
-    {
-        code: 'UW',
-        name: 'University of Wisconsin',
-        hasInvestigatorIn: hasInvestigatorIn
-    }
+    new Partner('AMNH', 'American Museum of Natural History'),
+    new Partner('RSA', 'South Africa'),
+    new Partner('UW', 'University of Wisconsin')
 ];
-
-export const partnerByCode = code => PARTNERS.find(partner => partner.code === code);
