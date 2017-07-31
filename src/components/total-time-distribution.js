@@ -59,9 +59,10 @@ const defaultMargins = {
 };
 
 const TotalTimeDistribution = ({proposals, partner, width, height, margins=defaultMargins}) => {
-    const timeRequest = (proposal, partner) => proposal.timeRequests.find(t => t.partner.code === partner.code);
+    const timeRequest = (proposal, partner) =>proposal.timeRequests.find(t => t.partner.code === partner.code);
 
     const requestedHours = proposals
+            .filter(proposal => partner.requestsTimeFor(proposal))
             .reduce(
                     (a, proposal) => {
                         const req = timeRequest(proposal, partner);
@@ -73,16 +74,12 @@ const TotalTimeDistribution = ({proposals, partner, width, height, margins=defau
 
     const domain = [0, 100];
 
-    console.log(requestedHours);
-
     const histogramChart = histogram();
     histogramChart
             .domain(domain)
             .thresholds(range(0, 100, 10))
             .value(d => d);
     const histogramData = histogramChart(requestedHours);
-
-    console.log(histogramData);
 
     const yRange = [0, Math.round(max(histogramData, d => d.length))];
 
