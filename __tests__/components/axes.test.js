@@ -7,8 +7,8 @@ const axis = (xAxisTitle=null, yAxisTitle=null) =>
         <Axes width={50}
               height={500}
               margins={{top: 0, right: 0, bottom: 0, left: 0}}
-              xDomain={[0, 1]}
-              yDomain={[0, 1]}
+              domain={[0, 1]}
+              range={[0, 1]}
               xAxisTitle={xAxisTitle}
               yAxisTitle={yAxisTitle}/>;
 
@@ -17,8 +17,8 @@ describe('Axes', () => {
         const s = mount(<Axes width={500}
                                 height={500}
                                 margins={{top: 0, right: 0, bottom: 0, left: 0}}
-                                xDomain={[0, 1]}
-                                yDomain={[0, 1]}/>);
+                                domain={[0, 1]}
+                                range={[0, 1]}/>);
         expect(s.find('.axis')).toHaveLength(4);
     });
 

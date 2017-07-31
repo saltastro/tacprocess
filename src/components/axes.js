@@ -10,11 +10,11 @@ import Axis from './axis';
  *
  * The following properties are supported:
  *
- * xDomain:
+ * domain:
  *     The domain of x values. This is an array of two numbers.
  *
- * yDomain:
- *     The domain of y values. This is an array of two numbers.
+ * range:
+ *     The range of y values. This is an array of two numbers.
  *
  * width:
  *     The width of the plot (including margins).
@@ -54,10 +54,10 @@ Title.propTypes = {
     rotationAngle: PropTypes.number
 };
 
-const Axes = ({xDomain, yDomain, width, height, margins, xTickValues=null, yTickValues=null, xAxisTitle='', yAxisTitle=''}) => {
+const Axes = ({domain, range, width, height, margins, xTickValues=null, yTickValues=null, xAxisTitle='', yAxisTitle=''}) => {
     // scales
-    const xScale = scaleLinear().domain(xDomain).range([0, width - margins.left - margins.right]);
-    const yScale = scaleLinear().domain(yDomain).range([height - margins.top - margins.bottom, 0]);
+    const xScale = scaleLinear().domain(domain).range([0, width - margins.left - margins.right]);
+    const yScale = scaleLinear().domain(range).range([height - margins.top - margins.bottom, 0]);
 
     // axis positions
     const transformTop = `translate(${margins.left}, ${margins.top})`;
@@ -92,13 +92,13 @@ const Axes = ({xDomain, yDomain, width, height, margins, xTickValues=null, yTick
 };
 
 Axes.propTypes = {
+    domain: PropTypes.array.isRequired,
     height: PropTypes.number.isRequired,
     margins: PropTypes.object.isRequired,
+    range: PropTypes.array.isRequired,
     width: PropTypes.number.isRequired,
-    xDomain: PropTypes.array.isRequired,
     xTickValues: PropTypes.array,
     xTitle: PropTypes.string,
-    yDomain: PropTypes.array.isRequired,
     yTickValues: PropTypes.array,
     yTitle: PropTypes.string,
 };
