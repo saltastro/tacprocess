@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
  *     axisTop, axisRight, axisBottom and axisLeft functions.
  *
  * scale:
- *     The plot scale. This is a function from the d3-scale package.
+ *     The plot scale, which is used as the axis scale. This is a function from the d3-scale package.
  *
  * tickValues:
  *     An array of tick values. Only these tick values are rendered. This property is optional.
