@@ -6,7 +6,7 @@ import C from '../constants';
 import * as actions from '../../src/actions';
 import * as api from '../../src/api';
 
-jest.mock('./api');
+jest.mock('../api');
 jest.mock('uuid');
 
 const MOCK_UUID =  'cbf3ecf5-ec9a-4167-92b7-80bc20713ef7';

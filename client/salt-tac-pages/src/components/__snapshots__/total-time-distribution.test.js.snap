@@ -279,61 +279,61 @@ exports[`TotalTimeDistribution should generate the plot for AMNH 1`] = `
     </Axes>
     <rect
       height={293.3333333333333}
-      width={94}
+      width={44}
       x={50}
       y={156.66666666666669}
     />
     <rect
       height={146.66666666666663}
-      width={94}
+      width={44}
       x={94}
       y={303.33333333333337}
     />
     <rect
       height={440}
-      width={94}
+      width={44}
       x={138}
       y={10}
     />
     <rect
       height={146.66666666666663}
-      width={94}
+      width={44}
       x={182}
       y={303.33333333333337}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={226}
       y={450}
     />
     <rect
       height={146.66666666666663}
-      width={94}
+      width={44}
       x={270}
       y={303.33333333333337}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={314}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={358}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={402}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={446}
       y={450}
     />
@@ -620,61 +620,61 @@ exports[`TotalTimeDistribution should generate the plot for RSA 1`] = `
     </Axes>
     <rect
       height={0}
-      width={94}
+      width={44}
       x={50}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={94}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={138}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={182}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={226}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={270}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={314}
       y={450}
     />
     <rect
       height={440}
-      width={94}
+      width={44}
       x={358}
       y={10}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={402}
       y={450}
     />
     <rect
       height={440}
-      width={94}
+      width={44}
       x={446}
       y={10}
     />
@@ -961,61 +961,61 @@ exports[`TotalTimeDistribution should generate the plot for UW 1`] = `
     </Axes>
     <rect
       height={0}
-      width={94}
+      width={44}
       x={50}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={94}
       y={450}
     />
     <rect
       height={440}
-      width={94}
+      width={44}
       x={138}
       y={10}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={182}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={226}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={270}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={314}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={358}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={402}
       y={450}
     />
     <rect
       height={0}
-      width={94}
+      width={44}
       x={446}
       y={450}
     />

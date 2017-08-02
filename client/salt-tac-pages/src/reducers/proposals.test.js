@@ -1,6 +1,6 @@
-import C from '../../src/constants';
+import C from '../constants';
 
-import { proposals } from '../../src/reducers';
+import { proposals } from '../reducers';
 
 describe('proposals reducer', () => {
     const p1 = { title: 'Proposal 1' };
