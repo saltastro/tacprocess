@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import Axes from '../../src/components/axes';
+import Axes from './axes';
 
 const axis = (xAxisTitle=null, yAxisTitle=null) =>
         <Axes width={50}

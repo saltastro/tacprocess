@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as d3Axis from 'd3-axis';
-import { select, selectAll } from 'd3-selection';
+import { select } from 'd3-selection';
 import PropTypes from 'prop-types';
 
 /**

@@ -1,18 +1,19 @@
 import React from 'react';
 import { render } from 'react-dom';
 
+import registerServiceWorker from './registerServiceWorker';
 import TotalTimeDistribution from './components/total-time-distribution';
-import { partnerByCode } from './util/partners';
+import Partner from './util/partners';
 
-const AMNH = partnerByCode('AMNH');
-const RSA = partnerByCode('RSA');
+const AMNH = Partner.partnerByCode('AMNH');
+const RSA = Partner.partnerByCode('RSA');
 
 const proposals = [
     {
         timeRequests: [
             {
                 partner: AMNH,
-                time: 3.7
+                time: 77 * 3600
             },
             {
                 partner: RSA,
@@ -24,7 +25,7 @@ const proposals = [
         timeRequests: [
             {
                 partner: AMNH,
-                time: 54.57
+                time: 5.57 * 3600
             },
         ]
     },
@@ -41,4 +42,5 @@ const proposals = [
 render(<svg width={1000} height={1000}>
     <TotalTimeDistribution proposals={proposals} width={500} height={500} partner={AMNH}/>
         </svg>,
-        document.getElementById('react-content'));
+        document.getElementById('root'));
+registerServiceWorker();

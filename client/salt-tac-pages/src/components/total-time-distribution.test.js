@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { compose } from 'redux';
 
-import Partner from '../../src/api/partners';
+import Partner from '../util/partners';
 import TotalTimeDistribution from '../../src/components/total-time-distribution';
 
 const mountExpect = compose(expect, toJson, mount);

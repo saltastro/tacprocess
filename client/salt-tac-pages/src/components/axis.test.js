@@ -2,7 +2,7 @@ import React from 'react';
 import { scaleLinear } from 'd3-scale';
 import { mount } from 'enzyme';
 
-import Axis from '../../src/components/axis';
+import Axis from './axis';
 
 describe('Axis', () => {
     let orientation;
