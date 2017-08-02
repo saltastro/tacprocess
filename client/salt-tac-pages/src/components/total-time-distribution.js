@@ -103,7 +103,7 @@ const TotalTimeDistribution = ({proposals, partner, width, height, margins=defau
                         <rect key={i}
                               x={xScale(d.x0)}
                               y={yScale(d.length)}
-                              width={xScale(d.x1 - d.x0)}
+                              width={xScale(d.x1) - xScale(d.x0)}
                               height={height - margins.bottom - yScale(d.length)}/>
                 ))}
             </g>
