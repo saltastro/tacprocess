@@ -29,14 +29,17 @@ api.fetchProposals.mockImplementation(semester => {
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('fetchProposals', () => {
+describe('fetchSemesterData', () => {
     it('should should fetch proposals', () => {
         const expectedActions = [
             {
-                type: C.FETCH_PROPOSALS_STARTED
+                type: C.FETCH_SEMESTER_DATA_STARTED,
+                payload:{
+                    semester: '2017-2'
+                }
             },
             {
-                type: C.FETCH_PROPOSALS_SUCCEEDED,
+                type: C.FETCH_SEMESTER_DATA_SUCCEEDED,
                 payload: {
                     proposals: [p1, p2]
                 }
@@ -45,13 +48,14 @@ describe('fetchProposals', () => {
 
         const store = mockStore({
                                     proposals: {
+                                        semester: null,
                                         isLoading: false,
                                         errors: [],
                                         proposals: []
                                     }
                                 });
 
-        return store.dispatch(actions.fetchProposals('2017-2'))
+        return store.dispatch(actions.fetchSemesterData('2017-2'))
                 .then(() => expect(store.getActions()).toEqual(expectedActions));
     });
 
@@ -59,10 +63,13 @@ describe('fetchProposals', () => {
         const message = 'The server is down';
         const expectedActions = [
             {
-                type: C.FETCH_PROPOSALS_STARTED
+                type: C.FETCH_SEMESTER_DATA_STARTED,
+                payload: {
+                    semester: 'ABC'
+                }
             },
             {
-                type: C.FETCH_PROPOSALS_FAILED,
+                type: C.FETCH_SEMESTER_DATA_FAILED,
                 payload: {
                     error: {
                         id: MOCK_UUID,
@@ -74,25 +81,26 @@ describe('fetchProposals', () => {
 
         const store = mockStore({
                                     proposals: {
+                                        semester: null,
                                         isLoading: false,
                                         errors: [],
                                         proposals: []
                                     }
                                 });
 
-        return store.dispatch(actions.fetchProposals('ABC'))
+        return store.dispatch(actions.fetchSemesterData('ABC'))
                 .then(() => expect(store.getActions()).toEqual(expectedActions));
     })
 });
 
-describe('fetchProposalsSucceeded', () => {
-    it('should create an action for fetching proposals successfully', () => {
+describe('fetchSemesterDataSucceeded', () => {
+    it('should create an action for fetching semester data successfully', () => {
         const proposals = [
             { title: 'Proposal 1' },
             { title: 'Proposal 2' }
         ];
         const expectedAction = {
-            type: C.FETCH_PROPOSALS_SUCCEEDED,
+            type: C.FETCH_SEMESTER_DATA_SUCCEEDED,
             payload: {
                 proposals
             }
@@ -102,11 +110,11 @@ describe('fetchProposalsSucceeded', () => {
     })
 });
 
-describe('fetchProposalsFailed', () => {
-    it('should create an action for fetching proposals unsuccessfully', () => {
+describe('fetchSemesterDataFailed', () => {
+    it('should create an action for fetching semester data unsuccessfully', () => {
         const message = 'The server did not respond.';
         const expectedAction = {
-            type: C.FETCH_PROPOSALS_FAILED,
+            type: C.FETCH_SEMESTER_DATA_FAILED,
             payload: {
                 error: {
                     id: MOCK_UUID,

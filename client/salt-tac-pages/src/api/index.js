@@ -9,6 +9,46 @@ const client = axios.create({
                                 }
                             });
 
+import Partner from '../util/partners';
+
+const AMNH = Partner.partnerByCode('AMNH');
+const RSA = Partner.partnerByCode('RSA');
+
+const fakeProposals = [
+    {
+        timeRequests: [
+            {
+                partner: AMNH,
+                time: 77 * 3600
+            },
+            {
+                partner: RSA,
+                time: 5
+            }
+        ]
+    },
+    {
+        timeRequests: [
+            {
+                partner: AMNH,
+                time: 5.57 * 3600
+            },
+        ]
+    },
+    {
+        timeRequests: [
+            {
+                partner: RSA,
+                time: 17
+            }
+        ]
+    },
+];
+
 export function fetchProposals(semester) {
-    return axios.get('/proposals');
+    if (semester === '2017-2') {
+        return Promise.resolve(fakeProposals);
+    } else {
+        return `The server does not like semester ${semester}.`;
+    }
 }
