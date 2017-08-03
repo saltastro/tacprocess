@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import Partner from '../util/partners';
+
 const API_BASE_URL = 'http://localhost:7777';
 
 const client = axios.create({
@@ -9,13 +11,12 @@ const client = axios.create({
                                 }
                             });
 
-import Partner from '../util/partners';
-
 const AMNH = Partner.partnerByCode('AMNH');
 const RSA = Partner.partnerByCode('RSA');
 
 const fakeProposals = [
     {
+        title: 'Proposal 1',
         timeRequests: [
             {
                 partner: AMNH,
@@ -28,6 +29,7 @@ const fakeProposals = [
         ]
     },
     {
+        title:'Proposal 2',
         timeRequests: [
             {
                 partner: AMNH,
@@ -36,6 +38,7 @@ const fakeProposals = [
         ]
     },
     {
+        title: 'Proposal 3',
         timeRequests: [
             {
                 partner: RSA,
@@ -49,6 +52,6 @@ export function fetchProposals(semester) {
     if (semester === '2017-2') {
         return Promise.resolve(fakeProposals);
     } else {
-        return `The server does not like semester ${semester}.`;
+        return Promise.reject(`The server does not like semester ${semester}.`);
     }
 }
