@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import Partner from '../util/partners';
+import Partner from '../util/partner';
 
 const API_BASE_URL = 'http://localhost:7777';
 

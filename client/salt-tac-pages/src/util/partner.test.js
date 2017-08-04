@@ -1,4 +1,4 @@
-import Partner from '../util/partners';
+import Partner from './partner';
 
 const AMNH = Partner.partnerByCode('AMNH');
 const RSA = Partner.partnerByCode('RSA');
