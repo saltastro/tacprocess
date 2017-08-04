@@ -2,19 +2,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { fetchSemesterData } from './actions';
+import { defaultSemester } from './util/semester';
+import Statistics from './components/statistics';
 
 class App extends Component {
     componentDidMount() {
-        this.props.dispatch(fetchSemesterData('2017-2'));
+        this.props.dispatch(fetchSemesterData(defaultSemester()));
     }
+
+    onChangeSemester = (semester) => {
+        this.props.dispatch(fetchSemesterData(semester));
+    };
+
     render() {
-        const { semester, isLoading, errors, proposals } = this.props.semesterData;
-        console.log(errors, proposals);
+        const { semesterData } = this.props;
         return (
-                <div>
-                    {errors.map(error => <div key={error.id}>ERROR: {error.message}</div>)}
-                    {proposals.map((proposal, index) => <div key={index}>{proposal.title}</div>)}
-                </div>
+                <Statistics {...semesterData} onChangeSemester={this.onChangeSemester}/>
         );
     }
 }
