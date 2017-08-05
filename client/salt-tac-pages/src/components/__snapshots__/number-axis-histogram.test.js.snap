@@ -1,0 +1,224 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NumberAxisHistogram should show the histogram 1`] = `
+<NumberAxisHistogram
+  domain={
+    Array [
+      0,
+      200,
+    ]
+  }
+  height={500}
+  histogramData={
+    Array [
+      Array [
+        1,
+      ],
+      Array [
+        17,
+        11.5,
+        17,
+      ],
+      Array [],
+      Array [
+        36,
+      ],
+      Array [
+        41,
+        42,
+      ],
+      Array [],
+      Array [],
+      Array [
+        77,
+      ],
+      Array [],
+      Array [
+        99,
+      ],
+    ]
+  }
+  range={
+    Array [
+      0,
+      5,
+    ]
+  }
+  width={500}
+  xTitle="Hours"
+  yTitle="Proposals"
+>
+  <g
+    className="histogram"
+  >
+    <Axes
+      domain={
+        Array [
+          0,
+          200,
+        ]
+      }
+      height={500}
+      margins={
+        Object {
+          "bottom": 50,
+          "left": 50,
+          "right": 10,
+          "top": 10,
+        }
+      }
+      range={
+        Array [
+          0,
+          5,
+        ]
+      }
+      width={500}
+      xAxisTitle="Hours"
+      yAxisTitle="Proposals"
+    >
+      <g
+        className="axes"
+      >
+        <Axis
+          orientation="Top"
+          scale={[Function]}
+          tickValues={null}
+          transform="translate(50, 10)"
+        >
+          <g
+            className="axis"
+            transform="translate(50, 10)"
+          />
+        </Axis>
+        <Axis
+          orientation="Left"
+          scale={[Function]}
+          tickValues={null}
+          transform="translate(50, 10)"
+        >
+          <g
+            className="axis"
+            transform="translate(50, 10)"
+          />
+        </Axis>
+        <Axis
+          orientation="Bottom"
+          scale={[Function]}
+          tickValues={null}
+          transform="translate(50, 450)"
+        >
+          <g
+            className="axis"
+            transform="translate(50, 450)"
+          />
+        </Axis>
+        <Axis
+          orientation="Right"
+          scale={[Function]}
+          tickValues={null}
+          transform="translate(490, 10)"
+        >
+          <g
+            className="axis"
+            transform="translate(490, 10)"
+          />
+        </Axis>
+        <Title
+          className="x axis title"
+          title="Hours"
+          x={270}
+          y={490}
+        >
+          <text
+            className="x axis title"
+            textAnchor="middle"
+            transform="rotate(0, 270, 490)"
+            x={270}
+            y={490}
+          >
+            Hours
+          </text>
+        </Title>
+        <Title
+          className="y axis title"
+          rotationAngle={-90}
+          title="Proposals"
+          x={20}
+          y={230}
+        >
+          <text
+            className="y axis title"
+            textAnchor="middle"
+            transform="rotate(-90, 20, 230)"
+            x={20}
+            y={230}
+          >
+            Proposals
+          </text>
+        </Title>
+      </g>
+    </Axes>
+    <rect
+      height={88}
+      width={22}
+      x={50}
+      y={362}
+    />
+    <rect
+      height={264}
+      width={22}
+      x={72}
+      y={186}
+    />
+    <rect
+      height={0}
+      width={22}
+      x={94}
+      y={450}
+    />
+    <rect
+      height={88}
+      width={22}
+      x={116}
+      y={362}
+    />
+    <rect
+      height={176}
+      width={22}
+      x={138}
+      y={274}
+    />
+    <rect
+      height={0}
+      width={22}
+      x={160}
+      y={450}
+    />
+    <rect
+      height={0}
+      width={22}
+      x={182}
+      y={450}
+    />
+    <rect
+      height={88}
+      width={22}
+      x={204}
+      y={362}
+    />
+    <rect
+      height={0}
+      width={22}
+      x={226}
+      y={450}
+    />
+    <rect
+      height={88}
+      width={22}
+      x={248}
+      y={362}
+    />
+  </g>
+</NumberAxisHistogram>
+`;

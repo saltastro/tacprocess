@@ -5,6 +5,8 @@ import { fetchSemesterData } from './actions';
 import { defaultSemester } from './util/semester';
 import Statistics from './components/statistics';
 
+import Partner from './util/partner';
+
 class App extends Component {
     componentDidMount() {
         this.props.dispatch(fetchSemesterData(defaultSemester()));
@@ -17,7 +19,7 @@ class App extends Component {
     render() {
         const { semesterData } = this.props;
         return (
-                <Statistics {...semesterData} onChangeSemester={this.onChangeSemester}/>
+                <Statistics {...semesterData} partner={Partner.partnerByCode('AMNH')} onChangeSemester={this.onChangeSemester}/>
         );
     }
 }
