@@ -10,10 +10,12 @@ describe('partnerByCode', () => {
                 timeRequests: [
                     {
                         partner: AMNH,
+                        semester: '2017-1',
                         time: 3.7
                     },
                     {
                         partner: RSA,
+                        semester: '2017-1',
                         time: 5
                     }
                 ]
@@ -22,6 +24,7 @@ describe('partnerByCode', () => {
                 timeRequests: [
                     {
                         partner: AMNH,
+                        semester: '2017-1',
                         time: 54.57
                     },
                 ]
@@ -30,6 +33,7 @@ describe('partnerByCode', () => {
                 timeRequests: [
                     {
                         partner: RSA,
+                        semester: '2017-1',
                         time: 17
                     }
                 ]
@@ -38,13 +42,25 @@ describe('partnerByCode', () => {
                 timeRequests: [
                     {
                         partner: RSA,
+                        semester: '2017-1',
                         time: 0
                     }
                 ]
+            },
+            {
+                timeRequests: [
+                    {
+                        partner: RSA,
+                        semester: '2017-2',
+                        time: 97
+                    }
+                ]
             }
+
         ];
 
-        expect(proposals.map(proposal => RSA.requestsTimeFor(proposal))).toEqual([true, false, true, false]);
+        expect(proposals.map(proposal => RSA.hasTimeRequestFor(proposal, '2017-1'))).toEqual([true, false, true, true, false]);
+        expect(proposals.map(proposal => RSA.hasTimeRequestFor(proposal, '2017-2'))).toEqual([false, false, false, false, true]);
     });
 
     it('should return the correct partner for a partner code', () => {
