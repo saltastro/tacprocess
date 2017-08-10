@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 
 import { fetchSemesterData } from './actions';
 import { defaultSemester } from './util/semester';
-import Statistics from './components/statistics';
-
 import Partner from './util/partner';
+import About from './components/about';
+import Login from './components/login';
+import NavHeader from './components/nav-header';
+import Statistics from './components/statistics';
 
 class App extends Component {
     componentDidMount() {
@@ -18,8 +21,20 @@ class App extends Component {
 
     render() {
         const { semesterData } = this.props;
+        console.log('UPDATING...');
         return (
-                <Statistics {...semesterData} partner={Partner.partnerByCode('AMNH')} onChangeSemester={this.onChangeSemester}/>
+                <div className="ui grid">
+                    <NavHeader/>
+                    <Switch>
+                        <Route path="/login" componen={Login}/>
+                        <Route path="/about" component={About}/>
+                        <Route path="/statistics" component={Statistics}/>
+                        <Route path="/"
+                               render={() => (
+                                       <Redirect to="/about"/>
+                               )}/>
+                    </Switch>
+                </div>
         );
     }
 }
@@ -30,4 +45,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps)(App));
