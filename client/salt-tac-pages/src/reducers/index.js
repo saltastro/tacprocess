@@ -2,6 +2,7 @@ import C from '../constants';
 
 const initialSemesterData = {
     semester: null,
+    partner: null,
     isLoading: false,
     errors: [],
     proposals: []
@@ -13,6 +14,7 @@ export function semesterData(state=initialSemesterData, action) {
         return {
             ...state,
             semester: action.payload.semester,
+            partner: action.payload.partner,
             isLoading: true,
             errors: [],
             proposals: []

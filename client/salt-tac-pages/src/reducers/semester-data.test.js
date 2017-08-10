@@ -1,6 +1,8 @@
 import C from '../constants';
-
+import Partner from '../util/partner';
 import { semesterData } from '../reducers';
+
+const AMNH = Partner.partnerByCode('AMNH');
 
 describe('semester data reducer', () => {
     const p1 = { title: 'Proposal 1' };
@@ -15,6 +17,7 @@ describe('semester data reducer', () => {
         expect(semesterData(undefined, {}))
                 .toEqual({
                              semester: null,
+                             partner: null,
                              isLoading: false,
                              errors: [],
                              proposals: []
@@ -25,6 +28,7 @@ describe('semester data reducer', () => {
         expect(semesterData(
                 {
                     semester: null,
+                    partner: null,
                     isLoading: true,
                     errors: [],
                     proposals: []
@@ -32,12 +36,14 @@ describe('semester data reducer', () => {
                 {
                     type: C.FETCH_SEMESTER_DATA_STARTED,
                     payload: {
-                        semester: '2017-2'
+                        semester: '2017-2',
+                        partner: AMNH
                     }
                 }
         )).toEqual(
                 {
                     semester: '2017-2',
+                    partner: AMNH,
                     isLoading: true,
                     errors: [],
                     proposals: []
@@ -47,6 +53,7 @@ describe('semester data reducer', () => {
         expect(semesterData(
                 {
                     semester: '2017-1',
+                    partner: AMNH,
                     isLoading: false,
                     errors: [e1],
                     proposals: [p1, p2]
@@ -54,12 +61,14 @@ describe('semester data reducer', () => {
                 {
                     type: C.FETCH_SEMESTER_DATA_STARTED,
                     payload: {
-                        semester: '2017-2'
+                        semester: '2017-2',
+                        partner: AMNH
                     }
                 }
         )).toEqual(
                 {
                     semester: '2017-2',
+                    partner: AMNH,
                     isLoading: true,
                     errors: [],
                     proposals: []
@@ -71,6 +80,7 @@ describe('semester data reducer', () => {
         expect(semesterData(
                 {
                     semester: null,
+                    partner: null,
                     isLoading: false,
                     errors: [],
                     proposals: []
@@ -84,6 +94,7 @@ describe('semester data reducer', () => {
         )).toEqual(
                 {
                     semester: null,
+                    partner: null,
                     isLoading: false,
                     errors: [],
                     proposals: [p1, p2]
@@ -93,6 +104,7 @@ describe('semester data reducer', () => {
         expect(semesterData(
                 {
                     semester: '2018-1',
+                    partner: AMNH,
                     isLoading: true,
                     errors: [e1, e2],
                     proposals: [p3]
@@ -106,6 +118,7 @@ describe('semester data reducer', () => {
         )).toEqual(
                 {
                     semester: '2018-1',
+                    partner: AMNH,
                     isLoading: false,
                     errors: [e1, e2],
                     proposals: [p1, p2]
@@ -118,6 +131,7 @@ describe('semester data reducer', () => {
         expect(semesterData(
                 {
                     semester: null,
+                    partner: null,
                     isLoading: false,
                     errors: [e1],
                     proposals: [p1]
@@ -129,6 +143,7 @@ describe('semester data reducer', () => {
         )).toEqual(
                 {
                     semester: null,
+                    partner: null,
                     isLoading: false,
                     errors: [e1, e2],
                     proposals: [p1]
@@ -138,6 +153,7 @@ describe('semester data reducer', () => {
         expect(semesterData(
                 {
                     semester: '2017-2',
+                    partner: AMNH,
                     isLoading: true,
                     errors: [],
                     proposals: []
@@ -149,6 +165,7 @@ describe('semester data reducer', () => {
         )).toEqual(
                 {
                     semester: '2017-2',
+                    partner: AMNH,
                     isLoading: false,
                     errors: [e2],
                     proposals: []
@@ -160,6 +177,7 @@ describe('semester data reducer', () => {
         expect(semesterData(
                 {
                     semester: null,
+                    partner: null,
                     isLoading: false,
                     errors: [e1, e2, e3],
                     proposals: []
@@ -173,6 +191,7 @@ describe('semester data reducer', () => {
         )).toEqual(
                 {
                     semester: null,
+                    partner: null,
                     isLoading: false,
                     errors: [e1, e3],
                     proposals: []
@@ -182,6 +201,7 @@ describe('semester data reducer', () => {
         expect(semesterData(
                 {
                     semester: '2018-1',
+                    partner: AMNH,
                     isLoading: true,
                     errors: [e1, e2, e3],
                     proposals: [p2, p3]
@@ -195,6 +215,7 @@ describe('semester data reducer', () => {
         )).toEqual(
                 {
                     semester: '2018-1',
+                    partner: AMNH,
                     isLoading: true,
                     errors: [e1, e2, e3],
                     proposals: [p2, p3]
