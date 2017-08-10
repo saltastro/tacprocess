@@ -2,12 +2,13 @@
 
 # dependencies
 /client/salt-tac-pages/node_modules
+/venv
 
 # testing
 /client/salt-tac-pages/coverage
 
 # production
-/client/salt-tac-pages//build
+/client/salt-tac-pages/build
 
 # misc
 .DS_Store
@@ -19,3 +20,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# build file
+__pycache__/
+*.DS_Store
+
+# IDE file
+.idea/
