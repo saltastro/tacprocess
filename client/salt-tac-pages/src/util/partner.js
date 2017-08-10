@@ -4,8 +4,12 @@ export default class Partner {
         this.name = name;
     }
 
-    requestsTimeFor(proposal) {
-        return proposal.timeRequests.find(t => t.partner.code === this.code && t.time > 0) !== undefined;
+    /**
+     * Does the given proposal have a time request for this partner and the given semester? The time request may be
+     * for 0 seconds.
+     */
+    hasTimeRequestFor(proposal, semester) {
+        return proposal.timeRequests.find(t => t.semester === semester && t.partner.code === this.code) !== undefined;
     }
 
     static partnerByCode(code) {

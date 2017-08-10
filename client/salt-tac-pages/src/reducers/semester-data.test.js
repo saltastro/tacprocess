@@ -1,8 +1,8 @@
 import C from '../constants';
 
-import { proposals } from '../reducers';
+import { semesterData } from '../reducers';
 
-describe('proposals reducer', () => {
+describe('semester data reducer', () => {
     const p1 = { title: 'Proposal 1' };
     const p2 = { title: 'Proposal 2' };
     const p3 = { title: 'Proposal 3' };
@@ -12,43 +12,54 @@ describe('proposals reducer', () => {
     const e3 = {id: '5afd29df-671f-4bfd-a8bd-cf9905430b9c', message: 'This is also wrong.'};
 
     it('should return the initial state', () => {
-        expect(proposals(undefined, {}))
+        expect(semesterData(undefined, {}))
                 .toEqual({
+                             semester: null,
                              isLoading: false,
                              errors: [],
                              proposals: []
                          });
     });
 
-    it('should handle FETCH_PROPOSALS_STARTED', () => {
-        expect(proposals(
+    it('should handle FETCH_SEMESTER_DATA_STARTED', () => {
+        expect(semesterData(
                 {
+                    semester: null,
                     isLoading: true,
                     errors: [],
                     proposals: []
                 },
                 {
-                    type: C.FETCH_PROPOSALS_STARTED
+                    type: C.FETCH_SEMESTER_DATA_STARTED,
+                    payload: {
+                        semester: '2017-2'
+                    }
                 }
         )).toEqual(
                 {
+                    semester: '2017-2',
                     isLoading: true,
                     errors: [],
                     proposals: []
                 }
         );
 
-        expect(proposals(
+        expect(semesterData(
                 {
+                    semester: '2017-1',
                     isLoading: false,
                     errors: [e1],
                     proposals: [p1, p2]
                 },
                 {
-                    type: C.FETCH_PROPOSALS_STARTED
+                    type: C.FETCH_SEMESTER_DATA_STARTED,
+                    payload: {
+                        semester: '2017-2'
+                    }
                 }
         )).toEqual(
                 {
+                    semester: '2017-2',
                     isLoading: true,
                     errors: [],
                     proposals: []
@@ -56,41 +67,45 @@ describe('proposals reducer', () => {
         );
     });
 
-    it('should handle FETCH_PROPOSALS_SUCCEEDED', () => {
-        expect(proposals(
+    it('should handle FETCH_SEMESTER_DATA_SUCCEEDED', () => {
+        expect(semesterData(
                 {
+                    semester: null,
                     isLoading: false,
                     errors: [],
                     proposals: []
                 },
                 {
-                    type: C.FETCH_PROPOSALS_SUCCEEDED,
+                    type: C.FETCH_SEMESTER_DATA_SUCCEEDED,
                     payload: {
                         proposals: [p1, p2]
                     }
                 }
         )).toEqual(
                 {
+                    semester: null,
                     isLoading: false,
                     errors: [],
                     proposals: [p1, p2]
                 }
         );
 
-        expect(proposals(
+        expect(semesterData(
                 {
+                    semester: '2018-1',
                     isLoading: true,
                     errors: [e1, e2],
                     proposals: [p3]
                 },
                 {
-                    type: C.FETCH_PROPOSALS_SUCCEEDED,
+                    type: C.FETCH_SEMESTER_DATA_SUCCEEDED,
                     payload: {
                         proposals: [p1, p2]
                     }
                 }
         )).toEqual(
                 {
+                    semester: '2018-1',
                     isLoading: false,
                     errors: [e1, e2],
                     proposals: [p1, p2]
@@ -99,37 +114,41 @@ describe('proposals reducer', () => {
 
     });
 
-    it('should handle FETCH_PROPOSALS_FAILED', () => {
-        expect(proposals(
+    it('should handle FETCH_SEMESTER_DATA_FAILED', () => {
+        expect(semesterData(
                 {
+                    semester: null,
                     isLoading: false,
                     errors: [e1],
                     proposals: [p1]
                 },
                 {
-                    type: C.FETCH_PROPOSALS_FAILED,
+                    type: C.FETCH_SEMESTER_DATA_FAILED,
                     payload: { error: e2 }
                 }
         )).toEqual(
                 {
+                    semester: null,
                     isLoading: false,
                     errors: [e1, e2],
                     proposals: [p1]
                 }
         );
 
-        expect(proposals(
+        expect(semesterData(
                 {
+                    semester: '2017-2',
                     isLoading: true,
                     errors: [],
                     proposals: []
                 },
                 {
-                    type: C.FETCH_PROPOSALS_FAILED,
+                    type: C.FETCH_SEMESTER_DATA_FAILED,
                     payload: { error: e2 }
                 }
         )).toEqual(
                 {
+                    semester: '2017-2',
                     isLoading: false,
                     errors: [e2],
                     proposals: []
@@ -137,41 +156,45 @@ describe('proposals reducer', () => {
         );
     });
 
-    it('should handle DELETE_PROPOSALS_ERROR', () => {
-        expect(proposals(
+    it('should handle DELETE_SEMESTER_DATA_ERROR', () => {
+        expect(semesterData(
                 {
+                    semester: null,
                     isLoading: false,
                     errors: [e1, e2, e3],
                     proposals: []
                 },
                 {
-                    type: C.DELETE_PROPOSALS_ERROR,
+                    type: C.DELETE_SEMESTER_DATA_ERROR,
                     payload: {
                         id: 'cbf3ecf5-ec9a-4167-92b7-80bc20713ef7'
                     }
                 }
         )).toEqual(
                 {
+                    semester: null,
                     isLoading: false,
                     errors: [e1, e3],
                     proposals: []
                 }
         );
 
-        expect(proposals(
+        expect(semesterData(
                 {
+                    semester: '2018-1',
                     isLoading: true,
                     errors: [e1, e2, e3],
                     proposals: [p2, p3]
                 },
                 {
-                    type: C.DELETE_PROPOSALS_ERROR,
+                    type: C.DELETE_SEMESTER_DATA_ERROR,
                     payload: {
                         id: '75edce7a-1d90-4167-8b16-c9aefdec2729'
                     }
                 }
         )).toEqual(
                 {
+                    semester: '2018-1',
                     isLoading: true,
                     errors: [e1, e2, e3],
                     proposals: [p2, p3]
