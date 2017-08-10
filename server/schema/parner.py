@@ -1,3 +1,5 @@
+# todo this has to be partner not parner
+
 import graphene as g
 from graphene import relay as r, resolve_only_args
 
@@ -11,13 +13,11 @@ class Partner(g.ObjectType):
     class Meta:
         interfaces = (r.Node,)
 
-    partner_id = g.ID()
+    # partner_id = g.ID()
     partner_code = g.String()
     partner_name = g.String()
-    proposals = g.Field(g.List(Proposal), investigator_id=g.Int(),
-                        semester_id=g.Int(), semester_code=g.String(), investigator_email=g.String(),
-                        proposal_code=g.String())
     distributed_times = g.Field(g.List(TimeDistributions), semester_id=g.Int(), semester_code=g.String())
+    # todo check if this is confidential
 
     @resolve_only_args
     def resolve_proposals(self, investigator_id=None, semester_id=None, semester_code=None, investigator_email=None,

@@ -149,3 +149,19 @@ def get_p1_thesis(proposal_code):
             student=make_user(thes)
         ) for i, thes in results.iterrows()]
     return []
+
+
+def get_observing_conditions(proposal_code):
+    from ..schema.common import ObservingConditions
+    sql = 'SELECT MaxSeeing, ObservingConditionsDescription, Transparency ' \
+          ' FROM P1ObservingConditions ' \
+          '         JOIN Transparency using (Transparency_Id) ' \
+          '         JOIN Proposal using(Proposal_Id) ' \
+          '         JOIN ProposalCode using(ProposalCode_Id) ' \
+          ' WHERE Proposal_Code="{}" '.format(proposal_code)
+    results = pd.read_sql(sql, conn)
+    return [ObservingConditions(
+        max_seeing=r['MaxSeeing'],
+        transparency=r['Transparency'],
+        description=r['ObservingConditionsDescription']
+    )for i, r in results.iterrows()][0]

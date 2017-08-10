@@ -1,42 +1,46 @@
-import graphene as g
+import graphene
 from server.schema.parner import Partner
 from server.data.parner import get_partner_of
 
 from server.schema.proposal import Proposal
 from server.data.proposal import get_proposals_of
 
-from server.schema.common import Semester
-from server.data.common import get_semester_of
+from server.schema.target import Target
+from server.data.target import get_targets_of
 
 
-class Query(g.ObjectType):
-    partners = g.Field(g.List(Partner), partner_code=g.String(), partner_name=g.String(), partner_id=g.Int())
-    # investigator = g.Field(Investigator, investigator_id=g.Int(), semester_id=g.Int())
-    proposals = g.Field(g.List(Proposal), investigator_id=g.Int(), partner_id=g.Int(), partner_code=g.String(),
-                        semester_id=g.Int(), semester_code=g.String(), investigator_email=g.String(),
-                        proposal_code=g.String())
-    semester = g.Field(g.List(Semester), semester_code=g.String())
+class Query(graphene.ObjectType):
+    partners = graphene.Field(graphene.List(Partner), partner_code=graphene.String())
+    # investigator = graphene.Field(Investigator, investigator_id=graphene.Int(), semester_id=graphene.Int())
 
-    # tac_stats =
+    proposals = graphene.Field(graphene.List(Proposal), partner_code=graphene.String(), semester=graphene.String(),
+                               investigator_email=graphene.String(), proposal_code=graphene.String())
+    targets = graphene.Field(graphene.List(Target), target_name=graphene.String(), proposal_code=graphene.String(),
+                             semester=graphene.String())
+    # proposal_code_list=graphene.String())  #Todo a list of proposal code should be considered
 
-    @g.resolve_only_args
-    def resolve_partners(self, partner_id=None, partner_code=None, partner_name=None):
-        return get_partner_of(partner_id, partner_code, partner_name)
+    @graphene.resolve_only_args
+    def resolve_partners(self, partner_code=None):
+        return get_partner_of(partner_code)
 
-    # @g.resolve_only_args
+    # @graphene.resolve_only_args
     # def resolve_investigator(self, investigator_id, semester_id=None):
     #     return get_investigator_of(investigator_id, semester_id)
 
-    @g.resolve_only_args
-    def resolve_proposals(self, investigator_id=None, partner_id=None, partner_code=None, semester_id=None,
-                          semester_code=None, investigator_email=None, proposal_code=None):
-        return get_proposals_of(investigator_id=investigator_id, partner_id=partner_id, partner_code=partner_code,
-                                semester_id=semester_id, semester_code=semester_code,
-                                investigator_email=investigator_email, proposal_code=proposal_code)
+    @graphene.resolve_only_args
+    def resolve_proposals(self, semester, **args):
+        return get_proposals_of(semester=semester, **args)
 
-    @g.resolve_only_args
-    def resolve_semester(self, semester_code=None):
-        return get_semester_of(semester_code=semester_code)
+    @graphene.resolve_only_args
+    def resolve_targets(self, semester, **args):
+        """
+        this method will return list of all targets in sdb and is any args are provided will return targets 
+        that meet **args request
+        :param args: Targets filtering arguments
+        :param semester: 
+        :return: list of targets
+        """
+        return get_targets_of(semester=semester, **args)
 
 
-schema = g.Schema(query=Query)
+schema = graphene.Schema(query=Query)

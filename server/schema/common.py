@@ -81,7 +81,6 @@ class Semester(g.ObjectType):
         return semest
 
 
-
 class UserRole(g.Enum):
     VISITOR = 1
     INVESTIGATOR = 2
@@ -105,28 +104,21 @@ class User(g.ObjectType):
     institute_id = g.Int()
 
 
-class TimeDistributions(g.ObjectType):
+class TimeDistributions(g.ObjectType):  # todo this name must have a proper meaning
     class Meta:
         interfaces = (r.Node,)
 
     semester = g.String()
-    allocated_p0_and_p1 = g.Float()
-    allocated_p2 = g.Float()
-    allocated_p3 = g.Float()
-    used_p0_and_p1 = g.Float()
-    used_p2 = g.Float()
-    used_p3 = g.Float()
+    p0_and_p1 = g.Float() # allocated_
+    p2 = g.Float()
+    p3 = g.Float()
+    # leave out below
+    # used_p0_and_p1 = g.Float()
+    # used_p2 = g.Float()
+    # used_p3 = g.Float()
 
 
-class ProposalAllocations(g.ObjectType):
-    class Meta:
-        interfaces = (r.Node,)
 
-    p0 = g.Int()
-    p1 = g.Int()
-    p2 = g.Int()
-    p3 = g.Int()
-    p4 = g.Int()
 
 
 class ObservingConditions(g.ObjectType):
@@ -134,16 +126,17 @@ class ObservingConditions(g.ObjectType):
         interfaces = (r.Node,)
 
     max_seeing = g.Float()
-    transparency = g.String()
+    transparency = g.String() # be enum
     description = g.String()
 
 
-class P1Thesis(g.ObjectType):
+class Thesis(g.ObjectType): # was p1thesis
     class Meta:
         interfaces = (r.Node,)
-    thesis_type = g.String()
+    thesis_type = g.String()  # be Enum
     thesis_description = g.String()
     student = g.Field(User)
+    # todo add year of completion
 
 
 

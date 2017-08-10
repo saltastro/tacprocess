@@ -68,33 +68,29 @@ def proposal_sql(arguments):
           "     join ProposalStatus using (ProposalStatus_Id) " \
           "  where current=1 "
 
-    # sql = "SELECT *, Proposal_Id, Proposal_Code, " \
-    #       " CONCAT(Year, '-', Semester) as PSemester, MultiPartner.Semester_Id as Semester_id, " \
-    #       " Title, P4, " \
-    #       " MultiPartner.Partner_Id as Partner_Id, Investigator.Email as PI_Email, ProposalType, " \
-    #       " Investigator.Investigator_Id as PI_Id, Contact_Id as PC_ID, ReqTimeAmount, Astronomer_Id  " \
-    #       "     FROM Proposal " \
-    #       "         JOIN ProposalCode using (proposalCode_Id) " \
-    #       "         join ProposalContact using (Proposal_Id) " \
-    #       "         join Investigator on (Leader_Id=Investigator_Id) " \
-    #       "         join Semester using (Semester_Id) " \
-    #       "         join MultiPartner using (Proposal_Id) " \
-    #       "         join ProposalType using (ProposalType_Id) " \
-    #       "         join Partner using (Partner_Id)" \
-    #       "" \
-    #       "         join ( SELECT * FROM P1ObservingConditions " \
-    #       "                                 left join Moon using(Moon_id) " \
-    #       "                                 join Transparency using (Transparency_Id) " \
-    #       "         ) as obc  using (Proposal_Id)" \
-    #       "" \
-    #       "     WHERE Proposal_Id IN ( " \
-    #       "           SELECT MAX(p.Proposal_Id) " \
-    #       "                  FROM Proposal AS p " \
-    #       "                         JOIN ProposalCode AS pc ON (p.ProposalCode_Id=pc.ProposalCode_Id) " \
-    #       "                         JOIN MultiPartner AS mp ON (mp.Proposal_Id=p.Proposal_Id) " \
-    #       "                  WHERE Phase=1" \
-    #       "                  GROUP BY pc.ProposalCode_Id" \
-    #       "    ) "
+    sql = "SELECT *, Proposal_Id, Proposal_Code, " \
+          " CONCAT(Year, '-', Semester) as PSemester, MultiPartner.Semester_Id as Semester_id, " \
+          " Title, P4,  Status, Phase, " \
+          " MultiPartner.Partner_Id as Partner_Id, Investigator.Email as PI_Email, ProposalType, " \
+          " Investigator.Investigator_Id as PI_Id, Contact_Id as PC_ID, ReqTimeAmount, Astronomer_Id  " \
+          "     FROM Proposal " \
+          "         JOIN ProposalCode using (proposalCode_Id) " \
+          "         join ProposalContact using (Proposal_Id) " \
+          "         join Investigator on (Leader_Id=Investigator_Id) " \
+          "         join Semester using (Semester_Id) " \
+          "         join MultiPartner using (Proposal_Id) " \
+          "         join ProposalType using (ProposalType_Id) " \
+          "         join Partner using (Partner_Id)" \
+          "     join ProposalStatus using (ProposalStatus_Id) " \
+          "" \
+          "     WHERE Proposal_Id IN ( " \
+          "           SELECT MAX(p.Proposal_Id) " \
+          "                  FROM Proposal AS p " \
+          "                         JOIN ProposalCode AS pc ON (p.ProposalCode_Id=pc.ProposalCode_Id) " \
+          "                         JOIN MultiPartner AS mp ON (mp.Proposal_Id=p.Proposal_Id) " \
+          "                  WHERE Phase=1" \
+          "                  GROUP BY pc.ProposalCode_Id" \
+          "    ) "
 
     if 'partner_id' in arguments and arguments['partner_id'] is not None:
         sql = sql + " and Partner_Id={} ".format(arguments['partner_id'])
@@ -117,6 +113,7 @@ def proposal_sql(arguments):
         sql = sql + " and Investigator.Email='{}' ".format(arguments['investigator_email'])
     if 'proposal_code' in arguments and arguments['proposal_code'] is not None:
         sql = sql + " and Proposal_Code='{}' ".format(arguments['proposal_code'])
+    print(sql)
 
     return sql + " and not (Status  = 'Deleted' or Status = 'Expired') " + " ORDER BY Proposal_Code"
 
@@ -132,7 +129,7 @@ def get_proposal(**arguments):
     if "semester_id" not in arguments:
         Semester().get_semester(id_only=True, active=True)
 
-    sql = proposal_sql(arguments)
+    sql = proposal_sql(arguments)  # todo create sql who the user is and what they can see
 
     results = pd.read_sql(sql, conn)
 
@@ -149,11 +146,7 @@ def setup_proposals(investigator_id, partner_id, partner_code, semester_id, seme
     proposal_data = {"proposals": proposal_}
 
 
-def get_proposals_of(investigator_id, partner_id, partner_code, semester_id, semester_code, investigator_email,
-                     proposal_code):
-    setup_proposals(investigator_id=investigator_id, partner_id=partner_id, partner_code=partner_code,
-                    semester_id=semester_id, semester_code=semester_code, investigator_email=investigator_email,
-                    proposal_code=proposal_code)
-    print("Total proposals:", len(proposal_data["proposals"]))
-
-    return proposal_data.get("proposals")
+def get_proposals_of(**args):
+    from ..schema.proposal import Proposal
+    proposals = Proposal()
+    return proposals.get_proposals(**args)

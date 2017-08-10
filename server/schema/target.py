@@ -3,20 +3,17 @@ from graphene import relay as r, resolve_only_args
 from ..data import conn
 import pandas as pd
 
+from .common import Semester
+
+import astropy.coordinates as coords
+import astropy.units as u
+
 
 class TargetCoordinates(g.ObjectType):
     class Meta:
         interfaces = (r.Node,)
 
-    TargetCoordinates_Id = g.ID()
-    ra_h = g.Int()
-    ra_m = g.Int()
-    ra_s = g.Int()
-    dec_sign = g.String()
-    dec_d = g.Int()
-    dec_m = g.Int()
-    dec_s = g.Int()
-    equinox = g.Int()
+    equinox = g.Float()
     estrip_s = g.Float()
     estrip_e = g.Float()
     wstrip_s = g.Float()
@@ -25,16 +22,17 @@ class TargetCoordinates(g.ObjectType):
     eaz_e = g.Float()
     waz_s = g.Float()
     waz_e = g.Float()
+    ra = g.Float()
+    dec = g.Float()
 
 
-class TargetMagnitudes(g.ObjectType):
+class TargetMagnitudes(g.ObjectType):  # todo make singular
     class Meta:
         interfaces = (r.Node,)
 
-    TargetMagnitudes_Id = g.ID()
-    filter_name = g.String()
-    MinMag = g.Int()
-    MaxMag = g.Int()
+    filter = g.String()  # _name
+    min_magnitude = g.Int()
+    max_magnitude = g.Int()
 
 
 class TargetSubType(g.ObjectType):
@@ -52,14 +50,7 @@ class Target(g.ObjectType):
     class Meta:
         interfaces = (r.Node,)
 
-    target_id = g.ID()
     name = g.String()
-    coordinates_id = g.Int()
-    magnitudes_id = g.Int()
-    sub_type_id = g.Int()
-    moving_target_id = g.Int()
-    periodic_target_id = g.Int()
-    Horizons_target_id = g.Int()
     requested_time = g.Int()
     optional = g.Boolean()
     max_lunar_phase = g.Float()
@@ -67,91 +58,99 @@ class Target(g.ObjectType):
     magnitudes = g.Field(TargetMagnitudes)
     sub_type = g.Field(TargetSubType)
 
-    @resolve_only_args
-    def resolve_coordinates(self):
-        return self.get_target_coordinates(self.coordinates_id)
+    @staticmethod
+    def _make_target_coordinates(coordinates):
+        from astropy.coordinates import SkyCoord
+        ra_str = str(coordinates['RaH']) + "h" + str(coordinates['RaM']) + "m" + str(coordinates['RaS']) + "s"
+        dec_str = str(coordinates['DecSign']) + str(coordinates['DecD']) + "d" + str(coordinates['DecM']) + "m" + \
+                  str(coordinates['DecS']) + "s"
+        c = SkyCoord(ra=ra_str, dec=dec_str)
 
-    @resolve_only_args
-    def resolve_magnitudes(self):
-        return self.get_target_magnitudes(self.magnitudes_id)
-
-    @resolve_only_args
-    def resolve_sub_type(self):
-        return self.get_target_sub_type(self.sub_type_id)
-
-    def get_target_coordinates(self, coordinates_id):
-        sql = "SELECT * FROM TargetCoordinates WHERE TargetCoordinates_Id={}".format(coordinates_id)
-
-        results = pd.read_sql(sql, conn)
         return TargetCoordinates(
-            TargetCoordinates_Id=results['TargetCoordinates_Id'],
-            ra_h=results['RaH'],
-            ra_m=results['RaM'],
-            ra_s=results['RaS'],
-            dec_sign=results['DecSign'],
-            dec_d=results['DecD'],
-            dec_m=results['DecM'],
-            dec_s=results['DecD'],
-            equinox=results['Equinox'],
-            estrip_s=results['EstripS'],
-            estrip_e=results['EstripE'],
-            wstrip_s=results['WstripS'],
-            wstrip_e=results['WstripE'],
-            eaz_s=results['EazS'],
-            eaz_e=results['EazE'],
-            waz_s=results['WazS'],
-            waz_e=results['WazE']
+            equinox=coordinates['Equinox'],
+            estrip_s=coordinates['EstripS'],
+            estrip_e=coordinates['EstripE'],
+            wstrip_s=coordinates['WstripS'],
+            wstrip_e=coordinates['WstripE'],
+            eaz_s=coordinates['EazS'],
+            eaz_e=coordinates['EazE'],
+            waz_s=coordinates['WazS'],
+            waz_e=coordinates['WazE'],
+            ra=c.ra.degree,
+            dec=c.dec.degree
         )
 
-    def get_target_magnitudes(self, magnitude_id):
-
-        sql = "SELECT * FROM TargetMagnitudes JOIN Bandpass using(Bandpass_Id) WHERE TargetMagnitudes_Id = {}" \
-            .format(magnitude_id)
-        results = pd.read_sql(sql, conn)
+    @staticmethod
+    def _make_target_magnitudes(magnitude):
 
         return TargetMagnitudes(
-            TargetMagnitudes_Id=results['TargetMagnitudes_Id'],
-            filter_name=results['FilterName'][0],
-            MinMag=results['MinMag'],
-            MaxMag=results['MaxMag'])
+            filter=magnitude['FilterName'],
+            min_magnitude=magnitude['MinMag'],
+            max_magnitude=magnitude['MaxMag'])
 
-    def get_target_sub_type(self, sub_id):
-
-        sql = 'SELECT  TargetSubType.NumericCode as SubNumericCode, StandardName, TargetSubType, ' \
-              ' TargetType.NumericCode as TypeNumericCode, TargetType' \
-              '     FROM TargetSubType JOIN TargetType USING(TargetType_Id) WHERE TargetSubType_Id={} '.format(sub_id)
-        results = pd.read_sql(sql, conn)
+    @staticmethod
+    def _make_target_sub_type(sub_type):
         return TargetSubType(
-            sub_type_numeric_code=results['SubNumericCode'][0],
-            sub_standard_name=results['StandardName'][0],
-            sub_type=results['TargetSubType'][0],
-            type_numeric_code=results['TypeNumericCode'][0],
-            type=results['TargetType'][0]
+            sub_type_numeric_code=sub_type['SubNumericCode'],
+            sub_standard_name=sub_type['StandardName'],
+            sub_type=sub_type['TargetSubType'],
+            type_numeric_code=sub_type['TypeNumericCode'],
+            type=sub_type['TargetType']
         )
 
-    def get_targets(self, proposal_code=None):
-        sql = 'SELECT * ' \
+    def _make_target(self, target):
+        """
+        method is only called with in the 
+        :param target: 
+        :return: 
+        """
+        _target = Target()
+
+        _target.name = target['Target_Name']
+        _target.requested_time = target['RequestedTime']
+        _target.optional = target['Optional']
+        _target.max_lunar_phase = target['MaxLunarPhase']
+        _target.sub_type = self._make_target_sub_type(target)
+        _target.magnitudes = self._make_target_magnitudes(target)
+        _target.coordinates = self._make_target_coordinates(target)
+        return _target
+
+    @staticmethod
+    def _get_target_sql(**args):
+        print(args)
+        semester = Semester().get_semester(semester_code=args['semester'])
+        sql = 'SELECT Target_Name, RequestedTime, Optional, MaxLunarPhase, ' \
+              '   RaH, RaM, RaS, DecSign, DecD, DecM, DecS, Equinox, EstripE, EstripS, WstripS, WstripE, EazS, EazE, ' \
+              '       WazS, WazE, FilterName, MinMag, MaxMag, TargetSubType.NumericCode as SubNumericCode, ' \
+              '       StandardName, TargetSubType, TargetType.NumericCode as TypeNumericCode, TargetType.TargetType' \
               '     FROM P1ProposalTarget ' \
               '         JOIN Target using (Target_Id) ' \
               '         JOIN Proposal using (Proposal_Id) ' \
               '         JOIN ProposalCode using (ProposalCode_Id) ' \
-              '     WHERE Proposal_Code="{proposal_code}" '.format(proposal_code=proposal_code)
+              '         JOIN TargetCoordinates using(TargetCoordinates_Id) ' \
+              '         JOIN TargetMagnitudes using(TargetMagnitudes_Id) JOIN Bandpass using(Bandpass_Id) ' \
+              '         JOIN TargetSubType using (TargetSubType_Id) JOIN TargetType USING(TargetType_Id) ' \
+              '         JOIN MultiPartner using (Proposal_Id)' \
+              '         JOIN Semester using (MultiPartner.Semester_Id) ' \
+              '    WHERE (CONCAT(Year, "_", Semester)= "{semester}" or CONCAT(Year, "-", Semester)= "{semester}") '\
+            .format(semester=args['semester'])
 
+        if "proposal_code" in args:
+            sql = sql + ' AND Proposal_Code="{proposal_code}" '.format(proposal_code=args['proposal_code'])
+
+        if "target_name" in args:
+            if 'WHERE' in sql:
+                sql = sql + ' and Target_Name = "{target_name}" '.format(target_name=args['target_name'])
+        print(sql)
+        return sql
+
+    def get_targets(self, **args):
+        """
+        
+        :param args: how the sql for queering proposals will be made 
+        :return: list of Targets 
+        """
+        sql = self._get_target_sql(**args)
         results = pd.read_sql(sql, conn)
 
         return [self._make_target(targ) for index, targ in results.iterrows()]
-
-    def _make_target(self, target):
-        _target = Target()
-        _target.target_id = target['Target_Id']
-        _target.name = target['Target_Name']
-        _target.coordinates_id = target['TargetCoordinates_Id']
-        _target.magnitudes_id = target['TargetMagnitudes_Id']
-        _target.sub_type_id = target['TargetSubType_Id']
-        _target.moving_target_id = target['MovingTarget_Id']
-        _target.periodic_target_id = target['PeriodicTarget_Id']
-        _target.Horizons_target_id = target['HorizonsTarget_Id']
-        _target.requested_time = target['RequestedTime']
-        _target.optional = target['Optional']
-        _target.max_lunar_phase = target['MaxLunarPhase']
-        return _target
