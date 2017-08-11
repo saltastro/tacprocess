@@ -109,6 +109,40 @@ function defaultProposals() {
     ];
 }
 
+function defaultTargets() {
+    const sortedData = [ // name, declination, right ascension, sidereal?
+            ['Target 1', -65.7, 98.6, true],
+            ['Target 2', -54.2, 14.5, true],
+            ['Target 3', -54.1, 36.3, true],
+            ['Target 4', -54.0, 14.4, true],
+            ['Target 5', -53.9, 14.3, true],
+            ['Target 6', -40.1, 226.3, true],
+            ['Target 7', -23.7, 175.7, true],
+            ['Target 8', -23.5, 175.8, true],
+            ['Target 9', -23.4, 174.7, true],
+            ['Target 10', 2.7, 114.9, true],
+            ['Target 11', 2.8, 114.1, true],
+            ['Target 12', 5.8, 359.5, true],
+            ['Target 13', 7.8, 359.5, true],
+            ['Target 14', 7.9, 201.8, false],
+            ['Target 15', 7.9, 201.8, false]
+    ];
+
+    const data = [sortedData[0], sortedData[3], sortedData[6], sortedData[9], sortedData[12],
+        sortedData[1], sortedData[4], sortedData[7], sortedData[10], sortedData[13],
+        sortedData[2], sortedData[5], sortedData[8], sortedData[11], sortedData[14]];
+
+    return data.map(d => (
+            {
+                name: d[0],
+                ra: d[2],
+                dec: d[1],
+                isSidereal: d[3]
+            }
+                    )
+    );
+}
+
 function defaultAvailableTimes() {
     return {
         scienceTime: {
@@ -347,3 +381,76 @@ describe('proposalsWithInstrumentConfig', () => {
     });
 });
 
+describe('sameTargets', () => {
+    it('should return the pairs of same targets', () => {
+        const areSameTarget = (target1, target2) =>
+                Math.abs(target2.ra - target1.ra) < 1 && Math.abs(target2.dec - target1.dec) < 1;
+
+        const sameTargetsNames = statistics.sameTargets(defaultTargets(), areSameTarget, 1)
+                .map(pair => [pair[0].name, pair[1].name]);
+        const actualPairs = new Set(sameTargetsNames);
+        const expectedPairs = new Set(
+                [[2, 4], [4,2], [2, 5], [5, 2], [4, 5], [5, 4], [7, 8], [8, 7], [10, 11], [11, 10]]
+                        .map(pair => [`Target ${pair[0]}`, `Target ${pair[1]}`])
+        );
+
+        expect(actualPairs).toEqual(expectedPairs);
+    });
+});
+
+describe('areSameTarget', () => {
+    it('should check whether two targets are the same', () => {
+        const target = (ra, dec) => ({ra, dec});
+
+        const r = 0.0005;
+
+        // take cosine of declination into account (cos(60 deg) = 0.5)
+        expect(statistics.areSameTarget(target(130, 60), target(130 - 2 * 0.99 * r, 60), r))
+                .toBe(true);
+        expect(statistics.areSameTarget(target(130, 60), target(130 + 2 * 0.99 * r, 60), r))
+                .toBe(true);
+        expect(statistics.areSameTarget(target(130, 60), target(130 - 2 * 1.01 * r, 60), r))
+                .toBe(false);
+        expect(statistics.areSameTarget(target(130, 60), target(130 + 2 * 1.01 * r, 60), r))
+                .toBe(false);
+
+        expect(statistics.areSameTarget(target(130, 60), target(130, 60 - 0.99 * r), r))
+                .toBe(true);
+        expect(statistics.areSameTarget(target(130, 60), target(130, 60 + 0.992 * r), r))
+                .toBe(true);
+        expect(statistics.areSameTarget(target(130, 60), target(130, 60 - 1.01 * r), r))
+                .toBe(false);
+        expect(statistics.areSameTarget(target(130, 60), target(130, 60 + 1.01 * r), r))
+                .toBe(false);
+
+        // take cosine of declination into account (cos(60 deg) = 0.5)
+        expect(statistics.areSameTarget(target(130, 60),
+                                        target(130 - 2 * 0.99 * r / Math.sqrt(2), 60 + 0.99 * r / Math.sqrt(2)),
+                                        r))
+                .toBe(true);
+        expect(statistics.areSameTarget(target(130, 60),
+                                        target(130 + 2 * 0.99 * r / Math.sqrt(2), 60 - 0.99 * r / Math.sqrt(2)),
+                                        r))
+                .toBe(true);
+        expect(statistics.areSameTarget(target(130, 60),
+                                        target(130 - 2 * 1.01 * r / Math.sqrt(2), 60 + 1.01 * r / Math.sqrt(2)),
+                                        r))
+                .toBe(false);
+        expect(statistics.areSameTarget(target(130, 60),
+                                        target(130 + 2 * 1.01 * r / Math.sqrt(2), 60 - 1.01 * r / Math.sqrt(2)),
+                                        r))
+                .toBe(false);
+
+        // take into account that for the right ascension 0 deg = 360 deg
+        // take cosine of declination into account (cos(60 deg) = 0.5)
+        const epsilon = r / 2;
+        expect(statistics.areSameTarget(target(0.99 * r / Math.sqrt(2), 60),
+                                        target(360 - 0.99 * r / Math.sqrt(2), 60 + 0.99 * r / Math.sqrt(2)),
+                                        r))
+                .toBe(true);
+        expect(statistics.areSameTarget(target(1.01 * r / Math.sqrt(2), 60),
+                                        target(360 - 1.01 * r / Math.sqrt(2), 60 + 1.01 * r / Math.sqrt(2)),
+                                        r))
+                .toBe(false);
+    });
+});

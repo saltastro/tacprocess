@@ -2,6 +2,7 @@ import C from '../constants';
 
 const initialSemesterData = {
     semester: null,
+    partner: null,
     isLoading: false,
     errors: [],
     proposals: []
@@ -13,6 +14,7 @@ export function semesterData(state=initialSemesterData, action) {
         return {
             ...state,
             semester: action.payload.semester,
+            partner: action.payload.partner,
             isLoading: true,
             errors: [],
             proposals: []
@@ -36,5 +38,40 @@ export function semesterData(state=initialSemesterData, action) {
         };
     default:
         return state;
+    }
+}
+
+const initialUser = {
+    isLoading: false,
+    errors: [],
+    user: {}
+};
+
+export function user(state=initialUser, action) {
+    switch (action.type) {
+    case C.LOGIN_STARTED:
+        return {
+                ...state,
+            isLoading: true,
+            errors: [],
+            user: {}
+        };
+    case C.LOGIN_SUCCEEDED:
+        return {
+                ...state,
+            isLoading: false,
+            user: action.payload.user
+        };
+    case C.LOGIN_FAILED:
+        return {
+                ...state,
+            isLoading: false,
+            errors: [...state.errors, action.payload.error]
+        };
+    case C.DELETE_LOGIN_ERROR:
+        return {
+            ...state,
+            errors: state.errors.filter(error => error.id !== action.payload.id)
+        }
     }
 }

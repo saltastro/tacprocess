@@ -189,10 +189,31 @@ export function proposalsForSeeing(proposals, seeing) {
     return proposals.filter(proposal => proposal.maxSeeing >= seeing);
 }
 
+/**
+ * The proposals requesting the given transparency. Proposals requesting a worse transparency are not included.
+ *
+ * Parameters:
+ *
+ * proposals: array
+ *     Proposals
+ * transparency: string
+ *     Transparency.
+ */
 export function proposalsForTransparency(proposals, transparency) {
     return proposals.filter(proposal => proposal.transparency === transparency);
 }
 
+/**
+ * The proposals which have at least one instrument configuration matching all properties of a given configuration.
+ * Properties not included in the given configuration may have any value.
+ *
+ * Parameters:
+ *
+ * proposals: array
+ *     Proposals.
+ * instrumentConfig: object
+ *     Instrument configuration.
+ */
 export function proposalsWithInstrumentConfig(proposals, instrumentConfig) {
     return proposals.filter(
             proposal => proposal.instrumentConfigurations.some(
@@ -203,4 +224,87 @@ export function proposalsWithInstrumentConfig(proposals, instrumentConfig) {
                     )
             )
     );
+}
+
+const TEN_ARCSECONDS = 10 / 3600;
+
+/**
+ * The set of target pairs (t1, t2) for which t1 and t2 are the same target. For two such targets t1, t2 both the pair
+ * (t1, t2) and the pair (t2, t1) are included.
+ *
+ * It is assumed that two targets cannot be equal if their declinations differ by less than maxDeclinationDifference.
+ * However, the function passed as areSameTarget must provide the actual definition of what it means that two targets
+ * are equal.
+ *
+ * Parameters:
+ *
+ * targets: array
+ *     Targets.
+ * areSameTarget: function
+ *     The function used for determining whether two targets are the same.
+ * maxDeclinationDifference: number
+ *     Two targets will only be checked for being the same if their declination differs by less than this value. The
+ *     value must be supplied in degrees. The parameter is optional; 10 arcseconds is taken as default value.
+ */
+export function sameTargets(targets, areSameTarget, maxDeclinationDifference=TEN_ARCSECONDS) {
+    // sort by declination
+    const siderealTargets = targets.filter(target => target.isSidereal);
+    const sortedTargets = _.sortBy(siderealTargets, target => target.dec);
+
+    const sufficientlyCloseDec = (target1, target2) => Math.abs(target1.dec - target2.dec) < maxDeclinationDifference;
+
+    let sameTargets = [];
+    for (let i = 0; i < sortedTargets.length; i++) {
+        let j = i + 1;
+        while (j < sortedTargets.length && sufficientlyCloseDec(sortedTargets[i], sortedTargets[j])) {
+             if (areSameTarget(sortedTargets[i], sortedTargets[j])) {
+                sameTargets.push([sortedTargets[i], sortedTargets[j]],
+                                 [sortedTargets[j], sortedTargets[i]]);
+            }
+            j++;
+        }
+    }
+
+    return sameTargets;
+}
+
+/**
+ * Check two targets for being the same. This is taken to be the case if their angular distance is less than or equal to
+ * maxDistance.
+ *
+ * Parameters:
+ *
+ * target1: object
+ *     First target.
+ * target2: object
+ *     Second target.
+ * maxDistance: number
+ *     The maximum angular distance (in degrees) for which two targets are considered the same.
+ */
+export function areSameTarget(target1, target2, maxDistance) {
+    // handle the equivalence of 0 and 360 deg
+    let t1;
+    let t2;
+    if (target1.ra < 90 && target2.ra > 270) {
+        t1 = {
+            ...target1,
+            ra: 360 + target1.ra
+        };
+        t2 = target2;
+    } else if (target1.ra > 270 && target2.ra < 90) {
+        t1 = target1;
+        t2 = {
+            ...target2,
+            ra: 360 + target2.ra
+        }
+    } else {
+        t1 = target1;
+        t2 = target2;
+    }
+
+    const cosDec = Math.cos(target1.dec * Math.PI / 180);
+    const distanceSquared = Math.pow((t2.ra - t1.ra) * cosDec, 2) + Math.pow(t2.dec - t1.dec, 2);
+    const distance = Math.sqrt(distanceSquared);
+
+    return distance <= maxDistance;
 }
