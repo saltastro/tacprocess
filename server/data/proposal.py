@@ -1,4 +1,5 @@
 from . import pd, conn
+from flask import g
 #from .common import get_semester
 from ..schema.common import Semester
 
@@ -149,4 +150,7 @@ def setup_proposals(investigator_id, partner_id, partner_code, semester_id, seme
 def get_proposals_of(**args):
     from ..schema.proposal import Proposal
     proposals = Proposal()
-    return proposals.get_proposals(**args)
+    p = proposals.get_proposals(**args)
+    print("#", len(g.proposal_ids), list(g.proposal_ids))
+    print("PROP#", len(p))
+    return p
