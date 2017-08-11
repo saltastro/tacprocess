@@ -2,13 +2,9 @@ import graphene as g
 from graphene import relay as r, resolve_only_args
 from ..data import conn
 import pandas as pd
-from astropy.coordinates import SkyCoord
 from datetime import datetime
 
 from .common import Semester
-
-import astropy.coordinates as coords
-import astropy.units as u
 
 
 class TargetCoordinates(g.ObjectType):
@@ -112,9 +108,9 @@ class Target(g.ObjectType):
 
     def _make_target(self, target):
         """
-        method is only called with in the 
-        :param target: 
-        :return: 
+        method is only called with in the
+        :param target:
+        :return:
         """
         _target = Target()
         _target.of_proposal_code = target['Proposal_Code']
@@ -162,9 +158,9 @@ class Target(g.ObjectType):
     def get_targets(self, **args):
 
         """
-        
-        :param args: how the sql for queering proposals will be made 
-        :return: list of Targets 
+
+        :param args: how the sql for queering proposals will be made
+        :return: list of Targets
         """
         s = datetime.now()
         sql = self._get_target_sql(**args)
