@@ -4,6 +4,7 @@ import pandas as pd
 from graphene import relay as r, resolve_only_args
 from .common import Semester, User, ObservingConditions, Thesis
 from .target import Target
+from .proposal_target import ProposalTargets
 from ..data.common import get_user, get_p1_thesis, get_observing_conditions, conn
 
 
@@ -20,7 +21,7 @@ class ProposalTimeAllocations(graphene.ObjectType):  # todo make singular
 
     @staticmethod
     def _make_allocation(prio_dict):
-        allac_times = ProposalAllocations(
+        allac_times = ProposalTimeAllocations(
             p0=prio_dict['p0'],
             p1=prio_dict['p1'],
             p2=prio_dict['p2'],
@@ -60,6 +61,15 @@ class ProposalTimeAllocations(graphene.ObjectType):  # todo make singular
         return self._make_allocation(p_times)
 
 
+class Person(graphene.ObjectType):
+    class Meta:
+        interfaces = (r.Node,)
+    firstname = graphene.String()
+    surname = graphene.String()
+    email = graphene.String()
+    phone = graphene.String()
+
+
 class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo future
     # todo a query argument should be ab Enum if it can be Enum
     class Meta:
@@ -75,9 +85,9 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
     status = graphene.String()  # Enum
     proposal_type = graphene.String()  # use Emun
 
-    pi = graphene.Field(User)
-    pc = graphene.Field(User)
-    liaison_s_a = graphene.Field(User)
+    pi = graphene.Field(Person)
+    pc = graphene.Field(Person)
+    liaison_s_a = graphene.Field(Person)
     time_requests = graphene.Int()
 
     proposal_time_allocations = graphene.Field(ProposalTimeAllocations)
@@ -88,34 +98,34 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
     # instrument = graphene.Field(Instruments) # TODO instuments make plural Inst is an InterFace
     # Todo in future investigators list
 
-    @resolve_only_args
-    def resolve_pi(self):
-        return get_user(self.pi_id)
-
-    @resolve_only_args
-    def resolve_pc(self):
-        return get_user(self.pc_id)
-
-    @resolve_only_args
-    def resolve_liaison_s_a(self):
-        return get_user(self.liaison_s_a_id)
-
-    @resolve_only_args
-    def resolve_allocations(self):
-        alloc = ProposalAllocations()
-        return alloc.get_allocations(self.partner_id, self.proposal_code, self.semester_id)
-
+    # @resolve_only_args
+    # def resolve_pi(self):
+    #     return get_user(self.pi_id)
+    #
+    # @resolve_only_args
+    # def resolve_pc(self):
+    #     return get_user(self.pc_id)
+    #
+    # @resolve_only_args
+    # def resolve_liaison_s_a(self):
+    #     return get_user(self.liaison_s_a_id)
+    #
+    # @resolve_only_args
+    # def resolve_allocations(self):
+    #     alloc = ProposalAllocations()
+    #     return alloc.get_allocations(self.partner_id, self.proposal_code, self.semester_id)
+    #
     @resolve_only_args
     def resolve_targets(self):
-        return Target().get_targets(proposal_code=self.proposal_code)
-
-    @resolve_only_args
-    def resolve_observing_conditions(self):
-         return get_observing_conditions(proposal_code=self.proposal_code)
-
-    @resolve_only_args
-    def resolve_thesis(self):
-        return get_p1_thesis(proposal_code=self.proposal_code)
+        return g.proposaltarget.get(self.proposal_code)
+    #
+    # @resolve_only_args
+    # def resolve_observing_conditions(self):
+    #      return get_observing_conditions(proposal_code=self.proposal_code)
+    #
+    # @resolve_only_args
+    # def resolve_thesis(self):
+    #     return get_p1_thesis(proposal_code=self.proposal_code)
 
     def _proposals_sql(self, **args):
         """
@@ -123,7 +133,7 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
         :param args: 
         :return: SQl for selecting all proposals on **args filtering
         """
-        proposal_ids_sql = " SELECT MAX(p.Proposal_Id) " \
+        proposal_ids_sql = " SELECT MAX(p.Proposal_Id) as Ids, Proposal_Code " \
                            "  FROM Proposal AS p " \
                            "    JOIN ProposalCode AS pc ON (p.ProposalCode_Id=pc.ProposalCode_Id) " \
                            "    JOIN MultiPartner AS mp ON (mp.Proposal_Id=p.Proposal_Id) " \
@@ -134,39 +144,95 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
                 .format(semester_id=semester.semester_id)
         proposal_ids_sql = proposal_ids_sql + " GROUP BY pc.ProposalCode_Id "
         ids = pd.read_sql(proposal_ids_sql, conn)
-        g.proposal_ids = (p_id for i, p_id in ids.iterrows())
+
+        g.proposal_ids = tuple(ids['Ids'].values)
+        g.proposal_codes = tuple(ids['Proposal_Code'].values)
+        self._init_targets(**args)
+
 
         g.proposal_target = {}
-        proposal_ids_sql = "SELECT Proposal_Id, Target_Id FROM ?? WHERE Proposal_Id in {proposal_id}"\
+        proposal_ids_sql = "SELECT Proposal_Id, Target_Id FROM ?? WHERE Proposal_Id in {proposal_id} "\
             .format(proposal_id=g.proposal_ids)
 
-        sql = "SELECT Proposal_Code, CONCAT(SubmissionSemester.Year, '-', SubmissionSemester.Semester) as PSemester, " \
+        sql = "SELECT distinct Proposal_Code, CONCAT(SubmissionSemester.Year, '-', SubmissionSemester.Semester) as PSemester, " \
               " Title, P4,  Status, Phase, ProposalType," \
-              " PI.FirstName, PI.Surname, PI.Email, PI.Phone, " \
-              " PC.FirstName, PC.Surname, PC.Email, PI.Phone, " \
-              " LA.FirstName, LA.Surname, PI.Email, LA.Phone, " \
-              " ReqTimeAmount, "\
+              " PI.FirstName as PIF, PI.Surname as PIS, PI.Email as PIE, PI.Phone as PIP, " \
+              " PC.FirstName as PCF, PC.Surname as PCS, PC.Email as PCE, PI.Phone as PCP, " \
+              " LA.FirstName AS LAF, LA.Surname AS LAS, LA.Email AS LAE, LA.Phone AS LAP, " \
+              "  " \
+              " MaxSeeing, ObservingConditionsDescription, Transparency, ProposalType as Proposal_Type " \
               "     FROM Proposal " \
               "         JOIN ProposalCode using (proposalCode_Id) " \
               "         join ProposalContact using (Proposal_Id) " \
-              "         join Investigator on (Leader_Id=Investigator_Id) as PI " \
-              "         join Investigator on (Contact_Id=Investigator_Id) as PC " \
-              "         join Investigator on (Astronomer_Id=Investigator_Id) as LA " \
-              "         join Semester on (Proposal.Semester_Id = Semester.Semester_Id) SubmissionSemester" \
+              "         join Investigator as PI on (Leader_Id=PI.Investigator_Id)  " \
+              "         join Investigator as PC on (Contact_Id=PC.Investigator_Id) " \
+              "         left join Investigator as LA on (Astronomer_Id=LA.Investigator_Id) " \
+              "         join Semester as SubmissionSemester on (Proposal.Semester_Id = SubmissionSemester.Semester_Id) " \
               "         join MultiPartner using (Proposal_Id) " \
               "         join ProposalType using (ProposalType_Id) " \
-              "         join Partner using (Partner_Id)" \
-              "     join ProposalStatus using (ProposalStatus_Id) " \
+              "         join Partner using (Partner_Id) " \
+              "         join ProposalStatus using (ProposalStatus_Id) " \
+              "         join P1ObservingConditions using (Proposal_Id) " \
+              "         join Transparency using (Transparency_Id) " \
               "" \
               "     WHERE Proposal_Id IN {proposal_ids} ".format(proposal_ids=g.proposal_ids)
-
-
-
-
-
+        print(sql)
+        return sql + "order by Proposal_Code"
 
     def get_proposals(self, **args):
         sql = self._proposals_sql(**args)
+        proposal_data = pd.read_sql(sql, conn)
+        proposals = [self._make_proposal(proposal) for i, proposal in proposal_data.iterrows()]
 
-        return []
+        return proposals
 
+    def _make_proposal(self, proposal):
+        proposal_ = Proposal()
+
+        proposal_.proposal_code = proposal['Proposal_Code']
+        proposal_.semester = proposal['PSemester']  # semester of submition
+        proposal_.title = proposal['Title']
+        proposal_.is_p4 = proposal['P4']
+        proposal_.phase = proposal['Phase']
+        proposal_.status = proposal['Status']  # Enum
+        proposal_.proposal_type = proposal['Proposal_Type']  # use Emun
+
+        proposal_.pi = self._make_person(lastname=proposal['PIS'], firstname=proposal['PIF'],
+                                         email=proposal['PIE'], phone=proposal['PIP'])
+        proposal_.pc = self._make_person(lastname=proposal['PCS'], firstname=proposal['PCF'],
+                                         email=proposal['PCE'], phone=proposal['PCP'])
+        proposal_.liaison_s_a = self._make_person(lastname=proposal['LAS'], firstname=proposal['LAF'],
+                                                  email=proposal['LAE'], phone=proposal['LAP'])
+        # proposal_.time_requests = proposal['ReqTimeAmount']
+
+        #proposal_.proposal_time_allocations =
+        #proposal_.targets = proposal['']
+        # Todo add observations
+        proposal_.observing_conditions = self._make_observing_conditions(proposal)
+        # proposal_.thesis = self._make_thesis(proposal)  # todo make pl
+        return proposal_
+
+    def _make_person(self, lastname, firstname, email, phone):
+        return Person(
+            surname=lastname, firstname=firstname, email=email, phone=phone
+        )
+
+    def _make_thesis(self, thesis):
+        if thesis['ThesisType'] is not None:
+            return Thesis(
+                thesis_type=thesis['ThesisType'],
+                thesis_description=thesis['ThesisDescr'],
+                student=self._make_person(lastname=thesis['STS'], firstname=thesis['STF'],
+                                          email=thesis['STE'], phone=thesis['STP'])
+            )
+        return None
+
+    def _make_observing_conditions(self, conditions):
+        return ObservingConditions(
+            max_seeing=conditions['MaxSeeing'],
+            transparency=conditions['Transparency'],
+            description=conditions['ObservingConditionsDescription']
+        )
+
+    def _init_targets(self, **args):
+        ProposalTargets(proposal_list=g.proposal_codes, **args)
