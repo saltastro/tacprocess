@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import Partner from '../util/partner';
 
-const API_BASE_URL = 'http://localhost:7777';
+const API_BASE_URL = 'http://localhost:5001';
 
 const client = axios.create({
                                 baseURL: API_BASE_URL,
@@ -48,15 +48,6 @@ const fakeProposals = [
     },
 ];
 
-const fakeUser = {
-    token: 'ABCD',
-    firstName: 'Henry',
-    lastName: 'Miller',
-    partner: AMNH,
-    isAdmin: false,
-    isTacChair: false
-};
-
 export function fetchProposals(semester) {
     if (semester === '2017-2') {
         return Promise.resolve(fakeProposals);
@@ -66,11 +57,11 @@ export function fetchProposals(semester) {
 }
 
 export function login(username, password) {
-    if (username === password) {
-        return Promise.resolve(fakeUser);
-    } else {
-        return Promise.reject('Wrong username or password');
-    }
+    return client.post('/login',
+                {
+                    username,
+                    password
+                });
 }
 
 const USER_STORAGE_KEY = 'salt-tac-pages:user';

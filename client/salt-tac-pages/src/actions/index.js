@@ -2,6 +2,7 @@ import { v4 } from 'uuid';
 
 import C from '../constants';
 import * as api from '../api';
+import Partner from '../util/partner';
 
 export function fetchSemesterData(semester) {
     return dispatch => {
@@ -55,11 +56,21 @@ export function login(username, password) {
     return dispatch => {
         dispatch(loginStarted());
         api.login(username, password)
-                .then(user => {
+                .then((response) => {
+                    const userData = response.data;
+                    let partner = Partner.partnerByCode('NONE');
+                    if (userData.partnerCode) {
+                        partner = Partner.partnerByCode(userData.partnerCode);
+                    }
+                    delete userData['partnerCode'];
+                    const user = {
+                        ...userData,
+                        partner
+                    };
                     api.saveUser(user);
                     dispatch(loginSucceeded(user))
                 })
-                .catch(message => dispatch(loginFailed(message)));
+                .catch(response => dispatch(loginFailed(response.data)));
     }
 }
 

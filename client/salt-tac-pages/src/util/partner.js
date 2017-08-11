@@ -9,16 +9,38 @@ export default class Partner {
      * for 0 seconds.
      */
     hasTimeRequestFor(proposal, semester) {
-        return proposal.timeRequests.find(t => t.semester === semester && t.partner.code === this.code) !== undefined;
+        return proposal.timeRequests.find((t) => t.semester === semester && t.partner.code === this.code) !== undefined;
     }
 
     static partnerByCode(code) {
-        return PARTNERS.find(partner => partner.code === code);
+        return PARTNERS.find((partner) => partner.code === code);
+    }
+}
+
+export class NoPartner extends Partner {
+    constructor() {
+        super('NONE', 'No Partner');
+    }
+
+    hasTimeRequestFor(proposal, semester) {
+        return false;
+    }
+}
+
+export class AllPartners extends Partner {
+    constructor() {
+        super('ALL', 'All Partners');
+    }
+
+    hasTimeRequestFor(proposal, semester) {
+        return proposal.timeRequests.find((t) => t.semester === semester) !== undefined;
     }
 }
 
 export const PARTNERS = [
     new Partner('AMNH', 'American Museum of Natural History'),
     new Partner('RSA', 'South Africa'),
-    new Partner('UW', 'University of Wisconsin')
+    new Partner('UW', 'University of Wisconsin'),
+    new NoPartner(),
+    new AllPartners()
 ];
