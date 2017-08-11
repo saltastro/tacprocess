@@ -48,6 +48,15 @@ const fakeProposals = [
     },
 ];
 
+const fakeUser = {
+    token: 'ABCD',
+    firstName: 'Henry',
+    lastName: 'Miller',
+    partner: AMNH,
+    isAdmin: false,
+    isTacChair: false
+};
+
 export function fetchProposals(semester) {
     if (semester === '2017-2') {
         return Promise.resolve(fakeProposals);
@@ -55,3 +64,48 @@ export function fetchProposals(semester) {
         return Promise.reject(`The server does not like semester ${semester}.`);
     }
 }
+
+export function login(username, password) {
+    if (username === password) {
+        return Promise.resolve(fakeUser);
+    } else {
+        return Promise.reject('Wrong username or password');
+    }
+}
+
+const USER_STORAGE_KEY = 'salt-tac-pages:user';
+
+export function saveUser(user) {
+    if (!user) {
+        return;
+    }
+    console.log('SAVING...', user.partner);
+    localStorage.setItem(USER_STORAGE_KEY,
+                         JSON.stringify(
+                                 {
+                                 ...user,
+                                     partner: user.partner.code
+                                 }
+                         ));
+}
+
+export function loadUser() {
+    const user = JSON.parse(localStorage.getItem(USER_STORAGE_KEY));
+    if (!user) {
+        return null;
+    }
+
+    return {
+            ...user,
+        partner: Partner.partnerByCode(user.partner)
+    };
+}
+
+export function removeUser() {
+    localStorage.removeItem(USER_STORAGE_KEY);
+}
+
+export function logout() {
+    removeUser();
+}
+

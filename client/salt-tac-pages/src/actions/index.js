@@ -45,8 +45,64 @@ export function fetchProposalsFailed(message) {
 export function deleteProposalsError(id) {
     return {
         type: C.DELETE_SEMESTER_DATA_ERROR,
-        payload:{
+        payload: {
             id
         }
     };
+}
+
+export function login(username, password) {
+    return dispatch => {
+        dispatch(loginStarted());
+        api.login(username, password)
+                .then(user => {
+                    api.saveUser(user);
+                    dispatch(loginSucceeded(user))
+                })
+                .catch(message => dispatch(loginFailed(message)));
+    }
+}
+
+export function loginStarted() {
+    return {
+        type: C.LOGIN_STARTED
+    };
+}
+
+export function loginSucceeded(user) {
+    return {
+        type: C.LOGIN_SUCCEEDED,
+        payload: {
+            user
+        }
+    };
+}
+
+export function loginFailed(message) {
+    return {
+        type: C.LOGIN_FAILED,
+        payload: {
+            error: {
+                id: v4(),
+                message
+            }
+        }
+    };
+}
+
+export function deleteLoginError(id) {
+    return {
+        type: C.DELETE_LOGIN_ERROR,
+        payload: {
+            id
+        }
+    };
+}
+
+export function logout() {
+    api.logout();
+
+    return {
+        type: C.LOGOUT
+    }
 }

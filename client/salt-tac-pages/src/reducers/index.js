@@ -1,4 +1,5 @@
 import C from '../constants';
+import * as api from '../api';
 
 const initialSemesterData = {
     semester: null,
@@ -44,7 +45,7 @@ export function semesterData(state=initialSemesterData, action) {
 const initialUser = {
     isLoading: false,
     errors: [],
-    user: {}
+    user: api.loadUser()
 };
 
 export function user(state=initialUser, action) {
@@ -68,10 +69,17 @@ export function user(state=initialUser, action) {
             isLoading: false,
             errors: [...state.errors, action.payload.error]
         };
+    case C.LOGOUT:
+        return {
+            ...state,
+            user: null
+        };
     case C.DELETE_LOGIN_ERROR:
         return {
             ...state,
             errors: state.errors.filter(error => error.id !== action.payload.id)
-        }
+        };
+    default:
+        return state;
     }
 }

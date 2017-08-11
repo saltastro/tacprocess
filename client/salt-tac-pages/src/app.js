@@ -7,7 +7,9 @@ import { defaultSemester } from './util/semester';
 import Partner from './util/partner';
 import About from './components/about';
 import Login from './components/login';
+import Logout from './components/logout';
 import NavHeader from './components/nav-header';
+import PrivateRoute from './components/private-route';
 import Statistics from './components/statistics';
 
 class App extends Component {
@@ -21,14 +23,14 @@ class App extends Component {
 
     render() {
         const { semesterData } = this.props;
-        console.log('UPDATING...');
         return (
                 <div className="ui grid">
                     <NavHeader/>
                     <Switch>
-                        <Route path="/login" componen={Login}/>
+                        <Route path="/login" component={Login}/>
+                        <Route path="/logout" component={Logout}/>
                         <Route path="/about" component={About}/>
-                        <Route path="/statistics" component={Statistics}/>
+                        <PrivateRoute path="/statistics" component={Statistics}/>
                         <Route path="/"
                                render={() => (
                                        <Redirect to="/about"/>
@@ -39,10 +41,10 @@ class App extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        semesterData: state.semesterData
-    };
-}
+const mapStateToProps = (state) => (
+        {
+            semesterData: state.semesterData
+        }
+);
 
 export default withRouter(connect(mapStateToProps)(App));

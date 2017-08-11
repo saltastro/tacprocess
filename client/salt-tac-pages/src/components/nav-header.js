@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link, NavLink, withRouter } from 'react-router-dom';
 
-const NavHeader = () => (
+export const NavHeader = ({user}) => (
         <div className="ui huge top attached fluid secondary menu">
             <h1 className="header large"
                 style={{ marginTop: '10px' }}>
@@ -11,17 +12,32 @@ const NavHeader = () => (
                      to="/about">
                 About
             </NavLink>
-            <NavLink className="item"
-                     to="/statistics">
-                Statistics
-            </NavLink>
+            {user && user.partner ? (
+                    <NavLink className="item"
+                             to="/statistics">
+                        Statistics
+                    </NavLink>
+            ) : (null)}
             <div className="right menu">
-                <Link className="item"
-                      to="/login">
-                    Login
-                </Link>
+                {user ? (
+                        <Link className="item"
+                              to="/logout">
+                            Logout
+                        </Link>
+                ) : (
+                        <Link className="item"
+                              to="/login">
+                            Login
+                        </Link>
+                )}
             </div>
         </div>
 );
 
-export default NavHeader;
+const mapStateToProps = (state) => (
+        {
+            user: state.user ? state.user.user : null
+        }
+);
+
+export default withRouter(connect(mapStateToProps)(NavHeader));

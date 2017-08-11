@@ -8,14 +8,15 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import registerServiceWorker from './registerServiceWorker';
 import App from './app';
-import { semesterData as semesterDataReducer } from './reducers';
+import { semesterData as semesterDataReducer, user as userReducer } from './reducers';
 
 import './semantic-dist/semantic.css';
 import './styles/index.css'
 
 const rootReducer = (state={}, action) => {
     return {
-        semesterData: semesterDataReducer(state.semesterData, action)
+        semesterData: semesterDataReducer(state.semesterData, action),
+        user: userReducer(state.user, action)
     };
 };
 
