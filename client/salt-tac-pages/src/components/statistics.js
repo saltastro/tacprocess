@@ -94,6 +94,39 @@ const GeneralStatistics = ({partner, semester, proposals, availableTime}) => (
         </div>
 );
 
+const RequestedTimeHistogram = ({proposals, partner, semester}) => {
+    const data = statistics.requestedTimes(proposals, partner, semester);
+    const histogramChart = histogram();
+    histogramChart
+            .domain([0, 100])
+            .thresholds(range(0, 100, 10))
+            .value(d => d);
+    const histogramData = histogramChart(data);
+
+    const histogramDataSets = [
+        {
+            data: histogramData,
+            className: 'total'
+        }
+    ];
+
+    return (
+            <NumberAxisHistogram histogramDataSets={histogramDataSets}
+                                 domain={[0, 100]}
+                                 range={[0, Math.round(max(histogramData, d => d.length))]}
+                                 xTitle="Time (hrs)"
+                                 yTitle="N"
+                                 width={CHART_WIDTH}
+                                 height={CHART_HEIGHT}/>
+    );
+};
+
+RequestedTimeHistogram.propTypes = {
+    proposals: PropTypes.array,
+    partner: PropTypes.object,
+    semester: PropTypes.string
+};
+
 GeneralStatistics.propTypes = {
     partner: PropTypes.object,
     semester: PropTypes.object,
@@ -160,6 +193,12 @@ export class Statistics extends Component {
                                        semester={semester}
                                        proposals={proposals}
                                        availableTime={availableTime}/>
+
+                    <svg width={500} height={500}>
+                    <RequestedTimeHistogram proposals={proposals}
+                                            partner={partner}
+                                            semester={semester}/>
+                    </svg>
                 </div>
         )
     }
