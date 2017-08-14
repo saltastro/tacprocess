@@ -6,7 +6,9 @@ const initialSemesterData = {
     partner: null,
     isLoading: false,
     errors: [],
-    proposals: []
+    proposals: [],
+    targets: [],
+    availableTime: {}
 };
 
 export function semesterData(state=initialSemesterData, action) {
@@ -18,13 +20,18 @@ export function semesterData(state=initialSemesterData, action) {
             partner: action.payload.partner,
             isLoading: true,
             errors: [],
-            proposals: []
+            proposals: [],
+            targets: [],
+            availableTime: {}
         };
     case C.FETCH_SEMESTER_DATA_SUCCEEDED:
+        const {proposals, targets, availableTime} = action.payload;
         return {
             ...state,
             isLoading: false,
-            proposals: action.payload.proposals
+            proposals,
+            targets,
+            availableTime
         };
     case C.FETCH_SEMESTER_DATA_FAILED:
         return {

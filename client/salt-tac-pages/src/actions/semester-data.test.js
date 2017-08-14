@@ -18,7 +18,7 @@ v4.mockImplementation(() => MOCK_UUID);
 const p1 = { title: 'Proposal 1' };
 const p2 = { title: 'Proposal 2' };
 
-api.fetchProposals.mockImplementation(semester => {
+api.fetchSemesterData.mockImplementation(semester => {
     if (semester === '2017-2') {
         return Promise.resolve([p1, p2]);
     } else {
@@ -106,7 +106,7 @@ describe('fetchSemesterDataSucceeded', () => {
             }
         };
 
-        expect(actions.fetchProposalsSucceeded(proposals)).toEqual(expectedAction);
+        expect(actions.fetchSemesterDataSucceeded(proposals)).toEqual(expectedAction);
     })
 });
 
@@ -123,6 +123,6 @@ describe('fetchSemesterDataFailed', () => {
             }
         };
 
-        expect(actions.fetchProposalsFailed(message)).toEqual(expectedAction);
+        expect(actions.fetchSemesterDataFailed(message)).toEqual(expectedAction);
      });
 });

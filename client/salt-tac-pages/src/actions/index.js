@@ -4,34 +4,43 @@ import C from '../constants';
 import * as api from '../api';
 import Partner from '../util/partner';
 
-export function fetchSemesterData(semester) {
+export function fetchSemesterData(partner, semester) {
     return dispatch => {
-        dispatch(fetchProposalsStarted(semester));
-        return api.fetchProposals(semester)
-                .then(proposals => dispatch(fetchProposalsSucceeded(proposals)))
-                .catch(message => dispatch(fetchProposalsFailed(message)));
+        dispatch(fetchSemesterDataStarted(partner, semester));
+        api.fetchSemesterData(partner, semester)
+                .then((semesterData) => {
+                    dispatch(fetchSemesterDataSucceeded(semesterData.proposals,
+                                                        semesterData.targets,
+                                                        semesterData.availableTime));
+                })
+                .catch((error) => {
+                    dispatch(fetchSemesterDataFailed((error.toString())))
+                });
     }
 }
 
-export function fetchProposalsStarted(semester) {
+export function fetchSemesterDataStarted(partner, semester) {
     return {
         type: C.FETCH_SEMESTER_DATA_STARTED,
         payload: {
+            partner,
             semester
         }
     };
 }
 
-export function fetchProposalsSucceeded(proposals) {
+export function fetchSemesterDataSucceeded(proposals, targets, availableTime) {
     return {
         type: C.FETCH_SEMESTER_DATA_SUCCEEDED,
         payload: {
-            proposals
+            proposals,
+            targets,
+            availableTime
         }
     };
 }
 
-export function fetchProposalsFailed(message) {
+export function fetchSemesterDataFailed(message) {
     return {
         type: C.FETCH_SEMESTER_DATA_FAILED,
         payload: {
@@ -43,7 +52,7 @@ export function fetchProposalsFailed(message) {
     };
 }
 
-export function deleteProposalsError(id) {
+export function deleteSemesterDataError(id) {
     return {
         type: C.DELETE_SEMESTER_DATA_ERROR,
         payload: {
@@ -56,17 +65,7 @@ export function login(username, password) {
     return dispatch => {
         dispatch(loginStarted());
         api.login(username, password)
-                .then((response) => {
-                    const userData = response.data;
-                    let partner = Partner.partnerByCode('NONE');
-                    if (userData.partnerCode) {
-                        partner = Partner.partnerByCode(userData.partnerCode);
-                    }
-                    delete userData['partnerCode'];
-                    const user = {
-                        ...userData,
-                        partner
-                    };
+                .then((user) => {
                     api.saveUser(user);
                     dispatch(loginSucceeded(user))
                 })

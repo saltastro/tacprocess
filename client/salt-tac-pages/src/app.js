@@ -13,16 +13,7 @@ import PrivateRoute from './components/private-route';
 import Statistics from './components/statistics';
 
 class App extends Component {
-    componentDidMount() {
-        this.props.dispatch(fetchSemesterData(defaultSemester()));
-    }
-
-    onChangeSemester = (semester) => {
-        this.props.dispatch(fetchSemesterData(semester));
-    };
-
     render() {
-        const { semesterData } = this.props;
         return (
                 <div className="ui grid">
                     <NavHeader/>
@@ -41,10 +32,4 @@ class App extends Component {
     }
 }
 
-const mapStateToProps = (state) => (
-        {
-            semesterData: state.semesterData
-        }
-);
-
-export default withRouter(connect(mapStateToProps)(App));
+export default App;

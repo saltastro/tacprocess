@@ -12,7 +12,7 @@ export const NavHeader = ({user}) => (
                      to="/about">
                 About
             </NavLink>
-            {user && user.partner ? (
+            {user /*&& user.partner*/ ? (
                     <NavLink className="item"
                              to="/statistics">
                         Statistics
