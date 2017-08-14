@@ -8,6 +8,7 @@ partner_data = {}
 def make_partner(_part):
     from schema.partner import Partner
     part_ = Partner(
+        partner_id=_part['Partner_Id'],
         partner_code=_part['Partner_Code'],
         partner_name=_part['Partner_Name']
     )

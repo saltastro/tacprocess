@@ -10,15 +10,18 @@ class Partner(graphene.ObjectType):
     class Meta:
         interfaces = (r.Node,)
 
-    # partner_id = graphene.ID()
     partner_code = graphene.String()
     partner_name = graphene.String()
     distributed_times = graphene.Field(graphene.List(TimeDistributions), semester_id=graphene.Int(), semester_code=graphene.String())
 
+    def __init__(self, partner_id, partner_code, partner_name):
+        super().__init__(partner_code=partner_code, partner_name=partner_name)
+
+        self.partner_id = partner_id
+
     @resolve_only_args
     def resolve_distributed_times(self, semester_id=None, semester_code=None):
-        return self.get_distributed_times(partner_id=self.partner_id, semester_id=semester_id,
-                                          semester_code=semester_code)
+        return self.get_distributed_times(semester_id=semester_id, semester_code=semester_code)
 
     def _make_distributions(self, dist):
         science_time = PriorityTimes(
@@ -39,7 +42,7 @@ class Partner(graphene.ObjectType):
         )
         return dist_
 
-    def get_distributed_times(self, partner_id, semester_id, semester_code):
+    def get_distributed_times(self, semester_id, semester_code):
 
         semester = None
         if semester_id is not None:
@@ -48,9 +51,10 @@ class Partner(graphene.ObjectType):
             semester = Semester().get_semester(semester_code=semester_code)
 
         sql = "SELECT *, CONCAT(Year, '-', Semester) as SemesterCode " \
-              "         FROM PeriodTimeDist join Semester using (Semester_Id) " \
+              "         FROM PeriodTimeDist " \
+              "              JOIN Semester using (Semester_Id) " \
               " WHERE Partner_Id={partner_id} " \
-            .format(partner_id=partner_id)
+            .format(partner_id=self.partner_id)
 
         if semester is not None:
             sql = sql + " AND Semester_Id={}".format(semester.semester_id)
