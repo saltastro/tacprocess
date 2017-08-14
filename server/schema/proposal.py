@@ -4,9 +4,8 @@ import pandas as pd
 from graphene import relay as r, resolve_only_args
 from .common import Semester, User, ObservingConditions, Thesis
 from .target import Target
-from .proposal_target import ProposalTargets
-from ..data.common import get_user, get_p1_thesis, get_observing_conditions, conn
-from ..data.proposal import set_proposal_ids
+from data.common import get_user, get_p1_thesis, get_observing_conditions, conn
+from data.proposal import set_proposal_ids
 
 
 class ProposalTimeAllocations(graphene.ObjectType):  # todo make singular
@@ -154,8 +153,8 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
 
     def _proposals_sql(self):
         """
-        
-        :param args: 
+
+        :param args:
         :return: SQl for selecting all proposals on **args filtering
         """
 

@@ -1,7 +1,7 @@
 import graphene as g
 from graphene import relay as r
 import pandas as pd
-from ..data import conn
+from data import conn
 
 import datetime
 import warnings

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from server.data.common import conn
+from data.common import conn
 from app import jwt
 
 

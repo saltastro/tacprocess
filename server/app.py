@@ -1,7 +1,7 @@
 from flask import Flask, g, jsonify, request
 from flask_cors import CORS
 from flask_graphql import GraphQLView
-from server.schema import schema
+from schema import schema
 import os
 
 from itsdangerous import TimedJSONWebSignatureSerializer as JWT
@@ -22,7 +22,7 @@ auth = HTTPTokenAuth(scheme='Token')
 
 @app.route("/login", methods=['POST'])
 def login():
-    from server.main import User
+    from main import User
     user = User(request.json)
     return jsonify({
         'token': user.get_token().decode('utf-8'),
@@ -35,7 +35,7 @@ def login():
 
 @auth.verify_token
 def verify_token(token):
-    from server.main import User
+    from main import User
     g.user = None
     try:
         data = jwt.loads(token)
