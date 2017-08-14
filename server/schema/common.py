@@ -1,7 +1,7 @@
 import graphene as g
 from graphene import relay as r
 import pandas as pd
-from ..data import conn
+from data import conn
 
 import datetime
 import warnings
@@ -19,7 +19,7 @@ class Semester(g.ObjectType):
 
     def get_semester(self, id_only=False, active=False, semester_id=None, semester_code=None, all_data=False):
         """
-        :return: 
+        :return:
         """
         sql = 'SELECT  Semester_Id, CONCAT(Year,"_", Semester) as SemesterCode, StartSemester, EndSemester FROM  Semester '
 
@@ -69,9 +69,9 @@ class Semester(g.ObjectType):
     def _make_semester(data):
         # Todo This method is called only by get semester it is suppose to be a private method for semester
         """
-         make a data received a 
-        :param data: 
-        :return: 
+         make a data received a
+        :param data:
+        :return:
         """
         semest = Semester()
         semest.semester_id = data['Semester_Id']
@@ -104,21 +104,19 @@ class User(g.ObjectType):
     institute_id = g.Int()
 
 
+class PriorityTimes(g.ObjectType):
+    p0_and_p1 = g.Float()
+    p2 = g.Float()
+    p3 = g.Float()
+
+
 class TimeDistributions(g.ObjectType):  # todo this name must have a proper meaning
     class Meta:
         interfaces = (r.Node,)
 
     semester = g.String()
-    p0_and_p1 = g.Float() # allocated_
-    p2 = g.Float()
-    p3 = g.Float()
-    # leave out below
-    # used_p0_and_p1 = g.Float()
-    # used_p2 = g.Float()
-    # used_p3 = g.Float()
-
-
-
+    science_time = g.Field(PriorityTimes)
+    allocation_time = g.Field(PriorityTimes)
 
 
 class ObservingConditions(g.ObjectType):

@@ -1,12 +1,12 @@
 import graphene
-from server.schema.partner import Partner
-from server.data.partner import get_partner_of
+from schema.partner import Partner
+from data.partner import get_partner_of
 
-from server.schema.proposal import Proposal
-from server.data.proposal import get_proposals_of
+from schema.proposal import Proposal
+from data.proposal import get_proposals_of
 
-from server.schema.target import Target
-from server.data.target import get_targets_of
+from schema.target import Target
+from data.target import get_targets_of
 
 
 class Query(graphene.ObjectType):
@@ -34,10 +34,10 @@ class Query(graphene.ObjectType):
     @graphene.resolve_only_args
     def resolve_targets(self, semester, **args):
         """
-        this method will return list of all targets in sdb and is any args are provided will return targets 
+        this method will return list of all targets in sdb and is any args are provided will return targets
         that meet **args request
         :param args: Targets filtering arguments
-        :param semester: 
+        :param semester:
         :return: list of targets
         """
         return get_targets_of(semester=semester, **args)

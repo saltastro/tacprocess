@@ -1,5 +1,3 @@
-import pandas as pd
-from ..data.common import conn
 from flask import g
 from .target import Target
 

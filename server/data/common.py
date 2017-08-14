@@ -14,7 +14,7 @@ semester_data = {}
 #     :return:
 #     """
 #
-#     from ..schema.common import Semester
+#     from schema.common import Semester
 #     return Semester(
 #             semester_id=data['Semester_Id'],
 #             semester=data['SemesterCode'],
@@ -71,7 +71,7 @@ semester_data = {}
 
 def setup_semester(semester_code):
     global semester_data
-    from ..schema.common import Semester
+    from schema.common import Semester
     semester_ = Semester()
     sem = semester_.get_semester(semester_code=semester_code, all_data=True)
     semester_data = {"semester": sem}
@@ -83,7 +83,7 @@ def get_semester_of(semester_code):
 
 
 def make_user(_user):
-    from ..schema.common import User
+    from schema.common import User
 
     user_ = User(
         user_id=_user['Investigator_Id'],
@@ -101,8 +101,8 @@ def make_user(_user):
 def get_user(user_id):
     """
 
-    :param user_id: 
-    :return: 
+    :param user_id:
+    :return:
     """
     if str(user_id) == 'nan':
         results = [0, 0]
@@ -133,7 +133,7 @@ def get_user(user_id):
 
 
 def get_p1_thesis(proposal_code):
-    from ..schema.common import P1Thesis
+    from schema.common import P1Thesis
     sql = 'SELECT * FROM P1Thesis join ThesisType using(ThesisType_Id) '\
           ' join Investigator on (Student_Id=Investigator_Id) '\
           ' join Proposal using(Proposal_id) '\
@@ -152,7 +152,7 @@ def get_p1_thesis(proposal_code):
 
 
 def get_observing_conditions(proposal_code):
-    from ..schema.common import ObservingConditions
+    from schema.common import ObservingConditions
     sql = 'SELECT MaxSeeing, ObservingConditionsDescription, Transparency ' \
           ' FROM P1ObservingConditions ' \
           '         JOIN Transparency using (Transparency_Id) ' \

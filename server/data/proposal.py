@@ -1,6 +1,6 @@
 from . import pd, conn
 from flask import g
-from ..schema.common import Semester
+from schema.common import Semester
 
 
 def set_proposal_ids(**args):
@@ -44,10 +44,10 @@ def make_proposal(prop):
 
     liaison_s_a = g.Field(User)
     allocations = g.Field(ProposalAllocations)
-    :param prop: 
-    :return: 
+    :param prop:
+    :return:
     """
-    from ..schema.proposal import Proposal
+    from schema.proposal import Proposal
     prop_ = Proposal(
         proposal_id=prop['Proposal_Id'],
         partner_id=prop['Partner_Id'],
@@ -140,10 +140,10 @@ def proposal_sql(arguments):
 def get_proposal(**arguments):
     """
     <N.B If semester not provided the current semester is used>
-    :param proposal_id: 
-    :param partner_id: 
-    :param semester_id: Default is an active semester 
-    :return: 
+    :param proposal_id:
+    :param partner_id:
+    :param semester_id: Default is an active semester
+    :return:
     """
     if "semester_id" not in arguments:
         Semester().get_semester(id_only=True, active=True)
@@ -166,7 +166,7 @@ def setup_proposals(investigator_id, partner_id, partner_code, semester_id, seme
 
 
 def get_proposals_of(**args):
-    from ..schema.proposal import Proposal
+    from schema.proposal import Proposal
     proposals = Proposal()
     p = proposals.get_proposals(**args)
     print("#", len(g.proposal_ids), list(g.proposal_ids))
