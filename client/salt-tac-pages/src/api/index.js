@@ -108,7 +108,7 @@ export function fetchSemesterData(partner, semester) {
 }
 `;
     return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(convertSemesterData(FAKE_DATA.data, semester, partner)), 10000);
+        setTimeout(() => resolve(convertSemesterData(FAKE_DATA.data, semester, partner)), 1);
     });
     // return graphqlClient.post('/graphql', query)
     //         .then((response) => {
