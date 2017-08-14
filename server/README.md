@@ -1,11 +1,12 @@
 this read me assume that you have python 3.5+ installed
 
-#Installation
+# Installation
 
 Cloning the repository.
 On terminal or command line 
 `cd` to the directory you want to work with assumption that the directory is `home/tac_developer/tac_dir/`  on and run command
-```bazaar
+
+```
 cd home/tac_developer/tac_dir/
 git clone https://github.com/saltastro/tacprocess.git
 ``` 
@@ -17,20 +18,23 @@ cd to the `cd tacprocess/` dir
 cd tacprocess/
 ```
 create virtual Environments and activate it, assumes that you have python3 virtualenv installed
-```bazaar
+
+```
    virtualenv -p python3 venv
    pip install --upgrade virtualenv
    source venv/bin/activate
 ```
+
 and install reqirements.txt 
+
 ```bazaar
-pip insatll -r reqirements.txt
-```
-#Enironment valiables
+pip install -r reqirements.txt
+
+# Enironment valiables
 the app will require some Enironment valiables to be set
 `SANDBOX_USER, SANDBOX_HOST, SANDBOX_PASSWORD, SANDBOX_DATABASE, FLASK_DEBUG `
 which are the connection to the sdb, for development I am using sdb sandbox
-```bazaar
+```
     SANDBOX_USER = sdb user
     SANDBOX_HOST = sdb host
     SANDBOX_PASSWORD = sdb password
@@ -52,7 +56,7 @@ else you will have to provide a query like [http://127.0.0.1:5001/graphql?query=
 which will return a list of proposal code of semester 2017-2 explained below
 
 
-#GraphQL Query
+# GraphQL Query
 
 assuming that `FLASK_DEBUG = 1` (on development.)
 
@@ -60,9 +64,9 @@ With graphql you query what you need in a structure you need it.
 
 For this api what ever you are queiring for, a semester must be provided to impove the speed of query.
 
-####Query
+### Query
 
-```bazaar
+```
 {
   proposals(semester:"2017-2"){
     proposalCode
@@ -71,6 +75,7 @@ For this api what ever you are queiring for, a semester must be provided to impo
 ```
 
 this will return a json object 
+
 ```{
     "data": {
         "proposals": [
@@ -79,13 +84,14 @@ this will return a json object
     }
 }
 ```
+
 assume server is started.
 
 going to [http://127.0.0.1:5001/graphql](http://127.0.0.1:5001/graphql) you will see what are the other thing to query 
 for and type of data it is and other filters of data. Clicking `Docs` then `Query` it will show you other thing to query for
 and arguments
 
-```bazaar
+```
 {
  proposals(semester:"2017-2", partnerCode:"RSA"){
   proposalCode
@@ -99,6 +105,23 @@ and arguments
   }
 }
 ```
+
+the above Query will return 
+
+```{
+    "data": {
+        "proposals": [
+            ...List of proposal code of that semester...
+            ...List of targets per proposal: {
+                Target name
+                Coordinates of target :{
+                RA
+                DEC
+                }
+            }...
+        ]
+    }
+}
 
 you can learn more about graphql querys on [graphql querys link](http://graphql.org/learn/queries/)
 

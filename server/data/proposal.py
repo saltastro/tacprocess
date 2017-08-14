@@ -1,10 +1,28 @@
 from . import pd, conn
 from flask import g
-#from .common import get_semester
 from ..schema.common import Semester
 
 
-proposal_data = {}
+def set_proposal_ids(**args):
+    sql = " SELECT MAX(p.Proposal_Id) as Ids, Proposal_Code " \
+          "  FROM Proposal AS p " \
+          "    JOIN ProposalCode AS pc ON (p.ProposalCode_Id=pc.ProposalCode_Id) " \
+          "    JOIN MultiPartner AS mp ON (mp.Proposal_Id=p.Proposal_Id) " \
+          "    JOIN Partner AS pa ON (mp.Partner_Id=pa.Partner_Id) " \
+          "  WHERE Phase=1 "
+    if 'semester' in args:
+        semester = Semester().get_semester(semester_code=args['semester'])
+        sql = sql + " AND mp.Semester_Id = {semester_id} ".format(semester_id=semester.semester_id)
+
+    if 'partner_code' in args:
+        sql = sql + "AND pa.Partner_Code = '{parner_code}' ".format(parner_code=args['partner_code'])
+
+    if 'proposal_code' in args:
+        sql = sql + "AND pc.Proposal_Code = '{proposal_code}' ".format(proposal_code=args['proposal_code'])
+    sql = sql + " GROUP BY pc.ProposalCode_Id "
+    results = pd.read_sql(sql, conn)
+    print(sql)
+    g.proposal_ids = tuple(results['Ids'].values)
 
 
 def make_proposal(prop):
@@ -154,3 +172,5 @@ def get_proposals_of(**args):
     print("#", len(g.proposal_ids), list(g.proposal_ids))
     print("PROP#", len(p))
     return p
+
+
