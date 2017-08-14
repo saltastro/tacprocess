@@ -1,10 +1,7 @@
-from functools import wraps
-
 from flask import Flask, g, jsonify, request
 from flask_cors import CORS
 from flask_graphql import GraphQLView
 from server.schema import schema
-import json
 import os
 
 from itsdangerous import TimedJSONWebSignatureSerializer as JWT

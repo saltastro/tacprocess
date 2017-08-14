@@ -1,6 +1,6 @@
 # todo this has to be partner not parner
 
-import graphene as g
+import graphene
 from graphene import relay as r, resolve_only_args
 
 from .common import TimeDistributions, Semester
@@ -9,24 +9,16 @@ import pandas as pd
 from ..data import conn
 
 
-class Partner(g.ObjectType):
+class Partner(graphene.ObjectType):
     class Meta:
         interfaces = (r.Node,)
 
-    # partner_id = g.ID()
-    partner_code = g.String()
-    partner_name = g.String()
-    distributed_times = g.Field(g.List(TimeDistributions), semester_id=g.Int(), semester_code=g.String())
+    # partner_id = graphene.ID()
+    partner_code = graphene.String()
+    partner_name = graphene.String()
+    distributed_times = graphene.Field(graphene.List(TimeDistributions), semester_id=graphene.Int(), semester_code=graphene.String())
     # todo check if this is confidential
 
-    @resolve_only_args
-    def resolve_proposals(self, investigator_id=None, semester_id=None, semester_code=None, investigator_email=None,
-                          proposal_code=None):
-
-        return Proposal().get_proposal(partner_id=self.partner_id, semester_id=semester_id, proposal_code=proposal_code,
-                                       investigator_id=investigator_id, semester_code=semester_code,
-                                       investigator_email=investigator_email)
-        #return get_proposal(partner_id=self.partner_id)
 
     @resolve_only_args
     def resolve_distributed_times(self, semester_id=None, semester_code=None):
@@ -74,9 +66,6 @@ class Partner(g.ObjectType):
                 'Alloc0and1': [0],
                 'Alloc2': [0],
                 'Alloc3': [0],
-                'Used0and1': [0],
-                'Used2': [0],
-                'Used3': [0]
             }
             empty_alloc = pd.DataFrame(em)
             dists = [self._make_distributions(e) for i, e in empty_alloc.iterrows()]

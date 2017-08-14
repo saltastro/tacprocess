@@ -6,6 +6,7 @@ from .common import Semester, User, ObservingConditions, Thesis
 from .target import Target
 from .proposal_target import ProposalTargets
 from ..data.common import get_user, get_p1_thesis, get_observing_conditions, conn
+from ..data.proposal import set_proposal_ids
 
 
 class ProposalTimeAllocations(graphene.ObjectType):  # todo make singular
@@ -70,6 +71,29 @@ class Person(graphene.ObjectType):
     phone = graphene.String()
 
 
+class TimeRequests(graphene.ObjectType):
+    class Meta:
+        interfaces = (r.Node,)
+
+    time_request = graphene.Int()
+    semester = graphene.String()
+    partner_code = graphene.String()
+
+    def get_time_requests(self):
+        return []
+
+
+def _init_time_requests():
+    all_requests = TimeRequests().get_time_requests()
+    dict_proposal_requests = {}
+    for request in all_requests:
+        if request.proposal_code in dict_proposal_requests:
+            dict_proposal_requests[request.proposal_code].append(request)
+        else:
+            dict_proposal_requests[request.proposal_code] = [request]
+    g.proposal_requests = dict_proposal_requests
+
+
 class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo future
     # todo a query argument should be ab Enum if it can be Enum
     class Meta:
@@ -88,7 +112,8 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
     pi = graphene.Field(Person)
     pc = graphene.Field(Person)
     liaison_s_a = graphene.Field(Person)
-    time_requests = graphene.Int()
+
+    time_requests = graphene.Field(graphene.List(TimeRequests))
 
     proposal_time_allocations = graphene.Field(ProposalTimeAllocations)
     targets = graphene.Field(graphene.List(Target))
@@ -117,7 +142,7 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
     #
     @resolve_only_args
     def resolve_targets(self):
-        return g.proposaltarget.get(self.proposal_code)
+        return g.proposal_targets.get(self.proposal_code)
     #
     # @resolve_only_args
     # def resolve_observing_conditions(self):
@@ -127,27 +152,14 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
     # def resolve_thesis(self):
     #     return get_p1_thesis(proposal_code=self.proposal_code)
 
-    def _proposals_sql(self, **args):
+    def _proposals_sql(self):
         """
         
         :param args: 
         :return: SQl for selecting all proposals on **args filtering
         """
-        proposal_ids_sql = " SELECT MAX(p.Proposal_Id) as Ids, Proposal_Code " \
-                           "  FROM Proposal AS p " \
-                           "    JOIN ProposalCode AS pc ON (p.ProposalCode_Id=pc.ProposalCode_Id) " \
-                           "    JOIN MultiPartner AS mp ON (mp.Proposal_Id=p.Proposal_Id) " \
-                           "  WHERE Phase=1 "
-        if 'semester' in args:
-            semester = Semester().get_semester(semester_code=args['semester'])
-            proposal_ids_sql = proposal_ids_sql + " AND mp.Semester_Id = {semester_id} "\
-                .format(semester_id=semester.semester_id)
-        proposal_ids_sql = proposal_ids_sql + " GROUP BY pc.ProposalCode_Id "
-        ids = pd.read_sql(proposal_ids_sql, conn)
 
-        g.proposal_ids = tuple(ids['Ids'].values)
-        g.proposal_codes = tuple(ids['Proposal_Code'].values)
-        self._init_targets(**args)
+
 
 
         g.proposal_target = {}
@@ -176,12 +188,15 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
               "         join Transparency using (Transparency_Id) " \
               "" \
               "     WHERE Proposal_Id IN {proposal_ids} ".format(proposal_ids=g.proposal_ids)
-        print(sql)
         return sql + "order by Proposal_Code"
 
     def get_proposals(self, **args):
-        sql = self._proposals_sql(**args)
+        set_proposal_ids(**args)
+        sql = self._proposals_sql()
         proposal_data = pd.read_sql(sql, conn)
+
+        self._init_targets()
+
         proposals = [self._make_proposal(proposal) for i, proposal in proposal_data.iterrows()]
 
         return proposals
@@ -234,5 +249,14 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
             description=conditions['ObservingConditionsDescription']
         )
 
-    def _init_targets(self, **args):
-        ProposalTargets(proposal_list=g.proposal_codes, **args)
+    @staticmethod
+    def _init_targets():
+
+        all_targets = Target().get_targets()
+        dict_proposal_targets = {}
+        for target in all_targets:
+            if target.proposal_code in dict_proposal_targets:
+                dict_proposal_targets[target.proposal_code].append(target)
+            else:
+                dict_proposal_targets[target.proposal_code] = [target]
+        g.proposal_targets = dict_proposal_targets

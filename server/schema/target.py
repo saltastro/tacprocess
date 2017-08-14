@@ -1,4 +1,5 @@
-import graphene as g
+import graphene
+from flask import g
 from graphene import relay as r, resolve_only_args
 from ..data import conn
 import pandas as pd
@@ -7,66 +8,58 @@ from datetime import datetime
 from .common import Semester
 
 
-class TargetCoordinates(g.ObjectType):
+class TargetCoordinates(graphene.ObjectType):
     class Meta:
         interfaces = (r.Node,)
 
-    equinox = g.Float()
-    estrip_s = g.Float()
-    estrip_e = g.Float()
-    wstrip_s = g.Float()
-    wstrip_e = g.Float()
-    eaz_s = g.Float()
-    eaz_e = g.Float()
-    waz_s = g.Float()
-    waz_e = g.Float()
-    ra = g.Float()
-    ra2 = g.Float()
-    dec = g.Float()
-    dec2 = g.Float()
+    equinox = graphene.Float()
+    estrip_s = graphene.Float()
+    estrip_e = graphene.Float()
+    wstrip_s = graphene.Float()
+    wstrip_e = graphene.Float()
+    eaz_s = graphene.Float()
+    eaz_e = graphene.Float()
+    waz_s = graphene.Float()
+    waz_e = graphene.Float()
+    ra = graphene.Float()
+    dec = graphene.Float()
 
 
-class TargetMagnitudes(g.ObjectType):  # todo make singular
+class TargetMagnitudes(graphene.ObjectType):  # todo make singular
     class Meta:
         interfaces = (r.Node,)
 
-    filter = g.String()  # _name
-    min_magnitude = g.Int()
-    max_magnitude = g.Int()
+    filter = graphene.String()  # _name
+    min_magnitude = graphene.Int()
+    max_magnitude = graphene.Int()
 
 
-class TargetSubType(g.ObjectType):
+class TargetSubType(graphene.ObjectType):
     class Meta:
         interfaces = (r.Node,)
 
-    sub_type_numeric_code = g.String()
-    sub_standard_name = g.String()
-    sub_type = g.String()
-    type_numeric_code = g.String()
-    type = g.String()
+    sub_type_numeric_code = graphene.String()
+    sub_standard_name = graphene.String()
+    sub_type = graphene.String()
+    type_numeric_code = graphene.String()
+    type = graphene.String()
 
 
-class Target(g.ObjectType):
+class Target(graphene.ObjectType):
     class Meta:
         interfaces = (r.Node,)
 
-    of_proposal_code = g.String()
-    name = g.String()
-    requested_time = g.Int()
-    optional = g.Boolean()
-    max_lunar_phase = g.Float()
-    coordinates = g.Field(TargetCoordinates)
-    magnitudes = g.Field(TargetMagnitudes)
-    sub_type = g.Field(TargetSubType)
+    proposal_code = graphene.String()
+    name = graphene.String()
+    requested_time = graphene.Int()
+    optional = graphene.Boolean()
+    max_lunar_phase = graphene.Float()
+    coordinates = graphene.Field(TargetCoordinates)
+    magnitudes = graphene.Field(TargetMagnitudes)
+    sub_type = graphene.Field(TargetSubType)
 
     @staticmethod
     def _make_target_coordinates(coordinates):
-
-
-        ra_str = str(coordinates['RaH']) + "h" + str(coordinates['RaM']) + "m" + str(coordinates['RaS']) + "s"
-        dec_str = str(coordinates['DecSign']) + str(coordinates['DecD']) + "d" + str(coordinates['DecM']) + "m" + \
-                  str(coordinates['DecS']) + "s"
-        # c = SkyCoord(ra=ra_str, dec=dec_str)
 
         ra_ = (coordinates['RaH'] + coordinates['RaM']/60 + coordinates['RaS']/3600)/(24/360)
         sign = -1 if coordinates['DecSign'] == '-' else 1
@@ -82,10 +75,8 @@ class Target(g.ObjectType):
             eaz_e=coordinates['EazE'],
             waz_s=coordinates['WazS'],
             waz_e=coordinates['WazE'],
-            #ra=c.ra.degree,
-            ra2=ra_,
-            dec2=dec_,
-            #dec=c.dec.degree
+            ra=ra_,
+            dec=dec_,
         )
 
     @staticmethod
@@ -113,21 +104,19 @@ class Target(g.ObjectType):
         :return:
         """
         _target = Target()
-        _target.of_proposal_code = target['Proposal_Code']
+        _target.proposal_code = target['Proposal_Code']
         _target.name = target['Target_Name']
         _target.requested_time = target['RequestedTime']
         _target.optional = target['Optional']
         _target.max_lunar_phase = target['MaxLunarPhase']
         _target.sub_type = self._make_target_sub_type(target)
         _target.magnitudes = self._make_target_magnitudes(target)
-        #st = datetime.now()
         _target.coordinates = self._make_target_coordinates(target)
         #print('skyCords:', datetime.now() - st)
         return _target
 
     @staticmethod
-    def _get_target_sql(**args):
-        semester = Semester().get_semester(semester_code=args['semester'])
+    def _get_target_sql():
         sql = 'SELECT Target_Name, RequestedTime, Optional, MaxLunarPhase, Proposal_Code, ' \
               '   RaH, RaM, RaS, DecSign, DecD, DecM, DecS, Equinox, EstripE, EstripS, WstripS, WstripE, EazS, EazE, ' \
               '       WazS, WazE, FilterName, MinMag, MaxMag, TargetSubType.NumericCode as SubNumericCode, ' \
@@ -139,23 +128,12 @@ class Target(g.ObjectType):
               '         JOIN TargetCoordinates using(TargetCoordinates_Id) ' \
               '         JOIN TargetMagnitudes using(TargetMagnitudes_Id) JOIN Bandpass using(Bandpass_Id) ' \
               '         JOIN TargetSubType using (TargetSubType_Id) JOIN TargetType USING(TargetType_Id) ' \
-              '         JOIN MultiPartner using (Proposal_Id)' \
-              '    WHERE MultiPartner.Semester_Id = {semester}  '\
-            .format(semester=semester.semester_id)
-        #  '    WHERE (CONCAT(Year, "_", Semester)= "{semester}" or CONCAT(Year, "-", Semester)= "{semester}") '\
-
-        if "proposal_code" in args:
-            sql = sql + ' AND Proposal_Code="{proposal_code}" '.format(proposal_code=args['proposal_code'])
-
-        if "target_name" in args:\
-            sql = sql + ' and Target_Name = "{target_name}" '.format(target_name=args['target_name'])
-
-        if "proposal_list" in args:
-            sql = sql + " and Proposal_Code in {proposal_list}".format(proposal_list=args['proposal_list'])
+              '    WHERE Proposal.Proposal_Id IN {proposal_id}  '\
+            .format(proposal_id=g.proposal_ids)
 
         return sql
 
-    def get_targets(self, **args):
+    def get_targets(self):
 
         """
 
@@ -163,7 +141,8 @@ class Target(g.ObjectType):
         :return: list of Targets
         """
         s = datetime.now()
-        sql = self._get_target_sql(**args)
+        sql = self._get_target_sql()
+        print("target:", sql)
 
         results = pd.read_sql(sql, conn)
         b = datetime.now()

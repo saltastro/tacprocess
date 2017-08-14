@@ -1,6 +1,6 @@
 import graphene
-from server.schema.parner import Partner
-from server.data.parner import get_partner_of
+from server.schema.partner import Partner
+from server.data.partner import get_partner_of
 
 from server.schema.proposal import Proposal
 from server.data.proposal import get_proposals_of
@@ -20,8 +20,8 @@ class Query(graphene.ObjectType):
     # proposal_code_list=graphene.String())  #Todo a list of proposal code should be considered
 
     @graphene.resolve_only_args
-    def resolve_partners(self, partner_code=None):
-        return get_partner_of(partner_code)
+    def resolve_partners(self, **args):
+        return get_partner_of(**args)
 
     # @graphene.resolve_only_args
     # def resolve_investigator(self, investigator_id, semester_id=None):
