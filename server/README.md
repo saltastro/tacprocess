@@ -5,6 +5,7 @@ this read me assume that you have python 3.5+ installed
 Cloning the repository.
 On terminal or command line 
 `cd` to the directory you want to work with assumption that the directory is `home/tac_developer/tac_dir/`  on and run command
+
 ```
 cd home/tac_developer/tac_dir/
 git clone https://github.com/saltastro/tacprocess.git
@@ -17,15 +18,18 @@ cd to the `cd tacprocess/` dir
 cd tacprocess/
 ```
 create virtual Environments and activate it, assumes that you have python3 virtualenv installed
+
 ```
    virtualenv -p python3 venv
    pip install --upgrade virtualenv
    source venv/bin/activate
 ```
+
 and install reqirements.txt 
+
 ```bazaar
-pip insatll -r reqirements.txt
-```
+pip install -r reqirements.txt
+
 # Enironment valiables
 the app will require some Enironment valiables to be set
 `SANDBOX_USER, SANDBOX_HOST, SANDBOX_PASSWORD, SANDBOX_DATABASE, FLASK_DEBUG `
@@ -71,6 +75,7 @@ For this api what ever you are queiring for, a semester must be provided to impo
 ```
 
 this will return a json object 
+
 ```{
     "data": {
         "proposals": [
@@ -79,6 +84,7 @@ this will return a json object
     }
 }
 ```
+
 assume server is started.
 
 going to [http://127.0.0.1:5001/graphql](http://127.0.0.1:5001/graphql) you will see what are the other thing to query 
@@ -99,6 +105,7 @@ and arguments
   }
 }
 ```
+
 the above Query will return 
 
 ```{
@@ -115,7 +122,6 @@ the above Query will return
         ]
     }
 }
-```
 
 you can learn more about graphql querys on [graphql querys link](http://graphql.org/learn/queries/)
 
