@@ -20,7 +20,7 @@ def get_partner(**args):
     sql = "SELECT Partner_Id, Partner_Code, Partner_Name FROM Partner "
 
     if 'partner_code' in args:
-        sql = sql + " WHERE Partner_Code={} ".format(args['partner_code'])
+        sql = sql + " WHERE Partner_Code='{}' ".format(args['partner_code'])
 
     results = pd.read_sql(sql, conn)
     partner_ = [make_partner(part) for index, part in results.iterrows()]
