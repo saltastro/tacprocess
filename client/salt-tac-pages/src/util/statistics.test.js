@@ -146,12 +146,12 @@ function defaultTargets() {
 function defaultAvailableTimes() {
     return {
         scienceTime: {
-            'p0and1': 45.9,
+            'p0AndP1': 45.9,
             'p2': 123.7,
             'p3': 201.8
         },
         allocationTime: {
-            'p0and1': 56.0,
+            'p0AndP1': 56.0,
             'p2': 187.8,
             'p3': 194.5
         }

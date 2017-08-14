@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 import { login } from '../actions';
 
@@ -26,8 +26,18 @@ export class Login extends Component {
                       });
     };
 
+    redirectPath = () => {
+        const locationState = this.props.location.state;
+        const pathname = locationState && locationState.from && locationState.from.pathname;
+        return pathname || '/about';
+    };
+
     render() {
         const {username, password} = this.state;
+
+        if (this.props.user) {
+            return <Redirect to={this.redirectPath()}/>;
+        }
 
         return (
                 <div>
@@ -55,4 +65,10 @@ export class Login extends Component {
     }
 }
 
-export default withRouter(connect((state) => ({}))(Login));
+const mapStateToProps = (state) => (
+        {
+            user: state.user.user
+        }
+);
+
+export default withRouter(connect(mapStateToProps)(Login));

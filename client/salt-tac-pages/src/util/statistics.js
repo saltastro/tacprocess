@@ -64,6 +64,10 @@ export function newLongtermProposalsCount(proposals, semester) {
             .length;
 }
 
+export function oldLongtermProposalsCount(proposals, semester) {
+    return longtermProposalsCount(proposals, semester) - newLongtermProposalsCount(proposals, semester);
+}
+
 /**
  * The time which can be spent on observations. This is summed over priorities 0 to 3. It may differ from the time which
  * can be allocated to proposals. The latter is calculated by the function availableAllocationTime.
@@ -72,10 +76,10 @@ export function newLongtermProposalsCount(proposals, semester) {
  *
  * availableTime: object
  *     The available time. This must be for the given partner and semester. The object must contain the key
- *     'scienceTime', and the corresponding object must contain the keys 'p0and1', 'p2' and 'p3'.
+ *     'scienceTime', and the corresponding object must contain the keys 'p0AndP1', 'p2' and 'p3'.
  */
 export function availableScienceTime(availableTime) {
-    return availableTime.scienceTime.p0and1
+    return availableTime.scienceTime.p0AndP1
             + availableTime.scienceTime.p2
             + availableTime.scienceTime.p3;
 }
@@ -88,16 +92,16 @@ export function availableScienceTime(availableTime) {
  *
  * availableTime: object
  *     The available time. This must be for the given partner and semester. The object must contain the key
- *     'allocationTime', and the corresponding object must contain the keys 'p0and1', 'p2' and 'p3'.
+ *     'allocationTime', and the corresponding object must contain the keys 'p0AndP1', 'p2' and 'p3'.
  */
 export function availableAllocationTime(availableTime) {
-    return availableTime.allocationTime.p0and1
+    return availableTime.allocationTime.p0AndP1
             + availableTime.allocationTime.p2
             + availableTime.allocationTime.p3;
 }
 
 /**
- * The list of non-zero requested times (in hours) for a partner and semester.
+ * The list of non-zero requested times (in hours) for a partner and semester. Only non-P4 proposals are considered.
  *
  * Parameters:
  *
@@ -109,15 +113,13 @@ export function availableAllocationTime(availableTime) {
  *     Semester.
  */
 export function requestedTimes(proposals, partner, semester) {
-    const timeRequest = (proposal, partner) => proposal.timeRequests.find(t => t.partner.code === partner.code);
-
     return proposals
             .filter(proposal => !proposal.isP4)
-            .filter(proposal => partner.hasTimeRequestFor(proposal, semester))
+            .filter(proposal => partner.hasNonZeroTimeRequestFor(proposal, semester))
             .reduce(
                     (a, proposal) => {
-                        const req = timeRequest(proposal, partner, semester);
-                        return [...a, req.time]
+                        const requests = partner.timeRequestsFor(proposal, semester);
+                        return [...a, ...requests.map((r) => r.requestedTime)]
                     },
                     []
             )
@@ -137,11 +139,13 @@ export function requestedTimes(proposals, partner, semester) {
  *     Semester.
  */
 export function totalRequestedTime(proposals, partner, semester) {
+    console.log(requestedTimes(proposals, partner, semester));
     return _.sum(requestedTimes(proposals, partner, semester));
 }
 
 /**
- * The oversubscription rate. This is the ratio of the total requested time and the available science time.
+ * The oversubscription rate. This is the ratio of the total requested time and the available science time. Only non-P4
+ * proposals are considered.
  *
  * Parameters:
  *
@@ -153,7 +157,7 @@ export function totalRequestedTime(proposals, partner, semester) {
  *     Semester.
  * availableTime: object
  *     The available time. This must be for the given partner and semester. The object must contain the key
- *     'scienceTime', and the corresponding object must contain the keys 'p0and1', 'p2' and 'p3'.
+ *     'scienceTime', and the corresponding object must contain the keys 'p0AndP1', 'p2' and 'p3'.
  */
 export function oversubscriptionRate(proposals, partner, semester, availableTime) {
     return totalRequestedTime(proposals, partner, semester) / availableScienceTime(availableTime)
@@ -164,7 +168,7 @@ export function oversubscriptionRate(proposals, partner, semester, availableTime
  * requested time and the number of proposals.
  */
 export function averageRequestedTime(proposals, partner, semester) {
-    return totalRequestedTime(proposals, partner, semester) / proposalsCount(proposals);
+    return totalRequestedTime(proposals, partner, semester) / proposalsCount(proposals.filter((p) => !p.isP4));
 }
 
 export function thesisProjectsCount(proposals) {
