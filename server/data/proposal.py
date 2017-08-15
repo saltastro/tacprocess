@@ -1,6 +1,6 @@
 from . import pd, conn
 from flask import g
-from ..schema.common import Semester
+from schema.common import Semester
 
 
 def get_proposal_ids(**args):
@@ -149,7 +149,7 @@ def setup_proposals(investigator_id, partner_id, partner_code, semester_id, seme
 
 def get_proposals_of(**args):
 
-    from ..schema.proposal import Proposal
+    from schema.proposal import Proposal
     proposals = Proposal()
     p = proposals.get_proposals(**args)
     return p

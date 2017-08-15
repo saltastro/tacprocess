@@ -3,7 +3,7 @@ from graphene import relay as r, resolve_only_args
 
 from .common import PriorityTimes, TimeDistributions, Semester
 import pandas as pd
-from ..data import conn
+from data import conn
 
 
 class Partner(graphene.ObjectType):

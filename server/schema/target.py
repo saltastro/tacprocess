@@ -1,7 +1,7 @@
 import graphene
 from flask import g
 from graphene import relay as r, resolve_only_args
-from ..data import conn
+from data import conn
 import pandas as pd
 from datetime import datetime
 

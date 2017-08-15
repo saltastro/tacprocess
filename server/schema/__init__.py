@@ -1,13 +1,14 @@
 import graphene
 from flask import g
-from server.schema.partner import Partner
-from server.data.partner import get_partner_of
+from schema.partner import Partner
+from data.partner import get_partner_of
 
-from server.schema.proposal import Proposal
-from server.data.proposal import get_proposals_of
+from schema.proposal import Proposal
+from data.proposal import get_proposals_of
 
-from server.schema.target import Target
-from server.data.target import get_targets_of
+from schema.target import Target
+from data.target import get_targets_of
+from schema.instruments import Hrs, Rss, Salticam, Bvit
 
 
 class Query(graphene.ObjectType):
@@ -47,4 +48,4 @@ class Query(graphene.ObjectType):
         return get_targets_of(semester=semester, **args)
 
 
-schema = graphene.Schema(query=Query)
+schema = graphene.Schema(query=Query, types=[Rss, Hrs, Salticam, Bvit])
