@@ -1,11 +1,13 @@
 import graphene
 from flask import g
 from graphene import relay as r, resolve_only_args
-from data import conn
+from ..data import conn
 import pandas as pd
 from datetime import datetime
 
 from .common import Semester
+
+
 
 
 class TargetCoordinates(graphene.ObjectType):
@@ -46,9 +48,8 @@ class TargetSubType(graphene.ObjectType):
 
 
 class Target(graphene.ObjectType):
-    class Meta:
-        interfaces = (r.Node,)
 
+    id = graphene.ID()
     proposal_code = graphene.String()
     name = graphene.String()
     requested_time = graphene.Int()
@@ -98,12 +99,18 @@ class Target(graphene.ObjectType):
         )
 
     def _make_target(self, target):
+
+        bill = {}
         """
         method is only called with in the
         :param target:
         :return:
         """
+        identity = 'target:'+str(target['Proposal_Code'])+'-'+str(target['Target_Name']).replace(' ', '')
+        if identity in g.target_cache:
+            return g.target_cache.get(identity)
         _target = Target()
+        _target.id = identity
         _target.proposal_code = target['Proposal_Code']
         _target.name = target['Target_Name']
         _target.requested_time = target['RequestedTime']
@@ -112,7 +119,9 @@ class Target(graphene.ObjectType):
         _target.sub_type = self._make_target_sub_type(target)
         _target.magnitudes = self._make_target_magnitudes(target)
         _target.coordinates = self._make_target_coordinates(target)
-        #print('skyCords:', datetime.now() - st)
+
+        g.target_cache.setdefault(identity, _target)
+
         return _target
 
     @staticmethod
@@ -140,15 +149,8 @@ class Target(graphene.ObjectType):
         :param args: how the sql for queering proposals will be made
         :return: list of Targets
         """
-        s = datetime.now()
         sql = self._get_target_sql()
-        print("target:", sql)
 
         results = pd.read_sql(sql, conn)
-        b = datetime.now()
-        print("DB:", b - s)
-        print("len to loop:", len(results['Target_Name'].values))
         res = [self._make_target(targ) for index, targ in results.iterrows()]
-        en = datetime.now()
-        print("End:", en - s)
         return res

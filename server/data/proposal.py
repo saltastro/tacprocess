@@ -1,9 +1,9 @@
 from . import pd, conn
 from flask import g
-from schema.common import Semester
+from ..schema.common import Semester
 
 
-def set_proposal_ids(**args):
+def get_proposal_ids(**args):
     sql = " SELECT MAX(p.Proposal_Id) as Ids, Proposal_Code " \
           "  FROM Proposal AS p " \
           "    JOIN ProposalCode AS pc ON (p.ProposalCode_Id=pc.ProposalCode_Id) " \
@@ -21,7 +21,6 @@ def set_proposal_ids(**args):
         sql = sql + "AND pc.Proposal_Code = '{proposal_code}' ".format(proposal_code=args['proposal_code'])
     sql = sql + " GROUP BY pc.ProposalCode_Id "
     results = pd.read_sql(sql, conn)
-    print(sql)
     g.proposal_ids = tuple(results['Ids'].values)
 
 
@@ -132,7 +131,6 @@ def proposal_sql(arguments):
         sql = sql + " and Investigator.Email='{}' ".format(arguments['investigator_email'])
     if 'proposal_code' in arguments and arguments['proposal_code'] is not None:
         sql = sql + " and Proposal_Code='{}' ".format(arguments['proposal_code'])
-    print(sql)
 
     return sql + " and not (Status  = 'Deleted' or Status = 'Expired') " + " ORDER BY Proposal_Code"
 
@@ -166,11 +164,10 @@ def setup_proposals(investigator_id, partner_id, partner_code, semester_id, seme
 
 
 def get_proposals_of(**args):
-    from schema.proposal import Proposal
+
+    from ..schema.proposal import Proposal
     proposals = Proposal()
     p = proposals.get_proposals(**args)
-    print("#", len(g.proposal_ids), list(g.proposal_ids))
-    print("PROP#", len(p))
     return p
 
 

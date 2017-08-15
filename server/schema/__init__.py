@@ -1,15 +1,17 @@
 import graphene
-from schema.partner import Partner
-from data.partner import get_partner_of
+from flask import g
+from server.schema.partner import Partner
+from server.data.partner import get_partner_of
 
-from schema.proposal import Proposal
-from data.proposal import get_proposals_of
+from server.schema.proposal import Proposal
+from server.data.proposal import get_proposals_of
 
-from schema.target import Target
-from data.target import get_targets_of
+from server.schema.target import Target
+from server.data.target import get_targets_of
 
 
 class Query(graphene.ObjectType):
+
     partners = graphene.Field(graphene.List(Partner), partner_code=graphene.String())
     # investigator = graphene.Field(Investigator, investigator_id=graphene.Int(), semester_id=graphene.Int())
 
@@ -29,6 +31,7 @@ class Query(graphene.ObjectType):
 
     @graphene.resolve_only_args
     def resolve_proposals(self, semester, **args):
+        g.target_cache = {}
         return get_proposals_of(semester=semester, **args)
 
     @graphene.resolve_only_args
@@ -40,6 +43,7 @@ class Query(graphene.ObjectType):
         :param semester:
         :return: list of targets
         """
+        print(g.target_cache)
         return get_targets_of(semester=semester, **args)
 
 

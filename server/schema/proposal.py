@@ -4,8 +4,8 @@ import pandas as pd
 from graphene import relay as r, resolve_only_args
 from .common import Semester, User, ObservingConditions, Thesis
 from .target import Target
-from data.common import get_user, get_p1_thesis, get_observing_conditions, conn
-from data.proposal import set_proposal_ids
+from ..data.common import get_user, get_p1_thesis, get_observing_conditions, conn
+from ..data.proposal import get_proposal_ids
 
 
 class ProposalTimeAllocations(graphene.ObjectType):  # todo make singular
@@ -95,13 +95,11 @@ def _init_time_requests():
 
 class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo future
     # todo a query argument should be ab Enum if it can be Enum
-    class Meta:
-        interfaces = (r.Node,)
 
     # partner_id = graphene.Int()
-    # proposal_id = graphene.ID()
+    id = graphene.ID()
     proposal_code = graphene.String()
-    semester = graphene.String() # semester of submition
+    semester = graphene.String()  # semester of submition
     title = graphene.String()
     is_p4 = graphene.Boolean()  # just p4
     phase = graphene.Int()
@@ -142,6 +140,10 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
     @resolve_only_args
     def resolve_targets(self):
         return g.proposal_targets.get(self.proposal_code)
+
+    @resolve_only_args
+    def resolve_id(self):
+        return 'proposal:' + str(self.proposal_code) + str(self.pi.surname)
     #
     # @resolve_only_args
     # def resolve_observing_conditions(self):
@@ -190,7 +192,7 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
         return sql + "order by Proposal_Code"
 
     def get_proposals(self, **args):
-        set_proposal_ids(**args)
+        get_proposal_ids(**args)
         sql = self._proposals_sql()
         proposal_data = pd.read_sql(sql, conn)
 
