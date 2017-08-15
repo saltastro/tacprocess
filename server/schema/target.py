@@ -8,6 +8,8 @@ from datetime import datetime
 from .common import Semester
 
 
+
+
 class TargetCoordinates(graphene.ObjectType):
     class Meta:
         interfaces = (r.Node,)
@@ -46,9 +48,8 @@ class TargetSubType(graphene.ObjectType):
 
 
 class Target(graphene.ObjectType):
-    class Meta:
-        interfaces = (r.Node,)
 
+    id = graphene.ID()
     proposal_code = graphene.String()
     name = graphene.String()
     requested_time = graphene.Int()
@@ -97,26 +98,33 @@ class Target(graphene.ObjectType):
             type=sub_type['TargetType']
         )
 
-    def _make_target(self, target):
+    @staticmethod
+    def _make_target( target):
         """
         method is only called with in the
         :param target:
         :return:
         """
+        identity = 'target:'+str(target['Proposal_Code'])+'-'+str(target['Target_Name']).replace(' ', '')
+        if identity in g.target_cache:
+            return g.target_cache.get(identity)
         _target = Target()
+        _target.id = identity
         _target.proposal_code = target['Proposal_Code']
         _target.name = target['Target_Name']
         _target.requested_time = target['RequestedTime']
         _target.optional = target['Optional']
         _target.max_lunar_phase = target['MaxLunarPhase']
-        _target.sub_type = self._make_target_sub_type(target)
-        _target.magnitudes = self._make_target_magnitudes(target)
-        _target.coordinates = self._make_target_coordinates(target)
-        #print('skyCords:', datetime.now() - st)
+        _target.sub_type = Target._make_target_sub_type(target)
+        _target.magnitudes = Target._make_target_magnitudes(target)
+        _target.coordinates = Target._make_target_coordinates(target)
+
+        g.target_cache.setdefault(identity, _target)
+
         return _target
 
     @staticmethod
-    def _get_target_sql():
+    def _get_target_sql(proposal_ids):
         sql = 'SELECT Target_Name, RequestedTime, Optional, MaxLunarPhase, Proposal_Code, ' \
               '   RaH, RaM, RaS, DecSign, DecD, DecM, DecS, Equinox, EstripE, EstripS, WstripS, WstripE, EazS, EazE, ' \
               '       WazS, WazE, FilterName, MinMag, MaxMag, TargetSubType.NumericCode as SubNumericCode, ' \
@@ -129,26 +137,18 @@ class Target(graphene.ObjectType):
               '         JOIN TargetMagnitudes using(TargetMagnitudes_Id) JOIN Bandpass using(Bandpass_Id) ' \
               '         JOIN TargetSubType using (TargetSubType_Id) JOIN TargetType USING(TargetType_Id) ' \
               '    WHERE Proposal.Proposal_Id IN {proposal_id}  '\
-            .format(proposal_id=g.proposal_ids)
+            .format(proposal_id=proposal_ids)
 
         return sql
-
-    def get_targets(self):
-
+    @staticmethod
+    def get_targets(proposal_ids):
         """
 
         :param args: how the sql for queering proposals will be made
         :return: list of Targets
         """
-        s = datetime.now()
-        sql = self._get_target_sql()
-        print("target:", sql)
+        sql = Target._get_target_sql(proposal_ids)
 
         results = pd.read_sql(sql, conn)
-        b = datetime.now()
-        print("DB:", b - s)
-        print("len to loop:", len(results['Target_Name'].values))
-        res = [self._make_target(targ) for index, targ in results.iterrows()]
-        en = datetime.now()
-        print("End:", en - s)
+        res = [Target._make_target(targ) for index, targ in results.iterrows()]
         return res
