@@ -43,7 +43,7 @@ class Query(graphene.ObjectType):
         :param semester:
         :return: list of targets
         """
-        print(g.target_cache)
+        g.target_cache = {}
         return get_targets_of(semester=semester, **args)
 
 

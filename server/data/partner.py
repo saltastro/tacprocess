@@ -6,7 +6,7 @@ partner_data = {}
 
 
 def make_partner(_part):
-    from schema.partner import Partner
+    from ..schema.partner import Partner
     part_ = Partner(
         partner_id=_part['Partner_Id'],
         partner_code=_part['Partner_Code'],
@@ -32,7 +32,7 @@ def get_partner(**args):
 def setup_partner_of(**args):
     global partner_data
     partner_ = get_partner(**args)
-    partner_data =  partner_
+    partner_data = partner_
 
 
 def get_partner_of(**args):

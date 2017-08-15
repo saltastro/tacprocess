@@ -21,32 +21,16 @@ def get_proposal_ids(**args):
         sql = sql + "AND pc.Proposal_Code = '{proposal_code}' ".format(proposal_code=args['proposal_code'])
     sql = sql + " GROUP BY pc.ProposalCode_Id "
     results = pd.read_sql(sql, conn)
-    g.proposal_ids = tuple(results['Ids'].values)
+    return tuple(results['Ids'].values)
 
 
 def make_proposal(prop):
     """
-    partner_id = g.Int()
-    proposal_id = g.ID()
-    proposal_code = g.String()
-    semester_id = g.Int()
-    semester = g.Field(Semester)
-    title = g.String()
-    pi_id = g.Int()
-    pc_id = g.Int()
-    liaison_s_a_id = g.Int()
-    pi = g.Field(User)
-    pc = g.Field(User)
-    # timeAllocations = g.Field(TimeAllocation, description="A user object")  # ** was a list **
-    time_requested = g.Int()  # ** was a list **
-    # warnings = g.String()   # ** was a list **
-
-    liaison_s_a = g.Field(User)
-    allocations = g.Field(ProposalAllocations)
+    
     :param prop:
     :return:
     """
-    from schema.proposal import Proposal
+    from ..schema.proposal import Proposal
     prop_ = Proposal(
         proposal_id=prop['Proposal_Id'],
         partner_id=prop['Partner_Id'],

@@ -98,9 +98,8 @@ class Target(graphene.ObjectType):
             type=sub_type['TargetType']
         )
 
-    def _make_target(self, target):
-
-        bill = {}
+    @staticmethod
+    def _make_target( target):
         """
         method is only called with in the
         :param target:
@@ -116,16 +115,16 @@ class Target(graphene.ObjectType):
         _target.requested_time = target['RequestedTime']
         _target.optional = target['Optional']
         _target.max_lunar_phase = target['MaxLunarPhase']
-        _target.sub_type = self._make_target_sub_type(target)
-        _target.magnitudes = self._make_target_magnitudes(target)
-        _target.coordinates = self._make_target_coordinates(target)
+        _target.sub_type = Target._make_target_sub_type(target)
+        _target.magnitudes = Target._make_target_magnitudes(target)
+        _target.coordinates = Target._make_target_coordinates(target)
 
         g.target_cache.setdefault(identity, _target)
 
         return _target
 
     @staticmethod
-    def _get_target_sql():
+    def _get_target_sql(proposal_ids):
         sql = 'SELECT Target_Name, RequestedTime, Optional, MaxLunarPhase, Proposal_Code, ' \
               '   RaH, RaM, RaS, DecSign, DecD, DecM, DecS, Equinox, EstripE, EstripS, WstripS, WstripE, EazS, EazE, ' \
               '       WazS, WazE, FilterName, MinMag, MaxMag, TargetSubType.NumericCode as SubNumericCode, ' \
@@ -138,19 +137,18 @@ class Target(graphene.ObjectType):
               '         JOIN TargetMagnitudes using(TargetMagnitudes_Id) JOIN Bandpass using(Bandpass_Id) ' \
               '         JOIN TargetSubType using (TargetSubType_Id) JOIN TargetType USING(TargetType_Id) ' \
               '    WHERE Proposal.Proposal_Id IN {proposal_id}  '\
-            .format(proposal_id=g.proposal_ids)
+            .format(proposal_id=proposal_ids)
 
         return sql
-
-    def get_targets(self):
-
+    @staticmethod
+    def get_targets(proposal_ids):
         """
 
         :param args: how the sql for queering proposals will be made
         :return: list of Targets
         """
-        sql = self._get_target_sql()
+        sql = Target._get_target_sql(proposal_ids)
 
         results = pd.read_sql(sql, conn)
-        res = [self._make_target(targ) for index, targ in results.iterrows()]
+        res = [Target._make_target(targ) for index, targ in results.iterrows()]
         return res
