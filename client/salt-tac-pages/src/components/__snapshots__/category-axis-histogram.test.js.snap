@@ -1,0 +1,171 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CategoryAxisHistogram should show the histogram 1`] = `
+<svg
+  height="500"
+  width="500"
+>
+  <NumberAxisHistogram
+    categories={
+      Array [
+        "Bright",
+        "Dark",
+      ]
+    }
+    categoryDataSets={
+      Array [
+        Object {
+          "className": "set-one",
+          "data": Array [
+            Object {
+              "category": "Bright",
+              "value": 5,
+            },
+            Object {
+              "category": "Dark",
+              "value": 10,
+            },
+          ],
+        },
+        Object {
+          "className": "set-two",
+          "data": Array [
+            Object {
+              "category": "Dark",
+              "value": 7,
+            },
+          ],
+        },
+      ]
+    }
+    height={500}
+    range={
+      Array [
+        0,
+        12,
+      ]
+    }
+    width={500}
+  >
+    <g
+      className="histogram"
+    >
+      <Axes
+        domain={
+          Array [
+            0,
+            2,
+          ]
+        }
+        height={500}
+        margins={
+          Object {
+            "bottom": 50,
+            "left": 50,
+            "right": 10,
+            "top": 10,
+          }
+        }
+        range={
+          Array [
+            0,
+            12,
+          ]
+        }
+        width={500}
+        xAxisTitle=""
+        xTickFormat={[Function]}
+        xTickValues={
+          Array [
+            0.5,
+            1.5,
+          ]
+        }
+        yAxisTitle=""
+      >
+        <g
+          className="axes"
+        >
+          <Axis
+            orientation="Top"
+            scale={[Function]}
+            tickValues={
+              Array [
+                0.5,
+                1.5,
+              ]
+            }
+            transform="translate(50, 10)"
+          >
+            <g
+              className="axis"
+              transform="translate(50, 10)"
+            />
+          </Axis>
+          <Axis
+            orientation="Left"
+            scale={[Function]}
+            tickFormat={null}
+            tickValues={null}
+            transform="translate(50, 10)"
+          >
+            <g
+              className="axis"
+              transform="translate(50, 10)"
+            />
+          </Axis>
+          <Axis
+            orientation="Bottom"
+            scale={[Function]}
+            tickFormat={[Function]}
+            tickValues={
+              Array [
+                0.5,
+                1.5,
+              ]
+            }
+            transform="translate(50, 450)"
+          >
+            <g
+              className="axis"
+              transform="translate(50, 450)"
+            />
+          </Axis>
+          <Axis
+            orientation="Right"
+            scale={[Function]}
+            tickValues={null}
+            transform="translate(490, 10)"
+          >
+            <g
+              className="axis"
+              transform="translate(490, 10)"
+            />
+          </Axis>
+        </g>
+      </Axes>
+      <rect
+        className="set-one"
+        height={183.33333333333337}
+        width={176}
+        x={72}
+        y={266.66666666666663}
+      />
+      <rect
+        className="set-one"
+        height={366.6666666666667}
+        width={176}
+        x={292}
+        y={83.33333333333331}
+      />
+      <rect
+        className="set-two"
+        height={256.6666666666667}
+        width={176}
+        x={292}
+        y={193.33333333333331}
+      />
+    </g>
+  </NumberAxisHistogram>
+</svg>
+`;

@@ -8,17 +8,21 @@ import PropTypes from 'prop-types';
  *
  * The following properties are supported:
  *
- * orientation:
+ * orientation: string
  *     The plot orientation. This must be 'Top', 'Right', 'Bottom' or 'Left', and corresponds to D3's
  *     axisTop, axisRight, axisBottom and axisLeft functions.
  *
- * scale:
+ * scale: scale
  *     The plot scale, which is used as the axis scale. This is a function from the d3-scale package.
  *
- * tickValues:
+ * tickValues: array
  *     An array of tick values. Only these tick values are rendered. This property is optional.
  *
- *  transform:
+ *  tickFormat: function
+ *     A function of a datum and index to use for generating the tick labels. This property is optional, and it is
+ *     only used for a left and bottom axis.
+ *
+ *  transform: string
  *     The transformation to apply to the axis. This will generally be a translation in x or y direction. An example
  *     would be 'translate(100, 100)'.
  */
@@ -44,6 +48,8 @@ export default class Axis extends Component {
         }
         if (this.props.orientation === 'Top' || this.props.orientation === 'Right') {
             axis.tickFormat('');
+        } else if (this.props.tickFormat) {
+            axis.tickFormat(this.props.tickFormat);
         }
         if (this.props.orientation === 'Bottom') {
             axis.tickPadding(8);
@@ -65,6 +71,7 @@ Axis.propTypes = {
     orientation: PropTypes.string.isRequired,
     scale: PropTypes.func.isRequired,
     tickValues: PropTypes.array,
+    tickFormat: PropTypes.func,
     transform: PropTypes.string.isRequired
 };
 

@@ -31,6 +31,12 @@ import Axis from './axis';
  * yTickValues:
  *     The array of tick values to use for the x axis. This is optional.
  *
+ * xTickFormat:
+ *     The function of datum and index to use for generating a tick label of the x axis. This is optional.
+ *
+ * yTickFormat:
+ *     The function of datum and index to use for generating a tick label of the y axis. This is optional.
+ *
  * xAxisTitle:
  *     The title for the x axis. This is optional.
  *
@@ -54,7 +60,8 @@ Title.propTypes = {
     rotationAngle: PropTypes.number
 };
 
-const Axes = ({domain, range, width, height, margins, xTickValues=null, yTickValues=null, xAxisTitle='', yAxisTitle=''}) => {
+const Axes = ({domain, range, width, height, margins, xTickValues=null, yTickValues=null,
+                  xTickFormat=null, yTickFormat=null, xAxisTitle='', yAxisTitle=''}) => {
     // scales
     const xScale = scaleLinear().domain(domain).range([0, width - margins.left - margins.right]);
     const yScale = scaleLinear().domain(range).range([height - margins.top - margins.bottom, 0]);
@@ -72,9 +79,20 @@ const Axes = ({domain, range, width, height, margins, xTickValues=null, yTickVal
     // Note that the orientation of the right axis is *left*, and that of the left axis is *right*.
     return (
             <g className="axes">
-                <Axis orientation="Top" scale={xScale} tickValues={xTickValues} transform={transformTop}/>
-                <Axis orientation="Left" scale={yScale} tickValues={yTickValues} transform={transformRight}/>
-                <Axis orientation="Bottom" scale={xScale} tickValues={xTickValues} transform={transformBottom}/>
+                <Axis orientation="Top"
+                      scale={xScale}
+                      tickValues={xTickValues}
+                      transform={transformTop}/>
+                <Axis orientation="Left"
+                      scale={yScale}
+                      tickValues={yTickValues}
+                      tickFormat={yTickFormat}
+                      transform={transformRight}/>
+                <Axis orientation="Bottom"
+                      scale={xScale}
+                      tickValues={xTickValues}
+                      tickFormat={xTickFormat}
+                      transform={transformBottom}/>
                 <Axis orientation="Right" scale={yScale} tickValues={yTickValues} transform={transformLeft}/>
                 {xAxisTitle &&
                 <Title title={xAxisTitle}
