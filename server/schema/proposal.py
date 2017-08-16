@@ -143,10 +143,6 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
         return g.proposal_targets.get(self.proposal_code)
 
     @resolve_only_args
-    def resolve_id(self):
-        return 'proposal:' + str(self.proposal_code) + str(self.pi.surname)
-
-    @resolve_only_args
     def resolve_instruments(self):
         return g.proposal_instruments.get(self.proposal_code)
 
@@ -157,7 +153,7 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
         :param args:
         :return: SQl for selecting all proposals on **args filtering
         """
-        sql = "SELECT distinct Proposal_Code, " \
+        sql = "SELECT distinct Proposal_Code, Proposal_Id, " \
               " CONCAT(SubmissionSemester.Year, '-', SubmissionSemester.Semester) as PSemester, " \
               " Title, P4,  Status, Phase, ProposalType," \
               " PI.FirstName as PIF, PI.Surname as PIS, PI.Email as PIE, PI.Phone as PIP, " \
@@ -196,6 +192,7 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
     def _make_proposal(self, proposal):
         proposal_ = Proposal()
 
+        proposal_.id = "Proposal:" + str(proposal['Proposal_Id'])
         proposal_.proposal_code = proposal['Proposal_Code']
         proposal_.semester = proposal['PSemester']  # semester of submition
         proposal_.title = proposal['Title']
