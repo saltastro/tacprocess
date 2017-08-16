@@ -3,7 +3,7 @@ from flask import g
 from schema.common import Semester
 
 
-def set_proposal_ids(**args):
+def get_proposal_ids(**args):
     sql = " SELECT MAX(p.Proposal_Id) as Ids, Proposal_Code " \
           "  FROM Proposal AS p " \
           "    JOIN ProposalCode AS pc ON (p.ProposalCode_Id=pc.ProposalCode_Id) " \
@@ -21,33 +21,16 @@ def set_proposal_ids(**args):
         sql = sql + "AND pc.Proposal_Code = '{proposal_code}' ".format(proposal_code=args['proposal_code'])
     sql = sql + " GROUP BY pc.ProposalCode_Id "
     results = pd.read_sql(sql, conn)
-    print(sql)
-    g.proposal_ids = tuple(results['Ids'].values)
+    return tuple(results['Ids'].values)
 
 
 def make_proposal(prop):
     """
-    partner_id = g.Int()
-    proposal_id = g.ID()
-    proposal_code = g.String()
-    semester_id = g.Int()
-    semester = g.Field(Semester)
-    title = g.String()
-    pi_id = g.Int()
-    pc_id = g.Int()
-    liaison_s_a_id = g.Int()
-    pi = g.Field(User)
-    pc = g.Field(User)
-    # timeAllocations = g.Field(TimeAllocation, description="A user object")  # ** was a list **
-    time_requested = g.Int()  # ** was a list **
-    # warnings = g.String()   # ** was a list **
-
-    liaison_s_a = g.Field(User)
-    allocations = g.Field(ProposalAllocations)
+    
     :param prop:
     :return:
     """
-    from schema.proposal import Proposal
+    from ..schema.proposal import Proposal
     prop_ = Proposal(
         proposal_id=prop['Proposal_Id'],
         partner_id=prop['Partner_Id'],
@@ -132,7 +115,6 @@ def proposal_sql(arguments):
         sql = sql + " and Investigator.Email='{}' ".format(arguments['investigator_email'])
     if 'proposal_code' in arguments and arguments['proposal_code'] is not None:
         sql = sql + " and Proposal_Code='{}' ".format(arguments['proposal_code'])
-    print(sql)
 
     return sql + " and not (Status  = 'Deleted' or Status = 'Expired') " + " ORDER BY Proposal_Code"
 
@@ -166,11 +148,10 @@ def setup_proposals(investigator_id, partner_id, partner_code, semester_id, seme
 
 
 def get_proposals_of(**args):
+
     from schema.proposal import Proposal
     proposals = Proposal()
     p = proposals.get_proposals(**args)
-    print("#", len(g.proposal_ids), list(g.proposal_ids))
-    print("PROP#", len(p))
     return p
 
 

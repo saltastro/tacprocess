@@ -1,11 +1,8 @@
 import graphene
 from flask import g
-from graphene import relay as r, resolve_only_args
+from graphene import relay as r
 from data import conn
 import pandas as pd
-from datetime import datetime
-
-from .common import Semester
 
 
 class TargetCoordinates(graphene.ObjectType):
@@ -25,7 +22,7 @@ class TargetCoordinates(graphene.ObjectType):
     dec = graphene.Float()
 
 
-class TargetMagnitudes(graphene.ObjectType):  # todo make singular
+class TargetMagnitude(graphene.ObjectType):
     class Meta:
         interfaces = (r.Node,)
 
@@ -46,21 +43,28 @@ class TargetSubType(graphene.ObjectType):
 
 
 class Target(graphene.ObjectType):
-    class Meta:
-        interfaces = (r.Node,)
+    """
+    Target graphene object type
+    """
 
+    id = graphene.ID()
     proposal_code = graphene.String()
     name = graphene.String()
     requested_time = graphene.Int()
     optional = graphene.Boolean()
     max_lunar_phase = graphene.Float()
     coordinates = graphene.Field(TargetCoordinates)
-    magnitudes = graphene.Field(TargetMagnitudes)
+    magnitude = graphene.Field(TargetMagnitude)
     sub_type = graphene.Field(TargetSubType)
 
     @staticmethod
-    def _make_target_coordinates(coordinates):
-
+    def __make_target_coordinates(coordinates):
+        """
+        is a private method that is only called by private method make_target()
+        <NB> this methods must not be called anywhere or be called by any method <NB> 
+        :param coordinates: a row from the query results of target
+        :return: Target Coord class mapped 
+        """
         ra_ = (coordinates['RaH'] + coordinates['RaM']/60 + coordinates['RaS']/3600)/(24/360)
         sign = -1 if coordinates['DecSign'] == '-' else 1
         dec_ = sign*(coordinates['DecD'] + coordinates['DecM']/60 + coordinates['DecS']/3600)
@@ -80,15 +84,26 @@ class Target(graphene.ObjectType):
         )
 
     @staticmethod
-    def _make_target_magnitudes(magnitude):
-
-        return TargetMagnitudes(
+    def __make_target_magnitudes(magnitude):
+        """
+        is a private method that is only called by private method make_target()
+        <NB> this methods must not be called anywhere or be called by any method <NB> 
+        :param magnitude: a row from the query results of target
+        :return: Target Magnitude class mapped
+        """
+        return TargetMagnitude(
             filter=magnitude['FilterName'],
             min_magnitude=magnitude['MinMag'],
             max_magnitude=magnitude['MaxMag'])
 
     @staticmethod
-    def _make_target_sub_type(sub_type):
+    def __make_target_sub_type(sub_type):
+        """
+        is a private method that is only called by private method make_target()
+        <NB> this methods must not be called anywhere or be called by any method <NB> 
+        :param sub_type: a row from the query results of target
+        :return: Target Sub Type class mapped
+        """
         return TargetSubType(
             sub_type_numeric_code=sub_type['SubNumericCode'],
             sub_standard_name=sub_type['StandardName'],
@@ -97,26 +112,40 @@ class Target(graphene.ObjectType):
             type=sub_type['TargetType']
         )
 
-    def _make_target(self, target):
+    @staticmethod
+    def __make_target(target):
         """
-        method is only called with in the
-        :param target:
-        :return:
+        is a private method that is only called by get_proposals
+        <NB> this methods must not be called anywhere or be called by any method <NB>
+        :param target: a row from the query results of target
+        :return: Target class mapped target
         """
+        identity = 'target:'+str(target['Proposal_Code'])+'-'+str(target['Target_Name']).replace(' ', '')
+        if identity in g.target_cache:
+            return g.target_cache.get(identity)
         _target = Target()
+        _target.id = identity
         _target.proposal_code = target['Proposal_Code']
         _target.name = target['Target_Name']
         _target.requested_time = target['RequestedTime']
         _target.optional = target['Optional']
         _target.max_lunar_phase = target['MaxLunarPhase']
-        _target.sub_type = self._make_target_sub_type(target)
-        _target.magnitudes = self._make_target_magnitudes(target)
-        _target.coordinates = self._make_target_coordinates(target)
-        #print('skyCords:', datetime.now() - st)
+        _target.sub_type = Target.__make_target_sub_type(target)
+        _target.magnitude = Target.__make_target_magnitudes(target)
+        _target.coordinates = Target.__make_target_coordinates(target)
+
+        g.target_cache.setdefault(identity, _target)
+
         return _target
 
     @staticmethod
-    def _get_target_sql():
+    def __get_target_sql(proposal_ids):
+        """
+        is a private method that is only called by get_proposals
+        <NB> this methods must not be called anywhere or be called by any method<NB>
+        :param proposal_ids: 
+        :return: 
+        """
         sql = 'SELECT Target_Name, RequestedTime, Optional, MaxLunarPhase, Proposal_Code, ' \
               '   RaH, RaM, RaS, DecSign, DecD, DecM, DecS, Equinox, EstripE, EstripS, WstripS, WstripE, EazS, EazE, ' \
               '       WazS, WazE, FilterName, MinMag, MaxMag, TargetSubType.NumericCode as SubNumericCode, ' \
@@ -129,26 +158,34 @@ class Target(graphene.ObjectType):
               '         JOIN TargetMagnitudes using(TargetMagnitudes_Id) JOIN Bandpass using(Bandpass_Id) ' \
               '         JOIN TargetSubType using (TargetSubType_Id) JOIN TargetType USING(TargetType_Id) ' \
               '    WHERE Proposal.Proposal_Id IN {proposal_id}  '\
-            .format(proposal_id=g.proposal_ids)
+            .format(proposal_id=proposal_ids)
 
         return sql
 
-    def get_targets(self):
-
+    @staticmethod
+    def get_targets(proposal_ids):
         """
-
-        :param args: how the sql for queering proposals will be made
+        proposal_ids will reduce the number of targets to fetch to only proposals included in the proposal list Ids
+        :param proposal_ids: the list of proposal in question
         :return: list of Targets
         """
-        s = datetime.now()
-        sql = self._get_target_sql()
-        print("target:", sql)
+        sql = Target.__get_target_sql(proposal_ids)
 
         results = pd.read_sql(sql, conn)
-        b = datetime.now()
-        print("DB:", b - s)
-        print("len to loop:", len(results['Target_Name'].values))
-        res = [self._make_target(targ) for index, targ in results.iterrows()]
-        en = datetime.now()
-        print("End:", en - s)
+        res = [Target.__make_target(targ) for index, targ in results.iterrows()]
         return res
+
+    @staticmethod
+    def get_targets_of(**args):
+        """
+        having how you need the targets to be filtered this method can be called
+        with one mandatory argument <args> semester <args> of type string like '"2017-2"'
+        args can only be <args> partner_code or/and proposal_code and semester<args> other will not be filtered but 
+        ignored
+        :param args: how data need to be filtered
+        :return: a list targets filtered but args
+        """
+        from ..data.proposal import get_proposal_ids
+        proposal_ids = get_proposal_ids(**args)
+
+        return Target.get_targets(proposal_ids)
