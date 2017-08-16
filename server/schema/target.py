@@ -120,20 +120,19 @@ class Target(graphene.ObjectType):
         :param target: a row from the query results of target
         :return: Target class mapped target
         """
-        identity = 'target:'+str(target['Proposal_Code'])+'-'+str(target['Target_Name']).replace(' ', '')
+        identity = 'Target:' + str(target['Target_Id'])
         if identity in g.target_cache:
             return g.target_cache.get(identity)
-        _target = Target()
-        _target.id = identity
-        _target.proposal_code = target['Proposal_Code']
-        _target.name = target['Target_Name']
-        _target.requested_time = target['RequestedTime']
-        _target.optional = target['Optional']
-        _target.max_lunar_phase = target['MaxLunarPhase']
-        _target.sub_type = Target.__make_target_sub_type(target)
-        _target.magnitude = Target.__make_target_magnitudes(target)
-        _target.coordinates = Target.__make_target_coordinates(target)
-
+        _target = Target(
+                    id=identity,
+                    proposal_code=target['Proposal_Code'],
+                    name=target['Target_Name'],
+                    requested_time=target['RequestedTime'],
+                    optional=target['Optional'],
+                    max_lunar_phase=target['MaxLunarPhase'],
+                    sub_type=Target.__make_target_sub_type(target),
+                    magnitude=Target.__make_target_magnitudes(target),
+                    coordinates=Target.__make_target_coordinates(target))
         g.target_cache.setdefault(identity, _target)
 
         return _target
@@ -146,7 +145,7 @@ class Target(graphene.ObjectType):
         :param proposal_ids: 
         :return: 
         """
-        sql = 'SELECT Target_Name, RequestedTime, Optional, MaxLunarPhase, Proposal_Code, ' \
+        sql = 'SELECT Target_Id, Target_Name, RequestedTime, Optional, MaxLunarPhase, Proposal_Code, ' \
               '   RaH, RaM, RaS, DecSign, DecD, DecM, DecS, Equinox, EstripE, EstripS, WstripS, WstripE, EazS, EazE, ' \
               '       WazS, WazE, FilterName, MinMag, MaxMag, TargetSubType.NumericCode as SubNumericCode, ' \
               '       StandardName, TargetSubType, TargetType.NumericCode as TypeNumericCode, TargetType.TargetType' \

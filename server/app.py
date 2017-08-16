@@ -1,8 +1,9 @@
-from flask import Flask, g, jsonify, request
+from flask import Flask, g, jsonify, request, make_response
 from flask_cors import CORS
 from flask_graphql import GraphQLView
 from schema import schema
 import os
+#from main import User
 
 from itsdangerous import TimedJSONWebSignatureSerializer as JWT
 from flask_httpauth import HTTPTokenAuth
@@ -18,25 +19,34 @@ jwt = JWT(app.config['SECRET_KEY'], expires_in=3600)
 auth = HTTPTokenAuth(scheme='Token')
 
 
-
-
-@app.route("/login", methods=['POST'])
+@app.route("/login")#, methods=['POST', 'GET'])
 def login():
-    from main import User
-    user = User(request.json)
-    return jsonify({
-        'token': user.get_token().decode('utf-8'),
-        'username': user.username,
-        'firstName': user.first_name,
-        'surname': user.surname,
-        'partnerCode': user.partner_code
-    })
+    # request.authorization.username
+    # request.authorization.password
+    is_user = None
+    if request.authorization:
+        #is_user = User.user_login({'username': request.authorization.username, 'password': request.authorization.password})
+        return ""
+    print(is_user)
+    return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
+    # user = User(request.json)
+    #
+    # return jsonify({
+    #     'token': user.get_token().decode('utf-8'),
+    #     'username': user.username,
+    #     'firstName': user.first_name,
+    #     'surname': user.surname,
+    #     'partnerCode': user.partner_code
+    # })
 
 
 @auth.verify_token
 def verify_token(token):
     from main import User
     g.user = None
+
+    g.target_cache = {} # Todo create a decorator to do this
+
     try:
         data = jwt.loads(token)
     except:

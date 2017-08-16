@@ -29,8 +29,8 @@ class Partner(graphene.ObjectType):
     partner_name = graphene.String()
     partner_distributed_times = graphene.Field(graphene.List(TimeAllocatedToPartner), semester=graphene.String())
 
-    def __init__(self, partner_id, partner_code, partner_name):
-        super().__init__(partner_code=partner_code, partner_name=partner_name)
+    def __init__(self, partner_id, **kwargs):
+        super().__init__(**kwargs)
 
         self.partner_id = partner_id
 

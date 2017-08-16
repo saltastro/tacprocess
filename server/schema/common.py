@@ -9,8 +9,6 @@ from dateutil.relativedelta import relativedelta
 
 
 class Semester(g.ObjectType):
-    class Meta:
-        interfaces = (r.Node,)
 
     semester_id = g.ID()
     semester = g.String()

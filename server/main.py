@@ -1,7 +1,10 @@
 import pandas as pd
+import os
+from flask import request
 
 from data.common import conn
 from app import jwt
+
 
 
 class User:
@@ -15,8 +18,8 @@ class User:
     def __init__(self, user_cred):
         settings = []
         vas = []
-        sql = "SELECT PiptUser.PiptUser_Id as PiptUser_Id, Username, Password, FirstName, Surname, PiptSetting_Id, Value, " \
-              " Partner_Code, Chair" \
+        sql = "SELECT PiptUser.PiptUser_Id as PiptUser_Id, Username, Password, FirstName, Surname, PiptSetting_Id, " \
+              " Value, Partner_Code, Chair" \
               "     FROM PiptUser " \
               "         JOIN Investigator using(Investigator_Id) " \
               "         JOIN PiptUserSetting on (PiptUser.PiptUser_Id = PiptUserSetting.PiptUser_Id) " \
@@ -57,3 +60,20 @@ class User:
         token_username = {'username': self.username}
         token = jwt.dumps(token_username)
         return token
+
+    @staticmethod
+    def user_login(credentials):
+
+        sql = 'SELECT Username FROM PiptUser ' \
+              ' WHERE Username = "{username}" AND Password = md5("{password}") '\
+            .format(username=credentials['username'], password=credentials['password'])
+
+        results = pd.read_sql(sql, conn)
+
+
+        print(results.empty)
+        return results.empty
+
+
+if __name__ == "__main__":
+    user = User.user_login({'username':'nhlavutelo', 'password':os.environ['PASSWORD']})
