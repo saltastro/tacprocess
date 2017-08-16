@@ -150,21 +150,15 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
     def resolve_instruments(self):
         return g.proposal_instruments.get(self.proposal_code)
 
-    # @resolve_only_args
-    # def resolve_thesis(self):
-    #     return get_p1_thesis(proposal_code=self.proposal_code)
-
-    def _proposals_sql(self, proposal_ids):
+    @staticmethod
+    def _proposals_sql(proposal_ids):
         """
 
         :param args:
         :return: SQl for selecting all proposals on **args filtering
         """
-
-        #  proposal_ids_sql = "SELECT Proposal_Id, Target_Id FROM ?? WHERE Proposal_Id in {proposal_id} "\
-        #    .format(proposal_id=g.proposal_ids)
-
-        sql = "SELECT distinct Proposal_Code, CONCAT(SubmissionSemester.Year, '-', SubmissionSemester.Semester) as PSemester, " \
+        sql = "SELECT distinct Proposal_Code, " \
+              " CONCAT(SubmissionSemester.Year, '-', SubmissionSemester.Semester) as PSemester, " \
               " Title, P4,  Status, Phase, ProposalType," \
               " PI.FirstName as PIF, PI.Surname as PIS, PI.Email as PIE, PI.Phone as PIP, " \
               " PC.FirstName as PCF, PC.Surname as PCS, PC.Email as PCE, PI.Phone as PCP, " \
@@ -177,14 +171,13 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
               "         join Investigator as PI on (Leader_Id=PI.Investigator_Id)  " \
               "         join Investigator as PC on (Contact_Id=PC.Investigator_Id) " \
               "         left join Investigator as LA on (Astronomer_Id=LA.Investigator_Id) " \
-              "         join Semester as SubmissionSemester on (Proposal.Semester_Id = SubmissionSemester.Semester_Id) " \
+              "         join Semester as SubmissionSemester on (Proposal.Semester_Id=SubmissionSemester.Semester_Id) " \
               "         join MultiPartner using (Proposal_Id) " \
               "         join ProposalType using (ProposalType_Id) " \
               "         join Partner using (Partner_Id) " \
               "         join ProposalStatus using (ProposalStatus_Id) " \
               "         join P1ObservingConditions using (Proposal_Id) " \
               "         join Transparency using (Transparency_Id) " \
-              "" \
               "     WHERE Proposal_Id IN {proposal_ids} ".format(proposal_ids=proposal_ids)
         return sql + "order by Proposal_Code"
 
@@ -264,4 +257,3 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
     def _init_instruments(proposal_ids):
         g.proposal_instruments = {}
         Instrument.set_instruments(proposal_ids)
-        print(g.proposal_instruments.get("2016-1-MLT-009"))

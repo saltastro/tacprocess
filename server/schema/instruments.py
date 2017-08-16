@@ -41,7 +41,6 @@ class Instrument(graphene.Interface):
             g.proposal_instruments.setdefault(proposal_code, []).append(Bvit(name='Bvit'))
 
         if not pd.isnull(instrument['P1Rss_Id']):
-            print(instrument['RssFabryPerot_Mode'])
             g.proposal_instruments.\
                 setdefault(proposal_code, [])\
                 .append(
