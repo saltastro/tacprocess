@@ -14,6 +14,11 @@ class RssMask(graphene.ObjectType):
     mask_type = graphene.String()
     mos_description = graphene.String()
 
+class FabryPerot(graphene.ObjectType):
+    fabry_perot_mode = graphene.String()
+    fabry_perot_description = graphene.String()
+    etalon_config = graphene.String()
+
 class Instrument(graphene.Interface):
 
     name = graphene.String()
@@ -44,8 +49,10 @@ class Instrument(graphene.Interface):
                         rss_grading=instrument['RssGrating'],
                         mask=RssMask(mask_type=instrument['RssMaskType'],
                                      mos_description=instrument['RssMosDescription']),
-                        fabry_perot_mode=instrument['RssFabryPerot_Mode'],
-                        fabry_perot_description=instrument['RssFabryPerot_Description'],
+                        fabry_perot=FabryPerot(
+                            fabry_perot_mode=instrument['RssFabryPerot_Mode'],
+                            fabry_perot_description=instrument['RssFabryPerot_Description'],
+                            etalon_config=instrument['RssEtalonConfig']),
                         polarimetry=instrument['RssPatternName'],
                         ))
 
@@ -66,14 +73,12 @@ class Instrument(graphene.Interface):
         :return: 
         """
         sql = 'SELECT P1Salticam_Id, scd.DetectorMode as ScamDetectorMode, scd.XmlDetectorMode as ScamXmlDetectorMode, ' \
-              ' P1Hrs_Id, ExposureMode, ' \
-              ' P1Bvit_Id, ' \
-              ' P1Rss_Id, rdm.DetectorMode as RssDetectorMode, rdm.XmlDetectorMode as RssXmlDetectorMode, ' \
-              ' rm.Mode as RssMode, rg.Grating as RssGrating, rma.MosDescription as RssMosDescription, ' \
-              ' rmt.RssMaskType as RssMaskType, rfpm.FabryPerot_Mode as RssFabryPerot_Mode, ' \
-              ' rfpm.FabryPerot_Description as RssFabryPerot_Description, rpp.PatternName as RssPatternName, ' \
-              ' Proposal_Code ' \
-              '     From P1Config as conf' \
+              ' P1Hrs_Id, ExposureMode, P1Bvit_Id, P1Rss_Id,  Proposal_Code, ' \
+              ' rdm.DetectorMode as RssDetectorMode, rdm.XmlDetectorMode as RssXmlDetectorMode,  rm.Mode as RssMode, ' \
+              ' rg.Grating as RssGrating, rma.MosDescription as RssMosDescription, rmt.RssMaskType as RssMaskType, ' \
+              ' rfpm.FabryPerot_Mode as RssFabryPerot_Mode, rec.EtalonConfig as RssEtalonConfig, ' \
+              ' rfpm.FabryPerot_Description as RssFabryPerot_Description, rpp.PatternName as RssPatternName ' \
+              '    From P1Config as conf' \
               '     JOIN Proposal using(Proposal_Id)  ' \
               '     JOIN ProposalCode using(ProposalCode_Id)' \
               '     LEFT JOIN P1Hrs using(P1Hrs_Id) ' \
@@ -91,9 +96,10 @@ class Instrument(graphene.Interface):
               '     LEFT JOIN RssMaskType as rmt using(RssMaskType_Id) ' \
               '     LEFT JOIN P1RssFabryPerot using(P1RssFabryPerot_Id) ' \
               '     LEFT JOIN RssFabryPerotMode as rfpm using(RssFabryPerotMode_Id) ' \
+              '     LEFT JOIN RssEtalonConfig as rec using(RssEtalonConfig_Id) ' \
               '     LEFT JOIN P1RssPolarimetry using(P1RssPolarimetry_Id) ' \
               '     LEFT JOIN RssPolarimetryPattern as rpp using(RssPolarimetryPattern_Id) ' \
-              '     WHERE Proposal_Id IN {proposal_ids} '.format(proposal_ids=proposal_ids)
+              '    WHERE Proposal_Id IN {proposal_ids} '.format(proposal_ids=proposal_ids)
 
         results = pd.read_sql(sql, conn)
         for i, inst in results.iterrows():
@@ -127,6 +133,5 @@ class Rss(graphene.ObjectType):
     rss_mode = graphene.String()
     rss_grading = graphene.String()
     mask = graphene.Field(RssMask)
-    fabry_perot_mode = graphene.String()
-    fabry_perot_description = graphene.String()
+    fabry_perot = graphene.Field(FabryPerot)
     polarimetry = graphene.String()
