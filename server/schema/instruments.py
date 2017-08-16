@@ -10,6 +10,10 @@ from flask import g
 from data.common import conn
 
 
+class RssMask(graphene.ObjectType):
+    mask_type = graphene.String()
+    mos_description = graphene.String()
+
 class Instrument(graphene.Interface):
 
     name = graphene.String()
@@ -19,20 +23,39 @@ class Instrument(graphene.Interface):
     def _make_instrument(instrument):
         proposal_code = instrument['Proposal_Code']
 
-        if instrument['ExposureMode'] is not None:
-            g.proposal_instruments.setdefault(proposal_code,
-                                              []).append(Hrs(name='Hrs',
-                                                            exposure_mode=instrument['ExposureMode'] ))
+        if not pd.isnull(instrument['P1Hrs_Id']):
+            g.proposal_instruments.\
+                setdefault(proposal_code, [])\
+                .append(
+                    Hrs(name='Hrs',
+                        exposure_mode=instrument['ExposureMode']))
 
         if not pd.isnull(instrument['P1Bvit_Id']):
             g.proposal_instruments.setdefault(proposal_code, []).append(Bvit(name='Bvit'))
 
         if not pd.isnull(instrument['P1Rss_Id']):
-            g.proposal_instruments.setdefault(proposal_code, []).append(Rss(name='Rss'))
+            g.proposal_instruments.\
+                setdefault(proposal_code, [])\
+                .append(
+                    Rss(name='Rss',
+                        detector_mode=instrument['RssDetectorMode'],
+                        xml_detector_mode=instrument['RssXmlDetectorMode'],
+                        rss_mode=instrument['RssMode'],
+                        rss_grading=instrument['RssGrating'],
+                        mask=RssMask(mask_type=instrument['RssMaskType'],
+                                     mos_description=instrument['RssMosDescription']),
+                        fabry_perot_mode=instrument['RssFabryPerot_Mode'],
+                        fabry_perot_description=instrument['RssFabryPerot_Description'],
+                        polarimetry=instrument['RssPatternName'],
+                        ))
 
         if not pd.isnull(instrument['P1Salticam_Id']):
-            g.proposal_instruments.setdefault(proposal_code, []).append(Salticam(name='Salticam'))
-
+            g.proposal_instruments.\
+                setdefault(proposal_code, [])\
+                .append(
+                    Salticam(name='Salticam',
+                             detector_mode=instrument['ScamDetectorMode'],
+                             xml_detector_mode=instrument['ScamXmlDetectorMode'],))
 
     @staticmethod
     def set_instruments(proposal_ids):
@@ -42,13 +65,34 @@ class Instrument(graphene.Interface):
         :param proposal_ids: 
         :return: 
         """
-        sql = 'SELECT P1Salticam_Id, P1Rss_Id, P1Bvit_Id, ExposureMode, Proposal_Code from P1Config ' \
+        sql = 'SELECT P1Salticam_Id, scd.DetectorMode as ScamDetectorMode, scd.XmlDetectorMode as ScamXmlDetectorMode, ' \
+              ' P1Hrs_Id, ExposureMode, ' \
+              ' P1Bvit_Id, ' \
+              ' P1Rss_Id, rdm.DetectorMode as RssDetectorMode, rdm.XmlDetectorMode as RssXmlDetectorMode, ' \
+              ' rm.Mode as RssMode, rg.Grating as RssGrating, rma.MosDescription as RssMosDescription, ' \
+              ' rmt.RssMaskType as RssMaskType, rfpm.FabryPerot_Mode as RssFabryPerot_Mode, ' \
+              ' rfpm.FabryPerot_Description as RssFabryPerot_Description, rpp.PatternName as RssPatternName, ' \
+              ' Proposal_Code ' \
+              '     From P1Config as conf' \
               '     JOIN Proposal using(Proposal_Id)  ' \
               '     JOIN ProposalCode using(ProposalCode_Id)' \
               '     LEFT JOIN P1Hrs using(P1Hrs_Id) ' \
               '     LEFT JOIN HrsMode using(HrsMode_Id) ' \
               '     LEFT JOIN P1Bvit using(P1Bvit_Id) ' \
               '     LEFT JOIN BvitFilter using(BvitFilter_Id) ' \
+              '     LEFT JOIN P1Salticam using(P1Salticam_Id) ' \
+              '     LEFT JOIN SalticamDetectorMode as scd using(SalticamDetectorMode_Id) ' \
+              '     LEFT JOIN P1Rss using(P1Rss_Id) ' \
+              '     LEFT JOIN RssDetectorMode as rdm  using(RssDetectorMode_Id) ' \
+              '     LEFT JOIN RssMode as rm using(RssMode_Id) ' \
+              '     LEFT JOIN P1RssSpectroscopy using(P1RssSpectroscopy_Id) ' \
+              '     LEFT JOIN RssGrating as rg using(RssGrating_Id) ' \
+              '     LEFT JOIN P1RssMask as rma using(P1RssMask_Id) ' \
+              '     LEFT JOIN RssMaskType as rmt using(RssMaskType_Id) ' \
+              '     LEFT JOIN P1RssFabryPerot using(P1RssFabryPerot_Id) ' \
+              '     LEFT JOIN RssFabryPerotMode as rfpm using(RssFabryPerotMode_Id) ' \
+              '     LEFT JOIN P1RssPolarimetry using(P1RssPolarimetry_Id) ' \
+              '     LEFT JOIN RssPolarimetryPattern as rpp using(RssPolarimetryPattern_Id) ' \
               '     WHERE Proposal_Id IN {proposal_ids} '.format(proposal_ids=proposal_ids)
 
         results = pd.read_sql(sql, conn)
@@ -68,143 +112,21 @@ class Bvit(graphene.ObjectType):
 
 
 class Salticam(graphene.ObjectType):
-     class Meta:
-         interfaces = (Instrument, relay.Node)
+    class Meta:
+        interfaces = (Instrument, relay.Node)
+    detector_mode = graphene.String()
+    xml_detector_mode = graphene.String()
 
 
 class Rss(graphene.ObjectType):
     class Meta:
         interfaces = (Instrument, relay.Node,)
 
-
-def init_instruments():
-    g.instrument_hrs = {}
-    g.instrument_rss = {}
-    g.instrument_bvit = {}
-    g.instrument_scam = {}
-    sql = 'SELECT P1Salticam_Id, P1Rss_Id, P1Bvit_Id, ExposureMode, Proposal_Code from P1Config ' \
-          '     JOIN Proposal using(Proposal_Id)  ' \
-          '     JOIN ProposalCode using(ProposalCode_Id)'\
-          '     LEFT JOIN P1Hrs using(P1Hrs_Id) ' \
-          '     LEFT JOIN HrsMode using(HrsMode_Id) ' \
-          '     LEFT JOIN P1Bvit using(P1Bvit_Id) ' \
-          '     LEFT JOIN BvitFilter using(BvitFilter_Id) ' \
-          '     WHERE Proposal_Id IN {proposal_ids} '.format(proposal_ids=g.proposal_ids)
-    print(sql)
-    results = pd.read_sql(sql, conn)
-
-    for i, inst in results.iterrows():
-        proposal_code = inst['Proposal_Code']
-        if inst['ExposureMode'] is not None:
-            if proposal_code in g.instrument_hrs:
-                g.instrument_hrs[proposal_code].append(Hrs(name='Hrs',
-                                                   exposure_mode=inst['ExposureMode']))
-            else:
-                g.instrument_hrs[proposal_code] = [Hrs(name='Hrs',
-                                                       exposure_mode=inst['ExposureMode'])
-                                                   ]
-
-        if inst['P1Bvit_Id'] is not None:
-            if proposal_code in g.instrument_bvit:
-                g.instrument_bvit[proposal_code].append(Bvit(name='Bvit'))
-            else:
-                g.instrument_bvit[proposal_code] = [Bvit(name='Bvit')]
-
-        if inst['P1Rss_Id'] is not None:
-            if proposal_code in g.instrument_rss:
-                g.instrument_rss[proposal_code].append(Rss(name='Rss'))
-            else:
-                g.instrument_rss[proposal_code] = [Rss(name='Rss')]
-
-        if inst['P1Salticam_Id'] is not None:
-            if proposal_code in g.instrument_scam:
-                g.instrument_scam[proposal_code].append(Salticam(name='Salticam'))
-            else:
-                g.instrument_scam[proposal_code] = [Salticam(name='Salticam')]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# class Hrs(graphene.ObjectType):
-#     class Meta:
-#         interfaces = (Instruments, relay.Node)
-#
-#     exposure_mode = graphene.String()
-#
-#
-# class Spectroscopy(graphene.ObjectType):
-#     class Meta:
-#         interfaces = (relay.Node,)
-#     grating = graphene.String()
-#
-#
-# class Mask(graphene.ObjectType):
-#     class Meta:
-#         interfaces = (relay.Node,)
-#     mask_type = graphene.String()
-#     mos_description = graphene.String()
-#
-#
-# class FabryPerot(object):
-#     pass
-
-
-# class Rss(graphene.ObjectType):
-#     class Meta:
-#         interfaces = (Instrument, relay.Node,)
-#
-#     detector_mode = graphene.String()
-#     mode = graphene.String()
-#     spectroscopy = graphene.Field(Spectroscopy)
-#     mask = graphene.Field(Mask)
-#     fabry_perot = graphene.Field(FabryPerot)
-#
-#
-# class Bvit(graphene.ObjectType):
-#     class Meta:
-#         interfaces = (Instrument, relay.Node)
-#
-#
-#
+    detector_mode = graphene.String()
+    xml_detector_mode = graphene.String()
+    rss_mode = graphene.String()
+    rss_grading = graphene.String()
+    mask = graphene.Field(RssMask)
+    fabry_perot_mode = graphene.String()
+    fabry_perot_description = graphene.String()
+    polarimetry = graphene.String()
