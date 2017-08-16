@@ -1,9 +1,16 @@
 import pandas as pd
 import os
 from flask import request
+from app import app
+
+from itsdangerous import TimedJSONWebSignatureSerializer as JWT
+
+
+jwt = JWT(app.config['SECRET_KEY'], expires_in=3600)
+
 
 from data.common import conn
-from app import jwt
+
 
 
 
@@ -70,9 +77,7 @@ class User:
 
         results = pd.read_sql(sql, conn)
 
-
-        print(results.empty)
-        return results.empty
+        return None if results.empty else results['Username'].values[0]
 
 
 if __name__ == "__main__":

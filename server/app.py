@@ -3,10 +3,9 @@ from flask_cors import CORS
 from flask_graphql import GraphQLView
 from schema import schema
 import os
-#from main import User
-
-from itsdangerous import TimedJSONWebSignatureSerializer as JWT
 from flask_httpauth import HTTPTokenAuth
+
+auth = HTTPTokenAuth(scheme='Token')
 
 is_developoment = 'FLASK_DEBUG' in os.environ and os.environ['FLASK_DEBUG'] == '1'
 
@@ -15,18 +14,20 @@ CORS(app)
 app.config['SECRET_KEY'] = 'top secret!'
 app.debug = True
 
-jwt = JWT(app.config['SECRET_KEY'], expires_in=3600)
-auth = HTTPTokenAuth(scheme='Token')
+
 
 
 @app.route("/login")#, methods=['POST', 'GET'])
 def login():
+    from main import User
     # request.authorization.username
     # request.authorization.password
     is_user = None
     if request.authorization:
-        #is_user = User.user_login({'username': request.authorization.username, 'password': request.authorization.password})
-        return ""
+        is_user = User.user_login({'username': request.authorization.username, 'password': request.authorization.password})
+        if is_user == None:
+            return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
+        return "user Logged in as: " + is_user
     print(is_user)
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
     # user = User(request.json)
@@ -45,7 +46,7 @@ def verify_token(token):
     from main import User
     g.user = None
 
-    g.target_cache = {} # Todo create a decorator to do this
+    g.target_cache = {}  # Todo create a decorator to do this
 
     try:
         data = jwt.loads(token)
