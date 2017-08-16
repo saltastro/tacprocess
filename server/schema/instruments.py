@@ -24,9 +24,11 @@ class Instrument(graphene.Interface):
     name = graphene.String()
     proposal_code = graphene.String()
 
+
     @staticmethod
     def _make_instrument(instrument):
         proposal_code = instrument['Proposal_Code']
+
 
         if not pd.isnull(instrument['P1Hrs_Id']):
             g.proposal_instruments.\
@@ -39,6 +41,7 @@ class Instrument(graphene.Interface):
             g.proposal_instruments.setdefault(proposal_code, []).append(Bvit(name='Bvit'))
 
         if not pd.isnull(instrument['P1Rss_Id']):
+            print(instrument['RssFabryPerot_Mode'])
             g.proposal_instruments.\
                 setdefault(proposal_code, [])\
                 .append(
@@ -47,9 +50,10 @@ class Instrument(graphene.Interface):
                         xml_detector_mode=instrument['RssXmlDetectorMode'],
                         rss_mode=instrument['RssMode'],
                         rss_grading=instrument['RssGrating'],
-                        mask=RssMask(mask_type=instrument['RssMaskType'],
-                                     mos_description=instrument['RssMosDescription']),
-                        fabry_perot=FabryPerot(
+                        mask=None if pd.isnull(instrument['RssMaskType']) else RssMask(
+                            mask_type=instrument['RssMaskType'],
+                            mos_description=instrument['RssMosDescription']),
+                        fabry_perot=None if pd.isnull(instrument['RssFabryPerot_Mode']) else FabryPerot(
                             fabry_perot_mode=instrument['RssFabryPerot_Mode'],
                             fabry_perot_description=instrument['RssFabryPerot_Description'],
                             etalon_config=instrument['RssEtalonConfig']),
