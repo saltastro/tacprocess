@@ -1,8 +1,6 @@
 import graphene
 from flask import g
 from schema.partner import Partner
-from data.partner import get_partner_of
-
 from schema.proposal import Proposal
 from data.proposal import get_proposals_of
 
@@ -20,13 +18,13 @@ class Query(graphene.ObjectType):
     partners = graphene.Field(graphene.List(Partner), partner_code=graphene.String())
 
     p1_proposals = graphene.Field(graphene.List(Proposal), partner_code=graphene.String(), semester=graphene.String(),
-                               investigator_email=graphene.String(), proposal_code=graphene.String())
+                                  investigator_email=graphene.String(), proposal_code=graphene.String())
     targets = graphene.Field(graphene.List(Target), target_name=graphene.String(), proposal_code=graphene.String(),
                              semester=graphene.String())
 
     @graphene.resolve_only_args
     def resolve_partners(self, **args):
-        return get_partner_of(**args)
+        return Partner.get_partner(**args)
 
     @graphene.resolve_only_args
     def resolve_p1_proposals(self, semester, **args):
