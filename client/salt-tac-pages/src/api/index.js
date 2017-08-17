@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-import FAKE_DATA from '../fakeSemesterData';
-
 import Partner from '../util/partner';
 
 const API_BASE_URL = 'http://localhost:5001';
@@ -91,7 +89,7 @@ export function fetchSemesterData(partner, semester) {
 {
   partners {
     partnerCode,
-    distributedTimes {
+    partnerDistributedTimes {
       semester
       scienceTime {
         p0AndP1
@@ -107,23 +105,14 @@ export function fetchSemesterData(partner, semester) {
   }
 }
 `;
-    return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(convertSemesterData(FAKE_DATA.data, semester, partner)), 1);
-    });
-    // return graphqlClient.post('/graphql', query)
-    //         .then((response) => {
-    //             if (response.data.errors) {
-    //                 throw new Error(response.data.errors[0].message);
-    //             }
-    //             return {
-    //                 proposals: [],
-    //                 targets: [],
-    //                 availableTime: {}
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             throw error;
-    //         });
+
+    return graphqlClient.post('/graphql', query)
+            .then((response) => {
+                if (response.data.errors) {
+                    throw new Error(response.data.errors[0].message);
+                }
+                return convertSemesterData(response.data, semester, partner)
+            });
 }
 
 const convertUserData = (userData) => {
@@ -139,7 +128,7 @@ const convertUserData = (userData) => {
 };
 
 export function login(username, password) {
-    return jsonClient.post('/login',
+    return jsonClient.post('/token',
                            {
                                username,
                                password
@@ -155,12 +144,11 @@ export function saveUser(user) {
     if (!user) {
         return;
     }
-    console.log('SAVING...', user.partner);
     localStorage.setItem(USER_STORAGE_KEY,
                          JSON.stringify(
                                  {
-                                 ...user,
-                                     partner: user.partner.code
+                                     ...user,
+                                     partner: user.partner ? user.partner.code : null
                                  }
                          ));
 }
