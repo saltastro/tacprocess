@@ -12,7 +12,7 @@ class User:
     chair = None
     partner_id = None
 
-    def __init__(self, user_cred):
+    def __init__(self, user_id):
         settings = []
         vas = []
         sql = "SELECT PiptUser.PiptUser_Id as PiptUser_Id, Username, Password, FirstName, Surname, PiptSetting_Id, Value, " \
@@ -22,38 +22,65 @@ class User:
               "         JOIN PiptUserSetting on (PiptUser.PiptUser_Id = PiptUserSetting.PiptUser_Id) " \
               "         LEFT JOIN PiptUserTAC on (PiptUser.PiptUser_Id = PiptUserTAC.PiptUser_Id) " \
               "         LEFT JOIN Partner ON (PiptUserTAC.Partner_Id=Partner.Partner_Id)" \
-              "     WHERE PiptUser.Username = '{username}' AND PiptUser.Password = md5('{password}') "\
-            .format(username=user_cred["username"], password=user_cred["password"])
+              "     WHERE PiptUser.PiptUser_Id = '{user_id}' "\
+            .format(user_id=user_id)
 
         user = pd.read_sql(sql, conn)
-        if len(user['Username'].values[0]) > 0:
-            # TODO: Handle permissions
-            # for i, u in user.iterrows():
-            #     settings.append(int(u['PiptSetting_Id']))
-            #     vas.append(int(u['Value']))
-            self.pipt_user_id = int(user["PiptUser_Id"].values[0])
-            self.username = user['Username'].values[0]
-            self.first_name = user['FirstName'].values[0]
-            self.surname = user['Surname'].values[0]
-            self.partner_code = user['Partner_Code'].values[0]
-            # self.pipt_setting_ids = settings
-            # self.values = vas
-            self.chair = bool(int(user['Chair'].values[0])) if user['Chair'].values[0] is not None else False
-        print(self.username)
+        # TODO: Handle permissions
+        # for i, u in user.iterrows():
+        #     settings.append(int(u['PiptSetting_Id']))
+        #     vas.append(int(u['Value']))
+        self.pipt_user_id = int(user["PiptUser_Id"].values[0])
+        self.username = user['Username'].values[0]
+        self.first_name = user['FirstName'].values[0]
+        self.surname = user['Surname'].values[0]
+        self.partner_code = user['Partner_Code'].values[0]
+        # self.pipt_setting_ids = settings
+        # self.values = vas
+        self.chair = bool(int(user['Chair'].values[0])) if user['Chair'].values[0] is not None else False
 
-    def get_token(self):
+    @staticmethod
+    def find_user_id(username, password):
         """
+        Find the user id (i.e. the value of the PiptUser_Id column in the PiptUser table) for the user with the given
+        username anb password. None is returned if there exists no user with the given credentials.
 
-        :param args:
-        :return:
-        """
-        token_username = {"error": "user not valid"}
-        """
-        it creates a token for  the user using users username and password
-        :param args: the users credentials(username and password)
-        :return: user token
+        :param username: username
+        :param password: password
+        :return: the user id
         """
 
-        token_username = {'username': self.username}
-        token = jwt.dumps(token_username)
+        sql = "SELECT PiptUser_Id FROM PiptUser WHERE Username='{username}' AND Password=MD5('{password}')" \
+            .format(username=username, password=password)
+
+        user = pd.read_sql(sql, conn)
+        if len(user['PiptUser_Id']) > 0:
+            return user['PiptUser_Id'].values[0]
+        else:
+            return None
+
+    @staticmethod
+    def create_token(user_id):
+        """
+        Create a token containing the given user id.
+
+        :param user_id:
+        :return: the token
+        """
+
+        token = jwt.dumps({'user_id': str(user_id)})
         return token
+
+    @staticmethod
+    def from_token(token):
+        """
+        Create a User instance from a token.
+
+        :param token: token
+        :return: the User instance
+        """
+
+        data = jwt.loads(token)
+        user_id = data['user_id']
+
+        return User(user_id)

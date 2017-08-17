@@ -20,16 +20,16 @@ auth = HTTPTokenAuth(scheme='Token')
 
 
 
-@app.route("/login", methods=['POST'])
-def login():
+@app.route("/token", methods=['POST'])
+def token():
     from main import User
-    user = User(request.json)
+    user_credentials = request.json
+    user_id = User.find_user_id(username=user_credentials.get('username', ''),
+                                password=user_credentials.get('password', ''))
+    if user_id is None:
+        raise ValueError('Invalid username or password.')
     return jsonify({
-        'token': user.get_token().decode('utf-8'),
-        'username': user.username,
-        'firstName': user.first_name,
-        'surname': user.surname,
-        'partnerCode': user.partner_code
+        'token': User.create_token(user_id).decode('utf-8')
     })
 
 
