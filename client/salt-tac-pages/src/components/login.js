@@ -35,7 +35,7 @@ export class Login extends Component {
     render() {
         const {username, password} = this.state;
 
-        if (this.props.user) {
+        if (this.props.user && this.props.user.token) {
             return <Redirect to={this.redirectPath()}/>;
         }
 
