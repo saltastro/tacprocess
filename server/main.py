@@ -1,17 +1,9 @@
 import pandas as pd
 import os
-from flask import request
-from app import app
-
-from itsdangerous import TimedJSONWebSignatureSerializer as JWT
-
-
-jwt = JWT(app.config['SECRET_KEY'], expires_in=3600)
-
+from flask import g
+from werkzeug.security import check_password_hash
 
 from data.common import conn
-
-
 
 
 class User:
@@ -20,65 +12,40 @@ class User:
     pipt_setting_ids = None
     values = None
     chair = None
+    roles = None
     partner_id = None
 
-    def __init__(self, user_cred):
-        settings = []
-        vas = []
-        sql = "SELECT PiptUser.PiptUser_Id as PiptUser_Id, Username, Password, FirstName, Surname, PiptSetting_Id, " \
+    def __init__(self, user):
+        self.pipt_user_id = int(user["PiptUser_Id"].values[0])
+        self.username = user['Username'].values[0]
+        self.first_name = user['FirstName'].values[0]
+        self.surname = user['Surname'].values[0]
+        self.partner_code = user['Partner_Code'].values[0]
+        self.roles = 'ALL' if int(user['Value'].values[0]) == 3 else 'OWN' \
+            if int(user['Value'].values[0]) == 1 \
+            else None
+
+        self.chair = bool(int(user['Chair'].values[0])) if user['Chair'].values[0] is not None else False
+
+    @staticmethod
+    def user_login(credentials):
+
+        sql = "SELECT PiptUser.PiptUser_Id as PiptUser_Id, Username, FirstName, Surname, PiptSetting_Id, " \
               " Value, Partner_Code, Chair" \
               "     FROM PiptUser " \
               "         JOIN Investigator using(Investigator_Id) " \
               "         JOIN PiptUserSetting on (PiptUser.PiptUser_Id = PiptUserSetting.PiptUser_Id) " \
               "         LEFT JOIN PiptUserTAC on (PiptUser.PiptUser_Id = PiptUserTAC.PiptUser_Id) " \
               "         LEFT JOIN Partner ON (PiptUserTAC.Partner_Id=Partner.Partner_Id)" \
-              "     WHERE PiptUser.Username = '{username}' AND PiptUser.Password = md5('{password}') "\
-            .format(username=user_cred["username"], password=user_cred["password"])
-
-        user = pd.read_sql(sql, conn)
-        if len(user['Username'].values[0]) > 0:
-            # TODO: Handle permissions
-            # for i, u in user.iterrows():
-            #     settings.append(int(u['PiptSetting_Id']))
-            #     vas.append(int(u['Value']))
-            self.pipt_user_id = int(user["PiptUser_Id"].values[0])
-            self.username = user['Username'].values[0]
-            self.first_name = user['FirstName'].values[0]
-            self.surname = user['Surname'].values[0]
-            self.partner_code = user['Partner_Code'].values[0]
-            # self.pipt_setting_ids = settings
-            # self.values = vas
-            self.chair = bool(int(user['Chair'].values[0])) if user['Chair'].values[0] is not None else False
-        print(self.username)
-
-    def get_token(self):
-        """
-
-        :param args:
-        :return:
-        """
-        token_username = {"error": "user not valid"}
-        """
-        it creates a token for  the user using users username and password
-        :param args: the users credentials(username and password)
-        :return: user token
-        """
-
-        token_username = {'username': self.username}
-        token = jwt.dumps(token_username)
-        return token
-
-    @staticmethod
-    def user_login(credentials):
-
-        sql = 'SELECT Username FROM PiptUser ' \
-              ' WHERE Username = "{username}" AND Password = md5("{password}") '\
+              "     WHERE PiptUser.Username = '{username}' AND Password = md5('{password}') AND PiptSetting_Id = 20 " \
             .format(username=credentials['username'], password=credentials['password'])
-
         results = pd.read_sql(sql, conn)
 
-        return None if results.empty else results['Username'].values[0]
+        if results.empty:
+            return False
+        g.user = User(results)
+        return True
 
 
 if __name__ == "__main__":
-    user = User.user_login({'username':'nhlavutelo', 'password':os.environ['PASSWORD']})
+    user = User.user_login({'username':'nhlavutelo', 'password': os.environ['PASSWORD']})
