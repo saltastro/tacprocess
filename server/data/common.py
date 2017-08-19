@@ -83,12 +83,12 @@ def get_semester_of(semester_code):
 
 
 def make_user(_user):
-    from schema.common import User
+    from schema.common import Person
 
-    user_ = User(
+    user_ = Person(
         user_id=_user['Investigator_Id'],
-        lastname=_user['Surname'],
-        firstname=_user['FirstName'],
+        last_name=_user['Surname'],
+        first_name=_user['FirstName'],
         email=_user['Email'],
         # roles=_user[''][0],
         phone=_user['Phone'],

@@ -195,11 +195,11 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
         proposal_.status = proposal['Status']  # Enum
         proposal_.proposal_type = proposal['Proposal_Type']  # use Emun
 
-        proposal_.pi = self._make_person(lastname=proposal['PIS'], firstname=proposal['PIF'],
+        proposal_.pi = self._make_person(last_name=proposal['PIS'], first_name=proposal['PIF'],
                                          email=proposal['PIE'], phone=proposal['PIP'])
-        proposal_.pc = self._make_person(lastname=proposal['PCS'], firstname=proposal['PCF'],
+        proposal_.pc = self._make_person(last_name=proposal['PCS'], first_name=proposal['PCF'],
                                          email=proposal['PCE'], phone=proposal['PCP'])
-        proposal_.liaison_s_a = self._make_person(lastname=proposal['LAS'], firstname=proposal['LAF'],
+        proposal_.liaison_s_a = self._make_person(last_name=proposal['LAS'], first_name=proposal['LAF'],
                                                   email=proposal['LAE'], phone=proposal['LAP'])
         # proposal_.time_requests = proposal['ReqTimeAmount']
 
@@ -210,9 +210,9 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
         # proposal_.thesis = self._make_thesis(proposal)  # todo make pl
         return proposal_
 
-    def _make_person(self, lastname, firstname, email, phone):
+    def _make_person(self, last_name, first_name, email, phone):
         return Person(
-            surname=lastname, firstname=firstname, email=email, phone=phone
+            surname=last_name, first_name=first_name, email=email, phone=phone
         )
 
     def _make_thesis(self, thesis):
@@ -220,7 +220,7 @@ class Proposal(graphene.ObjectType): # is P1Proposal will need an interface Todo
             return Thesis(
                 thesis_type=thesis['ThesisType'],
                 thesis_description=thesis['ThesisDescr'],
-                student=self._make_person(lastname=thesis['STS'], firstname=thesis['STF'],
+                student=self._make_person(last_name=thesis['STS'], first_name=thesis['STF'],
                                           email=thesis['STE'], phone=thesis['STP'])
             )
         return None
