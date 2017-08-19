@@ -2,7 +2,7 @@ import graphene
 from flask import g
 import pandas as pd
 from graphene import relay as r, resolve_only_args
-from .common import Semester, User, ObservingConditions, Thesis
+from .common import Semester, Person, ObservingConditions, Thesis
 from .target import Target
 from data.common import get_user, get_p1_thesis, get_observing_conditions, conn
 from data.proposal import get_proposal_ids
@@ -60,15 +60,6 @@ class ProposalTimeAllocations(graphene.ObjectType):  # todo make singular
             key = "p" + str(prio)
             p_times[key] = alloc
         return self._make_allocation(p_times)
-
-
-class Person(graphene.ObjectType):
-    class Meta:
-        interfaces = (r.Node,)
-    firstName = graphene.String()
-    surname = graphene.String()
-    email = graphene.String()
-    phone = graphene.String()
 
 
 class TimeRequests(graphene.ObjectType):
