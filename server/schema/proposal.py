@@ -65,7 +65,7 @@ class ProposalTimeAllocations(graphene.ObjectType):  # todo make singular
 class Person(graphene.ObjectType):
     class Meta:
         interfaces = (r.Node,)
-    firstname = graphene.String()
+    firstName = graphene.String()
     surname = graphene.String()
     email = graphene.String()
     phone = graphene.String()
