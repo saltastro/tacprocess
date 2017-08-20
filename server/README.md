@@ -68,20 +68,25 @@ For this api what ever you are queiring for, a semester must be provided to impo
 
 ```
 {
-  proposals(semester:"2017-2"){
-    proposalCode
+  viewer {
+    proposals(semester:"2017-2"){
+      proposalCode
+    }
   }
 }
 ```
 
 this will return a json object 
 
-```{
+```
+{
+  "viewer": {
     "data": {
-        "proposals": [
-            ...List of proposal code of that semester...
-        ]
+      "proposals": [
+        ...List of proposal code of that semester...
+      ]
     }
+  }
 }
 ```
 
@@ -93,14 +98,16 @@ and arguments
 
 ```
 {
- proposals(semester:"2017-2", partnerCode:"RSA"){
-  proposalCode
-  targets{
-    name
-    coordinates{
-      ra
-      dec
-    }      
+  viewer {
+    proposals(semester:"2017-2", partnerCode:"RSA"){
+      proposalCode
+      targets{
+        name
+        coordinates{
+          ra
+          dec
+        }      
+      }
     }
   }
 }
@@ -108,7 +115,9 @@ and arguments
 
 the above Query will return 
 
-```{
+```
+{
+  "viewer": {
     "data": {
         "proposals": [
             ...List of proposal code of that semester...
@@ -121,7 +130,9 @@ the above Query will return
             }...
         ]
     }
+  }
 }
+```
 
 you can learn more about graphql querys on [graphql querys link](http://graphql.org/learn/queries/)
 
