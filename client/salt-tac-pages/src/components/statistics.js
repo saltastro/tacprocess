@@ -67,30 +67,30 @@ const GeneralStatistics = ({partner, semester, proposals, availableTime}) => (
             <div>
                 Total number of proposals: {statistics.proposalsCount(proposals)}
             </div>
-            <div>
-                Time available for partner: {statistics.availableScienceTime(availableTime).toFixed(1)} hrs
-            </div>
-            <div>
-                Time requested from partner: {statistics.totalRequestedTime(proposals, partner, semester).toFixed(1)} hrs
-            </div>
-            <div>
-                Subscription rate for partner: {statistics.oversubscriptionRate(proposals, partner, semester, availableTime).toFixed(2)} hrs
-            </div>
-            <div>
-                Average request per proposal: {statistics.averageRequestedTime(proposals, partner, semester).toFixed(1)} hrs
-            </div>
-            <div>
-                Number of thesis projects: {statistics.thesisProjectsCount(proposals)}
-            </div>
-            <div>
-                Number of P4 proposals: {statistics.p4ProposalsCount(proposals)}
-            </div>
-            <div>
-                Number of new long term proposals: {statistics.newLongtermProposalsCount(proposals, semester)}
-            </div>
-            <div>
-                Number of old long term proposals: {statistics.oldLongtermProposalsCount(proposals, semester)}
-            </div>
+            {/*<div>*/}
+                {/*Time available for partner: {statistics.availableScienceTime(availableTime).toFixed(1)} hrs*/}
+            {/*</div>*/}
+            {/*<div>*/}
+                {/*Time requested from partner: {statistics.totalRequestedTime(proposals, partner, semester).toFixed(1)} hrs*/}
+            {/*</div>*/}
+            {/*<div>*/}
+                {/*Subscription rate for partner: {statistics.oversubscriptionRate(proposals, partner, semester, availableTime).toFixed(2)} hrs*/}
+            {/*</div>*/}
+            {/*<div>*/}
+                {/*Average request per proposal: {statistics.averageRequestedTime(proposals, partner, semester).toFixed(1)} hrs*/}
+            {/*</div>*/}
+            {/*<div>*/}
+                {/*Number of thesis projects: {statistics.thesisProjectsCount(proposals)}*/}
+            {/*</div>*/}
+            {/*<div>*/}
+                {/*Number of P4 proposals: {statistics.p4ProposalsCount(proposals)}*/}
+            {/*</div>*/}
+            {/*<div>*/}
+                {/*Number of new long term proposals: {statistics.newLongtermProposalsCount(proposals, semester)}*/}
+            {/*</div>*/}
+            {/*<div>*/}
+                {/*Number of old long term proposals: {statistics.oldLongtermProposalsCount(proposals, semester)}*/}
+            {/*</div>*/}
         </div>
 );
 
@@ -194,11 +194,11 @@ export class Statistics extends Component {
                                        proposals={proposals}
                                        availableTime={availableTime}/>
 
-                    <svg width={500} height={500}>
-                    <RequestedTimeHistogram proposals={proposals}
-                                            partner={partner}
-                                            semester={semester}/>
-                    </svg>
+                    {/*<svg width={500} height={500}>*/}
+                    {/*<RequestedTimeHistogram proposals={proposals}*/}
+                                            {/*partner={partner}*/}
+                                            {/*semester={semester}/>*/}
+                    {/*</svg>*/}
                 </div>
         )
     }
