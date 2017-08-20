@@ -22,6 +22,7 @@ class User(graphene.ObjectType):
                                   investigator_email=graphene.String(), proposal_code=graphene.String())
     targets = graphene.Field(graphene.List(Target), target_name=graphene.String(), proposal_code=graphene.String(),
                              semester=graphene.String())
+    partners = graphene.Field(graphene.List(Partner))
 
     def __init__(self, pipt_user_id, **args):
         super().__init__(**args)
