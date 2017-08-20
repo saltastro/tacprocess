@@ -11,12 +11,13 @@ const jsonClient = axios.create({
                                     }
                             });
 
-const graphqlClient = axios.create({
-                                       baseURL: API_BASE_URL,
-                                       headers: {
-                                           'Content-Type': 'application/graphql'
-                                       }
-                                   });
+const graphqlClient = (token) => axios.create({
+                                                  baseURL: API_BASE_URL,
+                                                  headers: {
+                                                      'Authorization': `Token ${token}`,
+                                                      'Content-Type': 'application/graphql'
+                                                  }
+});
 
 const convertSemesterData = (semesterData, semester, partner) => {
     // targets
@@ -37,81 +38,106 @@ const convertSemesterData = (semesterData, semester, partner) => {
                                       target.proposalCode === proposal.proposalCode ? [...t, target] : t,
                               []);
     };
-    const proposals = semesterData.proposals
-            .filter((proposal) => partner.hasNonZeroTimeRequestFor(proposal, semester))
-            .map((proposal) => (
-            {
-                ...proposal,
-                timeRequests: proposal.timeRequests.map((tr) => (
-                        {
-                            semester: tr.semester,
-                            partner: Partner.partnerByCode(tr.partnerCode),
-                            requestedTime: tr.requestedTime
-                        }
-                )),
-                targets: proposalTargets(proposal)
-            }
-    ));
+    const proposals = semesterData.p1Proposals;
+            // .filter((proposal) => partner.hasNonZeroTimeRequestFor(proposal, semester));
+            // .map((proposal) => (
+            // {
+            //     ...proposal,
+            //     timeRequests: proposal.timeRequests.map((tr) => (
+            //             {
+            //                 semester: tr.semester,
+            //                 partner: Partner.partnerByCode(tr.partnerCode),
+            //                 requestedTime: tr.timeRequest
+            //             }
+            //     )),
+            //     targets: proposalTargets(proposal)
+            // }
+            //      )
+            // );
 
     // available time
-    const addAvailableTimes = (availableTimes) => {
-        return availableTimes.reduce((total, time) => (
-                {
-                    scienceTime: {
-                        p0AndP1: total.scienceTime.p0AndP1 + time.scienceTime.p0AndP1,
-                        p2: total.scienceTime.p2 + time.scienceTime.p2,
-                        p3: total.scienceTime.p3 + time.scienceTime.p3
-                    },
-                    allocationTime: {
-                        p0AndP1: total.allocationTime.p0AndP1 + time.allocationTime.p0AndP1,
-                        p2: total.allocationTime.p2 + time.allocationTime.p2,
-                        p3: total.allocationTime.p3 + time.allocationTime.p3
-                    }
-                }
-        ),
-                                     {
-                                         scienceTime: {p0AndP1: 0, p2: 0, p3: 0},
-                                         allocationTime: {p0AndP1: 0, p2: 0, p3: 0}
-                                     });
-    };
-
-    const allAvailableTimes = semesterData.partners.reduce((times, partner) => [...times, ...partner.distributedTimes],
-                                                           []);
+    // const addAvailableTimes = (availableTimes) => {
+    //     return availableTimes.reduce((total, time) => (
+    //             {
+    //                 scienceTime: {
+    //                     p0AndP1: total.scienceTime.p0AndP1 + time.scienceTime.p0AndP1,
+    //                     p2: total.scienceTime.p2 + time.scienceTime.p2,
+    //                     p3: total.scienceTime.p3 + time.scienceTime.p3
+    //                 },
+    //                 allocationTime: {
+    //                     p0AndP1: total.allocationTime.p0AndP1 + time.allocationTime.p0AndP1,
+    //                     p2: total.allocationTime.p2 + time.allocationTime.p2,
+    //                     p3: total.allocationTime.p3 + time.allocationTime.p3
+    //                 }
+    //             }
+    //     ),
+    //                                  {
+    //                                      scienceTime: {p0AndP1: 0, p2: 0, p3: 0},
+    //                                      allocationTime: {p0AndP1: 0, p2: 0, p3: 0}
+    //                                  });
+    // };
+    //
+    // const allAvailableTimes = semesterData.partners.reduce((times, partner) => [...times, ...partner.distributedTimes],
+    //                                                        []);
     return {
         proposals,
         targets,
-        availableTime: addAvailableTimes(allAvailableTimes)
+        // availableTime: addAvailableTimes(allAvailableTimes)
     };
 };
 
 export function fetchSemesterData(partner, semester) {
     const query = `
 {
-  partners {
-    partnerCode,
-    partnerDistributedTimes {
-      semester
-      scienceTime {
-        p0AndP1
-        p2
-        p3
+  viewer {
+    p1Proposals(semester: "${semester}") {
+      proposalCode
+      timeRequests {
+        semester
+        partnerCode
+        timeRequest
       }
-      allocationTime {
-        p0AndP1
-        p2
-        p3
+    }
+    
+    targets(semester: "${semester}") {
+      coordinates {
+        ra
+        dec
+      }
+      proposalCode
+    }
+      
+    partners {
+      partnerCode,
+      partnerDistributedTimes {
+        semester
+        scienceTime {
+          p0AndP1
+          p2
+          p3
+        }
+        allocationTime {
+          p0AndP1
+          p2
+          p3
+        }
       }
     }
   }
 }
 `;
 
-    return graphqlClient.post('/graphql', query)
+    const token = () => {
+        const user = loadUser();
+        return user && user.token ? user.token : '';
+    };
+
+    return graphqlClient(token()).post('/graphql', query)
             .then((response) => {
                 if (response.data.errors) {
                     throw new Error(response.data.errors[0].message);
                 }
-                return convertSemesterData(response.data, semester, partner)
+                return convertSemesterData(response.data.data.viewer, semester, partner)
             });
 }
 
