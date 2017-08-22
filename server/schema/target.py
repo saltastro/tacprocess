@@ -61,9 +61,9 @@ class Target(graphene.ObjectType):
     def __make_target_coordinates(coordinates):
         """
         is a private method that is only called by private method make_target()
-        <NB> this methods must not be called anywhere or be called by any method <NB> 
+        <NB> this methods must not be called anywhere or be called by any method <NB>
         :param coordinates: a row from the query results of target
-        :return: Target Coord class mapped 
+        :return: Target Coord class mapped
         """
         ra_ = (coordinates['RaH'] + coordinates['RaM']/60 + coordinates['RaS']/3600)/(24/360)
         sign = -1 if coordinates['DecSign'] == '-' else 1
@@ -87,7 +87,7 @@ class Target(graphene.ObjectType):
     def __make_target_magnitudes(magnitude):
         """
         is a private method that is only called by private method make_target()
-        <NB> this methods must not be called anywhere or be called by any method <NB> 
+        <NB> this methods must not be called anywhere or be called by any method <NB>
         :param magnitude: a row from the query results of target
         :return: Target Magnitude class mapped
         """
@@ -100,7 +100,7 @@ class Target(graphene.ObjectType):
     def __make_target_sub_type(sub_type):
         """
         is a private method that is only called by private method make_target()
-        <NB> this methods must not be called anywhere or be called by any method <NB> 
+        <NB> this methods must not be called anywhere or be called by any method <NB>
         :param sub_type: a row from the query results of target
         :return: Target Sub Type class mapped
         """
@@ -142,8 +142,8 @@ class Target(graphene.ObjectType):
         """
         is a private method that is only called by get_proposals
         <NB> this methods must not be called anywhere or be called by any method<NB>
-        :param proposal_ids: 
-        :return: 
+        :param proposal_ids:
+        :return:
         """
         sql = 'SELECT Target_Id, Target_Name, RequestedTime, Optional, MaxLunarPhase, Proposal_Code, ' \
               '   RaH, RaM, RaS, DecSign, DecD, DecM, DecS, Equinox, EstripE, EstripS, WstripS, WstripE, EazS, EazE, ' \
@@ -179,12 +179,12 @@ class Target(graphene.ObjectType):
         """
         having how you need the targets to be filtered this method can be called
         with one mandatory argument <args> semester <args> of type string like '"2017-2"'
-        args can only be <args> partner_code or/and proposal_code and semester<args> other will not be filtered but 
+        args can only be <args> partner_code or/and proposal_code and semester<args> other will not be filtered but
         ignored
         :param args: how data need to be filtered
         :return: a list targets filtered but args
         """
-        from ..data.proposal import get_proposal_ids
+        from data.proposal import get_proposal_ids
         proposal_ids = get_proposal_ids(**args)
 
         return Target.get_targets(proposal_ids)

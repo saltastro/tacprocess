@@ -7,6 +7,7 @@ from data.proposal import get_proposals_of
 from schema.target import Target
 from schema.instruments import Hrs, Rss, Salticam, Bvit
 
+
 class Query(graphene.ObjectType):
     """
     root and the only query that that can be made 
@@ -21,16 +22,13 @@ class Query(graphene.ObjectType):
     targets = graphene.Field(graphene.List(Target), target_name=graphene.String(), proposal_code=graphene.String(),
                              semester=graphene.String())
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     @graphene.resolve_only_args
     def resolve_partners(self, **args):
         return Partner.get_partner(**args)
 
     @graphene.resolve_only_args
     def resolve_p1_proposals(self, semester, **args):
-
+        g.target_cache = {}
         return get_proposals_of(semester=semester, **args)
 
     @graphene.resolve_only_args
@@ -42,6 +40,7 @@ class Query(graphene.ObjectType):
         :param semester:
         :return: list of targets
         """
+        g.target_cache = {}
         return Target.get_targets_of(semester=semester, **args)
 
 

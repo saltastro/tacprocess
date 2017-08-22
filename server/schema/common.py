@@ -85,13 +85,13 @@ class UserRole(g.Enum):
     ADMINISTRATOR = 6
 
 
-class User(g.ObjectType):
+class Person(g.ObjectType):
     class Meta:
         interfaces = (r.Node,)
 
     user_id = g.ID()
-    lastname = g.String()
-    firstname = g.String()
+    surname = g.String()
+    first_name = g.String()
     email = g.String()
     # roles = graphene.Field(UserRole, description="A user role object")  # ** was a list **
     pipt_user_id = g.Int()
@@ -113,7 +113,7 @@ class Thesis(g.ObjectType): # was p1thesis
         interfaces = (r.Node,)
     thesis_type = g.String()  # be Enum
     thesis_description = g.String()
-    student = g.Field(User)
+    student = g.Field(Person)
     # todo add year of completion
 
 
