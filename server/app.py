@@ -43,7 +43,7 @@ def token():
     user_id = User.find_user_id(username=user_credentials.get('username', ''),
                                 password=user_credentials.get('password', ''))
     if user_id is None:
-        raise ValueError('Invalid username or password.')
+        return 'Invalid username or password.', 401
     return jsonify({
         'token': create_token(user_id).decode('utf-8')
     })
@@ -76,6 +76,10 @@ def create_token(user_id):
 app.add_url_rule('/graphql', view_func=auth.login_required(GraphQLView.as_view(
      'graphql', schema=schema, graphiql=True if is_development else False))) # for having the GraphiQL interface
 
+
+def create_app():
+
+    return app
 
 if __name__ == '__main__':
     app.run(port=5001)
