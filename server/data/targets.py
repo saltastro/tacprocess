@@ -1,4 +1,4 @@
-from data.my_mapper import Base
+from data.sdb_mapper import Base
 
 
 P1ProposalTargetModel = Base.classes.P1ProposalTarget
