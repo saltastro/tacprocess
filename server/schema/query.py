@@ -1,4 +1,4 @@
-from schema.all_sdb_schemas import *
+from schema.proposals import *
 from schema.targets import *
 from data.common import Semester as TypeSemester
 import graphene
