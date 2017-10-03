@@ -1,32 +1,33 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { applyMiddleware, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import { Provider } from 'react-redux';
+import ReactDOM from 'react-dom';
+import { BrowserRouter, Route } from "react-router-dom";
+import "semantic-ui-css/semantic.min.css";
+import {createStore, applyMiddleware} from "redux";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { BrowserRouter as Router } from 'react-router-dom';
 
+import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import App from './app';
-import { semesterData as semesterDataReducer, user as userReducer } from './reducers';
+import rootReducer from "./rootReducer"
+import { userLoggedIn } from "./actions/auth"
 
-import './semantic-dist/semantic.css';
-import './styles/index.css'
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk))
+);
 
-const rootReducer = (state={}, action) => {
-    return {
-        semesterData: semesterDataReducer(state.semesterData, action),
-        user: userReducer(state.user, action)
-    };
-};
+if (localStorage.tacPageJWT) {
+  const user = { token: localStorage.tacPageJWT };
+  store.dispatch(userLoggedIn(user))
+}
 
-const store = createStore(rootReducer,
-                          composeWithDevTools(applyMiddleware(thunk)));
-
-render(<Provider store={store}>
-    <Router>
-            <App/>
-    </Router>
-        </Provider>,
-        document.getElementById('root'));
+ReactDOM.render(
+  <BrowserRouter>
+    <Provider store={store}>
+      <Route component={App} />
+    </Provider>
+  </BrowserRouter>,
+  document.getElementById("root")
+);
 registerServiceWorker();
