@@ -50,7 +50,6 @@ class Semester:
                     "or '2017-1'")
 
         data = pd.read_sql(sql, conn)
-        print(data)
         try:
             semester = [Semester().__make_semester(data=s) for i, s in data.iterrows()][0]
         except IndexError:

@@ -9,6 +9,8 @@ class P1ProposalTarget(SQLAlchemyObjectType):
         interfaces = (relay.Node, )
         model = P1ProposalTargetModel
 
+    ProposalCode_Id = P1ProposalTargetModel.ProposalCode_Id
+
 
 class Target(SQLAlchemyObjectType):
     class Meta:
