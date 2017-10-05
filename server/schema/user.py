@@ -54,8 +54,20 @@ class User:
         :param user_id:
         :return: the token
         """
-        user = {'user_id': 'User:{user_id}'.format(user_id=user_id)}
-        print("USER ID: ", user)
+        user = {'user_id': '{user_id}'.format(user_id=user_id)}
         token = jwt.encode(user, "SECRET-KEY", algorithm='HS256').decode('utf-8')
 
         return jsonify({"user": {"token": token}})
+
+    @staticmethod
+    def is_valid_token(token):
+        print("Token: ")
+        try:
+
+            user = jwt.decode(token, "SECRET-KEY", algorithm='HS256')
+            print("User: ", user)
+            if 'user_id' in user:
+                return True
+            return False
+        except:
+            return False

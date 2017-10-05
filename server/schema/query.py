@@ -6,6 +6,7 @@ from graphene import relay
 
 list_to_map = instruments_list + proposals_list + targets_list
 
+
 class Query(graphene.ObjectType):
     node = relay.Node.Field()
 
