@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 
 class Semester(g.ObjectType):
 
-    semester_id = g.ID()
+    semester_id = g.Int()
     semester = g.String()
     start_semester = g.String()
     end_semester = g.String()

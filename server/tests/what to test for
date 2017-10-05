@@ -1,5 +1,10 @@
 ...Test
 
+describe('/proposals', () => {
+   it('should return all the proposals', () => {
+   }
+}
+
 Login
     -> are the users forced to login first
     -> are users getting a valid token

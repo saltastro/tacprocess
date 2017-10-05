@@ -17,14 +17,15 @@ class Proposal(SQLAlchemyObjectType):
 
     @staticmethod
     def get_proposal_ids(**args):
-        sql = " SELECT MAX(p.Proposal_Id) as Ids, Proposal_Code " \
+        sql = " SELECT MAX(p.Proposal_Id) as Ids, p.ProposalCode_Id as PCode_Ids " \
               "  FROM Proposal AS p " \
               "    JOIN ProposalCode AS pc ON (p.ProposalCode_Id=pc.ProposalCode_Id) " \
-              "    JOIN MultiPartner AS mp ON (mp.Proposal_Id=p.Proposal_Id) " \
+              "    JOIN MultiPartner AS mp ON (p.ProposalCode_Id=mp.ProposalCode_Id) " \
               "    JOIN Partner AS pa ON (mp.Partner_Id=pa.Partner_Id) " \
-              "  WHERE Phase=1 AND ProposalStatus_Id not in (3, 100, 6, 9) "
+              "  WHERE Phase=1 "
         if 'semester' in args:
             semester = TypeSemester.get_semester(semester_code=args['semester'])
+            print(semester)
             sql = sql + " AND mp.Semester_Id = {semester_id} ".format(semester_id=semester.id)
 
         if 'partner_code' in args:
@@ -34,7 +35,9 @@ class Proposal(SQLAlchemyObjectType):
             sql = sql + "AND pc.Proposal_Code = '{proposal_code}' ".format(proposal_code=args['proposal_code'])
         sql = sql + " GROUP BY pc.ProposalCode_Id "
         results = pd.read_sql(sql, conn)
-        return [int(x) for x in list(results['Ids'].values)]
+        ids = [int(x) for x in list(results['Ids'].values)]
+        pcode_ids = [int(x) for x in list(results['PCode_Ids'].values)]
+        return {'ProposalIds': ids, 'ProposalCodeIds': pcode_ids}
 
 
 class ProposalCode(SQLAlchemyObjectType):
@@ -102,7 +105,7 @@ class Transparency(SQLAlchemyObjectType):
         interfaces = (relay.Node, )
         model = TransparencyModel
 
-list_to_map = [
+proposals_list = [
     Investigator,
     MultiPartner,
     P1ObservingConditions,

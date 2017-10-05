@@ -1,7 +1,0 @@
-{
-  "trye3.py": true,
-  "tryer2.py": true,
-  "tryer2.py::test_allows_get_with_query_param": true,
-  "tryer2.py::test_sum_": true,
-  "tryer4.py": true
-}
