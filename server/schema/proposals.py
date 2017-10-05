@@ -3,7 +3,6 @@ from graphene_sqlalchemy import SQLAlchemyObjectType
 from data.common import Semester as TypeSemester, conn
 import pandas as pd
 from graphene import relay
-import graphene
 
 
 class Proposal(SQLAlchemyObjectType):
@@ -22,10 +21,10 @@ class Proposal(SQLAlchemyObjectType):
               "    JOIN ProposalCode AS pc ON (p.ProposalCode_Id=pc.ProposalCode_Id) " \
               "    JOIN MultiPartner AS mp ON (p.ProposalCode_Id=mp.ProposalCode_Id) " \
               "    JOIN Partner AS pa ON (mp.Partner_Id=pa.Partner_Id) " \
-              "  WHERE Phase=1 "
+              "    JOIN ProposalGeneralInfo AS pgi ON (pgi.ProposalCode_Id=p.ProposalCode_Id) " \
+              "  WHERE Phase=1 AND ProposalStatus_Id not in (4, 9, 6, 8, 5, 3, 100) "
         if 'semester' in args:
             semester = TypeSemester.get_semester(semester_code=args['semester'])
-            print(semester)
             sql = sql + " AND mp.Semester_Id = {semester_id} ".format(semester_id=semester.id)
 
         if 'partner_code' in args:
@@ -105,6 +104,12 @@ class Transparency(SQLAlchemyObjectType):
         interfaces = (relay.Node, )
         model = TransparencyModel
 
+
+class ProposalGeneralInfo(SQLAlchemyObjectType):
+    class Meta:
+        interfaces = (relay.Node, )
+        model = ProposalGeneralInfoModel
+
 proposals_list = [
     Investigator,
     MultiPartner,
@@ -113,11 +118,10 @@ proposals_list = [
     Proposal,
     ProposalCode,
     ProposalContact,
+    ProposalGeneralInfo,
     ProposalStatus,
     Semester,
     SemesterPhase,
     Transparency,
     ProposalType
 ]
-
-
