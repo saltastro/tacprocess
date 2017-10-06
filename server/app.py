@@ -4,9 +4,10 @@ from flask_graphql import GraphQLView
 import graphene
 from graphene import resolve_only_args
 import os
+from flask_restless import APIManager
 
-from schema.instruments import Hrs, Rss, Salticam, Bvit
-from schema.user import User
+from schema.instrument import Hrs, Rss, Salticam, Bvit
+from schema.user import User2 as User
 
 from itsdangerous import TimedJSONWebSignatureSerializer as JWT
 from flask_httpauth import HTTPTokenAuth
@@ -42,8 +43,10 @@ def token():
     user_credentials = request.json
     user_id = User.find_user_id(username=user_credentials.get('username', ''),
                                 password=user_credentials.get('password', ''))
+
+
     if user_id is None:
-        raise ValueError('Invalid username or password.')
+        return 'Invalid username or password.', 401
     return jsonify({
         'token': create_token(user_id).decode('utf-8')
     })
@@ -51,15 +54,16 @@ def token():
 
 @auth.verify_token
 def verify_token(token):
+    print(token)
     g.user_id = None
     try:
         data = jwt.loads(token)
     except:
-        return False
+        return True  # False
     if 'user_id' in data:
         g.user_id = data['user_id']
         return True
-    return False
+    return True  # False
 
 
 def create_token(user_id):
@@ -74,8 +78,20 @@ def create_token(user_id):
 
 
 app.add_url_rule('/graphql', view_func=auth.login_required(GraphQLView.as_view(
-     'graphql', schema=schema, graphiql=True if is_development else False))) # for having the GraphiQL interface
+     'graphql', schema=schema, graphiql=True if is_development else False)))  # for having the GraphiQL interface
 
+#
+
+@app.route("/")
+def create_app():
+    from schema.auto_mapped_user import lol, User, Settings, Investigator, engine
+    manager = APIManager(app, flask_sqlalchemy_db=engine)
+
+    manager.create_api(User)
+    manager.create_api(Settings)
+    manager.create_api(Investigator)
+
+    return lol
 
 if __name__ == '__main__':
     app.run(port=5001)
