@@ -27,3 +27,6 @@ __pycache__/
 
 # IDE file
 .idea/
+
+# Nhlavu's files
+/server/try*

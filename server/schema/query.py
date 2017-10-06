@@ -11,7 +11,7 @@ class Query(graphene.ObjectType):
     node = relay.Node.Field()
 
     proposals = graphene.List(Proposal, semester=graphene.String())
-    targets = graphene.List(P1ProposalTarget, semester=graphene.String())
+    targets = graphene.List(ProposalTarget, semester=graphene.String())
     instruments = graphene.List(P1Config, semester=graphene.String())
     p1_observing_conditions = graphene.List(P1ObservingConditions)
 
@@ -22,9 +22,9 @@ class Query(graphene.ObjectType):
         return results
 
     def resolve_targets(self, context, info, args):
-        query = P1ProposalTarget.get_query(info)
+        query = ProposalTarget.get_query(info)
         ids = Proposal.get_proposal_ids(semester=context['semester'])
-        results = query.filter(P1ProposalTarget.ProposalCode_Id.in_(ids['ProposalCodeIds'])).all()
+        results = query.filter(ProposalTarget.ProposalCode_Id.in_(ids['ProposalCodeIds'])).all()
         return results
 
     def resolve_instruments(self, context, info, args):

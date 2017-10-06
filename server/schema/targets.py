@@ -4,7 +4,7 @@ from graphene import relay
 import graphene
 
 
-class P1ProposalTarget(SQLAlchemyObjectType):
+class ProposalTarget(SQLAlchemyObjectType):
     class Meta:
         interfaces = (relay.Node, )
         model = P1ProposalTargetModel
@@ -64,7 +64,7 @@ class PiRanking(SQLAlchemyObjectType):
         interfaces = (relay.Node, )
         model = PiRankingModel
 
-targets_list = [P1ProposalTarget,
+targets_list = [ProposalTarget,
                 Target,
                 TargetCoordinates,
                 TargetMagnitudes,

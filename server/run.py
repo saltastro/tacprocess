@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, g
+from flask import Flask, jsonify, request, g, make_response
 from flask_graphql import GraphQLView
 from flask_httpauth import HTTPTokenAuth
 from schema.query import schema
@@ -29,6 +29,11 @@ def token():
 
 app.add_url_rule('/graphql', view_func=auth.login_required(
     GraphQLView.as_view('graphql', schema=schema, graphiql=True)))
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 if __name__ == '__main__':
     app.run(port=5001)

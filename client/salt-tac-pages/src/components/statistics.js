@@ -65,6 +65,7 @@ const CHART_HEIGHT = 500;
 const GeneralStatistics = ({partner, semester, proposals, availableTime}) => (
         <div>
             <div>
+                <br/>
                 Total number of proposals: {statistics.proposalsCount(proposals)}
             </div>
             {/*<div>*/}
@@ -228,4 +229,3 @@ const mapStateToProps = (state) => (
 );
 
 export default withRouter(connect(mapStateToProps)(Statistics));
-

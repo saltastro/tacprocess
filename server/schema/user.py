@@ -6,6 +6,14 @@ import jwt
 
 
 class User:
+    user_id = None
+    user_setting = None
+    user_value = None
+    def __init__(self, user_id, setting, value):
+        self.user_id = user_id
+        self.user_setting = setting
+        self.user_value = value
+
     @staticmethod
     def get_user_token(credentials):
         if credentials is None:
@@ -61,12 +69,15 @@ class User:
 
     @staticmethod
     def is_valid_token(token):
-        print("Token: ")
         try:
 
             user = jwt.decode(token, "SECRET-KEY", algorithm='HS256')
-            print("User: ", user)
             if 'user_id' in user:
+                sql = "SELECT PiptSetting_Id, Value FROM PiptUserSetting WHERE PiptSetting_Id = 20 " \
+                      "     AND PiptUser_Id = {user_id}".format(user_id=user["user_id"])
+                result = pd.read_sql(sql, conn)
+
+                g.user = User(user["user_id"], result.iloc[0]['PiptSetting_Id'], )
                 return True
             return False
         except:
