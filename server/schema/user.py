@@ -9,6 +9,7 @@ class User:
     user_id = None
     user_setting = None
     user_value = None
+
     def __init__(self, user_id, setting, value):
         self.user_id = user_id
         self.user_setting = setting
@@ -17,26 +18,33 @@ class User:
     @staticmethod
     def get_user_token(credentials):
         if credentials is None:
-            return User._user_error(not_provided=True), 401
+            return User._user_error(not_provided=True)
         try:
             username = credentials['username']
             password = credentials['password']
         except KeyError:
-            return User._user_error(not_provided=True), 401
+            return User._user_error(not_provided=True)
 
         user_id = User.query_id(username, password)
 
         if user_id is None:
-            return User._user_error(not_found=True), 401
-        return User.create_token(user_id), 200
+            return User._user_error(not_found=True)
+        return User.create_token(user_id)
+
+    @staticmethod
+    def basic_login(username, password):
+        token = User.get_user_token({'username': username, 'password': password})
+        if 'errors' in token or 'error' in token:
+            return False
+        return True
 
     @staticmethod
     def _user_error(not_provided=False, not_found=False):
         if not_provided:
-            return jsonify({'errors': {'global': 'username or password not provide'}})
+            return {'errors': {'global': 'username or password not provide'}}
 
         if not_found:
-            return jsonify({'errors': {'global': 'user not found'}})
+            return {'errors': {'global': 'user not found'}}
 
     @staticmethod
     def query_id(username, password):
@@ -65,19 +73,18 @@ class User:
         user = {'user_id': '{user_id}'.format(user_id=user_id)}
         token = jwt.encode(user, "SECRET-KEY", algorithm='HS256').decode('utf-8')
 
-        return jsonify({"user": {"token": token}})
+        return token
 
     @staticmethod
     def is_valid_token(token):
         try:
-
             user = jwt.decode(token, "SECRET-KEY", algorithm='HS256')
+
             if 'user_id' in user:
                 sql = "SELECT PiptSetting_Id, Value FROM PiptUserSetting WHERE PiptSetting_Id = 20 " \
                       "     AND PiptUser_Id = {user_id}".format(user_id=user["user_id"])
                 result = pd.read_sql(sql, conn)
-
-                g.user = User(user["user_id"], result.iloc[0]['PiptSetting_Id'], )
+                g.user = User(user["user_id"], result.iloc[0]['PiptSetting_Id'], result.iloc[0]['Value'],)
                 return True
             return False
         except:
