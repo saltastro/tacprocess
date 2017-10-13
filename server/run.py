@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify, request, g, make_response, Response
+from flask import Flask, jsonify, request, g, make_response, Response, render_template
 from flask_graphql import GraphQLView
 from flask_httpauth import HTTPTokenAuth, HTTPBasicAuth, MultiAuth
 from functools import wraps
@@ -64,11 +64,16 @@ def token():
 
 
 def f():
-    if os.environ["MODE"] == "1":
+    if os.environ["MODE"] == "PRODUCTION":
         return token_auth.login_required(GraphQLView.as_view('graphql', schema=schema))
     return requires_auth(GraphQLView.as_view('graphql', schema=schema, graphiql=True))
 
 app.add_url_rule('/graphql', view_func=f())
+
+
+@app.route("/about")
+def about():
+    return render_template('about.html')
 
 
 @app.errorhandler(404)

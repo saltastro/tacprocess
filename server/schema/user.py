@@ -1,7 +1,6 @@
 from flask import g
 import pandas as pd
 from data.common import conn
-from flask import jsonify
 import jwt
 
 
@@ -33,9 +32,10 @@ class User:
 
     @staticmethod
     def basic_login(username, password):
-        token = User.get_user_token({'username': username, 'password': password})
-        if 'errors' in token or 'error' in token:
+        user_id = User.query_id(username, password)
+        if user_id is None:
             return False
+        User.current_user(user_id)
         return True
 
     @staticmethod
@@ -81,11 +81,18 @@ class User:
             user = jwt.decode(token, "SECRET-KEY", algorithm='HS256')
 
             if 'user_id' in user:
-                sql = "SELECT PiptSetting_Id, Value FROM PiptUserSetting WHERE PiptSetting_Id = 20 " \
-                      "     AND PiptUser_Id = {user_id}".format(user_id=user["user_id"])
-                result = pd.read_sql(sql, conn)
-                g.user = User(user["user_id"], result.iloc[0]['PiptSetting_Id'], result.iloc[0]['Value'],)
+                User.current_user(user['user_id'])
                 return True
             return False
         except:
             return False
+
+    @staticmethod
+    def current_user(user_id):
+        if user_id is not None:
+            sql = "SELECT PiptUser_Id, PiptSetting_Id, Value FROM PiptUserSetting WHERE PiptSetting_Id = 20 " \
+                  "  AND PiptUser_Id = {user_id}".format(user_id=user_id)
+            result = pd.read_sql(sql, conn)
+            g.user = User(result.iloc[0]['PiptUser_Id'], result.iloc[0]['PiptSetting_Id'], result.iloc[0]['Value'], )
+
+
