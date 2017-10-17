@@ -1,3 +1,7 @@
+import { combineReducers } from "redux";
+import { routerReducer } from "react-router-redux";
+import apolloClient, { createNetworkInterface } from "apollo-client";
+
 import C from '../constants';
 import * as api from '../api';
 
@@ -90,3 +94,25 @@ export function user(state=initialUser, action) {
         return state;
     }
 }
+
+const networkInterface = createNetworkInterface({ uri: 'http://127.0.0.1:5000:graphgl'});
+
+networkInterface.use([{
+  applyMiddleware(req, next){
+    if (!req.options.headers){
+      req.options.headers = {};
+    }
+    req.options.headers.authorization = localStorage.getItem('tacPageJWT', '');
+    next();
+  },
+}]);
+
+export const client = new ApolloClinet({
+  networkInterface,
+});
+
+const rootReuducer = combineReducers({
+  routing: routerReducer,
+  apollo: client.reducer(),
+
+});
