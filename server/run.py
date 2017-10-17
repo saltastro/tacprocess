@@ -7,7 +7,6 @@ from functools import wraps
 from schema.query import schema
 from schema.user import User
 
-
 app = Flask(__name__)
 app.debug = True
 
@@ -49,6 +48,7 @@ def requires_auth(f):
         if not auth or not check_auth(auth.username, auth.password):
             return authenticate()
         return f(*args, **kwargs)
+
     return decorated
 
 
@@ -68,6 +68,7 @@ def f():
         return token_auth.login_required(GraphQLView.as_view('graphql', schema=schema))
     return requires_auth(GraphQLView.as_view('graphql', schema=schema, graphiql=True))
 
+
 app.add_url_rule('/graphql', view_func=f())
 
 
@@ -76,10 +77,14 @@ def about():
     return render_template('about.html')
 
 
+@app.route("/")
+def home():
+    return render_template('home.html')
+
+
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'errors': 'Not found'}), 404)
-
 
 
 if __name__ == '__main__':
