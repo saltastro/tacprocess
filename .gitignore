@@ -1,14 +1,14 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/client/salt-tac-pages/node_modules
+/node_modules
 /venv
 
 # testing
-/client/salt-tac-pages/coverage
+/coverage
 
 # production
-/client/salt-tac-pages/build
+/build
 
 # misc
 .DS_Store
@@ -30,3 +30,4 @@ __pycache__/
 
 # Nhlavu's files
 /server/try*
+public/
