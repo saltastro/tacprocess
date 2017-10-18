@@ -1,2 +1,0 @@
-#!/bin/sh
-GIT_WORK_TREE=/home/tacapi/tac_api git checkout -f
