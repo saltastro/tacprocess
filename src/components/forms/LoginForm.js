@@ -1,46 +1,56 @@
 import React from "react";
-import { Form, Button } from "semantic-ui-react";
-import Propotypes from "prop-types";
-import InLineError from "../messages/InLineError";
+import propTypes from "prop-types"
+
+import {Form, Button, Message} from "semantic-ui-react";
+
+import InLineError from "../messages/InLineError"
 
 class LoginForm extends React.Component {
-  state = {
+  state ={
     data: {
-      username: '',
-      password: ''
+      username:"",
+      password: ""
     },
     loading: false,
     errors: {}
 
   };
+  onChange = e =>
+    this.setState({
+      data:{...this.state.data,
+        [e.target.name]: e.target.value},
+    });
 
   onSubmit = () => {
     const errors = this.validate(this.state.data);
-    this.setState({ errors })
-    if (Object.keys(errors).lenght === 0) {
-      this.props.submit(this.state.data);
+    this.setState({ errors });
+    if (Object.keys(errors).length === 0) {
+      this.setState({ loading: true });
+      this.props
+        .submit(this.state.data)
+        .catch(err =>
+          this.setState({ errors: err.response.data.errors, loading: false })
+        );
     }
-  }
-
-
-  onChange = (e) => this.setState({
-    data:{...this.state.data, [e.target.name]: e.target.value
-  }});
-
+  };
 
   validate = (data) => {
-    const errors = {}
-    if (!data.username) errors.username = "Username can't be blank"
-    if (!data.password) errors.password = "Password can't be blank"
-
-    return errors
+    const errors = {};
+    if (!data.username) errors.username = "Please provide username";
+    if (!data.password) errors.password = "Please provide password";
+    return errors;
   }
 
-  render() {
-    const {data, errors, loading} = this.state;
+  render(){
+    const { data, errors, loading } = this.state;
     return(
       <Form onSubmit={this.onSubmit} loading={loading}>
-
+        {errors.global &&
+          <Message negative>
+            <Message.Header>Something went wrong</Message.Header>
+            <p>{errors.global}</p>
+          </Message>
+        }
 
         <Form.Field error={!!errors.username}>
           <label htmlFor="username">Username</label>
@@ -64,16 +74,13 @@ class LoginForm extends React.Component {
               onChange={this.onChange} />
         </Form.Field>
         {errors.password && <InLineError text={errors.password} />}
-        <br />
-        <Button primary>Login</Button>
+        <Button primary> Login </Button>
 
       </Form>
-      );
-    }
+    );
   }
-
-LoginForm.propTypes = {
-  submit: Propotypes.func.isRequired
 }
-
+LoginForm.propTypes = {
+  submit: propTypes.func.isRequired
+};
 export default LoginForm;
