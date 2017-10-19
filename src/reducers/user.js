@@ -1,11 +1,15 @@
-import{ USER_LOGGED_IN } from "../types";
+import{ USER_LOGGED_IN, USER_LOGGED_OUT } from "../types";
 
 
-export default function user(state={}, action={}) {
+export default function user(state = {}, action = {}) {
   switch (action.type) {
     case USER_LOGGED_IN:
       return action.user;
-    default: return state;
+
+    case USER_LOGGED_OUT:
+      return {};
+    default:
+      return state;
 
   }
 }

@@ -1,30 +1,33 @@
 import React from "react";
-import Propotypes from "prop-types";
-import { connect } from "react-redux";
+import PropTypes from 'prop-types'
+import { connect } from "react-redux"
+
 import LoginForm from "../forms/LoginForm";
 import { login } from "../../actions/auth";
 
 
-class LoginPage extends React.Component {
+class LoginPage extends  React.Component{
+
   submit = data =>
-    this.props.login(data).then(() => this.props.history.push("/"));
+    this.props.login(data)
+      .then( () => this.props.history.push("/")
+  );
 
   render(){
     return(
       <div>
-        <h1>Login Page</h1>
-
+        <h1>Welcome to LoginPage</h1>
         <LoginForm submit={this.submit} />
-        </div>
-      );
-    }
+      </div>
+    );
   }
+}
 
 LoginPage.propTypes = {
-  history: Propotypes.shape({
-    push: Propotypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
   }).isRequired,
-  login: Propotypes.func.isRequired
-}
+  login: PropTypes.func.isRequired
+};
 
 export default connect(null, { login })(LoginPage);

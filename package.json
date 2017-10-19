@@ -24,7 +24,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint src"
   },
-  "proxy": "http://tacweb.cape.saao.ac.za",
+  "proxy": "http://127.0.0.1:5001/ ",
   "devDependencies": {
     "eslint": "^4.9.0",
     "eslint-config-airbnb": "^15.0.1",
