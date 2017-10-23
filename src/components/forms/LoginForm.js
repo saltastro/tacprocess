@@ -1,8 +1,5 @@
-import React from "react";
+import React from 'react'
 import propTypes from "prop-types"
-
-import {Form, Button, Message} from "semantic-ui-react";
-
 import InLineError from "../messages/InLineError"
 
 class LoginForm extends React.Component {
@@ -21,7 +18,8 @@ class LoginForm extends React.Component {
         [e.target.name]: e.target.value},
     });
 
-  onSubmit = () => {
+  onSubmit = e => {
+    e.preventDefault()
     const errors = this.validate(this.state.data);
     this.setState({ errors });
     if (Object.keys(errors).length === 0) {
@@ -42,43 +40,45 @@ class LoginForm extends React.Component {
   }
 
   render(){
-    const { data, errors, loading } = this.state;
-    return(
-      <Form onSubmit={this.onSubmit} loading={loading}>
-      {errors.global &&
-        <Message negative>
-          <Message.Header>Something went wrong</Message.Header>
-          <p>{errors.global}</p>
-        </Message>}
-
-        <Form.Field error={!!errors.username}>
-          <label htmlFor="username">Username</label>
-          <input
+      const { data, errors } = this.state;
+      return(
+        <form onSubmit={this.onSubmit} >
+          <div className="login">
+          {
+            errors.global &&
+            <div>
+              <h1>Someting went wrong</h1>
+              <InLineError text={errors.global} />
+            </div>
+          }
+            <input
               type="text"
+              placeholder="Username"
               id="username"
               name="username"
-              placeholder="Username"
               value={data.username}
-              onChange={this.onChange} />
-        </Form.Field>
-        {errors.username && <InLineError text={errors.username} />}
-        <Form.Field error={!!errors.password}>
-          <label htmlFor="password">Password</label>
-          <input
-              type="password"
+              onChange={this.onChange}
+               />
+               {errors.username && <InLineError text={errors.username} />}
+            <input
+              placeholder='Password'
+              type='password'
               id="password"
               name="password"
-              placeholder="make it secure"
               value={data.password}
-              onChange={this.onChange} />
-        </Form.Field>
-        {errors.password && <InLineError text={errors.password} />}
-        <Button primary> Login </Button>
-      </Form>
-    );
+              onChange={this.onChange}
+            />
+            {errors.password && <InLineError text={errors.password} />}
+            <input className="submit" type="submit" value="Login" />
+          </div>
+          <div className="shadow">hello</div> {/* text "hello" not showing just to satisfy eslint */}
+        </form>
+      );
+    }
   }
-}
+
 LoginForm.propTypes = {
   submit: propTypes.func.isRequired
 };
-export default LoginForm;
+
+export default LoginForm

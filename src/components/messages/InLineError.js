@@ -1,11 +1,10 @@
 import React from "react";
-
 import propTypes  from "prop-types"
 
 const InLineError = ({ text}) => (
-  <span style={{ color: "#ae5856"}}>
-    {text}<br />
-  </span>
+  <div className="inLineError">
+    <span>{text}</span>
+  </div>
 );
 
 InLineError.propTypes = {

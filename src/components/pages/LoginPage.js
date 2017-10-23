@@ -9,14 +9,15 @@ import { login } from "../../actions/auth";
 class LoginPage extends  React.Component{
 
   submit = data =>
-    this.props.login(data)
-      .then( () => this.props.history.push("/")
+    this.props.login(data).then(() =>
+      this.props.history.push("/statistics")
   );
 
   render(){
     return(
       <div>
-        <h1>Welcome to LoginPage</h1>
+        <br/>
+        <br/>
         <LoginForm submit={this.submit} />
       </div>
     );
