@@ -2,11 +2,11 @@ import React from "react";
 import InfoMessage from "../messages/InfoMessage";
 import Navigation from "../Navigation";
 
-const StatisticsPage = () => (
+const TacReviewPage = () => (
   <div>
     <Navigation />
-    <InfoMessage page="Statistics"/>
+    <InfoMessage page="Tac Review"/>
   </div>
   )
 
-export default StatisticsPage;
+export default TacReviewPage;

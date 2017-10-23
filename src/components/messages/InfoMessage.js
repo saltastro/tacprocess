@@ -1,10 +1,14 @@
-
 import React from "react";
+import propTypes from "prop-types";
 
-const StatMessage = () => (
+const InfoMessage = ({ page }) => (
     <div className="info">
-      <h2><strong>Info!</strong> Statistics Page will be placed here.</h2>
+      <h2><strong>Info!</strong> <br />{ page } Page will be placed here.</h2>
     </div>
   );
 
-export default StatMessage;
+  InfoMessage.propTypes = {
+    page: propTypes.string.isRequired
+  }
+
+export default InfoMessage;
