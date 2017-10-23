@@ -1,5 +1,5 @@
 import React from "react";
-import StatMessage from "../messages/StatMessage";
+import StatMessage from "../messages/InfoMessage";
 // import NavigationBar from "../commons/NavigationBar";
 
 const StatisticsPage = () => (

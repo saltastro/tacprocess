@@ -1,0 +1,15 @@
+.inLineError {
+  color: #ae5856;
+  padding-left: 10px;
+
+}
+
+.info {
+  text-align: center;
+  padding: 20px;
+  color: black;
+  border-style: solid;
+  border-color: #c6efed;
+  background-color: #e3f7f6;
+  border-radius: 25px;
+}
