@@ -3,15 +3,27 @@ import PropTypes from 'prop-types'
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../../actions/auth";
+import Navigation from "../Navigation"
+import InfoMessage from "../messages/InfoMessage"
 
 
 const HomePage = ({ isAuthenticated, logout }) => (
   <div>
-    <h1>Home Page</h1>
+
     {isAuthenticated ? (
-      <button onClick={() => logout()}> Logout</button>
+      <div>
+        <Navigation />
+        <button className="logoutbtn" onClick={() => logout()}> Logout</button>
+        <InfoMessage page="Home Page"/>
+
+      </div>
+
     ) : (
-      <Link to="/login"> <button className="loginbtn">Login</button> </Link>
+      <div>
+        <h1>Home Page</h1>
+        <Link to="/login"> <button className="loginbtn">Login</button> </Link>
+      </div>
+
     )}
   </div>
 );
@@ -23,7 +35,7 @@ HomePage.propTypes = {
 
 function mapStateToProps(state) {
   return{
-    isAuthenticated: !!state.user.token
+    isAuthenticated: !!localStorage.tacPageJWT
   };
 }
 

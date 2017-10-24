@@ -16,9 +16,13 @@ UserRoute.propTypes = {
   isAuthenticated:  PropTypes.bool.isRequired
 };
 
-function mapStateToProps(state) {
+function mapStateToProps() {/* state on params */
   return {
-    isAuthenticated: !!state.user.token
+    // isAuthenticated: !!state.user.token
+    /* TODO: some I lose my state for now I will be checking for a localStorage
+    tacPageJWT at UserRoute and GuestRoute to confirm if the user had logged in
+    or not */
+    isAuthenticated: !!localStorage.tacPageJWT
   };
 }
 

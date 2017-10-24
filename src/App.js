@@ -15,10 +15,10 @@ const App = ({ location }) => (
   <div className="ui container">
     <Route location={location} path="/" exact component={HomePage} />
     <GuestRoute location={location} path="/login" exact component={LoginPage} />
-    <Route location={location} path="/statistics" exact component={StatisticsPage} />
-    <Route location={location} path="/tacreview" exact component={TacReviewPage} />
-    <Route location={location} path="/documentation" exact component={DocumentationPage} />
-    <Route location={location} path="/admin" exact component={AdminPage} />
+    <UserRoute location={location} path="/statistics" exact component={StatisticsPage} />
+    <UserRoute location={location} path="/tacreview" exact component={TacReviewPage} />
+    <UserRoute location={location} path="/documentation" exact component={DocumentationPage} />
+    <UserRoute location={location} path="/admin" exact component={AdminPage} />
   </div>
 );
 

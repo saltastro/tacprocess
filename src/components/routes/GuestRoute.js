@@ -10,7 +10,7 @@ const UserRoute = ({ isAuthenticated, component: Component, ...rest }) => (
       !isAuthenticated ? (
         <Component {...props} />
       ) : (
-        <Redirect to="/statistics" />
+        <Redirect to="/" />
       )}
   />
 );
@@ -20,9 +20,9 @@ UserRoute.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired
 };
 
-function mapStateToProps(state) {
+function mapStateToProps() { /* state on params */
   return {
-    isAuthenticated: !!state.user.token
+    isAuthenticated: !!localStorage.tacPageJWT
   };
 }
 
