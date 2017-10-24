@@ -3,21 +3,19 @@ import PropTypes from 'prop-types'
 import { connect } from "react-redux"
 
 import LoginForm from "../forms/LoginForm";
-import { login } from "../../actions/auth";
+import { login } from "../../actions";
 
 
 class LoginPage extends  React.Component{
 
   submit = data =>
     this.props.login(data).then(() =>
-      this.props.history.push("/statistics")
+      this.props.history.push("/")
   );
 
   render(){
     return(
       <div>
-        <br/>
-        <br/>
         <LoginForm submit={this.submit} />
       </div>
     );

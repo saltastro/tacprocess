@@ -111,6 +111,7 @@ input[type="submit"]:active {
   background-color: #37a69b;
 }
 .logoutbtn {
+  height: 47px;
   text-shadow:1px 1px 0px #f78594;
   float: right;
   background-color: #f78594;

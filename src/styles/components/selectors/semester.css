@@ -1,0 +1,16 @@
+.selector {
+  font-size: 20px;
+  text-align: center;
+  padding-left: 5px;
+  height: 35px;
+  width: inherit;
+  color: blue;
+  background-color:#d0e5f2;
+  border-radius: 5px;
+}
+
+.selector-div {
+  padding: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}

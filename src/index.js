@@ -7,9 +7,7 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import App from './App';
-import "./styles/forms/loginForm.css";
-import "./styles/messages/messages.css";
-import "./styles/components/components.css";
+import "./styles/index.css";
 import registerServiceWorker from './registerServiceWorker';
 import rootReducer from "./rootReducer";
 
