@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default {
-  user:{
+  user: {
     login: credentials =>
       axios.post("token", { credentials }).then(res => res.data.user)
   }

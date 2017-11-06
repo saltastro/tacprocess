@@ -3,6 +3,18 @@ import { Link } from "react-router-dom"
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import * as actions from "../actions/auth";
+// import Selector from "./selectors/Selector";
+
+// const semesters = [
+//     '2015-1',
+//     '2015-2',
+//     '2016-1',
+//     '2016-2',
+//     '2017-1',
+//     '2017-2',
+//     '2018-1',
+//     '2018-2',
+// ];
 
 const Navigation = ({ logout }) => (
   <div>
@@ -14,7 +26,7 @@ const Navigation = ({ logout }) => (
       <li className="active"><Link to="/admin">Admin</Link></li>
       <button className="logoutbtn" onClick={logout}> Logout</button>
     </ul>
-
+     {/* <Selector key={1} options={semesters} name="Semester"/> */ }
   </div>
 
   )

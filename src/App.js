@@ -12,14 +12,14 @@ import UserRoute from "./components/routes/UserRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 
 const App = ({ location }) => (
-  <div className="ui container">
-    <Route location={location} path="/" exact component={HomePage} />
-    <GuestRoute location={location} path="/login" exact component={LoginPage} />
-    <UserRoute location={location} path="/statistics" exact component={StatisticsPage} />
-    <UserRoute location={location} path="/tacreview" exact component={TacReviewPage} />
-    <UserRoute location={location} path="/documentation" exact component={DocumentationPage} />
-    <UserRoute location={location} path="/admin" exact component={AdminPage} />
-  </div>
+    <div className="ui container">
+      <Route location={location} path="/" exact component={HomePage} />
+      <GuestRoute location={location} path="/login" exact component={LoginPage} />
+      <UserRoute location={location} path="/statistics" exact component={StatisticsPage} />
+      <UserRoute location={location} path="/tacreview" exact component={TacReviewPage} />
+      <UserRoute location={location} path="/documentation" exact component={DocumentationPage} />
+      <UserRoute location={location} path="/admin" exact component={AdminPage} />
+    </div>
 );
 
 App.propTypes = {

@@ -5,18 +5,6 @@ import { connect } from "react-redux";
 import * as actions from "../../actions/auth";
 import Navigation from "../Navigation"
 import InfoMessage from "../messages/InfoMessage"
-import Selector from "../selectors/Selector";
-
-const semesters = [
-    '2015-1',
-    '2015-2',
-    '2016-1',
-    '2016-2',
-    '2017-1',
-    '2017-2',
-    '2018-1',
-    '2018-2',
-];
 
 const HomePage = ({ isAuthenticated }) => (
   <div>
@@ -24,7 +12,6 @@ const HomePage = ({ isAuthenticated }) => (
     {isAuthenticated ? (
       <div>
         <Navigation />
-        <Selector options={semesters} name="Semester"/>
         <InfoMessage page="Home Page"/>
       </div>
 
