@@ -20,12 +20,14 @@ export default function statistics(state = initialState, action = {}) {
     case FETCH_STAT_DATA:{
       return {
         ...state,
-        fetching: true
+        fetching: true,
+        fetched: false,
       };}
       case FETCH_STAT_DATA_REJECTED: {
         return {
           ...state,
           fetching: false,
+          fetched: true,
           errors: action.payload}
       }
       case FETCH_STAT_DATA_FULFILLED: {
