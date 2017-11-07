@@ -5,7 +5,7 @@ const Selector =  ({ options, name })  => (
   <div className="selector-div">
     <span> { name } </span>
     <select
-      name="Semester"
+      name={ name }
       className="selector">
       {options.map((semester, index) =>
          <option key={index}> {semester} </option>
@@ -16,7 +16,7 @@ const Selector =  ({ options, name })  => (
   )
 
   Selector.propTypes = {
-    options: propTypes.string.isRequired,
+    options: propTypes.array.isRequired,
     name: propTypes.string.isRequired
   }
 

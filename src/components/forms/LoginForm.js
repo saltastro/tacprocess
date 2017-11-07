@@ -31,7 +31,7 @@ class LoginForm extends React.Component {
           if (!!err.response && !!err.response.data && !!err.response.data.errors ) {
             erro = err.response.data.errors
           }else {
-            erro = [err.getMessage()]
+            erro = ["unknown Erro"]
           }
 
           this.setState({

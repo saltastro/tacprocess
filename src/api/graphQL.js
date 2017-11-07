@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const API_BASE_URL = 'http://localhost:5001';
+const API_BASE_URL = 'http://127.0.0.1:5001/';
 
 const graphqlClient = () => axios.create({
   baseURL: API_BASE_URL,
@@ -27,14 +27,39 @@ export const convertData = statData => {
 };
 
 
-export function queryStatData(semester){
+export function queryStatData(semester, partner){
+  let partnerArgs
+  if (partner === "All"){
+    partnerArgs = ``
+  }else{
+    console.log("PPPPartner: ",partner);
+    partnerArgs = `partnerCode:"${partner}"`
+  }
   const query = `
     {
-      proposals(semester: "${semester}"){
+      proposals(semester: "${semester}", ${partnerArgs}){
         ProposalId
         proposalcode{
           ProposalCode
         }
+        proposalInfo{
+          P4
+          proposalstatus{
+            ProposalStatusId
+          }
+        }
+      }
+      targets(semester:"2017-1", ${partnerArgs}){
+        target{
+          TargetName
+        }
+      }
+      semesters{
+        Semester
+        Year
+      }
+      partners{
+        PartnerCode
       }
     }
   `
@@ -42,9 +67,6 @@ export function queryStatData(semester){
   .then(
     response => response
   )
-  .catch( () => {
-    "Data could not be fetched"
-  })
 
 }
 

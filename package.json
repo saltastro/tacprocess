@@ -32,7 +32,6 @@
     "eject": "react-scripts eject",
     "lint": "eslint src"
   },
-  "proxy": "http://tacapi.cape.saao.ac.za/",
   "devDependencies": {
     "eslint": "^4.9.0",
     "eslint-config-airbnb": "^15.0.1",

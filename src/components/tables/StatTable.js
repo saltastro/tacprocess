@@ -5,20 +5,33 @@ class StatPropos extends React.Component {
   state = {};
 
   render() {
+    const { targets, proposals} = this.props
     return(
-      <div>
-      <h1>Title: {this.props.proposal.proposalCode}</h1>
-      <h3> Id: {this.props.proposal.proposalId}</h3>
-      </div>
+        <table className="table">
+          <thead>
+            <tr>
+              <th />
+              <th><h2>Total</h2></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><h3>Proposals</h3></td>
+              <td><h3>{proposals.length}</h3></td>
+            </tr>
+            <tr>
+              <td><h3>Targets</h3></td>
+              <td><h3>{targets.length}</h3></td>
+            </tr>
+          </tbody>
+        </table>
       );
     }
   }
 
   StatPropos.propTypes = {
-    proposal: propTypes.shape({
-      proposalId : propTypes.string,
-      proposalCode : propTypes.string
-    }).isRequired
+    targets: propTypes.array.isRequired ,
+    proposals: propTypes.array.isRequired ,
   }
 
 export default StatPropos;

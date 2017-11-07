@@ -1,8 +1,9 @@
 
 import { queryStatData } from "../api/graphQL"
 import {
-  FETCH_STAT_DATA_REJECTED,
-  FETCH_STAT_DATA_FULFILLED
+  FETCH_STAT_DATA_PASS,
+  FETCH_STAT_DATA_FAIL,
+  FETCH_STAT_DATA_START
 } from "../types";
 
 export const convertData = statData => {
@@ -17,23 +18,37 @@ export const convertData = statData => {
   }
 };
 
+function startFetchData() {
+  return (
+    {
+       type: FETCH_STAT_DATA_START
+  }
+);
 
-export const getStatData = semester => {
-  console.log("called");
-  queryStatData(semester)
-  .then( data => {
-    console.log("Data:", data);
-    return data})
-  .catch( err => err)
+}
+function FetchDataFail() {
+  return (
+    {
+       type: FETCH_STAT_DATA_FAIL
+  }
+);
 }
 
-export function fetchStatData(semester){
-  return function(dispatch){
-    queryStatData(semester).then( res =>
-      dispatch({type:FETCH_STAT_DATA_FULFILLED, payload: res.data.data})
-    ).catch(err => {
-      console.log(err);
-    })
+function FetchDataPass(load) {
+  return (
+    {
+       type: FETCH_STAT_DATA_PASS,
+       payload: load
   }
+);
+}
 
+export function fetchStatData(semester, partner="All"){
+  return function disp(dispatch){
+    console.log("SEM: ", semester, "par: ", partner );
+    dispatch(startFetchData());
+    queryStatData(semester, partner).then( res =>
+      dispatch(FetchDataPass(res.data.data))
+    ).catch(() => dispatch(FetchDataFail()))
+  }
 }

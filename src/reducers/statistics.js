@@ -1,7 +1,7 @@
 import {
-  FETCH_STAT_DATA,
-  FETCH_STAT_DATA_REJECTED,
-  FETCH_STAT_DATA_FULFILLED
+  FETCH_STAT_DATA_START,
+  FETCH_STAT_DATA_PASS,
+  FETCH_STAT_DATA_FAIL
 } from "../types";
 
 const initialState = {
@@ -9,28 +9,32 @@ const initialState = {
   fetched: false,
   data: {
     data:{
-      proposals:[]
+      proposals:[],
+      partners: [],
+      semesters:[]
     }
   },
   error: null,
+  selecterSemester: "2017-1",
+  selecterPartner: "All",
 };
 
 export default function statistics(state = initialState, action = {}) {
   switch (action.type) {
-    case FETCH_STAT_DATA:{
+    case FETCH_STAT_DATA_START:{
       return {
         ...state,
         fetching: true,
         fetched: false,
       };}
-      case FETCH_STAT_DATA_REJECTED: {
+      case FETCH_STAT_DATA_FAIL: {
         return {
           ...state,
           fetching: false,
-          fetched: true,
-          errors: action.payload}
+          fetched: false,
+          errors: "Fail to get statistics data from api" }
       }
-      case FETCH_STAT_DATA_FULFILLED: {
+      case FETCH_STAT_DATA_PASS: {
         return {
           ...state,
           fetching: false,
