@@ -32,7 +32,6 @@ export function queryStatData(semester, partner){
   if (partner === "All"){
     partnerArgs = ``
   }else{
-    console.log("PPPPartner: ",partner);
     partnerArgs = `partnerCode:"${partner}"`
   }
   const query = `
@@ -54,6 +53,19 @@ export function queryStatData(semester, partner){
           TargetName
         }
       }
+    }
+  `
+  return graphqlClient().post(`/graphql?query=${query}`)
+  .then(
+    response => response
+  )
+
+}
+
+
+export function querySelectorData(){
+  const query = `
+    {
       semesters{
         Semester
         Year
@@ -69,6 +81,7 @@ export function queryStatData(semester, partner){
   )
 
 }
+
 
 export function getTecData(partner){
   const query = `{

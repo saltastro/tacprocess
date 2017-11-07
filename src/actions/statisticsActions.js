@@ -45,7 +45,6 @@ function FetchDataPass(load) {
 
 export function fetchStatData(semester, partner="All"){
   return function disp(dispatch){
-    console.log("SEM: ", semester, "par: ", partner );
     dispatch(startFetchData());
     queryStatData(semester, partner).then( res =>
       dispatch(FetchDataPass(res.data.data))
