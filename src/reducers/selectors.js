@@ -49,7 +49,6 @@ export default function selectors(state=initialState, action={}) {
         }
       }
       case SEMESTER_CHANGE: {
-        console.log("LLLLL", action.payload);
         return {
           ...state,
           selectedSemester: action.payload,

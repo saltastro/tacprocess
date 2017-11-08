@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import * as actions from "../actions/auth";
 import { fetchSelectorsData, partnerChange, semesterChange } from "../actions/selectorsActions";
+import { fetchStatData } from "../actions/statisticsActions";
 
 
 
@@ -12,21 +13,23 @@ class Navigation extends React.Component {
   componentDidMount() {
     const data = fetchSelectorsData()
     this.props.dispatch(data)
+
+    this.props.dispatch(fetchStatData("2017-2", "RSA"))
+
   }
-
-  handleChange(event) {
-   // this.props.dispatch(partnerChange(event.target.value));
-   console.log("Event:", this.value);
-   //console.log("value:", event.target.value);
-
- }
+  updateSemester(event){
+    console.log("NAVI: ", event);
+    this.props.dispatch(fetchStatData(event.value, this.props.selectors.selectedPartner))
+  }
+  updatePartner(event){
+    console.log("NAVI: ", this.props);
+    this.props.dispatch(fetchStatData(this.props.selectors.selectedSemester , event.value))
+  }
 
   render() {
     const { selectors,  } = this.props
     const { selectedPartner, selectedSemester } = selectors
 
-    console.log("Props", this.props );
-    console.log("SELECTED", selectedSemester );
     return(
       <div>
         <ul className="nav">
@@ -46,8 +49,10 @@ class Navigation extends React.Component {
                 name="Semester"
                 options={selectors.payload.semesters}
                 value={selectedSemester}
+                clearable={false}
                 focusedOption={selectedSemester}
                 onChange={(event) => {
+                  this.updateSemester(event)
                   this.props.dispatch(semesterChange(event.value))
                 }}
                 />
@@ -59,7 +64,9 @@ class Navigation extends React.Component {
                   name="Partner"
                   options={selectors.payload.partners}
                   value={selectedPartner}
+                  clearable={false}
                   onChange={(event) => {
+                    this.updatePartner(event)
                     this.props.dispatch(partnerChange(event.value))
                   }}
                   />
@@ -71,5 +78,5 @@ class Navigation extends React.Component {
   }
 
 export default connect(
-  store => ({selectors: store.selectors, }), null
+  store => ({selectors: store.selectors, statistics:store.statistics }), null
 )(Navigation);

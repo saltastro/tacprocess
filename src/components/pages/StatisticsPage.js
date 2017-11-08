@@ -5,17 +5,17 @@ import { fetchStatData } from "../../actions/statisticsActions";
 import StatTable from "../tables/StatTable";
 
 class StatisticsPage extends React.Component {
-  componentDidMount() {
-    const data = fetchStatData("2017-1", "RSA")
-    /* this will require me to difine a function on PropTypes  */
-    // eslint-disable-next-line
-    this.props.dispatch(data)
-  }
+  // componentDidMount() {
+  //   const data = fetchStatData("2017-1", "All")
+  //   /* this will require me to difine a function on PropTypes  */
+  //   // eslint-disable-next-line
+  //   this.props.dispatch(data)
+  // }
 
   render() {
     /* this will require me to difine a shape on PropTypes  */
     // eslint-disable-next-line
-    const { statistics } = this.props
+    const { statistics, selectors } = this.props
     if(statistics.fetching){
       return(
         <div>
@@ -51,5 +51,5 @@ class StatisticsPage extends React.Component {
 
 
 export default connect(
-  store => ({statistics: store.statistics}),null
+  store => ({statistics: store.statistics, selectors:store.selectors}),null
 )(StatisticsPage) ;

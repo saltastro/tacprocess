@@ -7,13 +7,18 @@ import {
 } from "../types";
 
 function status(s){
-  let status
-  if(s === "1"){
-    status = "Old"
-  }else if (s === "7") {
-    status = "New"
-  } else{ status = "Unknown" };
-  return status
+  let stat
+  if(s === "1" || s === "10"){
+    stat = "Old"
+  }
+  else {
+    if (s === "7") {
+        stat = "New"
+      } else{
+        console.log(s);
+        stat = "Unknown" };
+  }
+return stat
 }
 
 function isP4(p){
@@ -21,6 +26,7 @@ function isP4(p){
 }
 
 export const convertData = statData => {
+  console.log(statData);
   const proposals = statData.proposals.map( proposal =>   (
     {
       proposalId: proposal.ProposalId,
@@ -32,8 +38,10 @@ export const convertData = statData => {
 
 
 );
+  const targets = []
   return {
-    proposals
+    proposals,
+    targets
   }
 };
 
@@ -66,9 +74,8 @@ export function fetchStatData(semester, partner="All"){
   return function disp(dispatch){
     dispatch(startFetchData());
     queryStatData(semester, partner).then( res =>
-      dispatch(FetchDataPass(res.data.data))
+      dispatch(FetchDataPass(convertData(res.data.data)))
     ).catch(() => {
-      console.log("FAiling");
       dispatch(FetchDataFail())})
   }
 }

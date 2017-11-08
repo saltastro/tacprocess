@@ -1,12 +1,15 @@
 import React from "react";
 import propTypes from "prop-types";
 
+import ProposalTable from "./ProposalTable";
+
 class StatPropos extends React.Component {
   state = {};
 
   render() {
     const { targets, proposals} = this.props
     return(
+      <div>
         <table className="table">
           <thead>
             <tr>
@@ -25,6 +28,8 @@ class StatPropos extends React.Component {
             </tr>
           </tbody>
         </table>
+        <ProposalTable proposals={proposals} />
+      </div>
       );
     }
   }

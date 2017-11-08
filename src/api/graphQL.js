@@ -48,7 +48,7 @@ export function queryStatData(semester, partner){
           }
         }
       }
-      targets(semester:"2017-1", ${partnerArgs}){
+      targets(semester: "${semester}", ${partnerArgs}){
         target{
           TargetName
         }
