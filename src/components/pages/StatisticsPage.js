@@ -40,7 +40,7 @@ class StatisticsPage extends React.Component {
         <Navigation />
 
         <StatTable
-          proposals = {statistics.data.proposals}
+          proposals = { statistics.data.proposals }
           targets = { statistics.data.targets }
         />
       </div>

@@ -2,7 +2,9 @@ import {
   FETCH_SELECTOR_DATA_START,
   FETCH_SELECTOR_DATA_PASS,
   FETCH_SELECTOR_DATA_FAIL,
-  PAGE_CHANGE
+  PAGE_CHANGE,
+  SEMESTER_CHANGE,
+  PARTNER_CHANGE,
 } from "../types";
 
 const initialState = {
@@ -12,8 +14,8 @@ const initialState = {
       partners: ["None"],
       semesters:["None"]
   },
-  selecterSemester: "2017-1",
-  selecterPartner: "All",
+  selectedSemester: "2017-1",
+  selectedPartner: "All",
   currentPage: "HomePage"
 
 };
@@ -44,6 +46,19 @@ export default function selectors(state=initialState, action={}) {
         return {
           ...state,
           currentPage: action.payload,
+        }
+      }
+      case SEMESTER_CHANGE: {
+        console.log("LLLLL", action.payload);
+        return {
+          ...state,
+          selectedSemester: action.payload,
+        }
+      }
+      case PARTNER_CHANGE: {
+        return {
+          ...state,
+          selectedPartner: action.payload,
         }
       }
       default:{

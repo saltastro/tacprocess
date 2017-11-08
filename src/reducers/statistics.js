@@ -10,8 +10,7 @@ const initialState = {
   data: {
     data:{
       proposals:[],
-      partners: [],
-      semesters:[]
+      targets:[]
     }
   },
   error: null,

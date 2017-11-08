@@ -3,17 +3,22 @@ import { querySelectorData } from "../api/graphQL"
 import {
   FETCH_SELECTOR_DATA_PASS,
   FETCH_SELECTOR_DATA_FAIL,
-  FETCH_SELECTOR_DATA_START
+  FETCH_SELECTOR_DATA_START,
+  SEMESTER_CHANGE,
+  PARTNER_CHANGE
 } from "../types";
 
 export const convertData = data => {
   let partners = data.partners.map( partner => (
-      partner.PartnerCode
+      {value: partner.PartnerCode, label:partner.PartnerCode}
   ));
   const semesters = data.semesters.map( semester => (
-       `${semester.Year}-${semester.Semester}`
+       {
+         value:`${semester.Year}-${semester.Semester}`,
+         label:`${semester.Year}-${semester.Semester}`
+       }
   ));
-  partners = ["All"].concat(partners)
+  partners = [{value: "All", label: "All"}].concat(partners)
   return {
     partners,
     semesters
@@ -40,6 +45,24 @@ function FetchDataPass(load) {
   return (
     {
        type: FETCH_SELECTOR_DATA_PASS,
+       payload: load
+  }
+);
+}
+
+export function semesterChange(load) {
+  return (
+    {
+       type: SEMESTER_CHANGE,
+       payload: load
+  }
+);
+}
+
+export function partnerChange(load) {
+  return (
+    {
+       type: PARTNER_CHANGE,
        payload: load
   }
 );

@@ -6,13 +6,32 @@ import {
   FETCH_STAT_DATA_START
 } from "../types";
 
+function status(s){
+  let status
+  if(s === "1"){
+    status = "Old"
+  }else if (s === "7") {
+    status = "New"
+  } else{ status = "Unknown" };
+  return status
+}
+
+function isP4(p){
+  return p === 1
+}
+
 export const convertData = statData => {
-  const proposals = statData.proposals.map( proposal => (
+  const proposals = statData.proposals.map( proposal =>   (
     {
       proposalId: proposal.ProposalId,
-      proposalCode: proposal.proposalcode.ProposalCode
-    }
-  ));
+      proposalCode: proposal.proposalcode.ProposalCode,
+      isP4: isP4(proposal.proposalInfo.P4),
+      status: status(proposal.proposalInfo.proposalstatus.ProposalStatusId)
+
+    } )
+
+
+);
   return {
     proposals
   }
@@ -48,6 +67,8 @@ export function fetchStatData(semester, partner="All"){
     dispatch(startFetchData());
     queryStatData(semester, partner).then( res =>
       dispatch(FetchDataPass(res.data.data))
-    ).catch(() => dispatch(FetchDataFail()))
+    ).catch(() => {
+      console.log("FAiling");
+      dispatch(FetchDataFail())})
   }
 }

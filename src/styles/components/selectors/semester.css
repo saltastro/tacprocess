@@ -1,9 +1,8 @@
 .selector {
   font-size: 20px;
   text-align: center;
-  padding-left: 5px;
   height: 35px;
-  width: inherit;
+  width: 12em;
   color: blue;
   background-color:#d0e5f2;
   border-radius: 5px;
@@ -16,7 +15,9 @@
 }
 .left {
   float: left;
+
 }
-.right {
-  float: right;
+.left-2 {
+  float: left;
+  padding-left: 160px
 }
