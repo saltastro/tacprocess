@@ -1,16 +1,9 @@
 import React from "react";
 import { connect } from "react-redux"
 import Navigation from "../Navigation";
-import { fetchStatData } from "../../actions/statisticsActions";
 import StatTable from "../tables/StatTable";
 
 class StatisticsPage extends React.Component {
-  // componentDidMount() {
-  //   const data = fetchStatData("2017-1", "All")
-  //   /* this will require me to difine a function on PropTypes  */
-  //   // eslint-disable-next-line
-  //   this.props.dispatch(data)
-  // }
 
   render() {
     /* this will require me to difine a shape on PropTypes  */
@@ -38,11 +31,17 @@ class StatisticsPage extends React.Component {
     return(
       <div>
         <Navigation />
-
         <StatTable
           proposals = { statistics.data.proposals }
           targets = { statistics.data.targets }
+          semester = { selectors.selectedSemester }
         />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
       </div>
       );
     }

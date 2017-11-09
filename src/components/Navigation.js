@@ -14,7 +14,10 @@ class Navigation extends React.Component {
     const data = fetchSelectorsData()
     this.props.dispatch(data)
 
-    this.props.dispatch(fetchStatData("2017-2", "RSA"))
+    this.props.dispatch(fetchStatData(
+      this.props.selectors.selectedSemester,
+      this.props.selectors.selectedPartner
+    ))
 
   }
   updateSemester(event){

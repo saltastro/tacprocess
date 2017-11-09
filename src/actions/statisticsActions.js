@@ -6,39 +6,42 @@ import {
   FETCH_STAT_DATA_START
 } from "../types";
 
-function status(s){
-  let stat
-  if(s === "1" || s === "10"){
-    stat = "Old"
-  }
-  else {
-    if (s === "7") {
-        stat = "New"
-      } else{
-        console.log(s);
-        stat = "Unknown" };
-  }
-return stat
+function isNew(req, sem ){
+  let isnew = true
+  req.map( r => {
+    if (sem > r.forSemester ){
+      isnew =  false }
+    return r
+  } )
+  return isnew
 }
 
-function isP4(p){
-  return p === 1
+function isLong(req, sem ){
+  let islong = false
+  req.map( r => {
+    if (sem !== r.forSemester ){
+      islong =  true }
+    return r
+  } )
+  return islong
 }
 
-export const convertData = statData => {
-  console.log(statData);
-  const proposals = statData.proposals.map( proposal =>   (
+export const convertData = (statData, semester) => {
+  const proposals = statData.proposalsM.map( proposal =>   (
     {
-      proposalId: proposal.ProposalId,
-      proposalCode: proposal.proposalcode.ProposalCode,
-      isP4: isP4(proposal.proposalInfo.P4),
-      status: status(proposal.proposalInfo.proposalstatus.ProposalStatusId)
-
+      proposalId: proposal.proposalId,
+      proposalCode: proposal.proposalCode,
+      isP4: proposal.generalInfo.isP4,
+      status: proposal.generalInfo.status,
+      maxSeeing: proposal.generalInfo.maxSeeing,
+      transparency: proposal.generalInfo.transparency,
+      isNew: isNew(proposal.requesterTime, semester),
+      isLong: isLong(proposal.requesterTime, semester),
+      requestedTime: proposal.requesterTime
     } )
-
-
 );
-  const targets = []
+
+  const targets = statData.targets
   return {
     proposals,
     targets
@@ -74,7 +77,7 @@ export function fetchStatData(semester, partner="All"){
   return function disp(dispatch){
     dispatch(startFetchData());
     queryStatData(semester, partner).then( res =>
-      dispatch(FetchDataPass(convertData(res.data.data)))
+      dispatch(FetchDataPass(convertData(res.data.data, semester)))
     ).catch(() => {
       dispatch(FetchDataFail())})
   }

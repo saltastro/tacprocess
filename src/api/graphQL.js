@@ -14,19 +14,6 @@ const graphqlClient = () => axios.create({
   }
 });
 
-export const convertData = statData => {
-  const proposals = statData.proposals.map( proposal => (
-    {
-      proposalId: proposal.ProposalId,
-      proposalCode: proposal.proposalcode.ProposalCode
-    }
-  ));
-  return {
-    proposals
-  }
-};
-
-
 export function queryStatData(semester, partner){
   let partnerArgs
   if (partner === "All"){
@@ -36,16 +23,19 @@ export function queryStatData(semester, partner){
   }
   const query = `
     {
-      proposals(semester: "${semester}", ${partnerArgs}){
-        ProposalId
-        proposalcode{
-          ProposalCode
+      proposalsM(semester: "${semester}", ${partnerArgs}){
+        proposalId
+        proposalCode
+        requesterTime{
+          forSemester
+          moon
+          time
         }
-        proposalInfo{
-          P4
-          proposalstatus{
-            ProposalStatusId
-          }
+        generalInfo{
+          isP4
+          status
+          transparency
+          maxSeeing
         }
       }
       targets(semester: "${semester}", ${partnerArgs}){
