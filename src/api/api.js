@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const API_BASE_URL = 'http://tacapi.cape.saao.ac.za';
+import API_BASE_URL from '../types';
 
 const loginClient = () => axios.create({
   baseURL: API_BASE_URL,

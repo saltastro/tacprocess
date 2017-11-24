@@ -27,17 +27,17 @@ function isLong(req, sem ){
 }
 
 export const convertData = (statData, semester) => {
-  const proposals = statData.proposalsM.map( proposal =>   (
+  const proposals = statData.proposals.map( proposal =>   (
     {
-      proposalId: proposal.proposalId,
-      proposalCode: proposal.proposalCode,
+      proposalId: proposal.id,
+      proposalCode: proposal.code,
       isP4: proposal.generalInfo.isP4,
       status: proposal.generalInfo.status,
       maxSeeing: proposal.generalInfo.maxSeeing,
       transparency: proposal.generalInfo.transparency,
-      isNew: isNew(proposal.requesterTime, semester),
-      isLong: isLong(proposal.requesterTime, semester),
-      requestedTime: proposal.requesterTime
+      isNew: isNew(proposal.timeRequests, semester),
+      isLong: isLong(proposal.timeRequests, semester),
+      requestedTime: proposal.timeRequests
     } )
 );
 
@@ -77,8 +77,10 @@ export function fetchStatData(semester, partner="All"){
   return function disp(dispatch){
     dispatch(startFetchData());
     queryStatData(semester, partner).then( res =>
-      dispatch(FetchDataPass(convertData(res.data.data, semester)))
-    ).catch(() => {
+      {
+        dispatch(FetchDataPass(convertData(res.data.data, semester)))}
+    ).catch((err) => {
+      console.log(err);
       dispatch(FetchDataFail())})
   }
 }

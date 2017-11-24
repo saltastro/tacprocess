@@ -11,6 +11,7 @@ import { fetchStatData } from "../actions/statisticsActions";
 class Navigation extends React.Component {
 
   componentDidMount() {
+
     const data = fetchSelectorsData()
     this.props.dispatch(data)
 
@@ -32,6 +33,7 @@ class Navigation extends React.Component {
   render() {
     const { selectors,  } = this.props
     const { selectedPartner, selectedSemester } = selectors
+    console.log("NAVI Is Rendaring");
 
     return(
       <div>

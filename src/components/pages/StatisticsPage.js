@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux"
-import Navigation from "../Navigation";
 import StatTable from "../tables/StatTable";
 
 class StatisticsPage extends React.Component {
@@ -12,7 +11,6 @@ class StatisticsPage extends React.Component {
     if(statistics.fetching){
       return(
         <div>
-        <Navigation />
           <h2>Loading...</h2>
         </div>
       )
@@ -20,7 +18,6 @@ class StatisticsPage extends React.Component {
     if(!statistics.fetched){
       return(
         <div>
-          <Navigation />
           <div className="error">
             <h1>Fail to get Data from API.</h1>
             <h1>API might be down</h1>
@@ -30,7 +27,6 @@ class StatisticsPage extends React.Component {
     }
     return(
       <div>
-        <Navigation />
         <StatTable
           proposals = { statistics.data.proposals }
           targets = { statistics.data.targets }

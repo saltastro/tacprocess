@@ -11,6 +11,12 @@ const moonFilter = (proposals, semester) => {
     let greyTotal = 0
     let brightTotal = 0
     let anyTotal = 0
+    const transparency = {
+      clear: 0,
+      thin: 0,
+      thick: 0,
+      any: 0
+    }
     proposals.map( p => {
       p.requestedTime.map(t => {
         if (t.forSemester === semester){
@@ -31,7 +37,20 @@ const moonFilter = (proposals, semester) => {
             anyTotal +=  t.time
            }
         }
+
       })
+        if(p.transparency === "Any"){
+             transparency.any +=1
+        }
+        if(p.transparency === "Thin cloud"){
+             transparency.thin +=1
+        }
+        if(p.transparency === "Thick cloud"){
+             transparency.think +=1
+        }
+        if(p.transparency === "Clear"){
+             transparency.clear +=1
+        }
       return p
     })
     return {
@@ -61,7 +80,6 @@ class ObservingStatTable extends React.Component {
   render() {
     const { proposals, semester} = this.props
     const moonFiltered = moonFilter(proposals, semester)
-    console.log("TTT", moonFiltered.darkTotal);
     return(
       <div>
       <h1>Observing Statistics</h1>

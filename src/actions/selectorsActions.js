@@ -9,14 +9,11 @@ import {
 } from "../types";
 
 export const convertData = data => {
-  let partners = data.partners.map( partner => (
-      {value: partner.PartnerCode, label:partner.PartnerCode}
+  let partners = data.partner.map( p => (
+      {value: p, label: p}
   ));
-  const semesters = data.semesters.map( semester => (
-       {
-         value:`${semester.Year}-${semester.Semester}`,
-         label:`${semester.Year}-${semester.Semester}`
-       }
+  const semesters = data.semester.map( s => (
+       { value: s, label: s }
   ));
   partners = [{value: "All", label: "All"}].concat(partners)
   return {
@@ -70,9 +67,10 @@ export function partnerChange(load) {
 
 export function fetchSelectorsData(){
   return function disp(dispatch){
+
     dispatch(startFetchData());
-    querySelectorData().then( res =>
-      dispatch(FetchDataPass(convertData(res.data.data)))
+    querySelectorData().then( res =>{
+      dispatch(FetchDataPass(convertData(res.data.data.selectors)))}
     ).catch(() => dispatch(FetchDataFail()))
   }
 }

@@ -1,3 +1,4 @@
+export const API_BASE_URL = "http://tacapi.cape.saao.ac.za";
 export const USER_LOGGED_IN = "USER_LOGGED_IN"
 export const USER_LOGGED_OUT = "USER_LOGGED_OUT"
 export const FETCH_STAT_DATA_START = "FETCH_STAT_DATA_START"

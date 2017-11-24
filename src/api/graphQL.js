@@ -1,7 +1,6 @@
 import axios from 'axios';
+import API_BASE_URL from '../types';
 
-
-const API_BASE_URL = 'http://127.0.0.1:5001/';
 
 const graphqlClient = () => axios.create({
   baseURL: API_BASE_URL,
@@ -23,10 +22,10 @@ export function queryStatData(semester, partner){
   }
   const query = `
     {
-      proposalsM(semester: "${semester}", ${partnerArgs}){
-        proposalId
-        proposalCode
-        requesterTime{
+      proposals(semester: "${semester}", ${partnerArgs}){
+        id
+        code
+        timeRequests{
           forSemester
           moon
           time
@@ -36,11 +35,6 @@ export function queryStatData(semester, partner){
           status
           transparency
           maxSeeing
-        }
-      }
-      targets(semester: "${semester}", ${partnerArgs}){
-        target{
-          TargetName
         }
       }
     }
@@ -56,12 +50,9 @@ export function queryStatData(semester, partner){
 export function querySelectorData(){
   const query = `
     {
-      semesters{
-        Semester
-        Year
-      }
-      partners{
-        PartnerCode
+      selectors{
+        partner
+        semester
       }
     }
   `

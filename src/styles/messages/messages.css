@@ -23,3 +23,8 @@
   background-color: #efc6c8;
   border-radius: 25px;
 }
+
+.login-txt {
+  color: #013d19;
+  padding: 2em 0 1em 0; 
+}
