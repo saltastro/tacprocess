@@ -30,12 +30,7 @@ class StatisticsPage extends React.Component {
         <StatTable
           proposals = { statistics.data.proposals }
           targets = { statistics.data.targets }
-          semester = { selectors.selectedSemester }
         />
-        <br />
-        <br />
-        <br />
-        <br />
         <br />
         <br />
       </div>

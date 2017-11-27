@@ -1,17 +1,6 @@
 import React from "react";
 import propTypes from "prop-types";
 
-const getMatch = (a, b) => {
-      const matches = [];
-
-      for ( let i = 0; i < a.length; i++ ) {
-          for ( let e = 0; e < b.length; e++ ) {
-              if ( a[i] === b[e] ) matches.push( a[i] );
-          }
-      }
-      return matches;
-  }
-
 function setProposalTransparency(proposals) {
   const data = {
     maxSeeing: {
@@ -37,27 +26,27 @@ function setProposalTransparency(proposals) {
       },
     },
     transparency: {
-    clear: {
-      timeRequests: 0,
-      noOfProposals: 0,
-      fraction: 0
-    },
-    thin: {
-      timeRequests: 0,
-      noOfProposals: 0,
-      fraction: 0
-    },
-    thick: {
-      timeRequests: 0,
-      noOfProposals: 0,
-      fraction: 0
-    },
-    any: {
-      timeRequests: 0,
-      noOfProposals: 0,
-      fraction: 0
+      clear: {
+        timeRequests: 0,
+        noOfProposals: 0,
+        fraction: 0
+      },
+      thin: {
+        timeRequests: 0,
+        noOfProposals: 0,
+        fraction: 0
+      },
+      thick: {
+        timeRequests: 0,
+        noOfProposals: 0,
+        fraction: 0
+      },
+      any: {
+        timeRequests: 0,
+        noOfProposals: 0,
+        fraction: 0
+      }
     }
-  }
   }
   proposals.map(p => {
     let reqTime = p.thisRequestedTime
@@ -107,7 +96,7 @@ function setProposalTransparency(proposals) {
 }
 
 
-const ObservingStatTable = (proposals, semester) => {
+const ObservingStatTable = (proposals) => {
 
   const data = setProposalTransparency(proposals.proposals)
   return(
@@ -179,8 +168,7 @@ const ObservingStatTable = (proposals, semester) => {
 )}
 
 ObservingStatTable.propTypes = {
-  proposals: propTypes.array.isRequired ,
-  semester: propTypes.string.isRequired ,
+  proposals: propTypes.array.isRequired
 }
 
 export default ObservingStatTable;
