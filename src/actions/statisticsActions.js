@@ -25,6 +25,15 @@ function isLong(req, sem ){
   } )
   return islong
 }
+function thisRequestedTime(req, sem ){
+  let islong = 0
+  req.map( r => {
+    if (sem === r.forSemester ){
+      islong =  r.time }
+    return r
+  } )
+  return islong
+}
 
 export const convertData = (statData, semester) => {
   const proposals = statData.proposals.map( proposal =>   (
@@ -37,7 +46,8 @@ export const convertData = (statData, semester) => {
       transparency: proposal.generalInfo.transparency,
       isNew: isNew(proposal.timeRequests, semester),
       isLong: isLong(proposal.timeRequests, semester),
-      requestedTime: proposal.timeRequests
+      requestedTime: proposal.timeRequests,
+      thisRequestedTime: thisRequestedTime(proposal.timeRequests, semester)
     } )
 );
 

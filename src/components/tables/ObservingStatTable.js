@@ -1,69 +1,5 @@
-/* eslint-disable */
 import React from "react";
 import propTypes from "prop-types";
-
-const moonFilter = (proposals, semester) => {
-    const dark = []
-    const grey = []
-    const bright = []
-    const any = []
-    let darkTotal = 0
-    let greyTotal = 0
-    let brightTotal = 0
-    let anyTotal = 0
-    const transparency = {
-      clear: 0,
-      thin: 0,
-      thick: 0,
-      any: 0
-    }
-    proposals.map( p => {
-      p.requestedTime.map(t => {
-        if (t.forSemester === semester){
-          if(t.moon === "Dark" && t.time !== 0){
-            dark.push(p)
-            darkTotal +=  t.time
-          }
-          if(t.moon === "Grey" && t.time !== 0){
-            grey.push(p)
-            greyTotal +=  t.time
-          }
-          if(t.moon === "Bright" && t.time !== 0){
-            bright.push(p)
-            brightTotal +=  t.time
-           }
-          if(t.moon === "Any" && t.time !== 0){
-            any.push(p)
-            anyTotal +=  t.time
-           }
-        }
-
-      })
-        if(p.transparency === "Any"){
-             transparency.any +=1
-        }
-        if(p.transparency === "Thin cloud"){
-             transparency.thin +=1
-        }
-        if(p.transparency === "Thick cloud"){
-             transparency.think +=1
-        }
-        if(p.transparency === "Clear"){
-             transparency.clear +=1
-        }
-      return p
-    })
-    return {
-      dark: dark,
-      grey: grey,
-      bright: bright,
-      any: any,
-      darkTotal: darkTotal/(60*60),
-      greyTotal: greyTotal/(60*60),
-      brightTotal: brightTotal/(60*60),
-      anyTotal: anyTotal/(60*60)
-    };
-  }
 
 const getMatch = (a, b) => {
       const matches = [];
@@ -76,60 +12,175 @@ const getMatch = (a, b) => {
       return matches;
   }
 
-class ObservingStatTable extends React.Component {
-  render() {
-    const { proposals, semester} = this.props
-    const moonFiltered = moonFilter(proposals, semester)
-    return(
-      <div>
-      <h1>Observing Statistics</h1>
-        <table className="table center-table">
-          <thead>
-            <tr>
-              <th><h2>Conditions</h2></th>
-              <th><h2>Time requested (hrs)</h2></th>
-              <th><h2>Number of Proposals</h2></th>
-              <th><h2>Fraction of Total Request (%)</h2></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><h3>Dark</h3></td>
-              <td><h3>{moonFiltered.darkTotal}</h3></td>
-              <td><h3>{moonFiltered.dark.length}</h3></td>
-              <td><h3>{0}</h3></td>
-            </tr>
-            <tr>
-              <td><h3>Grey</h3></td>
-              <td><h3>{moonFiltered.greyTotal}</h3></td>
-              <td><h3>{moonFiltered.grey.length}</h3></td>
-              <td><h3>{0}</h3></td>
-            </tr>
-            <tr>
-              <td><h3>Bright</h3></td>
-              <td><h3>{moonFiltered.brightTotal}</h3></td>
-              <td><h3>{moonFiltered.bright.length}</h3></td>
-              <td><h3>{0}</h3></td>
-            </tr>
-            <tr>
-              <td><h3>Any</h3></td>
-              <td><h3>{moonFiltered.anyTotal}</h3></td>
-              <td><h3>{moonFiltered.any.length}</h3></td>
-              <td><h3>{0}</h3></td>
-            </tr>
-            <tr />
+function setProposalTransparency(proposals) {
+  const data = {
+    maxSeeing: {
+      less10: {
+        timeRequests: 0,
+        noOfProposals: 0,
 
+      },
+      less15: {
+        timeRequests: 0,
+        noOfProposals: 0,
 
-          </tbody>
-        </table>
-      </div>
-      );
+      },
+      less20: {
+        timeRequests: 0,
+        noOfProposals: 0,
+
+      },
+      less50: {
+        timeRequests: 0,
+        noOfProposals: 0,
+
+      },
+    },
+    transparency: {
+    clear: {
+      timeRequests: 0,
+      noOfProposals: 0,
+      fraction: 0
+    },
+    thin: {
+      timeRequests: 0,
+      noOfProposals: 0,
+      fraction: 0
+    },
+    thick: {
+      timeRequests: 0,
+      noOfProposals: 0,
+      fraction: 0
+    },
+    any: {
+      timeRequests: 0,
+      noOfProposals: 0,
+      fraction: 0
     }
   }
-
-  ObservingStatTable.propTypes = {
-    proposals: propTypes.array.isRequired ,
-    semester: propTypes.string.isRequired ,
   }
+  proposals.map(p => {
+    let reqTime = p.thisRequestedTime
+    if ( isNaN(reqTime)) { reqTime = 0 }
+    if (p.transparency === "Clear"){
+      data.transparency.clear.noOfProposals += 1
+      data.transparency.clear.timeRequests += reqTime
+    }
+    if (p.transparency === "Any"){
+
+      data.transparency.any.noOfProposals += 1
+      data.transparency.any.timeRequests += reqTime
+    }
+    if (p.transparency === "Thick cloud"){
+      data.transparency.thick.noOfProposals += 1
+      data.transparency.thick.timeRequests += reqTime
+    }
+    if (p.transparency === "Thin cloud"){
+      data.transparency.thin.noOfProposals += 1
+      data.transparency.thin.timeRequests += reqTime
+    }
+
+    // seeing
+    if (p.maxSeeing <= 1){
+      data.maxSeeing.less10.noOfProposals += 1
+      data.maxSeeing.less10.timeRequests += reqTime
+    }
+    if (p.maxSeeing > 1 && p.maxSeeing <= 1.5){
+
+      data.maxSeeing.less15.noOfProposals += 1
+      data.maxSeeing.less15.timeRequests += reqTime
+    }
+    if (p.maxSeeing > 1.5 && p.maxSeeing <= 2){
+      data.maxSeeing.less20.noOfProposals += 1
+      data.maxSeeing.less20.timeRequests += reqTime
+    }
+    if (p.maxSeeing > 2 && p.maxSeeing <= 5.0){
+      data.maxSeeing.less50.noOfProposals += 1
+      data.maxSeeing.less50.timeRequests += reqTime
+    }
+
+
+    return p
+  })
+
+  return data
+}
+
+
+const ObservingStatTable = (proposals, semester) => {
+
+  const data = setProposalTransparency(proposals.proposals)
+  return(
+  <div>
+    <h1>Observing Statistics</h1>
+    <table className="table center-table">
+      <thead>
+        <tr>
+          <th><h2>Conditions</h2></th>
+          <th><h2>Time requested (hrs)</h2></th>
+          <th><h2>Number of Proposals</h2></th>
+          <th><h2>Fraction of Total Request (%)</h2></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><h2>Clear</h2></td>
+          <td><h2>{ data.transparency.clear.timeRequests }</h2></td>
+          <td><h2>{ data.transparency.clear.noOfProposals }</h2></td>
+          <td><h2>{0}</h2></td>
+        </tr>
+        <tr>
+          <td><h2>Thin cloud</h2></td>
+          <td><h2>{ data.transparency.thin.timeRequests }</h2></td>
+          <td><h2>{ data.transparency.thin.noOfProposals }</h2></td>
+          <td><h2>{0}</h2></td>
+        </tr>
+        <tr>
+          <td><h2>Thick cloud</h2></td>
+          <td><h2>{ data.transparency.thick.timeRequests }</h2></td>
+          <td><h2>{ data.transparency.thick.noOfProposals }</h2></td>
+          <td><h2>{0}</h2></td>
+        </tr>
+        <tr>
+          <td><h2>Any</h2></td>
+          <td><h2>{ data.transparency.any.timeRequests }</h2></td>
+          <td><h2>{ data.transparency.any.noOfProposals }</h2></td>
+          <td><h2>{0}</h2></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr>
+          <td><h3>Max Seeing <br /> &#x2266; 1.0 </h3></td>
+          <td><h2>{ data.maxSeeing.less10.timeRequests }</h2></td>
+          <td><h2>{ data.maxSeeing.less10.noOfProposals }</h2></td>
+          <td><h2>{0}</h2></td>
+        </tr>
+        <tr>
+          <td><h3>Max Seeing <br /> &#x2266; 1.5</h3></td>
+          <td><h2>{ data.maxSeeing.less15.timeRequests }</h2></td>
+          <td><h2>{ data.maxSeeing.less15.noOfProposals }</h2></td>
+          <td><h2>{0}</h2></td>
+        </tr>
+        <tr>
+          <td><h3>Max Seeing <br /> &#x2266; 2.0</h3></td>
+          <td><h2>{ data.maxSeeing.less20.timeRequests }</h2></td>
+          <td><h2>{ data.maxSeeing.less20.noOfProposals }</h2></td>
+          <td><h2>{0}</h2></td>
+        </tr>
+        <tr>
+          <td><h3>Max Seeing <br /> &#x2266; 5.0</h3></td>
+          <td><h2>{ data.maxSeeing.less50.timeRequests }</h2></td>
+          <td><h2>{ data.maxSeeing.less50.noOfProposals }</h2></td>
+          <td><h2>{0}</h2></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+)}
+
+ObservingStatTable.propTypes = {
+  proposals: propTypes.array.isRequired ,
+  semester: propTypes.string.isRequired ,
+}
 
 export default ObservingStatTable;

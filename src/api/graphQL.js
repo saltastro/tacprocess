@@ -1,5 +1,5 @@
 import axios from 'axios';
-import API_BASE_URL from '../types';
+import { API_BASE_URL } from '../types';
 
 
 const graphqlClient = () => axios.create({
@@ -43,7 +43,6 @@ export function queryStatData(semester, partner){
   .then(
     response => response
   )
-
 }
 
 
