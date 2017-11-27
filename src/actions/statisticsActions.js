@@ -47,7 +47,8 @@ export const convertData = (statData, semester) => {
       isNew: isNew(proposal.timeRequests, semester),
       isLong: isLong(proposal.timeRequests, semester),
       requestedTime: proposal.timeRequests,
-      thisRequestedTime: thisRequestedTime(proposal.timeRequests, semester)
+      thisRequestedTime: thisRequestedTime(proposal.timeRequests, semester),
+      instruments: proposal.instruments
     } )
 );
 

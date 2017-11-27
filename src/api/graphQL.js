@@ -36,6 +36,21 @@ export function queryStatData(semester, partner){
           transparency
           maxSeeing
         }
+        instruments{
+          rss{
+            mode
+            dictatorMode
+          }
+          hrs{
+            exposureMode
+          }
+          bvit{
+            type
+          }
+          scam{
+            dictatorMode
+          }
+        }
       }
     }
   `
