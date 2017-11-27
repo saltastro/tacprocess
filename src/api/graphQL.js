@@ -40,6 +40,7 @@ export function queryStatData(semester, partner){
           rss{
             mode
             dictatorMode
+
           }
           hrs{
             exposureMode
