@@ -7,7 +7,6 @@
 
 .table td {
 	  font-weight: normal;
-	  font-size: 1em;
   -webkit-box-shadow: 0 2px 2px -2px #0E1119;
 	   -moz-box-shadow: 0 2px 2px -2px #0E1119;
 	        box-shadow: 0 2px 2px -2px #0E1119;
@@ -46,6 +45,20 @@
 
 .table th {
 	  background-color: #5E6F91;
+}
+.proposals-table {
+	  float: inherit;
+}
+.scrolable {
+	  overflow:scroll;
+		width:100%
+}
+.large-td {
+	  width: 60px;
+		height: 3px;
+}
+.table-row {
+	  height: 10px;
 }
 
 .table td:first-child { color: #FB667A; }

@@ -39,16 +39,20 @@ export const convertData = (statData, semester) => {
   const proposals = statData.proposals.map( proposal =>   (
     {
       proposalId: proposal.id,
+      title: proposal.title,
+      abstract: proposal.abstract,
       proposalCode: proposal.code,
+      semester: proposal.semester,
       isP4: proposal.generalInfo.isP4,
       status: proposal.generalInfo.status,
       maxSeeing: proposal.generalInfo.maxSeeing,
       transparency: proposal.generalInfo.transparency,
       isNew: isNew(proposal.timeRequests, semester),
       isLong: isLong(proposal.timeRequests, semester),
-      requestedTime: proposal.timeRequests,
       thisRequestedTime: thisRequestedTime(proposal.timeRequests, semester),
-      instruments: proposal.instruments
+      minTime: proposal.minimumUsefulTime,
+      instruments: proposal.instruments,
+      pi: `${ proposal.pi.surname } ${ proposal.pi.name }`
     } )
 );
 

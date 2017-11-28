@@ -25,6 +25,10 @@ export function queryStatData(semester, partner){
       proposals(semester: "${semester}", ${partnerArgs}){
         id
         code
+        title
+        abstract
+        minimumUsefulTime
+        semester
         timeRequests{
           forSemester
           moon
@@ -51,6 +55,10 @@ export function queryStatData(semester, partner){
           scam{
             dictatorMode
           }
+        }
+        pi{
+          name
+          surname
         }
       }
     }
