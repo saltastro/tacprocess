@@ -10,15 +10,25 @@ import * as d3 from 'd3';
  * width: The width of the chart, including margins, in pixels. (optional)
  * height: The height of the chart, including margins, in pixels. (optional)
  * margin: The margin around the chart, with properties "top", "bottom", "left" and "right". (optional)
- * keys: The key values for the histogram data. (optional)
- * histogramData: The histogram data, as a dictionary of keys and values.
+ * keys: The key values for the histogram data.
+ * datasets: An array of datasets. See below for what a dataset looks like.
  * yTicks: Thew preferred number of y axis ticks. (optional)
  * xLabel: The label for the x axis.
  * yLabel: The label for the y axis.
  *
- * If you pass the keys property, it will be used to determine in what order to draw the histogram bars. It needs
- * to be consistent with the keys in the histogram data passed. If no keys property is passed, the order of bars is
- * not defined.
+ * A dataset must be of the following format,
+ *
+ * {
+ *     className: 'some-string',
+ *     data: {
+ *         key1: value1,
+ *         key2: value2,
+ *         ...
+ *     }
+ * }
+ *
+ * The className property is used as a CSS class name. The keys of the data must be consistent with the
+ * keys property. The datasets are plotted in the given order; i.e. the last dataset is plotted at the top.
  */
 class Histogram extends React.Component {
     componentDidMount() {
