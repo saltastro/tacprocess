@@ -1,4 +1,20 @@
 /**
+ * Get the observing time for a semester in a proposal.
+ * If a partner is given, the observing time is the time requested for that partner.
+ *
+ * @param proposal
+ * @param semester
+ * @param partner
+ * @returns {*}
+ */
+export function proposalObservingTime(proposal, semester, partner) {
+    return proposal.timeRequests
+            .filter(r => r.semester === semester) // semester is correct
+            .reduce((allDistributionItems, r) => [...allDistributionItems, ...r.distribution], []) // collect all partner time requests
+            .filter(d => !partner || d.partnerCode === partner) // partner is correct
+            .reduce((sum, d) => sum + d.time, 0); // add up all time requests
+}
+/**
  * Get the observing time requested for a semester and transparency in a list of proposals.
  * If a partner is given, the observing time is calculated for that partner only.
  *

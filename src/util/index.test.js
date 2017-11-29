@@ -2,6 +2,7 @@ import {
     instrumentCount,
     observingTimeForSeeing,
     observingTimeForTransparency,
+    proposalObservingTime,
     proposalObservingTimeForInstrument
 } from './index';
 
@@ -103,6 +104,43 @@ const proposals = [
         ]
     }
 ];
+
+describe('observing time in a proposal', () => {
+    const proposal = {
+        timeRequests: [
+            {
+                semester: '2017-1',
+                totalTime: 2300,
+                distribution: [
+                    {partnerCode: 'RSA', time: 800},
+                    {partnerCode: 'IUCAA', time: 1100},
+                    {partnerCode: 'UNC', time: 400}
+                ]
+            },
+            {
+                semester: '2017-2',
+                totalTime: 1000,
+                distribution: [
+                    {partnerCode: 'RSA', time: 600},
+                    {partnerCode: 'IUCAA', time: 300},
+                    {partnerCode: 'UNC', time: 100}
+                ]
+            }
+        ]
+    };
+
+    it('should be calculated for a wrong semester', () => {
+        expect(proposalObservingTime(proposal, '2018-1')).toBeCloseTo(0);
+    });
+
+    it('should be calculated for a correct semester and a partner', () => {
+        expect(proposalObservingTime(proposal, '2017-2', 'IUCAA')).toBeCloseTo(300);
+    });
+
+    it('should be calculated for a correct semester and all partners', () => {
+        expect(proposalObservingTime(proposal, '2017-1')).toBeCloseTo(2300);
+    });
+});
 
 describe('observing time for a transparency', () => {
     it('should be calculated for a single partner', () => {
