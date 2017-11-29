@@ -61,7 +61,11 @@ class Histogram extends React.Component {
 
         // access to the x and y value
         const xValue = d => d;
-        const yValue = d => this.props.histogramData[d];
+        const yValue = (dataset, d) => dataset.data[d];
+
+        // flatten the data
+        const allDataPoints = this.props.datasets
+                .reduce((flattened, dataset) => [...flattened, ...Object.values(dataset.data)], []);
 
         // scales
         const xScale = d3.scaleBand()
@@ -69,7 +73,7 @@ class Histogram extends React.Component {
                 .range([0, innerWidth])
                 .padding(0.3);
         const yTicks = this.props.yTicks || 5;
-        const maxY = d3.max(this.props.keys, yValue);
+        const maxY = d3.max(allDataPoints);
         const yScale = d3.scaleLinear()
                 .domain([0, maxY])
                 .range([innerHeight, 0])
@@ -128,15 +132,19 @@ class Histogram extends React.Component {
                 .text(this.props.yLabel);
 
         // plot the data
-        g.selectAll('rect')
-                .data(this.props.keys)
-                .enter()
-                .append('rect')
-                .attr('class', 'histogram count')
-                .attr('x', d => xScale(xValue(d)))
-                .attr('y', d => yScale(yValue(d)))
-                .attr('width', xScale.bandwidth())
-                .attr('height', d => innerHeight - yScale(yValue(d)));
+        this.props.datasets.forEach(dataset => {
+            g.append('g')
+                    .classed(dataset.className, true)
+                    .selectAll('rect')
+                    .data(this.props.keys)
+                    .enter()
+                    .append('rect')
+                    .attr('class', 'histogram count')
+                    .attr('x', d => xScale(xValue(d)))
+                    .attr('y', d => yScale(yValue(dataset, d)))
+                    .attr('width', xScale.bandwidth())
+                    .attr('height', d => innerHeight - yScale(yValue(dataset, d)));
+        });
     };
 
     render() {
@@ -158,7 +166,7 @@ Histogram.propTypes = {
     margin: PropTypes.object,
     yTicks: PropTypes.number,
     keys: PropTypes.array.isRequired,
-    histogramData: PropTypes.func.isRequired,
+    datasets: PropTypes.func.isRequired,
     xLabel: PropTypes.string.isRequired,
     yLabel: PropTypes.string.isRequired
 };
