@@ -50,7 +50,7 @@ function setProposalTransparency(proposals) {
     }
   }
   proposals.map(p => {
-    let reqTime = p.thisRequestedTime
+    let reqTime = p.totalRequestedTime
     if ( isNaN(reqTime)) { reqTime = 0 }
     if (p.transparency === "Clear"){
       data.transparency.clear.noOfProposals += 1
