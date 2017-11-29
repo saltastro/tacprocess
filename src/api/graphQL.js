@@ -27,24 +27,15 @@ export function queryStatData(semester, partner){
         code
         title
         abstract
-        minimumUsefulTime
-        semester
-        timeRequests{
-          forSemester
-          moon
-          time
-        }
-        generalInfo{
-          isP4
-          status
-          transparency
-          maxSeeing
-        }
+        techReport
+        isP4
+        status
+        transparency
+        maxSeeing
         instruments{
           rss{
             mode
             dictatorMode
-
           }
           hrs{
             exposureMode
@@ -54,6 +45,15 @@ export function queryStatData(semester, partner){
           }
           scam{
             dictatorMode
+          }
+        }
+        timeRequests{
+          semester
+          minimumUsefulTime
+          distribution{
+            partnerName
+            partnerCode
+            time
           }
         }
         pi{

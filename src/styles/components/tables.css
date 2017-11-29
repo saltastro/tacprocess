@@ -30,7 +30,8 @@
 .table td, .table th {
 	  padding-bottom: 2%;
 	  padding-top: 2%;
-  padding-left:2%;
+  padding-left:1%;
+  padding-right:1%;
 }
 
 /* Background-color of the odd rows */
@@ -45,20 +46,6 @@
 
 .table th {
 	  background-color: #5E6F91;
-}
-.proposals-table {
-	  float: inherit;
-}
-.scrolable {
-	  overflow:scroll;
-		width:100%
-}
-.large-td {
-	  width: 60px;
-		height: 3px;
-}
-.table-row {
-	  height: 10px;
 }
 
 .table td:first-child { color: #FB667A; }
