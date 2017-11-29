@@ -6,6 +6,7 @@ const ProposalsTable = (proposals) => {
 
   return (
     <div>
+    <h1>Proposals Table</h1>
     <table className="table center-table proposals-table">
       <thead>
         <tr>
@@ -13,8 +14,6 @@ const ProposalsTable = (proposals) => {
           <th><h2>Title</h2></th>
           <th><h2>PI</h2></th>
           <th><h2>Abstract</h2></th>
-
-          <th><h2>Semester</h2></th>
           <th><h2>Total Time</h2></th>
           <th><h2>Min Time</h2></th>
           <th><h2>Transparency</h2></th>
@@ -30,8 +29,7 @@ const ProposalsTable = (proposals) => {
                 <td>{ p.title }</td>
                 <td>{ p.pi }</td>
                 <td>{ p.abstract }</td>
-                <td>{ p.semester }</td>
-                <td>{ p.thisRequestedTime }</td>
+                <td>{ p.totalRequestedTime }</td>
                 <td>{ p.minTime }</td>
                 <td>{ p.transparency }</td>
                 <td>{ p.maxSeeing }</td>
