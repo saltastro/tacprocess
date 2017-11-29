@@ -104,7 +104,7 @@ const proposals = [
     }
 ];
 
-describe('observing times for a transparency', () => {
+describe('observing time for a transparency', () => {
     it('should be calculated for a single partner', () => {
         expect(observingTimeForTransparency(proposals, '2017-1', 'Clear', 'RSA')).toBeCloseTo(270);
         expect(observingTimeForTransparency(proposals, '2017-2', 'Clear', 'RSA')).toBeCloseTo(400);
@@ -119,7 +119,7 @@ describe('observing times for a transparency', () => {
     });
 });
 
-describe('observing times for a seeing', () => {
+describe('observing time for a seeing', () => {
     it('should be calculated for a single partner', () => {
         expect(observingTimeForSeeing(proposals, '2017-1', [1, 2], 'RSA')).toBeCloseTo(0);
         expect(observingTimeForSeeing(proposals, '2017-1', [2, 3], 'RSA')).toBeCloseTo(460);
@@ -136,7 +136,7 @@ describe('observing times for a seeing', () => {
     })
 });
 
-describe('instrument counts', () => {
+describe('instrument count', () => {
     it('should be calculated for no instruments', () => {
         const proposal = {
             instruments: {}
@@ -199,7 +199,7 @@ describe('proposal observing time for an instrument', () => {
                 .toBeCloseTo(0);
     });
 
-    describe('single instrument', () => {
+    describe('for a single instrument', () => {
         const proposal = {
             timeRequests: [
                 {
@@ -251,6 +251,14 @@ describe('proposal observing time for an instrument', () => {
                     .toBeCloseTo(0);
         });
 
+        it('should be calculated without a mode', () => {
+            expect(proposalObservingTimeForInstrument(proposal,
+                                                      '2017-1',
+                                                      'RSS',
+                                                      {partner: 'RSA'}))
+                    .toBeCloseTo(1000);
+        });
+
         it('should be calculated for a correct mode and all partners', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
@@ -260,7 +268,7 @@ describe('proposal observing time for an instrument', () => {
         });
     });
 
-    describe('multiple instruments', () => {
+    describe('for multiple instruments', () => {
         const proposal = {
             timeRequests: [
                 {
@@ -303,7 +311,7 @@ describe('proposal observing time for an instrument', () => {
         it('should be calculated for a correct mode and partner', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
-                                                      'rss',
+                                                      'RSS',
                                                       {field: 'mode', value: 'Polarimetry', partner: 'RSA'}))
                     .toBeCloseTo(2 * 1000 / 7);
         });
@@ -311,7 +319,7 @@ describe('proposal observing time for an instrument', () => {
         it('should be calculated for an incorrect instrument', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
-                                                      'xyz',
+                                                      'XYZ',
                                                       {field: 'mode', value: 'Polarimetry', partner: 'RSA'}))
                     .toBeCloseTo(0);
         });
@@ -319,15 +327,23 @@ describe('proposal observing time for an instrument', () => {
         it('should be calculated for an incorrect mode', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
-                                                      'rss',
+                                                      'RSS',
                                                       {field: 'mode', value: 'Spectroscopy', partner: 'RSA'}))
                     .toBeCloseTo(0);
+        });
+
+        it('should be calculated without a mode', () => {
+            expect(proposalObservingTimeForInstrument(proposal,
+                                                      '2017-1',
+                                                      'RSS',
+                                                      {partner: 'RSA'}))
+                    .toBeCloseTo(3 * 1000 / 7);
         });
 
         it('should be calculated for a correct mode and all partners', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
-                                                      'rss',
+                                                      'RSS',
                                                       {field: 'mode', value: 'Polarimetry'}))
                     .toBeCloseTo(2 * 1500 / 7);
         });
