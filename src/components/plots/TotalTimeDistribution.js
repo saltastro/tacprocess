@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 
+import { proposalObservingTime } from '../../util';
+
 /**
  * A component for displaying a histogram with the distribution of the total requested time.
  *
@@ -10,8 +12,7 @@ import * as d3 from 'd3';
  * width: The width of the chart, including margins, in pixels. (optional)
  * height: The height of the chart, including margins, in pixels. (optional)
  * margin: The margin around the chart, with properties "top", "bottom", "left" and "right". (optional)
- * proposals: The list of proposals. Each proposal must have a property "totalTime" (with the total time requested
- *            from all partners) and a property "partnerTime" (with the total time requested from a partner).
+ * proposals: The list of proposals.
  *
  * The histogram contains bars for the time requested from all partners and for the time requested from a partner.
  * Their CSS classes are "total time" and "partner time".
@@ -52,13 +53,12 @@ class TotalTimeDistribution extends React.Component {
         console.log({ thresholds });
         const totalHoursHistogram = d3.histogram()
                 .domain([0, maxHours])
-                .value(d => d.totalTime)
+                .value(proposal => proposalObservingTime(proposal, this.props.semester, this.props.partner) / 3600)
                 .thresholds(thresholds);
         const totalHoursData = totalHoursHistogram(this.props.proposals);
-        console.log(totalHoursData);
         const partnerHoursHistogram = d3.histogram()
                 .domain([0, maxHours])
-                .value(d => d.partnerTime)
+                .value(proposal => proposalObservingTime(proposal, this.props.semester) / 3600)
                 .thresholds(thresholds);
         const partnerHoursData = partnerHoursHistogram(this.props.proposals);
 
@@ -170,7 +170,9 @@ TotalTimeDistribution.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
     margin: PropTypes.object,
-    proposals: PropTypes.array.isRequired
+    proposals: PropTypes.array.isRequired,
+    semester: PropTypes.string.isRequired,
+    partner: PropTypes.string.isRequired
 };
 
 export default TotalTimeDistribution;
