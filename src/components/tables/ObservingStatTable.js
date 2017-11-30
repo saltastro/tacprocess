@@ -2,6 +2,7 @@ import React from "react";
 import propTypes from "prop-types";
 
 function setProposalTransparency(proposals) {
+  console.log(proposals.length);
   const data = {
     maxSeeing: {
       less10: {
@@ -49,7 +50,7 @@ function setProposalTransparency(proposals) {
     }
   }
   proposals.map(p => {
-    let reqTime = p.thisRequestedTime
+    let reqTime = p.totalRequestedTime
     if ( isNaN(reqTime)) { reqTime = 0 }
     if (p.transparency === "Clear"){
       data.transparency.clear.noOfProposals += 1
@@ -137,6 +138,14 @@ const ObservingStatTable = (proposals) => {
           <td><h2>{0}</h2></td>
         </tr>
       </tbody>
+      <thead>
+        <tr>
+          <th />
+          <th />
+          <th />
+          <th />
+        </tr>
+      </thead>
       <tbody>
         <tr>
           <td><h3>Max Seeing <br /> &#x2266; 1.0 </h3></td>

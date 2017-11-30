@@ -25,22 +25,17 @@ export function queryStatData(semester, partner){
       proposals(semester: "${semester}", ${partnerArgs}){
         id
         code
-        timeRequests{
-          forSemester
-          moon
-          time
-        }
-        generalInfo{
-          isP4
-          status
-          transparency
-          maxSeeing
-        }
+        title
+        abstract
+        techReport
+        isP4
+        status
+        transparency
+        maxSeeing
         instruments{
           rss{
             mode
             dictatorMode
-
           }
           hrs{
             exposureMode
@@ -51,6 +46,19 @@ export function queryStatData(semester, partner){
           scam{
             dictatorMode
           }
+        }
+        timeRequests{
+          semester
+          minimumUsefulTime
+          distribution{
+            partnerName
+            partnerCode
+            time
+          }
+        }
+        pi{
+          name
+          surname
         }
       }
     }

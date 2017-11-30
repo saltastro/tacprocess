@@ -6,50 +6,48 @@ import {
   FETCH_STAT_DATA_START
 } from "../types";
 
-function isNew(req, sem ){
-  let isnew = true
-  req.map( r => {
-    if (sem > r.forSemester ){
-      isnew =  false }
-    return r
-  } )
-  return isnew
+function isNewProposal(distributedTimes, semester){
+  return distributedTimes.some(t => t.semester > semester)
 }
 
-function isLong(req, sem ){
-  let islong = false
-  req.map( r => {
-    if (sem !== r.forSemester ){
-      islong =  true }
-    return r
-  } )
-  return islong
+function isLongTermProposal(distributedTimes, semester){
+  return distributedTimes.some(t => t.semester !== semester )
 }
-function thisRequestedTime(req, sem ){
-  let islong = 0
-  req.map( r => {
-    if (sem === r.forSemester ){
-      islong =  r.time }
-    return r
-  } )
-  return islong
+
+function minimumTotalRequested(distributedTimes, semester){
+  let total = 0
+  let minimum = 0
+  distributedTimes.forEach( t => {
+    if (t.semester === semester ){
+      minimum = t.minimumUsefulTime
+      t.distribution.forEach( d => { total += parseFloat(d.time) }
+    )}
+  })
+  return { total, minimum }
 }
 
 export const convertData = (statData, semester) => {
-  const proposals = statData.proposals.map( proposal =>   (
-    {
+  const proposals = statData.proposals.map( proposal =>   {
+    const minTotal  = minimumTotalRequested(proposal.timeRequests, semester)
+
+    return ({
       proposalId: proposal.id,
+      title: proposal.title,
+      abstract: proposal.abstract,
       proposalCode: proposal.code,
-      isP4: proposal.generalInfo.isP4,
-      status: proposal.generalInfo.status,
-      maxSeeing: proposal.generalInfo.maxSeeing,
-      transparency: proposal.generalInfo.transparency,
-      isNew: isNew(proposal.timeRequests, semester),
-      isLong: isLong(proposal.timeRequests, semester),
-      requestedTime: proposal.timeRequests,
-      thisRequestedTime: thisRequestedTime(proposal.timeRequests, semester),
-      instruments: proposal.instruments
-    } )
+      isP4: proposal.isP4,
+      status: proposal.status,
+      maxSeeing: proposal.maxSeeing,
+      transparency: proposal.transparency,
+      isNew: isNewProposal(proposal.timeRequests, semester),
+      isLong: isLongTermProposal(proposal.timeRequests, semester),
+      totalRequestedTime: minTotal.total,
+      minTime: minTotal.minimum,
+      instruments: proposal.instruments,
+      pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
+      report: proposal.techReport
+    })
+  }
 );
 
   const targets = statData.targets
@@ -89,7 +87,8 @@ export function fetchStatData(semester, partner="All"){
     dispatch(startFetchData());
     queryStatData(semester, partner).then( res =>
       {
-        dispatch(FetchDataPass(convertData(res.data.data, semester)))}
+        dispatch(FetchDataPass(convertData(res.data.data, semester)))
+      }
     ).catch((err) => {
       console.log(err);
       dispatch(FetchDataFail())})

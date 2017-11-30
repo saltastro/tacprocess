@@ -175,7 +175,7 @@ const ConfigStats = (proposals) => {
     <table className="table center-table">
       <thead>
         <tr>
-          <th><h2>Dictator mode</h2></th>
+          <th><h2>Detector mode</h2></th>
           <th><h2>Number of Proposals</h2></th>
         </tr>
       </thead>
@@ -205,7 +205,7 @@ const ConfigStats = (proposals) => {
     {/* RSS Dictator mode */}
       <thead>
         <tr>
-          <th><h2>Dictator mode</h2></th>
+          <th><h2>Detector mode</h2></th>
           <th><h2>Number of Proposals</h2></th>
         </tr>
       </thead>
@@ -281,7 +281,7 @@ const ConfigStats = (proposals) => {
     <table className="table center-table">
       <thead>
         <tr>
-          <th><h2>exposure mode</h2></th>
+          <th><h2>Exposure mode</h2></th>
           <th><h2>Number of Proposals</h2></th>
         </tr>
       </thead>
