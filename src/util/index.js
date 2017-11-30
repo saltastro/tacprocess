@@ -7,11 +7,11 @@
  * @param partner
  * @returns {*}
  */
-export function proposalObservingTime(proposal, semester, partner) {
+export function proposalObservingTime(proposal, semester, partner='All') {
     return proposal.timeRequests
             .filter(r => r.semester === semester) // semester is correct
             .reduce((allDistributionItems, r) => [...allDistributionItems, ...r.distribution], []) // collect all partner time requests
-            .filter(d => !partner || d.partnerCode === partner) // partner is correct
+            .filter(d => partner === 'All' || d.partnerCode === partner) // partner is correct
             .reduce((sum, d) => sum + d.time, 0); // add up all time requests
 }
 /**
@@ -23,13 +23,13 @@ export function proposalObservingTime(proposal, semester, partner) {
  * @param transparency
  * @param partner
  */
-export function observingTimeForTransparency(proposals, semester, transparency, partner=null) {
+export function observingTimeForTransparency(proposals, semester, transparency, partner='All') {
     return proposals
             .filter(p => p.transparency === transparency) // transparency is correct
             .reduce((allTimeRequests, p) => [...allTimeRequests, ...p.timeRequests], []) // collect time requests
             .filter(r => r.semester === semester) // semester is correct
             .reduce((allDistributionItems, r) => [...allDistributionItems, ...r.distribution], []) // collect partner time requests
-            .filter(d => !partner || d.partnerCode === partner) // partner is correct
+            .filter(d => partner === 'All' || d.partnerCode === partner) // partner is correct
             .reduce((sum, request) => sum + request.time, 0); // add up all time requests
 }
 
@@ -45,13 +45,13 @@ export function observingTimeForTransparency(proposals, semester, transparency, 
  * @param seeingRange
  * @param partner
  */
-export function observingTimeForSeeing(proposals, semester, seeingRange, partner) {
+export function observingTimeForSeeing(proposals, semester, seeingRange, partner='All') {
     return proposals
             .filter(p => seeingRange[0] <= p.maxSeeing && p.maxSeeing < seeingRange[1])// seeing is correct
             .reduce((allTimeRequests, p) => [...allTimeRequests, ...p.timeRequests], []) // collect time requests
             .filter(r => r.semester === semester) // semester is correct
             .reduce((allDistributionItems, r) => [...allDistributionItems, ...r.distribution], []) // collect partner time requests
-            .filter(d => !partner || d.partnerCode === partner) // partner is correct
+            .filter(d => partner === 'All' || d.partnerCode === partner) // partner is correct
             .reduce((sum, request) => sum + request.time, 0); // add up all time requests
 }
 
@@ -89,7 +89,7 @@ export function instrumentCount(proposal) {
  * @param value
  * @param partner
  */
-export function proposalObservingTimeForInstrument(proposal, semester, instrument, {field, value, partner}) {
+export function proposalObservingTimeForInstrument(proposal, semester, instrument, {field, value, partner='All'}) {
     const instrumentModeCount = (proposal.instruments[instrument.toLowerCase()] || [])
             .filter(v => !field || v[field] === value)
             .length;
@@ -99,7 +99,7 @@ export function proposalObservingTimeForInstrument(proposal, semester, instrumen
     const totalObservingTime = proposal.timeRequests
             .filter(r => r.semester === semester) // semester is correct
             .reduce((distributionItems, r) => [...distributionItems, ...r.distribution], []) // collect all partner time requests
-            .filter(d => !partner || d.partnerCode === partner) // partner is correct
+            .filter(d => partner === 'All' || d.partnerCode === partner) // partner is correct
             .reduce((sum, d) => sum + d.time, 0); // add all time requests
 
     return instrumentModeFraction * totalObservingTime;
@@ -129,5 +129,5 @@ export function proposalObservingTimeForInstrument(proposal, semester, instrumen
  * @param partner
  */
 export function observingTimeForInstrument(proposals, semester, instrument, {field, value, partner}) {
-    const proposalObservingTime = (proposal, semester, ins)
+    // const proposalObservingTime = (proposal, semester, ins)
 }

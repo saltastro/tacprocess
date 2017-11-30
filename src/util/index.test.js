@@ -138,6 +138,7 @@ describe('observing time in a proposal', () => {
     });
 
     it('should be calculated for a correct semester and all partners', () => {
+        expect(proposalObservingTime(proposal, '2017-1', 'All')).toBeCloseTo(2300);
         expect(proposalObservingTime(proposal, '2017-1')).toBeCloseTo(2300);
     });
 });
@@ -154,6 +155,9 @@ describe('observing time for a transparency', () => {
         expect(observingTimeForTransparency(proposals, '2017-1', 'Clear')).toBeCloseTo(540);
         expect(observingTimeForTransparency(proposals, '2017-1', 'Thin cloud')).toBeCloseTo(350);
         expect(observingTimeForTransparency(proposals, '2017-1', 'Any')).toBeCloseTo(0);
+        expect(observingTimeForTransparency(proposals, '2017-1', 'Clear', 'All')).toBeCloseTo(540);
+        expect(observingTimeForTransparency(proposals, '2017-1', 'Thin cloud', 'All')).toBeCloseTo(350);
+        expect(observingTimeForTransparency(proposals, '2017-1', 'Any', 'All')).toBeCloseTo(0);
     });
 });
 
@@ -166,6 +170,10 @@ describe('observing time for a seeing', () => {
     });
 
     it('should be calculated for all partners', () => {
+        expect(observingTimeForSeeing(proposals, '2017-1', [1, 2], 'All')).toBeCloseTo(0);
+        expect(observingTimeForSeeing(proposals, '2017-1', [2, 3], 'All')).toBeCloseTo(700);
+        expect(observingTimeForSeeing(proposals, '2017-2', [2, 3], 'All')).toBeCloseTo(1080);
+        expect(observingTimeForSeeing(proposals, '2017-2', [2.9, 3.1], 'All')).toBeCloseTo(1150);
         expect(observingTimeForSeeing(proposals, '2017-1', [1, 2])).toBeCloseTo(0);
         expect(observingTimeForSeeing(proposals, '2017-1', [2, 3])).toBeCloseTo(700);
         expect(observingTimeForSeeing(proposals, '2017-2', [2, 3])).toBeCloseTo(1080);
@@ -301,6 +309,11 @@ describe('proposal observing time for an instrument', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
                                                       'RSS',
+                                                      {field: 'mode', value: 'Polarimetry', partner: 'All'}))
+                    .toBeCloseTo(1500);
+            expect(proposalObservingTimeForInstrument(proposal,
+                                                      '2017-1',
+                                                      'RSS',
                                                       {field: 'mode', value: 'Polarimetry'}))
                     .toBeCloseTo(1500);
         });
@@ -383,6 +396,11 @@ describe('proposal observing time for an instrument', () => {
                                                       '2017-1',
                                                       'RSS',
                                                       {field: 'mode', value: 'Polarimetry'}))
+                    .toBeCloseTo(2 * 1500 / 7);
+            expect(proposalObservingTimeForInstrument(proposal,
+                                                      '2017-1',
+                                                      'RSS',
+                                                      {field: 'mode', value: 'Polarimetry', partner: 'All'}))
                     .toBeCloseTo(2 * 1500 / 7);
         });
     });
