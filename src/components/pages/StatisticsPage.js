@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux"
 import StatTable from "../tables/StatTable";
+import TotalTimeDistribution from '../plots/TotalTimeDistribution';
 
 class StatisticsPage extends React.Component {
 
@@ -27,6 +28,11 @@ class StatisticsPage extends React.Component {
     }
     return(
       <div>
+          <TotalTimeDistribution
+                  proposals={statistics.data.proposals}
+                  semester={selectors.selectedSemester}
+                  partner={selectors.selectedPartner}
+          />
         <StatTable
           proposals = { statistics.data.proposals }
           targets = { statistics.data.targets }
