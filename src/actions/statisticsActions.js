@@ -42,6 +42,7 @@ export const convertData = (statData, semester) => {
       isNew: isNewProposal(proposal.timeRequests, semester),
       isLong: isLongTermProposal(proposal.timeRequests, semester),
       totalRequestedTime: minTotal.total,
+      timeRequests: proposal.timeRequests,
       minTime: minTotal.minimum,
       instruments: proposal.instruments,
       pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
