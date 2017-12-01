@@ -136,15 +136,17 @@ class TotalTimeDistribution extends React.Component {
 
         // plot total times
         const data = {
-            total: totalHoursData,
-            partner: partnerHoursData
+            'all-partners': totalHoursData,
+            'partner-only': partnerHoursData
         };
-        ['total', 'partner'].forEach(key => {
-            g.selectAll(`rect.${key}.time`)
+        ['all-partners', 'partner-only'].forEach(key => {
+            g.append('g')
+                    .classed(key, true)
+                    .classed('time', true)
+                    .selectAll(`rect`)
                     .data(data[key])
                     .enter()
                     .append('rect')
-                    .attr('class', `${key} time`)
                     .attr('x', d => xScale(d.x0))
                     .attr('y', d => yScale(d.length))
                     .attr('width', d => xScale(d.x1) - xScale(d.x0))

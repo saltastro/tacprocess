@@ -2,11 +2,11 @@ rect {
     stroke: black;
 }
 
-rect.total {
+.all-partners rect {
     fill: black;
 }
 
-rect.partner {
+.partner-only rect {
     fill: white;
 }
 
