@@ -166,7 +166,7 @@ Histogram.propTypes = {
     margin: PropTypes.object,
     yTicks: PropTypes.number,
     keys: PropTypes.array.isRequired,
-    datasets: PropTypes.func.isRequired,
+    datasets: PropTypes.array.isRequired,
     xLabel: PropTypes.string.isRequired,
     yLabel: PropTypes.string.isRequired
 };
