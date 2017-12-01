@@ -129,5 +129,10 @@ export function proposalObservingTimeForInstrument(proposal, semester, instrumen
  * @param partner
  */
 export function observingTimeForInstrument(proposals, semester, instrument, {field, value, partner}) {
-    // const proposalObservingTime = (proposal, semester, ins)
+    return proposals
+            .reduce((sum, proposal) =>
+                            sum + proposalObservingTimeForInstrument(proposal,
+                                                                     semester,
+                                                                     instrument,
+                                                                     {field, value, partner}), 0);
 }
