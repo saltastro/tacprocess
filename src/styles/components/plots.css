@@ -14,3 +14,15 @@ text {
     fill: black;
     font-size: 12pt;
 }
+
+.all.targets rect {
+    fill: black;
+}
+
+.mandatory.targets rect {
+    fill: gray;
+}
+
+.optional.targets rect {
+    fill: white
+}
