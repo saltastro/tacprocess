@@ -21,47 +21,56 @@ export function queryStatData(semester, partner){
     partnerArgs = `partnerCode:"${partner}"`
   }
   const query = `
-    {
-      proposals(semester: "${semester}", ${partnerArgs}){
-        id
-        code
-        title
-        abstract
-        techReport
-        isP4
-        status
-        transparency
-        maxSeeing
-        instruments{
-          rss{
-            mode
-            dictatorMode
-          }
-          hrs{
-            exposureMode
-          }
-          bvit{
-            type
-          }
-          scam{
-            dictatorMode
-          }
+  {
+    proposals(semester: "${semester}", ${partnerArgs}){
+      id
+      code
+      title
+      abstract
+      techReport
+      isP4
+      status
+      transparency
+      maxSeeing
+      instruments{
+        rss{
+          mode
+          dictatorMode
         }
-        timeRequests{
-          semester
-          minimumUsefulTime
-          distribution{
-            partnerName
-            partnerCode
-            time
-          }
+        hrs{
+          exposureMode
         }
-        pi{
-          name
-          surname
+        bvit{
+          type
+        }
+        scam{
+          dictatorMode
         }
       }
+      timeRequests{
+        semester
+        minimumUsefulTime
+        distribution{
+          partnerName
+          partnerCode
+          time
+        }
+      }
+      pi{
+        name
+        surname
+      }
     }
+targets(semester:"${semester}", ${partnerArgs}){
+  id
+  optional
+  coordinates{
+    ra
+    dec
+  }
+}
+
+}
   `
   return graphqlClient().post(`/graphql?query=${query}`)
   .then(
