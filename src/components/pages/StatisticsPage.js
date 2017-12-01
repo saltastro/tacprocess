@@ -1,7 +1,12 @@
 import React from "react";
 import { connect } from "react-redux"
 import StatTable from "../tables/StatTable";
+import InstrumentDistributionPlot from '../plots/InstrumentDistributionPlot';
+import HrsModeDistributionPlot from '../plots/HrsModeDistributionPlot';
+import RssModeDistributionPlot from '../plots/RssModeDistributionPlot';
+import SalticamModeDistributionPlot from '../plots/SalticamModeDistributionPlot';
 import TotalTimeDistribution from '../plots/TotalTimeDistribution';
+import TransparencyDistribution from '../plots/TransparencyDistribution';
 
 class StatisticsPage extends React.Component {
 
@@ -28,7 +33,33 @@ class StatisticsPage extends React.Component {
     }
     return(
       <div>
+          <HrsModeDistributionPlot
+                  proposals={statistics.data.proposals}
+                  semester={selectors.selectedSemester}
+                  partner={selectors.selectedPartner}
+          />
+          <SalticamModeDistributionPlot
+                  proposals={statistics.data.proposals}
+                  semester={selectors.selectedSemester}
+                  partner={selectors.selectedPartner}
+          />
+          <RssModeDistributionPlot
+                  proposals={statistics.data.proposals}
+                  semester={selectors.selectedSemester}
+                  partner={selectors.selectedPartner}
+          />
+          <InstrumentDistributionPlot
+                  proposals={statistics.data.proposals}
+                  semester={selectors.selectedSemester}
+                  partner={selectors.selectedPartner}
+          />
           <TotalTimeDistribution
+                  proposals={statistics.data.proposals}
+                  semester={selectors.selectedSemester}
+                  partner={selectors.selectedPartner}
+          />
+
+          <TransparencyDistribution
                   proposals={statistics.data.proposals}
                   semester={selectors.selectedSemester}
                   partner={selectors.selectedPartner}
