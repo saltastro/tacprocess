@@ -7,48 +7,46 @@ import Histogram from './Histogram';
 /**
  *
  */
-export default class TransparencyDistribution extends React.Component {
-    render() {
-        const transparencies = ['Clear', 'Thin cloud', 'Thick Cloud', 'Any'];
+const TransparencyDistribution = ({proposals, semester, partner}) => {
+    const transparencies = ['Clear', 'Thin cloud', 'Thick Cloud', 'Any'];
 
-        // generate an object of transparencies and observing times
-        const observingTimes = (partner) => {
-            return transparencies
-                    .reduce((prev, transparency) =>
-                            {
-                                return {
-                                    ...prev,
-                                    [transparency]: observingTimeForTransparency(this.props.proposals,
-                                                                                 this.props.semester,
-                                                                                 transparency,
-                                                                                 partner)
-                                };
-                            }, {});
-        };
+    // generate an object of transparencies and observing times
+    const observingTimes = (partner) => {
+        return transparencies
+                .reduce((prev, transparency) =>
+                        {
+                            return {
+                                ...prev,
+                                [transparency]: observingTimeForTransparency(proposals,
+                                                                             semester,
+                                                                             transparency,
+                                                                             partner) / 3600
+                            };
+                        }, {});
+    };
 
-        const datasets = [
-            {
-                className: 'all-partners',
-                data: observingTimes(false)
-            },
-            {
-                className: 'partner-only',
-                data: observingTimes(true)
-            }
-        ];
-        console.log(datasets);
+    const datasets = [
+        {
+            className: 'all-partners',
+            data: observingTimes()
+        },
+        {
+            className: 'partner-only',
+            data: observingTimes(partner)
+        }
+    ];
 
-        return <Histogram
-                keys={transparencies}
-                datasets={datasets}
-                xLabel="Transparency"
-                yLabel="Requested Time"/>
-
-    }
-}
+    return <Histogram
+            keys={transparencies}
+            datasets={datasets}
+            xLabel="Transparency"
+            yLabel="Requested Time (hrs)"/>
+};
 
 TransparencyDistribution.propTypes = {
     proposals: PropTypes.array.isRequired,
     partner: PropTypes.string.isRequired,
     semester: PropTypes.string.isRequired
 };
+
+export default TransparencyDistribution;
