@@ -124,7 +124,7 @@ class RightAscensionDistribution extends React.Component {
                 .attr('class', 'label')
                 .attr('x', innerWidth / 2)
                 .attr('y', 50)
-                .text('RA');
+                .text('RA (hrs)');
         yAxisLeftG.append('text')
                 .attr('class', 'label')
                 .attr('transform', 'rotate(-90)')
