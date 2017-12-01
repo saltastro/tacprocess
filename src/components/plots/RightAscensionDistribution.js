@@ -142,11 +142,13 @@ class RightAscensionDistribution extends React.Component {
         };
         ['all', 'mandatory', 'optional']
                 .forEach(key => {
-                    g.selectAll(`rect.${key}.targets`)
+                    g.append('g')
+                            .classed(key, true)
+                            .classed('targets', true)
+                            .selectAll('rect')
                             .data(data[key])
                             .enter()
                             .append('rect')
-                            .attr('class', key !== 'all' ? `${key} target` : 'target')
                             .attr('x', d => xScale(d.x0))
                             .attr('y', d => yScale(d.length))
                             .attr('width', d => xScale(d.x1) - xScale(d.x0))
