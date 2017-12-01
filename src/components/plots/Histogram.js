@@ -12,6 +12,7 @@ import * as d3 from 'd3';
  * margin: The margin around the chart, with properties "top", "bottom", "left" and "right". (optional)
  * keys: The key values for the histogram data.
  * datasets: An array of datasets. See below for what a dataset looks like.
+ * xTickLabelAttrs: Attributes for the x axis tick labels. (optional)
  * yTicks: Thew preferred number of y axis ticks. (optional)
  * xLabel: The label for the x axis.
  * yLabel: The label for the y axis.
@@ -29,6 +30,17 @@ import * as d3 from 'd3';
  *
  * The className property is used as a CSS class name. The keys of the data must be consistent with the
  * keys property. The datasets are plotted in the given order; i.e. the last dataset is plotted at the top.
+ *
+ * xTickLabelAttrs is an object with attributes as keys and attribute values as values. The attributes are
+ * applied to the <text> elements of the x axis tick labels. For example, if you want to rotate the labels
+ * by 45 degrees, you might set xTickLabelAttrs to something like
+ *
+ * {
+ *     transform: 'rotate(-45)',
+ *     'text-anchor': 'end',
+ *     x: -10,
+ *     y: 10
+ * }
  */
 class Histogram extends React.Component {
     componentDidMount() {
@@ -103,17 +115,17 @@ class Histogram extends React.Component {
 
         // draw axes
         const xAxisBottomG = g.append('g')
-                .attr('class', 'axis')
+                .attr('class', 'x axis')
                 .attr('transform', `translate(0, ${innerHeight})`);
         xAxisBottomG.call(xAxisBottom);
         const xAxisTopG = g.append('g')
-                .attr('class', 'axis');
+                .attr('class', 'x axis');
         xAxisTopG.call(xAxisTop);
         const yAxisLeftG = g.append('g')
-                .attr('class', 'axis');
+                .attr('class', 'y axis');
         yAxisLeftG.call(yAxisLeft);
         const yAxisRightG = g.append('g')
-                .attr('class', 'axis')
+                .attr('class', 'y axis')
                 .attr('transform', `translate(${innerWidth}, 0)`);
         yAxisRightG.call(yAxisRight);
 
@@ -130,6 +142,15 @@ class Histogram extends React.Component {
                 .attr('y', -50)
                 .attr('text-anchor', 'middle')
                 .text(this.props.yLabel);
+
+        // apply custom attributes to x tick labels
+        if (this.props.xTickLabelAttrs) {
+            Object.entries(this.props.xTickLabelAttrs)
+                    .forEach(([key, value]) => {
+                        xAxisBottomG.selectAll('.tick text')
+                                .attr(key, value);
+                    });
+        }
 
         // plot the data
         this.props.datasets.forEach(dataset => {
@@ -164,11 +185,12 @@ Histogram.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
     margin: PropTypes.object,
+    xTickLabelAttrs: PropTypes.object,
     yTicks: PropTypes.number,
     keys: PropTypes.array.isRequired,
     datasets: PropTypes.array.isRequired,
     xLabel: PropTypes.string.isRequired,
-    yLabel: PropTypes.string.isRequired
+    yLabel: PropTypes.string.isRequired,
 };
 
 export default Histogram;
