@@ -142,7 +142,10 @@ class RightAscensionDistribution extends React.Component {
         };
         ['all', 'mandatory', 'optional']
                 .forEach(key => {
-                    g.selectAll(`rect.${key}.targets`)
+                    g.append('g')
+                            .classed(key, true)
+                            .classed('targets', true)
+                            .selectAll('rect')
                             .data(data[key])
                             .enter()
                             .append('rect')
