@@ -57,7 +57,7 @@ const RssModeDistributionPlot = ({proposals, semester, partner}) => {
                     y: 10
                 }
             }
-            margin={{top: 20, bottom: 150, left: 65, right: 20}}
+            margin={{top: 20, bottom: 120, left: 65, right: 20}}
     />
 };
 
