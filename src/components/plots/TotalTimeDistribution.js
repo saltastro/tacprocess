@@ -50,7 +50,6 @@ class TotalTimeDistribution extends React.Component {
         const maxHours = 100;
         const binnedHours = 2;
         const thresholds = d3.range(0, maxHours + 1, binnedHours);
-        console.log({ thresholds });
         const totalHoursHistogram = d3.histogram()
                 .domain([0, maxHours])
                 .value(proposal => proposalObservingTime(proposal, this.props.semester, this.props.partner) / 3600)
