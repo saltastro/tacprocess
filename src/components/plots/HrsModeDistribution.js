@@ -4,25 +4,25 @@ import PropTypes from 'prop-types';
 import { observingTimeForInstrument } from '../../util';
 import Histogram from './Histogram';
 
-const RssModeDistributionPlot = ({proposals, semester, partner}) => {
-    const detectorModes = [
-            'DRIFT SCAN',
-            'FRAME XFER',
-            'NORMAL',
-            'SLOT'
+const HrsModeDistribution = ({proposals, semester, partner}) => {
+    const exposureModes = [
+        'HIGH RESOLUTION',
+        'HIGH STABILITY',
+        'LOW RESOLUTION',
+        'MEDIUM RESOLUTION'
     ];
 
     const observingTimes = (partner) => {
-        return detectorModes
-                .reduce((prev, detectorMode) => {
+        return exposureModes
+                .reduce((prev, exposureMode) => {
                     return {
                         ...prev,
-                        [detectorMode]: observingTimeForInstrument(proposals,
+                        [exposureMode]: observingTimeForInstrument(proposals,
                                                                    semester,
-                                                                   'SCAM',
+                                                                   'HRS',
                                                                    {
-                                                                       field: 'dictatorMode',
-                                                                       value: detectorMode,
+                                                                       field: 'exposureMode',
+                                                                       value: exposureMode,
                                                                        partner
                                                                    }) / 3600
                     };
@@ -40,8 +40,10 @@ const RssModeDistributionPlot = ({proposals, semester, partner}) => {
         }
     ];
 
+    console.log(observingTimes('All'));
+
     return <Histogram
-            keys={detectorModes}
+            keys={exposureModes}
             datasets={datasets}
             xLabel=""
             yLabel="Requested Time (hrs)"
@@ -53,14 +55,14 @@ const RssModeDistributionPlot = ({proposals, semester, partner}) => {
                     y: 10
                 }
             }
-            margin={{top: 20, bottom: 100, left: 65, right: 20}}
+            margin={{top: 20, bottom: 150, left: 65, right: 20}}
     />
 };
 
-RssModeDistributionPlot.propTypes = {
+HrsModeDistribution.propTypes = {
     proposals: PropTypes.array.isRequired,
     partner: PropTypes.string.isRequired,
     semester: PropTypes.string.isRequired
 };
 
-export default RssModeDistributionPlot;
+export default HrsModeDistribution;

@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux"
 import StatTable from "../tables/StatTable";
-import InstrumentDistributionPlot from '../plots/InstrumentDistributionPlot';
-import HrsModeDistributionPlot from '../plots/HrsModeDistributionPlot';
-import RssModeDistributionPlot from '../plots/RssModeDistributionPlot';
-import SalticamModeDistributionPlot from '../plots/SalticamModeDistributionPlot';
+import InstrumentDistribution from '../plots/InstrumentDistribution';
+import HrsModeDistribution from '../plots/HrsModeDistribution';
+import RssModeDistribution from '../plots/RssModeDistribution';
+import RightAscensionDistribution from '../plots/RightAscensionDistribution';
+import SalticamModeDistribution from '../plots/SalticamModeDistribution';
 import TotalTimeDistribution from '../plots/TotalTimeDistribution';
 import TransparencyDistribution from '../plots/TransparencyDistribution';
 
@@ -33,22 +34,22 @@ class StatisticsPage extends React.Component {
     }
     return(
       <div>
-          <HrsModeDistributionPlot
+           <HrsModeDistribution
                   proposals={statistics.data.proposals}
                   semester={selectors.selectedSemester}
                   partner={selectors.selectedPartner}
           />
-          <SalticamModeDistributionPlot
+          <SalticamModeDistribution
                   proposals={statistics.data.proposals}
                   semester={selectors.selectedSemester}
                   partner={selectors.selectedPartner}
           />
-          <RssModeDistributionPlot
+          <RssModeDistribution
                   proposals={statistics.data.proposals}
                   semester={selectors.selectedSemester}
                   partner={selectors.selectedPartner}
           />
-          <InstrumentDistributionPlot
+          <InstrumentDistribution
                   proposals={statistics.data.proposals}
                   semester={selectors.selectedSemester}
                   partner={selectors.selectedPartner}

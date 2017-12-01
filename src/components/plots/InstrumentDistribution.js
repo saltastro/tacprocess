@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { observingTimeForInstrument } from '../../util';
 import Histogram from './Histogram';
 
-const InstrumentDistributionPlot = ({proposals, semester, partner}) => {
+const InstrumentDistribution = ({proposals, semester, partner}) => {
     const instruments = ['SCAM', 'RSS', 'HRS', 'BVIT'];
 
     const observingTimes = (partner) => {
@@ -35,10 +35,10 @@ const InstrumentDistributionPlot = ({proposals, semester, partner}) => {
             yLabel="Requested Time (hrs)"/>
 };
 
-InstrumentDistributionPlot.propTypes = {
+InstrumentDistribution.propTypes = {
     proposals: PropTypes.array.isRequired,
     partner: PropTypes.string.isRequired,
     semester: PropTypes.string.isRequired
 };
 
-export default InstrumentDistributionPlot;
+export default InstrumentDistribution;
