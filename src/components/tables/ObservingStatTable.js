@@ -2,7 +2,6 @@ import React from "react";
 import propTypes from "prop-types";
 
 function setProposalTransparency(proposals) {
-  console.log(proposals.length);
   const data = {
     maxSeeing: {
       less10: {

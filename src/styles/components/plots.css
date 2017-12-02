@@ -1,0 +1,16 @@
+rect {
+    stroke: black;
+}
+
+.all-partners rect {
+    fill: black;
+}
+
+.partner-only rect {
+    fill: white;
+}
+
+text {
+    fill: black;
+    font-size: 12pt;
+}

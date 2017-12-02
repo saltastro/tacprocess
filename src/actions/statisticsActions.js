@@ -42,6 +42,7 @@ export const convertData = (statData, semester) => {
       isNew: isNewProposal(proposal.timeRequests, semester),
       isLong: isLongTermProposal(proposal.timeRequests, semester),
       totalRequestedTime: minTotal.total,
+      timeRequests: proposal.timeRequests,
       minTime: minTotal.minimum,
       instruments: proposal.instruments,
       pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
@@ -50,7 +51,14 @@ export const convertData = (statData, semester) => {
   }
 );
 
-  const targets = statData.targets
+  const targets = statData.targets.map(target => (
+          {
+              targetId: target.id,
+              optional: target.optional,
+              ra: target.coordinates.ra,
+              dec: target.coordinates.dec
+          }
+  ));
   return {
     proposals,
     targets
