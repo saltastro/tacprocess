@@ -55,7 +55,7 @@ export const convertData = (statData, semester) => {
           {
               targetId: target.id,
               optional: target.optional,
-              ra: target.coordinates.ra,
+              ra: target.coordinates.ra / 15,  // degrees ---> hours
               dec: target.coordinates.dec
           }
   ));
