@@ -1,39 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
-
+import { contourDensity as d3ContourDensity } from 'd3-contour';
+import { interpolateOrRd } from 'd3-scale-chromatic';
 /**
- * A component for displaying a bar chart for the distribution of right ascensions.
+ * A component containing a contour map of the target distribution density. D3's contourDensity is used to
+ * convert the target positions into a density.
  *
  * The following properties can be passed to this component.
  *
  * width: The width of the chart, including margins, in pixels. (optional)
  * height: The height of the chart, including margins, in pixels. (optional)
  * margin: The margin around the chart, with properties "top", "bottom", "left" and "right". (optional)
- * targets: The list of targets. Each target must have a property "ra" (with the right ascension in degrees) and
- *          a property "optional" (which is true for optional targets).
+ * targets: The list of targets. Each target must have a property "ra" (with the right ascension in degrees)
+ *          and a property "dec" (with the declination in degrees).
  *
- * The chart contains bars for the mandatory targets, the optional targets and all targets together. The CSS
- * classes for these are "mandatory target", "optional target" and "target".
+ * The code is based on Mike Bostock’s Block 7f5f22524bd1d824dd53c535eda0187f,
+ * https://bl.ocks.org/mbostock/7f5f22524bd1d824dd53c535eda0187f.
  */
-class RightAscensionDistribution extends React.Component {
+class TargetDistributionContourMap extends React.Component {
     componentDidMount() {
-        this.createPlot();
+        this.updatePlot();
     }
 
     componentDidUpdate() {
-        this.createPlot();
+        this.updatePlot();
     }
 
-    createPlot = () => {
+    updatePlot = () => {
         const svg = d3.select(this.target);
 
-        // remove any existing plot content
-        svg.selectAll('*').remove();
-
         // set up the geometry, using the margin pattern
-        const width = svg.attr('width');
-        const height = svg.attr('height');
+        const width = this.props.width || 800;
+        const height = this.props.height || 500;
         const margin = this.props.margin || {
             top: 20,
             bottom: 60,
@@ -45,62 +44,48 @@ class RightAscensionDistribution extends React.Component {
         const g = svg.append('g')
                 .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-        // prepare the data
-        const targetsHistogramData = targets => {
-            const histogram = d3.histogram()
-                    .domain([0, 24])
-                    .value(d => d.ra)
-                    .thresholds(d3.range(0, 49).map(n => n / 2));
-            return histogram(targets);
-        };
-        const targets = this.props.targets;
-        const mandatoryTargets = targets.filter(target => !target.optional);
-        const mandatoryTargetsData = targetsHistogramData(mandatoryTargets);
-        console.log({mandatoryTargets, mandatoryTargetsData});
-        const optionalTargets = targets.filter(target => target.optional);
-        const optionalTargetsData = targetsHistogramData(optionalTargets);
-        const targetsData = targetsHistogramData(targets);
-
-        // scales
-        const maxTargetCount = d3.max(targetsData, d => d.length);
+        // spatial scales
         const xTicks = 5;
-        const yTicks = 5;
+        const yTicks = 10;
         const xScale = d3.scaleLinear()
                 .domain([0, 24])
                 .range([0, innerWidth]);
         const yScale = d3.scaleLinear()
-                .domain([0, maxTargetCount])
-                .range([innerHeight, 0])
-                .nice(yTicks);
+                .domain([-80, 12])
+                .range([innerHeight, 0]);
+
+        // color scale
+        const colorScale = d3.scaleSequential(interpolateOrRd)
+                .domain([0, 0.05]);
 
         // axes
         const tickPadding = 10;
         const tickSizeInner = -5;
         const xAxisBottom = d3.axisBottom()
                 .scale(xScale)
-                .ticks(xTicks)
-                .tickSizeInner(tickSizeInner)
-                .tickSizeOuter(0)
-                .tickPadding(tickPadding);
-        const xAxisTop = d3.axisTop()
-                .scale(xScale)
-                .ticks(xTicks)
                 .tickSizeInner(tickSizeInner)
                 .tickSizeOuter(0)
                 .tickPadding(tickPadding)
+                .ticks(xTicks);
+        const xAxisTop = d3.axisTop()
+                .scale(xScale)
+                .tickSizeInner(tickSizeInner)
+                .tickSizeOuter(0)
+                .tickPadding(tickPadding)
+                .ticks(xTicks)
                 .tickFormat('');
         const yAxisLeft = d3.axisLeft()
                 .scale(yScale)
-                .ticks(yTicks)
-                .tickSizeInner(tickSizeInner)
-                .tickSizeOuter(0)
-                .tickPadding(tickPadding);
-        const yAxisRight = d3.axisRight()
-                .scale(yScale)
-                .ticks(yTicks)
                 .tickSizeInner(tickSizeInner)
                 .tickSizeOuter(0)
                 .tickPadding(tickPadding)
+                .ticks(yTicks);
+        const yAxisRight = d3.axisRight()
+                .scale(yScale)
+                .tickSizeInner(tickSizeInner)
+                .tickSizeOuter(0)
+                .tickPadding(tickPadding)
+                .ticks(yTicks)
                 .tickFormat('');
 
         // draw axes
@@ -124,56 +109,75 @@ class RightAscensionDistribution extends React.Component {
                 .attr('class', 'label')
                 .attr('x', innerWidth / 2)
                 .attr('y', 50)
-                .text('RA (hrs)');
+                .text('RA');
         yAxisLeftG.append('text')
                 .attr('class', 'label')
                 .attr('transform', 'rotate(-90)')
                 .attr('x', -innerHeight / 2)
                 .attr('y', -50)
                 .attr('text-anchor', 'middle')
-                .text('N');
+                .text('DEC');
 
-        // plot target counts
-        console.log(targetsData);
-        const data = {
-            all: targetsData,
-            mandatory: mandatoryTargetsData,
-            optional: optionalTargetsData
-        };
-        ['all', 'mandatory', 'optional']
-                .forEach(key => {
-                    g.append('g')
-                            .classed(key, true)
-                            .classed('targets', true)
-                            .selectAll('rect')
-                            .data(data[key])
-                            .enter()
-                            .append('rect')
-                            .attr('x', d => xScale(d.x0))
-                            .attr('y', d => yScale(d.length))
-                            .attr('width', d => xScale(d.x1) - xScale(d.x0))
-                            .attr('height', d => innerHeight - yScale(d.length));
-                });
+        // background to avoid that the contour lines overlap the axes
+        const passepartout = [
+            {x: -margin.left, y: -margin.top, width, height: margin.top},
+            {x: -margin.left, y: -margin.top, width: margin.left, height},
+            {x: -margin.left, y: innerHeight, width, height: margin.bottom},
+            {x: innerWidth, y: -margin.top, width: margin.right, height}
+        ];
+        g.append('g')
+                .classed('passepartout', true)
+                .lower()
+                .selectAll('rect')
+                .data(passepartout)
+                .enter()
+                .append('rect')
+                .attr('x', d => d.x)
+                .attr('y', d => d.y)
+                .attr('width', d => d.width)
+                .attr('height', d => d.height)
+                .style('stroke', 'none')
+                .style('fill', 'white');
+
+        // add contour lines
+        const h = 10;
+        const contourDensity = d3ContourDensity()
+                .x(d => xScale(d.ra))
+                .y(d => yScale(d.dec))
+                .size([innerWidth, innerHeight])
+                .bandwidth(h);
+        g.append('g')
+                .lower()
+                .attr('fill', 'none')
+                .attr('stroke', 'black')
+                .attr('stroke-width', 0.5)
+                .attr('stroke-linejoin', 'round')
+                .selectAll('path')
+                .data(contourDensity(this.props.targets))
+                .enter()
+                .append('path')
+                .attr('fill', d => colorScale(d.value))
+                .attr('d', d3.geoPath())
     };
 
     render() {
-        const width = this.props.width || 700;
-        const height = this.props.height || 700;
+        const width = this.props.width || 900;
+        const height = this.props.height || 500;
         return (
                 <svg
                         width={width}
                         height={height}
-                        ref={svg => this.target = svg}
+                        ref={(svg) => this.target = svg}
                 />
         );
     }
 }
 
-RightAscensionDistribution.propTypes = {
+TargetDistributionContourMap.propTypes = {
     height: PropTypes.number,
     width: PropTypes.number,
     margin: PropTypes.object,
     targets: PropTypes.array.isRequired
 };
 
-export default RightAscensionDistribution;
+export default TargetDistributionContourMap;

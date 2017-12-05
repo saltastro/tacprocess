@@ -1800,7 +1800,7 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-d3-array@1, d3-array@1.2.1, d3-array@^1.2.0:
+d3-array@1, d3-array@1.2.1, d3-array@^1.1.1, d3-array@^1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-1.2.1.tgz#d1ca33de2f6ac31efadb8e050a021d7e2396d5dc"
 
@@ -1832,6 +1832,12 @@ d3-collection@1, d3-collection@1.0.4:
 d3-color@1, d3-color@1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/d3-color/-/d3-color-1.0.3.tgz#bc7643fca8e53a8347e2fbdaffa236796b58509b"
+
+d3-contour@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/d3-contour/-/d3-contour-1.1.1.tgz#2fc79994c13437dfa8fdaf22ced8cd1468f81a24"
+  dependencies:
+    d3-array "^1.1.1"
 
 d3-dispatch@1, d3-dispatch@1.0.3:
   version "1.0.3"
@@ -1913,6 +1919,12 @@ d3-request@1.0.6:
     d3-dispatch "1"
     d3-dsv "1"
     xmlhttprequest "1"
+
+d3-scale-chromatic@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/d3-scale-chromatic/-/d3-scale-chromatic-1.1.1.tgz#811406e8e09dab78a49dac4a32047d5d3edd0c44"
+  dependencies:
+    d3-interpolate "1"
 
 d3-scale@1.0.7:
   version "1.0.7"

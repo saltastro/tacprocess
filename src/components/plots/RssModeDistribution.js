@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { observingTimeForInstrument } from '../../util';
 import Histogram from './Histogram';
 
-const RssModeDistributionPlot = ({proposals, semester, partner}) => {
+const RssModeDistribution = ({proposals, semester, partner}) => {
     const modes = [
             'Imaging',
             'Fabry Perot',
@@ -61,10 +61,10 @@ const RssModeDistributionPlot = ({proposals, semester, partner}) => {
     />
 };
 
-RssModeDistributionPlot.propTypes = {
+RssModeDistribution.propTypes = {
     proposals: PropTypes.array.isRequired,
     partner: PropTypes.string.isRequired,
     semester: PropTypes.string.isRequired
 };
 
-export default RssModeDistributionPlot;
+export default RssModeDistribution;
