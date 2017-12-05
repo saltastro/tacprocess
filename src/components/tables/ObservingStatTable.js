@@ -114,25 +114,25 @@ const ObservingStatTable = (proposals) => {
       <tbody>
         <tr>
           <td><h2>Clear</h2></td>
-          <td><h2>{ data.transparency.clear.timeRequests/3600 }</h2></td>
+          <td><h2>{ (data.transparency.clear.timeRequests/3600).toFixed(2) }</h2></td>
           <td><h2>{ data.transparency.clear.noOfProposals }</h2></td>
           <td><h2>{0}</h2></td>
         </tr>
         <tr>
           <td><h2>Thin cloud</h2></td>
-          <td><h2>{ data.transparency.thin.timeRequests/3600 }</h2></td>
+          <td><h2>{ (data.transparency.thin.timeRequests/3600).toFixed(2) }</h2></td>
           <td><h2>{ data.transparency.thin.noOfProposals }</h2></td>
           <td><h2>{0}</h2></td>
         </tr>
         <tr>
           <td><h2>Thick cloud</h2></td>
-          <td><h2>{ data.transparency.thick.timeRequests/3600 }</h2></td>
+          <td><h2>{ (data.transparency.thick.timeRequests/3600 ).toFixed(2)}</h2></td>
           <td><h2>{ data.transparency.thick.noOfProposals }</h2></td>
           <td><h2>{0}</h2></td>
         </tr>
         <tr>
           <td><h2>Any</h2></td>
-          <td><h2>{ data.transparency.any.timeRequests/3600 }</h2></td>
+          <td><h2>{ (data.transparency.any.timeRequests/3600).toFixed(2) }</h2></td>
           <td><h2>{ data.transparency.any.noOfProposals }</h2></td>
           <td><h2>{0}</h2></td>
         </tr>
@@ -148,25 +148,25 @@ const ObservingStatTable = (proposals) => {
       <tbody>
         <tr>
           <td><h3>Max Seeing <br /> &#x2266; 1.0 </h3></td>
-          <td><h2>{ data.maxSeeing.less10.timeRequests/3600 }</h2></td>
+          <td><h2>{ (data.maxSeeing.less10.timeRequests/3600).toFixed(2) }</h2></td>
           <td><h2>{ data.maxSeeing.less10.noOfProposals }</h2></td>
           <td><h2>{0}</h2></td>
         </tr>
         <tr>
           <td><h3>Max Seeing <br /> &#x2266; 1.5</h3></td>
-          <td><h2>{ data.maxSeeing.less15.timeRequests/3600 }</h2></td>
+          <td><h2>{ (data.maxSeeing.less15.timeRequests/3600).toFixed(2) }</h2></td>
           <td><h2>{ data.maxSeeing.less15.noOfProposals }</h2></td>
           <td><h2>{0}</h2></td>
         </tr>
         <tr>
           <td><h3>Max Seeing <br /> &#x2266; 2.0</h3></td>
-          <td><h2>{ data.maxSeeing.less20.timeRequests/3600 }</h2></td>
+          <td><h2>{ (data.maxSeeing.less20.timeRequests/3600).toFixed(2) }</h2></td>
           <td><h2>{ data.maxSeeing.less20.noOfProposals }</h2></td>
           <td><h2>{0}</h2></td>
         </tr>
         <tr>
           <td><h3>Max Seeing <br /> &#x2266; 5.0</h3></td>
-          <td><h2>{ data.maxSeeing.less50.timeRequests/3600 }</h2></td>
+          <td><h2>{ (data.maxSeeing.less50.timeRequests/3600).toFixed(2) }</h2></td>
           <td><h2>{ data.maxSeeing.less50.noOfProposals }</h2></td>
           <td><h2>{0}</h2></td>
         </tr>
