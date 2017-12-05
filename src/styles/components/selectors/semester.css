@@ -1,0 +1,30 @@
+.selector {
+  font-size: 20px;
+  text-align: center;
+  height: 35px;
+  width: 12em;
+  color: blue;
+  background-color:#d0e5f2;
+  border-radius: 5px;
+}
+
+.selector-div {
+  padding: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.selector-div::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.left {
+  float: left;
+
+}
+.left-2 {
+  float: left;
+  padding-left: 160px
+}

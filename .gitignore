@@ -1,14 +1,14 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/client/salt-tac-pages/node_modules
-/venv
+/node_modules
+.idea/
 
 # testing
-/client/salt-tac-pages/coverage
+/coverage
 
 # production
-/client/salt-tac-pages/build
+/build
 
 # misc
 .DS_Store
@@ -21,12 +21,4 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# build file
-__pycache__/
-*.DS_Store
-
-# IDE file
-.idea/
-
-# Nhlavu's files
-/server/try*
+/src/components/commons/

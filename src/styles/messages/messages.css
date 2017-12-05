@@ -1,0 +1,30 @@
+.inLineError {
+  color: #ae5856;
+  padding-left: 10px;
+
+}
+
+.info {
+  text-align: center;
+  padding: 20px;
+  color: black;
+  border-style: solid;
+  border-color: #c6efed;
+  background-color: #e3f7f6;
+  border-radius: 25px;
+}
+
+.error {
+  text-align: center;
+  padding: 20px;
+  color: black;
+  border-style: solid;
+  border-color: #f28a91;
+  background-color: #efc6c8;
+  border-radius: 25px;
+}
+
+.login-txt {
+  color: #013d19;
+  padding: 2em 0 1em 0; 
+}

@@ -1,0 +1,32 @@
+rect {
+    stroke: black;
+}
+
+.all-partners rect {
+    fill: black;
+}
+
+.partner-only rect {
+    fill: white;
+}
+
+text {
+    fill: black;
+    font-size: 12pt;
+}
+
+rect.target {
+    fill: black;
+    stroke-width: 1px;
+}
+
+rect.mandatory.target {
+    fill: lightgray;
+    stroke-width: 1px;
+}
+
+circle.optional.target {
+    fill: white;
+    stroke: black;
+    stroke-width: 1px;
+}
