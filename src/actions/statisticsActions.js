@@ -55,7 +55,7 @@ export const convertData = (statData, semester) => {
           {
               targetId: target.id,
               optional: target.optional,
-              ra: target.coordinates.ra / 15,  // degrees ---> hours
+              ra: target.coordinates.ra,
               dec: target.coordinates.dec
           }
   ));
@@ -97,7 +97,8 @@ export function fetchStatData(semester, partner="All"){
       {
         dispatch(FetchDataPass(convertData(res.data.data, semester)))
       }
-    ).catch(() => {
+    ).catch((err) => {
+      console.log(err);
       dispatch(FetchDataFail())})
   }
 }

@@ -67,7 +67,7 @@ class StatisticsPage extends React.Component {
           />
         <StatTable
           proposals = { statistics.data.proposals }
-          semester={selectors.selectedSemester}
+          targets = { statistics.data.targets }
         />
         <br />
         <br />
