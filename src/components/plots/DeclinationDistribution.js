@@ -124,7 +124,7 @@ class RightAscensionDistribution extends React.Component {
                 .attr('class', 'label')
                 .attr('x', innerWidth / 2)
                 .attr('y', 50)
-                .text('DEC');
+                .text('DEC (deg)');
         yAxisLeftG.append('text')
                 .attr('class', 'label')
                 .attr('transform', 'rotate(-90)')
@@ -142,7 +142,10 @@ class RightAscensionDistribution extends React.Component {
         };
         ['all', 'mandatory', 'optional']
                 .forEach(key => {
-                    g.selectAll(`rect.${key}.targets`)
+                    g.append('g')
+                            .classed(key, true)
+                            .classed('targets', true)
+                            .selectAll('rect')
                             .data(data[key])
                             .enter()
                             .append('rect')

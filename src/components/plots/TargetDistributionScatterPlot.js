@@ -51,12 +51,10 @@ class TargetDistributionScatterPlot extends React.Component {
         const yTicks = 10;
         const xScale = d3.scaleLinear()
                 .domain([0, 24])
-                .range([0, innerWidth])
-                .nice(xTicks);
+                .range([0, innerWidth]);
         const yScale = d3.scaleLinear()
-                .domain([-80, 10])
-                .range([innerHeight, 0])
-                .nice(yTicks);
+                .domain([-80, 12])
+                .range([innerHeight, 0]);
 
         // axes
         const tickPadding = 10;
