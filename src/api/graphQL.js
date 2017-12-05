@@ -15,10 +15,19 @@ const graphqlClient = () => axios.create({
 
 export function queryStatData(semester, partner){
   let partnerArgs
+  let alloc = ``
   if (partner === "All"){
     partnerArgs = ``
   }else{
     partnerArgs = `partnerCode:"${partner}"`
+    alloc = `
+    partnerAllocations(semester:"${semester}", ${partnerArgs}){
+        allocatedTime{
+          AllocatedP0P1
+          AllocatedP2
+          AllocatedP3
+        }
+      }`
   }
   const query = `
   {
@@ -61,7 +70,7 @@ export function queryStatData(semester, partner){
         surname
       }
     }
-targets(semester:"${semester}", ${partnerArgs}){
+targets(semester:"${semester}", ${partnerArgs}){.map(
   id
   optional
   coordinates{
@@ -69,6 +78,8 @@ targets(semester:"${semester}", ${partnerArgs}){
     dec
   }
 }
+
+${alloc}
 
 }
   `

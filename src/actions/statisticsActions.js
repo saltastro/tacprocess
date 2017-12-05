@@ -97,8 +97,7 @@ export function fetchStatData(semester, partner="All"){
       {
         dispatch(FetchDataPass(convertData(res.data.data, semester)))
       }
-    ).catch((err) => {
-      console.log(err);
+    ).catch(() => {
       dispatch(FetchDataFail())})
   }
 }
