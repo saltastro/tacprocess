@@ -5,7 +5,8 @@ import {
     proposalObservingTime,
     proposalObservingTimeForInstrument,
     partners,
-    hasRole
+    hasRole,
+    canDo
 } from './index';
 
 import * as types from '../types';
@@ -561,6 +562,22 @@ describe('hasRole', () => {
 
         expect(hasRole(user, types.ADMINISTRATOR, 'RSA')).toBe(true);
         expect(hasRole(user, types.ADMINISTRATOR)).toBe(true);
+    })
+});
+
+describe('canDo', () => {
+    it('should work', () => {
+        const user = {
+            roles: [
+                {
+                    role: types.TAC_MEMBER,
+                    partners: ['RSA']
+                }
+            ]
+        };
+
+        expect(canDo(user, types.VIEW_TIME_ALLOCATION_PAGE, 'RSA')).toBe(true);
+        expect(canDo(user, types.VIEW_TIME_ALLOCATION_PAGE, 'UKSC')).toBe(false);
     })
 });
 

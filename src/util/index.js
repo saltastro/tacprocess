@@ -177,3 +177,17 @@ export function hasRole(user, role, partner) {
         return (user.roles || []).some(r => r.role === role && (r.partners || []).includes(partner));
     }
 }
+
+export function canDo(user, action, partner) {
+    switch (action) {
+    case types.VIEW_TIME_ALLOCATION_PAGE:
+        return hasRole(user, types.TAC_MEMBER, partner) ||
+                hasRole(user, types.SALT_ASTRONOMER) ||
+                hasRole(user, types.ADMINISTRATOR);
+    case types.EDIT_TIME_ALLOCATION_PAGE:
+        return hasRole(user, types.TAC_CHAIR, partner) ||
+                hasRole(user, types.ADMINISTRATOR);
+    default:
+        return false;
+    }
+}
