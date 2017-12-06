@@ -4,7 +4,8 @@ import propTypes from "prop-types";
 const proposalsFilter = proposals => {
     const newProposals = []
     const longTermProposals = []
-    proposals.map( p => {
+    proposals
+    .forEach( p => {
       if (p.isNew){
         newProposals.push(p)
       }
@@ -15,8 +16,8 @@ const proposalsFilter = proposals => {
       return p
     })
     return {
-      longTermProposals: longTermProposals,
-      newProposals: newProposals
+      longTermProposals,
+      newProposals
     };
   }
 
@@ -31,10 +32,10 @@ const getMatch = (a, b) => {
       return matches;
   }
 
-class ProposalTable extends React.Component {
-  render() {
-    const { proposals} = this.props
-    const newAndLong = proposalsFilter(proposals)
+const ProposalTable = (proposals) => {
+  const propos = proposals.proposals
+
+    const newAndLong = proposalsFilter(propos)
     return(
       <div>
         <table className="table left-table">
@@ -47,7 +48,7 @@ class ProposalTable extends React.Component {
           <tbody>
             <tr>
               <td><h3>New proposals plus older proposals</h3></td>
-              <td><h3>{proposals.length}</h3></td>
+              <td><h3>{propos.length}</h3></td>
             </tr>
             <tr>
               <td><h3>New proposals </h3></td>
@@ -55,7 +56,7 @@ class ProposalTable extends React.Component {
             </tr>
             <tr>
               <td><h3>Older Proposals </h3></td>
-              <td><h3>{proposals.length - newAndLong.newProposals.length}</h3></td>
+              <td><h3>{propos.length - newAndLong.newProposals.length}</h3></td>
             </tr>
             <tr>
               <td><h3>All long term proposals </h3></td>
@@ -70,7 +71,7 @@ class ProposalTable extends React.Component {
       </div>
       );
     }
-  }
+
 
   ProposalTable.propTypes = {
     proposals: propTypes.array.isRequired ,
