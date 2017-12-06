@@ -1,3 +1,5 @@
+import * as types from '../types';
+
 /**
  * Get the observing time for a semester in a proposal.
  * If a partner is given, the observing time is the time requested for that partner.
@@ -135,4 +137,43 @@ export function observingTimeForInstrument(proposals, semester, instrument, {fie
                                                                      semester,
                                                                      instrument,
                                                                      {field, value, partner}), 0);
+}
+
+/**
+ * Get the sorted list of partners a user should see.
+ *
+ * A partner is included in this list if it is included in any of the user's roles. If the user is an
+ * administrator, the partner 'All' is added to the list as well.
+ *
+ * @param user
+ */
+export function partners(user) {
+    if (!user.roles) {
+        return [];
+    }
+    const initial = hasRole(user, types.ADMINISTRATOR) || hasRole(user, types.SALT_ASTRONOMER) ? [types.ALL_PARTNER] : [];
+    const rolePartners = user.roles // collect partners from all roles
+            .reduce((prev, role) => [...(role.partners || []), ...prev], initial);
+    const partnerSet = new Set(rolePartners);
+
+    return Array.from(partnerSet).sort();
+}
+
+/**
+ * Check whether a user has a role for a partner.
+ *
+ * The partner is ignored for the roles of administrator and SALT Astronomer.
+ *
+ * The partner "All" is not supported.
+ *
+ * @param user
+ * @param role
+ * @param partner
+ */
+export function hasRole(user, role, partner) {
+    if (role === types.ADMINISTRATOR || role === types.SALT_ASTRONOMER) {
+        return (user.roles || []).some(r => r.role === role);
+    } else {
+        return (user.roles || []).some(r => r.role === role && (r.partners || []).includes(partner));
+    }
 }
