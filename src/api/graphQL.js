@@ -92,15 +92,24 @@ export function querySelectorData(){
   .then(
     response => response
   )
-
 }
 
 
-export function getTecData(partner){
+export function queryUserData(){
   const query = `{
-    proposals(partner:"${partner}"){
-
+    user{
+      lastName
+      firstName
+      email
+      username
+      role{
+        type
+        partners
+      }
     }
   }`
-  return {query}
+  return graphqlClient().post(`/graphql?query=${query}`)
+  .then(
+    response => response
+  )
 }
