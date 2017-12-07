@@ -41,6 +41,7 @@ class Navigation extends React.Component {
           <li><Link to="/">Home</Link></li>
           <li><Link to="/tacreview">Tac Review</Link></li>
           <li><Link to="/statistics">Statistics</Link></li>
+          <li><Link to="/timeallocation">Time Allocation</Link></li>
           <li><Link to="/documentation">Documentation</Link></li>
           <li className="active"><Link to="/admin">Admin</Link></li>
           <button className="logoutbtn"
