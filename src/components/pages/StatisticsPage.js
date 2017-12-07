@@ -1,13 +1,17 @@
 import React from "react";
 import { connect } from "react-redux"
 import StatTable from "../tables/StatTable";
+import Plot from '../plots/Plot';
 import InstrumentDistribution from '../plots/InstrumentDistribution';
 import HrsModeDistribution from '../plots/HrsModeDistribution';
 import RssModeDistribution from '../plots/RssModeDistribution';
+import DeclinationDistribution from '../plots/DeclinationDistribution';
 import RightAscensionDistribution from '../plots/RightAscensionDistribution';
 import SalticamModeDistribution from '../plots/SalticamModeDistribution';
 import TotalTimeDistribution from '../plots/TotalTimeDistribution';
 import TransparencyDistribution from '../plots/TransparencyDistribution';
+import TargetDistributionContourMap from "../plots/TargetDistributionContourMap";
+import TargetDistributionScatterPlot from "../plots/TargetDistributionScatterPlot";
 
 class StatisticsPage extends React.Component {
 
@@ -34,7 +38,15 @@ class StatisticsPage extends React.Component {
     }
     return(
       <div>
-           <HrsModeDistribution
+          <Plot caption="Smoothed distribution of all targets on the sky.">
+              <TargetDistributionContourMap targets={statistics.data.targets}/>
+          </Plot>
+          <Plot caption="Distribution of mandatory targets <em>(squares)</em> and optional targets <em>(circles)</em> on the sky.">
+              <TargetDistributionScatterPlot targets={statistics.data.targets}/>
+          </Plot>
+          <RightAscensionDistribution targets={statistics.data.targets}/>
+          <DeclinationDistribution targets={statistics.data.targets}/>
+          <HrsModeDistribution
                   proposals={statistics.data.proposals}
                   semester={selectors.selectedSemester}
                   partner={selectors.selectedPartner}

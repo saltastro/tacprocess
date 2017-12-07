@@ -3,8 +3,13 @@ import {
     observingTimeForSeeing,
     observingTimeForTransparency,
     proposalObservingTime,
-    proposalObservingTimeForInstrument
+    proposalObservingTimeForInstrument,
+    partners,
+    hasRole,
+    canDo
 } from './index';
+
+import * as types from '../types';
 
 const proposals = [
     {
@@ -405,3 +410,174 @@ describe('proposal observing time for an instrument', () => {
         });
     });
 });
+
+describe('partners for a user', () => {
+    it('should be calculated for a user without roles', () => {
+        const user = {};
+
+        expect(partners(user)).toEqual([]);
+
+    });
+
+    it('should be calculated for a user with a role without partners', () => {
+        const user = {
+            roles: [
+                {}
+            ]
+        };
+
+        expect(partners(user)).toEqual([]);
+    });
+
+    it('should be calculated for a user with roles', () => {
+        const user = {
+            roles: [
+                {
+                    partners: ['IUCAA', 'RSA']
+                },
+                {
+                    partners: [],
+                    role: 'ABC'
+                },
+                {
+                    partners: ['AMNH']
+                },
+                {
+                    partners: ['RSA', 'UKSC', 'DC']
+                }
+            ]
+        };
+
+        expect(partners(user)).toEqual(['AMNH', 'DC', 'IUCAA', 'RSA', 'UKSC']);
+    });
+
+    it('should include the partner "All" if the user is administrator', () => {
+        const user = {
+            roles: [
+                {
+                    role: types.TAC_MEMBER,
+                    partners: ['DC']
+                },
+                {
+                    role: types.ADMINISTRATOR,
+                    partners: ['RSA', 'UKSC', 'DC']
+                }
+            ]
+        };
+
+        expect(partners(user)).toEqual([types.ALL_PARTNER, 'DC', 'RSA', 'UKSC']);
+    });
+
+    it('should include the partner "All" if the user is SALT Astronomer', () => {
+        const user = {
+            roles: [
+                {
+                    role: types.TAC_MEMBER,
+                    partners: ['DC']
+                },
+                {
+                    role: types.SALT_ASTRONOMER,
+                    partners: ['RSA', 'UKSC', 'DC']
+                }
+            ]
+        };
+
+        expect(partners(user)).toEqual([types.ALL_PARTNER, 'DC', 'RSA', 'UKSC']);
+    });
+});
+
+describe('hasRole', () => {
+    it('should return false for a user with no roles', () => {
+        const user = {};
+
+        expect(hasRole(user, types.TAC_CHAIR, 'UKSC')).toBe(false);
+    });
+
+    it('should return false if the user does not have the role', () => {
+        const user = {
+            roles: [
+                {
+                    role: types.TAC_CHAIR,
+                    partners: ['AMNH', 'RSA']
+                },
+                {
+                    role: types.SALT_ASTRONOMER,
+                    partners: ['UKSC']
+                }
+            ]
+        };
+
+        expect(hasRole(user, types.TAC_MEMBER, 'RSA')).toBe(false);
+    });
+
+    it('should return false if the user has the role for another partner', () => {
+        const user = {
+            roles: [
+                {
+                    role: types.TAC_MEMBER,
+                    partners: ['UKSC', 'RSA']
+                }
+            ]
+        };
+
+        expect(hasRole(user, types.TAC_MEMBER, 'AMNH')).toBe(false);
+    });
+
+    it('should return true if the user has the role', () => {
+        const user = {
+            roles: [
+                {
+                    role: types.TAC_CHAIR,
+                    partners: ['DC']
+                }
+            ]
+        };
+
+        expect(hasRole(user, types.TAC_CHAIR, 'DC')).toBe(true);
+    });
+
+    it('should return true irrespective of the partner if the user is a SALT Astronomer', () => {
+        const user = {
+            roles: [
+                {
+                    role: types.SALT_ASTRONOMER,
+                    partners: ['DC']
+                }
+            ]
+        };
+
+        expect(hasRole(user, types.SALT_ASTRONOMER, 'RSA')).toBe(true);
+        expect(hasRole(user, types.SALT_ASTRONOMER)).toBe(true);
+    });
+
+    it('should return true irrespective of the partner if the user is an administrator', () => {
+        const user = {
+            roles: [
+                {
+                    role: types.ADMINISTRATOR,
+                    partners: ['DC']
+                }
+            ]
+        };
+
+        expect(hasRole(user, types.ADMINISTRATOR, 'RSA')).toBe(true);
+        expect(hasRole(user, types.ADMINISTRATOR)).toBe(true);
+    })
+});
+
+describe('canDo', () => {
+    it('should work', () => {
+        const user = {
+            roles: [
+                {
+                    role: types.TAC_MEMBER,
+                    partners: ['RSA']
+                }
+            ]
+        };
+
+        expect(canDo(user, types.VIEW_TIME_ALLOCATION_PAGE, 'RSA')).toBe(true);
+        expect(canDo(user, types.VIEW_TIME_ALLOCATION_PAGE, 'UKSC')).toBe(false);
+    })
+});
+

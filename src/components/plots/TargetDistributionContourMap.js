@@ -146,6 +146,11 @@ class TargetDistributionContourMap extends React.Component {
                 .y(d => yScale(d.dec))
                 .size([innerWidth, innerHeight])
                 .bandwidth(h);
+
+        // get a color range from 0 to the maximum contour value (i.e. target density)
+        const contourDensityData = contourDensity(this.props.targets);
+        /* below value was never used  and d3.max() raised an error some how */
+        // const maximumContourValue = d3.max()
         g.append('g')
                 .lower()
                 .attr('fill', 'none')
@@ -153,7 +158,7 @@ class TargetDistributionContourMap extends React.Component {
                 .attr('stroke-width', 0.5)
                 .attr('stroke-linejoin', 'round')
                 .selectAll('path')
-                .data(contourDensity(this.props.targets))
+                .data(contourDensityData)
                 .enter()
                 .append('path')
                 .attr('fill', d => colorScale(d.value))

@@ -23,7 +23,7 @@ class StatPropos extends React.Component {
   }
 
   StatPropos.propTypes = {
-    proposals: propTypes.array.isRequired
+    proposals: propTypes.array.isRequired,
   }
 
 export default StatPropos;
