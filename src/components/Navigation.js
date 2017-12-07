@@ -5,35 +5,38 @@ import Select from "react-select";
 import * as actions from "../actions/auth";
 import { fetchSelectorsData, partnerChange, semesterChange } from "../actions/selectorsActions";
 import { fetchStatData } from "../actions/statisticsActions";
+import { userPartners } from "../util/partner";
 
 
 
 class Navigation extends React.Component {
 
   componentDidMount() {
+    const selected = this.props.selectors
 
     const data = fetchSelectorsData()
     this.props.dispatch(data)
 
+    const user = actions.fetchUserData()
+    this.props.dispatch(user)
+
     this.props.dispatch(fetchStatData(
-      this.props.selectors.selectedSemester,
-      this.props.selectors.selectedPartner
+      selected.selectedSemester,
+      selected.selectedPartner
     ))
 
   }
   updateSemester(event){
-    console.log("NAVI: ", event);
     this.props.dispatch(fetchStatData(event.value, this.props.selectors.selectedPartner))
   }
   updatePartner(event){
-    console.log("NAVI: ", this.props);
     this.props.dispatch(fetchStatData(this.props.selectors.selectedSemester , event.value))
   }
 
   render() {
-    const { selectors,  } = this.props
+    const { selectors, user  } = this.props
     const { selectedPartner, selectedSemester } = selectors
-    console.log("NAVI Is Rendaring");
+    const partnerList = userPartners(user)
 
     return(
       <div>
@@ -68,7 +71,7 @@ class Navigation extends React.Component {
               <Select
                   className ="selector"
                   name="Partner"
-                  options={selectors.payload.partners}
+                  options={partnerList}
                   value={selectedPartner}
                   clearable={false}
                   onChange={(event) => {
@@ -84,5 +87,5 @@ class Navigation extends React.Component {
   }
 
 export default connect(
-  store => ({selectors: store.selectors, statistics:store.statistics }), null
+  store => ({selectors: store.selectors, statistics:store.statistics, user:store.user }), null
 )(Navigation);
