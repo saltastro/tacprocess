@@ -149,7 +149,8 @@ class TargetDistributionContourMap extends React.Component {
 
         // get a color range from 0 to the maximum contour value (i.e. target density)
         const contourDensityData = contourDensity(this.props.targets);
-        const maximumContourValue = d3.max()
+        /* below value was never used  and d3.max() raised an error some how */
+        // const maximumContourValue = d3.max()
         g.append('g')
                 .lower()
                 .attr('fill', 'none')
