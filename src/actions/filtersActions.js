@@ -1,5 +1,4 @@
 
-import { querySelectorData } from "../api/graphQL"
 import {
   FETCH_SELECTOR_DATA_PASS,
   FETCH_SELECTOR_DATA_FAIL,
@@ -38,20 +37,18 @@ function FetchDataFail() {
 );
 }
 
-function FetchDataPass(load) {
-  return (
+const filters =  (load)  => (
     {
        type: FETCH_SELECTOR_DATA_PASS,
-       payload: load
-  }
-);
-}
+       filters: load
+    }
+)
 
 export function semesterChange(load) {
   return (
     {
        type: SEMESTER_CHANGE,
-       payload: load
+       filters: load
   }
 );
 }
@@ -60,17 +57,21 @@ export function partnerChange(load) {
   return (
     {
        type: PARTNER_CHANGE,
-       payload: load
+       filters: load
   }
 );
 }
 
-export function fetchSelectorsData(){
-  return function disp(dispatch){
+// export function fetchSelectorsData(){
+//   return function disp(dispatch){
+//
+//     dispatch(startFetchData());
+//     querySelectorData().then( res =>{
+//       dispatch(FetchDataPass(convertData(res.data.data.selectors)))}
+//     ).catch(() => dispatch(FetchDataFail()))
+//   }
+// }
 
-    dispatch(startFetchData());
-    querySelectorData().then( res =>{
-      dispatch(FetchDataPass(convertData(res.data.data.selectors)))}
-    ).catch(() => dispatch(FetchDataFail()))
+export const storeFilters = (semesters, partners) => function fits(dispatch) {
+    dispatch(filters({semesters, partners}))
   }
-}
