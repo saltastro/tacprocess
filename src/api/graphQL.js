@@ -14,10 +14,8 @@ const graphqlClient = () => axios.create({
 });
 
 export function queryStatData(semester, partner){
-  let partnerArgs
-  if (partner === "All"){
-    partnerArgs = ``
-  }else{
+  let partnerArgs = ""
+  if (partner !== "All") {
     partnerArgs = `partnerCode:"${partner}"`
   }
   const query = `
@@ -61,32 +59,16 @@ export function queryStatData(semester, partner){
         surname
       }
     }
-targets(semester:"${semester}", ${partnerArgs}){
-  id
-  optional
-  coordinates{
-    ra
-    dec
-  }
-}
 
-}
-  `
-  return graphqlClient().post(`/graphql?query=${query}`)
-  .then(
-    response => response
-  )
-}
-
-
-export function querySelectorData(){
-  const query = `
-    {
-      selectors{
-        partner
-        semester
+    targets(semester:"${semester}", ${partnerArgs}){
+      id
+      optional
+      coordinates{
+        ra
+        dec
       }
     }
+  }
   `
   return graphqlClient().post(`/graphql?query=${query}`)
   .then(
@@ -94,6 +76,37 @@ export function querySelectorData(){
   )
 }
 
+
+export function queryPartnerAllocations(semester, partner="All" ){
+  /*
+  * This method is only called by pages that will need and allocated time
+  * for partner at semester
+  *
+  * @params semester like "2017-1" type String
+  * @params partner is a partner code as it will be shown on partner filter
+  * @return GQL results of the below query
+  */
+  let par = ""
+  if ( partner !== "All" ) {
+    par = ` , partnerCode:"${ partner}"`
+  }
+
+  const query = `
+  {
+    partnerAllocations(semester:"${ semester }" ${ par }){
+      allocatedTime{
+        AllocatedP0P1
+        AllocatedP2
+        AllocatedP3
+      }
+    }
+  }
+  `
+  return graphqlClient().post(`/graphql?query=${query}`)
+  .then(
+    response => response
+  )
+}
 
 export function queryUserData(){
   const query = `{
