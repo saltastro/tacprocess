@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import propTypes from "prop-types";
 import InfoMessage from "../messages/InfoMessage";
 import AllocAvailTable from "../tables/AllocAvailTable";
+import ProposalsTable from "../tables/ProposalsTable";
 
 
 class TimeAllocationPage extends React.Component {
@@ -14,6 +15,7 @@ class TimeAllocationPage extends React.Component {
       <div>
         <InfoMessage page="Time Allocation"/>
         <AllocAvailTable allocatedTime={allocatedTime} />
+        <ProposalsTable proposals={[]} />
       </div>
       );
     }
