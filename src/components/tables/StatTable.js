@@ -23,7 +23,6 @@ class StatPropos extends React.Component {
          />
         <ObservingStatTable proposals={proposals} />
         <ConfigStats proposals={proposals} />
-        <ProposalsTable proposals={proposals} />
       </div>
       );
     }
