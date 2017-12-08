@@ -59,7 +59,6 @@ class RightAscensionDistribution extends React.Component {
         const optionalTargets = targets.filter(target => target.optional);
         const optionalTargetsData = targetsHistogramData(optionalTargets);
         const targetsData = targetsHistogramData(targets);
-        console.log({mandatoryTargets, optionalTargets});
 
         // scales
         const maxTargetCount = d3.max(targetsData, d => d.length);
@@ -134,7 +133,6 @@ class RightAscensionDistribution extends React.Component {
                 .text('N');
 
         // plot target counts
-        console.log(targetsData);
         const data = {
             all: targetsData,
             mandatory: mandatoryTargetsData,
