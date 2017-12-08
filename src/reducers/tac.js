@@ -4,7 +4,15 @@ import {
   TIME_ALLOCATIONS_QUERY_FAIL
 } from "../types";
 
-export default function statistics(state = {}, action = {}) {
+const initState = {
+    data:{
+        p0p1: 0,
+        p2: 0,
+        p3: 0
+      }
+    }
+
+export default function statistics(state=initState, action = {}) {
   switch (action.type) {
     case TIME_ALLOCATIONS_QUERY_START:{
       return {
