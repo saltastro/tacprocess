@@ -18,7 +18,7 @@ class StatisticsPage extends React.Component {
   render() {
     /* this will require me to difine a shape on PropTypes  */
     // eslint-disable-next-line
-    const { statistics, selectors } = this.props
+    const { statistics, filters } = this.props
     if(statistics.fetching){
       return(
         <div>
@@ -48,34 +48,34 @@ class StatisticsPage extends React.Component {
           <DeclinationDistribution targets={statistics.data.targets}/>
           <HrsModeDistribution
                   proposals={statistics.data.proposals}
-                  semester={selectors.selectedSemester}
-                  partner={selectors.selectedPartner}
+                  semester={filters.selectedSemester}
+                  partner={filters.selectedPartner}
           />
           <SalticamModeDistribution
                   proposals={statistics.data.proposals}
-                  semester={selectors.selectedSemester}
-                  partner={selectors.selectedPartner}
+                  semester={filters.selectedSemester}
+                  partner={filters.selectedPartner}
           />
           <RssModeDistribution
                   proposals={statistics.data.proposals}
-                  semester={selectors.selectedSemester}
-                  partner={selectors.selectedPartner}
+                  semester={filters.selectedSemester}
+                  partner={filters.selectedPartner}
           />
           <InstrumentDistribution
                   proposals={statistics.data.proposals}
-                  semester={selectors.selectedSemester}
-                  partner={selectors.selectedPartner}
+                  semester={filters.selectedSemester}
+                  partner={filters.selectedPartner}
           />
           <TotalTimeDistribution
                   proposals={statistics.data.proposals}
-                  semester={selectors.selectedSemester}
-                  partner={selectors.selectedPartner}
+                  semester={filters.selectedSemester}
+                  partner={filters.selectedPartner}
           />
 
           <TransparencyDistribution
                   proposals={statistics.data.proposals}
-                  semester={selectors.selectedSemester}
-                  partner={selectors.selectedPartner}
+                  semester={filters.selectedSemester}
+                  partner={filters.selectedPartner}
           />
         <StatTable
           proposals = { statistics.data.proposals }
@@ -91,5 +91,5 @@ class StatisticsPage extends React.Component {
 
 
 export default connect(
-  store => ({statistics: store.statistics, selectors:store.selectors}),null
+  store => ({statistics: store.statistics, filters:store.filters}),null
 )(StatisticsPage) ;

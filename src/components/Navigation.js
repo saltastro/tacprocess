@@ -3,22 +3,27 @@ import { Link } from "react-router-dom"
 import { connect } from "react-redux";
 import Select from "react-select";
 import * as actions from "../actions/auth";
-import { fetchSelectorsData, partnerChange, semesterChange } from "../actions/selectorsActions";
+import { partnerChange, semesterChange, storeFilters } from "../actions/filtersActions";
 import { fetchStatData } from "../actions/statisticsActions";
-import { userPartners } from "../util/partner";
+import { userPartners, semesterFilter } from "../util/filters";
 
 
 
 class Navigation extends React.Component {
 
   componentDidMount() {
-    const selected = this.props.selectors
+    const selected = this.props.filters
 
-    const data = fetchSelectorsData()
-    this.props.dispatch(data)
+    const semesters = semesterFilter()
+    const partners = userPartners()
+    const fills = storeFilters(semesters, partners)
+
+    this.props.dispatch(fills)
 
     const user = actions.fetchUserData()
     this.props.dispatch(user)
+
+
 
     this.props.dispatch(fetchStatData(
       selected.selectedSemester,
@@ -27,16 +32,17 @@ class Navigation extends React.Component {
 
   }
   updateSemester(event){
-    this.props.dispatch(fetchStatData(event.value, this.props.selectors.selectedPartner))
+    this.props.dispatch(fetchStatData(event.value, this.props.filters.selectedPartner))
   }
   updatePartner(event){
-    this.props.dispatch(fetchStatData(this.props.selectors.selectedSemester , event.value))
+    this.props.dispatch(fetchStatData(this.props.filters.selectedSemester , event.value))
   }
 
   render() {
-    const { selectors, user  } = this.props
-    const { selectedPartner, selectedSemester } = selectors
+    const { filters, user  } = this.props
+    const { selectedPartner, selectedSemester } = filters
     const partnerList = userPartners(user)
+    const sems = semesterFilter()
 
     return(
       <div>
@@ -56,7 +62,7 @@ class Navigation extends React.Component {
             <Select
                 className ="selector"
                 name="Semester"
-                options={selectors.payload.semesters}
+                options={sems}
                 value={selectedSemester}
                 clearable={false}
                 focusedOption={selectedSemester}
@@ -87,5 +93,5 @@ class Navigation extends React.Component {
   }
 
 export default connect(
-  store => ({selectors: store.selectors, statistics:store.statistics, user:store.user }), null
+  store => ({filters: store.filters, statistics:store.statistics, user:store.user }), null
 )(Navigation);
