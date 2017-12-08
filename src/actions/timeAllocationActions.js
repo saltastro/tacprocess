@@ -28,12 +28,10 @@ const convertData = (data) => {
     alloc.p2 += a.allocatedTime.AllocatedP2
     alloc.p3 += a.allocatedTime.AllocatedP3
   })
-  console.log("*********", alloc);
-  return data
+  return alloc
 }
 
-export const storePartnerAllocations = (semester, partner="All") => {
-  return function fits(dispatch) {
+export const storePartnerAllocations = (semester, partner="All") => function fits(dispatch) {
       dispatch(startQuery)
       queryPartnerAllocations(semester, partner).then( res => {
         dispatch(passQuery(convertData(res.data.data)))
@@ -42,4 +40,3 @@ export const storePartnerAllocations = (semester, partner="All") => {
       })
 
     }
-  }
