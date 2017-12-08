@@ -1,8 +1,7 @@
 import React from "react";
 import propTypes from "prop-types";
 
-const AllocAvailTable = (allocatedTime) => {
-  return (
+const AllocAvailTable = (allocatedTime) => (
   <div>
     <table className="table left-table">
       <thead>
@@ -33,7 +32,7 @@ const AllocAvailTable = (allocatedTime) => {
         </tr>
         <tr>
           <td><h3>Priority 4 </h3></td>
-          <td><h3> &infin; </h3></td>
+          <td><h1> &infin; </h1></td>
           <td><h3>{ 0 }</h3></td>
         </tr>
 
@@ -41,7 +40,7 @@ const AllocAvailTable = (allocatedTime) => {
   </table>
 
   </div>
-  )}
+  )
 
   AllocAvailTable.propTypes = {
     allocatedTime: propTypes.object.isRequired
