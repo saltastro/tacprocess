@@ -10,7 +10,7 @@ import {
 const initialState = {
   fetching: false,
   errors: false,
-  payload: {
+  filters: {
       partners: ["None"],
       semesters:["None"]
   },
@@ -32,32 +32,33 @@ export default function selectors(state=initialState, action={}) {
         return {
           ...state,
           fetching: false,
-          errors: true}
+          errors: true
+        }
       }
       case FETCH_SELECTOR_DATA_PASS: {
         return {
           ...state,
           fetching: false,
           errors: false,
-          payload: action.payload,
+          filters: action.filters,
         }
       }
       case PAGE_CHANGE: {
         return {
           ...state,
-          currentPage: action.payload,
+          currentPage: action.filters,
         }
       }
       case SEMESTER_CHANGE: {
         return {
           ...state,
-          selectedSemester: action.payload,
+          selectedSemester: action.filters,
         }
       }
       case PARTNER_CHANGE: {
         return {
           ...state,
-          selectedPartner: action.payload,
+          selectedPartner: action.filters,
         }
       }
       default:{
