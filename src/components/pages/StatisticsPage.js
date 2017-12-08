@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from "react";
 import { connect } from "react-redux"
 import StatTable from "../tables/StatTable";
@@ -17,8 +18,8 @@ class StatisticsPage extends React.Component {
 
   render() {
     /* this will require me to difine a shape on PropTypes  */
-    // eslint-disable-next-line
-    const { statistics, filters } = this.props
+
+    const { statistics, filters, allocatedTime } = this.props
     if(statistics.fetching){
       return(
         <div>
@@ -78,8 +79,10 @@ class StatisticsPage extends React.Component {
                   partner={filters.selectedPartner}
           />
         <StatTable
-          proposals = { statistics.data.proposals }
-          targets = { statistics.data.targets }
+            proposals={ statistics.data.proposals }
+            allocatedTime={ allocatedTime }
+            semester={filters.selectedSemester}
+            partner={filters.selectedPartner}
         />
         <br />
         <br />
@@ -91,5 +94,9 @@ class StatisticsPage extends React.Component {
 
 
 export default connect(
-  store => ({statistics: store.statistics, filters:store.filters}),null
+  store => ({
+    statistics: store.statistics,
+    filters:store.filters,
+    allocatedTime:store.tac.data,
+  }), null
 )(StatisticsPage) ;
