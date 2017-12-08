@@ -29,7 +29,7 @@ export function totalTimeRequestedPerParner(proposals, semester, partner="All" )
 }
 
 export function userPartners(user) {
-  let allPartners = []
+  let allPartners = [{value: "All", label: "All"}]
   if (! _.isEmpty(user)){
     user.user.role.forEach(u => {
         u.partners.forEach( s => {
@@ -40,6 +40,20 @@ export function userPartners(user) {
       );
     })
   }
-  allPartners = [{value: "All", label: "All"}].concat(allPartners)
   return allPartners
+}
+
+export const semesterFilter = () => {
+    let startYear = 2006
+    const today = new Date();
+    const year = today.getFullYear()
+    let semester = []
+    while (startYear < year + 8){
+      semester.push(
+        {value: `${ startYear }-1`, label: `${startYear  }-1` },
+        {value: `${ startYear }-2`, label: `${startYear  }-2` }
+      )
+    startYear += 1
+  }
+  return semester
 }
