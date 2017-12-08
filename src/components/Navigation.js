@@ -5,6 +5,7 @@ import Select from "react-select";
 import * as actions from "../actions/auth";
 import { partnerChange, semesterChange, storeFilters } from "../actions/filtersActions";
 import { fetchStatData } from "../actions/statisticsActions";
+import { storePartnerAllocations  } from "../actions/timeAllocationActions";
 import { userPartners, semesterFilter } from "../util/filters";
 
 
@@ -23,9 +24,12 @@ class Navigation extends React.Component {
     const user = actions.fetchUserData()
     this.props.dispatch(user)
 
-
-
     this.props.dispatch(fetchStatData(
+      selected.selectedSemester,
+      selected.selectedPartner
+    ))
+
+    this.props.dispatch(storePartnerAllocations(
       selected.selectedSemester,
       selected.selectedPartner
     ))
@@ -33,9 +37,11 @@ class Navigation extends React.Component {
   }
   updateSemester(event){
     this.props.dispatch(fetchStatData(event.value, this.props.filters.selectedPartner))
+    this.props.dispatch(storePartnerAllocations(event.value, this.props.filters.selectedPartner))
   }
   updatePartner(event){
     this.props.dispatch(fetchStatData(this.props.filters.selectedSemester , event.value))
+    this.props.dispatch(storePartnerAllocations(this.props.filters.selectedSemester , event.value))
   }
 
   render() {
