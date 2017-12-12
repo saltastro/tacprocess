@@ -10,12 +10,20 @@ import ProposalsTable from "../tables/ProposalsTable";
 class TimeAllocationPage extends React.Component {
 
   render() {
-    const { allocatedTime } = this.props
+    const { allocatedTime, proposals } = this.props
     return(
       <div>
         <InfoMessage page="Time Allocation"/>
         <AllocAvailTable allocatedTime={allocatedTime} />
-        <ProposalsTable proposals={[]} />
+        <ProposalsTable proposals={proposals} />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
       </div>
       );
     }
@@ -24,5 +32,6 @@ class TimeAllocationPage extends React.Component {
   export default connect(
     store => ({
       allocatedTime:store.tac.data,
+      proposals: store.statistics.data.proposals
     }),null
   )(TimeAllocationPage);
