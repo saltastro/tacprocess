@@ -57,10 +57,11 @@ tbody { border: 3px solid #000}
   margin-right: auto;
   overflow-y: scroll;
   overflow-x: scroll;
-  width: 120%;
+  width: 1400px;
+	height: 600px;
   background-color: #EFF3F9;
 }
 td, th {
-    border: 1px solid #dddddd;
+    border: 2px solid #dddddd;
     text-align: left;
 }
