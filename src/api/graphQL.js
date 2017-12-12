@@ -58,6 +58,14 @@ export function queryStatData(semester, partner){
         name
         surname
       }
+      allocatedTime{
+        partnerCode
+        p0
+        p1
+        p2
+        p3
+        p4
+      }
     }
 
     targets(semester:"${semester}", ${partnerArgs}){

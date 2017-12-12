@@ -3,7 +3,8 @@ import { queryStatData } from "../api/graphQL"
 import {
   FETCH_STAT_DATA_PASS,
   FETCH_STAT_DATA_FAIL,
-  FETCH_STAT_DATA_START
+  FETCH_STAT_DATA_START,
+  ALL_PARTNER
 } from "../types";
 
 function isNewProposal(distributedTimes, semester){
@@ -13,6 +14,20 @@ function isNewProposal(distributedTimes, semester){
 function isLongTermProposal(distributedTimes, semester){
   return distributedTimes.some(t => t.semester !== semester )
 }
+//
+// function makeAllocatedTime(alloc, partner){
+//     const allocForPartner = alloc.filter(a => partner === ALL_PARTNER || a.partnerCode == partner);
+//     return allocForPartner.reduce((prev, a) => {
+//           const updated = { ...prev };
+//           [0, 1, 2, 3, 4].forEach(priority => {
+//             const key = `p${priority}`;
+//             updated[key] += (a[key] || 0);
+//         }), {
+//            p0: 0, p1: 0, p2: 0, p3: 0, p4: 0
+//          }
+//        )
+//
+// }
 
 function minimumTotalRequested(distributedTimes, semester){
   let total = 0
@@ -26,7 +41,7 @@ function minimumTotalRequested(distributedTimes, semester){
   return { total, minimum }
 }
 
-export const convertData = (statData, semester) => {
+function convertData (statData, semester) {
   const proposals = statData.proposals.map( proposal =>   {
     const minTotal  = minimumTotalRequested(proposal.timeRequests, semester)
 
@@ -46,7 +61,8 @@ export const convertData = (statData, semester) => {
       minTime: minTotal.minimum,
       instruments: proposal.instruments,
       pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
-      report: proposal.techReport
+      report: proposal.techReport,
+      allocatedTime: proposal.allocatedTime
     })
   }
 );
