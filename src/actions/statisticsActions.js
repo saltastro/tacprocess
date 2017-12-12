@@ -29,6 +29,18 @@ function isLongTermProposal(distributedTimes, semester){
 //
 // }
 
+function makeAllocatedTime(alloc, partner){
+    const allocForPartner = alloc.filter(a => partner === ALL_PARTNER || a.partnerCode === partner)
+    return allocForPartner.reduce((prev, a) => {
+      const updated = { ... prev };
+      [0, 1, 2, 3, 4].forEach(priority => {
+        const key = `p${priority}`
+        updated[key] = a[key] || 0
+      });
+      return updated;
+    }, { p0: 0, p1: 0, p2: 0, p3: 0, p4: 0 })
+}
+
 function minimumTotalRequested(distributedTimes, semester){
   let total = 0
   let minimum = 0
@@ -41,7 +53,7 @@ function minimumTotalRequested(distributedTimes, semester){
   return { total, minimum }
 }
 
-function convertData (statData, semester) {
+function convertData (statData, semester, partner) {
   const proposals = statData.proposals.map( proposal =>   {
     const minTotal  = minimumTotalRequested(proposal.timeRequests, semester)
 
@@ -62,7 +74,7 @@ function convertData (statData, semester) {
       instruments: proposal.instruments,
       pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
       report: proposal.techReport,
-      allocatedTime: proposal.allocatedTime
+      allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner)
     })
   }
 );
@@ -111,7 +123,7 @@ export function fetchStatData(semester, partner="All"){
     dispatch(startFetchData());
     queryStatData(semester, partner).then( res =>
       {
-        dispatch(FetchDataPass(convertData(res.data.data, semester)))
+        dispatch(FetchDataPass(convertData(res.data.data, semester, partner)))
       }
     ).catch((err) => {
       console.log(err);
