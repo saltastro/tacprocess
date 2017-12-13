@@ -33,7 +33,7 @@ function isLongTermProposal(distributedTimes, semester){
 function makeAllocatedTime(alloc, partner){
     const allocForPartner = alloc.filter(a => partner === ALL_PARTNER || a.partnerCode === partner)
     return allocForPartner.reduce((prev, a) => {
-      const updated = { ... prev };
+      const updated = { ...prev };
       [0, 1, 2, 3, 4].forEach(priority => {
         const key = `p${priority}`
         updated[key] = a[key] || 0
@@ -135,8 +135,7 @@ export function fetchStatData(semester, partner="All"){
       {
         dispatch(FetchDataPass(convertData(res.data.data, semester, partner)))
       }
-    ).catch((err) => {
-      console.log(err);
+    ).catch(() => {
       dispatch(FetchDataFail())})
   }
 }

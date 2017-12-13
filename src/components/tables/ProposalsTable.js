@@ -66,9 +66,9 @@ class ProposalsTable extends React.Component {
           {
              arrayOfProposals.map( p => (
           <tr key={p.proposalId}>
-            <td><div Style="width:150px; padding:8px">{ p.proposalCode }</div></td>
-            <td><div Style="width:300px; max-height:100px; overflow:auto;">{ p.title }</div></td>
-            <td><div Style="width:400px; max-height:100px; overflow:auto;">{ p.abstract }</div></td>
+            <td><div className="width-150 padding-8" >{ p.proposalCode }</div></td>
+            <td><div className="table-height width-300" >{ p.title }</div></td>
+            <td><div className="table-height width-400" >{ p.abstract }</div></td>
             <td>{ p.pi }</td>
             <td>2017-1</td>
             <td>
@@ -76,18 +76,19 @@ class ProposalsTable extends React.Component {
                       id={p.proposalCode}
                       name="tac-comment"
                       value={p.tacComment}
-                      Style="width:400px; height:100px; overflow:auto;"
+                      className="table-height width-400"
                       onChange={ this.valueChange.bind(this) } />
 
             </td>
-            <td><div Style="width:100px; max-height:100px; overflow:auto;">{ p.totalRequestedTime }</div></td>
+            <td><div className="table-height width-100" >{ p.totalRequestedTime }</div></td>
             <td>
                 <input
                     id={p.proposalCode}
                     type="text"
                     name="p0"
                     value={ p.allocatedTime.p0 }
-                    onChange={ this.valueChange.bind(this)} />
+                    onChange={ this.valueChange.bind(this)}
+                    className="width-100" />
             </td>
             <td>
                 <input
@@ -96,15 +97,17 @@ class ProposalsTable extends React.Component {
                     name="p1"
                     value={ p.allocatedTime.p1 }
                     onChange={
-                    this.valueChange.bind(this) } />
+                    this.valueChange.bind(this) }
+                    className="width-100"  />
             </td>
             <td>
-                <input id={p.proposalCode}
+                <input
+                    id={p.proposalCode}
                     type="text"
                     name="p2"
                     value={ p.allocatedTime.p2 }
-                    onChange={this.valueChange.bind(this)
-                } />
+                    onChange={this.valueChange.bind(this)}
+                    className="width-100" />
             </td>
             <td>
                 <input
@@ -112,22 +115,25 @@ class ProposalsTable extends React.Component {
                     type="text"
                     name="p3"
                     value={ p.allocatedTime.p3 }
-                    onChange={ this.valueChange.bind(this) } />
+                    onChange={ this.valueChange.bind(this) }
+                    className="width-100"  />
             </td>
-            <td><div Style="width:100px; max-height:100px; overflow:auto;">{ p.allocatedTime.p0 + p.allocatedTime.p1 + p.allocatedTime.p2 + p.allocatedTime.p3 }</div></td>
+            <td><div className="table-height width-100" >{ p.allocatedTime.p0 + p.allocatedTime.p1 + p.allocatedTime.p2 + p.allocatedTime.p3 }</div></td>
             <td>
                 <input
+
                     id={p.proposalCode}
                     type="text"
                     name="p4"
                     value={ p.allocatedTime.p4 }
-                    onChange={ this.valueChange.bind(this) } />
+                    onChange={ this.valueChange.bind(this) }
+                    className="width-100"  />
             </td>
-            <td><div Style="width:100px; max-height:100px; overflow:auto;">false</div></td>
-            <td><div Style="width:100px; max-height:100px; overflow:auto;">{ p.transparency }</div></td>
-            <td><div Style="width:100px; max-height:100px; overflow:auto;">{ p.maxSeeing }</div></td>
-            <td><div Style="width:100px; max-height:100px; overflow:auto;">Hover Info</div></td>
-            <td><div Style="width:400px; max-height:100px; overflow:auto;">{ p.report } </div></td>
+            <td><div className="table-height width-100" >false</div></td>
+            <td><div className="table-height width-100" >{ p.transparency }</div></td>
+            <td><div className="table-height width-100" >{ p.maxSeeing }</div></td>
+            <td><div className="table-height width-100" >Hover Info</div></td>
+            <td><div className="table-height width-100" >{ p.report } </div></td>
           </tr>
             ))
            }

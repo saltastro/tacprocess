@@ -1,8 +1,6 @@
 
 import {
   FETCH_SELECTOR_DATA_PASS,
-  FETCH_SELECTOR_DATA_FAIL,
-  FETCH_SELECTOR_DATA_START,
   SEMESTER_CHANGE,
   PARTNER_CHANGE
 } from "../types";
@@ -21,21 +19,7 @@ export const convertData = data => {
   }
 };
 
-function startFetchData() {
-  return (
-    {
-       type: FETCH_SELECTOR_DATA_START
-  }
-);
 
-}
-function FetchDataFail() {
-  return (
-    {
-       type: FETCH_SELECTOR_DATA_FAIL
-  }
-);
-}
 
 const filters =  (load)  => (
     {
