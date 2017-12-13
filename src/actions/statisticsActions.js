@@ -4,7 +4,8 @@ import {
   FETCH_STAT_DATA_PASS,
   FETCH_STAT_DATA_FAIL,
   FETCH_STAT_DATA_START,
-  ALL_PARTNER
+  ALL_PARTNER,
+  UPDATE_SINGLE_PROPOSAL
 } from "../types";
 
 function isNewProposal(distributedTimes, semester){
@@ -109,10 +110,19 @@ function FetchDataFail() {
 );
 }
 
-function FetchDataPass(load) {
+export function FetchDataPass(load) {
   return (
     {
        type: FETCH_STAT_DATA_PASS,
+       payload: load
+  }
+);
+}
+
+export function updateSingleProposal(load) {
+  return (
+    {
+       type: UPDATE_SINGLE_PROPOSAL,
        payload: load
   }
 );
