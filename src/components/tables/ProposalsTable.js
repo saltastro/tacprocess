@@ -12,11 +12,11 @@ class ProposalsTable extends React.Component {
   }
 
   valueChange(event) {
-    const proposals = this.props
+    const data = this.props
     const code = event.target.id
     const value = event.target.value
     const name = event.target.name
-    const updatedProposals = proposals.proposals.map( p => {
+    const updatedProposals = data.proposals.map( p => {
       if (p.proposalCode === code){
         if( name === "tac-comment"){
           p.tacComment = value
@@ -27,12 +27,12 @@ class ProposalsTable extends React.Component {
       }
       return p
     })
-    proposals.dispatch(updateSingleProposal({proposals: updatedProposals}))
+    data.dispatch(updateSingleProposal({proposals: updatedProposals, targets: data.data.targets}))
   }
 
   render() {
-    const proposals = this.props
-    const arrayOfProposals = proposals.proposals || []
+    const data = this.props
+    const arrayOfProposals = data.data.proposals || []
 
     if ( arrayOfProposals.length === 0 ){ return (<div> <br /><br /><br /><h1>Loading proposals......</h1></div>)}
 
@@ -141,5 +141,5 @@ class ProposalsTable extends React.Component {
 
 
 export default connect(
-    store => ({ proposals:store.statistics.data.proposals }), null
+    store => ({ data:store.statistics.data }), null
   )(ProposalsTable);
