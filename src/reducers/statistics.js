@@ -1,7 +1,8 @@
 import {
   FETCH_STAT_DATA_START,
   FETCH_STAT_DATA_PASS,
-  FETCH_STAT_DATA_FAIL
+  FETCH_STAT_DATA_FAIL,
+  UPDATE_SINGLE_PROPOSAL
 } from "../types";
 
 const initialState = {
@@ -34,6 +35,14 @@ export default function statistics(state = initialState, action = {}) {
           errors: "Fail to get statistics data from api" }
       }
       case FETCH_STAT_DATA_PASS: {
+        return {
+          ...state,
+          fetching: false,
+          fetched: true,
+          data: action.payload,
+        }
+      }
+      case UPDATE_SINGLE_PROPOSAL: {
         return {
           ...state,
           fetching: false,
