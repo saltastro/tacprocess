@@ -76,7 +76,7 @@ class ProposalsTable extends React.Component {
                       id={p.proposalCode}
                       name="tac-comment"
                       value={p.tacComment}
-                      className="table-height width-400"
+                      className="table-height-fixed width-400"
                       onChange={ this.valueChange.bind(this) } />
 
             </td>
@@ -133,7 +133,7 @@ class ProposalsTable extends React.Component {
             <td><div className="table-height width-100" >{ p.transparency }</div></td>
             <td><div className="table-height width-100" >{ p.maxSeeing }</div></td>
             <td><div className="table-height width-100" >Hover Info</div></td>
-            <td><div className="table-height width-100" >{ p.report } </div></td>
+            <td><div className="table-height width-400" >{ p.report } </div></td>
           </tr>
             ))
            }

@@ -13,12 +13,9 @@ class TimeAllocationPage extends React.Component {
     const { allocatedTime, proposals } = this.props
     return(
       <div>
-        <InfoMessage page="Time Allocation"/>
         <AllocAvailTable allocatedTime={allocatedTime} />
         <ProposalsTable proposals={ proposals } />
-        <br />
-        <br />
-        <br />
+        <input className="submit" type="submit" value="Submit" />
         <br />
         <br />
         <br />
