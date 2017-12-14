@@ -19,7 +19,7 @@ class StatisticsPage extends React.Component {
   render() {
     /* this will require me to difine a shape on PropTypes  */
 
-    const { statistics, filters, allocatedTime } = this.props
+    const { statistics, filters, allocatedTime, targets } = this.props
     if(statistics.fetching){
       return(
         <div>
@@ -40,13 +40,13 @@ class StatisticsPage extends React.Component {
     return(
       <div>
           <Plot caption="Smoothed distribution of all targets on the sky.">
-              <TargetDistributionContourMap targets={statistics.data.targets}/>
+              <TargetDistributionContourMap targets={targets.targets}/>
           </Plot>
           <Plot caption="Distribution of mandatory targets <em>(squares)</em> and optional targets <em>(circles)</em> on the sky.">
-              <TargetDistributionScatterPlot targets={statistics.data.targets}/>
+              <TargetDistributionScatterPlot targets={targets.targets}/>
           </Plot>
-          <RightAscensionDistribution targets={statistics.data.targets}/>
-          <DeclinationDistribution targets={statistics.data.targets}/>
+          <RightAscensionDistribution targets={targets.targets}/>
+          <DeclinationDistribution targets={targets.targets}/>
           <HrsModeDistribution
                   proposals={statistics.data.proposals}
                   semester={filters.selectedSemester}
@@ -96,6 +96,7 @@ class StatisticsPage extends React.Component {
 export default connect(
   store => ({
     statistics: store.statistics,
+    targets: store.targets,
     filters:store.filters,
     allocatedTime:store.tac.data,
   }), null
