@@ -5,6 +5,7 @@ import Select from "react-select";
 import * as actions from "../actions/auth";
 import { partnerChange, semesterChange, storeFilters } from "../actions/filtersActions";
 import { fetchStatData } from "../actions/statisticsActions";
+import  fetchTargets  from "../actions/targetsActions";
 import { storePartnerAllocations  } from "../actions/timeAllocationActions";
 import { userPartners, semesterFilter } from "../util/filters";
 
@@ -25,6 +26,11 @@ class Navigation extends React.Component {
     this.props.dispatch(user)
 
     this.props.dispatch(fetchStatData(
+      selected.selectedSemester,
+      selected.selectedPartner
+    ))
+    this.props.dispatch(
+      fetchTargets(
       selected.selectedSemester,
       selected.selectedPartner
     ))
