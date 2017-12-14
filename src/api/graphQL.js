@@ -134,3 +134,24 @@ export function queryUserData(){
     response => response
   )
 }
+
+export function queryTargets(semester, partner){
+  let par = ""
+  if ( partner !== "All" ) {
+    par = ` , partnerCode:"${ partner}"`
+  }
+  const query = `{
+    targets(semester:"${semester}", ${par}){
+      id
+      optional
+      coordinates{
+        ra
+        dec
+      }
+    }
+  }`
+  return graphqlClient().post(`/graphql?query=${query}`)
+  .then(
+    response => response
+  )
+}
