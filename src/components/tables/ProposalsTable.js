@@ -31,7 +31,16 @@ class ProposalsTable extends React.Component {
   }
 
   render() {
+    const badTimes = {
+      color: 'black',
+      background:"red"
+    }
+    const goodTimes = {
+      color: 'black',
+      background:"#d4fce6"
+    }
     const data = this.props
+    let sty = ""
     const arrayOfProposals = data.data.proposals || []
 
     if ( arrayOfProposals.length === 0 ){ return (<div> <br /><br /><br /><h1>Loading proposals......</h1></div>)}
@@ -64,8 +73,18 @@ class ProposalsTable extends React.Component {
         </thead>
         <tbody>
           {
-             arrayOfProposals.map( p => (
-          <tr key={p.proposalId}>
+             arrayOfProposals.map( p => {
+               sty = goodTimes
+               if (!(parseFloat(p.allocatedTime.p0) >= 0) ||
+               !(parseFloat(p.allocatedTime.p1) >= 0) ||
+               !(parseFloat(p.allocatedTime.p2) >= 0) ||
+               !(parseFloat(p.allocatedTime.p3) >= 0) ||
+               !(parseFloat(p.allocatedTime.p4) >= 0)
+             ){
+                 sty = badTimes
+               }
+              return (
+            <tr key={p.proposalId}>
             <td><div className="width-150 padding-8" >{ p.proposalCode }</div></td>
             <td><div className="table-height width-300" >{ p.title }</div></td>
             <td><div className="table-height width-400" >{ p.abstract }</div></td>
@@ -86,6 +105,7 @@ class ProposalsTable extends React.Component {
                     id={p.proposalCode}
                     type="text"
                     name="p0"
+                    style = { sty }
                     value={ p.allocatedTime.p0 }
                     onChange={ this.valueChange.bind(this)}
                     className="width-100" />
@@ -96,6 +116,7 @@ class ProposalsTable extends React.Component {
                     type="text"
                     name="p1"
                     value={ p.allocatedTime.p1 }
+                    style = { sty }
                     onChange={
                     this.valueChange.bind(this) }
                     className="width-100"  />
@@ -105,6 +126,7 @@ class ProposalsTable extends React.Component {
                     id={p.proposalCode}
                     type="text"
                     name="p2"
+                    style = { sty }
                     value={ p.allocatedTime.p2 }
                     onChange={this.valueChange.bind(this)}
                     className="width-100" />
@@ -115,16 +137,23 @@ class ProposalsTable extends React.Component {
                     type="text"
                     name="p3"
                     value={ p.allocatedTime.p3 }
+                    style = { sty }
                     onChange={ this.valueChange.bind(this) }
                     className="width-100"  />
             </td>
-            <td><div className="table-height width-100" >{ p.allocatedTime.p0 + p.allocatedTime.p1 + p.allocatedTime.p2 + p.allocatedTime.p3 }</div></td>
+            <td><div className="table-height width-100" >{
+                        parseFloat(p.allocatedTime.p0) +
+                        parseFloat(p.allocatedTime.p1) + 
+                        parseFloat(p.allocatedTime.p2) +
+                        parseFloat(p.allocatedTime.p3 )
+                      }</div></td>
             <td>
                 <input
 
                     id={p.proposalCode}
                     type="text"
                     name="p4"
+                    style = { sty }
                     value={ p.allocatedTime.p4 }
                     onChange={ this.valueChange.bind(this) }
                     className="width-100"  />
@@ -135,7 +164,7 @@ class ProposalsTable extends React.Component {
             <td><div className="table-height width-100" >Hover Info</div></td>
             <td><div className="table-height width-400" >{ p.report } </div></td>
           </tr>
-            ))
+            )})
            }
 
         </tbody>
