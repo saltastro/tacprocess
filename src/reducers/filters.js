@@ -7,15 +7,18 @@ import {
   PARTNER_CHANGE,
 } from "../types";
 
+const today = new Date()
+const month = today.getMonth() + 3
+const year = today.getFullYear()
+let semester
+if ( month >= 3  && month < 9){ semester = 1 } else {
+  semester = 2
+}
+
 const initialState = {
   fetching: false,
   errors: false,
-  filters: {
-      partners: ["None"],
-      semesters:["None"]
-  },
-  selectedSemester: "2017-1",
-  selectedPartner: "All",
+  selectedSemester: `${year}-${semester}`,
   currentPage: "HomePage"
 
 };
