@@ -19,7 +19,7 @@ class StatisticsPage extends React.Component {
   render() {
     /* this will require me to difine a shape on PropTypes  */
 
-    const { statistics, filters, allocatedTime, targets } = this.props
+    const { statistics, filters, allocatedTime, targets, proposals } = this.props
     if(statistics.fetching){
       return(
         <div>
@@ -91,11 +91,10 @@ class StatisticsPage extends React.Component {
     }
   }
 
-
-
 export default connect(
   store => ({
     statistics: store.statistics,
+    proposals: store.proposals,
     targets: store.targets,
     filters:store.filters,
     allocatedTime:store.tac.data,
