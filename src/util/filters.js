@@ -28,10 +28,10 @@ export function totalTimeRequestedPerParner(proposals, semester, partner="All" )
   return total
 }
 
-export function userPartners(user) {
+export function userPartners(roles) {
   let allPartners = [{value: "All", label: "All"}]
-  if (! _.isEmpty(user)){
-    user.user.role.forEach(u => {
+  if (! _.isEmpty(roles)){
+    roles.forEach(u => {
         u.partners.forEach( s => {
           if ( _.findIndex(allPartners, { value: s, label: s }) === -1 ){
             allPartners.push({ value: s, label: s })
