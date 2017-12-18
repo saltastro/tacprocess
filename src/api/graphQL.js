@@ -155,3 +155,65 @@ export function queryTargets(semester, partner){
     response => response
   )
 }
+
+export function queryProposals(semester, partner){
+  let par = ""
+  if ( partner !== "All" ) {
+    par = ` , partnerCode:"${ partner}"`
+  }
+  const query = `
+  {
+    proposals(semester: "${semester}", ${par}){
+      id
+      code
+      title
+      abstract
+      techReport
+      isP4
+      status
+      transparency
+      maxSeeing
+      instruments{
+        rss{
+          mode
+          dictatorMode
+        }
+        hrs{
+          exposureMode
+        }
+        bvit{
+          type
+        }
+        scam{
+          dictatorMode
+        }
+      }
+      timeRequests{
+        semester
+        minimumUsefulTime
+        distribution{
+          partnerName
+          partnerCode
+          time
+        }
+      }
+      pi{
+        name
+        surname
+      }
+      allocatedTime{
+        partnerCode
+        p0
+        p1
+        p2
+        p3
+        p4
+      }
+    }
+  }
+  `
+  return graphqlClient().post(`/graphql?query=${query}`)
+  .then(
+    response => response
+  )
+}
