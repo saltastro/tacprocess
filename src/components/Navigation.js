@@ -3,11 +3,12 @@ import { Link } from "react-router-dom"
 import { connect } from "react-redux";
 import Select from "react-select";
 import * as actions from "../actions/auth";
-import { partnerChange, semesterChange, storeFilters } from "../actions/filtersActions";
+import { partnerChange, semesterChange } from "../actions/filtersActions";
 import { fetchStatData } from "../actions/statisticsActions";
+import  fetchProposals  from "../actions/proposalsActions";
 import  fetchTargets  from "../actions/targetsActions";
 import { storePartnerAllocations  } from "../actions/timeAllocationActions";
-import { userPartners, semesterFilter } from "../util/filters";
+import { semesterFilter } from "../util/filters";
 
 
 
@@ -16,14 +17,7 @@ class Navigation extends React.Component {
   componentDidMount() {
     const selected = this.props.filters
 
-    const semesters = semesterFilter()
-    const partners = userPartners()
-    const fills = storeFilters(semesters, partners)
-
-    this.props.dispatch(fills)
-
-    const user = actions.fetchUserData()
-    this.props.dispatch(user)
+    this.props.dispatch(actions.fetchUserData())
 
     this.props.dispatch(fetchStatData(
       selected.selectedSemester,
@@ -34,27 +28,37 @@ class Navigation extends React.Component {
       selected.selectedSemester,
       selected.selectedPartner
     ))
+    this.props.dispatch(
+      fetchProposals(
+      selected.selectedSemester,
+      selected.selectedPartner
+    ))
 
     this.props.dispatch(storePartnerAllocations(
       selected.selectedSemester,
       selected.selectedPartner
     ))
-
   }
   updateSemester(event){
+    this.props.dispatch(
+      fetchTargets(event.value, this.props.filters.selectedPartner))
     this.props.dispatch(fetchStatData(event.value, this.props.filters.selectedPartner))
     this.props.dispatch(storePartnerAllocations(event.value, this.props.filters.selectedPartner))
   }
   updatePartner(event){
+    this.props.dispatch(
+      fetchTargets(this.props.filters.selectedSemester , event.value))
     this.props.dispatch(fetchStatData(this.props.filters.selectedSemester , event.value))
     this.props.dispatch(storePartnerAllocations(this.props.filters.selectedSemester , event.value))
   }
 
   render() {
-    const { filters, user  } = this.props
+    const { filters, user   } = this.props
     const { selectedPartner, selectedSemester } = filters
-    const partnerList = userPartners(user)
+    const partnerList = user.user.partners
+
     const sems = semesterFilter()
+
 
     return(
       <div>
