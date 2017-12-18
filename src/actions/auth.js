@@ -1,10 +1,12 @@
 import { USER_LOGGED_IN,
   USER_LOGGED_OUT,
   FETCHING_USER,
-  FAIL_TO_GET_USER
+  FAIL_TO_GET_USER,
+  PARTNER_CHANGE
 } from "../types";
 import { queryUserData } from "../api/graphQL"
 import api from "../api/api";
+import { userPartners } from "../util/filters";
 
 export const userLoggedIn = user => {
   return ({
@@ -24,6 +26,11 @@ export const fetchingUserFail = () => ({
   type: FAIL_TO_GET_USER
 })
 
+export const partnersFilter = partner => ({
+  type: PARTNER_CHANGE,
+  filters: partner
+})
+
 export const login = credentials => dispatch =>
   api.user.login(credentials).then( user => {
     localStorage.tacPageJWT = user.token;
@@ -41,7 +48,7 @@ const convertData = rowUser => {
     lastName: rowUser.lastName,
     email: rowUser.email,
     username: rowUser.username,
-    role: rowUser.role
+    partners:userPartners(rowUser.role)
   }
   return user
 }
@@ -49,11 +56,11 @@ const convertData = rowUser => {
 
 export function fetchUserData(){
   return function disp(dispatch){
-    dispatch(fetchingUserData);
+    dispatch(fetchingUserData());
     queryUserData().then( res => {
-      dispatch(
-        userLoggedIn(convertData(res.data.data.user))
-      )
+      const u = convertData(res.data.data.user)
+      dispatch(userLoggedIn(u))
+      dispatch(partnersFilter(u.partners[0].value))
     }).catch(() => dispatch(fetchingUserFail()))
   }
 }
