@@ -2,13 +2,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import { updateSingleProposal } from "../../actions/statisticsActions";
+import { isFloat } from "../../util";
+import { illegalAllocation } from "../../util/checkAllocation";
 
 
 class ProposalsTable extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.valueChange.bind(this);
-    console.log("<><><><PR: ",props);
   }
 
   valueChange(event) {
@@ -33,7 +34,7 @@ class ProposalsTable extends React.Component {
   render() {
     const badTimes = {
       color: 'black',
-      background:"red"
+      background:"#FF6060"
     }
     const goodTimes = {
       color: 'black',
@@ -75,11 +76,7 @@ class ProposalsTable extends React.Component {
           {
              arrayOfProposals.map( p => {
                sty = goodTimes
-               if (!(parseFloat(p.allocatedTime.p0) >= 0) ||
-               !(parseFloat(p.allocatedTime.p1) >= 0) ||
-               !(parseFloat(p.allocatedTime.p2) >= 0) ||
-               !(parseFloat(p.allocatedTime.p3) >= 0) ||
-               !(parseFloat(p.allocatedTime.p4) >= 0)
+               if ( illegalAllocation(p, "", [])
              ){
                  sty = badTimes
                }
@@ -142,10 +139,10 @@ class ProposalsTable extends React.Component {
                     className="width-100"  />
             </td>
             <td><div className="table-height width-100" >{
-                        parseFloat(p.allocatedTime.p0) +
-                        parseFloat(p.allocatedTime.p1) + 
-                        parseFloat(p.allocatedTime.p2) +
-                        parseFloat(p.allocatedTime.p3 )
+                        parseFloat(p.allocatedTime.p0 || 0) +
+                        parseFloat(p.allocatedTime.p1 || 0) +
+                        parseFloat(p.allocatedTime.p2 || 0)  +
+                        parseFloat(p.allocatedTime.p3 || 0)
                       }</div></td>
             <td>
                 <input
