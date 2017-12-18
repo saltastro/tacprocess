@@ -22,7 +22,6 @@ function FetchTargetsFail() {
 }
 
 function FetchTargetsPass(targets) {
-  console.log("**********: ", targets);
   return (
     {
        type: FETCH_TARGETS_PASS,
