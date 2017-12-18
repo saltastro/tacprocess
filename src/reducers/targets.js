@@ -8,9 +8,7 @@ const initialState = {
   fetching: false,
   fetched: false,
   targets:[],
-  error: null,
-  selecterSemester: "2017-1",
-  selecterPartner: "All",
+  errors: null,
 };
 
 export default function targets(state = initialState, action = {}) {
@@ -29,7 +27,6 @@ export default function targets(state = initialState, action = {}) {
           errors: "Fail to get targets from api" }
       }
       case FETCH_TARGETS_PASS: {
-        console.log(">>>>", action.payload);
         return {
           ...state,
           fetching: false,
