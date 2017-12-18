@@ -24,7 +24,8 @@ export const convertData = data => {
 const filters =  (load)  => (
     {
        type: FETCH_SELECTOR_DATA_PASS,
-       filters: load
+       filters: load,
+       selectedPartner: "All"
     }
 )
 

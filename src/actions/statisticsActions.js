@@ -15,20 +15,6 @@ function isNewProposal(distributedTimes, semester){
 function isLongTermProposal(distributedTimes, semester){
   return distributedTimes.some(t => t.semester !== semester )
 }
-//
-// function makeAllocatedTime(alloc, partner){
-//     const allocForPartner = alloc.filter(a => partner === ALL_PARTNER || a.partnerCode == partner);
-//     return allocForPartner.reduce((prev, a) => {
-//           const updated = { ...prev };
-//           [0, 1, 2, 3, 4].forEach(priority => {
-//             const key = `p${priority}`;
-//             updated[key] += (a[key] || 0);
-//         }), {
-//            p0: 0, p1: 0, p2: 0, p3: 0, p4: 0
-//          }
-//        )
-//
-// }
 
 function makeAllocatedTime(alloc, partner){
     const allocForPartner = alloc.filter(a => partner === ALL_PARTNER || a.partnerCode === partner)
