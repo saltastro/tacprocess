@@ -3,7 +3,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { updateSingleProposal } from "../../actions/statisticsActions";
 import { isFloat } from "../../util";
-import { illegalAllocation } from "../../util/checkAllocation";
+import { illegalAllocation } from "../../util/allocation";
+import _ from "lodash";
 
 
 class ProposalsTable extends React.Component {
@@ -80,7 +81,7 @@ class ProposalsTable extends React.Component {
              ){
                  sty = badTimes
                }
-              return (
+               if ( !_.isNull(p.title)) return (
             <tr key={p.proposalId}>
             <td><div className="width-150 padding-8" >{ p.proposalCode }</div></td>
             <td><div className="table-height width-300" >{ p.title }</div></td>
@@ -173,5 +174,5 @@ class ProposalsTable extends React.Component {
 
 
 export default connect(
-    store => ({ data:store.statistics.data }), null
+    store => ({ data:store.proposals }), null
   )(ProposalsTable);
