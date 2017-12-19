@@ -56,7 +56,6 @@ class RightAscensionDistribution extends React.Component {
         const targets = this.props.targets;
         const mandatoryTargets = targets.filter(target => !target.optional);
         const mandatoryTargetsData = targetsHistogramData(mandatoryTargets);
-        console.log({mandatoryTargets, mandatoryTargetsData});
         const optionalTargets = targets.filter(target => target.optional);
         const optionalTargetsData = targetsHistogramData(optionalTargets);
         const targetsData = targetsHistogramData(targets);
@@ -134,7 +133,6 @@ class RightAscensionDistribution extends React.Component {
                 .text('N');
 
         // plot target counts
-        console.log(targetsData);
         const data = {
             all: targetsData,
             mandatory: mandatoryTargetsData,

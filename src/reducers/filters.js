@@ -7,15 +7,18 @@ import {
   PARTNER_CHANGE,
 } from "../types";
 
+const today = new Date()
+const month = today.getMonth() + 3
+const year = today.getFullYear()
+let semester
+if ( month >= 3  && month < 9){ semester = 1 } else {
+  semester = 2
+}
+
 const initialState = {
   fetching: false,
   errors: false,
-  payload: {
-      partners: ["None"],
-      semesters:["None"]
-  },
-  selectedSemester: "2017-1",
-  selectedPartner: "All",
+  selectedSemester: `${year}-${semester}`,
   currentPage: "HomePage"
 
 };
@@ -32,32 +35,33 @@ export default function selectors(state=initialState, action={}) {
         return {
           ...state,
           fetching: false,
-          errors: true}
+          errors: true
+        }
       }
       case FETCH_SELECTOR_DATA_PASS: {
         return {
           ...state,
           fetching: false,
           errors: false,
-          payload: action.payload,
+          filters: action.filters,
         }
       }
       case PAGE_CHANGE: {
         return {
           ...state,
-          currentPage: action.payload,
+          currentPage: action.filters,
         }
       }
       case SEMESTER_CHANGE: {
         return {
           ...state,
-          selectedSemester: action.payload,
+          selectedSemester: action.filters,
         }
       }
       case PARTNER_CHANGE: {
         return {
           ...state,
-          selectedPartner: action.payload,
+          selectedPartner: action.filters,
         }
       }
       default:{

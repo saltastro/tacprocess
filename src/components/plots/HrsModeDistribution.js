@@ -40,7 +40,6 @@ const HrsModeDistribution = ({proposals, semester, partner}) => {
         }
     ];
 
-    console.log(observingTimes('All'));
 
     return <Histogram
             keys={exposureModes}

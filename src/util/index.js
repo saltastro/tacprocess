@@ -191,3 +191,14 @@ export function canDo(user, action, partner) {
         return false;
     }
 }
+
+export function isFloat(val) {
+    const floatRegex = /^-?\d+(?:[.,]\d*?)?$/;
+    if (!floatRegex.test(val))
+        return false;
+
+    const temp = parseFloat(val);
+    if (isNaN(temp))
+        return false;
+    return true;
+}

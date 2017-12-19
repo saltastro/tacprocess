@@ -1,12 +1,35 @@
-
-import { queryStatData } from "../api/graphQL"
+import { queryProposals } from "../api/graphQL"
 import {
-  FETCH_STAT_DATA_PASS,
-  FETCH_STAT_DATA_FAIL,
-  FETCH_STAT_DATA_START,
-  ALL_PARTNER,
-  UPDATE_SINGLE_PROPOSAL
+  FETCH_PROPOSALS_START,
+  FETCH_PROPOSALS_PASS,
+  FETCH_PROPOSALS_FAIL,
+  ALL_PARTNER
 } from "../types";
+
+function startFetchProposals() {
+  return (
+    {
+       type: FETCH_PROPOSALS_START
+  }
+);
+
+}
+function FetchProposalsFail() {
+  return (
+    {
+       type: FETCH_PROPOSALS_FAIL
+  }
+);
+}
+
+function FetchProposalsPass(proposals) {
+  return (
+    {
+       type: FETCH_PROPOSALS_PASS,
+       payload: proposals
+  }
+);
+}
 
 function isNewProposal(distributedTimes, semester){
   return distributedTimes.some(t => t.semester > semester)
@@ -40,8 +63,9 @@ function minimumTotalRequested(distributedTimes, semester){
   return { total, minimum }
 }
 
-function convertData (statData, semester, partner) {
-  const proposals = statData.proposals.map( proposal =>   {
+
+function convertProposals(proposals, semester, partner){
+  const convertedProposals = proposals.proposals.map( proposal =>   {
     const minTotal  = minimumTotalRequested(proposal.timeRequests, semester)
 
     return ({
@@ -66,62 +90,17 @@ function convertData (statData, semester, partner) {
   }
 );
 
-  const targets = statData.targets.map(target => (
-          {
-              targetId: target.id,
-              optional: target.optional,
-              ra: target.coordinates.ra / 15,
-              dec: target.coordinates.dec
-          }
-  ));
-  return {
-    proposals,
-    targets
-  }
-};
-
-function startFetchData() {
-  return (
-    {
-       type: FETCH_STAT_DATA_START
-  }
-);
-
-}
-function FetchDataFail() {
-  return (
-    {
-       type: FETCH_STAT_DATA_FAIL
-  }
-);
+  return convertedProposals
 }
 
-export function FetchDataPass(load) {
-  return (
-    {
-       type: FETCH_STAT_DATA_PASS,
-       payload: load
-  }
-);
-}
-
-export function updateSingleProposal(load) {
-  return (
-    {
-       type: UPDATE_SINGLE_PROPOSAL,
-       payload: load
-  }
-);
-}
-
-export function fetchStatData(semester, partner="All"){
+export default function fetchProposals(semester, partner="All"){
   return function disp(dispatch){
-    dispatch(startFetchData());
-    queryStatData(semester, partner).then( res =>
+    dispatch(startFetchProposals());
+    queryProposals(semester, partner).then( res =>
       {
-        dispatch(FetchDataPass(convertData(res.data.data, semester, partner)))
+        dispatch(FetchProposalsPass(convertProposals(res.data.data)))
       }
     ).catch(() => {
-      dispatch(FetchDataFail())})
+      dispatch(FetchProposalsFail())})
   }
 }

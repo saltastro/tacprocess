@@ -50,3 +50,42 @@
 
 .table td:first-child { color: #FB667A; }
 tbody { border: 3px solid #000}
+
+.scroldiv {
+  margin-top: 5em;
+  margin-left: -10%;
+  margin-right: auto;
+  overflow-y: scroll;
+  overflow-x: scroll;
+  width: 1400px;
+	height: 600px;
+  background-color: #EFF3F9;
+}
+td, th {
+    border: 2px solid #dddddd;
+    text-align: left;
+}
+
+.table-height{
+	 max-height:100px;
+	 overflow:auto;
+}
+.table-height-fixed{
+	 height:100px;
+	 overflow:auto;
+}
+.width-100{
+	width: 100px;
+}
+.width-150{
+	width: 150px;
+}
+.width-200{
+	width: 200px;
+}
+.width-300{
+	width: 300px;
+}
+.width-400{
+	width: 400px;
+}

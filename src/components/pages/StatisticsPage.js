@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from "react";
 import { connect } from "react-redux"
 import StatTable from "../tables/StatTable";
@@ -17,8 +18,8 @@ class StatisticsPage extends React.Component {
 
   render() {
     /* this will require me to difine a shape on PropTypes  */
-    // eslint-disable-next-line
-    const { statistics, selectors } = this.props
+
+    const { statistics, filters, allocatedTime, targets, proposals } = this.props
     if(statistics.fetching){
       return(
         <div>
@@ -39,47 +40,49 @@ class StatisticsPage extends React.Component {
     return(
       <div>
           <Plot caption="Smoothed distribution of all targets on the sky.">
-              <TargetDistributionContourMap targets={statistics.data.targets}/>
+              <TargetDistributionContourMap targets={targets.targets}/>
           </Plot>
           <Plot caption="Distribution of mandatory targets <em>(squares)</em> and optional targets <em>(circles)</em> on the sky.">
-              <TargetDistributionScatterPlot targets={statistics.data.targets}/>
+              <TargetDistributionScatterPlot targets={targets.targets}/>
           </Plot>
-          <RightAscensionDistribution targets={statistics.data.targets}/>
-          <DeclinationDistribution targets={statistics.data.targets}/>
+          <RightAscensionDistribution targets={targets.targets}/>
+          <DeclinationDistribution targets={targets.targets}/>
           <HrsModeDistribution
                   proposals={statistics.data.proposals}
-                  semester={selectors.selectedSemester}
-                  partner={selectors.selectedPartner}
+                  semester={filters.selectedSemester}
+                  partner={filters.selectedPartner}
           />
           <SalticamModeDistribution
                   proposals={statistics.data.proposals}
-                  semester={selectors.selectedSemester}
-                  partner={selectors.selectedPartner}
+                  semester={filters.selectedSemester}
+                  partner={filters.selectedPartner}
           />
           <RssModeDistribution
                   proposals={statistics.data.proposals}
-                  semester={selectors.selectedSemester}
-                  partner={selectors.selectedPartner}
+                  semester={filters.selectedSemester}
+                  partner={filters.selectedPartner}
           />
           <InstrumentDistribution
                   proposals={statistics.data.proposals}
-                  semester={selectors.selectedSemester}
-                  partner={selectors.selectedPartner}
+                  semester={filters.selectedSemester}
+                  partner={filters.selectedPartner}
           />
           <TotalTimeDistribution
                   proposals={statistics.data.proposals}
-                  semester={selectors.selectedSemester}
-                  partner={selectors.selectedPartner}
+                  semester={filters.selectedSemester}
+                  partner={filters.selectedPartner}
           />
 
           <TransparencyDistribution
                   proposals={statistics.data.proposals}
-                  semester={selectors.selectedSemester}
-                  partner={selectors.selectedPartner}
+                  semester={filters.selectedSemester}
+                  partner={filters.selectedPartner}
           />
         <StatTable
-          proposals = { statistics.data.proposals }
-          targets = { statistics.data.targets }
+            proposals={ statistics.data.proposals }
+            allocatedTime={ allocatedTime }
+            semester={filters.selectedSemester}
+            partner={filters.selectedPartner}
         />
         <br />
         <br />
@@ -88,8 +91,12 @@ class StatisticsPage extends React.Component {
     }
   }
 
-
-
 export default connect(
-  store => ({statistics: store.statistics, selectors:store.selectors}),null
+  store => ({
+    statistics: store.statistics,
+    proposals: store.proposals,
+    targets: store.targets,
+    filters:store.filters,
+    allocatedTime:store.tac.data,
+  }), null
 )(StatisticsPage) ;

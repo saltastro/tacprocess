@@ -3,37 +3,64 @@ import { Link } from "react-router-dom"
 import { connect } from "react-redux";
 import Select from "react-select";
 import * as actions from "../actions/auth";
-import { fetchSelectorsData, partnerChange, semesterChange } from "../actions/selectorsActions";
+import { partnerChange, semesterChange } from "../actions/filtersActions";
 import { fetchStatData } from "../actions/statisticsActions";
+import  fetchProposals  from "../actions/proposalsActions";
+import  fetchTargets  from "../actions/targetsActions";
+import { storePartnerAllocations  } from "../actions/timeAllocationActions";
+import { semesterFilter } from "../util/filters";
 
 
 
 class Navigation extends React.Component {
 
   componentDidMount() {
+    const selected = this.props.filters
 
-    const data = fetchSelectorsData()
-    this.props.dispatch(data)
+    this.props.dispatch(actions.fetchUserData())
 
     this.props.dispatch(fetchStatData(
-      this.props.selectors.selectedSemester,
-      this.props.selectors.selectedPartner
+      selected.selectedSemester,
+      selected.selectedPartner
+    ))
+    this.props.dispatch(
+      fetchTargets(
+      selected.selectedSemester,
+      selected.selectedPartner
+    ))
+    this.props.dispatch(
+      fetchProposals(
+      selected.selectedSemester,
+      selected.selectedPartner
     ))
 
+    this.props.dispatch(storePartnerAllocations(
+      selected.selectedSemester,
+      selected.selectedPartner
+    ))
   }
   updateSemester(event){
-    console.log("NAVI: ", event);
-    this.props.dispatch(fetchStatData(event.value, this.props.selectors.selectedPartner))
+    this.props.dispatch(
+      fetchProposals( event.value, this.props.filters.selectedPartner))
+    this.props.dispatch(
+      fetchTargets(event.value, this.props.filters.selectedPartner))
+    this.props.dispatch(storePartnerAllocations(event.value, this.props.filters.selectedPartner))
   }
   updatePartner(event){
-    console.log("NAVI: ", this.props);
-    this.props.dispatch(fetchStatData(this.props.selectors.selectedSemester , event.value))
+    this.props.dispatch(
+      fetchProposals( this.props.filters.selectedSemester , event.value))
+    this.props.dispatch(
+      fetchTargets(this.props.filters.selectedSemester , event.value))
+    this.props.dispatch(storePartnerAllocations(this.props.filters.selectedSemester , event.value))
   }
 
   render() {
-    const { selectors,  } = this.props
-    const { selectedPartner, selectedSemester } = selectors
-    console.log("NAVI Is Rendaring");
+    const { filters, user   } = this.props
+    const { selectedPartner, selectedSemester } = filters
+    const partnerList = user.user.partners
+
+    const sems = semesterFilter()
+
 
     return(
       <div>
@@ -41,6 +68,7 @@ class Navigation extends React.Component {
           <li><Link to="/">Home</Link></li>
           <li><Link to="/tacreview">Tac Review</Link></li>
           <li><Link to="/statistics">Statistics</Link></li>
+          <li><Link to="/timeallocation">Time Allocation</Link></li>
           <li><Link to="/documentation">Documentation</Link></li>
           <li className="active"><Link to="/admin">Admin</Link></li>
           <button className="logoutbtn"
@@ -52,7 +80,7 @@ class Navigation extends React.Component {
             <Select
                 className ="selector"
                 name="Semester"
-                options={selectors.payload.semesters}
+                options={sems}
                 value={selectedSemester}
                 clearable={false}
                 focusedOption={selectedSemester}
@@ -67,7 +95,7 @@ class Navigation extends React.Component {
               <Select
                   className ="selector"
                   name="Partner"
-                  options={selectors.payload.partners}
+                  options={partnerList}
                   value={selectedPartner}
                   clearable={false}
                   onChange={(event) => {
@@ -83,5 +111,5 @@ class Navigation extends React.Component {
   }
 
 export default connect(
-  store => ({selectors: store.selectors, statistics:store.statistics }), null
+  store => ({filters: store.filters, statistics:store.statistics, user:store.user }), null
 )(Navigation);

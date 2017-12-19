@@ -14,10 +14,8 @@ const graphqlClient = () => axios.create({
 });
 
 export function queryStatData(semester, partner){
-  let partnerArgs
-  if (partner === "All"){
-    partnerArgs = ``
-  }else{
+  let partnerArgs = ""
+  if (partner !== "All") {
     partnerArgs = `partnerCode:"${partner}"`
   }
   const query = `
@@ -60,47 +58,173 @@ export function queryStatData(semester, partner){
         name
         surname
       }
-    }
-targets(semester:"${semester}", ${partnerArgs}){
-  id
-  optional
-  coordinates{
-    ra
-    dec
-  }
-}
-
-}
-  `
-  return graphqlClient().post(`/graphql?query=${query}`)
-  .then(
-    response => response
-  )
-}
-
-
-export function querySelectorData(){
-  const query = `
-    {
-      selectors{
-        partner
-        semester
+      allocatedTime{
+        partnerCode
+        p0
+        p1
+        p2
+        p3
+        p4
       }
     }
+
+    targets(semester:"${semester}", ${partnerArgs}){
+      id
+      optional
+      coordinates{
+        ra
+        dec
+      }
+    }
+  }
   `
   return graphqlClient().post(`/graphql?query=${query}`)
   .then(
     response => response
   )
-
 }
 
 
-export function getTecData(partner){
-  const query = `{
-    proposals(partner:"${partner}"){
+export function queryPartnerAllocations(semester, partner="All" ){
+  /*
+  * This method is only called by pages that will need and allocated time
+  * for partner at semester
+  *
+  * @params semester like "2017-1" type String
+  * @params partner is a partner code as it will be shown on partner filter
+  * @return GQL results of the below query
+  */
+  let par = ""
+  if ( partner !== "All" ) {
+    par = ` , partnerCode:"${ partner}"`
+  }
 
+  const query = `
+  {
+    partnerAllocations(semester:"${ semester }" ${ par }){
+      allocatedTime{
+        AllocatedP0P1
+        AllocatedP2
+        AllocatedP3
+      }
+    }
+  }
+  `
+  return graphqlClient().post(`/graphql?query=${query}`)
+  .then(
+    response => response
+  )
+}
+
+export function queryUserData(){
+  const query = `{
+    user{
+      lastName
+      firstName
+      email
+      username
+      role{
+        type
+        partners
+      }
     }
   }`
-  return {query}
+  return graphqlClient().post(`/graphql?query=${query}`)
+  .then(
+    response => response
+  )
+}
+
+export function queryTargets(semester, partner){
+  let par = ""
+  if ( partner !== "All" ) {
+    par = ` , partnerCode:"${ partner}"`
+  }
+  const query = `{
+    targets(semester:"${semester}", ${par}){
+      id
+      optional
+      coordinates{
+        ra
+        dec
+      }
+    }
+  }`
+  return graphqlClient().post(`/graphql?query=${query}`)
+  .then(
+    response => response
+  )
+}
+
+export function queryProposals(semester, partner){
+  let par = ""
+  if ( partner !== "All" ) {
+    par = ` , partnerCode:"${ partner}"`
+  }
+  const query = `
+  {
+    proposals(semester: "${semester}", ${par}, allProposals: true){
+      id
+      code
+      title
+      abstract
+      techReport
+      isP4
+      status
+      transparency
+      maxSeeing
+      instruments{
+        rss{
+          mode
+          dictatorMode
+        }
+        hrs{
+          exposureMode
+        }
+        bvit{
+          type
+        }
+        scam{
+          dictatorMode
+        }
+      }
+      timeRequests{
+        semester
+        minimumUsefulTime
+        distribution{
+          partnerName
+          partnerCode
+          time
+        }
+      }
+      pi{
+        name
+        surname
+      }
+      allocatedTime{
+        partnerCode
+        p0
+        p1
+        p2
+        p3
+        p4
+      }
+    }
+  }
+  `
+  return graphqlClient().post(`/graphql?query=${query}`)
+  .then(
+    response => response
+  )
+}
+
+
+
+export function submitAllocations(query){
+  return graphqlClient().post(`/graphql`, { query })
+  .then(
+    response => {
+      console.log("??????: ", response);
+      return response}
+  )
 }
