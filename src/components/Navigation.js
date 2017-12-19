@@ -41,14 +41,16 @@ class Navigation extends React.Component {
   }
   updateSemester(event){
     this.props.dispatch(
+      fetchProposals( event.value, this.props.filters.selectedPartner))
+    this.props.dispatch(
       fetchTargets(event.value, this.props.filters.selectedPartner))
-    this.props.dispatch(fetchStatData(event.value, this.props.filters.selectedPartner))
     this.props.dispatch(storePartnerAllocations(event.value, this.props.filters.selectedPartner))
   }
   updatePartner(event){
     this.props.dispatch(
+      fetchProposals( this.props.filters.selectedSemester , event.value))
+    this.props.dispatch(
       fetchTargets(this.props.filters.selectedSemester , event.value))
-    this.props.dispatch(fetchStatData(this.props.filters.selectedSemester , event.value))
     this.props.dispatch(storePartnerAllocations(this.props.filters.selectedSemester , event.value))
   }
 
