@@ -5,7 +5,8 @@ import propTypes from "prop-types";
 import InfoMessage from "../messages/InfoMessage";
 import AllocAvailTable from "../tables/AllocAvailTable";
 import ProposalsTable from "../tables/ProposalsTable";
-import checkAllocatedTimes from "../../util/checkAllocation";
+import {checkAllocatedTimes, getQuaryToAddAllocation } from "../../util/allocation";
+import { submitAllocations } from "../../api/graphQL";
 
 
 class TimeAllocationPage extends React.Component {
@@ -17,7 +18,11 @@ class TimeAllocationPage extends React.Component {
   }
 
   submitProposals(e){
-    checkAllocatedTimes(this.props.proposals)
+    const query = getQuaryToAddAllocation(this.props.proposals,
+      this.props.filters.selectedPartner,
+      this.props.filters.selectedSemester
+    )
+    submitAllocations(query)
   }
   render() {
 
@@ -40,6 +45,7 @@ class TimeAllocationPage extends React.Component {
   export default connect(
     store => ({
       allocatedTime:store.tac.data,
-      proposals: store.statistics.data.proposals
+      proposals: store.statistics.data.proposals,
+      filters: store.filters,
     }),null
   )(TimeAllocationPage);
