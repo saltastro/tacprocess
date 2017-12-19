@@ -163,7 +163,7 @@ export function queryProposals(semester, partner){
   }
   const query = `
   {
-    proposals(semester: "${semester}", ${par}){
+    proposals(semester: "${semester}", ${par}, allProposals: true){
       id
       code
       title
@@ -215,5 +215,16 @@ export function queryProposals(semester, partner){
   return graphqlClient().post(`/graphql?query=${query}`)
   .then(
     response => response
+  )
+}
+
+
+
+export function submitAllocations(query){
+  return graphqlClient().post(`/graphql`, { query })
+  .then(
+    response => {
+      console.log("??????: ", response);
+      return response}
   )
 }
