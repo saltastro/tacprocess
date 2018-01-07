@@ -193,7 +193,7 @@ export function canDo(user, action, partner) {
 }
 
 export function isFloat(val) {
-    const floatRegex = /^-?\d+(?:[.,]\d*?)?$/;
+    const floatRegex = /^[+-]?\d+(?:[.,]\d*?)?$/;
     if (!floatRegex.test(val))
         return false;
 
@@ -202,3 +202,4 @@ export function isFloat(val) {
         return false;
     return true;
 }
+
