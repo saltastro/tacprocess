@@ -75,13 +75,15 @@ class ProposalsTable extends React.Component {
         </thead>
         <tbody>
           {
-             arrayOfProposals.map( p => {
+             arrayOfProposals
+                     .filter(p => !_.isNull(p.title))
+                     .map( p => {
                sty = goodTimes
                if ( illegalAllocation(p, "", [])
              ){
                  sty = badTimes
                }
-               if ( !_.isNull(p.title)) return (
+               return (
             <tr key={p.proposalId}>
             <td><div className="width-150 padding-8" >{ p.proposalCode }</div></td>
             <td><div className="table-height width-300" >{ p.title }</div></td>
