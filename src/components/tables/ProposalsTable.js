@@ -6,6 +6,29 @@ import { isFloat } from "../../util";
 import { illegalAllocation } from "../../util/allocation";
 import _ from "lodash";
 
+const TimeAllocationInput = ({onChange, proposal, priority}) => {
+    const badTime = {
+        color: 'black',
+        background:"#FF6060"
+    };
+    const goodTime = {
+        color: 'black',
+        background:"#d4fce6"
+    };
+    const sty = illegalAllocation(proposal, priority) ? badTime : goodTime;
+    return (
+            <div>
+                <div>{`${proposal.proposalCode} (${priority.toUpperCase()})`}</div>
+                <div>
+                    <input type="text"
+                           value={proposal.allocatedTime[priority]}
+                           style={sty}
+                           className="width-100"
+                           onChange={onChange}/>
+                </div>
+            </div>
+    );
+};
 
 class ProposalsTable extends React.Component {
   constructor(props) {
@@ -31,21 +54,12 @@ class ProposalsTable extends React.Component {
   }
 
   render() {
-    const badTimes = {
-      color: 'black',
-      background:"#FF6060"
-    }
-    const goodTimes = {
-      color: 'black',
-      background:"#d4fce6"
-    }
     const data = this.props
-    let sty = ""
     const arrayOfProposals = data.data.proposals || []
 
     if ( arrayOfProposals.length === 0 ){ return (<div> <br /><br /><br /><h1>Loading proposals......</h1></div>)}
 
-    return(
+      return(
       <div className="scroldiv">
       <h1>Proposals Table</h1>
       <table>
@@ -76,61 +90,69 @@ class ProposalsTable extends React.Component {
              arrayOfProposals
                      .filter(p => !_.isNull(p.title))
                      .map( p => {
-               sty = goodTimes
-               if ( illegalAllocation(p, "", [])
-             ){
-                 sty = badTimes
-               }
                return (
             <tr key={p.proposalId}>
-            <td><div className="width-150 padding-8" >{ p.proposalCode }</div></td>
-            <td><div className="table-height width-300" >{ p.title }</div></td>
-            <td><div className="table-height width-400" >{ p.abstract }</div></td>
-            <td>{ p.pi }</td>
-            <td>2017-1</td>
-            <td>
-                  <textarea
-                      id={p.proposalCode}
-                      name="tac-comment"
-                      value={p.tacComment}
-                      className="table-height-fixed width-400"
-                      onChange={ this.valueChange.bind(this) } />
+                <td><div className="width-150 padding-8" >{ p.proposalCode }</div></td>
+                <td><div className="table-height width-300" >{ p.title }</div></td>
+                <td><div className="table-height width-400" >{ p.abstract }</div></td>
+                <td>{ p.pi }</td>
+                <td>2017-1</td>
+                <td>
+                    <textarea
+                            id={p.proposalCode}
+                            name="tac-comment"
+                            value={p.tacComment}
+                            className="table-height-fixed width-400"
+                            onChange={ this.valueChange.bind(this) } />
 
-            </td>
-            <td><div className="table-height width-100" >{ p.totalRequestedTime }</div></td>
-                {
-                  ['p0', 'p1', 'p2', 'p3', 'p4'].map(priority => (
-                          <td key={priority}>
-                              <input
-                                      type="text"
-                                      style = { sty }
-                                      value={ p.allocatedTime[priority] }
-                                      onChange={ e => this.valueChange(e, p.proposalCode, priority) }
-                                      className="width-100" />
-                          </td>
-                                                      ))
-                }
-            <td><div className="table-height width-100" >{
-                        parseFloat(p.allocatedTime.p0 || 0) +
-                        parseFloat(p.allocatedTime.p1 || 0) +
-                        parseFloat(p.allocatedTime.p2 || 0)  +
-                        parseFloat(p.allocatedTime.p3 || 0)
-                      }</div></td>
+                </td>
+                <td><div className="table-height width-100" >{ p.totalRequestedTime }</div></td>
+                <td>
+                    <TimeAllocationInput onChange={e => this.valueChange(e, p.proposalCode, 'p0')}
+                                         proposal={p}
+                                         priority="p0"/>
+                </td>
+                <td>
+                    <TimeAllocationInput onChange={e => this.valueChange(e, p.proposalCode, 'p1')}
+                                         proposal={p}
+                                         priority="p1"/>
+                </td>
+                <td>
+                    <TimeAllocationInput onChange={e => this.valueChange(e, p.proposalCode, 'p2')}
+                                         proposal={p}
+                                         priority="p2"/>
+                </td>
+                <td>
+                    <TimeAllocationInput onChange={e => this.valueChange(e, p.proposalCode, 'p3')}
+                                         proposal={p}
+                                         priority="p3"/>
+                </td>
+                <td><div className="table-height width-100" >{
+                    parseFloat(p.allocatedTime.p0 || 0) +
+                    parseFloat(p.allocatedTime.p1 || 0) +
+                    parseFloat(p.allocatedTime.p2 || 0)  +
+                    parseFloat(p.allocatedTime.p3 || 0)
+                }</div></td>
+                <td>
+                    <TimeAllocationInput onChange={e => this.valueChange(e, p.proposalCode, 'p4')}
+                                         proposal={p}
+                                         priority="p4"/>
+                </td>
                 <td><div className="table-height width-100" >false</div></td>
-            <td><div className="table-height width-100" >{ p.transparency }</div></td>
-            <td><div className="table-height width-100" >{ p.maxSeeing }</div></td>
-            <td><div className="table-height width-100" >Hover Info</div></td>
-            <td><div className="table-height width-400" >{ p.report } </div></td>
-          </tr>
-            )})
-           }
+                <td><div className="table-height width-100" >{ p.transparency }</div></td>
+                <td><div className="table-height width-100" >{ p.maxSeeing }</div></td>
+                <td><div className="table-height width-100" >Hover Info</div></td>
+                <td><div className="table-height width-400" >{ p.report } </div></td>
+            </tr>
+               )})
+          }
 
         </tbody>
-        </table>
+      </table>
       </div>
-      );
-    }
+    );
   }
+}
 
 
 export default connect(
