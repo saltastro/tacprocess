@@ -1,7 +1,7 @@
 import {
-  FETCH_PROPOSALS_START,
-  FETCH_PROPOSALS_PASS,
-  FETCH_PROPOSALS_FAIL,
+    FETCH_PROPOSALS_START,
+    FETCH_PROPOSALS_PASS,
+    FETCH_PROPOSALS_FAIL, UPDATE_SINGLE_PROPOSAL,
 } from "../types";
 
 const initialState = {
@@ -27,6 +27,14 @@ export default function proposals(state = initialState, action = {}) {
           errors: "Fail to get proposals from api" }
       }
       case FETCH_PROPOSALS_PASS: {
+        return {
+          ...state,
+          fetching: false,
+          fetched: true,
+          proposals: action.payload,
+        }
+      }
+      case UPDATE_SINGLE_PROPOSAL: {
         return {
           ...state,
           fetching: false,

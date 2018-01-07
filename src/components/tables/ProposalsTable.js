@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import { connect } from "react-redux";
-import { updateSingleProposal } from "../../actions/statisticsActions";
+import { updateSingleProposal } from "../../actions/proposalsActions";
 import { isFloat } from "../../util";
 import { illegalAllocation } from "../../util/allocation";
 import _ from "lodash";
@@ -13,14 +13,12 @@ class ProposalsTable extends React.Component {
     this.handleSubmit = this.valueChange.bind(this);
   }
 
-  valueChange(event) {
+  valueChange(event, code, name) {
     const data = this.props
-    const code = event.target.id
-    const value = event.target.value
-    const name = event.target.name
+      const value = event.target.value;
     const updatedProposals = data.proposals.map( p => {
-      if (p.proposalCode === code){
-        if( name === "tac-comment"){
+      if (p.proposalCode === code) {
+        if( name === "tac-comment") {
           p.tacComment = value
         }
         else{
@@ -29,7 +27,7 @@ class ProposalsTable extends React.Component {
       }
       return p
     })
-    data.dispatch(updateSingleProposal({proposals: updatedProposals, targets: data.data.targets}))
+    data.dispatch(updateSingleProposal(updatedProposals))
   }
 
   render() {
@@ -100,65 +98,25 @@ class ProposalsTable extends React.Component {
 
             </td>
             <td><div className="table-height width-100" >{ p.totalRequestedTime }</div></td>
-            <td>
-                <input
-                    id={p.proposalCode}
-                    type="text"
-                    name="p0"
-                    style = { sty }
-                    value={ p.allocatedTime.p0 }
-                    onChange={ this.valueChange.bind(this)}
-                    className="width-100" />
-            </td>
-            <td>
-                <input
-                    id={p.proposalCode}
-                    type="text"
-                    name="p1"
-                    value={ p.allocatedTime.p1 }
-                    style = { sty }
-                    onChange={
-                    this.valueChange.bind(this) }
-                    className="width-100"  />
-            </td>
-            <td>
-                <input
-                    id={p.proposalCode}
-                    type="text"
-                    name="p2"
-                    style = { sty }
-                    value={ p.allocatedTime.p2 }
-                    onChange={this.valueChange.bind(this)}
-                    className="width-100" />
-            </td>
-            <td>
-                <input
-                    id={p.proposalCode}
-                    type="text"
-                    name="p3"
-                    value={ p.allocatedTime.p3 }
-                    style = { sty }
-                    onChange={ this.valueChange.bind(this) }
-                    className="width-100"  />
-            </td>
+                {
+                  ['p0', 'p1', 'p2', 'p3', 'p4'].map(priority => (
+                          <td key={priority}>
+                              <input
+                                      type="text"
+                                      style = { sty }
+                                      value={ p.allocatedTime[priority] }
+                                      onChange={ e => this.valueChange(e, p.proposalCode, priority) }
+                                      className="width-100" />
+                          </td>
+                                                      ))
+                }
             <td><div className="table-height width-100" >{
                         parseFloat(p.allocatedTime.p0 || 0) +
                         parseFloat(p.allocatedTime.p1 || 0) +
                         parseFloat(p.allocatedTime.p2 || 0)  +
                         parseFloat(p.allocatedTime.p3 || 0)
                       }</div></td>
-            <td>
-                <input
-
-                    id={p.proposalCode}
-                    type="text"
-                    name="p4"
-                    style = { sty }
-                    value={ p.allocatedTime.p4 }
-                    onChange={ this.valueChange.bind(this) }
-                    className="width-100"  />
-            </td>
-            <td><div className="table-height width-100" >false</div></td>
+                <td><div className="table-height width-100" >false</div></td>
             <td><div className="table-height width-100" >{ p.transparency }</div></td>
             <td><div className="table-height width-100" >{ p.maxSeeing }</div></td>
             <td><div className="table-height width-100" >Hover Info</div></td>
