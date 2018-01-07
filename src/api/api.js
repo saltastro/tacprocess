@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API_BASE_URL } from '../types';
 
-const loginClient = () => axios.create({
+export const loginClient = () => axios.create({
   baseURL: API_BASE_URL,
   "routes": {
     "cors": true
