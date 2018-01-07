@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API_BASE_URL } from '../types';
 
-export const loginClient = () => axios.create({
+export const jsonClient = () => axios.create({
   baseURL: API_BASE_URL,
   "routes": {
     "cors": true
@@ -15,6 +15,6 @@ export const loginClient = () => axios.create({
 export default {
   user: {
     login: credentials =>
-      loginClient().post("token", { credentials }).then(res => res.data.user)
+      jsonClient().post("token", { credentials }).then(res => res.data.user)
   }
 }
