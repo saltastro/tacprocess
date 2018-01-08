@@ -1,9 +1,9 @@
 import { queryProposals } from "../api/graphQL"
 import {
-  FETCH_PROPOSALS_START,
-  FETCH_PROPOSALS_PASS,
-  FETCH_PROPOSALS_FAIL,
-  ALL_PARTNER
+    FETCH_PROPOSALS_START,
+    FETCH_PROPOSALS_PASS,
+    FETCH_PROPOSALS_FAIL,
+    ALL_PARTNER, UPDATE_SINGLE_PROPOSAL
 } from "../types";
 
 function startFetchProposals() {
@@ -103,4 +103,13 @@ export default function fetchProposals(semester, partner="All"){
     ).catch(() => {
       dispatch(FetchProposalsFail())})
   }
+}
+
+export function updateSingleProposal(load) {
+    return (
+            {
+                type: UPDATE_SINGLE_PROPOSAL,
+                payload: load
+            }
+    );
 }

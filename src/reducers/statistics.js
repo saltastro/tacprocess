@@ -42,14 +42,6 @@ export default function statistics(state = initialState, action = {}) {
           data: action.payload,
         }
       }
-      case UPDATE_SINGLE_PROPOSAL: {
-        return {
-          ...state,
-          fetching: false,
-          fetched: true,
-          data: action.payload,
-        }
-      }
       default:{
         return state;
       }
