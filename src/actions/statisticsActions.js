@@ -105,15 +105,6 @@ export function FetchDataPass(load) {
 );
 }
 
-export function updateSingleProposal(load) {
-  return (
-    {
-       type: UPDATE_SINGLE_PROPOSAL,
-       payload: load
-  }
-);
-}
-
 export function fetchStatData(semester, partner="All"){
   return function disp(dispatch){
     dispatch(startFetchData());

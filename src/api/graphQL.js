@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_BASE_URL } from '../types';
+import { jsonClient } from './api';
 
 
 const graphqlClient = () => axios.create({
@@ -221,7 +222,7 @@ export function queryProposals(semester, partner){
 
 
 export function submitAllocations(query){
-  return graphqlClient().post(`/graphql`, { query })
+  return jsonClient().post(`/graphql`, { query })
   .then(
     response => {
       console.log("??????: ", response);
