@@ -225,7 +225,6 @@ export function submitAllocations(query){
   return jsonClient().post(`/graphql`, { query })
   .then(
     response => {
-      console.log("??????: ", response);
       return response}
   )
 }
