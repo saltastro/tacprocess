@@ -1,3 +1,5 @@
+export const API_BASE_URL = "http://127.0.0.1:5001"
+
 export const USER_LOGGED_IN = "USER_LOGGED_IN"
 export const USER_LOGGED_OUT = "USER_LOGGED_OUT"
 export const FETCHING_USER = "FETCHING_USER"

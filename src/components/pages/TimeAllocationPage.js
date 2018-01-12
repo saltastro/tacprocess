@@ -10,18 +10,19 @@ import {checkAllocatedTimes, getQuaryToAddAllocation } from "../../util/allocati
 import  PartnerProposals  from "../../util/proposal";
 import { submitAllocations } from "../../api/graphQL";
 import { updateProposals } from "../../actions/proposalsActions";
+import { ALL_PARTNER } from "../../types";
 
 
 class TimeAllocationPage extends React.Component {
   constructor(props) {
     super(props);
 
-    // This binding is necessary to make `this` work in the callback
     this.submitProposals = this.submitProposals.bind(this);
   }
 
   submitProposals(event, partner){
-    const query = getQuaryToAddAllocation(this.props.proposals.proposals,
+    const ppp = PartnerProposals(this.props.proposals.proposals, this.props.user.user.partners);
+    const query = getQuaryToAddAllocation(ppp[partner],
       partner,
       this.props.filters.selectedSemester
     )
@@ -53,9 +54,13 @@ class TimeAllocationPage extends React.Component {
 
   render() {
 
-    const { allocatedTime } = this.props
+    const { allocatedTime, filters } = this.props
     const  proposals  = this.props.proposals.proposals || []
-    const  partners  = this.props.user.user.partners || []
+    let  partners  = this.props.user.user.partners || []
+
+    if (filters.selectedPartner !== ALL_PARTNER){
+      partners = filters.selectedPartner ? [{value: filters.selectedPartner, label: filters.selectedPartner}] : []
+    }
     const ppp = PartnerProposals(proposals, partners);
     return(
       <div>

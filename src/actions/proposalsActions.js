@@ -41,7 +41,7 @@ function isLongTermProposal(distributedTimes, semester){
   return distributedTimes.some(t => t.semester !== semester )
 }
 
-function makeAllocatedTime(alloc, partner){
+function makeAllocatedTime(alloc){
   let allocations = {}
   alloc.forEach( a => {
     allocations[a.partnerCode] = {
@@ -53,6 +53,17 @@ function makeAllocatedTime(alloc, partner){
     }
   })
   return allocations
+}
+
+function makeTacComments(tComm){
+
+  let tacComment = {};
+  tComm.forEach( c => {
+    tacComment[c.partnerCode] = {
+      comment: c.comment
+    };
+  });
+  return tacComment;
 }
 
 function minimumTotalRequested(distributedTimes, semester){
@@ -89,7 +100,8 @@ function convertProposals(proposals, semester, partner){
       instruments: proposal.instruments,
       pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
       report: proposal.techReport,
-      allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner)
+      allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner),
+      tacComment: makeTacComments(proposal.tacComment, partner),
     })
   }
 );

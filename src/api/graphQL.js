@@ -161,10 +161,13 @@ export function queryProposals(semester, partner){
   let par = ""
   if ( partner !== "All" ) {
     par = ` , partnerCode:"${ partner}"`
+  } else{
+    par = ` allProposals: true `
   }
+
   const query = `
   {
-    proposals(semester: "${semester}", ${par}, allProposals: true){
+    proposals(semester: "${semester}", ${par} ){
       id
       code
       title
@@ -209,6 +212,10 @@ export function queryProposals(semester, partner){
         p2
         p3
         p4
+      }
+      tacComment{
+        partnerCode
+        comment
       }
     }
   }

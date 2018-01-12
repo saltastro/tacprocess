@@ -2,6 +2,7 @@ import React from "react";
 import propTypes from "prop-types";
 import _ from "lodash";
 import { illegalAllocation } from "../../util/allocation";
+import { ALL_PARTNER } from "../../types"
 
 
 const TimeAllocationInput = ({onChange, proposal, priority, partner}) => {
@@ -32,7 +33,13 @@ const TimeAllocationInput = ({onChange, proposal, priority, partner}) => {
 const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationChange) => {
   const arrayOfProposals = proposals.proposals || []
   const part = proposals.partner
-  console.log(">>>>>: ", arrayOfProposals);
+  if (part === ALL_PARTNER){
+    return <br />
+  }
+
+  if (arrayOfProposals.length === 0){
+    return <br />
+  }
   return(
     <div className="scroldiv">
       <h1>{part}</h1>
@@ -64,6 +71,7 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
              arrayOfProposals
                      .filter(p => !_.isNull(p.title))
                      .map( p => {
+                       console.log("TacComment: : ", p.tacComment);
                return (
             <tr key={p.proposalId}>
                 <td><div className="width-150 padding-8" >{ p.proposalCode }</div></td>
@@ -75,7 +83,7 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
                     <textarea
                             id={p.proposalCode}
                             name="tac-comment"
-                            value={p.tacComment}
+                            value={p.tacComment[part].comment}
                             className="table-height-fixed width-400"
                             onChange={ e => proposals.tacCommentChange(e, p.proposalCode, part) } />
 
@@ -125,7 +133,7 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
 
         </tbody>
       </table>
-      <button className="btn-success" onClick={ e => proposals.submitForParner(e, part) }>Submit</button>
+      <button className="btn-success" onClick={ e => proposals.submitForParner(e, part) }>Submit {part}</button>
     </div>
   )}
 
