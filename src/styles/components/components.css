@@ -1,11 +1,9 @@
 .nav {
     list-style-type: none;
-    margin: 0;
-    padding: 0;
     overflow: hidden;
     background-color: #333;
-    top: 0;
     width: 100%;
+    fixed: top;
 }
 
 li {
@@ -13,12 +11,11 @@ li {
 }
 
 li a {
-  font-size: 25px;
+  font-size: 40px;
   display: block;
   color: white;
   text-align: center;
   padding: 14px 16px;
-  text-decoration: none;
 }
 
 li a:hover:not(.active) {
@@ -35,9 +32,13 @@ li a:hover:not(.active) {
     height: 50px;
     border: 3px solid #00ffe1;
     background: #60ffec;
+
 }
 .btn-success:hover {
     background-color: #b0f4ec;
     color: black;
     border: 3px solid #8AC007;
+}
+.root-main{
+  padding: 5px 150px 150px 150px;
 }

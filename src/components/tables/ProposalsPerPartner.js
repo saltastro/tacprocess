@@ -114,7 +114,10 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
                                          priority="p3"/>
                 </td>
                 <td><div className="table-height width-100" >{
-                    0
+                    parseFloat(p.allocatedTime[part]["p0"] || 0 ) +
+                    parseFloat(p.allocatedTime[part]["p1"] || 0 ) +
+                    parseFloat(p.allocatedTime[part]["p2"] || 0 ) +
+                    parseFloat(p.allocatedTime[part]["p3"] || 0 ) 
                 }</div></td>
                 <td>
                     <TimeAllocationInput onChange={e => proposals.allocationChange(e, p.proposalCode, 'p4', part)}

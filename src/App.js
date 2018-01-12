@@ -15,7 +15,7 @@ import GuestRoute from "./components/routes/GuestRoute";
 import Navigation from "./components/Navigation";
 
 const App = ({ location, isAuthenticated }) => (
-    <div className="ui container">
+    <div className="root-main">
        {isAuthenticated ? (
         <div>
           <Navigation />
