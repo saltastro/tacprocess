@@ -71,7 +71,6 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
              arrayOfProposals
                      .filter(p => !_.isNull(p.title))
                      .map( p => {
-                       console.log("TacComment: : ", p.tacComment);
                return (
             <tr key={p.proposalId}>
                 <td><div className="width-150 padding-8" >{ p.proposalCode }</div></td>
@@ -81,9 +80,9 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
                 <td>2017-1</td>
                 <td>
                     <textarea
-                            id={p.proposalCode}
+                            id={ p.proposalCode }
                             name="tac-comment"
-                            value={p.tacComment[part].comment}
+                            value={ p.tacComment[part].comment }
                             className="table-height-fixed width-400"
                             onChange={ e => proposals.tacCommentChange(e, p.proposalCode, part) } />
 
@@ -117,7 +116,7 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
                     parseFloat(p.allocatedTime[part]["p0"] || 0 ) +
                     parseFloat(p.allocatedTime[part]["p1"] || 0 ) +
                     parseFloat(p.allocatedTime[part]["p2"] || 0 ) +
-                    parseFloat(p.allocatedTime[part]["p3"] || 0 ) 
+                    parseFloat(p.allocatedTime[part]["p3"] || 0 )
                 }</div></td>
                 <td>
                     <TimeAllocationInput onChange={e => proposals.allocationChange(e, p.proposalCode, 'p4', part)}

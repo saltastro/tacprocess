@@ -17,37 +17,53 @@ export function checkAllocatedTimes(proposals, partner){
 }
 
 export function getQuaryToAddAllocation(proposals, partner, semester){
-  const pList = []
-  // TODO: this must check validy of allocations 
-  if (true){
+  const allocationsList = []
+  const commentList = []
 
-    proposals.forEach(p => {
-      (
-      [0, 1, 2, 3, 4].forEach( t => {
-        const priority = `p${t}`
-        pList.push(
-        `{
+  // TODO: this must check validy of allocations
+  if (true){
+    proposals.forEach( p => {
+      console.log(">>>", p.tacComment[partner]);
+      commentList.push(`{
             proposalCode: "${p.proposalCode}",
-            priority: ${t},
-            time: ${p.allocatedTime[partner][priority]}
-         }`
-      )}
-    )
-    )}
-  )
+            comment: ${p.tacComment[partner].comment}
+         }`);
+       [0, 1, 2, 3, 4].forEach( t => {
+         const priority = `p${t}`
+         allocationsList.push(
+           `{
+               proposalCode: "${p.proposalCode}",
+               priority: ${t},
+               time: ${p.allocatedTime[partner][priority]}
+            }`
+          );
+       })
+    })
   }
+
   const mutateQuery = `
       mutation uta {
         updateTimeAllocations(timeAllocations: {
           partner: "${ partner }",
           semester: "${ semester }",
           timeAllocations: [
-            ${pList}
+            ${allocationsList}
+          ]
+        }) {
+          success
+        }
+
+        updateTacComments(tacComments: {
+          partner: "${ partner }",
+          semester: "${ semester }",
+          tacComments: [
+            ${commentList}
           ]
         }) {
           success
         }
       }
   `
+  console.log(mutateQuery);
   return mutateQuery
 }
