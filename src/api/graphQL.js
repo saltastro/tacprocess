@@ -231,8 +231,6 @@ export function queryProposals(semester, partner){
 export function submitAllocations(query){
   return jsonClient().post(`/graphql`, { query })
   .then(
-    response => {
-      return response
-    }
+    response => response    
   )
 }
