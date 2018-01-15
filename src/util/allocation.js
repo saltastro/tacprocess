@@ -23,7 +23,6 @@ export function getQuaryToAddAllocation(proposals, partner, semester){
   // TODO: this must check validy of allocations
   if (true){
     proposals.forEach( p => {
-      console.log(">>>", p.tacComment[partner]);
       commentList.push(`{
             proposalCode: "${p.proposalCode}",
             comment: "${p.tacComment[partner].comment}"
