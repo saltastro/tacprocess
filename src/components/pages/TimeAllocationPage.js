@@ -40,12 +40,12 @@ class TimeAllocationPage extends React.Component {
     })
     data.dispatch(updateProposals(updatedProposals))
   }
-  tacCommentChange(event, proposalCode) {
+  tacCommentChange(event, proposalCode, partner) {
     const data = this.props
     const value = event.target.value;
     const updatedProposals = data.proposals.proposals.map( p => {
       if (p.proposalCode === proposalCode) {
-          p.tacComment = value
+          p.tacComment[partner].comment = value
       }
       return p
     })

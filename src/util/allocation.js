@@ -26,7 +26,7 @@ export function getQuaryToAddAllocation(proposals, partner, semester){
       console.log(">>>", p.tacComment[partner]);
       commentList.push(`{
             proposalCode: "${p.proposalCode}",
-            comment: ${p.tacComment[partner].comment}
+            comment: "${p.tacComment[partner].comment}"
          }`);
        [0, 1, 2, 3, 4].forEach( t => {
          const priority = `p${t}`

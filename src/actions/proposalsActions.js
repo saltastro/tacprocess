@@ -60,7 +60,7 @@ function makeTacComments(tComm){
   let tacComment = {};
   tComm.forEach( c => {
     tacComment[c.partnerCode] = {
-      comment: c.comment
+      comment: c.comment == null ? "" : `${c.comment}`
     };
   });
   return tacComment;
