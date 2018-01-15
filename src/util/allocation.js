@@ -48,14 +48,7 @@ export function getQuaryToAddAllocation(proposals, partner, semester){
           semester: "${ semester }",
           timeAllocations: [
             ${allocationsList}
-          ]
-        }) {
-          success
-        }
-
-        updateTacComments(tacComments: {
-          partner: "${ partner }",
-          semester: "${ semester }",
+          ],
           tacComments: [
             ${commentList}
           ]
@@ -64,6 +57,5 @@ export function getQuaryToAddAllocation(proposals, partner, semester){
         }
       }
   `
-  console.log(mutateQuery);
   return mutateQuery
 }
