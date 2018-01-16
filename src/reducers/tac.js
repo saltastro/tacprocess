@@ -14,6 +14,7 @@ const initState = {
         p3: 0
       },
     submiting: false,
+    submited: true,
     }
 
 export default function statistics(state=initState, action = {}) {
@@ -57,7 +58,7 @@ export default function statistics(state=initState, action = {}) {
         return {
           ...state,
           submiting: true,
-          submited: false,
+          partner: action.partner
         }
       }
 

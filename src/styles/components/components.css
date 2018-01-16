@@ -34,10 +34,36 @@ li a:hover:not(.active) {
     background: #60ffec;
 
 }
+.btn-fail {
+    position: absolute;
+    right: 150px;
+    width: 200px;
+    height: 50px;
+    border: 3px solid #ff0a3e;
+    background: #ff6082;
+
+}
+.fail-div {
+  text-align: center;
+    right: 150px;
+    background: #ff6082;
+
+}
+.pass-div {
+  text-align: center;
+    right: 150px;
+    background: #11dd22;
+
+}
 .btn-success:hover {
     background-color: #b0f4ec;
     color: black;
     border: 3px solid #8AC007;
+}
+.btn-fail:hover {
+    background-color: #f47a94;
+    color: black;
+    border: 3px solid #f73b63;
 }
 .root-main{
   padding: 5px 150px 150px 150px;

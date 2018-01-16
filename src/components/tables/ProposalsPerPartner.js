@@ -30,7 +30,7 @@ const TimeAllocationInput = ({onChange, proposal, priority, partner}) => {
 };
 
 
-const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationChange, canAllocate, canComment) => {
+const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationChange, canAllocate, canComment, submited) => {
   const arrayOfProposals = proposals.proposals || []
   const part = proposals.partner
   if (part === ALL_PARTNER){
@@ -154,7 +154,23 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
 
         </tbody>
       </table>
-      <button className="btn-success" onClick={ e => proposals.submitForParner(e, part) }>Submit {part}</button>
+      {
+
+        proposals.submited.submited ?
+          <div><br />
+            {!!proposals.submited.partner && proposals.submited.partner === part ? <div  className="pass-div"> <h2> Submitited</h2> </div> :  <br /> }
+            <button className="btn-success" onClick={ e => proposals.submitForParner(e, part) }>Submit {part}</button>
+          </div> :
+          proposals.submited.partner === part ?
+          <div className="fail-div">
+            <h2> Fail to submit</h2>
+            <h3>please make sure that all allocation for partner "{proposals.submited.partner}" are correct <br />or you do not have tailing " \ " on your comment</h3>
+            <button className="btn-fail" onClick={ e => proposals.submitForParner(e, part) }>Submit {part}</button>
+          </div> :
+          <div><br />
+            <button className="btn-success" onClick={ e => proposals.submitForParner(e, part) }>Submit {part}</button>
+          </div>
+      }
     </div>
   )}
 
@@ -166,6 +182,7 @@ ProposalsPerPartner.propTypes = {
   submitForParner: propTypes.func.isRequired,
   canAllocate: propTypes.boolean,
   canComment: propTypes.boolean,
+  submited: propTypes.object,
 }
 
 export default ProposalsPerPartner;
