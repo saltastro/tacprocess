@@ -36,7 +36,6 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
   if (part === ALL_PARTNER){
     return <br />
   }
-  console.log(">>>>>>>>: ", proposals.canAllocate, proposals.canComment);
   if (arrayOfProposals.length === 0){
     return <br />
   }

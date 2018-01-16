@@ -23,7 +23,6 @@ class TimeAllocationPage extends React.Component {
   }
 
   submitProposals(event, partner){
-    console.log(">>>>>>",this.props);
     const ppp = PartnerProposals(this.props.proposals.proposals, this.props.user.user.partners);
     const query = getQuaryToAddAllocation(ppp[partner],
       partner,
@@ -34,7 +33,6 @@ class TimeAllocationPage extends React.Component {
     const {rst} =submited.then(p => p.data).then( d => {
       d.data.updateTimeAllocations.success ? this.props.dispatch(passSubmition()) : this.props.dispatch(failSubmition())
     });
-    console.log("Submited: ", rst)
   }
   allocationChange(event, proposalCode, priority, partner) {
 
