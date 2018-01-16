@@ -21,8 +21,9 @@ export const passQuery = data => ({
     timeallocation: data
   })
 
-export const startSubmition = () => ({
-      type: SUBMIT_TIME_ALLOCATIONS_START
+export const startSubmition = partner => ({
+      type: SUBMIT_TIME_ALLOCATIONS_START,
+      partner: partner
     })
 
 export const passSubmition = () => ({
