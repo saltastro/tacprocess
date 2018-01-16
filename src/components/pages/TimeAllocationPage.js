@@ -24,15 +24,16 @@ class TimeAllocationPage extends React.Component {
 
   submitProposals(event, partner){
     const ppp = PartnerProposals(this.props.proposals.proposals, this.props.user.user.partners);
+    const { dispatch } = this.props
     const query = getQuaryToAddAllocation(ppp[partner],
       partner,
       this.props.filters.selectedSemester
     )
-    this.props.dispatch(startSubmition())
+    dispatch(startSubmition(partner))
     const submited = submitAllocations(query)
     const {rst} =submited.then(p => p.data).then( d => {
-      d.data.updateTimeAllocations.success ? this.props.dispatch(passSubmition()) : this.props.dispatch(failSubmition())
-    });
+      d.data.updateTimeAllocations.success ? dispatch(passSubmition()) : dispatch(failSubmition())
+    }).catch(this.props.dispatch(failSubmition()));
   }
   allocationChange(event, proposalCode, priority, partner) {
 
@@ -83,6 +84,7 @@ class TimeAllocationPage extends React.Component {
                 submitForParner={ this.submitProposals.bind(this) }
                 canAllocate = { canUserWriteAllocations(user.user, part.value) }
                 canComment = { canUserWriteTechComments(user.user, part.value) }
+                submited = { tac }
 
           />
         ))
