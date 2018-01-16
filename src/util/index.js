@@ -213,7 +213,6 @@ export function canUserWriteAllocations(user, partner){
       }
     }
   });
-  console.log("Can Wrte: ", canWrite);
   return canWrite;
 }
 
