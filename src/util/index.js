@@ -228,3 +228,48 @@ export function canUserWriteTechComments(user, partner){
   });
   return canWrite;
 }
+
+export function allocatedTimeTotals( proposals, partner ){
+  /**
+   *
+   *
+   * @param partner
+   * @param availableTime
+   * @param proposals
+   * @return object of allocated time totals per priority
+   */
+
+   let total = {
+     p0: 0,
+     p1: 0,
+     p2: 0,
+     p3: 0,
+     p4: 0
+   }
+   proposals.forEach(p => {
+     [0, 1, 2, 3, 4].forEach( pr => {
+       total[`p${pr}`] += parseFloat(p.allocatedTime[partner][`p${pr}`]) || 0
+     })
+   })
+   return total
+
+}
+
+export function areAllocatedTimesCorrect(partner, availableTime, proposals){
+  /**
+   *
+   *
+   * @param partner
+   * @param availableTime
+   * @param proposals
+   * @return object stating if allocated time of proposals doen't exceed available time and charector are numbers
+   */
+   const allocTotals = allocatedTimeTotals( proposals, partner )
+
+   return {
+     p0p1: allocTotals.p0 + allocTotals.p1 <= availableTime.p0p1 *60*60,
+     p2: allocTotals.p2 <= availableTime.p2*60*60,
+     p3: allocTotals.p3 <= availableTime.p3*60*60,
+   }
+
+}
