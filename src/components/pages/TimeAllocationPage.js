@@ -3,11 +3,10 @@ import React from "react";
 import { connect } from "react-redux"
 import propTypes from "prop-types";
 import InfoMessage from "../messages/InfoMessage";
-import AllocAvailTable from "../tables/AllocAvailTable";
-import ProposalsTable from "../tables/ProposalsTable";
+import AvailableTimePerPartnerTable from "../tables/AvailableTimePerPartnerTable";
 import ProposalsPerPartner from "../tables/ProposalsPerPartner";
 import {checkAllocatedTimes, getQuaryToAddAllocation } from "../../util/allocation";
-import { canUserWriteAllocations, canUserWriteTechComments }  from "../../util";
+import { canUserWriteAllocations, canUserWriteTechComments, areAllocatedTimesCorrect }  from "../../util";
 import PartnerProposals  from "../../util/proposal";
 import { submitAllocations } from "../../api/graphQL";
 import { updateProposals } from "../../actions/proposalsActions";
@@ -31,9 +30,9 @@ class TimeAllocationPage extends React.Component {
     )
     dispatch(startSubmition(partner))
     const submited = submitAllocations(query)
-    const {rst} =submited.then(p => p.data).then( d => {
+    const {rst} =submited.then(p => p.data, dispatch(failSubmition())).catch().then( d => {
       d.data.updateTimeAllocations.success ? dispatch(passSubmition()) : dispatch(failSubmition())
-    }).catch(this.props.dispatch(failSubmition()));
+    });
   }
   allocationChange(event, proposalCode, priority, partner) {
 
@@ -70,23 +69,27 @@ class TimeAllocationPage extends React.Component {
       partners = filters.selectedPartner ? [{value: filters.selectedPartner, label: filters.selectedPartner}] : []
     }
     const ppp = PartnerProposals(proposals, partners);
-    // if (tac.submiting)  return (<div><h1>Submiting</h1></div>); else
     return(
       <div>
-        <AllocAvailTable allocatedTime={allocatedTime} />
       {
         tac.submiting ? (<div><h1>Submiting...</h1></div>) : partners.map( part => (
-          <ProposalsPerPartner
-                proposals={ ppp[part.value] || [] }
-                partner={part.value}
-                tacCommentChange={ this.tacCommentChange.bind(this) }
-                allocationChange={ this.allocationChange.bind(this) }
-                submitForParner={ this.submitProposals.bind(this) }
-                canAllocate = { canUserWriteAllocations(user.user, part.value) }
-                canComment = { canUserWriteTechComments(user.user, part.value) }
-                submited = { tac }
-
-          />
+          <div>
+            <AvailableTimePerPartnerTable
+              proposals = { ppp[part.value] || [] }
+              partner = { part.value }
+              availableTime = {allocatedTime}
+             />
+            <ProposalsPerPartner
+                  proposals={ ppp[part.value] || [] }
+                  partner={part.value}
+                  tacCommentChange={ this.tacCommentChange.bind(this) }
+                  allocationChange={ this.allocationChange.bind(this) }
+                  submitForParner={ this.submitProposals.bind(this) }
+                  canAllocate = { canUserWriteAllocations(user.user, part.value) }
+                  canComment = { canUserWriteTechComments(user.user, part.value) }
+                  submited = { tac }
+              />
+            </div>
         ))
        }
       </div>
