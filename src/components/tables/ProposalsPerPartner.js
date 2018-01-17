@@ -2,18 +2,10 @@ import React from "react";
 import propTypes from "prop-types";
 import _ from "lodash";
 import { illegalAllocation } from "../../util/allocation";
-import { ALL_PARTNER } from "../../types"
+import { ALL_PARTNER, goodTime, badTime } from "../../types"
 
 
 const TimeAllocationInput = ({onChange, proposal, priority, partner}) => {
-    const badTime = {
-        color: 'black',
-        background:"#FF6060"
-    };
-    const goodTime = {
-        color: 'black',
-        background:"#d4fce6"
-    };
     const sty = illegalAllocation(proposal, priority, partner) ? badTime : goodTime;
     return (
             <div>

@@ -1,4 +1,4 @@
-export const API_BASE_URL = "http://tacapi.cape.saao.ac.za"
+export const API_BASE_URL = "http://127.0.0.1:5001"
 
 export const USER_LOGGED_IN = "USER_LOGGED_IN"
 export const USER_LOGGED_OUT = "USER_LOGGED_OUT"
@@ -44,3 +44,12 @@ export const TAC_MEMBER = 'TAC Member';
 
 export const VIEW_TIME_ALLOCATION_PAGE = 'VIEW_TIME_ALLOCATION_PAGE';
 export const EDIT_TIME_ALLOCATION_PAGE = 'EDIT_TIME_ALLOCATION_PAGE';
+
+export const badTime = {
+    color: 'black',
+    background:"#FF6060"
+};
+export const goodTime = {
+    color: 'black',
+    background:"#d4fce6"
+};
