@@ -18,6 +18,12 @@
 	  margin: auto;
   display: table;
 }
+.table-half {
+	  width: 40%;
+}
+.table-space {
+	  padding: 3% 0 0 0;
+}
 .left-table {
 	text-align: left;
 }
