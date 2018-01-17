@@ -103,6 +103,7 @@ export function queryPartnerAllocations(semester, partner="All" ){
   const query = `
   {
     partnerAllocations(semester:"${ semester }" ${ par }){
+      code
       allocatedTime{
         AllocatedP0P1
         AllocatedP2
@@ -231,6 +232,6 @@ export function queryProposals(semester, partner){
 export function submitAllocations(query){
   return jsonClient().post(`/graphql`, { query })
   .then(
-    response => response    
+    response => response
   )
 }
