@@ -35,17 +35,15 @@ export const failSubmition = () => ({
     })
 
 const convertData = (data) => {
-  const alloc = {
-    p0p1: 0,
-    p2: 0,
-    p3: 0
-  }
+  let availableTime = {}
   data.partnerAllocations.forEach( a => {
-    alloc.p0p1 += a.allocatedTime.AllocatedP0P1
-    alloc.p2 += a.allocatedTime.AllocatedP2
-    alloc.p3 += a.allocatedTime.AllocatedP3
+    availableTime[a.code] = {
+      p0p1: a.allocatedTime.AllocatedP0P1,
+      p2: a.allocatedTime.AllocatedP2,
+      p3: a.allocatedTime.AllocatedP3
+    }
   })
-  return alloc
+  return availableTime
 }
 
 export const storePartnerAllocations = (semester, partner="All") => function fits(dispatch) {
