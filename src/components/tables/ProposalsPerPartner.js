@@ -43,6 +43,7 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
             <th>PI</th>
             <th>Semester</th>
             <th>TAC comment</th>
+            <th>Minimum useful time</th>
             <th>Total Requested Time</th>
             <th>P0</th>
             <th>P1</th>
@@ -55,7 +56,8 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
             <th>Max seeing</th>
             <th>Hover Info</th>
             <th>Tech Report</th>
-          </tr>
+          </tr><th>Minimum useful time</th>
+            <th>Total Requested Time</th>
         </thead>
         <tbody>
           {
@@ -83,6 +85,7 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
                             </div>
                   }
                 </td>
+                <td><div className="table-height width-100" >{ p.minTime }</div></td>
                 <td><div className="table-height width-100" >{ p.totalRequestedTime }</div></td>
                 <td>
                     { proposals.canAllocate ?
