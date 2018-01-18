@@ -4,8 +4,7 @@ import {
   FETCH_STAT_DATA_PASS,
   FETCH_STAT_DATA_FAIL,
   FETCH_STAT_DATA_START,
-  ALL_PARTNER,
-  UPDATE_SINGLE_PROPOSAL
+  ALL_PARTNER
 } from "../types";
 
 function isNewProposal(distributedTimes, semester){

@@ -29,12 +29,12 @@ export function totalTimeRequestedPerParner(proposals, semester, partner="All" )
 }
 
 export function userPartners(roles) {
-  let allPartners = [{value: "All", label: "All"}]
+  let allPartners = [{value: "All", label: "All", role: ""}]
   if (! _.isEmpty(roles)){
     roles.forEach(u => {
         u.partners.forEach( s => {
           if ( _.findIndex(allPartners, { value: s, label: s }) === -1 ){
-            allPartners.push({ value: s, label: s })
+            allPartners.push({ value: s, label: s, role: u.type })
           }
         }
       );

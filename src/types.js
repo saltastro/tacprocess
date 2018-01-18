@@ -1,4 +1,5 @@
-export const API_BASE_URL = "http://tacapi.cape.saao.ac.za";
+export const API_BASE_URL = "http://tacapi.cape.saao.ac.za"
+
 export const USER_LOGGED_IN = "USER_LOGGED_IN"
 export const USER_LOGGED_OUT = "USER_LOGGED_OUT"
 export const FETCHING_USER = "FETCHING_USER"
@@ -28,7 +29,11 @@ export const PARTNER_CHANGE = "PARTNER_CHANGE"
 export const TIME_ALLOCATIONS_QUERY_START = "TIME_ALLOCATIONS_QUERY_START"
 export const TIME_ALLOCATIONS_QUERY_FAIL = "TIME_ALLOCATIONS_QUERY_FAIL"
 export const TIME_ALLOCATIONS_QUERY_PASS = "TIME_ALLOCATIONS_QUERY_PASS"
+export const SUBMIT_TIME_ALLOCATIONS_START = "SUBMIT_TIME_ALLOCATIONS_START"
+export const SUBMIT_TIME_ALLOCATIONS_PASS = "SUBMIT_TIME_ALLOCATIONS_PASS"
+export const SUBMIT_TIME_ALLOCATIONS_FAIL = "SUBMIT_TIME_ALLOCATIONS_FAIL"
 export const UPDATE_SINGLE_PROPOSAL = "UPDATE_SINGLE_PROPOSAL"
+export const UPDATING_PROPOSALS = "UPDATING_PROPOSALS"
 
 export const ALL_PARTNER = 'All';
 
@@ -39,3 +44,12 @@ export const TAC_MEMBER = 'TAC Member';
 
 export const VIEW_TIME_ALLOCATION_PAGE = 'VIEW_TIME_ALLOCATION_PAGE';
 export const EDIT_TIME_ALLOCATION_PAGE = 'EDIT_TIME_ALLOCATION_PAGE';
+
+export const badTime = {
+    color: 'black',
+    background:"#FF6060"
+};
+export const goodTime = {
+    color: 'black',
+    background:"#d4fce6"
+};

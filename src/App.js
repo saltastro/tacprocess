@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import HomePage from "./components/pages/HomePage";
 import LoginPage from "./components/pages/LoginPage";
 import StatisticsPage from "./components/pages/StatisticsPage";
-import TacReviewPage from "./components/pages/TacReviewPage";
+import TechReviewPage from "./components/pages/TechReviewPage";
 import TimeAllocationPage from "./components/pages/TimeAllocationPage";
 import DocumentationPage from "./components/pages/DocumentationPage";
 import AdminPage from "./components/pages/AdminPage";
@@ -15,7 +15,7 @@ import GuestRoute from "./components/routes/GuestRoute";
 import Navigation from "./components/Navigation";
 
 const App = ({ location, isAuthenticated }) => (
-    <div className="ui container">
+    <div className="root-main">
        {isAuthenticated ? (
         <div>
           <Navigation />
@@ -31,7 +31,7 @@ const App = ({ location, isAuthenticated }) => (
       <GuestRoute location={location} path="/login" exact component={LoginPage} />
       <UserRoute location={location} path="/statistics" exact component={StatisticsPage} />
       <UserRoute location={location} path="/timeallocation" exact component={TimeAllocationPage} />
-      <UserRoute location={location} path="/tacreview" exact component={TacReviewPage} />
+      <UserRoute location={location} path="/techreview" exact component={TechReviewPage} />
       <UserRoute location={location} path="/documentation" exact component={DocumentationPage} />
       <UserRoute location={location} path="/admin" exact component={AdminPage} />
     </div>

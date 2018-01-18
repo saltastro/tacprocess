@@ -1,8 +1,7 @@
 import {
   FETCH_STAT_DATA_START,
   FETCH_STAT_DATA_PASS,
-  FETCH_STAT_DATA_FAIL,
-  UPDATE_SINGLE_PROPOSAL
+  FETCH_STAT_DATA_FAIL
 } from "../types";
 
 const initialState = {

@@ -1,7 +1,11 @@
 import { queryPartnerAllocations } from "../api/graphQL"
 import { TIME_ALLOCATIONS_QUERY_START,
 TIME_ALLOCATIONS_QUERY_FAIL,
-TIME_ALLOCATIONS_QUERY_PASS } from "../types";
+TIME_ALLOCATIONS_QUERY_PASS,
+SUBMIT_TIME_ALLOCATIONS_START,
+SUBMIT_TIME_ALLOCATIONS_PASS,
+SUBMIT_TIME_ALLOCATIONS_FAIL,
+ } from "../types";
 
 
 const startQuery = () => ({
@@ -17,18 +21,29 @@ export const passQuery = data => ({
     timeallocation: data
   })
 
+export const startSubmition = partner => ({
+      type: SUBMIT_TIME_ALLOCATIONS_START,
+      partner: partner
+    })
+
+export const passSubmition = () => ({
+      type: SUBMIT_TIME_ALLOCATIONS_PASS
+    })
+
+export const failSubmition = () => ({
+      type: SUBMIT_TIME_ALLOCATIONS_FAIL
+    })
+
 const convertData = (data) => {
-  const alloc = {
-    p0p1: 0,
-    p2: 0,
-    p3: 0
-  }
+  let availableTime = {}
   data.partnerAllocations.forEach( a => {
-    alloc.p0p1 += a.allocatedTime.AllocatedP0P1
-    alloc.p2 += a.allocatedTime.AllocatedP2
-    alloc.p3 += a.allocatedTime.AllocatedP3
+    availableTime[a.code] = {
+      p0p1: a.allocatedTime.AllocatedP0P1,
+      p2: a.allocatedTime.AllocatedP2,
+      p3: a.allocatedTime.AllocatedP3
+    }
   })
-  return alloc
+  return availableTime
 }
 
 export const storePartnerAllocations = (semester, partner="All") => function fits(dispatch) {

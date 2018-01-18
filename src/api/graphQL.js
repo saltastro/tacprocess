@@ -103,6 +103,7 @@ export function queryPartnerAllocations(semester, partner="All" ){
   const query = `
   {
     partnerAllocations(semester:"${ semester }" ${ par }){
+      code
       allocatedTime{
         AllocatedP0P1
         AllocatedP2
@@ -161,10 +162,13 @@ export function queryProposals(semester, partner){
   let par = ""
   if ( partner !== "All" ) {
     par = ` , partnerCode:"${ partner}"`
+  } else{
+    par = ` allProposals: true `
   }
+
   const query = `
   {
-    proposals(semester: "${semester}", ${par}, allProposals: true){
+    proposals(semester: "${semester}", ${par} ){
       id
       code
       title
@@ -210,6 +214,10 @@ export function queryProposals(semester, partner){
         p3
         p4
       }
+      tacComment{
+        partnerCode
+        comment
+      }
     }
   }
   `
@@ -224,8 +232,6 @@ export function queryProposals(semester, partner){
 export function submitAllocations(query){
   return jsonClient().post(`/graphql`, { query })
   .then(
-    response => {
-      console.log("??????: ", response);
-      return response}
+    response => response
   )
 }

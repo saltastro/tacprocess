@@ -3,7 +3,7 @@ import InfoMessage from "../messages/InfoMessage";
 
 const TacReviewPage = () => (
   <div>
-    <InfoMessage page="Tac Review"/>
+    <InfoMessage page="Tach Review"/>
   </div>
   )
 

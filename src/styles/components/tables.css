@@ -14,11 +14,15 @@
 
 .table {
 	  overflow: hidden;
-	  width: 80%;
+	  width: 100%;
 	  margin: auto;
   display: table;
-  padding: 2em 0 0em 0;
-	align-self:stretch;
+}
+.table-half {
+	  width: 40%;
+}
+.table-space {
+	  padding: 3% 0 0 0;
 }
 .left-table {
 	text-align: left;
@@ -53,12 +57,10 @@ tbody { border: 3px solid #000}
 
 .scroldiv {
   margin-top: 5em;
-  margin-left: -10%;
   margin-right: auto;
-  overflow-y: scroll;
   overflow-x: scroll;
-  width: 1400px;
-	height: 600px;
+  width: 1500;
+	height: 100%;
   background-color: #EFF3F9;
 }
 td, th {

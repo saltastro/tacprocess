@@ -3,7 +3,8 @@ import {
     FETCH_PROPOSALS_START,
     FETCH_PROPOSALS_PASS,
     FETCH_PROPOSALS_FAIL,
-    ALL_PARTNER, UPDATE_SINGLE_PROPOSAL
+    UPDATING_PROPOSALS,
+    UPDATE_SINGLE_PROPOSAL,
 } from "../types";
 
 function startFetchProposals() {
@@ -39,16 +40,29 @@ function isLongTermProposal(distributedTimes, semester){
   return distributedTimes.some(t => t.semester !== semester )
 }
 
-function makeAllocatedTime(alloc, partner){
-    const allocForPartner = alloc.filter(a => partner === ALL_PARTNER || a.partnerCode === partner)
-    return allocForPartner.reduce((prev, a) => {
-      const updated = { ...prev };
-      [0, 1, 2, 3, 4].forEach(priority => {
-        const key = `p${priority}`
-        updated[key] = a[key] || 0
-      });
-      return updated;
-    }, { p0: 0, p1: 0, p2: 0, p3: 0, p4: 0 })
+function makeAllocatedTime(alloc){
+  let allocations = {}
+  alloc.forEach( a => {
+    allocations[a.partnerCode] = {
+      p0: (a.p0 === null) ? 0 : a.p0,
+      p1: (a.p1 === null) ? 0 : a.p1,
+      p2: (a.p2 === null) ? 0 : a.p2,
+      p3: (a.p3 === null) ? 0 : a.p3,
+      p4: (a.p4 === null) ? 0 : a.p4,
+    }
+  })
+  return allocations
+}
+
+function makeTacComments(tComm){
+
+  let tacComment = {};
+  tComm.forEach( c => {
+    tacComment[c.partnerCode] = {
+      comment: c.comment == null ? "" : `${c.comment}`
+    };
+  });
+  return tacComment;
 }
 
 function minimumTotalRequested(distributedTimes, semester){
@@ -63,6 +77,23 @@ function minimumTotalRequested(distributedTimes, semester){
   return { total, minimum }
 }
 
+function requestedTime(requests, semester){
+
+  let reqTime = {
+    minimum: 0,
+    semester: semester,
+    requests: {}
+  }
+  requests.forEach(p => {
+    if (p.semester === semester){
+      reqTime.minimum = p.minimumUsefulTime
+      p.distribution.forEach(d => {
+        reqTime.requests[d.partnerCode] = d.time
+      })
+    }
+  })
+  return reqTime
+}
 
 function convertProposals(proposals, semester, partner){
   const convertedProposals = proposals.proposals.map( proposal =>   {
@@ -85,7 +116,9 @@ function convertProposals(proposals, semester, partner){
       instruments: proposal.instruments,
       pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
       report: proposal.techReport,
-      allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner)
+      allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner),
+      tacComment: makeTacComments(proposal.tacComment, partner),
+      requestedTime: requestedTime(proposal.timeRequests, semester)
     })
   }
 );
@@ -98,7 +131,7 @@ export default function fetchProposals(semester, partner="All"){
     dispatch(startFetchProposals());
     queryProposals(semester, partner).then( res =>
       {
-        dispatch(FetchProposalsPass(convertProposals(res.data.data)))
+        dispatch(FetchProposalsPass(convertProposals(res.data.data, semester, partner)))
       }
     ).catch(() => {
       dispatch(FetchProposalsFail())})
@@ -109,6 +142,15 @@ export function updateSingleProposal(load) {
     return (
             {
                 type: UPDATE_SINGLE_PROPOSAL,
+                payload: load
+            }
+    );
+}
+
+export function updateProposals(load) {
+    return (
+            {
+                type: UPDATING_PROPOSALS,
                 payload: load
             }
     );
