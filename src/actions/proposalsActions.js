@@ -77,6 +77,23 @@ function minimumTotalRequested(distributedTimes, semester){
   return { total, minimum }
 }
 
+function requestedTime(requests, semester){
+
+  let reqTime = {
+    minimum: 0,
+    semester: semester,
+    requests: {}
+  }
+  requests.forEach(p => {
+    if (p.semester === semester){
+      reqTime.minimum = p.minimumUsefulTime
+      p.distribution.forEach(d => {
+        reqTime.requests[d.partnerCode] = d.time
+      })
+    }
+  })
+  return reqTime
+}
 
 function convertProposals(proposals, semester, partner){
   const convertedProposals = proposals.proposals.map( proposal =>   {
@@ -101,6 +118,7 @@ function convertProposals(proposals, semester, partner){
       report: proposal.techReport,
       allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner),
       tacComment: makeTacComments(proposal.tacComment, partner),
+      requestedTime: requestedTime(proposal.timeRequests, semester)
     })
   }
 );
@@ -113,7 +131,7 @@ export default function fetchProposals(semester, partner="All"){
     dispatch(startFetchProposals());
     queryProposals(semester, partner).then( res =>
       {
-        dispatch(FetchProposalsPass(convertProposals(res.data.data)))
+        dispatch(FetchProposalsPass(convertProposals(res.data.data, semester, partner)))
       }
     ).catch(() => {
       dispatch(FetchProposalsFail())})
