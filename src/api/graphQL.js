@@ -59,6 +59,12 @@ export function queryStatData(semester, partner){
         name
         surname
       }
+      SALTAstronomer{
+        name
+        username
+        surname
+        email
+      }
       allocatedTime{
         partnerCode
         p0
@@ -205,6 +211,12 @@ export function queryProposals(semester, partner){
       pi{
         name
         surname
+      }
+      SALTAstronomer{
+        name
+        username
+        surname
+        email
       }
       allocatedTime{
         partnerCode
