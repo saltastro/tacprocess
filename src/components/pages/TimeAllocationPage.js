@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React from "react";
 import { connect } from "react-redux"
-import propTypes from "prop-types";
 import InfoMessage from "../messages/InfoMessage";
 import AvailableTimePerPartnerTable from "../tables/AvailableTimePerPartnerTable";
 import ProposalsPerPartner from "../tables/ProposalsPerPartner";
@@ -29,9 +28,11 @@ class TimeAllocationPage extends React.Component {
       this.props.filters.selectedSemester
     )
     dispatch(startSubmition(partner))
-    const submited = submitAllocations(query)
-    const {rst} =submited.then(p => p.data, dispatch(failSubmition())).catch().then( d => {
-      d.data.updateTimeAllocations.success ? dispatch(passSubmition()) : dispatch(failSubmition())
+    submitAllocations(query).then(p => p.data, dispatch(failSubmition()))
+        .then( d => {
+            d.data.updateTimeAllocations.success ?
+                dispatch(passSubmition()) :
+                dispatch(failSubmition())
     });
   }
   allocationChange(event, proposalCode, priority, partner) {
@@ -75,11 +76,13 @@ class TimeAllocationPage extends React.Component {
         tac.submiting ? (<div><h1>Submiting...</h1></div>) : partners.map( part => (
           <div>
             <AvailableTimePerPartnerTable
+              key={ part.value + 1 }
               proposals = { ppp[part.value] || [] }
               partner = { part.value }
               availableTime = {allocatedTime}
              />
             <ProposalsPerPartner
+                  key={ part.value }
                   proposals={ ppp[part.value] || [] }
                   partner={part.value}
                   tacCommentChange={ this.tacCommentChange.bind(this) }

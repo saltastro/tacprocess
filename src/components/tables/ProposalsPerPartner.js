@@ -56,8 +56,9 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
             <th>Max seeing</th>
             <th>Hover Info</th>
             <th>Tech Report</th>
-          </tr><th>Minimum useful time</th>
+            <th>Minimum useful time</th>
             <th>Total Requested Time</th>
+          </tr>
         </thead>
         <tbody>
           {
