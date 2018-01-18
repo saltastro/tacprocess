@@ -115,7 +115,13 @@ function convertProposals(proposals, semester, partner){
       minTime: minTotal.minimum,
       instruments: proposal.instruments,
       pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
-      report: proposal.techReport,
+      SALTAstronomer: {
+        name: proposal.SALTAstronomer.name,
+        surname: proposal.SALTAstronomer.surname,
+        username: proposal.SALTAstronomer.username,
+        email: proposal.SALTAstronomer.email,
+      },
+      techReport: proposal.techReport,
       allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner),
       tacComment: makeTacComments(proposal.tacComment, partner),
       requestedTime: requestedTime(proposal.timeRequests, semester)
