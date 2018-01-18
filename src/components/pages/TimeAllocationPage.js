@@ -76,13 +76,11 @@ class TimeAllocationPage extends React.Component {
         tac.submiting ? (<div><h1>Submiting...</h1></div>) : partners.map( part => (
           <div>
             <AvailableTimePerPartnerTable
-              key={ part.value + 1 }
               proposals = { ppp[part.value] || [] }
               partner = { part.value }
               availableTime = {allocatedTime}
              />
             <ProposalsPerPartner
-                  key={ part.value }
                   proposals={ ppp[part.value] || [] }
                   partner={part.value}
                   tacCommentChange={ this.tacCommentChange.bind(this) }
