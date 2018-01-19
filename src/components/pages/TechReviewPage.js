@@ -1,8 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import InfoMessage from "../messages/InfoMessage";
+import  fetchSA  from "../../actions/saltAstronomerActions";
 
 class TachReviewPage extends React.Component {
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchSA())
+  }
 
   submitTechReview(event, proposals){
     // const { dispatch } = this.props;
