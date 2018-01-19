@@ -11,6 +11,7 @@ import { submitAllocations } from "../../api/graphQL";
 import { updateProposals } from "../../actions/proposalsActions";
 import { startSubmition, passSubmition, failSubmition } from "../../actions/timeAllocationActions";
 import { ALL_PARTNER } from "../../types";
+import { getPartnerList } from "../../util/filters";
 
 
 class TimeAllocationPage extends React.Component {
@@ -63,8 +64,7 @@ class TimeAllocationPage extends React.Component {
 
     const { allocatedTime, filters, user, tac} = this.props
     const  proposals  = this.props.proposals.proposals || []
-    let  partners  = this.props.user.user.partners || []
-
+    let  partners  = getPartnerList(this.props.user.user.roles || [])
 
     if (filters.selectedPartner !== ALL_PARTNER){
       partners = filters.selectedPartner ? [{value: filters.selectedPartner, label: filters.selectedPartner}] : []

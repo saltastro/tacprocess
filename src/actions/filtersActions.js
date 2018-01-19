@@ -42,7 +42,7 @@ export function partnerChange(load) {
   return (
     {
        type: PARTNER_CHANGE,
-       filters: load
+       changeTo: load
   }
 );
 }
