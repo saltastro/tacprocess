@@ -243,7 +243,19 @@ export function queryProposals(semester, partner){
 
 export function submitAllocations(query){
   return jsonClient().post(`/graphql`, { query })
-  .then(
-    response => response
-  )
+  .then(response => response)
+}
+
+export function querySALTAstronomers(){
+  const query=`
+  {
+    SALTAstronomers{
+      name
+      username
+      surname
+    }
+  }
+  `
+  return graphqlClient().post(`/graphql?query=${query}`)
+  .then(response => response)
 }
