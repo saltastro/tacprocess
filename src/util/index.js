@@ -205,27 +205,27 @@ export function isFloat(val) {
 
 export function canUserWriteAllocations(user, partner){
   let canWrite = false;
-  user.partners.forEach( p => {
-    if (p.value === partner){
-      if (p.role === "ADMINISTRATOR" ||
-          p.role === "TAC_CHAIR"){
-        canWrite = true;
-      }
-    }
-  });
+  user.roles.forEach( r => {
+            if ((r.type === "ADMINISTRATOR" || r.type === "TAC_CHAIR") &&
+                    r.partners.some(p => (p === partner))){
+                canWrite = true;
+              }
+            }
+  );
   return canWrite;
 }
 
 export function canUserWriteTechComments(user, partner){
   let canWrite = false;
-  user.partners.forEach( p => {
-    if (p.value === partner){
-      if (p.role === "ADMINISTRATOR" ||
-          p.role === "SALT_ASTRONOMER"){
-        canWrite = true;
-      }
-    }
-  });
+
+
+  user.roles.forEach( r => {
+            if ((r.type === "ADMINISTRATOR" || r.type === "SALT_ASTRONOMER") &&
+                    r.partners.some(p => (p === partner))){
+                canWrite = true;
+              }
+            }
+  );
   return canWrite;
 }
 
