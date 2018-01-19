@@ -8,9 +8,7 @@ import { fetchStatData } from "../actions/statisticsActions";
 import  fetchProposals  from "../actions/proposalsActions";
 import  fetchTargets  from "../actions/targetsActions";
 import { storePartnerAllocations  } from "../actions/timeAllocationActions";
-import { semesterFilter } from "../util/filters";
-
-
+import { semesterFilter, getPartnerList } from "../util/filters";
 
 class Navigation extends React.Component {
 
@@ -57,7 +55,7 @@ class Navigation extends React.Component {
   render() {
     const { filters, user   } = this.props
     const { selectedPartner, selectedSemester } = filters
-    const partnerList = user.user.partners
+    const partnerList = getPartnerList(user.user.roles || [])
 
     const sems = semesterFilter()
 
