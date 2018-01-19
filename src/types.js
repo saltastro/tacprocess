@@ -45,6 +45,10 @@ export const TAC_MEMBER = 'TAC Member';
 export const VIEW_TIME_ALLOCATION_PAGE = 'VIEW_TIME_ALLOCATION_PAGE';
 export const EDIT_TIME_ALLOCATION_PAGE = 'EDIT_TIME_ALLOCATION_PAGE';
 
+export const FETCH_SA_START = "FETCH_SA_START"
+export const FETCH_SA_FAIL = "FETCH_SA_FAIL"
+export const FETCH_SA_PASS = "FETCH_SA_PASS"
+
 export const badTime = {
     color: 'black',
     background:"#FF6060"
