@@ -61,7 +61,7 @@ export default function selectors(state=initialState, action={}) {
       case PARTNER_CHANGE: {
         return {
           ...state,
-          selectedPartner: action.filters,
+          selectedPartner: action.changeTo,
         }
       }
       default:{
