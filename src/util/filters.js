@@ -1,4 +1,5 @@
 import _ from "lodash"
+import { ALL_PARTNER } from "../types"
 
 
 export function totalTimeRequestedPerParner(proposals, semester, partner="All" ){
@@ -56,4 +57,54 @@ export const semesterFilter = () => {
     startYear += 1
   }
   return semester
+}
+
+export const firstSelectedPartner = roles => {
+  let first = ALL_PARTNER
+
+  for (let r of roles) {
+    if (r.type === "ADMINISTRATOR") {
+      first = ALL_PARTNER;
+      break;
+    }
+    if (r.type === "SALT_ASTRONOMER") {
+      first = ALL_PARTNER;
+      break;
+    }
+    if (r.type === "TAC_CHAIR") {
+      first = r.partners[0] || "";
+    }
+    if (r.type === "TAC_MEMBER") {
+      first = r.partners[0] || "";
+    }
+}
+
+  return first
+}
+const toSelectorObj = partner => ({label: partner, value: partner})
+const toSelectorObjs = partners => {
+    return partners.map( p => (toSelectorObj(p)))
+}
+
+export const getPartnerList = roles => {
+  let partnerList = []
+  for (let r of roles) {
+    if (r.type === "ADMINISTRATOR") {
+      partnerList = toSelectorObjs(r.partners);
+      partnerList.push({label: ALL_PARTNER, value: ALL_PARTNER})
+      break;
+    }
+    if (r.type === "SALT_ASTRONOMER") {
+      partnerList = toSelectorObjs(r.partners);
+      partnerList.push({label: ALL_PARTNER, value: ALL_PARTNER})
+      break;
+    }
+    if (r.type === "TAC_CHAIR") {
+      partnerList = toSelectorObjs(r.partners);
+    }
+    if (r.type === "TAC_MEMBER") {
+      partnerList = toSelectorObjs(r.partners);
+    }
+  }
+  return partnerList
 }
