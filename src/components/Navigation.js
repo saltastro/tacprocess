@@ -63,7 +63,7 @@ class Navigation extends React.Component {
     return(
       <div>
         <ul className="nav">
-          <li  onClick={() => dispatch(pageChange("HomePage"))} className={filters.currentPage === "HomePage" ? "active" : ""} ><Link to="/">Home</Link></li>
+          <li onClick={() => dispatch(pageChange("HomePage"))} className={filters.currentPage === "HomePage" ? "active" : ""} ><Link to="/">Home</Link></li>
           <li onClick={() => dispatch(pageChange("TechPage"))} className={filters.currentPage === "TechPage" ? "active" : ""} ><Link to="/techreview">Tech Review</Link></li>
           <li onClick={() => dispatch(pageChange("StatisticsPage"))} className={filters.currentPage === "StatisticsPage" ? "active" : ""} ><Link to="/statistics">Statistics</Link></li>
           <li onClick={() => dispatch(pageChange("TACPage"))} className={filters.currentPage === "TACPage" ? "active" : ""} ><Link to="/timeallocation">Time Allocation</Link></li>
