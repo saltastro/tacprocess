@@ -3,14 +3,12 @@ import { Link } from "react-router-dom"
 import { connect } from "react-redux";
 import Select from "react-select";
 import * as actions from "../actions/auth";
-import { partnerChange, semesterChange } from "../actions/filtersActions";
+import { partnerChange, semesterChange, pageChange } from "../actions/filtersActions";
 import { fetchStatData } from "../actions/statisticsActions";
 import  fetchProposals  from "../actions/proposalsActions";
 import  fetchTargets  from "../actions/targetsActions";
 import { storePartnerAllocations  } from "../actions/timeAllocationActions";
-import { semesterFilter } from "../util/filters";
-
-
+import { semesterFilter, getPartnerList } from "../util/filters";
 
 class Navigation extends React.Component {
 
@@ -55,9 +53,9 @@ class Navigation extends React.Component {
   }
 
   render() {
-    const { filters, user   } = this.props
+    const { filters, user, dispatch   } = this.props
     const { selectedPartner, selectedSemester } = filters
-    const partnerList = user.user.partners
+    const partnerList = getPartnerList(user.user.roles || [])
 
     const sems = semesterFilter()
 
@@ -65,12 +63,12 @@ class Navigation extends React.Component {
     return(
       <div>
         <ul className="nav">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/techreview">Tech Review</Link></li>
-          <li><Link to="/statistics">Statistics</Link></li>
-          <li><Link to="/timeallocation">Time Allocation</Link></li>
-          <li><Link to="/documentation">Documentation</Link></li>
-          <li className="active"><Link to="/admin">Admin</Link></li>
+          <li  onClick={() => dispatch(pageChange("HomePage"))} className={filters.currentPage === "HomePage" ? "active" : ""} ><Link to="/">Home</Link></li>
+          <li onClick={() => dispatch(pageChange("TechPage"))} className={filters.currentPage === "TechPage" ? "active" : ""} ><Link to="/techreview">Tech Review</Link></li>
+          <li onClick={() => dispatch(pageChange("StatisticsPage"))} className={filters.currentPage === "StatisticsPage" ? "active" : ""} ><Link to="/statistics">Statistics</Link></li>
+          <li onClick={() => dispatch(pageChange("TACPage"))} className={filters.currentPage === "TACPage" ? "active" : ""} ><Link to="/timeallocation">Time Allocation</Link></li>
+          <li onClick={() => dispatch(pageChange("DocumentatonPage"))} className={filters.currentPage === "DocumentatonPage" ? "active" : ""} ><Link to="/documentation">Documentation</Link></li>
+          <li onClick={() => dispatch(pageChange("AdminPage"))}  className={filters.currentPage === "AdminPage" ? "active" : ""}><Link to="/admin">Admin</Link></li>
           <button className="logoutbtn"
           onClick={() => this.props.dispatch(actions.logout())}> Logout</button>
         </ul>

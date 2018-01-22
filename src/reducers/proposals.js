@@ -33,6 +33,7 @@ export default function proposals(state = initialState, action = {}) {
           ...state,
           fetching: false,
           fetched: true,
+          errors: null,
           proposals: action.payload,
         }
       }

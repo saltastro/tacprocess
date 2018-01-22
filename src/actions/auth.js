@@ -6,7 +6,7 @@ import { USER_LOGGED_IN,
 } from "../types";
 import { queryUserData } from "../api/graphQL"
 import api from "../api/api";
-import { userPartners } from "../util/filters";
+import { firstSelectedPartner } from "../util/filters";
 
 export const userLoggedIn = user => {
   return ({
@@ -28,7 +28,7 @@ export const fetchingUserFail = () => ({
 
 export const partnersFilter = partner => ({
   type: PARTNER_CHANGE,
-  filters: partner
+  changeTo: partner
 })
 
 export const login = credentials => dispatch =>
@@ -48,7 +48,7 @@ const convertData = rowUser => {
     lastName: rowUser.lastName,
     email: rowUser.email,
     username: rowUser.username,
-    partners:userPartners(rowUser.role)
+    roles:rowUser.role
   }
   return user
 }
@@ -60,7 +60,7 @@ export function fetchUserData(){
     queryUserData().then( res => {
       const u = convertData(res.data.data.user)
       dispatch(userLoggedIn(u))
-      dispatch(partnersFilter(u.partners[0].value))
+      dispatch(partnersFilter(firstSelectedPartner(u.roles)))
     }).catch(() => dispatch(fetchingUserFail()))
   }
 }

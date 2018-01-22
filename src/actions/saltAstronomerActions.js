@@ -31,7 +31,6 @@ function FetchSAPass(sa) {
 }
 
 function convertSA(sa){
-  console.log(sa);
   const convertedSA = sa.SALTAstronomers.map(sa => (
           {
               name: sa.name,

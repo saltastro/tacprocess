@@ -2,7 +2,7 @@
 import {
   FETCH_SELECTOR_DATA_PASS,
   SEMESTER_CHANGE,
-  PARTNER_CHANGE
+  PARTNER_CHANGE, PAGE_CHANGE
 } from "../types";
 
 export const convertData = data => {
@@ -42,7 +42,17 @@ export function partnerChange(load) {
   return (
     {
        type: PARTNER_CHANGE,
-       filters: load
+       changeTo: load
+  }
+);
+}
+
+
+export function pageChange(load) {
+  return (
+    {
+       type: PAGE_CHANGE,
+       current: load
   }
 );
 }

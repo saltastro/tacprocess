@@ -56,8 +56,6 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
             <th>Max seeing</th>
             <th>Hover Info</th>
             <th>Tech Report</th>
-            <th>Minimum useful time</th>
-            <th>Total Requested Time</th>
           </tr>
         </thead>
         <tbody>
@@ -143,7 +141,7 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
                 <td><div className="table-height width-100" >{ p.transparency }</div></td>
                 <td><div className="table-height width-100" >{ p.maxSeeing }</div></td>
                 <td><div className="table-height width-100" ></div></td>
-                <td><div className="table-height width-400" >{ p.report } </div></td>
+                <td><div className="table-height width-400" >{ p.techReport } </div></td>
             </tr>
                )})
           }

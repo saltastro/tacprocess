@@ -31,6 +31,7 @@ export default function targets(state = initialState, action = {}) {
           ...state,
           fetching: false,
           fetched: true,
+          errors: null,
           targets: action.payload,
         }
       }
