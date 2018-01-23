@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import InfoMessage from "../messages/InfoMessage";
-import  fetchSA  from "../../actions/saltAstronomerActions";
+import fetchSA from "../../actions/saltAstronomerActions";
+import { updateLiaisonAstronomer, updateTechnicalReport } from "../../actions/technicalReviewActions";
 import { SATable } from "../tables/TechReviewTable";
 
-class TachReviewPage extends React.Component {
+class TechReviewPage extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -24,9 +25,8 @@ class TachReviewPage extends React.Component {
   }
 
   // Updates the comment of the specific proposal
-  techReportChange = (proposalCode, techReportComment) => {
-    // Update action
-    console.log("Updating a Proposal Comment: ", proposalCode, " : ",techReportComment);
+  techReportChange = (proposalCode, techReport) => {
+    this.props.dispatch(updateTechnicalReport(proposalCode, this.props.semester, techReport));
   }
 
   // Assign an astronomer for the specific proposal
@@ -62,4 +62,4 @@ export default connect(store => (
             semester: store.filters.selectedSemester,
             user: store.user.user,
             SALTAstronomers : store.SALTAstronomers.SALTAstronomer
-        }), null)(TachReviewPage);
+        }), null)(TechReviewPage);
