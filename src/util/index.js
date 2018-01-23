@@ -178,7 +178,7 @@ export function hasRole(user, role, partner) {
     }
 }
 
-export function canDo(user, action, partner) {
+export function canDo(user, action, partner, proposal) {
     switch (action) {
     case types.VIEW_TIME_ALLOCATION_PAGE:
         return hasRole(user, types.TAC_MEMBER, partner) ||
@@ -187,8 +187,19 @@ export function canDo(user, action, partner) {
     case types.EDIT_TIME_ALLOCATION_PAGE:
         return hasRole(user, types.TAC_CHAIR, partner) ||
                 hasRole(user, types.ADMINISTRATOR);
+    case types.CHANGE_LIAISON:
+        return hasRole(user, types.ADMINISTRATOR);
+    case types.SELF_ASSIGN_TO_PROPOSAL:
+        return hasRole(user, types.SALT_ASTRONOMER);
     default:
         return false;
+    }
+}
+
+// This utility method checks if a proposal has assigned an Astronomer or not
+export const astronomerAssigned = (proposal) => {
+    if(!proposal.SALTAstronomer){
+      return true;
     }
 }
 

@@ -44,6 +44,16 @@ export const TAC_MEMBER = 'TAC Member';
 
 export const VIEW_TIME_ALLOCATION_PAGE = 'VIEW_TIME_ALLOCATION_PAGE';
 export const EDIT_TIME_ALLOCATION_PAGE = 'EDIT_TIME_ALLOCATION_PAGE';
+/*
+* Allows a login user who is an astronomer to assign him/herself
+* to the proposal is no astronomer is yet assigned
+*/
+export const SELF_ASSIGN_TO_PROPOSAL = "SELF_ASSIGN_TO_PROPOSAL";
+/*
+* Allows a login user who is an administrator to change or update
+* the astronomer assigned to a proposal
+*/
+export const CHANGE_LIAISON = "CHANGE_LIAISON";
 
 export const FETCH_SA_START = "FETCH_SA_START"
 export const FETCH_SA_FAIL = "FETCH_SA_FAIL"
