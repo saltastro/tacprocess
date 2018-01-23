@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import InfoMessage from "../messages/InfoMessage";
 import  fetchSA  from "../../actions/saltAstronomerActions";
 import { SATable } from "../tables/TechReviewTable";
+import { getAstronomersList } from '../../util/filters'
 
 class TachReviewPage extends React.Component {
 
@@ -35,19 +36,24 @@ class TachReviewPage extends React.Component {
     console.log("Assigning Astronomer to a Proposal: ", proposalCode, " : ", assignedAstronomer);
   }
 
+  techAssignAstronomer = (proposalCode, assignedAstronomer) => {
+    // update astronomer to assigned astronomer
+    console.log("Assigning Astronomer to a Proposal: ", proposalCode, " : ", assignedAstronomer);
+  }
+
   render() {
-    const proposals  = this.props.proposals.proposals || [];
-    const SALTAstronomers = this.props.SALTAstronomers;
-    const user  = this.props.user;
+    const {proposals, SALTAstronomers, user} = this.props
+    const AstronomersList = ["Not Assigned"].concat(getAstronomersList(SALTAstronomers))
     return(
       <div>
         <InfoMessage page="Admin"/>
         <SATable
           user={user}
           proposals={proposals}
-          SALTAstronomers={SALTAstronomers}
+          SALTAstronomers={AstronomersList}
           techReportChange={ this.techReportChange }
-          techAssignAstronomer={ this.techAssignAstronomer }
+          assignedAstronomerChange={ this.techReportChange }
+          techAssignAstronomer={ this.techAssignAstronomer.bind(this) }
         />
         <button className="btn-success" onClick={ e => this.submitTechReview(e, proposals) }>Submit</button>
       </div>
@@ -56,4 +62,7 @@ class TachReviewPage extends React.Component {
   }
 }
 
-export default connect(store => ({proposals: store.proposals, user: store.user.user, SALTAstronomers : store.SALTAstronomers.SALTAstronomer}),null)(TachReviewPage);
+export default connect(store => ({
+  proposals: store.proposals.proposals,
+  user: store.user.user,
+  SALTAstronomers : store.SALTAstronomers.SALTAstronomer}),null)(TachReviewPage);
