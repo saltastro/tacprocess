@@ -1,10 +1,10 @@
 import React from 'react';
+import propTypes from "prop-types";
 import { canDo, astronomerAssigned } from '../../util/index';
 import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
-import propTypes from "prop-types";
-import '../../styles/components/tables.css';
+import DropDown from "./DropDown"
 
-export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer}) => {
+export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer, assignedAstronomerChange}) => {
   if (!user.roles || !proposals || proposals.length === 0 ){
     return (<div><h1>Loading</h1></div>)
   }
@@ -62,23 +62,11 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
                               /> Assign Yourself
                             </div>
                           : <span>{p.SALTAstronomer.name}</span>)
-                        : <select
-                            onChange={e =>{
-                                techAssignAstronomer(p.proposalCode, e.target.value)
-                              }
-                            }
-                          >
-                            {
-                              SALTAstronomers.map(astronomer => (
-                                <option
-                                  key={astronomer.username}
-                                  value={astronomer.name}
-                                >
-                                  {astronomer.name}
-                                </option>
-                              ))
-                            }
-                          </select>
+                        : <DropDown
+                              listToDisplay={SALTAstronomers}
+                              value={"Not Assigned"}
+                              className={"left"}
+                              OnChange={e => assignedAstronomerChange(p.proposalCode, e.value)}/>
                      }
                    </td>
                  </tr>
@@ -94,5 +82,6 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
     user: propTypes.object.isRequired,
     SALTAstronomers: propTypes.array.isRequired,
     techAssignAstronomer: propTypes.func.isRequired,
+    assignedAstronomerChange: propTypes.func.isRequired,
     techReportChange: propTypes.func.isRequired
   }
