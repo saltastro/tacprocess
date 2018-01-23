@@ -116,7 +116,6 @@ function convertProposals(proposals, semester, partner){
         instruments: proposal.instruments,
         pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
         liaisonAstronomer: proposal.SALTAstronomer ? proposal.SALTAstronomer.username : null,
-        email: proposal.SALTAstronomer ? proposal.SALTAstronomer.email : null,
         techReport: proposal.techReport,
         allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner),
         tacComment: makeTacComments(proposal.tacComment, partner),
