@@ -13,6 +13,21 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
     return (<br />)
   }
 
+    // compare astronomers by their first name
+    const compareByFirstName = (a, b) => {
+        const name1 = a.name.toUpperCase();
+        const name2 = b.name.toUpperCase();
+        if (name1 < name2) {
+            return -1;
+        }
+        if (name1 > name2) {
+            return 1;
+        }
+        return 0;
+    };
+
+    const saltAstronomerName = (username) => SALTAstronomers.find(a => a.username === username).name;
+
   return(
     <div className='SATableDiv'>
       <h1>Salt Astronomers Proposal Assigning</h1>
@@ -54,27 +69,28 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
                             <div>
                               <input
                                 type="checkbox"
-                                value={p.SALTAstronomer.name}
                                 onChange={e =>{
                                     techAssignAstronomer(p.proposalCode, user.username)
                                   }
                                 }
                               /> Assign Yourself
                             </div>
-                          : <span>{p.SALTAstronomer.name}</span>)
+                          : <span>{saltAstronomerName(p.liaisonAstronomer)}</span>)
                         : <select
-                            onChange={e =>{
-                                techAssignAstronomer(p.proposalCode, e.target.value)
+                               value={p.liaisonAstronomer ? p.liaisonAstronomer : ''}
+                            onChange={e => {
+                                techAssignAstronomer(p.proposalCode, e.target.value ? e.target.value : null)
                               }
                             }
                           >
-                            {
-                              SALTAstronomers.map(astronomer => (
+                                   <option value="">None</option>
+                                   {
+                                SALTAstronomers.sort(compareByFirstName).map(astronomer => (
                                 <option
                                   key={astronomer.username}
-                                  value={astronomer.name}
+                                  value={astronomer.username}
                                 >
-                                  {astronomer.name}
+                                  {saltAstronomerName(astronomer.username)}
                                 </option>
                               ))
                             }
