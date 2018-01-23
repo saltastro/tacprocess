@@ -6,7 +6,7 @@ import filters from "./reducers/filters";
 import proposals from "./reducers/proposals";
 import targets from "./reducers/targets";
 import tac from "./reducers/tac";
-import SALTAstronomers from "./reducers/astronomers";
+import liaisonAstronomers from "./reducers/astronomers";
 
 export default combineReducers({
   user,
@@ -15,5 +15,5 @@ export default combineReducers({
   tac,
   proposals,
   targets,
-  SALTAstronomers
+  liaisonAstronomers
 });

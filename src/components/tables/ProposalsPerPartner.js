@@ -174,8 +174,8 @@ ProposalsPerPartner.propTypes = {
   allocationChange: propTypes.func.isRequired,
   tacCommentChange: propTypes.func.isRequired,
   submitForParner: propTypes.func.isRequired,
-  canAllocate: propTypes.boolean,
-  canComment: propTypes.boolean,
+  canAllocate: propTypes.bool,
+  canComment: propTypes.bool,
   submited: propTypes.object,
 }
 

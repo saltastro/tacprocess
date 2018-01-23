@@ -7,11 +7,11 @@ import {
 const initialState = {
   fetching: false,
   fetched: false,
-  SALTAstronomer:[],
+  liaisonAstronomer:[],
   errors: null,
 };
 
-export default function SALTAstronomers(state = initialState, action = {}) {
+export default function liaisonAstronomers(state = initialState, action = {}) {
   switch (action.type) {
     case FETCH_SA_START:{
       return {
@@ -30,7 +30,7 @@ export default function SALTAstronomers(state = initialState, action = {}) {
           ...state,
           fetching: false,
           fetched: true,
-          SALTAstronomer: action.payload,
+          liaisonAstronomer: action.payload,
         }
       }
       default:{

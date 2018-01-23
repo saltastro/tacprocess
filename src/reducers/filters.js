@@ -19,7 +19,7 @@ const initialState = {
   fetching: false,
   errors: false,
   selectedSemester: `${year}-${semester}`,
-  currentPage: "HomePage"
+  selectedLiaison: "All"
 
 };
 
