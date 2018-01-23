@@ -172,9 +172,9 @@ export function partners(user) {
  */
 export function hasRole(user, role, partner) {
     if (role === types.ADMINISTRATOR || role === types.SALT_ASTRONOMER) {
-        return (user.roles || []).some(r => r.role === role);
+        return (user.roles || []).some(r => r.type === role);
     } else {
-        return (user.roles || []).some(r => r.role === role && (r.partners || []).includes(partner));
+        return (user.roles || []).some(r => r.type === role && (r.partners || []).includes(partner));
     }
 }
 
