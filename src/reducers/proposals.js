@@ -2,15 +2,21 @@ import {
     FETCH_PROPOSALS_START,
     FETCH_PROPOSALS_PASS,
     FETCH_PROPOSALS_FAIL,
-     UPDATE_SINGLE_PROPOSAL,
-     UPDATING_PROPOSALS,
+    UPDATE_SINGLE_PROPOSAL,
+    UPDATING_PROPOSALS,
     UPDATE_LIAISON_ASTRONOMER,
-    UPDATE_TECHNICAL_REPORT
+    UPDATE_TECHNICAL_REPORT, SUBMIT_LIAISON_ASTRONOMERS_START, SUBMIT_LIAISON_ASTRONOMERS_PASS,
+    SUBMIT_LIAISON_ASTRONOMERS_FAIL, SUBMIT_TECHNICAL_REPORTS_START, SUBMIT_TECHNICAL_REPORTS_PASS,
+    SUBMIT_TECHNICAL_REPORTS_FAIL
 } from "../types";
 
 const initialState = {
   fetching: false,
   fetched: false,
+    submittingLiaisonAstronomers: false,
+    submittedLiaisonAstronomers: false,
+    submittingTechnicalReports: false,
+    submittedTechnicalReports: false,
   proposals:[],
   errors: null,
 };
@@ -84,7 +90,53 @@ export default function proposals(state = initialState, action = {}) {
           })
       }
   }
-  default:{
+  case SUBMIT_LIAISON_ASTRONOMERS_START: {
+    return {
+            ...state,
+        submittingLiaisonAstronomers: true,
+        submittedLiaisonAstronomers: false,
+        errors: null
+    }
+  }
+  case SUBMIT_LIAISON_ASTRONOMERS_PASS: {
+    return {
+            ...state,
+        submittingLiaisonAstronomers: false,
+        submittedLiaisonAstronomers: true
+    }
+  }
+  case SUBMIT_LIAISON_ASTRONOMERS_FAIL: {
+    return {
+            ...state,
+        submittingLiaisonAstronomers: false,
+        submittedLiaisonAstronomers: false,
+        errors: "Submitting the liaison astronomers failed."
+    }
+  }
+  case SUBMIT_TECHNICAL_REPORTS_START: {
+    return {
+            ...state,
+        submittingTechnicalReports: true,
+        submittedTechnicalReports: false,
+        errors: null
+    }
+  }
+  case SUBMIT_TECHNICAL_REPORTS_PASS: {
+    return {
+        ...state,
+        submittingTechnicalReports: false,
+        submittedTechnicalReports: true,
+    }
+  }
+  case SUBMIT_TECHNICAL_REPORTS_FAIL: {
+      return {
+          ...state,
+          submittingTechnicalReports: false,
+          submittedTechnicalReports: false,
+          errors: "Submitting the technical reports failed."
+      }
+  }
+  default: {
       return state;
   }
 
