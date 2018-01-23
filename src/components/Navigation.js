@@ -8,7 +8,7 @@ import { fetchStatData } from "../actions/statisticsActions";
 import  fetchProposals  from "../actions/proposalsActions";
 import  fetchTargets  from "../actions/targetsActions";
 import { storePartnerAllocations  } from "../actions/timeAllocationActions";
-import { semestersArray, getPartnerList, getLiaisonList } from "../util/filters";
+import { semestersArray, getPartnerList, getAstronomersList } from "../util/filters";
 import {
     HOME_PAGE,
     STATISTICS_PAGE,
@@ -69,10 +69,10 @@ class Navigation extends React.Component {
   }
 
   render() {
-    const { filters, user, liaisonAstronomers  } = this.props
+    const { filters, user, SALTAstronomers  } = this.props
     const { selectedPartner, selectedSemester } = filters
     const partnerList = getPartnerList(user.roles)
-    const liaisonList = ["All", "Assigned"].concat(getLiaisonList(liaisonAstronomers)).concat(["Not Assigned"])
+    const astronomersList = ["All", "Assigned"].concat(getAstronomersList(SALTAstronomers)).concat(["Not Assigned"])
 
     return(
       <div>
@@ -103,8 +103,8 @@ class Navigation extends React.Component {
                   value={selectedPartner}/> :
               <DropDown
                   className={"left-2"}
-                  name="Liaison Astronomer"
-                  listToDisplay={liaisonList}
+                  name="SALT Astronomer"
+                  listToDisplay={astronomersList}
                   OnChange={this.updateLiaison.bind(this)}
                   value={"All"}/>}
         </div>
@@ -119,6 +119,6 @@ export default connect(
     filters: store.filters,
     statistics:store.statistics,
     user:store.user.user,
-    liaisonAstronomers: store.liaisonAstronomers.liaisonAstronomer
+    SALTAstronomers: store.SALTAstronomers.SALTAstronomer
    }), null
 )(Navigation);

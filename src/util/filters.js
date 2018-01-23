@@ -117,7 +117,7 @@ export const listForDropdown = list => {
 /*
 * @params list an array of getLiaisonList
 */
-export const getLiaisonList = saList => {
+export const getAstronomersList = saList => {
   console.log(saList);
   return (saList || []).map( l => (`${l.name}`))
 }
