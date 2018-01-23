@@ -5,7 +5,7 @@ import { totalTimeRequestedPerParner } from '../../util/filters';
 const PartnerTable = (proposals) => {
 
   const total = totalTimeRequestedPerParner(proposals.proposals, proposals.semester, proposals.partner)
-  const p0p1p2p3 = proposals.allocatedTime.p0p1 + proposals.allocatedTime.p2 +proposals.allocatedTime.p3
+  const p0p1p2p3 = proposals.allocatedTime.p0p1 || 0 + proposals.allocatedTime.p2 || 0 + proposals.allocatedTime.p3 || 0
 
   return(
   <div>
