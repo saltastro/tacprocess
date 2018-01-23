@@ -2,7 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import InfoMessage from "../messages/InfoMessage";
 import fetchSA from "../../actions/saltAstronomerActions";
-import { updateLiaisonAstronomer, updateTechnicalReport } from "../../actions/technicalReviewActions";
+import {
+    updateLiaisonAstronomer,
+    updateTechnicalReport,
+    submitTechnicalReviewDetails
+} from "../../actions/technicalReviewActions";
 import { SATable } from "../tables/TechReviewTable";
 
 class TechReviewPage extends React.Component {
@@ -13,27 +17,18 @@ class TechReviewPage extends React.Component {
   }
 
   submitTechReview(event, proposals){
-    // const { dispatch } = this.props;
-    // dispatch(startSubmitingTechReview(partner))
-    // submitAllocations(query).then(p => p.data, dispatch(failSubmitingTechReview()))
-    //    .then( d => {
-    //        d.data.updateTechReview.success ?
-    //            dispatch(passSubmitingTechReview()) :
-    //            dispatch(failSubmitingTechReview())
-    // });
-    console.log("Submiting", proposals);
+     this.props.dispatch(submitTechnicalReviewDetails(proposals, this.props.semester));
   }
 
   // Updates the comment of the specific proposal
   techReportChange = (proposalCode, techReport) => {
     this.props.dispatch(updateTechnicalReport(proposalCode, this.props.semester, techReport));
-  }
+  };
 
   // Assign an astronomer for the specific proposal
-  techAssignAstronomer = (proposalCode, assignedAstronomer) => {
-    // update astronomer to assigned astronomer
-    console.log("Assigning Astronomer to a Proposal: ", proposalCode, " : ", assignedAstronomer);
-  }
+  techAssignAstronomer = (proposalCode, liaisonAstronomer) => {
+    this.props.dispatch(updateLiaisonAstronomer(proposalCode, liaisonAstronomer));
+  };
 
   render() {
     const proposals  = this.props.proposals.proposals || [];
