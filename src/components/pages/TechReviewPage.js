@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import InfoMessage from "../messages/InfoMessage";
 import  fetchSA  from "../../actions/saltAstronomerActions";
+import { SATable } from "../tables/TechReviewTable";
 
 class TachReviewPage extends React.Component {
 
@@ -23,10 +24,13 @@ class TachReviewPage extends React.Component {
   }
 
   render() {
-    const  proposals  = this.props.proposals.proposals || []
+    const proposals  = this.props.proposals.proposals || [];
+    const SALTAstronomers = this.props.SALTAstronomers;
+    const user  = this.props.user;
     return(
       <div>
       <InfoMessage page="Admin"/>
+      <SATable user={user } proposals={proposals} SALTAstronomers={SALTAstronomers} />
       <button className="btn-success" onClick={ e => this.submitTechReview(e, proposals) }>Submit</button>
 
       </div>
@@ -35,4 +39,4 @@ class TachReviewPage extends React.Component {
   }
 }
 
-export default connect(store => ({proposals: store.proposals}),null)(TachReviewPage);
+export default connect(store => ({proposals: store.proposals, user: store.user.user, SALTAstronomers : store.SALTAstronomers.SALTAstronomer}),null)(TachReviewPage);
