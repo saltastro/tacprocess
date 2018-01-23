@@ -56,4 +56,10 @@ class TachReviewPage extends React.Component {
   }
 }
 
-export default connect(store => ({proposals: store.proposals, user: store.user.user, SALTAstronomers : store.SALTAstronomers.SALTAstronomer}),null)(TachReviewPage);
+export default connect(store => (
+        {
+            proposals: store.proposals,
+            semester: store.filters.selectedSemester,
+            user: store.user.user,
+            SALTAstronomers : store.SALTAstronomers.SALTAstronomer
+        }), null)(TachReviewPage);
