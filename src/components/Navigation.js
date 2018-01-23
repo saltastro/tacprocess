@@ -8,7 +8,7 @@ import { fetchStatData } from "../actions/statisticsActions";
 import  fetchProposals  from "../actions/proposalsActions";
 import  fetchTargets  from "../actions/targetsActions";
 import { storePartnerAllocations  } from "../actions/timeAllocationActions";
-import { semestersArray, getPartnerList, getLieisonList } from "../util/filters";
+import { semestersArray, getPartnerList, getLiaisonList } from "../util/filters";
 import {
     HOME_PAGE,
     STATISTICS_PAGE,
@@ -59,9 +59,9 @@ class Navigation extends React.Component {
     dispatch(storePartnerAllocations(filters.selectedSemester, value))
     dispatch(partnerChange(value))
   }
-  updateLieison(value){
+  updateLiaison(value){
     //const { dispatch } = this.props
-    console.log("Updating Lieison...");
+    console.log("Updating Liaison...");
   }
   loggingOut() {
     const { dispatch } = this.props
@@ -69,10 +69,10 @@ class Navigation extends React.Component {
   }
 
   render() {
-    const { filters, user, lieisonAstronomers  } = this.props
+    const { filters, user, liaisonAstronomers  } = this.props
     const { selectedPartner, selectedSemester } = filters
     const partnerList = getPartnerList(user.roles)
-    const lieisonList = ["All", "Assigned"].concat(getLieisonList(lieisonAstronomers)).concat(["Not Assigned"])
+    const liaisonList = ["All", "Assigned"].concat(getLiaisonList(liaisonAstronomers)).concat(["Not Assigned"])
 
     return(
       <div>
@@ -103,9 +103,9 @@ class Navigation extends React.Component {
                   value={selectedPartner}/> :
               <DropDown
                   className={"left-2"}
-                  name="Lieison Astronomer"
-                  listToDisplay={lieisonList}
-                  OnChange={this.updateLieison.bind(this)}
+                  name="Liaison Astronomer"
+                  listToDisplay={liaisonList}
+                  OnChange={this.updateLiaison.bind(this)}
                   value={"All"}/>}
         </div>
 
@@ -119,6 +119,6 @@ export default connect(
     filters: store.filters,
     statistics:store.statistics,
     user:store.user.user,
-    lieisonAstronomers: store.lieisonAstronomers.lieisonAstronomer
+    liaisonAstronomers: store.liaisonAstronomers.liaisonAstronomer
    }), null
 )(Navigation);
