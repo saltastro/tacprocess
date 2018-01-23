@@ -4,7 +4,7 @@ import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 
-export const SATable = ({proposals, user, SALTAstronomers}) => {
+export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer}) => {
   if (!user.roles || !proposals || proposals.length === 0 ){
     return (<div><h1>Loading</h1></div>)
   }
@@ -36,16 +36,46 @@ export const SATable = ({proposals, user, SALTAstronomers}) => {
                    <td>{ p.proposalCode }</td>
                    <td>{ p.title }</td>
                    <td>{p.pi}</td>
-                   <td><textarea>{ p.techReport }</textarea></td>
+                   <td>
+                    <textarea
+                      value={ p.techReport }
+                      onChange={ e =>{
+                          techReportChange(p.proposalCode, e.target.value)
+                        }
+                      }
+                    >
+
+                    </textarea>
+                   </td>
                    <td>
                      {
                        canDo(user, CHANGE_LIAISON) ?
-                        (canDo(user, SELF_ASSIGN_TO_PROPOSAL) && astronomerAssigned(p) ? <div> <input type="checkbox" value={p.SALTAstronomer.name} /> Assign Yourself </div>
+                        (canDo(user, SELF_ASSIGN_TO_PROPOSAL) && astronomerAssigned(p) ?
+                            <div>
+                              <input
+                                type="checkbox"
+                                value={p.SALTAstronomer.name}
+                                onChange={e =>{
+                                    techAssignAstronomer(p.proposalCode, user.username)
+                                  }
+                                }
+                              /> Assign Yourself
+                            </div>
                           : <span>{p.SALTAstronomer.name}</span>)
-                        : <select>
+                        : <select
+                            onChange={e =>{
+                                techAssignAstronomer(p.proposalCode, e.target.value)
+                              }
+                            }
+                          >
                             {
                               SALTAstronomers.map(astronomer => (
-                                <option key={astronomer.username} value={astronomer.name}>{astronomer.name}</option>
+                                <option
+                                  key={astronomer.username}
+                                  value={astronomer.name}
+                                >
+                                  {astronomer.name}
+                                </option>
                               ))
                             }
                           </select>
@@ -62,5 +92,7 @@ export const SATable = ({proposals, user, SALTAstronomers}) => {
   SATable.propTypes = {
     proposals: propTypes.array.isRequired,
     user: propTypes.object.isRequired,
-    SALTAstronomers: propTypes.array.isRequired
+    SALTAstronomers: propTypes.array.isRequired,
+    techAssignAstronomer: propTypes.func.isRequired,
+    techReportChange: propTypes.func.isRequired
   }
