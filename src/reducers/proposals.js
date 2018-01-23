@@ -79,13 +79,15 @@ export default function proposals(state = initialState, action = {}) {
   }
   case UPDATE_TECHNICAL_REPORT: {
       return {
-              ...state,
+          ...state,
           proposals: state.proposals.map(p => {
             if (p.proposalCode === action.payload.proposalCode) {
               return {
                   ...p,
                   techReport: action.payload.techReport
               }
+            } else {
+                return p;
             }
           })
       }
