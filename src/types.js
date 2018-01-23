@@ -1,4 +1,4 @@
-export const API_BASE_URL = "http://tacapi.cape.saao.ac.za"
+export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export const USER_LOGGED_IN = "USER_LOGGED_IN"
 export const USER_LOGGED_OUT = "USER_LOGGED_OUT"
