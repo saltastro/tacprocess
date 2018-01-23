@@ -60,10 +60,7 @@ export function queryStatData(semester, partner){
         surname
       }
       SALTAstronomer{
-        name
         username
-        surname
-        email
       }
       allocatedTime{
         partnerCode
