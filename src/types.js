@@ -42,6 +42,13 @@ export const SALT_ASTRONOMER = 'SALT Astronomer';
 export const TAC_CHAIR = 'TAC Chair';
 export const TAC_MEMBER = 'TAC Member';
 
+export const HOME_PAGE = "HOME_PAGE"
+export const TECHNICAL_PAGE = "TECHNICAL_PAGE"
+export const TAC_PAGE = "TAC_PAGE"
+export const ADMIN_PAGE = "ADMIN_PAGE"
+export const STATISTICS_PAGE = "STATISTICS_PAGE"
+export const DOCUMENTATION_PAGE = "DOCUMENTATION_PAGE"
+
 export const VIEW_TIME_ALLOCATION_PAGE = 'VIEW_TIME_ALLOCATION_PAGE';
 export const EDIT_TIME_ALLOCATION_PAGE = 'EDIT_TIME_ALLOCATION_PAGE';
 
