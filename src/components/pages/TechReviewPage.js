@@ -23,16 +23,33 @@ class TachReviewPage extends React.Component {
     console.log("Submiting", proposals);
   }
 
+  // Updates the comment of the specific proposal
+  techReportChange = (proposalCode, techReportComment) => {
+    // Update action
+    console.log("Updating a Proposal Comment: ", proposalCode, " : ",techReportComment);
+  }
+
+  // Assign an astronomer for the specific proposal
+  techAssignAstronomer = (proposalCode, assignedAstronomer) => {
+    // update astronomer to assigned astronomer
+    console.log("Assigning Astronomer to a Proposal: ", proposalCode, " : ", assignedAstronomer);
+  }
+
   render() {
     const proposals  = this.props.proposals.proposals || [];
     const SALTAstronomers = this.props.SALTAstronomers;
     const user  = this.props.user;
     return(
       <div>
-      <InfoMessage page="Admin"/>
-      <SATable user={user } proposals={proposals} SALTAstronomers={SALTAstronomers} />
-      <button className="btn-success" onClick={ e => this.submitTechReview(e, proposals) }>Submit</button>
-
+        <InfoMessage page="Admin"/>
+        <SATable
+          user={user}
+          proposals={proposals}
+          SALTAstronomers={SALTAstronomers}
+          techReportChange={ this.techReportChange }
+          techAssignAstronomer={ this.techAssignAstronomer }
+        />
+        <button className="btn-success" onClick={ e => this.submitTechReview(e, proposals) }>Submit</button>
       </div>
     );
 
