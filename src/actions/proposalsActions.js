@@ -116,7 +116,7 @@ function convertProposals(proposals, semester, partner){
         instruments: proposal.instruments,
         pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
         liaisonAstronomer: proposal.SALTAstronomer ? proposal.SALTAstronomer.username : null,
-        email: proposal.SALTAstronomer.email,
+        email: proposal.SALTAstronomer ? proposal.SALTAstronomer.email : null,
         techReport: proposal.techReport,
         allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner),
         tacComment: makeTacComments(proposal.tacComment, partner),
@@ -128,7 +128,7 @@ function convertProposals(proposals, semester, partner){
   return convertedProposals
 }
 
-export default function fetchProposals(semester, partner="All"){
+export default function fetchProposals(semester, partner="All") {
   return function disp(dispatch){
     dispatch(startFetchProposals());
     queryProposals(semester, partner).then( res =>
