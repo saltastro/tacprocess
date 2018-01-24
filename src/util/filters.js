@@ -134,6 +134,27 @@ export const loadedPage = pathname => {
   return page
 }
 
-export const reduceProposals = (proposals, filter) => {
-  return []
+export const reduceProposalsPerAstronomer = (proposals, astronomer) => {
+  let prop = []
+  console.log("AAA: ", astronomer);
+  if (astronomer === "All"){
+    prop = proposals
+  }
+  else if (astronomer === "Assigned"){
+    proposals.forEach(p => {
+      if (p.liaisonAstronomer !== null) {prop.push(p)}
+    })
+  }
+  else if (astronomer === "Not Assigned"){
+    proposals.forEach(p => {
+      if (p.liaisonAstronomer === null) {prop.push(p)}
+    })
+  }else {
+    proposals.forEach(p => {
+      if (p.liaisonAstronomer === astronomer) {prop.push(p)}
+    })
+  }
+  console.log(prop);
+
+  return prop
 }

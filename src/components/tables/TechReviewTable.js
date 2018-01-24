@@ -1,16 +1,19 @@
 import React from 'react';
 
-import { canDo, astronomerAssigned } from '../../util/index';
+import { canDo, astronomerAssigned, getLiaisonUsername } from '../../util/index';
 import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
+import { reduceProposalsPerAstronomer, getAstronomersList } from "../../util/filters";
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 
 
-export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer}) => {
+export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer, proposalsFilter,   technicalCommentChange}) => {
   if (proposals.length === 0 ){
     return (<br />)
   }
-  const reducedProposals = proposalsFilter === "All" ? proposals : reduceProposals(proposals, proposalsFilter)
+//  const reducedProposals = proposalsFilter === "All" ? proposals : reduceProposalsPerAstronomer(proposals, proposalsFilter)
+  const saUser = proposalsFilter === "All" || proposalsFilter === "Not Assigned" || proposalsFilter === "Assigned"? proposalsFilter : getLiaisonUsername(proposalsFilter, SALTAstronomers)
+  const reducedProposals = reduceProposalsPerAstronomer(proposals, saUser)
   const AstronomersList = ["Not Assigned"].concat(getAstronomersList(SALTAstronomers))
 
     // compare astronomers by their first name
@@ -55,7 +58,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
                     <textarea
                       value={ p.techReport }
                       onChange={ e =>{
-                          technicalCommentChange(p.proposalCode, e.target.value)
+                          techReportChange(p.proposalCode, e.target.value)
                         }
                       }
                     >
@@ -75,7 +78,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
                                 }
                               /> Assign Yourself
                             </div>
-                         
+
                           : <span>{saltAstronomerName(p.liaisonAstronomer)}</span>)
                         : <select
                                value={p.liaisonAstronomer ? p.liaisonAstronomer : ''}
@@ -112,6 +115,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
     user: propTypes.object.isRequired,
     SALTAstronomers: propTypes.array.isRequired,
     techAssignAstronomer: propTypes.func.isRequired,
-    techReportChange: propTypes.func.isRequired
+    techReportChange: propTypes.func.isRequired,
+    proposalsFilter: propTypes.string
 
   }

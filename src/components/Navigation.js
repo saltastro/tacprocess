@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { connect } from "react-redux";
 import DropDown from '../components/tables/DropDown'
 import * as actions from "../actions/auth";
-import { partnerChange, semesterChange } from "../actions/filtersActions";
+import { partnerChange, semesterChange, astronomerChange } from "../actions/filtersActions";
 import { fetchStatData } from "../actions/statisticsActions";
 import  fetchProposals  from "../actions/proposalsActions";
 import  fetchTargets  from "../actions/targetsActions";
@@ -61,8 +61,9 @@ class Navigation extends React.Component {
     dispatch(partnerChange(value))
   }
   updateLiaison(value){
-    //const { dispatch } = this.props
-    console.log("Updating Liaison...");
+    const { dispatch } = this.props
+    console.log(value);
+    dispatch(astronomerChange(value));
   }
   loggingOut() {
     const { dispatch } = this.props
@@ -71,7 +72,7 @@ class Navigation extends React.Component {
 
   render() {
     const { filters, user, SALTAstronomers  } = this.props
-    const { selectedPartner, selectedSemester } = filters
+    const { selectedPartner, selectedSemester, selectedLiaison } = filters
     const partnerList = getPartnerList(user.roles)
     const astronomersList = ["All", "Assigned"].concat(getAstronomersList(SALTAstronomers)).concat(["Not Assigned"])
 
@@ -96,18 +97,22 @@ class Navigation extends React.Component {
               value={selectedSemester}/>
 
           {filters.currentPage !== TECHNICAL_PAGE ?
+            <div className="left-2">
               <DropDown
-                  className={"left-2"}
                   name="Partner"
                   listToDisplay={partnerList}
                   OnChange={this.updatePartner.bind(this)}
-                  value={selectedPartner}/> :
-              <DropDown
-                  className={"left-2"}
-                  name="SALT Astronomer"
-                  listToDisplay={astronomersList}
-                  OnChange={this.updateLiaison.bind(this)}
-                  value={"All"}/>}
+                  value={selectedPartner}/>
+            </div>
+               :
+               <div className="left-2">
+                <DropDown
+                    className={"left-2"}
+                    name="SALT Astronomer"
+                    listToDisplay={astronomersList}
+                    OnChange={this.updateLiaison.bind(this)}
+                    value={selectedLiaison}/>
+                </div>}
         </div>
 
       </div>

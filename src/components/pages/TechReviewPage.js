@@ -31,6 +31,7 @@ class TechReviewPage extends React.Component {
   };
 
   render() {
+    const saFilters  = this.props.selectedSA
     const proposals  = this.props.proposals.proposals || [];
     const SALTAstronomers = this.props.SALTAstronomers;
     const user  = this.props.user;
@@ -43,7 +44,7 @@ class TechReviewPage extends React.Component {
       }
 
       return(
-  
+
       <div>
         <SATable
           user={user}
@@ -51,6 +52,7 @@ class TechReviewPage extends React.Component {
           SALTAstronomers={SALTAstronomers}
           techReportChange={ this.techReportChange }
           techAssignAstronomer={ this.techAssignAstronomer }
+          proposalsFilter = {saFilters}
         />
           <button className="btn-success" onClick={ e => this.submitTechReview(e, proposals) }>Submit</button>
           <div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'right', marginTop: 70 }}>
@@ -69,6 +71,6 @@ export default connect(store => (
             proposals: store.proposals,
             semester: store.filters.selectedSemester,
             user: store.user.user,
+            selectedSA: store.filters.selectedLiaison,
             SALTAstronomers : store.SALTAstronomers.SALTAstronomer
         }), null)(TechReviewPage);
-

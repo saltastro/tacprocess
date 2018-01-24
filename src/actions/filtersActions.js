@@ -2,7 +2,8 @@
 import {
   FETCH_SELECTOR_DATA_PASS,
   SEMESTER_CHANGE,
-  PARTNER_CHANGE, PAGE_CHANGE
+  PARTNER_CHANGE, PAGE_CHANGE,
+  ASTRONOMER_CHANGE
 } from "../types";
 
 export const convertData = data => {
@@ -52,6 +53,15 @@ export function pageChange(load) {
   return (
     {
        type: PAGE_CHANGE,
+       current: load
+  }
+);
+}
+
+export function astronomerChange(load) {
+  return (
+    {
+       type: ASTRONOMER_CHANGE,
        current: load
   }
 );
