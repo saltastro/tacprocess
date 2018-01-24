@@ -34,7 +34,7 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
   return(
     <div className="scroldiv">
       <h1>{part}</h1>
-      <table>
+      <table id={"propPerPartner"}>
         <thead>
           <tr>
             <th>Code</th>
@@ -65,12 +65,12 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
                      .map( p => {
                return (
             <tr key={p.proposalId}>
-                <td><div className="width-150 padding-8" >{ p.proposalCode }</div></td>
-                <td><div className="table-height width-300" >{ p.title }</div></td>
-                <td><div className="table-height width-400" >{ p.abstract }</div></td>
-                <td>{ p.pi }</td>
-                <td>2017-1</td>
-                <td>
+                <td><div id={"propCode"} className="width-150 padding-8" >{ p.proposalCode }</div></td>
+                <td><div id={"propTitle"} className="table-height width-300" >{ p.title }</div></td>
+                <td><div id={"propAbstract"} className="table-height width-400" >{ p.abstract }</div></td>
+                <td id={"propPI"}>{ p.pi }</td>
+                <td id={"propSemester"}>2017-1</td>
+                <td id={"propComment"}>
                   { proposals.canAllocate ?
                       <textarea
                         id={ p.proposalCode }
@@ -84,70 +84,86 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
                             </div>
                   }
                 </td>
-                <td><div className="table-height width-100" >{ p.minTime }</div></td>
-                <td><div className="table-height width-100" >{ p.totalRequestedTime }</div></td>
-                <td>
+                <td><div id={"propMinTime"}className="table-height width-100" >{ p.minTime }</div></td>
+                <td><div id={"propRequestTime"} className="table-height width-100" >{ p.totalRequestedTime }</div></td>
+                <td id={"propCanAllocateP0"}>
                     { proposals.canAllocate ?
-                          <TimeAllocationInput onChange={ e =>
-                                  proposals.allocationChange(e, p.proposalCode, 'p0', part)}
+                          <TimeAllocationInput
+
+                              onChange={ e =>
+                                  proposals.allocationChange(e, p.proposalCode, 'p0', part)
+                              }
                               proposal={p}
                               partner={part}
                               priority="p0"/> : <div className="width-100">{ p.allocatedTime[part]["p0"] }</div>
                     }
                 </td>
-                <td>
+                <td id={"propCanAllocateP1"}>
                 { proposals.canAllocate ?
-                      <TimeAllocationInput onChange={ e =>
-                              proposals.allocationChange(e, p.proposalCode, 'p1', part)}
+                      <TimeAllocationInput
+
+                          onChange={ e =>
+                              proposals.allocationChange(e, p.proposalCode, 'p1', part)
+                          }
                           proposal={p}
                           partner={part}
                           priority="p1"/> : <div className="width-100">{ p.allocatedTime[part]["p1"] }</div>
                 }
                 </td>
-                <td>
+                <td id={"propCanAllocateP2"}>
                 { proposals.canAllocate ?
-                      <TimeAllocationInput onChange={ e =>
-                              proposals.allocationChange(e, p.proposalCode, 'p2', part)}
+                      <TimeAllocationInput
+
+                          onChange={ e =>
+                              proposals.allocationChange(e, p.proposalCode, 'p2', part)
+                          }
                           proposal={p}
                           partner={part}
                           priority="p2"/> : <div className="width-100">{ p.allocatedTime[part]["p2"] }</div>
                 }
                 </td>
-                <td>
+                <td id={"propCanAllocateP3"}>
                 { proposals.canAllocate ?
-                      <TimeAllocationInput onChange={ e =>
-                              proposals.allocationChange(e, p.proposalCode, 'p3', part)}
+                      <TimeAllocationInput
+
+                          onChange={ e =>
+                              proposals.allocationChange(e, p.proposalCode, 'p3', part)
+                          }
                           proposal={p}
                           partner={part}
                           priority="p3"/> : <div className="width-100">{ p.allocatedTime[part]["p3"] }</div>
                 }
                 </td>
-                <td><div className="table-height width-100" >{
+                <td><div id={"propTotalP0P3"} className="table-height width-100" >{
                     parseFloat(p.allocatedTime[part]["p0"] || 0 ) +
                     parseFloat(p.allocatedTime[part]["p1"] || 0 ) +
                     parseFloat(p.allocatedTime[part]["p2"] || 0 ) +
                     parseFloat(p.allocatedTime[part]["p3"] || 0 )
                 }</div></td>
-                <td>
+                <td id={"propCanAllocateP4"}>
                 { proposals.canAllocate ?
-                      <TimeAllocationInput onChange={ e =>
-                              proposals.allocationChange(e, p.proposalCode, 'p4', part)}
+                      <TimeAllocationInput
+
+                          onChange={ e =>
+                              proposals.allocationChange(e, p.proposalCode, 'p4', part)
+                          }
                           proposal={p}
                           partner={part}
                           priority="p4"/> : <div className="width-100">{ p.allocatedTime[part]["p4"] }</div>
                 }
                 </td>
-                <td><div className="table-height width-100" >false</div></td>
-                <td><div className="table-height width-100" >{ p.transparency }</div></td>
-                <td><div className="table-height width-100" >{ p.maxSeeing }</div></td>
-                <td><div className="table-height width-100" ></div></td>
-                <td><div className="table-height width-400" >{ p.techReport } </div></td>
+                <td><div id={"propBoolean"} className="table-height width-100" >false</div></td>
+                <td><div id={"propTranparency"} className="table-height width-100" >{ p.transparency }</div></td>
+                <td><div id={"propMaxSeeing"} className="table-height width-100" >{ p.maxSeeing }</div></td>
+                <td><div id={"propEmpty"} className="table-height width-100" ></div></td>
+                <td><div id={"propTechReport"} className="table-height width-400" >{ p.techReport } </div></td>
             </tr>
                )})
           }
 
         </tbody>
       </table>
+
       {
 
         proposals.submited.submited ?
@@ -174,8 +190,9 @@ ProposalsPerPartner.propTypes = {
   allocationChange: propTypes.func.isRequired,
   tacCommentChange: propTypes.func.isRequired,
   submitForParner: propTypes.func.isRequired,
-  canAllocate: propTypes.boolean,
-  canComment: propTypes.boolean,
+  exportTableToCSV: propTypes.func.isRequired,
+  canAllocate: propTypes.bool,
+  canComment: propTypes.bool,
   submited: propTypes.object,
 }
 
