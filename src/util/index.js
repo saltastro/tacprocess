@@ -284,3 +284,46 @@ export function areAllocatedTimesCorrect(partner, availableTime, proposals){
    }
 
 }
+
+export function updateLiaisonAstronomerForProposal (proposals, proposalToUpdate, liaisonUsername){
+  const updated = (proposals || []).map(p => {
+
+    if ( p.proposalCode === proposalToUpdate ){
+       p.liaisonAstronomer = liaisonUsername
+    }
+    return p
+  })
+  return updated
+}
+
+export function updateTechnicalCommentForProposal(proposals, proposalToUpdate, techReport){
+  console.log(techReport);
+  const updated = (proposals || []).map(p => {
+
+    if ( p.proposalCode === proposalToUpdate ){
+       p.techReport = techReport
+    }
+    return p
+  })
+  return updated
+}
+
+export function getLiaisonName(username, SALTAstronomers){
+  let name
+  (SALTAstronomers || []).forEach( sa => {
+    if (sa.username === username){
+      name = sa.name
+    }
+  })
+  return name
+}
+
+export function getLiaisonUsername(name, SALTAstronomers){
+  let username
+  (SALTAstronomers || []).forEach( sa => {
+    if (sa.name === name){
+      username = sa.username
+    }
+  })
+  return username
+}

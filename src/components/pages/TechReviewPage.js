@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import InfoMessage from "../messages/InfoMessage";
 import  fetchSA  from "../../actions/saltAstronomerActions";
 import { SATable } from "../tables/TechReviewTable";
-import { getAstronomersList } from '../../util/filters'
+import { updateLiaisonAstronomerForProposal, updateTechnicalCommentForProposal, getLiaisonUsername } from '../../util'
+
+import {  updateProposals } from '../../actions/proposalsActions'
 
 class TachReviewPage extends React.Component {
 
@@ -36,24 +37,32 @@ class TachReviewPage extends React.Component {
     console.log("Assigning Astronomer to a Proposal: ", proposalCode, " : ", assignedAstronomer);
   }
 
-  techAssignAstronomer = (proposalCode, assignedAstronomer) => {
+  assignedAstronomerChange = (proposalCode, assignedAstronomer) => {
     // update astronomer to assigned astronomer
-    console.log("Assigning Astronomer to a Proposal: ", proposalCode, " : ", assignedAstronomer);
+    const { SALTAstronomers, proposals, dispatch } = this.props
+    const updatedProposals = updateLiaisonAstronomerForProposal(proposals, proposalCode, getLiaisonUsername(assignedAstronomer, SALTAstronomers));
+    dispatch( updateProposals(updatedProposals))
+  }
+  technicalCommentChange = (proposalCode, comment) => {
+    // update astronomer to assigned astronomer
+    const { proposals, dispatch } = this.props
+    const updatedProposals = updateTechnicalCommentForProposal(proposals, proposalCode, comment);
+    dispatch( updateProposals(updatedProposals))
   }
 
   render() {
-    const {proposals, SALTAstronomers, user} = this.props
-    const AstronomersList = ["Not Assigned"].concat(getAstronomersList(SALTAstronomers))
+    const {proposals, SALTAstronomers, user, filters} = this.props
+
     return(
       <div>
-        <InfoMessage page="Admin"/>
         <SATable
           user={user}
           proposals={proposals}
-          SALTAstronomers={AstronomersList}
-          techReportChange={ this.techReportChange }
-          assignedAstronomerChange={ this.techReportChange }
+          SALTAstronomers={SALTAstronomers}
+          technicalCommentChange={ this.technicalCommentChange }
+          assignedAstronomerChange={ this.assignedAstronomerChange }
           techAssignAstronomer={ this.techAssignAstronomer.bind(this) }
+          proposalsFilter={ filters.selectedLiaison || "All" }
         />
         <button className="btn-success" onClick={ e => this.submitTechReview(e, proposals) }>Submit</button>
       </div>
@@ -65,4 +74,5 @@ class TachReviewPage extends React.Component {
 export default connect(store => ({
   proposals: store.proposals.proposals,
   user: store.user.user,
+  filters: store.filters,
   SALTAstronomers : store.SALTAstronomers.SALTAstronomer}),null)(TachReviewPage);

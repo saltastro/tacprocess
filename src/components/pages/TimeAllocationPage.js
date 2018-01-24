@@ -22,11 +22,12 @@ class TimeAllocationPage extends React.Component {
   }
 
   submitProposals(event, partner){
-    const ppp = PartnerProposals(this.props.proposals.proposals, this.props.user.user.partners);
-    const { dispatch } = this.props
+    const {proposals, user, dispatch, filters } = this.props
+    const ppp = PartnerProposals(proposals.proposals, listForDropdown(getPartnerList(user.user.roles)));
+
     const query = getQuaryToAddAllocation(ppp[partner],
       partner,
-      this.props.filters.selectedSemester
+      filters.selectedSemester
     )
     dispatch(startSubmition(partner))
     submitAllocations(query).then(p => p.data, dispatch(failSubmition()))

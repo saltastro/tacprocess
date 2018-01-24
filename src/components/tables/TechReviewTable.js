@@ -1,10 +1,11 @@
 import React from 'react';
 import propTypes from "prop-types";
-import { canDo, astronomerAssigned } from '../../util/index';
+import { canDo, astronomerAssigned, getLiaisonName } from '../../util/index';
 import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
+import { getAstronomersList, reduceProposals } from '../../util/filters'
 import DropDown from "./DropDown"
 
-export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer, assignedAstronomerChange}) => {
+export const SATable = ({proposals, user, SALTAstronomers, technicalCommentChange, techAssignAstronomer, assignedAstronomerChange, proposalsFilter}) => {
   if (!user.roles || !proposals || proposals.length === 0 ){
     return (<div><h1>Loading</h1></div>)
   }
@@ -12,6 +13,8 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
   if (proposals.length === 0 ){
     return (<br />)
   }
+  const reducedProposals = proposalsFilter === "All" ? proposals : reduceProposals(proposals, proposalsFilter)
+  const AstronomersList = ["Not Assigned"].concat(getAstronomersList(SALTAstronomers))
 
   return(
     <div className='SATableDiv'>
@@ -29,7 +32,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
         </thead>
         <tbody>
           {
-             proposals.map( p => {
+             reducedProposals.map( p => {
                return(
                  <tr key={p.proposalId}>
                    <td>{p.proposalId}</td>
@@ -40,7 +43,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
                     <textarea
                       value={ p.techReport }
                       onChange={ e =>{
-                          techReportChange(p.proposalCode, e.target.value)
+                          technicalCommentChange(p.proposalCode, e.target.value)
                         }
                       }
                     >
@@ -54,19 +57,19 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
                             <div>
                               <input
                                 type="checkbox"
-                                value={p.SALTAstronomer.name}
+                                value={p.SALTAstronomer}
                                 onChange={e =>{
                                     techAssignAstronomer(p.proposalCode, user.username)
                                   }
                                 }
                               /> Assign Yourself
                             </div>
-                          : <span>{p.SALTAstronomer.name}</span>)
+                          : <span>{p.liaisonAstronomer}</span>)
                         : <DropDown
-                              listToDisplay={SALTAstronomers}
-                              value={"Not Assigned"}
+                              listToDisplay={AstronomersList}
+                              value={getLiaisonName(p.liaisonAstronomer, SALTAstronomers) ||"Not Assigned"}
                               className={"left"}
-                              OnChange={e => assignedAstronomerChange(p.proposalCode, e.value)}/>
+                              OnChange={e => assignedAstronomerChange(p.proposalCode, e)}/>
                      }
                    </td>
                  </tr>
@@ -83,5 +86,6 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
     SALTAstronomers: propTypes.array.isRequired,
     techAssignAstronomer: propTypes.func.isRequired,
     assignedAstronomerChange: propTypes.func.isRequired,
-    techReportChange: propTypes.func.isRequired
+    technicalCommentChange: propTypes.func.isRequired,
+    proposalsFilter: propTypes.string
   }
