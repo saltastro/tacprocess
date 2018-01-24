@@ -22,25 +22,26 @@ class Navigation extends React.Component {
 
   componentDidMount() {
     const selected = this.props.filters
+    const {dispatch } = this.props
 
-    this.props.dispatch(actions.fetchUserData())
+    dispatch(actions.fetchUserData())
 
-    this.props.dispatch(fetchStatData(
+    dispatch(fetchStatData(
       selected.selectedSemester,
       selected.selectedPartner
     ))
-    this.props.dispatch(
+    dispatch(
       fetchTargets(
       selected.selectedSemester,
       selected.selectedPartner
     ))
-    this.props.dispatch(
+    dispatch(
       fetchProposals(
       selected.selectedSemester,
       selected.selectedPartner
     ))
 
-    this.props.dispatch(storePartnerAllocations(
+    dispatch(storePartnerAllocations(
       selected.selectedSemester,
       selected.selectedPartner
     ))

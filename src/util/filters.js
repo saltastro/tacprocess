@@ -133,3 +133,7 @@ export const loadedPage = pathname => {
           pathname === "/admin"? ADMIN_PAGE : HOME_PAGE
   return page
 }
+
+export const reduceProposals = (proposals, filter) => {
+  return []
+}

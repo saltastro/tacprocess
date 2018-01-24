@@ -25,6 +25,7 @@ class TechReviewPage extends React.Component {
   };
 
   // Assign an astronomer for the specific proposal
+
   techAssignAstronomer = (proposalCode, liaisonAstronomer) => {
     this.props.dispatch(updateLiaisonAstronomer(proposalCode, liaisonAstronomer));
   };
@@ -42,6 +43,7 @@ class TechReviewPage extends React.Component {
       }
 
       return(
+  
       <div>
         <SATable
           user={user}
@@ -69,3 +71,4 @@ export default connect(store => (
             user: store.user.user,
             SALTAstronomers : store.SALTAstronomers.SALTAstronomer
         }), null)(TechReviewPage);
+
