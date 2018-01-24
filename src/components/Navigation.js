@@ -79,14 +79,19 @@ class Navigation extends React.Component {
     return(
       <div>
         <ul className="nav">
-          <li className={filters.currentPage === HOME_PAGE ? "active" : ""} ><Link to="/">Home</Link></li>
-          <li className={filters.currentPage === TECHNICAL_PAGE ? "active" : ""} ><Link to="/techreview">Tech Review</Link></li>
+          <li className={filters.currentPage === HOME_PAGE ? "active" : ""} ><Link to="/">HOME</Link></li>
+          <li className={filters.currentPage === TECHNICAL_PAGE ? "active" : ""} ><Link to="/techreview">TECH REVIEW</Link></li>
           <li className={filters.currentPage === STATISTICS_PAGE ? "active" : ""} ><Link to="/statistics">Statistics</Link></li>
           <li className={filters.currentPage === TAC_PAGE ? "active" : ""} ><Link to="/timeallocation">Time Allocation</Link></li>
           <li className={filters.currentPage === DOCUMENTATION_PAGE ? "active" : ""} ><Link to="/documentation">Documentation</Link></li>
           <li className={filters.currentPage === ADMIN_PAGE ? "active" : ""}><Link to="/admin">Admin</Link></li>
           <button className="logoutbtn"
           onClick={ this.loggingOut.bind(this) }> Logout</button>
+        </ul>
+        <ul className="bigNav">
+           <div className='text'>
+           <h1>Time allocation commitee </h1>
+           </div>
         </ul>
         <div className="selector-div">
         <DropDown
