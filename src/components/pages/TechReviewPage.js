@@ -33,6 +33,9 @@ class TechReviewPage extends React.Component {
     const proposals  = this.props.proposals.proposals || [];
     const SALTAstronomers = this.props.SALTAstronomers;
     const user  = this.props.user;
+    const submitting = this.props.proposals.submittingLiaisonAstronomers || this.props.proposals.submittingTechnicalReports;
+    const submitted = this.props.proposals.submittedLiaisonAstronomers && this.props.proposals.submittedTechnicalReports;
+    const errors = this.props.proposals.errors;
 
       if (!user.roles || !proposals || proposals.length === 0 ){
           return (<div><h1>Loading...</h1></div>)
@@ -47,7 +50,12 @@ class TechReviewPage extends React.Component {
           techReportChange={ this.techReportChange }
           techAssignAstronomer={ this.techAssignAstronomer }
         />
-        <button className="btn-success" onClick={ e => this.submitTechReview(e, proposals) }>Submit</button>
+          <button className="btn-success" onClick={ e => this.submitTechReview(e, proposals) }>Submit</button>
+          <div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'right', marginTop: 70 }}>
+              {submitting && <span>Submitting...</span>}
+              {submitted && <span style={{color: 'green'}}>Submission successful</span>}
+              {errors && <span style={{color: 'red'}}>Oops. The submission has failed.</span>}
+          </div>
       </div>
     );
 
