@@ -100,26 +100,26 @@ function convertProposals(proposals, semester, partner){
     const minTotal  = minimumTotalRequested(proposal.timeRequests, semester)
 
     return ({
-      proposalId: proposal.id,
-      title: proposal.title,
-      abstract: proposal.abstract,
-      proposalCode: proposal.code,
-      isP4: proposal.isP4,
-      status: proposal.status,
-      maxSeeing: proposal.maxSeeing,
-      transparency: proposal.transparency,
-      isNew: isNewProposal(proposal.timeRequests, semester),
-      isLong: isLongTermProposal(proposal.timeRequests, semester),
-      totalRequestedTime: minTotal.total,
-      timeRequests: proposal.timeRequests,
-      minTime: minTotal.minimum,
-      instruments: proposal.instruments,
-      pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
-      liaisonAstronomer:  proposal.SALTAstronomer ? proposal.SALTAstronomer.username : null,
-      techReport: proposal.techReport,
-      allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner),
-      tacComment: makeTacComments(proposal.tacComment, partner),
-      requestedTime: requestedTime(proposal.timeRequests, semester)
+        proposalId: proposal.id,
+        title: proposal.title,
+        abstract: proposal.abstract,
+        proposalCode: proposal.code,
+        isP4: proposal.isP4,
+        status: proposal.status,
+        maxSeeing: proposal.maxSeeing,
+        transparency: proposal.transparency,
+        isNew: isNewProposal(proposal.timeRequests, semester),
+        isLong: isLongTermProposal(proposal.timeRequests, semester),
+        totalRequestedTime: minTotal.total,
+        timeRequests: proposal.timeRequests,
+        minTime: minTotal.minimum,
+        instruments: proposal.instruments,
+        pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
+        liaisonAstronomer: proposal.SALTAstronomer ? proposal.SALTAstronomer.username : null,
+        techReport: proposal.techReport,
+        allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner),
+        tacComment: makeTacComments(proposal.tacComment, partner),
+        requestedTime: requestedTime(proposal.timeRequests, semester)
     })
   }
 );
@@ -127,7 +127,7 @@ function convertProposals(proposals, semester, partner){
   return convertedProposals
 }
 
-export default function fetchProposals(semester, partner="All"){
+export default function fetchProposals(semester, partner="All") {
   return function disp(dispatch){
     dispatch(startFetchProposals());
     queryProposals(semester, partner).then( res =>
