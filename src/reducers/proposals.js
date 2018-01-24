@@ -64,6 +64,7 @@ export default function proposals(state = initialState, action = {}) {
   case UPDATE_LIAISON_ASTRONOMER: {
       return {
           ...state,
+          submittedLiaisonAstronomers: false,
           proposals: state.proposals.map(p => {
               if (p.proposalCode === action.payload.proposalCode) {
                   return {
@@ -80,6 +81,7 @@ export default function proposals(state = initialState, action = {}) {
   case UPDATE_TECHNICAL_REPORT: {
       return {
           ...state,
+          submittedTechnicalReports: false,
           proposals: state.proposals.map(p => {
             if (p.proposalCode === action.payload.proposalCode) {
               return {
