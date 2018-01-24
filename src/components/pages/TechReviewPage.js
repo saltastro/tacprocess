@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import InfoMessage from "../messages/InfoMessage";
 import fetchSA from "../../actions/saltAstronomerActions";
 import {
     updateLiaisonAstronomer,
@@ -41,7 +40,6 @@ class TechReviewPage extends React.Component {
 
       return(
       <div>
-        <InfoMessage page="Admin"/>
         <SATable
           user={user}
           proposals={proposals}
