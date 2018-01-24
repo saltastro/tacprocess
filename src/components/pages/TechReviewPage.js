@@ -1,11 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import InfoMessage from "../messages/InfoMessage";
-import  fetchSA  from "../../actions/saltAstronomerActions";
+import fetchSA from "../../actions/saltAstronomerActions";
+import {
+    updateLiaisonAstronomer,
+    updateTechnicalReport,
+    submitTechnicalReviewDetails
+} from "../../actions/technicalReviewActions";
 import { SATable } from "../tables/TechReviewTable";
-import { getAstronomersList } from '../../util/filters'
 
-class TachReviewPage extends React.Component {
+class TechReviewPage extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -13,56 +16,61 @@ class TachReviewPage extends React.Component {
   }
 
   submitTechReview(event, proposals){
-    // const { dispatch } = this.props;
-    // dispatch(startSubmitingTechReview(partner))
-    // submitAllocations(query).then(p => p.data, dispatch(failSubmitingTechReview()))
-    //    .then( d => {
-    //        d.data.updateTechReview.success ?
-    //            dispatch(passSubmitingTechReview()) :
-    //            dispatch(failSubmitingTechReview())
-    // });
-    console.log("Submiting", proposals);
+     this.props.dispatch(submitTechnicalReviewDetails(proposals, this.props.semester));
   }
 
   // Updates the comment of the specific proposal
-  techReportChange = (proposalCode, techReportComment) => {
-    // Update action
-    console.log("Updating a Proposal Comment: ", proposalCode, " : ",techReportComment);
-  }
+  techReportChange = (proposalCode, techReport) => {
+    this.props.dispatch(updateTechnicalReport(proposalCode, this.props.semester, techReport));
+  };
 
   // Assign an astronomer for the specific proposal
-  techAssignAstronomer = (proposalCode, assignedAstronomer) => {
-    // update astronomer to assigned astronomer
-    console.log("Assigning Astronomer to a Proposal: ", proposalCode, " : ", assignedAstronomer);
-  }
 
-  techAssignAstronomer = (proposalCode, assignedAstronomer) => {
-    // update astronomer to assigned astronomer
-    console.log("Assigning Astronomer to a Proposal: ", proposalCode, " : ", assignedAstronomer);
-  }
+  techAssignAstronomer = (proposalCode, liaisonAstronomer) => {
+    this.props.dispatch(updateLiaisonAstronomer(proposalCode, liaisonAstronomer));
+  };
 
   render() {
-    const {proposals, SALTAstronomers, user} = this.props
-    const AstronomersList = ["Not Assigned"].concat(getAstronomersList(SALTAstronomers))
-    return(
+    const saFilters  = this.props.selectedSA
+    const proposals  = this.props.proposals.proposals || [];
+    const SALTAstronomers = this.props.SALTAstronomers;
+    const user  = this.props.user;
+    const submitting = this.props.proposals.submittingLiaisonAstronomers || this.props.proposals.submittingTechnicalReports;
+    const submitted = this.props.proposals.submittedLiaisonAstronomers && this.props.proposals.submittedTechnicalReports;
+    const errors = this.props.proposals.errors;
+
+      if (!user.roles || !proposals || proposals.length === 0 ){
+          return (<div><h1>Loading...</h1></div>)
+      }
+
+      return(
+
       <div>
-        <InfoMessage page="Admin"/>
         <SATable
           user={user}
           proposals={proposals}
-          SALTAstronomers={AstronomersList}
+          SALTAstronomers={SALTAstronomers}
           techReportChange={ this.techReportChange }
-          assignedAstronomerChange={ this.techReportChange }
-          techAssignAstronomer={ this.techAssignAstronomer.bind(this) }
+          techAssignAstronomer={ this.techAssignAstronomer }
+          proposalsFilter = {saFilters}
         />
-        <button className="btn-success" onClick={ e => this.submitTechReview(e, proposals) }>Submit</button>
+          <button className="btn-success" onClick={ e => this.submitTechReview(e, proposals) }>Submit</button>
+          <div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'right', marginTop: 70 }}>
+              {submitting && <span>Submitting...</span>}
+              {submitted && <span style={{color: 'green'}}>Submission successful</span>}
+              {errors && <span style={{color: 'red'}}>Oops. The submission has failed.</span>}
+          </div>
       </div>
     );
 
   }
 }
 
-export default connect(store => ({
-  proposals: store.proposals.proposals,
-  user: store.user.user,
-  SALTAstronomers : store.SALTAstronomers.SALTAstronomer}),null)(TachReviewPage);
+export default connect(store => (
+        {
+            proposals: store.proposals,
+            semester: store.filters.selectedSemester,
+            user: store.user.user,
+            selectedSA: store.filters.selectedLiaison,
+            SALTAstronomers : store.SALTAstronomers.SALTAstronomer
+        }), null)(TechReviewPage);

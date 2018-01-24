@@ -1,17 +1,35 @@
 import React from 'react';
-import propTypes from "prop-types";
-import { canDo, astronomerAssigned } from '../../util/index';
+
+import { canDo, astronomerAssigned, getLiaisonUsername } from '../../util/index';
 import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
-import DropDown from "./DropDown"
+import { reduceProposalsPerAstronomer, getAstronomersList } from "../../util/filters";
+import propTypes from "prop-types";
+import '../../styles/components/tables.css';
 
-export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer, assignedAstronomerChange}) => {
-  if (!user.roles || !proposals || proposals.length === 0 ){
-    return (<div><h1>Loading</h1></div>)
-  }
 
+export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer, proposalsFilter,   technicalCommentChange}) => {
   if (proposals.length === 0 ){
     return (<br />)
   }
+//  const reducedProposals = proposalsFilter === "All" ? proposals : reduceProposalsPerAstronomer(proposals, proposalsFilter)
+  const saUser = proposalsFilter === "All" || proposalsFilter === "Not Assigned" || proposalsFilter === "Assigned"? proposalsFilter : getLiaisonUsername(proposalsFilter, SALTAstronomers)
+  const reducedProposals = reduceProposalsPerAstronomer(proposals, saUser)
+  const AstronomersList = ["Not Assigned"].concat(getAstronomersList(SALTAstronomers))
+
+    // compare astronomers by their first name
+    const compareByFirstName = (a, b) => {
+        const name1 = a.name.toUpperCase();
+        const name2 = b.name.toUpperCase();
+        if (name1 < name2) {
+            return -1;
+        }
+        if (name1 > name2) {
+            return 1;
+        }
+        return 0;
+    };
+
+    const saltAstronomerName = (username) => SALTAstronomers.find(a => a.username === username).name;
 
   return(
     <div className='SATableDiv'>
@@ -29,7 +47,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
         </thead>
         <tbody>
           {
-             proposals.map( p => {
+             reducedProposals.map( p => {
                return(
                  <tr key={p.proposalId}>
                    <td>{p.proposalId}</td>
@@ -54,19 +72,34 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
                             <div>
                               <input
                                 type="checkbox"
-                                value={p.SALTAstronomer.name}
                                 onChange={e =>{
                                     techAssignAstronomer(p.proposalCode, user.username)
                                   }
                                 }
                               /> Assign Yourself
                             </div>
-                          : <span>{p.SALTAstronomer.name}</span>)
-                        : <DropDown
-                              listToDisplay={SALTAstronomers}
-                              value={"Not Assigned"}
-                              className={"left"}
-                              OnChange={e => assignedAstronomerChange(p.proposalCode, e.value)}/>
+
+                          : <span>{saltAstronomerName(p.liaisonAstronomer)}</span>)
+                        : <select
+                               value={p.liaisonAstronomer ? p.liaisonAstronomer : ''}
+                            onChange={e => {
+                                techAssignAstronomer(p.proposalCode, e.target.value ? e.target.value : null)
+                              }
+                            }
+                          >
+                                   <option value="">None</option>
+                                   {
+                                SALTAstronomers.sort(compareByFirstName).map(astronomer => (
+                                <option
+                                  key={astronomer.username}
+                                  value={astronomer.username}
+                                >
+                                  {saltAstronomerName(astronomer.username)}
+                                </option>
+                              ))
+                            }
+                          </select>
+
                      }
                    </td>
                  </tr>
@@ -82,6 +115,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
     user: propTypes.object.isRequired,
     SALTAstronomers: propTypes.array.isRequired,
     techAssignAstronomer: propTypes.func.isRequired,
-    assignedAstronomerChange: propTypes.func.isRequired,
-    techReportChange: propTypes.func.isRequired
+    techReportChange: propTypes.func.isRequired,
+    proposalsFilter: propTypes.string
+
   }
