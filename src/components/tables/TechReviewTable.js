@@ -5,10 +5,6 @@ import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 
 export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer}) => {
-  if (!user.roles || !proposals || proposals.length === 0 ){
-    return (<div><h1>Loading</h1></div>)
-  }
-
   if (proposals.length === 0 ){
     return (<br />)
   }

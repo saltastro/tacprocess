@@ -34,7 +34,12 @@ class TechReviewPage extends React.Component {
     const proposals  = this.props.proposals.proposals || [];
     const SALTAstronomers = this.props.SALTAstronomers;
     const user  = this.props.user;
-    return(
+
+      if (!user.roles || !proposals || proposals.length === 0 ){
+          return (<div><h1>Loading...</h1></div>)
+      }
+
+      return(
       <div>
         <InfoMessage page="Admin"/>
         <SATable
