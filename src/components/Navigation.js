@@ -89,9 +89,7 @@ class Navigation extends React.Component {
           onClick={ this.loggingOut.bind(this) }> Logout</button>
         </ul>
         <ul className="bigNav">
-           <div className='text'>
-           <h1>Time allocation commitee </h1>
-           </div>
+           <h1>Time Allocation Commitee </h1>
         </ul>
         <div className="selector-div">
         <DropDown
