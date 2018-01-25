@@ -138,7 +138,7 @@ class TimeAllocationPage extends React.Component {
     return(
       <div>
       {
-        tac.submiting ? (<div><h1>Submiting...</h1></div>) : partners.map( part => (
+        tac.submiting ? (<div><h1>Submitting...</h1></div>) : partners.map( part => (
           <div key={part.value}>
             <AvailableTimePerPartnerTable
               proposals = { ppp[part.value] || [] }
@@ -151,7 +151,7 @@ class TimeAllocationPage extends React.Component {
                   partner={part.value}
                   tacCommentChange={ this.tacCommentChange.bind(this) }
                   allocationChange={ this.allocationChange.bind(this) }
-                  submitForParner={ this.submitProposals.bind(this) }
+                  submitForPartner={ this.submitProposals.bind(this) }
                   canAllocate = { canUserWriteAllocations(user.user, part.value) || false }
                   canComment = { canUserWriteTechComments(user.user, part.value) || false }
                   exportTableToCSV = { this.exportTableToCSV.bind(this) }
