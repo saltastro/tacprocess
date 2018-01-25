@@ -12,6 +12,7 @@ import { updateProposals } from "../../actions/proposalsActions";
 import { startSubmition, passSubmition, failSubmition } from "../../actions/timeAllocationActions";
 import { ALL_PARTNER } from "../../types";
 import { getPartnerList, listForDropdown } from "../../util/filters";
+import { jsonClient } from '../../api/api';
 
 
 class TimeAllocationPage extends React.Component {
@@ -59,6 +60,32 @@ class TimeAllocationPage extends React.Component {
             return p
         })
         data.dispatch(updateProposals(updatedProposals))
+    }
+
+    downloadSummaries(proposals) {
+        const proposalCodes = proposals.map(p => p.proposalCode);
+        jsonClient('blob').post('/proposal-summaries', {proposalCodes})
+                .then(res => {
+
+                    // Download link
+                    const downloadLink = document.createElement("a");
+
+                    // File name
+                    downloadLink.download = 'proposal_summaries.zip';
+
+                    // Create a link to the file
+                    downloadLink.href = window.URL.createObjectURL(res.data);
+
+                    // Hide download link
+                    downloadLink.style.display = "none";
+
+                    // Add the link to DOM
+                    document.body.appendChild(downloadLink);
+
+                    // Click download link
+                    downloadLink.click();
+                })
+                .catch(err => console.error(err));
     }
 
     /*
@@ -169,6 +196,9 @@ class TimeAllocationPage extends React.Component {
                                                 exportTableToCSV={this.exportTableToCSV.bind(this)}
                                                 submitted={tac}
                                         />
+                                        <button onClick={() => this.downloadSummaries(ppp[partner] || [])}>
+                                            Download summary files
+                                        </button>
                                     </div>
                             );
                         })
