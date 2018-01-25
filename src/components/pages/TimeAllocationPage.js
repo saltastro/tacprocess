@@ -155,7 +155,7 @@ class TimeAllocationPage extends React.Component {
                   canAllocate = { canUserWriteAllocations(user.user, part.value) || false }
                   canComment = { canUserWriteTechComments(user.user, part.value) || false }
                   exportTableToCSV = { this.exportTableToCSV.bind(this) }
-                  submited = { tac }
+                  submitted = { tac }
               />
             </div>
         ))

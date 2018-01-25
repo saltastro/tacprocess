@@ -22,7 +22,7 @@ const TimeAllocationInput = ({onChange, proposal, priority, partner}) => {
 };
 
 
-const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationChange, canAllocate, canComment, submited) => {
+const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationChange, canAllocate, canComment, submitted) => {
   const arrayOfProposals = proposals.proposals || []
   const part = proposals.partner
   if (part === ALL_PARTNER){
@@ -166,19 +166,19 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
 
       {
 
-        proposals.submited.submited ?
+        proposals.submitted.submitted ?
           <div><br />
-            {!!proposals.submited.partner && proposals.submited.partner === part ? <div  className="pass-div"> <h2> Submitited</h2> </div> :  <br /> }
-            <button className="btn-success" onClick={ e => proposals.submitForParner(e, part) }>Submit {part}</button>
+            {!!proposals.submitted.partner && proposals.submitted.partner === part ? <div className="pass-div"> <h2> Submitted</h2> </div> :  <br /> }
+            <button className="btn-success" onClick={ e => proposals.submitForPartner(e, part) }>Submit {part}</button>
           </div> :
-          proposals.submited.partner === part ?
+          proposals.submitted.partner === part ?
           <div className="fail-div">
             <h2> Fail to submit</h2>
-            <h3>please make sure that all allocation for partner "{proposals.submited.partner}" are correct <br />or you do not have tailing " \ " on your comment</h3>
-            <button className="btn-fail" onClick={ e => proposals.submitForParner(e, part) }>Submit {part}</button>
+            <h3>please make sure that all allocation for partner "{proposals.submitted.partner}" are correct <br />or you do not have tailing " \ " on your comment</h3>
+            <button className="btn-fail" onClick={ e => proposals.submitForPartner(e, part) }>Submit {part}</button>
           </div> :
           <div><br />
-            <button className="btn-success" onClick={ e => proposals.submitForParner(e, part) }>Submit {part}</button>
+            <button className="btn-success" onClick={ e => proposals.submitForPartner(e, part) }>Submit {part}</button>
           </div>
       }
     </div>
@@ -189,11 +189,11 @@ ProposalsPerPartner.propTypes = {
   partner: propTypes.string.isRequired,
   allocationChange: propTypes.func.isRequired,
   tacCommentChange: propTypes.func.isRequired,
-  submitForParner: propTypes.func.isRequired,
+  submitForPartner: propTypes.func.isRequired,
   exportTableToCSV: propTypes.func.isRequired,
   canAllocate: propTypes.bool,
   canComment: propTypes.bool,
-  submited: propTypes.object,
+  submitted: propTypes.object,
 }
 
 export default ProposalsPerPartner;
