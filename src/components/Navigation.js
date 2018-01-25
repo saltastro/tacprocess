@@ -81,10 +81,10 @@ class Navigation extends React.Component {
         <ul className="nav">
           <li className={filters.currentPage === HOME_PAGE ? "active" : ""} ><Link to="/">HOME</Link></li>
           <li className={filters.currentPage === TECHNICAL_PAGE ? "active" : ""} ><Link to="/techreview">TECH REVIEW</Link></li>
-          <li className={filters.currentPage === STATISTICS_PAGE ? "active" : ""} ><Link to="/statistics">Statistics</Link></li>
-          <li className={filters.currentPage === TAC_PAGE ? "active" : ""} ><Link to="/timeallocation">Time Allocation</Link></li>
-          <li className={filters.currentPage === DOCUMENTATION_PAGE ? "active" : ""} ><Link to="/documentation">Documentation</Link></li>
-          <li className={filters.currentPage === ADMIN_PAGE ? "active" : ""}><Link to="/admin">Admin</Link></li>
+          <li className={filters.currentPage === STATISTICS_PAGE ? "active" : ""} ><Link to="/statistics">STATISTICS</Link></li>
+          <li className={filters.currentPage === TAC_PAGE ? "active" : ""} ><Link to="/timeallocation">TIME ALLOCATION</Link></li>
+          <li className={filters.currentPage === DOCUMENTATION_PAGE ? "active" : ""} ><Link to="/documentation">DOCUMENTATION</Link></li>
+          <li className={filters.currentPage === ADMIN_PAGE ? "active" : ""}><Link to="/admin">ADMIN</Link></li>
           <button className="logoutbtn"
           onClick={ this.loggingOut.bind(this) }> Logout</button>
         </ul>
