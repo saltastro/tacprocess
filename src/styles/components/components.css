@@ -14,11 +14,11 @@
     list-style-type: none;
     overflow: hidden;
     margin: 5px 0px 0px 0px;
-    background-image:url("pictures/logo-alt.png"), url("pictures/pic.jpg");
+    background-image:url("pictures/BannerImage.jpg");
     background-repeat: no-repeat;
     background-position: right top;
     background-attachment: fixed;
-    background-size: 20% 30%, cover;
+    background-size:cover;
     background-origin: content-box;
     display: block;
     font-weight: 300;
