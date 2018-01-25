@@ -7,6 +7,8 @@ import {
     submitTechnicalReviewDetails
 } from "../../actions/technicalReviewActions";
 import { SATable } from "../tables/TechReviewTable";
+import { getLiaisonUsername } from '../../util';
+import { reduceProposalsPerAstronomer } from '../../util/filters';
 
 class TechReviewPage extends React.Component {
 
@@ -31,8 +33,7 @@ class TechReviewPage extends React.Component {
   };
 
   render() {
-    const saFilters  = this.props.selectedSA
-    const proposals  = this.props.proposals.proposals || [];
+    const proposals = this.props.proposals;
     const SALTAstronomers = this.props.SALTAstronomers;
     const user  = this.props.user;
     const submitting = this.props.proposals.submittingLiaisonAstronomers || this.props.proposals.submittingTechnicalReports;
@@ -52,7 +53,6 @@ class TechReviewPage extends React.Component {
           SALTAstronomers={SALTAstronomers}
           techReportChange={ this.techReportChange }
           techAssignAstronomer={ this.techAssignAstronomer }
-          proposalsFilter = {saFilters}
         />
           <button className="btn-success" onClick={ e => this.submitTechReview(e, proposals) }>Submit</button>
           <div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'right', marginTop: 70 }}>
@@ -66,11 +66,17 @@ class TechReviewPage extends React.Component {
   }
 }
 
-export default connect(store => (
-        {
-            proposals: store.proposals,
-            semester: store.filters.selectedSemester,
-            user: store.user.user,
-            selectedSA: store.filters.selectedLiaison,
-            SALTAstronomers : store.SALTAstronomers.SALTAstronomer
-        }), null)(TechReviewPage);
+export default connect(store => {
+    const SALTAstronomers = store.SALTAstronomers.SALTAstronomer;
+    const selectedSA = store.filters.selectedLiaison;
+    const saUser = selectedSA === "All" || selectedSA === "Not Assigned" || selectedSA === "Assigned"? selectedSA : getLiaisonUsername(selectedSA, SALTAstronomers)
+    const proposals = reduceProposalsPerAstronomer(store.proposals.proposals || [], saUser);
+    console.log({proposals});
+
+    return {
+        proposals,
+        semester: store.filters.selectedSemester,
+        user: store.user.user,
+        SALTAstronomers: store.SALTAstronomers.SALTAstronomer
+    }
+}, null)(TechReviewPage);
