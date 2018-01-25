@@ -62,7 +62,6 @@ class Navigation extends React.Component {
   }
   updateLiaison(value){
     const { dispatch } = this.props
-    console.log(value);
     dispatch(astronomerChange(value));
   }
   loggingOut() {
@@ -88,9 +87,9 @@ class Navigation extends React.Component {
           <button className="logoutbtn"
           onClick={ this.loggingOut.bind(this) }> Logout</button>
         </ul>
-        <ul className="bigNav">
+        <ul className="bigNav crop-height">
            <div className='text'>
-           <h1>Time allocation commitee </h1>
+           <h1>{filters.currentPage} </h1>
            </div>
         </ul>
         <div className="selector-div">
