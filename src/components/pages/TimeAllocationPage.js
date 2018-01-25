@@ -12,6 +12,7 @@ import { updateProposals } from "../../actions/proposalsActions";
 import { startSubmition, passSubmition, failSubmition } from "../../actions/timeAllocationActions";
 import { ALL_PARTNER } from "../../types";
 import { getPartnerList, listForDropdown } from "../../util/filters";
+import { checkColumns, getIndexOfColumns, updateProposalFromCSV } from "../../util/uploadCsv";
 
 
 class TimeAllocationPage extends React.Component {
@@ -125,6 +126,24 @@ class TimeAllocationPage extends React.Component {
       this.downloadCSV(csv.join("\n"), filename);
   }
 
+  updateFromCSV = (data, proposals, partner) => {
+    const { dispatch } = this.props
+    let allColumns = false;
+    let columnIndex = {};
+    let updatedProposals = proposals;
+    (data || []).forEach( (r, i) => {
+      if (i === 0) {
+        allColumns = checkColumns(r)
+        if (allColumns){
+          columnIndex = getIndexOfColumns(r)
+        }
+      } else if(allColumns){
+        updatedProposals = updateProposalFromCSV(proposals, partner, r, columnIndex)
+      }
+    })
+    dispatch(updateProposals(updatedProposals));
+  };
+
   render() {
 
     const { allocatedTime, filters, user, tac} = this.props
@@ -155,6 +174,7 @@ class TimeAllocationPage extends React.Component {
                   canAllocate = { canUserWriteAllocations(user.user, part.value) || false }
                   canComment = { canUserWriteTechComments(user.user, part.value) || false }
                   exportTableToCSV = { this.exportTableToCSV.bind(this) }
+                  updateFromCSV = { this.updateFromCSV.bind(this) }
                   submited = { tac }
               />
             </div>
