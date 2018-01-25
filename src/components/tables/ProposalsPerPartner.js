@@ -1,7 +1,8 @@
 import React from "react";
 import propTypes from "prop-types";
 import _ from "lodash";
-import { illegalAllocation } from "../../util/allocation";
+import CSVReader from 'react-csv-reader'
+import { illegalAllocation} from "../../util/allocation";
 import { ALL_PARTNER, goodTime, badTime } from "../../types"
 
 
@@ -21,8 +22,11 @@ const TimeAllocationInput = ({onChange, proposal, priority, partner}) => {
     );
 };
 
+const handleDarkSideForce = (data, proposals, partner) => {
+  console.log(partner, data, proposals);
+};
 
-const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationChange, canAllocate, canComment, submited) => {
+const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationChange, canAllocate, canComment, submited, updateFromCSV) => {
   const arrayOfProposals = proposals.proposals || []
   const part = proposals.partner
   if (part === ALL_PARTNER){
@@ -181,6 +185,12 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
             <button className="btn-success" onClick={ e => proposals.submitForParner(e, part) }>Submit {part}</button>
           </div>
       }
+      <CSVReader
+        cssClass="csv-input"
+        label="Select CSV"
+        onFileLoaded={e => proposals.updateFromCSV(e, arrayOfProposals, part)}
+        onError={handleDarkSideForce}
+      />
     </div>
   )}
 
@@ -191,6 +201,7 @@ ProposalsPerPartner.propTypes = {
   tacCommentChange: propTypes.func.isRequired,
   submitForParner: propTypes.func.isRequired,
   exportTableToCSV: propTypes.func.isRequired,
+  updateFromCSV: propTypes.func.isRequired,
   canAllocate: propTypes.bool,
   canComment: propTypes.bool,
   submited: propTypes.object,
