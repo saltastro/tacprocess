@@ -7,7 +7,7 @@ import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 
 
-export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer, proposalsFilter,   technicalCommentChange}) => {
+export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer, proposalsFilter}) => {
   if (proposals.length === 0 ){
     return (<br />)
   }
