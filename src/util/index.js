@@ -297,7 +297,6 @@ export function updateLiaisonAstronomerForProposal (proposals, proposalToUpdate,
 }
 
 export function updateTechnicalCommentForProposal(proposals, proposalToUpdate, techReport){
-  console.log(techReport);
   const updated = (proposals || []).map(p => {
 
     if ( p.proposalCode === proposalToUpdate ){
