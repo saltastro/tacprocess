@@ -2,14 +2,19 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
+import {loadedPage} from "../../util/filters"
+import { pageChange } from "../../actions/filtersActions"
 
-const UserRoute = ({ isAuthenticated, component: Component, ...rest }) => (
+const UserRoute = ({ isAuthenticated, component: Component, ...rest }) => {
+  rest.dispatch(pageChange(loadedPage(rest.location.pathname)))
+
+  return(
   <Route
     { ...rest }
     render={ props =>
       isAuthenticated ? <Component { ...props } /> : <Redirect to="/login" /> }
   />
-);
+)};
 
 UserRoute.propTypes = {
   component: PropTypes.func.isRequired,

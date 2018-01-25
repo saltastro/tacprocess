@@ -1,5 +1,12 @@
 import _ from "lodash"
-import { ALL_PARTNER } from "../types"
+import { ALL_PARTNER,
+  HOME_PAGE,
+  STATISTICS_PAGE,
+  DOCUMENTATION_PAGE,
+  TECHNICAL_PAGE,
+  TAC_PAGE,
+  ADMIN_PAGE
+} from "../types"
 
 
 export function totalTimeRequestedPerParner(proposals, semester, partner="All" ){
@@ -44,15 +51,14 @@ export function userPartners(roles) {
   return allPartners
 }
 
-export const semesterFilter = () => {
+export const semestersArray = () => {
     let startYear = 2006
     const today = new Date();
     const year = today.getFullYear()
     let semester = []
     while (startYear < year + 8){
       semester.push(
-        {value: `${ startYear }-1`, label: `${startYear  }-1` },
-        {value: `${ startYear }-2`, label: `${startYear  }-2` }
+         `${ startYear }-1`, `${ startYear }-2`
       )
     startYear += 1
   }
@@ -62,7 +68,7 @@ export const semesterFilter = () => {
 export const firstSelectedPartner = roles => {
   let first = ALL_PARTNER
 
-  for (let r of roles) {
+  for (let r of roles || []) {
     if (r.type === "ADMINISTRATOR") {
       first = ALL_PARTNER;
       break;
@@ -81,30 +87,74 @@ export const firstSelectedPartner = roles => {
 
   return first
 }
-const toSelectorObj = partner => ({label: partner, value: partner})
-const toSelectorObjs = partners => {
-    return partners.map( p => (toSelectorObj(p)))
-}
 
 export const getPartnerList = roles => {
   let partnerList = []
-  for (let r of roles) {
-    if (r.type === "ADMINISTRATOR") {
-      partnerList = toSelectorObjs(r.partners);
-      partnerList.push({label: ALL_PARTNER, value: ALL_PARTNER})
+  for (let r of roles || []) {
+    if (r.type === "ADMINISTRATOR" || r.type === "SALT_ASTRONOMER") {
+      partnerList = r.partners
+      partnerList.includes(ALL_PARTNER) ? partnerList.push() : partnerList.push(ALL_PARTNER)
       break;
     }
-    if (r.type === "SALT_ASTRONOMER") {
-      partnerList = toSelectorObjs(r.partners);
-      partnerList.push({label: ALL_PARTNER, value: ALL_PARTNER})
-      break;
-    }
+
     if (r.type === "TAC_CHAIR") {
-      partnerList = toSelectorObjs(r.partners);
+      partnerList = r.partners;
     }
     if (r.type === "TAC_MEMBER") {
-      partnerList = toSelectorObjs(r.partners);
+      partnerList = r.partners;
     }
   }
   return partnerList
+}
+
+/*
+* @params list an array of
+*/
+export const listForDropdown = list => {
+  return (list || []).map( l => ({ label: l, value: l }))
+}
+
+/*
+* @params list an array of getLiaisonList
+*/
+export const getAstronomersList = saList => {
+  console.log(saList);
+  return (saList || []).map( l => (`${l.name}`))
+}
+
+/*
+* @params list an array of
+*/
+export const loadedPage = pathname => {
+  const page = pathname === "/timeallocation"? TAC_PAGE :
+          pathname === "/statistics"? STATISTICS_PAGE :
+          pathname === "/techreview"? TECHNICAL_PAGE :
+          pathname === "/documentation"? DOCUMENTATION_PAGE :
+          pathname === "/admin"? ADMIN_PAGE : HOME_PAGE
+  return page
+}
+
+export const reduceProposalsPerAstronomer = (proposals, astronomer) => {
+  let prop = []
+  console.log("AAA: ", astronomer);
+  if (astronomer === "All"){
+    prop = proposals
+  }
+  else if (astronomer === "Assigned"){
+    proposals.forEach(p => {
+      if (p.liaisonAstronomer !== null) {prop.push(p)}
+    })
+  }
+  else if (astronomer === "Not Assigned"){
+    proposals.forEach(p => {
+      if (p.liaisonAstronomer === null) {prop.push(p)}
+    })
+  }else {
+    proposals.forEach(p => {
+      if (p.liaisonAstronomer === astronomer) {prop.push(p)}
+    })
+  }
+  console.log(prop);
+
+  return prop
 }

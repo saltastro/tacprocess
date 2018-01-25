@@ -5,6 +5,7 @@ import {
   PAGE_CHANGE,
   SEMESTER_CHANGE,
   PARTNER_CHANGE,
+  ASTRONOMER_CHANGE
 } from "../types";
 
 const today = new Date()
@@ -19,7 +20,7 @@ const initialState = {
   fetching: false,
   errors: false,
   selectedSemester: `${year}-${semester}`,
-  currentPage: "HomePage"
+  selectedLiaison: "All"
 
 };
 
@@ -62,6 +63,12 @@ export default function selectors(state=initialState, action={}) {
         return {
           ...state,
           selectedPartner: action.changeTo,
+        }
+      }
+      case ASTRONOMER_CHANGE: {
+        return {
+          ...state,
+          selectedLiaison: action.current,
         }
       }
       default:{

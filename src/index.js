@@ -16,9 +16,6 @@ const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );
-store.subscribe(() => {
-  console.log("store change", store.getState());
-})
 
 ReactDOM.render(
   <BrowserRouter>
