@@ -24,6 +24,7 @@ export default function SALTAstronomers(state = initialState, action = {}) {
           fetching: false,
           fetched: false,
           errors: "Fail to get SA from api" }
+
       }
       case FETCH_SA_PASS: {
         return {

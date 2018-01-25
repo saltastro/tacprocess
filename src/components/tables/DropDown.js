@@ -17,6 +17,7 @@ const DropDown = ({listToDisplay, name, OnChange, value, className}) => {
           onChange={ event => OnChange(event.value)}
           />
       </div>
+
 )};
 
 DropDown.propTypes = {

@@ -62,7 +62,6 @@ class Navigation extends React.Component {
   }
   updateLiaison(value){
     const { dispatch } = this.props
-    console.log(value);
     dispatch(astronomerChange(value));
   }
   loggingOut() {
@@ -79,14 +78,19 @@ class Navigation extends React.Component {
     return(
       <div>
         <ul className="nav">
-          <li className={filters.currentPage === HOME_PAGE ? "active" : ""} ><Link to="/">Home</Link></li>
-          <li className={filters.currentPage === TECHNICAL_PAGE ? "active" : ""} ><Link to="/techreview">Tech Review</Link></li>
-          <li className={filters.currentPage === STATISTICS_PAGE ? "active" : ""} ><Link to="/statistics">Statistics</Link></li>
-          <li className={filters.currentPage === TAC_PAGE ? "active" : ""} ><Link to="/timeallocation">Time Allocation</Link></li>
-          <li className={filters.currentPage === DOCUMENTATION_PAGE ? "active" : ""} ><Link to="/documentation">Documentation</Link></li>
-          <li className={filters.currentPage === ADMIN_PAGE ? "active" : ""}><Link to="/admin">Admin</Link></li>
+          <li className={filters.currentPage === HOME_PAGE ? "active" : ""} ><Link to="/">HOME</Link></li>
+          <li className={filters.currentPage === TECHNICAL_PAGE ? "active" : ""} ><Link to="/techreview">TECH REVIEW</Link></li>
+          <li className={filters.currentPage === STATISTICS_PAGE ? "active" : ""} ><Link to="/statistics">STATISTICS</Link></li>
+          <li className={filters.currentPage === TAC_PAGE ? "active" : ""} ><Link to="/timeallocation">TIME ALLOCATION</Link></li>
+          <li className={filters.currentPage === DOCUMENTATION_PAGE ? "active" : ""} ><Link to="/documentation">DOCUMENTATION</Link></li>
+          <li className={filters.currentPage === ADMIN_PAGE ? "active" : ""}><Link to="/admin">ADMIN</Link></li>
           <button className="logoutbtn"
           onClick={ this.loggingOut.bind(this) }> Logout</button>
+        </ul>
+        <ul className="bigNav crop-height">
+           <div className='text'>
+           <h1>{filters.currentPage} </h1>
+           </div>
         </ul>
         <div className="selector-div">
         <DropDown

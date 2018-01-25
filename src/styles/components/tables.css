@@ -91,28 +91,3 @@ td, th {
 .width-400{
 	width: 400px;
 }
-
-
-
-
-.SATable {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-
-}
-
-.SATable td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-.SATable tr:nth-child(even) {
-  background-color: #dddddd;
-}
-
-.SATable tr, td, textarea{
-	width: 40em;
-	height: 5em;
-}
