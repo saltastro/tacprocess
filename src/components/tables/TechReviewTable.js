@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { canDo, astronomerAssigned, getLiaisonUsername } from '../../util/index';
+import { canDo, astronomerAssigned } from '../../util/index';
 import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
-import { getAstronomersList } from "../../util/filters";
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 
@@ -11,9 +10,8 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
   if (proposals.length === 0 ){
     return (<br />)
   }
-  const AstronomersList = ["Not Assigned"].concat(getAstronomersList(SALTAstronomers))
 
-    // compare astronomers by their first name
+  // compare astronomers by their first name
     const compareByFirstName = (a, b) => {
         const name1 = a.name.toUpperCase();
         const name2 = b.name.toUpperCase();

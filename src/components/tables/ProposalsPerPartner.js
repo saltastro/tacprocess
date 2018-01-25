@@ -2,7 +2,7 @@ import React from "react";
 import propTypes from "prop-types";
 import _ from "lodash";
 import { illegalAllocation } from "../../util/allocation";
-import { ALL_PARTNER, goodTime, badTime } from "../../types"
+import { goodTime, badTime } from "../../types"
 
 
 const TimeAllocationInput = ({onChange, proposal, priority, partner}) => {
