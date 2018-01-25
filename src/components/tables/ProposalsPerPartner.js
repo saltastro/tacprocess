@@ -24,12 +24,6 @@ const TimeAllocationInput = ({onChange, proposal, priority, partner}) => {
 
 const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentChange, allocationChange, canAllocate, canComment, submitted}) => {
   const arrayOfProposals = proposals || []
-  if (partner === ALL_PARTNER){
-    return <br />
-  }
-  if (arrayOfProposals.length === 0){
-    return <br />
-  }
   return(
     <div className="scroldiv">
       <h1>{partner}</h1>
