@@ -215,7 +215,6 @@ ProposalsPerPartner.propTypes = {
   allocationChange: propTypes.func.isRequired,
   tacCommentChange: propTypes.func.isRequired,
   submitForParner: propTypes.func.isRequired,
-  exportTableToCSV: propTypes.func.isRequired,
   canAllocate: propTypes.bool,
   canComment: propTypes.bool,
   submited: propTypes.object,
