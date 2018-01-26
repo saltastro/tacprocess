@@ -13,7 +13,6 @@ import { startSubmition, passSubmition, failSubmition } from "../../actions/time
 import { ALL_PARTNER } from "../../types";
 import { getPartnerList, listForDropdown } from "../../util/filters";
 
-
 class TimeAllocationPage extends React.Component {
   constructor(props) {
     super(props);
@@ -60,70 +59,6 @@ class TimeAllocationPage extends React.Component {
     })
     data.dispatch(updateProposals(updatedProposals))
   }
-  /*
-  * The downloadCSV() function takes CSV data and
-  * generate download link to download HTML table data in a CSV file
-  */
-
-  downloadCSV = (csv, filename) => {
-      var csvFile;
-      var downloadLink;
-
-      // CSV file
-      csvFile = new Blob([csv], {type: "text/csv"});
-
-      // Download link
-      downloadLink = document.createElement("a");
-
-      // File name
-      downloadLink.download = filename;
-
-      // Create a link to the file
-      downloadLink.href = window.URL.createObjectURL(csvFile);
-
-      // Hide download link
-      downloadLink.style.display = "none";
-
-      // Add the link to DOM
-      document.body.appendChild(downloadLink);
-
-      // Click download link
-      downloadLink.click();
-  }
-
-  /*
-  * The exportTableToCSV() function creates CSV data from table HTML and
-  * download CSV data as a file by using the downloadCSV() function
-  */
-
-  exportTableToCSV = (filename) => {
-      var csv = [];
-      var rows = document.querySelectorAll("#propPerPartner tr");
-
-      for (var i = 0; i < rows.length; i++) {
-          var row = [];
-          var cols = rows[i].querySelectorAll("th, #propCode, #propTitle, #propAbstract, #propPI, #propSemester,"
-              +"#propComment, #propMinTime, #propRequestTime, #propCanAllocateP0, #propCanAllocateP1, #propCanAllocateP2,"
-              +"#propCanAllocateP3, #propCanAllocateP4, #propTotalP0P3, #propBoolean, #propTranparency, #propMaxSeeing, #propEmpty, #propTechReport ");
-
-          for (var j = 0; j < cols.length; j++){
-            if(cols[j].nodeName === "TEXTAREA"){
-              let cleanText = cols[j].value;
-              cleanText = cleanText.replace(/(,|\n)/gm, " ");
-              row.push(cleanText);
-            }else {
-              let cleanText = cols[j].innerText;
-              cleanText = cleanText.replace(/(,|\n)/gm, " ");
-              row.push(cleanText);
-            }
-          }
-
-          csv.push(row.join(","));
-        }
-
-      // Download CSV file
-      this.downloadCSV(csv.join("\n"), filename);
-  }
 
   render() {
 
@@ -154,13 +89,11 @@ class TimeAllocationPage extends React.Component {
                   submitForParner={ this.submitProposals.bind(this) }
                   canAllocate = { canUserWriteAllocations(user.user, part.value) || false }
                   canComment = { canUserWriteTechComments(user.user, part.value) || false }
-                  exportTableToCSV = { this.exportTableToCSV.bind(this) }
                   submited = { tac }
               />
             </div>
         ))
        }
-       <button onClick={e => this.exportTableToCSV('TACData.csv')}>Export HTML Table To CSV File</button>
       </div>
       );
     }

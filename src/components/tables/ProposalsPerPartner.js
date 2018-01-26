@@ -1,9 +1,9 @@
 import React from "react";
 import propTypes from "prop-types";
+import {CSVLink} from 'react-csv';
 import _ from "lodash";
 import { illegalAllocation } from "../../util/allocation";
 import { ALL_PARTNER, goodTime, badTime } from "../../types"
-
 
 const TimeAllocationInput = ({onChange, proposal, priority, partner}) => {
     const sty = illegalAllocation(proposal, priority, partner) ? badTime : goodTime;
@@ -21,6 +21,26 @@ const TimeAllocationInput = ({onChange, proposal, priority, partner}) => {
     );
 };
 
+/*
+* This method setup the csv file content as it appears in the time allocation page table.
+* and returns that data to use in the react-csv Component for downloading.
+*/
+const CSVData = (proposals, partner) => {
+  let tableDataHeaders = [
+    "Code", "Title", "Abstract", "PI", "Semester", "TAC comment", "Minimum useful time",
+    "Total Requested Time", "P0", "P1", "P2", "P3", "Total P0-P3", "P4",
+    "Act on Alert", "Transparency", "Max seeing", "Hover Info", "Tech Report"
+  ];
+  return [
+    tableDataHeaders,
+    ...proposals.map(p => [
+      p.proposalCode, p.title, p.abstract, p.pi, "2017-1", p.tacComment[partner].comment, p.minTime, p.totalRequestedTime,
+      p.allocatedTime[partner]["p0"], p.allocatedTime[partner]["p1"], p.allocatedTime[partner]["p2"], p.allocatedTime[partner]["p3"],
+      (p.allocatedTime[partner]["p0"] + p.allocatedTime[partner]["p1"] + p.allocatedTime[partner]["p2"] + p.allocatedTime[partner]["p3"]),
+      p.allocatedTime[partner]["p4"], false, p.transparency, p.maxSeeing, "", p.techReport
+    ])
+  ];
+}
 
 const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationChange, canAllocate, canComment, submited) => {
   const arrayOfProposals = proposals.proposals || []
@@ -31,6 +51,10 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
   if (arrayOfProposals.length === 0){
     return <br />
   }
+
+  // Contains the whole content of the csv file to download per table partner.
+  let csvData = CSVData(proposals.proposals, proposals.partner);
+
   return(
     <div className="scroldiv">
       <h1>{part}</h1>
@@ -163,6 +187,7 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
 
         </tbody>
       </table>
+      <CSVLink data={csvData} >Download CSV</CSVLink>
 
       {
 
@@ -190,7 +215,6 @@ ProposalsPerPartner.propTypes = {
   allocationChange: propTypes.func.isRequired,
   tacCommentChange: propTypes.func.isRequired,
   submitForParner: propTypes.func.isRequired,
-  exportTableToCSV: propTypes.func.isRequired,
   canAllocate: propTypes.bool,
   canComment: propTypes.bool,
   submited: propTypes.object,
