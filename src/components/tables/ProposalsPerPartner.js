@@ -187,7 +187,7 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
 
         </tbody>
       </table>
-      <CSVLink data={csvData} >Download me</CSVLink>
+      <CSVLink data={csvData} >Download CSV</CSVLink>
 
       {
 
