@@ -1,21 +1,18 @@
 import React from 'react';
-import { canDo, astronomerAssigned } from '../../util/index';
-import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
-
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
-import { canDo, astronomerAssigned, getLiaisonUsername } from '../../util/index';
+import { canDo, astronomerAssigned, /* getLiaisonUsername */} from '../../util/index';
 import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
-import { reduceProposalsPerAstronomer, /* getAstronomersList */ } from "../../util/filters";
+// import { reduceProposalsPerAstronomer, /* getAstronomersList */ } from "../../util/filters";
 
 
-export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer}) => {
+export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer, proposalsFilter}) => {
   if (proposals.length === 0 ){
     return (<br />)
   }
 //  const reducedProposals = proposalsFilter === "All" ? proposals : reduceProposalsPerAstronomer(proposals, proposalsFilter)
-  const saUser = proposalsFilter === "All" || proposalsFilter === "Not Assigned" || proposalsFilter === "Assigned"? proposalsFilter : getLiaisonUsername(proposalsFilter, SALTAstronomers)
-  const reducedProposals = reduceProposalsPerAstronomer(proposals, saUser)
+//  const saUser = proposalsFilter === "All" || proposalsFilter === "Not Assigned" || proposalsFilter === "Assigned"? proposalsFilter : getLiaisonUsername(proposalsFilter, SALTAstronomers)
+  // const reducedProposals = reduceProposalsPerAstronomer(proposals, saUser)
   // const AstronomersList = ["Not Assigned"].concat(getAstronomersList(SALTAstronomers))
 
 
@@ -59,7 +56,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
                    <td>{p.pi}</td>
                    <td>
                     <textarea
-                      value={ p.techReport }
+                      value={ p.techReport || "" }
                       onChange={ e =>{
                           techReportChange(p.proposalCode, e.target.value)
                         }

@@ -105,7 +105,22 @@ class TimeAllocationPage extends React.Component {
         downloadLink = document.createElement("a");
       // Download CSV file
       this.downloadCSV(csv.join("\n"), filename);
+      // File name
+      downloadLink.download = filename;
+
+      // Create a link to the file
+      downloadLink.href = window.URL.createObjectURL(csvFile);
+
+      // Hide download link
+      downloadLink.style.display = "none";
+
+      // Add the link to DOM
+      document.body.appendChild(downloadLink);
+
+      // Click download link
+      downloadLink.click();
   }
+
 
   updateFromCSV = (data, proposals, partner) => {
     //throw new Error("this error");
@@ -127,21 +142,6 @@ class TimeAllocationPage extends React.Component {
     dispatch(updateProposals(updatedProposals));
   };
 
-        // File name
-        downloadLink.download = filename;
-
-        // Create a link to the file
-        downloadLink.href = window.URL.createObjectURL(csvFile);
-
-        // Hide download link
-        downloadLink.style.display = "none";
-
-        // Add the link to DOM
-        document.body.appendChild(downloadLink);
-
-        // Click download link
-        downloadLink.click();
-    }
 
     /*
     * The exportTableToCSV() function creates CSV data from table HTML and

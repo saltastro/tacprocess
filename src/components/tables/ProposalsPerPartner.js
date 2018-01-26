@@ -181,7 +181,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
       <CSVReader
         cssClass="csv-input"
         label="Select CSV"
-        onFileLoaded={e => proposals.updateFromCSV(e, arrayOfProposals, part)}
+        onFileLoaded={e => proposals.updateFromCSV(e, arrayOfProposals, partner)}
         onError={handleDarkSideForce}
       />
     </div>
