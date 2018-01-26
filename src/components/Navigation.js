@@ -1,14 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom"
 import { connect } from "react-redux";
-import DropDown from '../components/tables/DropDown'
 import * as actions from "../actions/auth";
-import { partnerChange, semesterChange, astronomerChange } from "../actions/filtersActions";
 import { fetchStatData } from "../actions/statisticsActions";
 import  fetchProposals  from "../actions/proposalsActions";
 import  fetchTargets  from "../actions/targetsActions";
 import { storePartnerAllocations  } from "../actions/timeAllocationActions";
-import { semestersArray, getPartnerList, getAstronomersList } from "../util/filters";
 import {
     HOME_PAGE,
     STATISTICS_PAGE,
@@ -46,35 +43,14 @@ class Navigation extends React.Component {
       selected.selectedPartner
     ))
   }
-  updateSemester(value){
-    const {dispatch, filters} = this.props
-    dispatch(fetchProposals( value, filters.selectedPartner))
-    dispatch(fetchTargets(value, filters.selectedPartner))
-    dispatch(storePartnerAllocations(value, filters.selectedPartner))
-    dispatch(semesterChange(value))
-  }
-  updatePartner(value){
-    const { dispatch, filters } = this.props
-    dispatch(fetchProposals( filters.selectedSemester, value))
-    dispatch(fetchTargets(filters.selectedSemester, value))
-    dispatch(storePartnerAllocations(filters.selectedSemester, value))
-    dispatch(partnerChange(value))
-  }
-  updateLiaison(value){
-    const { dispatch } = this.props
-    console.log(value);
-    dispatch(astronomerChange(value));
-  }
+
   loggingOut() {
     const { dispatch } = this.props
     dispatch(actions.logout())
   }
 
   render() {
-    const { filters, user, SALTAstronomers  } = this.props
-    const { selectedPartner, selectedSemester, selectedLiaison } = filters
-    const partnerList = getPartnerList(user.roles)
-    const astronomersList = ["All", "Assigned"].concat(getAstronomersList(SALTAstronomers)).concat(["Not Assigned"])
+    const { filters  } = this.props
 
     return(
       <div>
@@ -89,35 +65,8 @@ class Navigation extends React.Component {
           onClick={ this.loggingOut.bind(this) }> Logout</button>
         </ul>
         <ul className="bigNav">
-           <h1>Time Allocation Commitee </h1>
+           <h1>{ filters.currentPage }</h1>
         </ul>
-        <div className="selector-div">
-        <DropDown
-              className={"left"}
-              name="Semester"
-              listToDisplay={semestersArray()}
-              OnChange={this.updateSemester.bind(this)}
-              value={selectedSemester}/>
-
-          {filters.currentPage !== TECHNICAL_PAGE ?
-            <div className="left-2">
-              <DropDown
-                  name="Partner"
-                  listToDisplay={partnerList}
-                  OnChange={this.updatePartner.bind(this)}
-                  value={selectedPartner}/>
-            </div>
-               :
-               <div className="left-2">
-                <DropDown
-                    className={"left-2"}
-                    name="SALT Astronomer"
-                    listToDisplay={astronomersList}
-                    OnChange={this.updateLiaison.bind(this)}
-                    value={selectedLiaison}/>
-                </div>}
-        </div>
-
       </div>
       );
     }
