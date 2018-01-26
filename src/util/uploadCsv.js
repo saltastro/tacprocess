@@ -1,5 +1,4 @@
 export const checkColumns = columnArray => {
-  let allIncluded = true
   const p0 = (columnArray || [] ).some( p => p === "P0" || p === "p0")
   const p1 = (columnArray || [] ).some( p => p === "P1" || p === "p1")
   const p2 = (columnArray || [] ).some( p => p === "P2" || p === "p2")
@@ -38,7 +37,6 @@ export const getIndexOfColumns = columnArray => {
 export const updateProposalFromCSV = (proposals, partner, rowValues, valueIndex) => {
 
   return (proposals || []).map( p => {
-    console.log(rowValues[valueIndex.proposalCode] );
     if (p.proposalCode === rowValues[valueIndex.proposalCode] ){
       p.allocatedTime[partner] = {
         p0: rowValues[valueIndex.P0],

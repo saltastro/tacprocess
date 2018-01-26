@@ -9,31 +9,36 @@
     text-size: 12px;
     color:#000000;
     margin: 5px 200px 0px 200px;
+
 }
 .bigNav {
     list-style-type: none;
     overflow: hidden;
-    margin: 5px 0px 0px 0px;
     background-image:url("pictures/BannerImage.jpg");
     background-repeat: no-repeat;
-    background-position: right top;
     background-attachment: fixed;
     background-size:cover;
     background-origin: content-box;
+
     display: block;
-    font-weight: 300;
-    font-size: 2.1875rem;
+    font-style: normal;
     height:185px;
     color: white;
     border-width:300px;
     border-left: 6px;
+    z-index:1;
+
+
+}
+.bigNav h1{
+    margin:0;
+    font-size: 2.1875rem;
+    font-weight:100;
+    margin: 50px 0px 0px 175px;
     font-family: "Open Sans","Helvetica Neue","Helvetica",Arial,sans-serif;
 }
-.bigNav > h1{
-  text-align: bottom;
-  text-size: 200%;
-  margin: 25px 50px 75px 100px
-}
+
+
 
 li {
     float: left;

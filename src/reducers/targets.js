@@ -24,6 +24,7 @@ export default function targets(state = initialState, action = {}) {
           ...state,
           fetching: false,
           fetched: false,
+          targets: [],
           errors: "Fail to get targets from api" }
       }
       case FETCH_TARGETS_PASS: {

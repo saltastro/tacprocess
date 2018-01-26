@@ -1,10 +1,9 @@
 import React from 'react';
-
-import { canDo, astronomerAssigned, getLiaisonUsername } from '../../util/index';
-import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
-import { reduceProposalsPerAstronomer, getAstronomersList } from "../../util/filters";
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
+import { canDo, astronomerAssigned, getLiaisonUsername } from '../../util/index';
+import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
+import { reduceProposalsPerAstronomer, /* getAstronomersList */ } from "../../util/filters";
 
 
 export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer, proposalsFilter,   technicalCommentChange}) => {
@@ -14,7 +13,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
 //  const reducedProposals = proposalsFilter === "All" ? proposals : reduceProposalsPerAstronomer(proposals, proposalsFilter)
   const saUser = proposalsFilter === "All" || proposalsFilter === "Not Assigned" || proposalsFilter === "Assigned"? proposalsFilter : getLiaisonUsername(proposalsFilter, SALTAstronomers)
   const reducedProposals = reduceProposalsPerAstronomer(proposals, saUser)
-  const AstronomersList = ["Not Assigned"].concat(getAstronomersList(SALTAstronomers))
+  // const AstronomersList = ["Not Assigned"].concat(getAstronomersList(SALTAstronomers))
 
     // compare astronomers by their first name
     const compareByFirstName = (a, b) => {

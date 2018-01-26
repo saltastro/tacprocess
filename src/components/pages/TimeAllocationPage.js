@@ -127,6 +127,8 @@ class TimeAllocationPage extends React.Component {
   }
 
   updateFromCSV = (data, proposals, partner) => {
+    //throw new Error("this error");
+    console.log(data);
     const { dispatch } = this.props
     let allColumns = false;
     let columnIndex = {};
