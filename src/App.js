@@ -13,6 +13,7 @@ import AdminPage from "./components/pages/AdminPage";
 import UserRoute from "./components/routes/UserRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 import Navigation from "./components/Navigation";
+import Filters from "./components/Filters";
 
 const App = ({ location, isAuthenticated }) => (
     <div className="root-main">
@@ -27,6 +28,7 @@ const App = ({ location, isAuthenticated }) => (
         </div>
 
       )}
+      <Filters />
       <Route location={location} path="/" exact component={HomePage} />
       <GuestRoute location={location} path="/login" exact component={LoginPage} />
       <UserRoute location={location} path="/statistics" exact component={StatisticsPage} />
