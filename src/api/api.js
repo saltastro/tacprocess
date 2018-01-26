@@ -1,7 +1,8 @@
 import axios from "axios";
 import { API_BASE_URL } from '../types';
 
-export const jsonClient = () => axios.create({
+export const jsonClient = (responseType='json') => axios.create({
+    responseType,
   baseURL: API_BASE_URL,
   "routes": {
     "cors": true

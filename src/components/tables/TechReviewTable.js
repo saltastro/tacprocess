@@ -1,4 +1,7 @@
 import React from 'react';
+import { canDo, astronomerAssigned } from '../../util/index';
+import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
+
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 import { canDo, astronomerAssigned, getLiaisonUsername } from '../../util/index';
@@ -6,7 +9,7 @@ import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
 import { reduceProposalsPerAstronomer, /* getAstronomersList */ } from "../../util/filters";
 
 
-export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer, proposalsFilter,   technicalCommentChange}) => {
+export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer}) => {
   if (proposals.length === 0 ){
     return (<br />)
   }
@@ -15,7 +18,8 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
   const reducedProposals = reduceProposalsPerAstronomer(proposals, saUser)
   // const AstronomersList = ["Not Assigned"].concat(getAstronomersList(SALTAstronomers))
 
-    // compare astronomers by their first name
+
+  // compare astronomers by their first name
     const compareByFirstName = (a, b) => {
         const name1 = a.name.toUpperCase();
         const name2 = b.name.toUpperCase();
@@ -46,7 +50,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
         </thead>
         <tbody>
           {
-             reducedProposals.map( p => {
+             proposals.map( p => {
                return(
                  <tr key={p.proposalId}>
                    <td>{p.proposalId}</td>
