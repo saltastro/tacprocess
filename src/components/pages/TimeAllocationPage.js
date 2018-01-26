@@ -13,7 +13,6 @@ import { startSubmition, passSubmition, failSubmition } from "../../actions/time
 import { ALL_PARTNER } from "../../types";
 import { getPartnerList, listForDropdown } from "../../util/filters";
 
-
 class TimeAllocationPage extends React.Component {
   constructor(props) {
     super(props);
