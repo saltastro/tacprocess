@@ -1,9 +1,9 @@
 import React from "react";
 import propTypes from "prop-types";
+import {CSVLink} from 'react-csv';
 import _ from "lodash";
 import { illegalAllocation } from "../../util/allocation";
-import { goodTime, badTime } from "../../types"
-
+import { ALL_PARTNER, goodTime, badTime } from "../../types"
 
 const TimeAllocationInput = ({onChange, proposal, priority, partner}) => {
     const sty = illegalAllocation(proposal, priority, partner) ? badTime : goodTime;
@@ -21,12 +21,43 @@ const TimeAllocationInput = ({onChange, proposal, priority, partner}) => {
     );
 };
 
+/*
+* This method setup the csv file content as it appears in the time allocation page table.
+* and returns that data to use in the react-csv Component for downloading.
+*/
+const CSVData = (proposals, partner) => {
+  let tableDataHeaders = [
+    "Code", "Title", "Abstract", "PI", "Semester", "TAC comment", "Minimum useful time",
+    "Total Requested Time", "P0", "P1", "P2", "P3", "Total P0-P3", "P4",
+    "Act on Alert", "Transparency", "Max seeing", "Hover Info", "Tech Report"
+  ];
+  return [
+    tableDataHeaders,
+    ...proposals.map(p => [
+      p.proposalCode, p.title, p.abstract, p.pi, "2017-1", p.tacComment[partner].comment, p.minTime, p.totalRequestedTime,
+      p.allocatedTime[partner]["p0"], p.allocatedTime[partner]["p1"], p.allocatedTime[partner]["p2"], p.allocatedTime[partner]["p3"],
+      (p.allocatedTime[partner]["p0"] + p.allocatedTime[partner]["p1"] + p.allocatedTime[partner]["p2"] + p.allocatedTime[partner]["p3"]),
+      p.allocatedTime[partner]["p4"], false, p.transparency, p.maxSeeing, "", p.techReport
+    ])
+  ];
+}
 
-const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentChange, allocationChange, canAllocate, canComment, submitted}) => {
-  const arrayOfProposals = proposals || []
+const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationChange, canAllocate, canComment, submited) => {
+  const arrayOfProposals = proposals.proposals || []
+  const part = proposals.partner
+  if (part === ALL_PARTNER){
+    return <br />
+  }
+  if (arrayOfProposals.length === 0){
+    return <br />
+  }
+
+  // Contains the whole content of the csv file to download per table partner.
+  let csvData = CSVData(proposals.proposals, proposals.partner);
+
   return(
     <div className="scroldiv">
-      <h1>{partner}</h1>
+      <h1>{part}</h1>
       <table id={"propPerPartner"}>
         <thead>
           <tr>
@@ -64,85 +95,85 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
                 <td id={"propPI"}>{ p.pi }</td>
                 <td id={"propSemester"}>2017-1</td>
                 <td id={"propComment"}>
-                  { canAllocate ?
+                  { proposals.canAllocate ?
                       <textarea
                         id={ p.proposalCode }
                         name="tac-comment"
-                        value={ p.tacComment[partner].comment }
+                        value={ p.tacComment[part].comment }
                         className="table-height-fixed width-400"
                         onChange={ e =>
-                          tacCommentChange(e, p.proposalCode, partner) }
+                          proposals.tacCommentChange(e, p.proposalCode, part) }
                       /> : <div className="table-height-fixed width-400" >
-                                      {  p.tacComment[partner].comment }
+                                      {  p.tacComment[part].comment }
                             </div>
                   }
                 </td>
                 <td><div id={"propMinTime"}className="table-height width-100" >{ p.minTime }</div></td>
                 <td><div id={"propRequestTime"} className="table-height width-100" >{ p.totalRequestedTime }</div></td>
                 <td id={"propCanAllocateP0"}>
-                    { canAllocate ?
+                    { proposals.canAllocate ?
                           <TimeAllocationInput
 
                               onChange={ e =>
-                                  allocationChange(e, p.proposalCode, 'p0', partner)
+                                  proposals.allocationChange(e, p.proposalCode, 'p0', part)
                               }
                               proposal={p}
-                              partner={partner}
-                              priority="p0"/> : <div className="width-100">{ p.allocatedTime[partner]["p0"] }</div>
+                              partner={part}
+                              priority="p0"/> : <div className="width-100">{ p.allocatedTime[part]["p0"] }</div>
                     }
                 </td>
                 <td id={"propCanAllocateP1"}>
-                { canAllocate ?
+                { proposals.canAllocate ?
                       <TimeAllocationInput
 
                           onChange={ e =>
-                              allocationChange(e, p.proposalCode, 'p1', partner)
+                              proposals.allocationChange(e, p.proposalCode, 'p1', part)
                           }
                           proposal={p}
-                          partner={partner}
-                          priority="p1"/> : <div className="width-100">{ p.allocatedTime[partner]["p1"] }</div>
+                          partner={part}
+                          priority="p1"/> : <div className="width-100">{ p.allocatedTime[part]["p1"] }</div>
                 }
                 </td>
                 <td id={"propCanAllocateP2"}>
-                { canAllocate ?
+                { proposals.canAllocate ?
                       <TimeAllocationInput
 
                           onChange={ e =>
-                              allocationChange(e, p.proposalCode, 'p2', partner)
+                              proposals.allocationChange(e, p.proposalCode, 'p2', part)
                           }
                           proposal={p}
-                          partner={partner}
-                          priority="p2"/> : <div className="width-100">{ p.allocatedTime[partner]["p2"] }</div>
+                          partner={part}
+                          priority="p2"/> : <div className="width-100">{ p.allocatedTime[part]["p2"] }</div>
                 }
                 </td>
                 <td id={"propCanAllocateP3"}>
-                { canAllocate ?
+                { proposals.canAllocate ?
                       <TimeAllocationInput
 
                           onChange={ e =>
-                              allocationChange(e, p.proposalCode, 'p3', partner)
+                              proposals.allocationChange(e, p.proposalCode, 'p3', part)
                           }
                           proposal={p}
-                          partner={partner}
-                          priority="p3"/> : <div className="width-100">{ p.allocatedTime[partner]["p3"] }</div>
+                          partner={part}
+                          priority="p3"/> : <div className="width-100">{ p.allocatedTime[part]["p3"] }</div>
                 }
                 </td>
                 <td><div id={"propTotalP0P3"} className="table-height width-100" >{
-                    parseFloat(p.allocatedTime[partner]["p0"] || 0 ) +
-                    parseFloat(p.allocatedTime[partner]["p1"] || 0 ) +
-                    parseFloat(p.allocatedTime[partner]["p2"] || 0 ) +
-                    parseFloat(p.allocatedTime[partner]["p3"] || 0 )
+                    parseFloat(p.allocatedTime[part]["p0"] || 0 ) +
+                    parseFloat(p.allocatedTime[part]["p1"] || 0 ) +
+                    parseFloat(p.allocatedTime[part]["p2"] || 0 ) +
+                    parseFloat(p.allocatedTime[part]["p3"] || 0 )
                 }</div></td>
                 <td id={"propCanAllocateP4"}>
-                { canAllocate ?
+                { proposals.canAllocate ?
                       <TimeAllocationInput
 
                           onChange={ e =>
-                              allocationChange(e, p.proposalCode, 'p4', partner)
+                              proposals.allocationChange(e, p.proposalCode, 'p4', part)
                           }
                           proposal={p}
-                          partner={partner}
-                          priority="p4"/> : <div className="width-100">{ p.allocatedTime[partner]["p4"] }</div>
+                          partner={part}
+                          priority="p4"/> : <div className="width-100">{ p.allocatedTime[part]["p4"] }</div>
                 }
                 </td>
                 <td><div id={"propBoolean"} className="table-height width-100" >false</div></td>
@@ -156,22 +187,23 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 
         </tbody>
       </table>
+      <CSVLink data={csvData} >Download CSV</CSVLink>
 
       {
 
-        submitted.submitted ?
+        proposals.submited.submited ?
           <div><br />
-            {!!submitted.partner && submitted.partner === partner ? <div className="pass-div"> <h2> Submitted</h2> </div> :  <br /> }
-            <button className="btn-success" onClick={ e => submitForPartner(e, partner) }>Submit {partner}</button>
+            {!!proposals.submited.partner && proposals.submited.partner === part ? <div  className="pass-div"> <h2> Submitited</h2> </div> :  <br /> }
+            <button className="btn-success" onClick={ e => proposals.submitForParner(e, part) }>Submit {part}</button>
           </div> :
-          submitted.partner === partner ?
+          proposals.submited.partner === part ?
           <div className="fail-div">
             <h2> Fail to submit</h2>
-            <h3>please make sure that all allocation for partner "{submitted.partner}" are correct <br />or you do not have tailing " \ " on your comment</h3>
-            <button className="btn-fail" onClick={ e => submitForPartner(e, partner) }>Submit {partner}</button>
+            <h3>please make sure that all allocation for partner "{proposals.submited.partner}" are correct <br />or you do not have tailing " \ " on your comment</h3>
+            <button className="btn-fail" onClick={ e => proposals.submitForParner(e, part) }>Submit {part}</button>
           </div> :
           <div><br />
-            <button className="btn-success" onClick={ e => submitForPartner(e, partner) }>Submit {partner}</button>
+            <button className="btn-success" onClick={ e => proposals.submitForParner(e, part) }>Submit {part}</button>
           </div>
       }
     </div>
@@ -182,11 +214,10 @@ ProposalsPerPartner.propTypes = {
   partner: propTypes.string.isRequired,
   allocationChange: propTypes.func.isRequired,
   tacCommentChange: propTypes.func.isRequired,
-  submitForPartner: propTypes.func.isRequired,
-  exportTableToCSV: propTypes.func.isRequired,
+  submitForParner: propTypes.func.isRequired,
   canAllocate: propTypes.bool,
   canComment: propTypes.bool,
-  submitted: propTypes.object,
+  submited: propTypes.object,
 }
 
 export default ProposalsPerPartner;
