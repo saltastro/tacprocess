@@ -2,6 +2,7 @@ import React from "react";
 import propTypes from "prop-types";
 import {CSVLink} from 'react-csv';
 import _ from "lodash";
+import CSVReader from 'react-csv-reader'
 import { illegalAllocation } from "../../util/allocation";
 import { ALL_PARTNER, goodTime, badTime } from "../../types"
 
@@ -206,6 +207,12 @@ const ProposalsPerPartner = (proposals, partner, tacCommentChange, allocationCha
             <button className="btn-success" onClick={ e => proposals.submitForParner(e, part) }>Submit {part}</button>
           </div>
       }
+      <CSVReader
+        cssClass="csv-input"
+        label="Select CSV"
+        onFileLoaded={e => proposals.updateFromCSV(e, arrayOfProposals, part)}
+        onError={handleDarkSideForce}
+      />
     </div>
   )}
 
@@ -214,7 +221,7 @@ ProposalsPerPartner.propTypes = {
   partner: propTypes.string.isRequired,
   allocationChange: propTypes.func.isRequired,
   tacCommentChange: propTypes.func.isRequired,
-  submitForParner: propTypes.func.isRequired,
+  updateFromCSV: propTypes.func.isRequired,
   canAllocate: propTypes.bool,
   canComment: propTypes.bool,
   submited: propTypes.object,

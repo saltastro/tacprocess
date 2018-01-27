@@ -2206,7 +2206,7 @@ doctrine@^2.0.0:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-doctrine@^2.0.2, doctrine@^2.1.0:
+doctrine@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.1.0.tgz#5cd01fc101621b42c4cd7f5d1a66243716d3f39d"
   dependencies:
@@ -2564,12 +2564,12 @@ eslint-plugin-react@7.4.0:
     prop-types "^15.5.10"
 
 eslint-plugin-react@^7.5.1:
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.6.0.tgz#351651188c74c5b2fecc2717e3936b7207baa728"
+  version "7.5.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.5.1.tgz#52e56e8d80c810de158859ef07b880d2f56ee30b"
   dependencies:
-    doctrine "^2.0.2"
+    doctrine "^2.0.0"
     has "^1.0.1"
-    jsx-ast-utils "^2.0.1"
+    jsx-ast-utils "^2.0.0"
     prop-types "^15.6.0"
 
 eslint-restricted-globals@^0.1.1:
@@ -3193,8 +3193,8 @@ global-prefix@^1.0.1:
     which "^1.2.14"
 
 globals@^11.0.1:
-  version "11.2.0"
-  resolved "https://registry.yarnpkg.com/globals/-/globals-11.2.0.tgz#aa2ece052a787563ba70a3dcd9dc2eb8a9a0488c"
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/globals/-/globals-11.1.0.tgz#632644457f5f0e3ae711807183700ebf2e4633e4"
 
 globals@^9.17.0, globals@^9.18.0:
   version "9.18.0"
@@ -4252,7 +4252,7 @@ jsx-ast-utils@^1.4.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-1.4.1.tgz#3867213e8dd79bf1e8f2300c0cfc1efb182c0df1"
 
-jsx-ast-utils@^2.0.0, jsx-ast-utils@^2.0.1:
+jsx-ast-utils@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-2.0.1.tgz#e801b1b39985e20fffc87b40e3748080e2dcac7f"
   dependencies:
@@ -4935,6 +4935,10 @@ pako@~0.2.0:
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/pako/-/pako-0.2.9.tgz#f3f7522f4ef782348da8161bad9ecfd51bf83a75"
 
+papaparse@^4.3.6:
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/papaparse/-/papaparse-4.3.6.tgz#9566eda0ecab13afcb740a62381c699f486cb145"
+
 param-case@2.1.x:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/param-case/-/param-case-2.1.1.tgz#df94fd8cf6531ecf75e6bef9a0858fbc72be2247"
@@ -5566,9 +5570,11 @@ react-apollo@^2.0.0:
     lodash.pick "^4.4.0"
     prop-types "^15.5.8"
 
-react-csv@^1.0.12:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/react-csv/-/react-csv-1.0.12.tgz#636087c6d5635463dd90d6a1c7c038811696169d"
+react-csv-reader@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/react-csv-reader/-/react-csv-reader-0.2.2.tgz#43c681d73bf0276839bdeb29bf41c6c8f318c347"
+  dependencies:
+    papaparse "^4.3.6"
 
 react-dev-utils@^4.2.1:
   version "4.2.1"

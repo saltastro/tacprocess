@@ -1,14 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom"
 import { connect } from "react-redux";
-import DropDown from '../components/tables/DropDown'
 import * as actions from "../actions/auth";
-import { partnerChange, semesterChange, astronomerChange } from "../actions/filtersActions";
 import { fetchStatData } from "../actions/statisticsActions";
 import  fetchProposals  from "../actions/proposalsActions";
 import  fetchTargets  from "../actions/targetsActions";
 import { storePartnerAllocations  } from "../actions/timeAllocationActions";
-import { semestersArray, getPartnerList, getAstronomersList } from "../util/filters";
 import {
     HOME_PAGE,
     STATISTICS_PAGE,
@@ -46,75 +43,30 @@ class Navigation extends React.Component {
       selected.selectedPartner
     ))
   }
-  updateSemester(value){
-    const {dispatch, filters} = this.props
-    dispatch(fetchProposals( value, filters.selectedPartner))
-    dispatch(fetchTargets(value, filters.selectedPartner))
-    dispatch(storePartnerAllocations(value, filters.selectedPartner))
-    dispatch(semesterChange(value))
-  }
-  updatePartner(value){
-    const { dispatch, filters } = this.props
-    dispatch(fetchProposals( filters.selectedSemester, value))
-    dispatch(fetchTargets(filters.selectedSemester, value))
-    dispatch(storePartnerAllocations(filters.selectedSemester, value))
-    dispatch(partnerChange(value))
-  }
-  updateLiaison(value){
-    const { dispatch } = this.props
-    console.log(value);
-    dispatch(astronomerChange(value));
-  }
+
   loggingOut() {
     const { dispatch } = this.props
     dispatch(actions.logout())
   }
 
   render() {
-    const { filters, user, SALTAstronomers  } = this.props
-    const { selectedPartner, selectedSemester, selectedLiaison } = filters
-    const partnerList = getPartnerList(user.roles)
-    const astronomersList = ["All", "Assigned"].concat(getAstronomersList(SALTAstronomers)).concat(["Not Assigned"])
+    const { filters  } = this.props
 
     return(
       <div>
         <ul className="nav">
-          <li className={filters.currentPage === HOME_PAGE ? "active" : ""} ><Link to="/">Home</Link></li>
-          <li className={filters.currentPage === TECHNICAL_PAGE ? "active" : ""} ><Link to="/techreview">Tech Review</Link></li>
-          <li className={filters.currentPage === STATISTICS_PAGE ? "active" : ""} ><Link to="/statistics">Statistics</Link></li>
-          <li className={filters.currentPage === TAC_PAGE ? "active" : ""} ><Link to="/timeallocation">Time Allocation</Link></li>
-          <li className={filters.currentPage === DOCUMENTATION_PAGE ? "active" : ""} ><Link to="/documentation">Documentation</Link></li>
-          <li className={filters.currentPage === ADMIN_PAGE ? "active" : ""}><Link to="/admin">Admin</Link></li>
+          <li className={filters.currentPage === HOME_PAGE ? "active" : ""} ><Link to="/">HOME</Link></li>
+          <li className={filters.currentPage === TECHNICAL_PAGE ? "active" : ""} ><Link to="/techreview">TECH REVIEW</Link></li>
+          <li className={filters.currentPage === STATISTICS_PAGE ? "active" : ""} ><Link to="/statistics">STATISTICS</Link></li>
+          <li className={filters.currentPage === TAC_PAGE ? "active" : ""} ><Link to="/timeallocation">TIME ALLOCATION</Link></li>
+          <li className={filters.currentPage === DOCUMENTATION_PAGE ? "active" : ""} ><Link to="/documentation">DOCUMENTATION</Link></li>
+          <li className={filters.currentPage === ADMIN_PAGE ? "active" : ""}><Link to="/admin">ADMIN</Link></li>
           <button className="logoutbtn"
           onClick={ this.loggingOut.bind(this) }> Logout</button>
         </ul>
-        <div className="selector-div">
-        <DropDown
-              className={"left"}
-              name="Semester"
-              listToDisplay={semestersArray()}
-              OnChange={this.updateSemester.bind(this)}
-              value={selectedSemester}/>
-
-          {filters.currentPage !== TECHNICAL_PAGE ?
-            <div className="left-2">
-              <DropDown
-                  name="Partner"
-                  listToDisplay={partnerList}
-                  OnChange={this.updatePartner.bind(this)}
-                  value={selectedPartner}/>
-            </div>
-               :
-               <div className="left-2">
-                <DropDown
-                    className={"left-2"}
-                    name="SALT Astronomer"
-                    listToDisplay={astronomersList}
-                    OnChange={this.updateLiaison.bind(this)}
-                    value={selectedLiaison}/>
-                </div>}
-        </div>
-
+        <ul className="bigNav">
+           <h1>{ filters.currentPage }</h1>
+        </ul>
       </div>
       );
     }

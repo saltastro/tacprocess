@@ -34,6 +34,7 @@ export default function proposals(state = initialState, action = {}) {
           ...state,
           fetching: false,
           fetched: false,
+          proposals: [], 
           errors: "Fail to get proposals from api" }
   }
   case FETCH_PROPOSALS_PASS: {
