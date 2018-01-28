@@ -127,22 +127,6 @@ class TimeAllocationPage extends React.Component {
     dispatch(updateProposals(updatedProposals));
   };
 
-        // File name
-        downloadLink.download = filename;
-
-        // Create a link to the file
-        downloadLink.href = window.URL.createObjectURL(csvFile);
-
-        // Hide download link
-        downloadLink.style.display = "none";
-
-        // Add the link to DOM
-        document.body.appendChild(downloadLink);
-
-        // Click download link
-        downloadLink.click();
-    }
-
     /*
     * The exportTableToCSV() function creates CSV data from table HTML and
     * download CSV data as a file by using the downloadCSV() function
@@ -209,7 +193,6 @@ class TimeAllocationPage extends React.Component {
                                                 availableTime={allocatedTime}
                                         />
                                         <ProposalsPerPartner
-
                                                 proposals={ppp[partner] || []}
                                                 partner={partner}
                                                 tacCommentChange={this.tacCommentChange.bind(this)}
@@ -217,6 +200,7 @@ class TimeAllocationPage extends React.Component {
                                                 submitForPartner={this.submitProposals.bind(this)}
                                                 canAllocate={canUserWriteAllocations(user.user, partner) || false}
                                                 canComment={canUserWriteTechComments(user.user, partner) || false}
+                                                updateFromCSV={this.updateFromCSV}
                                                 exportTableToCSV={this.exportTableToCSV.bind(this)}
                                                 submitted={tac}
                                         />
