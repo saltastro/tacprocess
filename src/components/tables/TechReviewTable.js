@@ -5,11 +5,12 @@ import { canDo, astronomerAssigned } from '../../util/index';
 import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
 
 
-export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer}) => {
+export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer, proposalsFilter}) => {
   if (proposals.length === 0 ){
     return (<br />)
   }
-  // compare astronomers by their first name
+
+    // compare astronomers by their first name
     const compareByFirstName = (a, b) => {
         const name1 = a.name.toUpperCase();
         const name2 = b.name.toUpperCase();
@@ -49,7 +50,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
                    <td>{p.pi}</td>
                    <td>
                     <textarea
-                      value={ p.techReport }
+                      value={ p.techReport || "" }
                       onChange={ e =>{
                           techReportChange(p.proposalCode, e.target.value)
                         }
