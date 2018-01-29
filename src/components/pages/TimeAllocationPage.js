@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import { connect } from "react-redux"
+import CSVReader from 'react-csv-reader'
 import AvailableTimePerPartnerTable from "../tables/AvailableTimePerPartnerTable";
 import ProposalsPerPartner from "../tables/ProposalsPerPartner";
 import {getQuaryToAddAllocation } from "../../util/allocation";
@@ -8,7 +9,7 @@ import { canUserWriteAllocations, canUserWriteTechComments }  from "../../util";
 import PartnerProposals  from "../../util/proposal";
 import { submitAllocations } from "../../api/graphQL";
 import { updateProposals } from "../../actions/proposalsActions";
-import { startSubmition, passSubmition, failSubmition } from "../../actions/timeAllocationActions";
+import { startSubmittingTimeAllocations, TimeAllocationSubmittedSuccessfully, failToSubmitTimeAllocations } from "../../actions/timeAllocationActions";
 import { ALL_PARTNER } from "../../types";
 import { getPartnerList, listForDropdown } from "../../util/filters";
 import { jsonClient } from '../../api/api';
@@ -17,24 +18,19 @@ import {updateTacComment, updateAllocatedTimePriority} from "../../actions/TimeA
 
 
 class TimeAllocationPage extends React.Component {
-	constructor(props) {
-		super(props);
-		
-		this.submitProposals = this.submitProposals.bind(this);
-	}
 	
-	submitProposals(event, partner) {
-		const {proposals, user, dispatch, filters} = this.props;
-		const ppp = PartnerProposals(proposals.proposals, listForDropdown(getPartnerList(user.user.roles)));
+	submitForPartner(event, partner) {
+		const { proposals, user, dispatch, semester } = this.props;
+		const ppp = PartnerProposals(proposals.proposals, getPartnerList(user.user.roles));
 		
 		const query = getQuaryToAddAllocation(ppp[partner],
 			partner,
-			filters.selectedSemester
+			semester
 		);
-		dispatch(startSubmition(partner));
-		submitAllocations(query).then(p => p.data, dispatch(failSubmition()))
+		dispatch(startSubmittingTimeAllocations(partner));
+		submitAllocations(query).then(p => p.data, dispatch(failToSubmitTimeAllocations(partner)))
 		.then(d => {
-			d.data.updateTimeAllocations.success ? dispatch(passSubmition()) : dispatch(failSubmition())
+			d.data.updateTimeAllocations.success ? dispatch(TimeAllocationSubmittedSuccessfully(partner)) : dispatch(failToSubmitTimeAllocations(partner))
 		});
 	}
 	
@@ -54,14 +50,12 @@ class TimeAllocationPage extends React.Component {
 		const { dispatch, semester } = this.props;
 		const time = event.target.value;
 		const priority = event.target.name;
-		// proposalCode, semester, partner, time, priority
 		dispatch(updateAllocatedTimePriority(proposalCode, semester, partner, time, priority))
 	};
 	
 	tacCommentChange(event, proposalCode, partner) {
 		const { dispatch, semester } = this.props;
 		const tacComment = event.target.value;
-		// proposalCode, semester, partner, tacComment
 		dispatch(updateTacComment(proposalCode, semester, partner, tacComment))
 	}
 	
@@ -125,8 +119,6 @@ class TimeAllocationPage extends React.Component {
 	
 	
 	updateFromCSV = (data, proposals, partner) => {
-		//throw new Error("this error");
-		console.log(data);
 		const { dispatch } = this.props;
 		let allColumns = false;
 		let columnIndex = {};
@@ -142,6 +134,10 @@ class TimeAllocationPage extends React.Component {
 			}
 		});
 		dispatch(updateProposals(updatedProposals));
+	};
+	
+	handleDarkSideForce = (data, proposals, partner) => {
+		console.log(partner, data, proposals);
 	};
 	
 	
@@ -181,15 +177,15 @@ class TimeAllocationPage extends React.Component {
 	};
 	
 	render() {
-		
-		const {allocatedTime, filters, user, tac} = this.props;
+		const {allocatedTime, filters, user, tac } = this.props;
+		const { unSubmittedTacChanges, submittedTimeAllocations } = this.props.proposals;
 		const proposals = this.props.proposals.proposals || [];
 		let partners = listForDropdown(getPartnerList(this.props.user.user.roles || []));
 		
 		if (filters.selectedPartner !== ALL_PARTNER) {
 			partners = filters.selectedPartner ? [{value: filters.selectedPartner, label: filters.selectedPartner}] : []
 		}
-		const ppp = PartnerProposals(proposals, partners);
+		const ppp = PartnerProposals(proposals, getPartnerList(this.props.user.user.roles || []));
 		
 		return (
 			<div>
@@ -215,7 +211,6 @@ class TimeAllocationPage extends React.Component {
 									partner={partner}
 									tacCommentChange={this.tacCommentChange.bind(this)}
 									allocationChange={this.allocationChange.bind(this)}
-									submitForPartner={this.submitProposals.bind(this)}
 									canAllocate={canUserWriteAllocations(user.user, partner) || false}
 									canComment={canUserWriteTechComments(user.user, partner) || false}
 									exportTableToCSV={this.exportTableToCSV.bind(this)}
@@ -223,14 +218,34 @@ class TimeAllocationPage extends React.Component {
 									allocatedTimeChange = {this.allocatedTimeChange}
 									updateFromCSV = {this.updateFromCSV.bind(this)}
 								/>
+								<CSVReader
+									cssClass="btn"
+									label="Select CSV"
+									onFileLoaded={e => this.updateFromCSV(e, ppp[partner], partner)}
+									onError={this.handleDarkSideForce}
+								/>
+								<button
+									className="btn"
+									onClick={e => this.exportTableToCSV('TACData.csv')}>Export HTML Table To CSV File</button>
 								<button onClick={() => this.downloadSummaries(ppp[partner] || [])}>
 									Download summary files
 								</button>
+								<button className="btn-success" onClick={ e => this.submitForPartner(e, partner) }>Submit {partner}</button>
+								{
+									!unSubmittedTacChanges[partner] ? <div /> : <div style={{ color: '#F0F060', fontSize: '20px'}}>Change detected</div>
+								}
+								{
+									submittedTimeAllocations.partner !== partner ? <div />
+										: submittedTimeAllocations.results ? <div style={{ color: '#60FF60', fontSize: '20px'}}>Successfully Submitted</div>
+										: <div  style={{ color: '#FF6060', 'fontSize': '20px' }}>Fail to submit time allocations</div>
+										
+								}
+								
 							</div>
 						);
 					})
 				}
-				<button onClick={e => this.exportTableToCSV('TACData.csv')}>Export HTML Table To CSV File</button>
+				
 			</div>
 		);
 	}
