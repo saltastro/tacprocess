@@ -1,10 +1,10 @@
 import React from "react";
 import propTypes from "prop-types";
+import {CSVLink} from 'react-csv';
 import _ from "lodash";
 import CSVReader from 'react-csv-reader'
 import { illegalAllocation } from "../../util/allocation";
 import { goodTime, badTime } from "../../types"
-
 
 const TimeAllocationInput = ({onChange, proposal, priority, partner}) => {
     const sty = illegalAllocation(proposal, priority, partner) ? badTime : goodTime;
@@ -22,12 +22,31 @@ const TimeAllocationInput = ({onChange, proposal, priority, partner}) => {
     );
 };
 
-const handleDarkSideForce = (data, proposals, partner) => {
-  console.log(partner, data, proposals);
-};
+/*
+* This method setup the csv file content as it appears in the time allocation page table.
+* and returns that data to use in the react-csv Component for downloading.
+*/
+const CSVData = (proposals, partner) => {
+  let tableDataHeaders = [
+    "Code", "Title", "Abstract", "PI", "Semester", "TAC comment", "Minimum useful time",
+    "Total Requested Time", "P0", "P1", "P2", "P3", "Total P0-P3", "P4",
+    "Act on Alert", "Transparency", "Max seeing", "Hover Info", "Tech Report"
+  ];
+  return [
+    tableDataHeaders,
+    ...proposals.map(p => [
+      p.proposalCode, p.title, p.abstract, p.pi, "2017-1", p.tacComment[partner].comment, p.minTime, p.totalRequestedTime,
+      p.allocatedTime[partner]["p0"], p.allocatedTime[partner]["p1"], p.allocatedTime[partner]["p2"], p.allocatedTime[partner]["p3"],
+      (p.allocatedTime[partner]["p0"] + p.allocatedTime[partner]["p1"] + p.allocatedTime[partner]["p2"] + p.allocatedTime[partner]["p3"]),
+      p.allocatedTime[partner]["p4"], false, p.transparency, p.maxSeeing, "", p.techReport
+    ])
+  ];
+}
 
-const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentChange, allocationChange, canAllocate, canComment, submitted}) => {
-  const arrayOfProposals = proposals || []
+const ProposalsPerPartner = ({proposals, partner, tacCommentChange, allocationChange, canAllocate, canComment, submitForPartner, updateFromCSV, submitted}) => {
+  // Contains the whole content of the csv file to download per table partner.
+  let csvData = CSVData(proposals, partner);
+
   return(
     <div className="scroldiv">
       <h1>{partner}</h1>
@@ -57,7 +76,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
         </thead>
         <tbody>
           {
-             arrayOfProposals
+             proposals
                      .filter(p => !_.isNull(p.title))
                      .map( p => {
                return (
@@ -160,12 +179,13 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 
         </tbody>
       </table>
+      <CSVLink data={csvData} >Download CSV</CSVLink>
 
       {
 
-        submitted.submitted ?
+        submitted.submited ?
           <div><br />
-            {!!submitted.partner && submitted.partner === partner ? <div className="pass-div"> <h2> Submitted</h2> </div> :  <br /> }
+            {!!submitted.partner && submitted.partner === partner ? <div  className="pass-div"> <h2> Submitted</h2> </div> :  <br /> }
             <button className="btn-success" onClick={ e => submitForPartner(e, partner) }>Submit {partner}</button>
           </div> :
           submitted.partner === partner ?
@@ -181,8 +201,8 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
       <CSVReader
         cssClass="csv-input"
         label="Select CSV"
-        onFileLoaded={e => proposals.updateFromCSV(e, arrayOfProposals, partner)}
-        onError={handleDarkSideForce}
+        onFileLoaded={e => updateFromCSV(e, proposals, partner)}
+        onError={e => console.error(e)}
       />
     </div>
   )}
@@ -192,12 +212,10 @@ ProposalsPerPartner.propTypes = {
   partner: propTypes.string.isRequired,
   allocationChange: propTypes.func.isRequired,
   tacCommentChange: propTypes.func.isRequired,
-  submitForPartner: propTypes.func.isRequired,
-  exportTableToCSV: propTypes.func.isRequired,
   updateFromCSV: propTypes.func.isRequired,
   canAllocate: propTypes.bool,
   canComment: propTypes.bool,
-  submitted: propTypes.object,
+  submited: propTypes.object,
 }
 
 export default ProposalsPerPartner;
