@@ -2,7 +2,7 @@ import React from "react";
 import propTypes from "prop-types";
 
 const InfoMessage = ({ page }) => (
-    <div className="info">
+    <div>
       <h2><strong>Info!</strong> <br />{ page } Page will be placed here.</h2>
     </div>
   );

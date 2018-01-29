@@ -9,14 +9,17 @@ const HomePage = ({ isAuthenticated }) => (
   <div>
 
     {isAuthenticated ? (
+    <div>
       <div>
         <InfoMessage page="Home Page"/>
       </div>
 
+</div>
     ) : (
       <div>
         <Link to="/login"> <button className="loginbtn">Login</button> </Link>
       </div>
+
 
     )}
   </div>

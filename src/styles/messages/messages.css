@@ -13,6 +13,13 @@
   background-color: #e3f7f6;
   border-radius: 25px;
 }
+.main-div {
+  text-align: center;
+  padding: 20px;
+  color: black;
+  margin: 5px 200px 0px 200px;
+
+}
 
 .error {
   text-align: center;
