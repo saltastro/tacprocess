@@ -25,7 +25,6 @@
     border-width:300px;
     border-left: 6px;
 
-
 }
 .bigNav h1{
     font-size: 2.1875rem;
@@ -33,7 +32,6 @@
     margin: 100px 0px 0px 175px;
     font-family: "Open Sans","Helvetica Neue","Helvetica",Arial,sans-serif;
 }
-
 
 li {
     float: left;
@@ -52,7 +50,6 @@ li a:hover:not(.active) {
     background-color: #0000;
 }
 
-
 .active {
    shadow-color:#000000;
    text-shadow:1px 1px 0px #000;
@@ -65,8 +62,6 @@ li a:hover:not(.active) {
     right: 150px;
     width: 200px;
     height: 50px;
-    border: 3px solid #00ffe1;
-    background: #60ffec;
 
 }
 .btn-fail {
@@ -90,9 +85,9 @@ li a:hover:not(.active) {
 
 }
 .btn-success:hover {
-    background-color: #b0f4ec;
+    background-color:#808080;
     color: black;
-    border: 3px solid #8AC007;
+
 }
 .btn-fail:hover {
     background-color: #f47a94;
@@ -101,4 +96,13 @@ li a:hover:not(.active) {
 }
 .root-main{
      margin: 5px 0px 0px 0px;
+}
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: white;
+   color: black;
+   text-align: center;
 }

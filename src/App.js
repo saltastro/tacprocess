@@ -39,6 +39,9 @@ const App = ({ location, isAuthenticated }) => (
           <UserRoute location={location} path="/documentation" exact component={DocumentationPage} />
           <UserRoute location={location} path="/admin" exact component={AdminPage} />
           </div>
+           <div class="footer">
+                <p>Copyright © 2018 TAC</p>
+           </div>
     </div>
 );
 

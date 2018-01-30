@@ -12,6 +12,7 @@
   padding: 20px;
   font-size: 20px;
   font-weight: bold;
+  margin: 2px 200px 0px 200px;
 }
 
 .selector-div::after {
