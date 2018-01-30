@@ -21,18 +21,20 @@ export const passQuery = data => ({
     timeallocation: data
   })
 
-export const startSubmition = partner => ({
+export const startSubmittingTimeAllocations = () => ({
       type: SUBMIT_TIME_ALLOCATIONS_START,
-      partner: partner
+      
     })
 
-export const passSubmition = () => ({
-      type: SUBMIT_TIME_ALLOCATIONS_PASS
+export const TimeAllocationSubmittedSuccessfully = partner => ({
+    type: SUBMIT_TIME_ALLOCATIONS_PASS,
+	payload: {partner: partner}
     })
 
-export const failSubmition = () => ({
-      type: SUBMIT_TIME_ALLOCATIONS_FAIL
-    })
+export const failToSubmitTimeAllocations = partner => ({
+    type: SUBMIT_TIME_ALLOCATIONS_FAIL,
+	payload: {partner: partner}
+})
 
 const convertData = (data) => {
   let availableTime = {}

@@ -1,7 +1,6 @@
 import React from "react";
 import propTypes from "prop-types";
 import _ from "lodash";
-import CSVReader from 'react-csv-reader'
 import { illegalAllocation } from "../../util/allocation";
 import { goodTime, badTime } from "../../types"
 
@@ -23,12 +22,8 @@ const TimeAllocationInput = ({onChange, proposal, priority, partner, name}) => {
 	);
 };
 
-const handleDarkSideForce = (data, proposals, partner) => {
-	console.log(partner, data, proposals);
-};
-
 const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentChange,  allocationChange,
-                                 allocatedTimeChange, canAllocate, canComment, submitted, updateFromCSV}) => {
+                                 allocatedTimeChange, canAllocate}) => {
 	const arrayOfProposals = proposals || [];
 	
 	return(
@@ -160,7 +155,6 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 								<td><div id={"propBoolean"} className="table-height width-100" >false</div></td>
 								<td><div id={"propTranparency"} className="table-height width-100" >{ p.transparency }</div></td>
 								<td><div id={"propMaxSeeing"} className="table-height width-100" >{ p.maxSeeing }</div></td>
-								<td><div id={"propEmpty"} className="table-height width-100" ></div></td>
 								<td><div id={"propTechReport"} className="table-height width-400" >{ p.techReport } </div></td>
 							</tr>
 						)})
@@ -168,30 +162,6 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 				
 				</tbody>
 			</table>
-			
-			{
-				
-				submitted.submitted ?
-					<div><br />
-						{!!submitted.partner && submitted.partner === partner ? <div className="pass-div"> <h2> Submitted</h2> </div> :  <br /> }
-						<button className="btn-success" onClick={ e => submitForPartner(e, partner) }>Submit {partner}</button>
-					</div> :
-					submitted.partner === partner ?
-						<div className="fail-div">
-							<h2> Fail to submit</h2>
-							<h3>please make sure that all allocation for partner "{submitted.partner}" are correct <br />or you do not have tailing " \ " on your comment</h3>
-							<button className="btn-fail" onClick={ e => submitForPartner(e, partner) }>Submit {partner}</button>
-						</div> :
-						<div><br />
-							<button className="btn-success" onClick={ e => submitForPartner(e, partner) }>Submit {partner}</button>
-						</div>
-			}
-			<CSVReader
-				cssClass="csv-input"
-				label="Select CSV"
-				onFileLoaded={e => updateFromCSV(e, arrayOfProposals, partner)}
-				onError={handleDarkSideForce}
-			/>
 		</div>
 	)};
 
@@ -201,9 +171,7 @@ ProposalsPerPartner.propTypes = {
 	allocationChange: propTypes.func.isRequired,
 	allocatedTimeChange: propTypes.func.isRequired,
 	tacCommentChange: propTypes.func.isRequired,
-	submitForPartner: propTypes.func.isRequired,
 	exportTableToCSV: propTypes.func.isRequired,
-	updateFromCSV: propTypes.func.isRequired,
 	canAllocate: propTypes.bool,
 	canComment: propTypes.bool,
 	submitted: propTypes.object,
