@@ -29,7 +29,7 @@ const App = ({ location, isAuthenticated }) => (
 
       )}
 
-          <Filters />
+          {isAuthenticated ? <Filters /> : <div />}
          <div className="main-div">
           <Route location={location} path="/" exact component={HomePage} />
           <GuestRoute location={location} path="/login" exact component={LoginPage} />
@@ -39,7 +39,7 @@ const App = ({ location, isAuthenticated }) => (
           <UserRoute location={location} path="/documentation" exact component={DocumentationPage} />
           <UserRoute location={location} path="/admin" exact component={AdminPage} />
           </div>
-           <div class="footer">
+           <div className="footer">
                 <p>Copyright © 2018 TAC</p>
            </div>
     </div>
