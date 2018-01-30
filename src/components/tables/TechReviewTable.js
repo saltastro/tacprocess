@@ -1,9 +1,22 @@
 import React from 'react';
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
-import { canDo, astronomerAssigned } from '../../util/index';
+import { canDo, astronomerAssigned, makeTechComment, addDetailedCheckToTechComment, getTechReportFields } from '../../util/index';
 import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
+import {addCommentToTechComment} from "../../util";
 
+const feasibleChange = (e, reportFields) => {
+    reportFields.feasible = e.target.value;
+	return makeTechComment(reportFields);
+};
+const detailsCheckChange  = (e, reportFields) => {
+	reportFields.details = e.target.value;
+	return makeTechComment(reportFields);
+};
+const commentChange  = (e, reportFields) => {
+	reportFields.comment = e.target.value;
+	return makeTechComment(reportFields);
+};
 
 export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer, proposalsFilter}) => {
   if (proposals.length === 0 ){
@@ -31,34 +44,52 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
       <table className='SATable' align='center'>
         <thead>
           <tr>
-            <th>Proposal ID</th>
             <th>Proposal Code</th>
             <th>Proposal Title</th>
             <th>Proposal Investigator</th>
+              <th>Feasible</th>
             <th>Proposal Comment</th>
+              <th>Detailed check</th>
             <th>Assigned Astronomer</th>
           </tr>
         </thead>
         <tbody>
           {
              proposals.map( p => {
+	             const reportFields = getTechReportFields(p.techReport);
+	             console.log(">>: ", reportFields);
                return(
                  <tr key={p.proposalId}>
-                   <td>{p.proposalId}</td>
-                   <td>{ p.proposalCode }</td>
-                   <td>{ p.title }</td>
-                   <td>{p.pi}</td>
-                   <td>
+                   <td className="width-150">{ p.proposalCode }</td>
+                   <td className=" table-height width-400">{ p.title }</td>
+                   <td className="width-100">{p.pi}</td>
+	                 <td >
+		                 <select defaultValue={reportFields.feasible} onChange={e => techReportChange(p.proposalCode, feasibleChange(e, reportFields))}>
+			                 <option>{"none"}</option>
+			                 <option>{"yes"}</option>
+			                 <option>{"yes with caveats"}</option>
+			                 <option>{"no"}</option>
+		                 </select>
+	                 </td>
+                     <td>
                     <textarea
-                      value={ p.techReport || "" }
+	                    className="table-height-fixed width-400"
+                        value={ reportFields.comment  || "" }
                       onChange={ e =>{
-                          techReportChange(p.proposalCode, e.target.value)
+                          techReportChange(p.proposalCode, commentChange(e, reportFields))
                         }
                       }
                     >
 
                     </textarea>
                    </td>
+	                 <td className="width-100">
+		                 <select defaultValue={reportFields.details}  onChange={e => techReportChange(p.proposalCode, detailsCheckChange(e, reportFields))}>
+                             <option>{"none"}</option>
+                             <option>{"yes"}</option>
+                             <option>{"no"}</option>
+                         </select>
+	                 </td>
                    <td>
                      {
                        canDo(user, CHANGE_LIAISON) ?

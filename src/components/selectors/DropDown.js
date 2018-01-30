@@ -6,7 +6,7 @@ import { listForDropdown } from "../../util/filters";
 const DropDown = ({listToDisplay, name, OnChange, value, className}) => {
 	return(
 		<div className={className || "left"}>
-			<h2>{name}</h2>
+			<label>{name}</label>
 			<Select
 				className ="selector"
 				name={name}

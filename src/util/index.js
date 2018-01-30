@@ -341,4 +341,78 @@ export function canViewPage (userRoles, page){
 		return true;
 	}
 	return (userRoles || []).some( p => pageRole(page, p.type))
+		}
+
+
+export function makeTechComment (reportFields){
+	console.log(("Feasible: " + reportFields.feasible.replace(" ", "") + "\n" +
+		"Comments: " + reportFields.comment+ "\n" +
+		"Detailed Check: " + reportFields.details.replace(" ", "")));
+	return ("Feasible: " + reportFields.feasible + "\n" +
+		"Comments: " + reportFields.comment + "\n" +
+		"Detailed Check: " + reportFields.details);
+}
+
+export function addDetailedCheckToTechComment (techComment, details ){
+	if (details === "None") {return techComment}
+	if ((techComment || "").indexOf("Detailed Check:") === -1) {
+		return (techComment || "").concat(`\nDetailed Check: ${details}. \n`)
+	}
+	techComment = techComment.split("\n");
+	techComment = techComment.map( c => {
+		if (c.indexOf("Detailed Check:") !== -1){
+			return`Detailed Check: ${details}.`;
+		}
+		return c
+	});
+	return techComment.join(" \n");
+}
+
+export function addCommentToTechComment (techComment, comment ){
+	if (comment === null) {return techComment}
+	if ((techComment || "").indexOf("Comments:") === -1) {
+		return (techComment || "").concat(`\nComments: ${comment}`)
+	}
+	techComment = techComment.split("\n");
+	techComment = techComment.map( c => {
+		if (c.indexOf("Comments:") !== -1){
+			return`Comments: ${comment}.`;
+		}
+	});
+	return techComment.join(" \n");
+}
+
+export function getTechReportFields(report) {
+	console.log(report);
+	let feasible = "none";
+	let comment = "";
+	let details = "none";
+	const regExp = /Feasible:\s+(yes|no|yes with caveats|\s)(.*)\s+Comments:(.*)\s+Detailed Check:\s+(yes.|yes|no|\s)/mi;
+	if ( regExp.test(report)){
+		const feasibleValue = /Feasible:\s+(yes with caveats|yes.|no|yes|\s)/mi.exec(report);
+		feasible = /(yes with caveats|no|yes)/i.test(feasibleValue[1]) ? feasibleValue[1] :
+			/(yes.)/i.test(feasibleValue[1]) ? "yes" : "none";
+		
+		const detailsValue = /(.*)Detailed Check:\s+(yes|no|\s)/mi.exec(report);
+		details = /(yes|no)/i.test(detailsValue[1]) ? detailsValue[1] :
+			/(yes.)/i.test(detailsValue[1]) ? "yes": "none";
+		
+		
+		
+		report = (report || "").split("\n");
+
+		(report || []).forEach( (c, i) => {
+			if ( i === 0 || i === report.length - 1 ){
+			
+			} else {
+				comment = comment + c.split("Comments: ").pop()
+			}
+		});
+	}
+	return {
+		feasible: feasible.length < 2 ? "none" : feasible,
+		comment: comment,
+		details: details.length < 2 ? "none" : details
+	}
+	
 }
