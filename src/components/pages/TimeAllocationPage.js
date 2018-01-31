@@ -2,6 +2,7 @@
 import React from "react";
 import { connect } from "react-redux"
 import CSVReader from 'react-csv-reader'
+import {CSVLink} from 'react-csv';
 import AvailableTimePerPartnerTable from "../tables/AvailableTimePerPartnerTable";
 import ProposalsPerPartner from "../tables/ProposalsPerPartner";
 import {getQuaryToAddAllocation } from "../../util/allocation";
@@ -86,35 +87,24 @@ class TimeAllocationPage extends React.Component {
 	}
 	
 	/*
-	* The downloadCSV() function takes CSV data and
-	* generate download link to download HTML table data in a CSV file
-	*/
-	
-	downloadCSV = (csv, filename) => {
-		let csvFile;
-		let downloadLink;
-		
-		// CSV file
-		csvFile = new Blob([csv], {type: "text/csv"});
-		
-		// Download link
-		downloadLink = document.createElement("a");
-		// Download CSV file
-		this.downloadCSV(csv.join("\n"), filename);
-		// File name
-		downloadLink.download = filename;
-		
-		// Create a link to the file
-		downloadLink.href = window.URL.createObjectURL(csvFile);
-		
-		// Hide download link
-		downloadLink.style.display = "none";
-		
-		// Add the link to DOM
-		document.body.appendChild(downloadLink);
-		
-		// Click download link
-		downloadLink.click();
+* This method setup the csv file content as it appears in the time allocation page table.
+* and returns that data to use in the react-csv Component for downloading.
+*/
+	CSVData = (proposals, partner) => {
+		let tableDataHeaders = [
+			"Code", "Title", "Abstract", "PI", "Semester", "TAC comment", "Minimum useful time",
+			"Total Requested Time", "P0", "P1", "P2", "P3", "Total P0-P3", "P4",
+			"Act on Alert", "Transparency", "Max seeing", "Tech Report"
+		];
+		return [
+			tableDataHeaders,
+			...proposals.map(p => [
+				p.proposalCode, p.title, p.abstract, p.pi, "2017-1", p.tacComment[partner].comment, p.minTime, p.totalRequestedTime,
+				p.allocatedTime[partner]["p0"], p.allocatedTime[partner]["p1"], p.allocatedTime[partner]["p2"], p.allocatedTime[partner]["p3"],
+				(p.allocatedTime[partner]["p0"] + p.allocatedTime[partner]["p1"] + p.allocatedTime[partner]["p2"] + p.allocatedTime[partner]["p3"]),
+				p.allocatedTime[partner]["p4"], false, p.transparency, p.maxSeeing, p.techReport
+			])
+		];
 	};
 	
 	
@@ -177,7 +167,7 @@ class TimeAllocationPage extends React.Component {
 	};
 	
 	render() {
-		const {allocatedTime, filters, user, tac } = this.props;
+		const {allocatedTime, filters, user, tac, semester } = this.props;
 		const { unSubmittedTacChanges, submittedTimeAllocations } = this.props.proposals;
 		const proposals = this.props.proposals.proposals || [];
 		let partners = listForDropdown(getPartnerList(this.props.user.user.roles || []));
@@ -209,6 +199,7 @@ class TimeAllocationPage extends React.Component {
 								<ProposalsPerPartner
 									proposals={ppp[partner] || []}
 									partner={partner}
+									semester={semester}
 									tacCommentChange={this.tacCommentChange.bind(this)}
 									allocationChange={this.allocationChange.bind(this)}
 									canAllocate={canUserWriteAllocations(user.user, partner) || false}
@@ -218,15 +209,17 @@ class TimeAllocationPage extends React.Component {
 									allocatedTimeChange = {this.allocatedTimeChange}
 									updateFromCSV = {this.updateFromCSV.bind(this)}
 								/>
+								<label>Download table</label><br/>
+								<button className="btn"><CSVLink
+									data={this.CSVData(ppp[partner] || [], partner)}
+									filename={`${partner}-time-allocations.csv`}>Download</CSVLink></button>
+								<br/><label>Upload Allocations from CSV</label><br/>
 								<CSVReader
 									cssClass="btn"
-									label="Select CSV"
-									onFileLoaded={e => this.updateFromCSV(e, ppp[partner], partner)}
+									onFileLoaded={e => this.updateFromCSV(e, ppp[partner] || [], partner)}
 									onError={this.handleDarkSideForce}
 								/>
-								<button
-									className="btn"
-									onClick={e => this.exportTableToCSV('TACData.csv')}>Export HTML Table To CSV File</button>
+								
 								<button onClick={() => this.downloadSummaries(ppp[partner] || [])}>
 									Download summary files
 								</button>
