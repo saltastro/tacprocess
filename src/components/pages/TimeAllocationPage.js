@@ -22,7 +22,7 @@ class TimeAllocationPage extends React.Component {
 	
 	submitForPartner(event, partner) {
 		const { proposals, user, dispatch, semester } = this.props;
-		const ppp = PartnerProposals(proposals.proposals, getPartnerList(user.user.roles));
+		const ppp = PartnerProposals(proposals.proposals, getPartnerList(user.user.roles), semester);
 		
 		const query = getQuaryToAddAllocation(ppp[partner],
 			partner,
@@ -182,7 +182,7 @@ class TimeAllocationPage extends React.Component {
 		if (filters.selectedPartner !== ALL_PARTNER) {
 			partners = filters.selectedPartner ? [{value: filters.selectedPartner, label: filters.selectedPartner}] : []
 		}
-		const ppp = PartnerProposals(proposals, getPartnerList(this.props.user.user.roles || []));
+		const ppp = PartnerProposals(proposals, getPartnerList(this.props.user.user.roles || []), semester);
 		
 		return (
 			<div>
@@ -230,7 +230,10 @@ class TimeAllocationPage extends React.Component {
 								<button onClick={() => this.downloadSummaries(ppp[partner] || [])}>
 									Download summary files
 								</button>
-								<button className="btn-success" onClick={ e => this.submitForPartner(e, partner) }>Submit {partner}</button>
+								<button
+									disabled={semester < "2018-1"}
+									className="btn-success"
+									onClick={ e => this.submitForPartner(e, partner) }>Submit {partner}</button>
 								{
 									!unSubmittedTacChanges[partner] ? <div /> : <div style={{ color: '#F0F060', fontSize: '20px'}}>Change detected</div>
 								}
