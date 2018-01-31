@@ -180,7 +180,7 @@ export function hasRole(user, role, partner) {
 	}
 }
 
-export function canDo(user, action, partner, proposal) {
+export function canDo(user, action, partner) {
 	switch (action) {
 		case types.VIEW_TIME_ALLOCATION_PAGE:
 			return hasRole(user, types.TAC_MEMBER, partner) ||
@@ -211,9 +211,8 @@ export function isFloat(val) {
 		return false;
 	
 	const temp = parseFloat(val);
-	if (isNaN(temp))
-		return false;
-	return true;
+	return !isNaN(temp);
+	
 }
 
 export function canUserWriteAllocations(user, partner){
@@ -287,40 +286,8 @@ export function areAllocatedTimesCorrect(partner, availableTime, proposals){
 	
 }
 
-export function updateLiaisonAstronomerForProposal (proposals, proposalToUpdate, liaisonUsername){
-	const updated = (proposals || []).map(p => {
-		
-		if ( p.proposalCode === proposalToUpdate ){
-			p.liaisonAstronomer = liaisonUsername
-		}
-		return p
-	});
-	return updated
-}
-
-export function updateTechnicalCommentForProposal(proposals, proposalToUpdate, techReport){
-	const updated = (proposals || []).map(p => {
-		
-		if ( p.proposalCode === proposalToUpdate ){
-			p.techReport = techReport
-		}
-		return p
-	});
-	return updated
-}
-
-export function getLiaisonName(username, SALTAstronomers){
-	let name;
-	(SALTAstronomers || []).forEach( sa => {
-		if (sa.username === username){
-			name = sa.name
-		}
-	});
-	return name
-}
-
 export function getLiaisonUsername(name, SALTAstronomers){
-	let username;
+	let username = undefined;
 	(SALTAstronomers || []).forEach( sa => {
 		if (sa.name === name){
 			username = sa.username
@@ -348,35 +315,6 @@ export function makeTechComment (reportFields){
 	return ("Feasible: " + reportFields.feasible + "\n" +
 		"Comments: " + reportFields.comment + "\n" +
 		"Detailed Check: " + reportFields.details);
-}
-
-export function addDetailedCheckToTechComment (techComment, details ){
-	if (details === "None") {return techComment}
-	if ((techComment || "").indexOf("Detailed Check:") === -1) {
-		return (techComment || "").concat(`\nDetailed Check: ${details}. \n`)
-	}
-	techComment = techComment.split("\n");
-	techComment = techComment.map( c => {
-		if (c.indexOf("Detailed Check:") !== -1){
-			return`Detailed Check: ${details}.`;
-		}
-		return c
-	});
-	return techComment.join(" \n");
-}
-
-export function addCommentToTechComment (techComment, comment ){
-	if (comment === null) {return techComment}
-	if ((techComment || "").indexOf("Comments:") === -1) {
-		return (techComment || "").concat(`\nComments: ${comment}`)
-	}
-	techComment = techComment.split("\n");
-	techComment = techComment.map( c => {
-		if (c.indexOf("Comments:") !== -1){
-			return`Comments: ${comment}.`;
-		}
-	});
-	return techComment.join(" \n");
 }
 
 export function getTechReportFields(report) {
