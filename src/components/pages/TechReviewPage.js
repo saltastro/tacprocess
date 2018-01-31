@@ -36,11 +36,12 @@ class TechReviewPage extends React.Component {
     const proposals = this.props.proposals;
     const SALTAstronomers = this.props.SALTAstronomers;
     const user  = this.props.user;
-    const submitting = this.props.proposals.submittingLiaisonAstronomers || this.props.proposals.submittingTechnicalReports;
-    const submitted = this.props.proposals.submittedLiaisonAstronomers && this.props.proposals.submittedTechnicalReports;
-    const errors = this.props.proposals.errors;
+    const submitting = this.props.submittingLiaisonAstronomers || this.props.submittingTechnicalReports;
+    const submitted = this.props.submittedLiaisonAstronomers && this.props.submittedTechnicalReports;
+    const errors = this.props.errors.submittingError;
+    const semester  = this.props.semester;
 
-      if (!user.roles || !proposals || proposals.length === 0 ){
+      if ( this.props.loading ){
           return (<div><h1>Loading...</h1></div>)
       }
 
@@ -53,6 +54,7 @@ class TechReviewPage extends React.Component {
           SALTAstronomers={SALTAstronomers}
           techReportChange={ this.techReportChange }
           techAssignAstronomer={ this.techAssignAstronomer }
+          semester={semester}
         />
           <button className="btn-success" onClick={ e => this.submitTechReview(e, proposals) }>Submit</button>
           <div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'right', marginTop: 70 }}>
@@ -76,6 +78,13 @@ export default connect(store => {
         proposals,
         semester: store.filters.selectedSemester,
         user: store.user.user,
-        SALTAstronomers: store.SALTAstronomers.SALTAstronomer
+        SALTAstronomers: store.SALTAstronomers.SALTAstronomer,
+        submittedLiaisonAstronomers: store.proposals.submittedLiaisonAstronomers,
+        loading: store.proposals.fetching,
+        submittingLiaisonAstronomers: store.proposals.submittingLiaisonAstronomers,
+        submittingTechnicalReports: store.proposals.submittingTechnicalReports,
+        submittedTechnicalReports: store.proposals.submittedTechnicalReports,
+        errors: store.proposals.errors,
+        
     }
 }, null)(TechReviewPage);
