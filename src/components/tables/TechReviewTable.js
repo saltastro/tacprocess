@@ -77,8 +77,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
 	                    value={ semester >= "2018-1"? reportFields.comment  || "" : p.techReport || "" }
 	                    onChange={ e =>{
 		                    techReportChange(p.proposalCode, commentChange(e, reportFields))
-	                    }
-	                    }
+	                    }}
                     >
 
                     </textarea>

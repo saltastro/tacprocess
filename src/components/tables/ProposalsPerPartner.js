@@ -49,7 +49,6 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 					<th>Act on Alert</th>
 					<th>Transparency</th>
 					<th>Max seeing</th>
-					<th>Hover Info</th>
 					<th>Tech Report</th>
 				</tr>
 				</thead>
