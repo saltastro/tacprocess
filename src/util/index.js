@@ -260,7 +260,7 @@ export function allocatedTimeTotals( proposals, partner ){
 	};
 	proposals.forEach(p => {
 		[0, 1, 2, 3, 4].forEach( pr => {
-			total[`p${pr}`] += parseFloat(p.allocatedTime[partner][`p${pr}`]) || 0
+			total[`p${pr}`] += parseFloat(!!p.allocatedTime[partner] ? p.allocatedTime[partner][`p${pr}`] : 0) || 0
 		})
 	});
 	return total

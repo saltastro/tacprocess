@@ -2,7 +2,7 @@ import { isFloat } from "../util";
 
 
 export function illegalAllocation(proposal, priority, partner) {
-  const t = proposal.allocatedTime[partner][priority];
+  const t = !!proposal.allocatedTime[partner] ? proposal.allocatedTime[partner][priority] : 0;
   return !isFloat(t) || parseFloat(t) < 0;
 }
 
@@ -25,7 +25,7 @@ export function getQuaryToAddAllocation(proposals, partner, semester){
     proposals.forEach( p => {
       commentList.push(`{
             proposalCode: "${p.proposalCode}",
-            comment: "${p.tacComment[partner].comment
+            comment: "${(!!p.tacComment[partner] ? p.tacComment[partner].comment : "")
               .replace(/(?:\\)/g, '\\\\')
               .replace(/(?:\r\n|\r|\n)/g, '\\n')
               .replace(/(?:")/g, '\\"')}"
@@ -36,7 +36,7 @@ export function getQuaryToAddAllocation(proposals, partner, semester){
            `{
                proposalCode: "${p.proposalCode}",
                priority: ${t},
-               time: ${p.allocatedTime[partner][priority]}
+               time: ${!!p.allocatedTime[partner] ? p.allocatedTime[partner][priority] : 0}
             }`
           );
        })
@@ -59,5 +59,6 @@ export function getQuaryToAddAllocation(proposals, partner, semester){
         }
       }
   `
+    console.log(mutateQuery);
   return mutateQuery
 }

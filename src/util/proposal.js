@@ -1,4 +1,22 @@
-export default function PartnerProposals(proposalList, partners){
+const isProposalRequestingTimeInPartner = (request, partner, semester) => {
+	
+	let belong = false;
+	(request || []).forEach( r => {
+		if (r.semester === semester){
+			(r.distribution || []).forEach( d => {
+				if (d.partnerCode === partner){
+					belong = true
+				}
+			})
+		}
+	});
+	return belong;
+};
+
+
+
+
+export default function PartnerProposals(proposalList, partners, semester){
 	/**
 	 *
 	 *
@@ -8,21 +26,24 @@ export default function PartnerProposals(proposalList, partners){
 	 */
 	
 	let proposalPerPartner = {};
+	semester="2018-1";
 	
 	partners.forEach(partner => {
-		proposalList.forEach( proposal => {
-			if (!proposalPerPartner[partner]){
-				proposalPerPartner[partner] = [];
-				if (proposal.allocatedTime[partner]){
-					proposalPerPartner[partner].push(proposal)
+		if (partner !== "OTH"){
+			proposalList.forEach( proposal => {
+				if (!proposalPerPartner[partner]){
+					proposalPerPartner[partner] = [];
+					if (isProposalRequestingTimeInPartner(proposal.timeRequests, partner, semester)){
+						proposalPerPartner[partner].push(proposal)
+					}
+					
+				}else{
+					if (isProposalRequestingTimeInPartner(proposal.timeRequests, partner, semester)){
+						proposalPerPartner[partner].push(proposal)
+					}
 				}
-				
-			}else{
-				if (proposal.allocatedTime[partner]){
-					proposalPerPartner[partner].push(proposal)
-				}
-			}
-		})
+			})}
 	});
+	console.log(proposalPerPartner);
 	return proposalPerPartner
 }
