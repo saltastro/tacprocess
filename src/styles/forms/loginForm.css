@@ -71,7 +71,7 @@ input[class="submit"] {
 input[type="submit"]:hover { background-color: #37c69b; }
 
 .shadow {
-  background: #000;
+  background: #000000;
   border-radius: 12px 12px 4px 4px;
   box-shadow: 0 0 20px 10px #000;
   height: 12px;
@@ -93,7 +93,7 @@ input[type="submit"]:active {
   font-family:Arial, "Helvetica", sans-serif;
   font-size:16px;
   font-weight:bold;
-  color:#fff;
+  color:black;
   text-decoration:none;
   text-transform:uppercase;
   text-align:center;
@@ -108,13 +108,14 @@ input[type="submit"]:active {
 }
 .loginbtn {
   text-shadow:1px 1px 0px #37a69b;
-  background-color: #37a69b;
+  background-color: #6495ED;
 }
 .logoutbtn {
-  height: 47px;
-  text-shadow:1px 1px 0px #f78594;
+  height: 45px;
+  text-shadow:1px 1px 0px #008bca;
+  color:#008bca;
   float: right;
-  background-color: #f78594;
+  background-color: white;
 }
 .loginbtn:hover  { background-color: #37c69b; }
-.logoutbtn:hover  { background-color: #ea0b29; }
+.logoutbtn:hover  { background-color:#ADD8E6; }

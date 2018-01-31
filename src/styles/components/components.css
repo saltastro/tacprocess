@@ -1,37 +1,67 @@
-.nav {
+
+.nav{
+    list-style-type: none;
+    padding: 0;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    line-height:90%;
+    text-size: 12px;
+    color:#000000;
+    margin: 5px 200px 0px ;
+    z-index:1;
+
+}
+.bigNav {
     list-style-type: none;
     overflow: hidden;
-    background-color: #333;
-    width: 100%;
-    fixed: top;
+    background-image:url("pictures/BannerImage (1).jpg");
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-position: right ;
+    display: block;
+    font-style: normal;
+    height:250px;
+    color: white;
+    border-width:300px;
+    border-left: 6px;
+
+}
+.bigNav h1{
+    font-size: 2.1875rem;
+    font-weight:100;
+    margin: 100px 0px 0px 175px;
+    font-family: "Open Sans","Helvetica Neue","Helvetica",Arial,sans-serif;
 }
 
 li {
     float: left;
+    line-height:90%
 }
 
 li a {
-  font-size: 40px;
+  font-size:15px;
   display: block;
-  color: white;
+  color: black;
   text-align: center;
   padding: 14px 16px;
 }
 
 li a:hover:not(.active) {
-    background-color: #111;
+    background-color: #0000;
 }
 
 .active {
-    background-color: #c1c9c1;
+   shadow-color:#000000;
+   text-shadow:1px 1px 0px #000;
+   font-weight: bold;
+   hover-color:#000000;
+
 }
 .btn-success {
     position: absolute;
     right: 150px;
     width: 200px;
     height: 50px;
-    border: 3px solid #00ffe1;
-    background: #60ffec;
 
 }
 .btn-fail {
@@ -47,7 +77,6 @@ li a:hover:not(.active) {
   text-align: center;
     right: 150px;
     background: #ff6082;
-
 }
 .pass-div {
   text-align: center;
@@ -56,9 +85,9 @@ li a:hover:not(.active) {
 
 }
 .btn-success:hover {
-    background-color: #b0f4ec;
+    background-color:#808080;
     color: black;
-    border: 3px solid #8AC007;
+
 }
 .btn-fail:hover {
     background-color: #f47a94;
@@ -66,5 +95,14 @@ li a:hover:not(.active) {
     border: 3px solid #f73b63;
 }
 .root-main{
-  padding: 5px 150px 150px 150px;
+     margin: 5px 0px 0px 0px;
+}
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: white;
+   color: black;
+   text-align: center;
 }

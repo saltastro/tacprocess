@@ -4,8 +4,6 @@ import { areAllocatedTimesCorrect, allocatedTimeTotals }  from "../../util";
 import { goodTime, badTime }  from "../../types";
 
 const AvailableTimePerPartnerTable = (partner, proposals, availableTime) => {
-  if (partner.proposals.length === 0 ) return <div></div>
-
   !!partner.availableTime[partner.partner] ? availableTime = partner.availableTime[partner.partner] : availableTime = {p0p1: 0, p2: 0, p3: 0}
   const correctAllocations = areAllocatedTimesCorrect(partner.partner, availableTime, partner.proposals)
   const allocatedTotals = allocatedTimeTotals(partner.proposals, partner.partner)

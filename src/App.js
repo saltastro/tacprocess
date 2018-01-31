@@ -13,6 +13,7 @@ import AdminPage from "./components/pages/AdminPage";
 import UserRoute from "./components/routes/UserRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 import Navigation from "./components/Navigation";
+import Filters from "./components/Filters";
 
 const App = ({ location, isAuthenticated }) => (
     <div className="root-main">
@@ -27,13 +28,20 @@ const App = ({ location, isAuthenticated }) => (
         </div>
 
       )}
-      <Route location={location} path="/" exact component={HomePage} />
-      <GuestRoute location={location} path="/login" exact component={LoginPage} />
-      <UserRoute location={location} path="/statistics" exact component={StatisticsPage} />
-      <UserRoute location={location} path="/timeallocation" exact component={TimeAllocationPage} />
-      <UserRoute location={location} path="/techreview" exact component={TechReviewPage} />
-      <UserRoute location={location} path="/documentation" exact component={DocumentationPage} />
-      <UserRoute location={location} path="/admin" exact component={AdminPage} />
+
+          <Filters />
+         <div className="main-div">
+          <Route location={location} path="/" exact component={HomePage} />
+          <GuestRoute location={location} path="/login" exact component={LoginPage} />
+          <UserRoute location={location} path="/statistics" exact component={StatisticsPage} />
+          <UserRoute location={location} path="/timeallocation" exact component={TimeAllocationPage} />
+          <UserRoute location={location} path="/techreview" exact component={TechReviewPage} />
+          <UserRoute location={location} path="/documentation" exact component={DocumentationPage} />
+          <UserRoute location={location} path="/admin" exact component={AdminPage} />
+          </div>
+           <div class="footer">
+                <p>Copyright © 2018 TAC</p>
+           </div>
     </div>
 );
 

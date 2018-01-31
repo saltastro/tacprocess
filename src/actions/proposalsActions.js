@@ -4,7 +4,6 @@ import {
     FETCH_PROPOSALS_PASS,
     FETCH_PROPOSALS_FAIL,
     UPDATING_PROPOSALS,
-    UPDATE_SINGLE_PROPOSAL,
 } from "../types";
 
 function startFetchProposals() {
@@ -41,7 +40,7 @@ function isLongTermProposal(distributedTimes, semester){
 }
 
 function makeAllocatedTime(alloc){
-  let allocations = {}
+  let allocations = {};
   alloc.forEach( a => {
     allocations[a.partnerCode] = {
       p0: (a.p0 === null) ? 0 : a.p0,
@@ -50,7 +49,7 @@ function makeAllocatedTime(alloc){
       p3: (a.p3 === null) ? 0 : a.p3,
       p4: (a.p4 === null) ? 0 : a.p4,
     }
-  })
+  });
   return allocations
 }
 
@@ -66,14 +65,14 @@ function makeTacComments(tComm){
 }
 
 function minimumTotalRequested(distributedTimes, semester){
-  let total = 0
-  let minimum = 0
+  let total = 0;
+  let minimum = 0;
   distributedTimes.forEach( t => {
     if (t.semester === semester ){
-      minimum = t.minimumUsefulTime
+      minimum = t.minimumUsefulTime;
       t.distribution.forEach( d => { total += parseFloat(d.time) }
     )}
-  })
+  });
   return { total, minimum }
 }
 
@@ -83,21 +82,21 @@ function requestedTime(requests, semester){
     minimum: 0,
     semester: semester,
     requests: {}
-  }
+  };
   requests.forEach(p => {
     if (p.semester === semester){
-      reqTime.minimum = p.minimumUsefulTime
+      reqTime.minimum = p.minimumUsefulTime;
       p.distribution.forEach(d => {
         reqTime.requests[d.partnerCode] = d.time
       })
     }
-  })
+  });
   return reqTime
 }
 
 function convertProposals(proposals, semester, partner){
-  const convertedProposals = proposals.proposals.map( proposal =>   {
-    const minTotal  = minimumTotalRequested(proposal.timeRequests, semester)
+  const convertedProposals = proposals.proposals.map( proposal => {
+    const minTotal  = minimumTotalRequested(proposal.timeRequests, semester);
 
     return ({
         proposalId: proposal.id,
@@ -139,20 +138,11 @@ export default function fetchProposals(semester, partner="All") {
   }
 }
 
-export function updateSingleProposal(load) {
-    return (
-            {
-                type: UPDATE_SINGLE_PROPOSAL,
-                payload: load
-            }
-    );
-}
-
 export function updateProposals(load) {
     return (
-            {
-                type: UPDATING_PROPOSALS,
-                payload: load
-            }
+        {
+            type: UPDATING_PROPOSALS,
+            payload: load
+        }
     );
 }

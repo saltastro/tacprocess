@@ -135,7 +135,6 @@ export const loadedPage = pathname => {
 
 export const reduceProposalsPerAstronomer = (proposals, astronomer) => {
   let prop = []
-  console.log("AAA: ", astronomer);
   if (astronomer === "All"){
     prop = proposals
   }
@@ -153,7 +152,6 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer) => {
       if (p.liaisonAstronomer === astronomer) {prop.push(p)}
     })
   }
-  console.log(prop);
 
   return prop
 }
