@@ -71,7 +71,6 @@ export default connect(store => {
     const selectedSA = store.filters.selectedLiaison;
     const saUser = selectedSA === "All" || selectedSA === "Not Assigned" || selectedSA === "Assigned"? selectedSA : getLiaisonUsername(selectedSA, SALTAstronomers)
     const proposals = reduceProposalsPerAstronomer(store.proposals.proposals || [], saUser);
-    console.log({proposals});
 
     return {
         proposals,
