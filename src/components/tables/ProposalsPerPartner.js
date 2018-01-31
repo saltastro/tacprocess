@@ -23,7 +23,7 @@ const TimeAllocationInput = ({onChange, proposal, priority, partner, name}) => {
 };
 
 const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentChange,  allocationChange,
-                                 allocatedTimeChange, canAllocate}) => {
+                                 allocatedTimeChange, canAllocate, semester}) => {
 	const arrayOfProposals = proposals || [];
 	
 	return(
@@ -49,7 +49,6 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 					<th>Act on Alert</th>
 					<th>Transparency</th>
 					<th>Max seeing</th>
-					<th>Hover Info</th>
 					<th>Tech Report</th>
 				</tr>
 				</thead>
@@ -60,11 +59,11 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 					.map( p => {
 						return (
 							<tr key={p.proposalId}>
-								<td><div id={"propCode"} className="width-150 padding-8" >{ p.proposalCode }</div></td>
+								<td><div id={"propCode"} className="width-150 padding-8" ><a target="_blank" href={`https://www.salt.ac.za/wm/proposal/${p.proposalCode}`}>{ p.proposalCode }</a></div></td>
 								<td><div id={"propTitle"} className="table-height width-300" >{ p.title }</div></td>
 								<td><div id={"propAbstract"} className="table-height width-400" >{ p.abstract }</div></td>
 								<td id={"propPI"}>{ p.pi }</td>
-								<td id={"propSemester"}>2017-1</td>
+								<td id={"propSemester"}>{semester}</td>
 								<td id={"propComment"}>
 									{ canAllocate ?
 										<textarea
@@ -168,6 +167,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 ProposalsPerPartner.propTypes = {
 	proposals: propTypes.array.isRequired,
 	partner: propTypes.string.isRequired,
+	semester: propTypes.string.isRequired,
 	allocationChange: propTypes.func.isRequired,
 	allocatedTimeChange: propTypes.func.isRequired,
 	tacCommentChange: propTypes.func.isRequired,
