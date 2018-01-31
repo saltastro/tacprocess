@@ -1,4 +1,5 @@
 import { queryProposals } from "../api/graphQL"
+import {getTechReportFields} from "../util";
 import {
 	FETCH_PROPOSALS_START,
 	FETCH_PROPOSALS_PASS,
@@ -14,6 +15,7 @@ function startFetchProposals() {
 	);
 	
 }
+
 function FetchProposalsFail() {
 	return (
 		{
@@ -115,7 +117,7 @@ function convertProposals(proposals, semester, partner){
             instruments: proposal.instruments,
             pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
             liaisonAstronomer: proposal.SALTAstronomer ? proposal.SALTAstronomer.username : null,
-            techReport: proposal.techReport,
+            techReport: semester < "2018-1" ? proposal.techReport : getTechReportFields(proposal.techReport),
             allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner),
             tacComment: makeTacComments(proposal.tacComment, partner),
             requestedTime: requestedTime(proposal.timeRequests, semester)

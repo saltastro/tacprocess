@@ -3,6 +3,7 @@ import propTypes from "prop-types";
 import _ from "lodash";
 import { illegalAllocation } from "../../util/allocation";
 import { goodTime, badTime } from "../../types"
+import {makeTechComment} from "../../util";
 
 
 const TimeAllocationInput = ({onChange, proposal, priority, partner, name}) => {
@@ -154,7 +155,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 								<td><div id={"propBoolean"} className="table-height width-100" >false</div></td>
 								<td><div id={"propTranparency"} className="table-height width-100" >{ p.transparency }</div></td>
 								<td><div id={"propMaxSeeing"} className="table-height width-100" >{ p.maxSeeing }</div></td>
-								<td><div id={"propTechReport"} className="table-height width-400" >{ p.techReport } </div></td>
+								<td><div id={"propTechReport"} className="table-height width-400" >{ semester >= "2018-1" ? makeTechComment(p.techReport) : p.techReport } </div></td>
 							</tr>
 						)})
 				}

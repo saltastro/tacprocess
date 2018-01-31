@@ -312,9 +312,13 @@ export function canViewPage (userRoles, page){
 
 
 export function makeTechComment (reportFields){
-	return ("Feasible: " + reportFields.feasible + "\n" +
-		"Comments: " + reportFields.comment + "\n" +
-		"Detailed Check: " + reportFields.details);
+	const feasible = reportFields.feasible !== "none" ? "Feasible: " + reportFields.feasible + "\n" : "";
+	const comment = (
+		reportFields.comment === "none" ||
+		reportFields.comment === "null" ||
+		reportFields.comment === "") ? "" : "Comments: " + reportFields.comment.replace(/^\s+|\s+$/g, "") + "\n";
+	const details = reportFields.details !== "none" ? "Detailed Check: " + reportFields.details + "\n" : "";
+	return feasible + comment + details;
 }
 
 export function getTechReportFields(report) {
@@ -328,12 +332,12 @@ export function getTechReportFields(report) {
 		comment = fields[2].toLowerCase();
 		details = fields[3].toLowerCase();
 	} else {
-		comment = report;
+		comment = report.split("Comments: ").pop();
 	}
 	return {
-		feasible: feasible.length < 2 ? "none" : feasible,
-		comment: comment,
-		details: details.length < 2 ? "none" : details
+		feasible: feasible.length < 2 ? "none" : feasible.replace(/^\s+|\s+$/g, ""),
+		comment: comment.replace(/^\s+|\s+$/g, ""),
+		details: details.length < 2 ? "none" : details.replace(/^\s+|\s+$/g, "")
 	}
 	
 }

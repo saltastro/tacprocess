@@ -22,8 +22,8 @@ class TechReviewPage extends React.Component {
   }
 
   // Updates the comment of the specific proposal
-  techReportChange = (proposalCode, techReport) => {
-    this.props.dispatch(updateTechnicalReport(proposalCode, this.props.semester, techReport));
+  techReportChange = (proposalCode, techReport, field) => {
+    this.props.dispatch(updateTechnicalReport(proposalCode, this.props.semester, techReport, field));
   };
 
   // Assign an astronomer for the specific proposal
@@ -56,7 +56,10 @@ class TechReviewPage extends React.Component {
           techAssignAstronomer={ this.techAssignAstronomer }
           semester={semester}
         />
-          <button className="btn-success" onClick={ e => this.submitTechReview(e, proposals) }>Submit</button>
+          <button
+              disabled={semester < "2018-1"}
+              className="btn-success"
+              onClick={ e => this.submitTechReview(e, proposals) }>Submit</button>
           <div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'right', marginTop: 70 }}>
               {submitting && <span>Submitting...</span>}
               {submitted && <span style={{color: 'green'}}>Submission successful</span>}

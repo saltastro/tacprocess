@@ -9,6 +9,7 @@ import {
     UPDATE_TECHNICAL_REPORT,
 } from '../types';
 import { jsonClient } from '../api/api';
+import {makeTechComment} from "../util";
 
 /**
  * An action for updating the liaison astronomer of a proposal in the local store.
@@ -33,15 +34,17 @@ export function updateLiaisonAstronomer(proposalCode, liaisonAstronomer) {
  * @param proposalCode Proposal code, such as "2018-1-SCI-009".
  * @param semester Semester, such as "2018-1".
  * @param techReport Technical report.
+ * @param field an edited field either (comment, details, feasible).
  * @returns {{type, payload: {proposalCode: *, semester: *, techReport: *}}} The action.
  */
-export function updateTechnicalReport(proposalCode, semester, techReport) {
+export function updateTechnicalReport(proposalCode, semester, techReport, field) {
     return {
         type: UPDATE_TECHNICAL_REPORT,
         payload: {
             proposalCode,
             semester,
-            techReport
+            techReport,
+            field
         }
     }
 }
@@ -120,7 +123,7 @@ async function submitTechnicalReports(dispatch, proposals, semester) {
         const reports = proposals.map(p => {
             return {
                 proposalCode: p.proposalCode,
-                report: p.techReport
+                report: makeTechComment(p.techReport)
             }
         });
         await jsonClient().post('technical-reports', {semester, reports});
