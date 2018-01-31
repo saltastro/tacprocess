@@ -345,9 +345,6 @@ export function canViewPage (userRoles, page){
 
 
 export function makeTechComment (reportFields){
-	console.log(("Feasible: " + reportFields.feasible.replace(" ", "") + "\n" +
-		"Comments: " + reportFields.comment+ "\n" +
-		"Detailed Check: " + reportFields.details.replace(" ", "")));
 	return ("Feasible: " + reportFields.feasible + "\n" +
 		"Comments: " + reportFields.comment + "\n" +
 		"Detailed Check: " + reportFields.details);
@@ -383,31 +380,17 @@ export function addCommentToTechComment (techComment, comment ){
 }
 
 export function getTechReportFields(report) {
-	console.log(report);
 	let feasible = "none";
 	let comment = "";
 	let details = "none";
-	const regExp = /Feasible:\s+(yes|no|yes with caveats|\s)(.*)\s+Comments:(.*)\s+Detailed Check:\s+(yes.|yes|no|\s)/mi;
-	if ( regExp.test(report)){
-		const feasibleValue = /Feasible:\s+(yes with caveats|yes.|no|yes|\s)/mi.exec(report);
-		feasible = /(yes with caveats|no|yes)/i.test(feasibleValue[1]) ? feasibleValue[1] :
-			/(yes.)/i.test(feasibleValue[1]) ? "yes" : "none";
-		
-		const detailsValue = /(.*)Detailed Check:\s+(yes|no|\s)/mi.exec(report);
-		details = /(yes|no)/i.test(detailsValue[1]) ? detailsValue[1] :
-			/(yes.)/i.test(detailsValue[1]) ? "yes": "none";
-		
-		
-		
-		report = (report || "").split("\n");
-
-		(report || []).forEach( (c, i) => {
-			if ( i === 0 || i === report.length - 1 ){
-			
-			} else {
-				comment = comment + c.split("Comments: ").pop()
-			}
-		});
+	const regExp = /Feasible:\s*(yes|no|yes with caveats)\.?\s+Comments:(.*)\s+Detailed Check:\s*(yes|no|\s)/mi;
+	const fields = regExp.exec(report);
+	if ( !!fields ){
+		feasible = fields[1].toLowerCase();
+		comment = fields[2].toLowerCase();
+		details = fields[3].toLowerCase();
+	} else {
+		comment = report;
 	}
 	return {
 		feasible: feasible.length < 2 ? "none" : feasible,
