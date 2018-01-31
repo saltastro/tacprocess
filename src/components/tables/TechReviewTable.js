@@ -58,7 +58,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
 						const reportFields = getTechReportFields(p.techReport);
 						return(
 							<tr key={p.proposalId}>
-								<td className="width-150">{ p.proposalCode }</td>
+								<td className="width-150"><a target="_blank" href={`https://www.salt.ac.za/wm/proposal/${p.proposalCode}`}>{ p.proposalCode }</a></td>
 								<td className=" table-height width-400">{ p.title }</td>
 								<td className="width-100">{p.pi}</td>
 								{
