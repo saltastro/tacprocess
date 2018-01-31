@@ -6,7 +6,7 @@ import {
 	SUBMIT_LIAISON_ASTRONOMERS_FAIL, SUBMIT_TECHNICAL_REPORTS_START, SUBMIT_TECHNICAL_REPORTS_PASS,
 	SUBMIT_TECHNICAL_REPORTS_FAIL,
 	UPDATE_TAC_COMMENT, UPDATE_ALLOCATED_PRIORITY,
-    SUBMIT_TIME_ALLOCATIONS_START, SUBMIT_TIME_ALLOCATIONS_FAIL, SUBMIT_TIME_ALLOCATIONS_PASS
+	SUBMIT_TIME_ALLOCATIONS_START, SUBMIT_TIME_ALLOCATIONS_FAIL, SUBMIT_TIME_ALLOCATIONS_PASS
 } from "../types";
 
 const initialState = {
@@ -20,7 +20,10 @@ const initialState = {
 	submittedTimeAllocations: {},
 	unSubmittedTacChanges: false,
 	proposals:[],
-	errors: null,
+	errors: {
+		fetchingError : null,
+		submittingError : null,
+	},
 };
 
 export default function proposals(state = initialState, action = {}) {
@@ -37,14 +40,21 @@ export default function proposals(state = initialState, action = {}) {
 				fetching: false,
 				fetched: false,
 				proposals: [],
-				errors: "Fail to get proposals from api" }
+				errors: {
+					...state.errors,
+					fetchingError: "Fail to get proposals from api"
+				}
+			}
 		}
 		case FETCH_PROPOSALS_PASS: {
 			return {
 				...state,
 				fetching: false,
 				fetched: true,
-				errors: null,
+				errors: {
+					...state.errors,
+					fetchingError: null
+				},
 				proposals: action.payload,
 			}
 		}
@@ -102,14 +112,18 @@ export default function proposals(state = initialState, action = {}) {
 				...state,
 				submittingLiaisonAstronomers: true,
 				submittedLiaisonAstronomers: false,
-				errors: null
 			}
 		}
 		case SUBMIT_LIAISON_ASTRONOMERS_PASS: {
 			return {
 				...state,
 				submittingLiaisonAstronomers: false,
-				submittedLiaisonAstronomers: true
+				submittedLiaisonAstronomers: true,
+				errors: {
+					...state.errors,
+					submittingError: null,
+					
+				}
 			}
 		}
 		case SUBMIT_LIAISON_ASTRONOMERS_FAIL: {
@@ -117,7 +131,11 @@ export default function proposals(state = initialState, action = {}) {
 				...state,
 				submittingLiaisonAstronomers: false,
 				submittedLiaisonAstronomers: false,
-				errors: "Submitting the liaison astronomers failed."
+				errors: {
+					...state.errors,
+					submittingError: "Submitting the liaison astronomers failed.",
+					
+				}
 			}
 		}
 		case SUBMIT_TECHNICAL_REPORTS_START: {
@@ -125,7 +143,6 @@ export default function proposals(state = initialState, action = {}) {
 				...state,
 				submittingTechnicalReports: true,
 				submittedTechnicalReports: false,
-				errors: null
 			}
 		}
 		case SUBMIT_TECHNICAL_REPORTS_PASS: {
@@ -133,6 +150,11 @@ export default function proposals(state = initialState, action = {}) {
 				...state,
 				submittingTechnicalReports: false,
 				submittedTechnicalReports: true,
+				errors: {
+					...state.errors,
+					submittingError: null,
+					
+				}
 			}
 		}
 		case SUBMIT_TECHNICAL_REPORTS_FAIL: {
@@ -140,7 +162,11 @@ export default function proposals(state = initialState, action = {}) {
 				...state,
 				submittingTechnicalReports: false,
 				submittedTechnicalReports: false,
-				errors: "Submitting the technical reports failed."
+				errors: {
+					...state.errors,
+					submittingError: "Submitting the technical reports failed.",
+					
+				}
 			}
 		}
 		case UPDATE_TAC_COMMENT: {
@@ -148,9 +174,9 @@ export default function proposals(state = initialState, action = {}) {
 			return {
 				...state,
 				unSubmittedTacChanges: {
-				    ...state.unSubmittedTacChanges,
-				    [action.payload.partner]: true
-                },
+					...state.unSubmittedTacChanges,
+					[action.payload.partner]: true
+				},
 				proposals: state.proposals.map(p => {
 					if (p.proposalCode === action.payload.proposalCode) {
 						return {
@@ -191,7 +217,6 @@ export default function proposals(state = initialState, action = {}) {
 				...state,
 				submittingTimeAllocations: true,
 				submittedTimeAllocations: {},
-				errors: null
 			}
 		}
 		case SUBMIT_TIME_ALLOCATIONS_FAIL: {
@@ -199,10 +224,14 @@ export default function proposals(state = initialState, action = {}) {
 				...state,
 				submittingTimeAllocations: false,
 				submittedTimeAllocations: {
-				    results: false,
-                    partner: action.payload.partner
-                },
-                errors: "Fail to submit time allocations"
+					results: false,
+					partner: action.payload.partner
+				},
+				errors: {
+					...state.errors,
+					submittingError: "Fail to submit time allocations",
+					
+				}
 			}
 		}
 		case SUBMIT_TIME_ALLOCATIONS_PASS: {
@@ -210,10 +239,15 @@ export default function proposals(state = initialState, action = {}) {
 				...state,
 				submittingTimeAllocations: false,
 				submittedTimeAllocations: {
-				    results: true,
+					results: true,
 					partner: action.payload.partner
-                },
+				},
 				unSubmittedTacChanges: false,
+				errors: {
+					...state.errors,
+					submittingError: null,
+					
+				}
 			}
 		}
 		default: {
