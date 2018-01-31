@@ -59,7 +59,7 @@ tbody { border: 3px solid #000}
   margin-top: 5em;
   margin-right: auto;
   overflow-x: scroll;
-  width: 1500px;
+  width: 1500;
 	height: 100%;
   background-color: #EFF3F9;
 }
