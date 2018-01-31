@@ -37,9 +37,9 @@ class TimeAllocationPage extends React.Component {
 	
 	allocationChange(event, proposalCode, priority, partner) {
 		
-		const data = this.props;
+		const proposals = this.props;
 		const value = event.target.value;
-		const updatedProposals = data.proposals.proposals.map(p => {
+		const updatedProposals = proposals.proposals.map(p => {
 			if (p.proposalCode === proposalCode) {
 				p.allocatedTime[partner][priority] = value
 			}
@@ -93,16 +93,23 @@ class TimeAllocationPage extends React.Component {
 	CSVData = (proposals, partner) => {
 		let tableDataHeaders = [
 			"Code", "Title", "Abstract", "PI", "Semester", "TAC comment", "Minimum useful time",
-			"Total Requested Time", "P0", "P1", "P2", "P3", "Total P0-P3", "P4",
-			"Act on Alert", "Transparency", "Max seeing", "Tech Report"
+			"Total Requested Time", "P0", "P1", "P2", "P3", "P4",
+			
+			  "Transparency", "Max seeing", "Tech Report"
 		];
 		return [
 			tableDataHeaders,
 			...proposals.map(p => [
-				p.proposalCode, p.title, p.abstract, p.pi, "2017-1", p.tacComment[partner].comment, p.minTime, p.totalRequestedTime,
-				p.allocatedTime[partner]["p0"], p.allocatedTime[partner]["p1"], p.allocatedTime[partner]["p2"], p.allocatedTime[partner]["p3"],
-				(p.allocatedTime[partner]["p0"] + p.allocatedTime[partner]["p1"] + p.allocatedTime[partner]["p2"] + p.allocatedTime[partner]["p3"]),
-				p.allocatedTime[partner]["p4"], false, p.transparency, p.maxSeeing, p.techReport
+				p.proposalCode, p.title, p.abstract, p.pi, "2017-1",
+				!!p.tacComment[partner]? p.tacComment[partner].comment : "",
+				p.minTime, p.totalRequestedTime,
+				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p0"] : 0,
+				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p1"] : 0,
+				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p2"] : 0,
+				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p3"] : 0,
+				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p4"] : 0,
+				
+				  p.transparency, p.maxSeeing, p.techReport
 			])
 		];
 	};

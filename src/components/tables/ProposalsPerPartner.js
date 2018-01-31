@@ -12,7 +12,7 @@ const TimeAllocationInput = ({onChange, proposal, priority, partner, name}) => {
 			<div>{`${proposal.proposalCode} (${priority.toUpperCase()})`}</div>
 			<div>
 				<input type="text"
-				       value={proposal.allocatedTime[partner][priority]}
+				       value={!!proposal.allocatedTime[partner] ? proposal.allocatedTime[partner][priority] : 0}
 				       style={sty}
 				       className="width-100"
 				       name={name}
@@ -133,10 +133,10 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 									}
 								</td>
 								<td><div id={"propTotalP0P3"} className="table-height width-100" >{
-									parseFloat(p.allocatedTime[partner]["p0"] || 0 ) +
-									parseFloat(p.allocatedTime[partner]["p1"] || 0 ) +
-									parseFloat(p.allocatedTime[partner]["p2"] || 0 ) +
-									parseFloat(p.allocatedTime[partner]["p3"] || 0 )
+									parseFloat(!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p0"] : 0 ) +
+									parseFloat(!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p1"] : 0 ) +
+									parseFloat(!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p2"] : 0 ) +
+									parseFloat(!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p3"] : 0 )
 								}</div></td>
 								<td id={"propCanAllocateP4"}>
 									{ canAllocate ?
