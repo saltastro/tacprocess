@@ -26,7 +26,6 @@ export default function PartnerProposals(proposalList, partners, semester){
 	 */
 	
 	let proposalPerPartner = {};
-	semester="2018-1";
 	
 	partners.forEach(partner => {
 		if (partner !== "OTH"){
@@ -44,6 +43,5 @@ export default function PartnerProposals(proposalList, partners, semester){
 				}
 			})}
 	});
-	console.log(proposalPerPartner);
 	return proposalPerPartner
 }
