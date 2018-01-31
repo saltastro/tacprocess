@@ -99,7 +99,10 @@ export default function proposals(state = initialState, action = {}) {
 					if (p.proposalCode === action.payload.proposalCode) {
 						return {
 							...p,
-							techReport: action.payload.techReport
+							techReport: {
+								...p.techReport,
+								[action.payload.field]: action.payload.techReport
+							}
 						}
 					} else {
 						return p;

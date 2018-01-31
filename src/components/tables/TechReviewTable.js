@@ -55,7 +55,6 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
 				<tbody>
 				{
 					proposals.map( p => {
-						const reportFields = getTechReportFields(p.techReport);
 						return(
 							<tr key={p.proposalId}>
 								<td className="width-150"><a target="_blank" href={`https://www.salt.ac.za/wm/proposal/${p.proposalCode}`}>{ p.proposalCode }</a></td>
@@ -64,7 +63,11 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
 								{
 									semester >= "2018-1"?
 										<td >
-											<select defaultValue={reportFields.feasible} onChange={e => techReportChange(p.proposalCode, feasibleChange(e, reportFields))}>
+											<select
+												defaultValue={p.techReport.feasible}
+												onChange={e =>
+													techReportChange(p.proposalCode, e.target.value, "feasible")
+												}>
 												<option>{"none"}</option>
 												<option>{"yes"}</option>
 												<option>{"yes with caveats"}</option>
@@ -74,10 +77,10 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
 								<td>
                     <textarea
 	                    className="table-height-fixed width-400"
-	                    value={ semester >= "2018-1"? reportFields.comment  || "" : p.techReport || "" }
-	                    onChange={ e =>{
-		                    techReportChange(p.proposalCode, commentChange(e, reportFields))
-	                    }}
+	                    value={ semester >= "2018-1"? p.techReport.comment || "" : p.techReport || "" }
+	                    onChange={  semester >= "2018-1"? e =>{
+		                    techReportChange(p.proposalCode, e.target.value, "comment")
+	                    } : e => e}
                     >
 
                     </textarea>
@@ -85,7 +88,10 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
 								{
 									semester >= "2018-1"?
 										<td className="width-100">
-											<select defaultValue={reportFields.details}  onChange={e => techReportChange(p.proposalCode, detailsCheckChange(e, reportFields))}>
+											<select
+												defaultValue={p.techReport.details}
+												onChange={e =>
+													techReportChange(p.proposalCode, e.target.value, "details")}>
 												<option>{"none"}</option>
 												<option>{"yes"}</option>
 												<option>{"no"}</option>
