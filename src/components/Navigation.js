@@ -7,6 +7,7 @@ import  fetchProposals  from "../actions/proposalsActions";
 import  fetchTargets  from "../actions/targetsActions";
 import { storePartnerAllocations  } from "../actions/timeAllocationActions";
 import {
+    HOME_PAGE,
 	STATISTICS_PAGE,
 	DOCUMENTATION_PAGE,
 	TECHNICAL_PAGE,

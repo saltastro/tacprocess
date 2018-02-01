@@ -41,8 +41,11 @@ class TechReviewPage extends React.Component {
     const errors = this.props.errors.submittingError;
     const semester  = this.props.semester;
 
-      if ( this.props.loading ){
-          return (<div><h1>Loading...</h1></div>)
+      if (this.props.loading ){
+          return ( <div className='spinner'>
+                        <div className ='dot1'></div>
+                        <div className='dot2'></div>
+                   </div>)
       }
 
       return(
