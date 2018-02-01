@@ -76,8 +76,12 @@ class Navigation extends React.Component {
 						<li>
 							<NavLink to="/admin">ADMIN</NavLink>
 						</li> }
-					<button className="logoutbtn"
-					        onClick={ this.loggingOut.bind(this) }> Logout</button>
+					<li>
+						<button className="logoutbtn"
+								onClick={ this.loggingOut.bind(this) }>
+							Logout
+						</button>
+					</li>
 				</ul>
 				<ul className="bigNav">
 					<h1>{ currentPage }</h1>
