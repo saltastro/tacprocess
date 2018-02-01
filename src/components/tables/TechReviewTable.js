@@ -1,21 +1,8 @@
 import React from 'react';
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
-import { canDo, astronomerAssigned, makeTechComment, getTechReportFields } from '../../util/index';
+import { canDo, astronomerAssigned } from '../../util/index';
 import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
-
-const feasibleChange = (e, reportFields) => {
-	reportFields.feasible = e.target.value;
-	return makeTechComment(reportFields);
-};
-const detailsCheckChange  = (e, reportFields) => {
-	reportFields.details = e.target.value;
-	return makeTechComment(reportFields);
-};
-const commentChange  = (e, reportFields) => {
-	reportFields.comment = e.target.value;
-	return makeTechComment(reportFields);
-};
 
 export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer, semester}) => {
 	if (proposals.length === 0 ){

@@ -59,6 +59,5 @@ export function getQuaryToAddAllocation(proposals, partner, semester){
         }
       }
   `
-    console.log(mutateQuery);
   return mutateQuery
 }
