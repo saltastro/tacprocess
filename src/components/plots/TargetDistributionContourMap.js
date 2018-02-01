@@ -30,6 +30,9 @@ class TargetDistributionContourMap extends React.Component {
     updatePlot = () => {
         const svg = d3.select(this.target);
 
+        // remove all existing content
+        svg.selectAll('*').remove();
+
         // set up the geometry, using the margin pattern
         const width = this.props.width || 800;
         const height = this.props.height || 500;
