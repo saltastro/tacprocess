@@ -56,21 +56,26 @@ class Navigation extends React.Component {
 			<div>
 				<ul className="nav">
 					<li><NavLink exact to="/">HOME</NavLink></li>
-					{ canViewPage(userRoles, TECHNICAL_PAGE) ?
+					{ canViewPage(userRoles, TECHNICAL_PAGE) &&
 						<li>
-							<NavLink to="/techreview">TECH REVIEW</NavLink></li> : <li /> }
-					{ canViewPage(userRoles, STATISTICS_PAGE) ?
+							<NavLink to="/techreview">TECH REVIEW</NavLink>
+						</li> }
+					{ canViewPage(userRoles, STATISTICS_PAGE) &&
 						<li>
-							<NavLink to="/statistics">STATISTICS</NavLink></li> : <li /> }
-					{ canViewPage(userRoles, TAC_PAGE) ?
+							<NavLink to="/statistics">STATISTICS</NavLink>
+						</li> }
+					{ canViewPage(userRoles, TAC_PAGE) &&
 						<li>
-							<NavLink to="/timeallocation">TIME ALLOCATION</NavLink></li> : <li /> }
-					{ canViewPage(userRoles, DOCUMENTATION_PAGE) ?
+							<NavLink to="/timeallocation">TIME ALLOCATION</NavLink>
+						</li> }
+					{ canViewPage(userRoles, DOCUMENTATION_PAGE) &&
 						<li>
-							<NavLink to="/documentation">DOCUMENTATION</NavLink></li> : <li /> }
-					{ canViewPage(userRoles, ADMIN_PAGE) ?
+							<NavLink to="/documentation">DOCUMENTATION</NavLink>
+						</li> }
+					{ canViewPage(userRoles, ADMIN_PAGE) &&
 						<li>
-							<NavLink to="/admin">ADMIN</NavLink></li> : <li /> }
+							<NavLink to="/admin">ADMIN</NavLink>
+						</li> }
 					<button className="logoutbtn"
 					        onClick={ this.loggingOut.bind(this) }> Logout</button>
 				</ul>
