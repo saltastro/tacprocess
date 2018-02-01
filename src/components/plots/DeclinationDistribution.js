@@ -159,7 +159,7 @@ class RightAscensionDistribution extends React.Component {
         const width = this.props.width || 700;
         const height = this.props.height || 700;
         return (
-                <svg
+                <svg className="plots"
                         width={width}
                         height={height}
                         ref={svg => this.target = svg}
