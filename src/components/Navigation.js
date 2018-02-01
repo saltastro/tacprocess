@@ -7,6 +7,7 @@ import  fetchProposals  from "../actions/proposalsActions";
 import  fetchTargets  from "../actions/targetsActions";
 import { storePartnerAllocations  } from "../actions/timeAllocationActions";
 import {
+    HOME_PAGE,
 	STATISTICS_PAGE,
 	DOCUMENTATION_PAGE,
 	TECHNICAL_PAGE,
@@ -55,7 +56,9 @@ class Navigation extends React.Component {
 		return(
 			<div>
 				<ul className="nav">
-					<li><Link to="/">HOME</Link></li>
+					{ canViewPage(userRoles, HOME_PAGE) ?
+						<li className={currentPage === HOME_PAGE ? "active" : ""}>
+							<Link to="/">HOME</Link></li> : <li /> }
 					{ canViewPage(userRoles, TECHNICAL_PAGE) ?
 						<li className={currentPage === TECHNICAL_PAGE ? "active" : ""}>
 							<Link to="/techreview">TECH REVIEW</Link></li> : <li /> }
