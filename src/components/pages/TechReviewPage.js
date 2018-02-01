@@ -41,7 +41,7 @@ class TechReviewPage extends React.Component {
     const errors = this.props.errors.submittingError;
     const semester  = this.props.semester;
 
-      if (!user.roles || !proposals || proposals.length === 0 ){
+      if (this.props.loading ){
           return ( <div className='spinner'>
                         <div className ='dot1'></div>
                         <div className='dot2'></div>
