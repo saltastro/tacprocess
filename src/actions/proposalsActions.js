@@ -125,6 +125,26 @@ function requestedTime(requests, semester){
 	return reqTime
 }
 
+function setReviewer (techReview, semester){
+	let reviewer = null;
+	(techReview || []).forEach( r => {
+		if ( r.semester === semester ){
+			reviewer = r.reviewer.username === "nhlavutelo" ? null : r.reviewer.username
+		}
+	});
+	return reviewer
+}
+function setTechnicalReport (techReview, semester){
+	let report = null;
+	(techReview || []).forEach( r => {
+		if ( r.semester === semester ){
+			report = semester < "2018-1" ? r.report : getTechReportFields(r.report)
+		}
+	});
+	return report
+}
+
+
 function convertProposals(proposals, semester, partner){
 	if (!proposals.proposals){ return []}
 	return proposals.proposals.map( proposal => {
@@ -146,9 +166,8 @@ function convertProposals(proposals, semester, partner){
             instruments: proposal.instruments,
             pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
             liaisonAstronomer: proposal.SALTAstronomer ? proposal.SALTAstronomer.username : null,
-		    reviewer: proposal.reviewer ? proposal.reviewer.username :
-			    proposal.SALTAstronomer ? proposal.SALTAstronomer.username : null,
-            techReport: semester < "2018-1" ? proposal.techReport : getTechReportFields(proposal.techReport),
+		    reviewer: setReviewer(proposal.techReviews, semester) ,
+            techReport: setTechnicalReport(proposal.techReviews, semester),
             allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner),
             tacComment: makeTacComments(proposal.tacComment, partner),
             requestedTime: requestedTime(proposal.timeRequests, semester)
