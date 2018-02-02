@@ -39,7 +39,7 @@ class filters extends React.Component {
 			<div className="selector-div">
 				<div className="left">
 					<DropDown
-						className={"left"}
+						className={"left-2"}
 						name="Semester"
 						listToDisplay={semestersArray()}
 						OnChange={this.updateSemester}

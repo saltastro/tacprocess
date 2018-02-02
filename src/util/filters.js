@@ -6,6 +6,7 @@ import { ALL_PARTNER,
 	TAC_PAGE,
 	ADMIN_PAGE
 } from "../types"
+import {makeTechComment} from "./index";
 
 
 export function totalTimeRequestedPerParner(proposals, semester, partner="All" ){
@@ -133,7 +134,7 @@ export const loadedPage = pathname => {
  *
  * @param proposals array of proposals
  * @param astronomer a SALT astronomer
- * @return proposals reduced proposals
+ * @return Array reduced proposals
  * */
 
 export const reduceProposalsPerAstronomer = (proposals, astronomer) => {
@@ -157,4 +158,23 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer) => {
 	}
 	
 	return prop
+};
+
+export const getOnlyUpdatedProposals = (proposals, updatedProposal, user) => {
+    return proposals.map( p => {
+    	
+    	if (updatedProposal.some(u => {
+    		if (p.proposalCode === u.proposalCode){
+	            return (
+	            	makeTechComment(u.techReport) !== makeTechComment(p.techReport) ||
+	            	u.reviewer !== p.reviewer
+	            )
+    		}
+    	})) {
+    		return {
+    			...p,
+			    reviewer: p.reviewer === null ? user.lastName : p.reviewer
+		    }
+    	}
+    }).filter(function(n){ return n !== undefined })
 };

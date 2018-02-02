@@ -1,31 +1,31 @@
 import {
-    SUBMIT_LIAISON_ASTRONOMERS_FAIL,
-    SUBMIT_LIAISON_ASTRONOMERS_PASS,
-    SUBMIT_LIAISON_ASTRONOMERS_START,
-    SUBMIT_TECHNICAL_REPORTS_FAIL,
-    SUBMIT_TECHNICAL_REPORTS_PASS,
-    SUBMIT_TECHNICAL_REPORTS_START,
-    UPDATE_LIAISON_ASTRONOMER,
-    UPDATE_TECHNICAL_REPORT,
+	SUBMIT_LIAISON_ASTRONOMERS_FAIL,
+	SUBMIT_LIAISON_ASTRONOMERS_PASS,
+	SUBMIT_LIAISON_ASTRONOMERS_START,
+	SUBMIT_TECHNICAL_REPORTS_FAIL,
+	SUBMIT_TECHNICAL_REPORTS_PASS,
+	SUBMIT_TECHNICAL_REPORTS_START,
+	UPDATE_TECHNICAL_REPORT,
+	UPDATE_TECHNICAL_REVIEWER,
 } from '../types';
 import { jsonClient } from '../api/api';
 import {makeTechComment} from "../util";
 
 /**
- * An action for updating the liaison astronomer of a proposal in the local store.
+ * An action for updating the technical reviewer of a proposal in the local store.
  *
  * @param proposalCode Proposal code, such as "2018-1-SCI-009".
- * @param liaisonAstronomer Username of the liaison astronomer.
- * @returns {{type, payload: {proposalCode: *, liaisonAstronomer: *}}} The action.
+ * @param reviewer Username of the technical reviewer.
+ * @returns {{type, payload: {proposalCode: *, reviewer: *}}} The action.
  */
-export function updateLiaisonAstronomer(proposalCode, liaisonAstronomer) {
-    return {
-        type: UPDATE_LIAISON_ASTRONOMER,
-        payload: {
-            proposalCode,
-            liaisonAstronomer
-        }
-    }
+export function updateTechnicalReviewer(proposalCode, reviewer) {
+	return {
+		type: UPDATE_TECHNICAL_REVIEWER,
+		payload: {
+			proposalCode,
+			reviewer
+		}
+	}
 }
 
 /**
@@ -38,51 +38,51 @@ export function updateLiaisonAstronomer(proposalCode, liaisonAstronomer) {
  * @returns {{type, payload: {proposalCode: *, semester: *, techReport: *}}} The action.
  */
 export function updateTechnicalReport(proposalCode, semester, techReport, field) {
-    return {
-        type: UPDATE_TECHNICAL_REPORT,
-        payload: {
-            proposalCode,
-            semester,
-            techReport,
-            field
-        }
-    }
+	return {
+		type: UPDATE_TECHNICAL_REPORT,
+		payload: {
+			proposalCode,
+			semester,
+			techReport,
+			field
+		}
+	}
 }
 
 function startSubmitLiaisonAstronomers() {
-    return {
-        type: SUBMIT_LIAISON_ASTRONOMERS_START
-    }
+	return {
+		type: SUBMIT_LIAISON_ASTRONOMERS_START
+	}
 }
 
 function submitLiaisonAstronomersFail() {
-    return {
-        type: SUBMIT_LIAISON_ASTRONOMERS_FAIL
-    }
+	return {
+		type: SUBMIT_LIAISON_ASTRONOMERS_FAIL
+	}
 }
 
 function submitLiaisonAstronomersPass() {
-    return {
-        type: SUBMIT_LIAISON_ASTRONOMERS_PASS
-    }
+	return {
+		type: SUBMIT_LIAISON_ASTRONOMERS_PASS
+	}
 }
 
 function startSubmitTechnicalReports() {
-    return {
-        type: SUBMIT_TECHNICAL_REPORTS_START
-    }
+	return {
+		type: SUBMIT_TECHNICAL_REPORTS_START
+	}
 }
 
 function submitTechnicalReportsFail() {
-    return {
-        type: SUBMIT_TECHNICAL_REPORTS_FAIL
-    }
+	return {
+		type: SUBMIT_TECHNICAL_REPORTS_FAIL
+	}
 }
 
 function submitTechnicalReportsPass() {
-    return {
-        type: SUBMIT_TECHNICAL_REPORTS_PASS
-    }
+	return {
+		type: SUBMIT_TECHNICAL_REPORTS_PASS
+	}
 }
 
 /**
@@ -92,43 +92,43 @@ function submitTechnicalReportsPass() {
  * @param semester Semester, such as "2018-1".
  */
 export function submitTechnicalReviewDetails(proposals, semester) {
-    return async (dispatch) => {
-        await Promise.all(
-                [
-                    submitLiaisonAstronomers(dispatch, proposals, semester),
-                    submitTechnicalReports(dispatch, proposals, semester)
-                ]);
-    }
+	return async (dispatch) => {
+		await Promise.all(
+			[
+				submitLiaisonAstronomers(dispatch, proposals, semester),
+				submitTechnicalReports(dispatch, proposals, semester)
+			]);
+	}
 }
 
 async function submitLiaisonAstronomers(dispatch, proposals, semester) {
-    dispatch(startSubmitLiaisonAstronomers());
-    try {
-        const assignments = proposals.map(p => {
-            return {
-                proposalCode: p.proposalCode,
-                liaisonAstronomer: p.liaisonAstronomer
-            }
-        });
-        await jsonClient().post('liaison-astronomers', {semester, assignments});
-        dispatch(submitLiaisonAstronomersPass());
-    } catch (e) {
-        dispatch(submitLiaisonAstronomersFail());
-    }
+	dispatch(startSubmitLiaisonAstronomers());
+	try {
+		const assignments = proposals.map(p => {
+			return {
+				proposalCode: p.proposalCode,
+				liaisonAstronomer: p.liaisonAstronomer
+			}
+		});
+		await jsonClient().post('liaison-astronomers', {semester, assignments});
+		dispatch(submitLiaisonAstronomersPass());
+	} catch (e) {
+		dispatch(submitLiaisonAstronomersFail());
+	}
 }
 
 async function submitTechnicalReports(dispatch, proposals, semester) {
-    dispatch(startSubmitTechnicalReports());
-    try {
-        const reports = proposals.map(p => {
-            return {
-                proposalCode: p.proposalCode,
-                report: makeTechComment(p.techReport)
-            }
-        });
-        await jsonClient().post('technical-reports', {semester, reports});
-        dispatch(submitTechnicalReportsPass());
-    } catch (e) {
-        dispatch(submitTechnicalReportsFail());
-    }
+	dispatch(startSubmitTechnicalReports());
+	try {
+		const reports = proposals.map(p => {
+			return {
+				proposalCode: p.proposalCode,
+				report: makeTechComment(p.techReport)
+			}
+		});
+		await jsonClient().post('technical-reports', {semester, reports});
+		dispatch(submitTechnicalReportsPass());
+	} catch (e) {
+		dispatch(submitTechnicalReportsFail());
+	}
 }

@@ -28,7 +28,8 @@ const App = ({ location, isAuthenticated }) => (
 			</div>
 		
 		)}
-		<div className="Bananas">
+		<div className="loading">
+
 			{isAuthenticated ? <Filters /> : <div />}
 			<div className="main-div">
 				<Route location={location} path="/" exact component={HomePage} />
