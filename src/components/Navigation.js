@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom" // TODO: use NavLink and make sure that NavLink work
+import { NavLink } from "react-router-dom" // TODO: use NavLink and make sure that NavLink work
 import { connect } from "react-redux";
 import * as actions from "../actions/auth";
 import fetchProposals, {fetchInitialProposals} from "../actions/proposalsActions";
@@ -16,13 +16,12 @@ import {
 import {canViewPage} from "../util";
 
 class Navigation extends React.Component {
-	
+
 	componentDidMount() {
 		const selected = this.props.filters;
 		const {dispatch } = this.props;
-		
+
 		dispatch(actions.fetchUserData());
-		
 		dispatch(
 			fetchTargets(
 				selected.selectedSemester,
@@ -33,50 +32,55 @@ class Navigation extends React.Component {
 				selected.selectedSemester,
 				selected.selectedPartner
 			));
-		
 		dispatch(
 			fetchInitialProposals(
 				selected.selectedSemester,
 				selected.selectedPartner
 			));
-		
 		dispatch(storePartnerAllocations(
 			selected.selectedSemester,
 			selected.selectedPartner
 		))
 	}
-	
+
 	loggingOut() {
 		const { dispatch } = this.props;
 		dispatch(actions.logout())
 	}
-	
+
 	render() {
 		const { currentPage, userRoles  } = this.props;
-		
+
 		return(
 			<div>
 				<ul className="nav">
-					{ canViewPage(userRoles, HOME_PAGE) ?
-						<li className={currentPage === HOME_PAGE ? "active" : ""}>
-							<Link to="/">HOME</Link></li> : <li /> }
-					{ canViewPage(userRoles, TECHNICAL_PAGE) ?
-						<li className={currentPage === TECHNICAL_PAGE ? "active" : ""}>
-							<Link to="/techreview">TECH REVIEW</Link></li> : <li /> }
-					{ canViewPage(userRoles, STATISTICS_PAGE) ?
-						<li className={currentPage === STATISTICS_PAGE ? "active" : ""}>
-							<Link to="/statistics">STATISTICS</Link></li> : <li /> }
-					{ canViewPage(userRoles, TAC_PAGE) ?
-						<li className={currentPage === TAC_PAGE ? "active" : ""}>
-							<Link to="/timeallocation">TIME ALLOCATION</Link></li> : <li /> }
-					{ canViewPage(userRoles, DOCUMENTATION_PAGE) ?
-						<li className={currentPage === DOCUMENTATION_PAGE ? "active" : ""}>
-							<Link to="/documentation">DOCUMENTATION</Link></li> : <li /> }
-					{ canViewPage(userRoles, ADMIN_PAGE) ?
-						<li className={currentPage === ADMIN_PAGE ? "active" : ""}>
-							<Link to="/admin">ADMIN</Link></li> : <li /> }
-					<button className="logoutbtn"
-					        onClick={ this.loggingOut.bind(this) }> Logout</button>
+					<li><NavLink exact to="/">HOME</NavLink></li>
+					{ canViewPage(userRoles, TECHNICAL_PAGE) &&
+						<li>
+							<NavLink to="/techreview">TECH REVIEW</NavLink>
+						</li> }
+					{ canViewPage(userRoles, STATISTICS_PAGE) &&
+						<li>
+							<NavLink to="/statistics">STATISTICS</NavLink>
+						</li> }
+					{ canViewPage(userRoles, TAC_PAGE) &&
+						<li>
+							<NavLink to="/timeallocation">TIME ALLOCATION</NavLink>
+						</li> }
+					{ canViewPage(userRoles, DOCUMENTATION_PAGE) &&
+						<li>
+							<NavLink to="/documentation">DOCUMENTATION</NavLink>
+						</li> }
+					{ canViewPage(userRoles, ADMIN_PAGE) &&
+						<li>
+							<NavLink to="/admin">ADMIN</NavLink>
+						</li> }
+					<li>
+						<button className="logoutbtn"
+								onClick={ this.loggingOut.bind(this) }>
+							Logout
+						</button>
+					</li>
 				</ul>
 				<ul className="bigNav">
 					<h1>{ currentPage }</h1>
