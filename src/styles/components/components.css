@@ -170,3 +170,9 @@ html {
    text-align: center;
    height:4%;
 }
+
+input[type=checkbox] {
+    transform: scale(3);
+    margin-left: 17px;
+    margin-right: 17px;
+}
