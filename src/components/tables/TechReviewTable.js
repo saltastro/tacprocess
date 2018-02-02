@@ -69,6 +69,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, sem
 										</td> : <td />}
 								<td className="width-100">
                     <textarea
+	                    disabled={!(semester >= "2018-1")}
 	                    className="table-height-fixed width-400"
 	                    value={ semester >= "2018-1"? p.techReport.comment || "" : p.techReport || "" }
 	                    onChange={  semester >= "2018-1"? e =>{
