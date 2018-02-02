@@ -4,6 +4,9 @@ import {
 	FETCH_PROPOSALS_START,
 	FETCH_PROPOSALS_PASS,
 	FETCH_PROPOSALS_FAIL,
+	FETCH_INITIAL_PROPOSALS_START,
+	FETCH_INITIAL_PROPOSALS_PASS,
+	FETCH_INITIAL_PROPOSALS_FAIL,
 	UPDATING_PROPOSALS,
 } from "../types";
 
@@ -28,6 +31,32 @@ function FetchProposalsPass(proposals) {
 	return (
 		{
 			type: FETCH_PROPOSALS_PASS,
+			payload: proposals
+		}
+	);
+}
+
+function startInitialFetchProposals() {
+	return (
+		{
+			type: FETCH_INITIAL_PROPOSALS_START
+		}
+	);
+	
+}
+
+function initialFetchProposalsFail() {
+	return (
+		{
+			type: FETCH_INITIAL_PROPOSALS_FAIL
+		}
+	);
+}
+
+function initialFetchProposalsPass(proposals) {
+	return (
+		{
+			type: FETCH_INITIAL_PROPOSALS_PASS,
 			payload: proposals
 		}
 	);
@@ -117,6 +146,8 @@ function convertProposals(proposals, semester, partner){
             instruments: proposal.instruments,
             pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
             liaisonAstronomer: proposal.SALTAstronomer ? proposal.SALTAstronomer.username : null,
+		    reviewer: proposal.reviewer ? proposal.reviewer.username :
+			    proposal.SALTAstronomer ? proposal.SALTAstronomer.username : null,
             techReport: semester < "2018-1" ? proposal.techReport : getTechReportFields(proposal.techReport),
             allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner),
             tacComment: makeTacComments(proposal.tacComment, partner),
@@ -134,6 +165,17 @@ export default function fetchProposals(semester, partner="All") {
 			}
 		).catch(() => {
 			dispatch(FetchProposalsFail())})
+	}
+}
+export function fetchInitialProposals(semester, partner="All") {
+	return function disp(dispatch){
+		dispatch(startInitialFetchProposals());
+		queryProposals(semester, partner).then( res =>
+			{
+				dispatch(initialFetchProposalsPass(convertProposals(res.data.data, semester, partner)))
+			}
+		).catch(() => {
+			dispatch(initialFetchProposalsFail())})
 	}
 }
 
