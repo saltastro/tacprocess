@@ -215,6 +215,12 @@ export function queryProposals(semester, partner){
         surname
         email
       }
+      reviewer{
+        name
+        surname
+        email
+        username
+      }
       allocatedTime{
         partnerCode
         p0
