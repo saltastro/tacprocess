@@ -69,6 +69,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, sem
 										</td> : <td />}
 								<td className="width-100">
                     <textarea
+	                    disabled={!(semester >= "2018-1")}
 	                    className="table-height-fixed width-400"
 	                    value={ semester >= "2018-1"? p.techReport.comment || "" : p.techReport || "" }
 	                    onChange={  semester >= "2018-1"? e =>{
@@ -93,7 +94,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, sem
 								}
 								<td className="width-150">
 									{
-										canAssignOtherReviewer(user.roles) ?
+										!canAssignOtherReviewer(user.roles) ?
 											!isReviewerAssigned(p) ?
 												<div>
 													<input
@@ -115,8 +116,8 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, sem
 														
 												</div>
 												:
-											isReviewerAssigned(p) ?
-												<select disabled={semester >= "2018-1"} value={p.reviewer ? p.reviewer : ''} onChange={e => {technicalReviewer(p.proposalCode, e.target.value ? e.target.value : null)}}>
+											!isReviewerAssigned(p) ?
+												<select disabled={!(semester >= "2018-1")} value={p.reviewer ? p.reviewer : ''} onChange={e => {technicalReviewer(p.proposalCode, e.target.value ? e.target.value : null)}}>
 													<option value="">none</option>
 													{
 														SALTAstronomers.sort(compareByFirstName).map(astronomer => (
@@ -130,7 +131,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, sem
 													}
 												</select>
 													:
-												<select disabled={semester >= "2018-1"} value={p.reviewer ? p.reviewer : ''} onChange={e => {technicalReviewer(p.proposalCode, e.target.value ? e.target.value : null)}}>
+												<select disabled={!(semester >= "2018-1")} value={p.reviewer ? p.reviewer : ''} onChange={e => {technicalReviewer(p.proposalCode, e.target.value ? e.target.value : null)}}>
 													{
 														SALTAstronomers.sort(compareByFirstName).map(astronomer => (
 															<option
