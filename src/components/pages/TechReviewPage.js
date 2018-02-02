@@ -4,7 +4,8 @@ import fetchSA from "../../actions/saltAstronomerActions";
 import {
 	submitTechnicalReviewDetails,
 	updateTechnicalReport,
-	updateTechnicalReviewer
+	updateTechnicalReviewer,
+	unAssignProposal
 } from "../../actions/technicalReviewActions";
 import { SATable } from "../tables/TechReviewTable";
 import { getLiaisonUsername } from '../../util';
@@ -31,6 +32,9 @@ class TechReviewPage extends React.Component {
   technicalReviewer = (proposalCode, reviewer) => {
       this.props.dispatch(updateTechnicalReviewer(proposalCode, reviewer));
   };
+  unAssign = (proposalCode) => {
+      this.props.dispatch(unAssignProposal(proposalCode))
+  }
 
   render() {
     const {
@@ -66,6 +70,8 @@ class TechReviewPage extends React.Component {
           techReportChange={ this.techReportChange }
           technicalReviewer={ this.technicalReviewer }
           semester={semester}
+          unAssign={ this.unAssign}
+          initProposals={ initProposals}
         />
           <button
               disabled={semester < "2018-1" || submitting}
@@ -96,9 +102,9 @@ export default connect(store => {
         semester: store.filters.selectedSemester,
         user: store.user.user,
         SALTAstronomers: store.SALTAstronomers.SALTAstronomer,
-        submittedLiaisonAstronomers: store.proposals.submittedLiaisonAstronomers,
+        submittedReportingAstronomers: store.proposals.submittedReportingAstronomers,
         loading: store.proposals.fetching,
-        submittingLiaisonAstronomers: store.proposals.submittingLiaisonAstronomers,
+        submittingReportingAstronomers: store.proposals.submittingReportingAstronomers,
         submittingTechnicalReports: store.proposals.submittingTechnicalReports,
         submittedTechnicalReports: store.proposals.submittedTechnicalReports,
         errors: store.proposals.errors,

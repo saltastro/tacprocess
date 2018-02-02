@@ -22,8 +22,9 @@ class StatisticsPage extends React.Component {
 		const {  filters, allocatedTime, targets, proposals } = this.props;
 		if(proposals.fetching){
 			return(
-				<div>
-					<h2>Loading...</h2>
+				<div className='spinner'>
+					<div className ='dot1'/>
+					<div className='dot2'/>
 				</div>
 			)
 		}
