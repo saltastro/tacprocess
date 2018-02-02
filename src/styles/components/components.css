@@ -1,18 +1,22 @@
 
 .nav{
     list-style-type: none;
-    padding: 0;
     overflow: hidden;
     line-height:90%;
     text-size: 14px;
-    color:#000000;
-    margin: 5px 200px 0px ;
+    color:#000;
+    margin:-17px 0 200px 0 ;
     z-index:1;
-
+    position: fixed;
+    background-color: #FFF;
+    width: 100%;
 }
 a {
     text-decoration: none;
     text-size: 16px;
+}
+ul.nav li:hover {
+    background-color: #eff9fc;
 }
 .bigNav {
     list-style-type: none;

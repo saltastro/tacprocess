@@ -112,10 +112,10 @@ input[type="submit"]:active {
 }
 .logoutbtn {
   height: 45px;
-  text-shadow:1px 1px 0px #008bca;
+  text-shadow:1px 1px 0 #008bca;
   color:#008bca;
-  float: right;
+  margin: 0 0 0 80%;
   background-color: white;
 }
 .loginbtn:hover  { background-color: #37c69b; }
-.logoutbtn:hover  { background-color:#ADD8E6; }
+.logoutbtn:hover  { background-color:#eff9fc; }
