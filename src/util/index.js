@@ -341,3 +341,21 @@ export function getTechReportFields(report) {
 	}
 	
 }
+
+export const isReviewerAssigned = (proposal) => {
+	return !(proposal.reviewer === "nhlavutelo" || proposal.reviewer === null || proposal.reviewer === "none");
+	
+};
+
+export function canAssignOtherReviewer (roles){
+    return (roles || []).some(r => r.type === "ADMINISTRATOR");
+}
+
+export function didProposalReporterChange (proposal, initProposals){
+	return (initProposals||[]).some( p => {
+		if (p.proposalCode === proposal.proposalCode){
+			return p.reviewer !== proposal.reviewer
+		}
+		return false
+	})
+}

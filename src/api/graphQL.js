@@ -176,7 +176,13 @@ export function queryProposals(semester, partner){
       code
       title
       abstract
-      techReport
+      techReviews{
+        semester
+        reviewer{
+          username
+        }
+        report
+      }
       isP4
       status
       transparency

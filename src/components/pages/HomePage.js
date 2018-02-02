@@ -15,6 +15,7 @@ const HomePage = ({ isAuthenticated }) => (
       </div>
 
 </div>
+
     ) : (
       <div>
         <Link to="/login"> <button className="loginbtn">Login</button> </Link>

@@ -107,15 +107,17 @@ input[type="submit"]:active {
   border-bottom-left-radius:5px;
 }
 .loginbtn {
-  text-shadow:1px 1px 0px #37a69b;
-  background-color: #6495ED;
+    text-shadow:1px 1px 0 #37a69b;
+    background-color: #6495ED;
+
 }
 .logoutbtn {
-  height: 45px;
-  text-shadow:1px 1px 0px #008bca;
-  color:#008bca;
-  float: right;
-  background-color: white;
+    text-shadow:1px 1px 0 #008bca;
+    color:#008bca;
+    float: right;
+    padding-top: 20px;
+    padding-right: 50px;
+    position: center;
+    font-size:20px;
 }
 .loginbtn:hover  { background-color: #37c69b; }
-.logoutbtn:hover  { background-color:#ADD8E6; }

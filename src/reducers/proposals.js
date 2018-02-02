@@ -1,25 +1,27 @@
 import {
 	FETCH_PROPOSALS_START, FETCH_PROPOSALS_PASS, FETCH_PROPOSALS_FAIL,
+	FETCH_INITIAL_PROPOSALS_START, FETCH_INITIAL_PROPOSALS_PASS, FETCH_INITIAL_PROPOSALS_FAIL,
 	UPDATE_SINGLE_PROPOSAL, UPDATING_PROPOSALS,
-	UPDATE_LIAISON_ASTRONOMER,
-	UPDATE_TECHNICAL_REPORT, SUBMIT_LIAISON_ASTRONOMERS_START, SUBMIT_LIAISON_ASTRONOMERS_PASS,
-	SUBMIT_LIAISON_ASTRONOMERS_FAIL, SUBMIT_TECHNICAL_REPORTS_START, SUBMIT_TECHNICAL_REPORTS_PASS,
+	UPDATE_REPORTING_ASTRONOMER,
+	UPDATE_TECHNICAL_REPORT, SUBMIT_REPORTING_ASTRONOMERS_START, SUBMIT_REPORTING_ASTRONOMERS_PASS,
+	SUBMIT_REPORTING_ASTRONOMERS_FAIL, SUBMIT_TECHNICAL_REPORTS_START, SUBMIT_TECHNICAL_REPORTS_PASS,
 	SUBMIT_TECHNICAL_REPORTS_FAIL,
-	UPDATE_TAC_COMMENT, UPDATE_ALLOCATED_PRIORITY,
+	UPDATE_TAC_COMMENT, UPDATE_ALLOCATED_PRIORITY, UN_ASSIGN_PROPOSAL,
 	SUBMIT_TIME_ALLOCATIONS_START, SUBMIT_TIME_ALLOCATIONS_FAIL, SUBMIT_TIME_ALLOCATIONS_PASS
 } from "../types";
 
 const initialState = {
 	fetching: false,
 	fetched: false,
-	submittingLiaisonAstronomers: false,
-	submittedLiaisonAstronomers: false,
+	submittingReportingAstronomers: false,
+	submittedReportingAstronomers: false,
 	submittingTechnicalReports: false,
 	submittedTechnicalReports: false,
 	submittingTimeAllocations: false,
 	submittedTimeAllocations: {},
 	unSubmittedTacChanges: false,
 	proposals:[],
+	updatedProposals: [],
 	errors: {
 		fetchingError : null,
 		submittingError : null,
@@ -58,6 +60,38 @@ export default function proposals(state = initialState, action = {}) {
 				proposals: action.payload,
 			}
 		}
+		case FETCH_INITIAL_PROPOSALS_START:{
+			return {
+				...state,
+				fetchingInit: true,
+				fetchedInit: false,
+			};}
+		case FETCH_INITIAL_PROPOSALS_FAIL: {
+			return {
+				...state,
+				fetchingInit: false,
+				fetchedInit: false,
+				initialProposalsUpdated: false,
+				initProposals: [],
+				errorsInit: {
+					...state.errorsInit,
+					fetchingError: "Fail to get proposals from api"
+				}
+			}
+		}
+		case FETCH_INITIAL_PROPOSALS_PASS: {
+			return {
+				...state,
+				fetchingInit: false,
+				fetchedInit: true,
+				initialProposalsUpdated: true,
+				errorsInit: {
+					...state.errorsInit,
+					fetchingError: null
+				},
+				initProposals: action.payload,
+			}
+		}
 		case UPDATE_SINGLE_PROPOSAL: {
 			return {
 				...state,
@@ -74,15 +108,32 @@ export default function proposals(state = initialState, action = {}) {
 				proposals: action.payload,
 			}
 		}
-		case UPDATE_LIAISON_ASTRONOMER: {
+		case UPDATE_REPORTING_ASTRONOMER: {
 			return {
 				...state,
-				submittedLiaisonAstronomers: false,
+				submittedReportingAstronomers: false,
 				proposals: state.proposals.map(p => {
 					if (p.proposalCode === action.payload.proposalCode) {
 						return {
 							...p,
-							liaisonAstronomer: action.payload.liaisonAstronomer
+							reviewer: action.payload.reviewer
+						}
+					}
+					else {
+						return p;
+					}
+				})
+			}
+		}
+		case UN_ASSIGN_PROPOSAL: {
+			return {
+				...state,
+				submittedTechnicalReviewer: false,
+				proposals: state.proposals.map(p => {
+					if (p.proposalCode === action.payload.proposalCode) {
+						return {
+							...p,
+							reviewer: "none"
 						}
 					}
 					else {
@@ -92,6 +143,9 @@ export default function proposals(state = initialState, action = {}) {
 			}
 		}
 		case UPDATE_TECHNICAL_REPORT: {
+			state.updatedProposals.indexOf(action.payload.proposalCode) === -1 ?
+				state.updatedProposals.push(action.payload.proposalCode) : "";
+			
 			return {
 				...state,
 				submittedTechnicalReports: false,
@@ -110,18 +164,19 @@ export default function proposals(state = initialState, action = {}) {
 				})
 			}
 		}
-		case SUBMIT_LIAISON_ASTRONOMERS_START: {
+		case SUBMIT_REPORTING_ASTRONOMERS_START: {
 			return {
 				...state,
-				submittingLiaisonAstronomers: true,
-				submittedLiaisonAstronomers: false,
+				submittingReportingAstronomers: true,
+				submittedReportingAstronomers: false,
 			}
 		}
-		case SUBMIT_LIAISON_ASTRONOMERS_PASS: {
+		case SUBMIT_REPORTING_ASTRONOMERS_PASS: {
 			return {
 				...state,
-				submittingLiaisonAstronomers: false,
-				submittedLiaisonAstronomers: true,
+				submittingReportingAstronomers: false,
+				submittedReportingAstronomers: true,
+				initialProposalsUpdated: false,
 				errors: {
 					...state.errors,
 					submittingError: null,
@@ -129,11 +184,11 @@ export default function proposals(state = initialState, action = {}) {
 				}
 			}
 		}
-		case SUBMIT_LIAISON_ASTRONOMERS_FAIL: {
+		case SUBMIT_REPORTING_ASTRONOMERS_FAIL: {
 			return {
 				...state,
-				submittingLiaisonAstronomers: false,
-				submittedLiaisonAstronomers: false,
+				submittingReportingAstronomers: false,
+				submittedReportingAstronomers: false,
 				errors: {
 					...state.errors,
 					submittingError: "Submitting the liaison astronomers failed.",
@@ -153,6 +208,7 @@ export default function proposals(state = initialState, action = {}) {
 				...state,
 				submittingTechnicalReports: false,
 				submittedTechnicalReports: true,
+				initialProposalsUpdated: false,
 				errors: {
 					...state.errors,
 					submittingError: null,
@@ -241,6 +297,7 @@ export default function proposals(state = initialState, action = {}) {
 			return {
 				...state,
 				submittingTimeAllocations: false,
+				initialProposalsUpdated: false,
 				submittedTimeAllocations: {
 					results: true,
 					partner: action.payload.partner

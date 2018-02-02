@@ -1,23 +1,11 @@
 import React from 'react';
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
-import { canDo, astronomerAssigned, makeTechComment, getTechReportFields } from '../../util/index';
+import { canDo, astronomerAssigned, isReviewerAssigned, didProposalReporterChange } from '../../util/index';
 import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
+import {canAssignOtherReviewer} from "../../util";
 
-const feasibleChange = (e, reportFields) => {
-	reportFields.feasible = e.target.value;
-	return makeTechComment(reportFields);
-};
-const detailsCheckChange  = (e, reportFields) => {
-	reportFields.details = e.target.value;
-	return makeTechComment(reportFields);
-};
-const commentChange  = (e, reportFields) => {
-	reportFields.comment = e.target.value;
-	return makeTechComment(reportFields);
-};
-
-export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer, semester}) => {
+export const SATable = ({proposals, user, SALTAstronomers, techReportChange, semester, technicalReviewer, unAssign, initProposals}) => {
 	if (proposals.length === 0 ){
 		return (<br />)
 	}
@@ -35,7 +23,12 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
 		return 0;
 	};
 	
-	const saltAstronomerName = (username) => SALTAstronomers.find(a => a.username === username).name;
+	const saltAstronomerName = (username) => {
+		const name = (SALTAstronomers).find(a => {
+			return a.username === username
+		});
+		return name ? name.name : null;
+	};
 	
 	return(
 		<div className='SATableDiv'>
@@ -74,7 +67,7 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
 												<option>{"no"}</option>
 											</select>
 										</td> : <td />}
-								<td>
+								<td className="width-100">
                     <textarea
 	                    className="table-height-fixed width-400"
 	                    value={ semester >= "2018-1"? p.techReport.comment || "" : p.techReport || "" }
@@ -98,41 +91,57 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
 											</select>
 										</td> : <td />
 								}
-								<td>
+								<td className="width-150">
 									{
-										canDo(user, CHANGE_LIAISON) ?
-											(canDo(user, SELF_ASSIGN_TO_PROPOSAL) && astronomerAssigned(p) ?
+										canAssignOtherReviewer(user.roles) ?
+											!isReviewerAssigned(p) ?
 												<div>
 													<input
-														type="checkbox"
+														style={{textSize: "20px"}}
+														type={"checkbox"}
+														value={user.username}
 														onChange={e => {
-															techAssignAstronomer(p.proposalCode, user.username)
-														}
-														}
-													/> Assign Yourself
+															technicalReviewer(p.proposalCode, e.target.value)
+														}}/> <label>Assign Yourself</label>
 												</div>
-												
-												: <span>{saltAstronomerName(p.liaisonAstronomer)}</span>)
-											: <select
-												value={p.liaisonAstronomer ? p.liaisonAstronomer : ''}
-												onChange={e => {
-													techAssignAstronomer(p.proposalCode, e.target.value ? e.target.value : null)
-												}
-												}
-											>
-												<option value="">None</option>
-												{
-													SALTAstronomers.sort(compareByFirstName).map(astronomer => (
-														<option
-															key={astronomer.username}
-															value={astronomer.username}
-														>
-															{saltAstronomerName(astronomer.username)}
-														</option>
-													))
-												}
-											</select>
-										
+													:
+												<div>
+													<label>{ saltAstronomerName(p.reviewer) }</label>
+													{didProposalReporterChange(p, initProposals) ?
+														<section>
+															<button onClick={() => unAssign(p.proposalCode)}>unassign</button>
+														</section>
+															:<a/>}
+														
+												</div>
+												:
+											isReviewerAssigned(p) ?
+												<select disabled={semester >= "2018-1"} value={p.reviewer ? p.reviewer : ''} onChange={e => {technicalReviewer(p.proposalCode, e.target.value ? e.target.value : null)}}>
+													<option value="">none</option>
+													{
+														SALTAstronomers.sort(compareByFirstName).map(astronomer => (
+															<option
+																key={astronomer.username}
+																value={astronomer.username}
+															>
+																{saltAstronomerName(astronomer.username)}
+															</option>
+														))
+													}
+												</select>
+													:
+												<select disabled={semester >= "2018-1"} value={p.reviewer ? p.reviewer : ''} onChange={e => {technicalReviewer(p.proposalCode, e.target.value ? e.target.value : null)}}>
+													{
+														SALTAstronomers.sort(compareByFirstName).map(astronomer => (
+															<option
+																key={astronomer.username}
+																value={astronomer.username}
+															>
+																{saltAstronomerName(astronomer.username)}
+															</option>
+														))
+													}
+												</select>
 									}
 								</td>
 							</tr>
@@ -148,8 +157,10 @@ SATable.propTypes = {
 	proposals: propTypes.array.isRequired,
 	user: propTypes.object.isRequired,
 	SALTAstronomers: propTypes.array.isRequired,
-	techAssignAstronomer: propTypes.func.isRequired,
+	technicalReviewer: propTypes.func.technicalReviewer,
 	techReportChange: propTypes.func.isRequired,
+	unAssign: propTypes.func,
 	proposalsFilter: propTypes.string,
 	semester: propTypes.string.isRequired,
+	initProposals: propTypes.array,
 };
