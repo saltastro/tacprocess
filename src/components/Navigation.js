@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom" // TODO: use NavLink and make sure that NavLink work
 import { connect } from "react-redux";
 import * as actions from "../actions/auth";
-import { fetchStatData } from "../actions/statisticsActions";
-import  fetchProposals  from "../actions/proposalsActions";
+import fetchProposals, {fetchInitialProposals} from "../actions/proposalsActions";
 import  fetchTargets  from "../actions/targetsActions";
 import { storePartnerAllocations  } from "../actions/timeAllocationActions";
 import {
@@ -24,10 +23,6 @@ class Navigation extends React.Component {
 		
 		dispatch(actions.fetchUserData());
 		
-		dispatch(fetchStatData(
-			selected.selectedSemester,
-			selected.selectedPartner
-		));
 		dispatch(
 			fetchTargets(
 				selected.selectedSemester,
@@ -35,6 +30,12 @@ class Navigation extends React.Component {
 			));
 		dispatch(
 			fetchProposals(
+				selected.selectedSemester,
+				selected.selectedPartner
+			));
+		
+		dispatch(
+			fetchInitialProposals(
 				selected.selectedSemester,
 				selected.selectedPartner
 			));
