@@ -3,9 +3,9 @@
     list-style-type: none;
     overflow: hidden;
     line-height:90%;
-    text-size: 14px;
+    text-size: 20px;
     color:#000;
-    margin:-17px 0 200px 0 ;
+    margin:-17px 0 100% 0 ;
     z-index:1;
     position: fixed;
     background-color: #FFF;
@@ -13,7 +13,7 @@
 }
 a {
     text-decoration: none;
-    text-size: 16px;
+    text-size: 20px;
 }
 ul.nav li:hover {
     background-color: #eff9fc;
@@ -46,11 +46,11 @@ li {
 }
 
 li a {
-  font-size:15px;
+  font-size:20px;
   display: block;
   color: black;
   text-align: center;
-  padding: 14px 16px;
+  padding: 20px 20px;
 }
 
 li a:hover:not(.active) {

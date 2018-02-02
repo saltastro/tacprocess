@@ -6,7 +6,6 @@ import fetchProposals, {fetchInitialProposals} from "../actions/proposalsActions
 import  fetchTargets  from "../actions/targetsActions";
 import { storePartnerAllocations  } from "../actions/timeAllocationActions";
 import {
-    HOME_PAGE,
 	STATISTICS_PAGE,
 	DOCUMENTATION_PAGE,
 	TECHNICAL_PAGE,
@@ -16,11 +15,11 @@ import {
 import {canViewPage} from "../util";
 
 class Navigation extends React.Component {
-
+	
 	componentDidMount() {
 		const selected = this.props.filters;
 		const {dispatch } = this.props;
-
+		
 		dispatch(actions.fetchUserData());
 		dispatch(
 			fetchTargets(
@@ -42,45 +41,40 @@ class Navigation extends React.Component {
 			selected.selectedPartner
 		))
 	}
-
+	
 	loggingOut() {
 		const { dispatch } = this.props;
 		dispatch(actions.logout())
 	}
-
+	
 	render() {
 		const { currentPage, userRoles  } = this.props;
-
+		
 		return(
 			<div>
 				<ul className="nav">
 					<li><NavLink exact to="/">HOME</NavLink></li>
 					{ canViewPage(userRoles, TECHNICAL_PAGE) &&
-						<li>
-							<NavLink to="/techreview">TECH REVIEW</NavLink>
-						</li> }
-					{ canViewPage(userRoles, STATISTICS_PAGE) &&
-						<li>
-							<NavLink to="/statistics">STATISTICS</NavLink>
-						</li> }
-					{ canViewPage(userRoles, TAC_PAGE) &&
-						<li>
-							<NavLink to="/timeallocation">TIME ALLOCATION</NavLink>
-						</li> }
-					{ canViewPage(userRoles, DOCUMENTATION_PAGE) &&
-						<li>
-							<NavLink to="/documentation">DOCUMENTATION</NavLink>
-						</li> }
-					{ canViewPage(userRoles, ADMIN_PAGE) &&
-						<li>
-							<NavLink to="/admin">ADMIN</NavLink>
-						</li> }
 					<li>
-						<button className="logoutbtn"
-								onClick={ this.loggingOut.bind(this) }>
-							Logout
-						</button>
-					</li>
+						<NavLink to="/techreview">TECH REVIEW</NavLink>
+					</li> }
+					{ canViewPage(userRoles, STATISTICS_PAGE) &&
+					<li>
+						<NavLink to="/statistics">STATISTICS</NavLink>
+					</li> }
+					{ canViewPage(userRoles, TAC_PAGE) &&
+					<li>
+						<NavLink to="/timeallocation">TIME ALLOCATION</NavLink>
+					</li> }
+					{ canViewPage(userRoles, DOCUMENTATION_PAGE) &&
+					<li>
+						<NavLink to="/documentation">DOCUMENTATION</NavLink>
+					</li> }
+					{ canViewPage(userRoles, ADMIN_PAGE) &&
+					<li>
+						<NavLink to="/admin">ADMIN</NavLink>
+					</li> }
+					<li className="logoutbtn" onClick={ this.loggingOut.bind(this) }>Logout</li>
 				</ul>
 				<ul className="bigNav">
 					<h1>{ currentPage }</h1>
