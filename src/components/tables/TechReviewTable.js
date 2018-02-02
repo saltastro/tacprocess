@@ -4,7 +4,7 @@ import '../../styles/components/tables.css';
 import { canDo, astronomerAssigned } from '../../util/index';
 import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
 
-export const SATable = ({proposals, user, SALTAstronomers, techReportChange, techAssignAstronomer, semester}) => {
+export const SATable = ({proposals, user, SALTAstronomers, techReportChange, semester, technicalReviewer}) => {
 	if (proposals.length === 0 ){
 		return (<br />)
 	}
@@ -92,8 +92,8 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
 												<div>
 													<input
 														type="checkbox"
-														onChange={e => {
-															techAssignAstronomer(p.proposalCode, user.username)
+														onChange={() => {
+															technicalReviewer(p.proposalCode, user.username)
 														}
 														}
 													/> Assign Yourself
@@ -101,18 +101,15 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, tec
 												
 												: <span>{saltAstronomerName(p.liaisonAstronomer)}</span>)
 											: <select
-												value={p.liaisonAstronomer ? p.liaisonAstronomer : ''}
+												value={p.reviewer ? p.reviewer : ''}
 												onChange={e => {
-													techAssignAstronomer(p.proposalCode, e.target.value ? e.target.value : null)
-												}
-												}
-											>
-												<option value="">None</option>
+													technicalReviewer(p.proposalCode, e.target.value ? e.target.value : null)
+												}}>
+												<option value="">none</option>
 												{
 													SALTAstronomers.sort(compareByFirstName).map(astronomer => (
 														<option
 															key={astronomer.username}
-															value={astronomer.username}
 														>
 															{saltAstronomerName(astronomer.username)}
 														</option>
@@ -135,7 +132,7 @@ SATable.propTypes = {
 	proposals: propTypes.array.isRequired,
 	user: propTypes.object.isRequired,
 	SALTAstronomers: propTypes.array.isRequired,
-	techAssignAstronomer: propTypes.func.isRequired,
+	technicalReviewer: propTypes.func.technicalReviewer,
 	techReportChange: propTypes.func.isRequired,
 	proposalsFilter: propTypes.string,
 	semester: propTypes.string.isRequired,
