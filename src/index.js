@@ -17,11 +17,9 @@ const store = createStore(
 );
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Provider store={store}>
-      <Route component={App}/>
-    </Provider>
-  </BrowserRouter>,
-  document.getElementById('root'));
+        <Provider store={store}>
+            <App/>
+        </Provider>,
+        document.getElementById('root'));
 
 registerServiceWorker();
