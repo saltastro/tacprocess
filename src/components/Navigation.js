@@ -1,10 +1,6 @@
 import React from "react";
 import { NavLink, withRouter } from "react-router-dom" // TODO: use NavLink and make sure that NavLink work
 import { connect } from "react-redux";
-import * as actions from "../actions/auth";
-import fetchProposals, {fetchInitialProposals} from "../actions/proposalsActions";
-import  fetchTargets  from "../actions/targetsActions";
-import { storePartnerAllocations  } from "../actions/timeAllocationActions";
 import {
 	STATISTICS_PAGE,
 	DOCUMENTATION_PAGE,
