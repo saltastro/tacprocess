@@ -113,8 +113,8 @@ export default function proposals(state = initialState, action = {}) {
 			}
 		}
 		case UPDATE_TECHNICAL_REPORT: {
-			state.updatedProposals.indexOf(action.payload.proposalCode) === -1 ?
-				state.updatedProposals.push(action.payload.proposalCode) : "";
+			const updatedProposals = state.updatedProposals.indexOf(action.payload.proposalCode) === -1 ?
+					[...state.updatedProposals, action.payload.proposalCode] : state.updatedProposals;
 
 			return {
 				...state,
@@ -131,7 +131,8 @@ export default function proposals(state = initialState, action = {}) {
 					} else {
 						return p;
 					}
-				})
+				}),
+				updatedProposals
 			}
 		}
 		case SUBMIT_REPORTING_ASTRONOMERS_START: {
