@@ -1,5 +1,5 @@
 import { queryProposals } from "../api/graphQL"
-import {getTechReportFields} from "../util";
+import { getTechReportFields } from "../util";
 import {
 	FETCH_PROPOSALS_START,
 	FETCH_PROPOSALS_PASS,
@@ -39,6 +39,18 @@ function isNewProposal(distributedTimes, semester){
 
 function isLongTermProposal(distributedTimes, semester){
 	return distributedTimes.some(t => t.semester !== semester )
+}
+
+function makeTechReviews(techReviews) {
+	return techReviews.reduce((prev, tr) => {
+		return {
+            ...prev,
+            [tr.semester]: {
+                reviewer: tr.reviewer,
+                ...getTechReportFields(tr.report)
+            }
+        };
+	}, {});
 }
 
 function makeAllocatedTime(alloc){
@@ -96,26 +108,6 @@ function requestedTime(requests, semester){
 	return reqTime
 }
 
-function setReviewer (techReview, semester){
-	let reviewer = null;
-	(techReview || []).forEach( r => {
-		if ( r.semester === semester ){
-			reviewer = r.reviewer.username === "nhlavutelo" ? null : r.reviewer.username
-		}
-	});
-	return reviewer
-}
-function setTechnicalReport (techReview, semester){
-	let report = null;
-	(techReview || []).forEach( r => {
-		if ( r.semester === semester ){
-			report = semester < "2018-1" ? r.report : getTechReportFields(r.report)
-		}
-	});
-	return report
-}
-
-
 function convertProposals(proposals, semester, partner){
 	if (!proposals.proposals){ return []}
 	return proposals.proposals.map( proposal => {
@@ -137,8 +129,7 @@ function convertProposals(proposals, semester, partner){
             instruments: proposal.instruments,
             pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
             liaisonAstronomer: proposal.SALTAstronomer ? proposal.SALTAstronomer.username : null,
-		    reviewer: setReviewer(proposal.techReviews, semester) ,
-            techReport: setTechnicalReport(proposal.techReviews, semester),
+            techReviews: makeTechReviews(proposal.techReviews),
             allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner),
             tacComment: makeTacComments(proposal.tacComment, partner),
             requestedTime: requestedTime(proposal.timeRequests, semester)
@@ -153,7 +144,8 @@ export default function fetchProposals(semester, partner="All") {
 			{
 				dispatch(FetchProposalsPass(convertProposals(res.data.data, semester, partner)))
 			}
-		).catch(() => {
+		).catch((e) => {
+			console.error(e);
 			dispatch(FetchProposalsFail())})
 	}
 }

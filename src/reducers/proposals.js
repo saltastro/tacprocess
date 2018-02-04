@@ -1,8 +1,8 @@
 import {
 	FETCH_PROPOSALS_START, FETCH_PROPOSALS_PASS, FETCH_PROPOSALS_FAIL,
 	UPDATE_SINGLE_PROPOSAL, UPDATING_PROPOSALS,
-	UPDATE_REPORTING_ASTRONOMER,
-	UPDATE_TECHNICAL_REPORT, SUBMIT_REPORTING_ASTRONOMERS_START, SUBMIT_REPORTING_ASTRONOMERS_PASS,
+	UPDATE_TECHNICAL_REVIEW,
+	SUBMIT_REPORTING_ASTRONOMERS_START, SUBMIT_REPORTING_ASTRONOMERS_PASS,
 	SUBMIT_REPORTING_ASTRONOMERS_FAIL, SUBMIT_TECHNICAL_REPORTS_START, SUBMIT_TECHNICAL_REPORTS_PASS,
 	SUBMIT_TECHNICAL_REPORTS_FAIL,
 	UPDATE_TAC_COMMENT, UPDATE_ALLOCATED_PRIORITY, UN_ASSIGN_PROPOSAL,
@@ -78,23 +78,6 @@ export default function proposals(state = initialState, action = {}) {
 				proposals: action.payload,
 			}
 		}
-		case UPDATE_REPORTING_ASTRONOMER: {
-			return {
-				...state,
-				submittedReportingAstronomers: false,
-				proposals: state.proposals.map(p => {
-					if (p.proposalCode === action.payload.proposalCode) {
-						return {
-							...p,
-							reviewer: action.payload.reviewer
-						}
-					}
-					else {
-						return p;
-					}
-				})
-			}
-		}
 		case UN_ASSIGN_PROPOSAL: {
 			return {
 				...state,
@@ -112,7 +95,7 @@ export default function proposals(state = initialState, action = {}) {
 				})
 			}
 		}
-		case UPDATE_TECHNICAL_REPORT: {
+		case UPDATE_TECHNICAL_REVIEW: {
 			const updatedProposals = state.updatedProposals.indexOf(action.payload.proposalCode) === -1 ?
 					[...state.updatedProposals, action.payload.proposalCode] : state.updatedProposals;
 
@@ -123,9 +106,9 @@ export default function proposals(state = initialState, action = {}) {
 					if (p.proposalCode === action.payload.proposalCode) {
 						return {
 							...p,
-							techReport: {
-								...p.techReport,
-								[action.payload.field]: action.payload.techReport
+							techReviews: {
+								...p.techReviews,
+								[action.payload.semester]: action.payload.techReview
 							}
 						}
 					} else {

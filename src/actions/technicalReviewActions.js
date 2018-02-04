@@ -5,47 +5,28 @@ import {
 	SUBMIT_TECHNICAL_REPORTS_FAIL,
 	SUBMIT_TECHNICAL_REPORTS_PASS,
 	SUBMIT_TECHNICAL_REPORTS_START,
-	UPDATE_TECHNICAL_REPORT,
-	UPDATE_REPORTING_ASTRONOMER,
+	UPDATE_TECHNICAL_REVIEW,
 	UN_ASSIGN_PROPOSAL
 } from '../types';
 import { jsonClient } from '../api/api';
-import {makeTechComment} from "../util";
+import { makeTechComment } from "../util";
+import { isTechReportUpdated, isReviewerUpdated } from '../util/filters'
 
 /**
  * An action for updating the technical reviewer of a proposal in the local store.
  *
  * @param proposalCode Proposal code, such as "2018-1-SCI-009".
- * @param reviewer Username of the technical reviewer.
+ * @param semester Semester, such as "2018-1".
+ * @param techReview Updated technical review.
  * @returns {{type, payload: {proposalCode: *, reviewer: *}}} The action.
  */
-export function updateTechnicalReviewer(proposalCode, reviewer) {
+export function updateTechnicalReview(proposalCode, semester, techReview) {
 	return {
-		type: UPDATE_REPORTING_ASTRONOMER,
-		payload: {
-			proposalCode,
-			reviewer
-		}
-	}
-}
-
-/**
- * An action for updating the technical report of a proposal in the local store.
- *
- * @param proposalCode Proposal code, such as "2018-1-SCI-009".
- * @param semester Semester, such as "2018-1".
- * @param techReport Technical report.
- * @param field an edited field either (comment, details, feasible).
- * @returns {{type, payload: {proposalCode: *, semester: *, techReport: *}}} The action.
- */
-export function updateTechnicalReport(proposalCode, semester, techReport, field) {
-	return {
-		type: UPDATE_TECHNICAL_REPORT,
+		type: UPDATE_TECHNICAL_REVIEW,
 		payload: {
 			proposalCode,
 			semester,
-			techReport,
-			field
+			techReview
 		}
 	}
 }
@@ -93,30 +74,40 @@ function submitTechnicalReportsPass() {
 }
 
 /**
- * An action for submitting liaison astronomers and technical reviews.
+ * An action for submitting reviewers and technical reviews.
  *
- * @param proposals Proposals whose liaison astronomer and technical report are submitted.
+ * @param proposals Proposals whose reviewer and technical report are submitted, if they have changed.
+ * @param initProposals Proposals downloaded from the server. They are used to check whether reviewers or
+ *                      technical reports have changed.
  * @param semester Semester, such as "2018-1".
  */
-export function submitTechnicalReviewDetails(proposals, semester) {
+export function submitTechnicalReviewDetails(proposals, initProposals, semester) {
 	return async (dispatch) => {
 		await Promise.all(
 			[
-				submitTechnicalReviewers(dispatch, proposals, semester),
-				submitTechnicalReports(dispatch, proposals, semester)
+				submitTechnicalReviewers(dispatch,
+										 proposals,
+										 initProposals,
+										 semester),
+				submitTechnicalReports(dispatch,
+									   proposals,
+									   initProposals,
+									   semester)
 			]);
 	}
 }
 
-async function submitTechnicalReviewers(dispatch, proposals, semester) {
+async function submitTechnicalReviewers(dispatch, proposals, initProposals, semester) {
 	dispatch(startSubmittingReportingAstronomers());
 	try {
-		const assignments = proposals.map(p => {
-			return {
-				proposalCode: p.proposalCode,
-				reviewer: p.reviewer
-			}
-		});
+		const assignments = proposals
+				.filter(p => isReviewerUpdated(p, initProposals, semester))
+				.map(p => {
+					return {
+						proposalCode: p.proposalCode,
+						reviewer: p.techReviews[semester].reviewer
+					}
+				});
 		await jsonClient().post('reviewers', {semester, assignments});
 		dispatch(submittingReportingAstronomersPass());
 	} catch (e) {
@@ -124,15 +115,17 @@ async function submitTechnicalReviewers(dispatch, proposals, semester) {
 	}
 }
 
-async function submitTechnicalReports(dispatch, proposals, semester) {
+async function submitTechnicalReports(dispatch, proposals, initProposals, semester) {
 	dispatch(startSubmitTechnicalReports());
 	try {
-		const reports = proposals.map(p => {
-			return {
-				proposalCode: p.proposalCode,
-				report: makeTechComment(p.techReport)
-			}
-		});
+		const reports = proposals
+				.filter(p => isTechReportUpdated(p, initProposals, semester))
+				.map(p => {
+					return {
+						proposalCode: p.proposalCode,
+						report: makeTechComment(p.techReviews[semester])
+					}
+				});
 		await jsonClient().post('technical-reports', {semester, reports});
 		dispatch(submitTechnicalReportsPass());
 	} catch (e) {

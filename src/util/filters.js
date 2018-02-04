@@ -17,7 +17,7 @@ export function totalTimeRequestedPerParner(proposals, semester, partner="All" )
 	* @param partner all partners or a single
 	* @return total
 	*/
-	
+
 	let total = 0;
 	proposals.forEach( p =>{
 		p.timeRequests.forEach( r => {
@@ -29,7 +29,7 @@ export function totalTimeRequestedPerParner(proposals, semester, partner="All" )
 						total += d.time
 					}
 				})
-				
+
 			}
 		})
 	});
@@ -52,7 +52,7 @@ export const semestersArray = () => {
 
 export const firstSelectedPartner = roles => {
 	let first = ALL_PARTNER;
-	
+
 	for (let r of roles || []) {
 		if (r.type === "ADMINISTRATOR") {
 			first = ALL_PARTNER;
@@ -69,7 +69,7 @@ export const firstSelectedPartner = roles => {
 			first = r.partners[0] || "";
 		}
 	}
-	
+
 	return first
 };
 
@@ -81,7 +81,7 @@ export const getPartnerList = roles => {
 			partnerList.includes(ALL_PARTNER) ? partnerList.push() : partnerList.push(ALL_PARTNER);
 			break;
 		}
-		
+
 		if (r.type === "TAC_CHAIR") {
 			partnerList = r.partners;
 		}
@@ -156,25 +156,17 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer) => {
 			if (p.liaisonAstronomer === astronomer) {prop.push(p)}
 		})
 	}
-	
+
 	return prop
 };
 
-export const getOnlyUpdatedProposals = (proposals, updatedProposal, user) => {
-    return proposals.map( p => {
-    	
-    	if (updatedProposal.some(u => {
-    		if (p.proposalCode === u.proposalCode){
-	            return (
-	            	makeTechComment(u.techReport) !== makeTechComment(p.techReport) ||
-	            	u.reviewer !== p.reviewer
-	            )
-    		}
-    	})) {
-    		return {
-    			...p,
-			    reviewer: p.reviewer === null ? user.lastName : p.reviewer
-		    }
-    	}
-    }).filter(function(n){ return n !== undefined })
+export const isTechReportUpdated = (proposal, initProposals, semester) => {
+	const initProposal = initProposals.find(p => p.proposalCode === proposal.proposalCode);
+	if (!initProposal || !initProposal[semester])
+	return !initProposal || makeTechComment(proposal.techReviews[semester]) !== makeTechComment(initProposal.techReviews[semester]);
+};
+
+export const isReviewerUpdated = (proposal, initProposals, semester) => {
+    const initProposal = initProposals.find(p => p.proposalCode === proposal.proposalCode);
+	return !initProposal || proposal.reviewer !== initProposal.reviewer;
 };

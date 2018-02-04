@@ -3,13 +3,12 @@ import { connect } from "react-redux";
 import fetchSA from "../../actions/saltAstronomerActions";
 import {
 	submitTechnicalReviewDetails,
-	updateTechnicalReport,
-	updateTechnicalReviewer,
+	updateTechnicalReview,
 	unAssignProposal
 } from "../../actions/technicalReviewActions";
-import { SATable } from "../tables/TechReviewTable";
+import TechReviewTable from "../tables/TechReviewTable";
 import { getLiaisonUsername } from '../../util';
-import { reduceProposalsPerAstronomer, getOnlyUpdatedProposals } from '../../util/filters';
+import { reduceProposalsPerAstronomer } from '../../util/filters';
 
 
 class TechReviewPage extends React.Component {
@@ -19,19 +18,15 @@ class TechReviewPage extends React.Component {
     dispatch(fetchSA())
   }
 
-  submitTechReview(event, proposals){
-     this.props.dispatch(submitTechnicalReviewDetails(proposals, this.props.semester));
+  submitTechReview(proposals){
+     this.props.dispatch(submitTechnicalReviewDetails(proposals, this.props.initProposals, this.props.semester));
   }
 
   // Updates the comment of the specific proposal
-  techReportChange = (proposalCode, techReport, field) => {
-    this.props.dispatch(updateTechnicalReport(proposalCode, this.props.semester, techReport, field));
+  onTechReviewChange = (proposalCode, techReview) => {
+    this.props.dispatch(updateTechnicalReview(proposalCode, this.props.semester, techReview));
   };
 
-  // Assign an astronomer for the specific proposal
-  technicalReviewer = (proposalCode, reviewer) => {
-      this.props.dispatch(updateTechnicalReviewer(proposalCode, reviewer));
-  };
   unAssign = (proposalCode) => {
       this.props.dispatch(unAssignProposal(proposalCode))
   }
@@ -63,12 +58,11 @@ class TechReviewPage extends React.Component {
       return(
 
       <div>
-        <SATable
+        <TechReviewTable
           user={user}
           proposals={proposals}
           SALTAstronomers={SALTAstronomers}
-          techReportChange={ this.techReportChange }
-          technicalReviewer={ this.technicalReviewer }
+          onTechReviewChange={ this.onTechReviewChange }
           semester={semester}
           unAssign={ this.unAssign}
           initProposals={ initProposals}
@@ -76,8 +70,7 @@ class TechReviewPage extends React.Component {
           <button
               disabled={semester < "2018-1" || submitting}
               className="btn-success"
-              onClick={ e => this.submitTechReview(e,
-                  getOnlyUpdatedProposals(proposals, initProposals))
+              onClick={ e => this.submitTechReview(proposals)
               }>Submit</button>
           <div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'right', marginTop: 70 }}>
               {submitting && <span>Submitting...</span>}
@@ -109,6 +102,6 @@ export default connect(store => {
         submittedTechnicalReports: store.proposals.submittedTechnicalReports,
         errors: store.proposals.errors,
         initProposals: store.proposals.initProposals,
-        
+
     }
 }, null)(TechReviewPage);
