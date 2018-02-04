@@ -1,15 +1,14 @@
 import React from 'react';
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
-import { canDo, astronomerAssigned, isReviewerAssigned, didProposalReporterChange } from '../../util/index';
-import { CHANGE_LIAISON, SELF_ASSIGN_TO_PROPOSAL } from "../../types";
+import { isReviewerAssigned, didProposalReporterChange } from '../../util/index';
 import {canAssignOtherReviewer} from "../../util";
 
 export const SATable = ({proposals, user, SALTAstronomers, techReportChange, semester, technicalReviewer, unAssign, initProposals}) => {
 	if (proposals.length === 0 ){
 		return (<br />)
 	}
-	
+
 	// compare astronomers by their first name
 	const compareByFirstName = (a, b) => {
 		const name1 = a.name.toUpperCase();
@@ -22,14 +21,14 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, sem
 		}
 		return 0;
 	};
-	
+
 	const saltAstronomerName = (username) => {
 		const name = (SALTAstronomers).find(a => {
 			return a.username === username
 		});
 		return name ? name.name : null;
 	};
-	
+
 	return(
 		<div className='SATableDiv'>
 			<h1>Salt Astronomers Proposal Assigning</h1>
@@ -108,12 +107,11 @@ export const SATable = ({proposals, user, SALTAstronomers, techReportChange, sem
 													:
 												<div>
 													<label>{ saltAstronomerName(p.reviewer) }</label>
-													{didProposalReporterChange(p, initProposals) ?
+													{didProposalReporterChange(p, initProposals) &&
 														<section>
 															<button onClick={() => unAssign(p.proposalCode)}>unassign</button>
-														</section>
-															:<a/>}
-														
+														</section>}
+
 												</div>
 												:
 											!isReviewerAssigned(p) ?

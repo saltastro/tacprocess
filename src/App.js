@@ -16,7 +16,6 @@ import Navigation from "./components/Navigation";
 import Filters from "./components/Filters";
 import * as actions from './actions/auth';
 import fetchTargets from './actions/targetsActions';
-import { fetchInitialProposals } from './actions/proposalsActions';
 import { storePartnerAllocations } from './actions/timeAllocationActions';
 import fetchProposals from './actions/proposalsActions';
 
@@ -33,11 +32,6 @@ class App extends React.Component {
                 ));
         dispatch(
                 fetchProposals(
-                        selected.selectedSemester,
-                        selected.selectedPartner
-                ));
-        dispatch(
-                fetchInitialProposals(
                         selected.selectedSemester,
                         selected.selectedPartner
                 ));

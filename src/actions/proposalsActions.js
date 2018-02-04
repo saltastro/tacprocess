@@ -4,9 +4,6 @@ import {
 	FETCH_PROPOSALS_START,
 	FETCH_PROPOSALS_PASS,
 	FETCH_PROPOSALS_FAIL,
-	FETCH_INITIAL_PROPOSALS_START,
-	FETCH_INITIAL_PROPOSALS_PASS,
-	FETCH_INITIAL_PROPOSALS_FAIL,
 	UPDATING_PROPOSALS,
 } from "../types";
 
@@ -16,7 +13,7 @@ function startFetchProposals() {
 			type: FETCH_PROPOSALS_START
 		}
 	);
-	
+
 }
 
 function FetchProposalsFail() {
@@ -31,32 +28,6 @@ function FetchProposalsPass(proposals) {
 	return (
 		{
 			type: FETCH_PROPOSALS_PASS,
-			payload: proposals
-		}
-	);
-}
-
-function startInitialFetchProposals() {
-	return (
-		{
-			type: FETCH_INITIAL_PROPOSALS_START
-		}
-	);
-	
-}
-
-function initialFetchProposalsFail() {
-	return (
-		{
-			type: FETCH_INITIAL_PROPOSALS_FAIL
-		}
-	);
-}
-
-function initialFetchProposalsPass(proposals) {
-	return (
-		{
-			type: FETCH_INITIAL_PROPOSALS_PASS,
 			payload: proposals
 		}
 	);
@@ -85,7 +56,7 @@ function makeAllocatedTime(alloc){
 }
 
 function makeTacComments(tComm){
-	
+
 	let tacComment = {};
 	tComm.forEach( c => {
 		tacComment[c.partnerCode] = {
@@ -108,7 +79,7 @@ function minimumTotalRequested(distributedTimes, semester){
 }
 
 function requestedTime(requests, semester){
-	
+
 	let reqTime = {
 		minimum: 0,
 		semester: semester,
@@ -184,17 +155,6 @@ export default function fetchProposals(semester, partner="All") {
 			}
 		).catch(() => {
 			dispatch(FetchProposalsFail())})
-	}
-}
-export function fetchInitialProposals(semester, partner="All") {
-	return function disp(dispatch){
-		dispatch(startInitialFetchProposals());
-		queryProposals(semester, partner).then( res =>
-			{
-				dispatch(initialFetchProposalsPass(convertProposals(res.data.data, semester, partner)))
-			}
-		).catch(() => {
-			dispatch(initialFetchProposalsFail())})
 	}
 }
 
