@@ -3,7 +3,7 @@ import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 import { isReviewerAssigned, didProposalReporterChange } from '../../util/index';
 import { canAssignOtherReviewer } from "../../util";
-import { getTechnicalReport } from "../../util/filters";
+import {getTechnicalReport, isSemesterEditable} from "../../util/filters";
 
 function getReviewer(proposal, semester){
 	const review = proposal.techReviews[semester];

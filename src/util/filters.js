@@ -144,7 +144,6 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer, semester) =>
 	}
 	else if (astronomer === "Assigned"){
 		proposals.forEach(p => {
-			console.log(p.techReviews[semester], astronomer);
 			if (p.techReviews[semester].reviewer.username !== null) {prop.push(p)}
 		})
 	}
@@ -154,7 +153,6 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer, semester) =>
 		})
 	}else {
 		proposals.forEach(p => {
-			console.log(p.techReviews[semester], astronomer);
 			if (p.techReviews[semester].reviewer.username === astronomer) {prop.push(p)}
 		})
 	}
@@ -188,4 +186,51 @@ export function getTechnicalReport(proposal, semester) {
 		details,
 		report
 	};
+}
+
+export const isSemesterEditable = (semester) => {
+	const today = new Date();
+	const year = today.getFullYear().toString();
+	return year <= semester;
+};
+
+function hasPreviousReviews (review, semester){
+	console.log(">>:", Object.keys(review));
+    return true
+}
+function getDefaultReview(p, semester) {
+	if (Object.keys(p.techReviews).some( s => s < semester)){
+		console.log("got one!", p.techReviews);
+	}
+	return{
+		reviewer:{ username: null},
+		feasible: null,
+		comment: null,
+		details: null
+		
+	}
+	
+}
+export function fixProposals (proposals, semester){
+	
+	
+	return (proposals || []).map( p => {
+		if (!p.techReviews[semester]){return p}
+		else{
+			const rev = getDefaultReview(p, semester);
+			return {
+				...p,
+				techReviews:{
+					...p.techReviews,
+					[semester] :{
+						reviewer: rev.reviewer,
+						feasible: rev.feasible,
+						comment: rev.comment,
+						details: rev.details
+					}
+				}
+			}
+		}
+		
+	})
 }

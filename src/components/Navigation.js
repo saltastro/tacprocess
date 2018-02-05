@@ -9,12 +9,13 @@ import {
 	ADMIN_PAGE
 } from "../types"
 import {canViewPage} from "../util";
+import {loadedPage} from "../util/filters";
 
 class Navigation extends React.Component {
 
 
 	render() {
-		const { userRoles, logout  } = this.props;
+		const { userRoles, logout, location  } = this.props;
 
 		return(
 			<div>
@@ -43,7 +44,7 @@ class Navigation extends React.Component {
 					<li className="logoutbtn" onClick={ logout }>Logout</li>
 				</ul>
 				<ul className="bigNav">
-					<h1>Hello</h1>
+					<h1>{ loadedPage(location.pathname) }</h1>
 				</ul>
 			</div>
 		);

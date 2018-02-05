@@ -8,7 +8,7 @@ import {
 } from "../../actions/technicalReviewActions";
 import TechReviewTable from "../tables/TechReviewTable";
 import { getLiaisonUsername } from '../../util';
-import { reduceProposalsPerAstronomer } from '../../util/filters';
+import { reduceProposalsPerAstronomer, fixProposals } from '../../util/filters';
 
 
 class TechReviewPage extends React.Component {
@@ -46,6 +46,7 @@ class TechReviewPage extends React.Component {
     }= this.props;
     const submitting = submittingLiaisonAstronomers || submittingTechnicalReports;
     const submitted = submittedLiaisonAstronomers && submittedTechnicalReports;
+    const otherProposals = fixProposals(proposals, semester);
     const errors = this.props.errors.submittingError;
 
       if (loading ){
