@@ -312,7 +312,6 @@ export function canViewPage (userRoles, page){
 
 
 export function makeTechComment (techReview){
-	console.log(techReview);
 	const feasible = techReview.feasible ? "Feasible: " + techReview.feasible + "\n" : "";
 	const comment = techReview.comment ? "Comments: " + techReview.comment.replace(/^\s+|\s+$/g, "") + "\n" : "";
 	const details = techReview.details ? "Detailed Check: " + techReview.details + "\n" : "";

@@ -19,7 +19,7 @@ class TechReviewPage extends React.Component {
   }
 
   submitTechReview(proposals){
-     this.props.dispatch(submitTechnicalReviewDetails(proposals, this.props.initProposals, this.props.semester));
+     this.props.dispatch(submitTechnicalReviewDetails(proposals, this.props.user, this.props.initProposals, this.props.semester));
   }
 
   // Updates the comment of the specific proposal
@@ -58,25 +58,27 @@ class TechReviewPage extends React.Component {
       return(
 
       <div>
-        <TechReviewTable
-          user={user}
-          proposals={proposals}
-          SALTAstronomers={SALTAstronomers}
-          onTechReviewChange={ this.onTechReviewChange }
-          semester={semester}
-          unAssign={ this.unAssign}
-          initProposals={ initProposals}
-        />
+	      <TechReviewTable
+		      user={user}
+		      proposals={proposals}
+		      SALTAstronomers={SALTAstronomers}
+		      onTechReviewChange={ this.onTechReviewChange }
+		      semester={semester}
+		      unAssign={ this.unAssign}
+		      initProposals={ initProposals}
+	      />
+	      <div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'right', marginTop: 40 }}>
+		      {submitting && <span>Submitting...</span>}
+		      {submittedLiaisonAstronomers && <span style={{color: 'green'}}>Submission of reporters is successful</span>}
+		      {submittedTechnicalReports && <span style={{color: 'green'}}>Submission new reports successful</span>}
+		      {errors && <span style={{color: 'red'}}>Oops. The submission has failed.</span>}
+	      </div>
           <button
               disabled={semester < "2018-1" || submitting}
               className="btn-success"
               onClick={ e => this.submitTechReview(proposals)
               }>Submit</button>
-          <div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'right', marginTop: 70 }}>
-              {submitting && <span>Submitting...</span>}
-              {submitted && <span style={{color: 'green'}}>Submission successful</span>}
-              {errors && <span style={{color: 'red'}}>Oops. The submission has failed.</span>}
-          </div>
+          
       </div>
     );
 

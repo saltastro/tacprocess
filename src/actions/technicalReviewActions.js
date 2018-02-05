@@ -77,18 +77,20 @@ function submitTechnicalReportsPass() {
  * An action for submitting reviewers and technical reviews.
  *
  * @param proposals Proposals whose reviewer and technical report are submitted, if they have changed.
+ * @param user Current user of tac Web
  * @param initProposals Proposals downloaded from the server. They are used to check whether reviewers or
  *                      technical reports have changed.
  * @param semester Semester, such as "2018-1".
  */
-export function submitTechnicalReviewDetails(proposals, initProposals, semester) {
+export function submitTechnicalReviewDetails(proposals, user, initProposals, semester) {
 	return async (dispatch) => {
 		await Promise.all(
 			[
 				submitTechnicalReviewers(dispatch,
 										 proposals,
 										 initProposals,
-										 semester),
+										 semester,
+					                     user),
 				submitTechnicalReports(dispatch,
 									   proposals,
 									   initProposals,
@@ -97,7 +99,7 @@ export function submitTechnicalReviewDetails(proposals, initProposals, semester)
 	}
 }
 
-async function submitTechnicalReviewers(dispatch, proposals, initProposals, semester) {
+async function submitTechnicalReviewers(dispatch, proposals, initProposals, semester, user) {
 	dispatch(startSubmittingReportingAstronomers());
 	try {
 		const assignments = proposals
@@ -105,7 +107,8 @@ async function submitTechnicalReviewers(dispatch, proposals, initProposals, seme
 				.map(p => {
 					return {
 						proposalCode: p.proposalCode,
-						reviewer: p.techReviews[semester].reviewer
+						reviewer: (p.techReviews[semester].reviewer.username === null ||
+							p.techReviews[semester].reviewer.username === "none") ? user.username : p.techReviews[semester].reviewer.username
 					}
 				});
 		await jsonClient().post('reviewers', {semester, assignments});
