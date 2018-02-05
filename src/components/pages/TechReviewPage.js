@@ -91,8 +91,9 @@ class TechReviewPage extends React.Component {
 export default connect(store => {
     const SALTAstronomers = store.SALTAstronomers.SALTAstronomer;
     const selectedSA = store.filters.selectedLiaison;
+	const semester = store.filters.selectedSemester;
     const saUser = selectedSA === "All" || selectedSA === "Not Assigned" || selectedSA === "Assigned"? selectedSA : getLiaisonUsername(selectedSA, SALTAstronomers);
-    const proposals = reduceProposalsPerAstronomer(store.proposals.proposals || [], saUser);
+    const proposals = reduceProposalsPerAstronomer(store.proposals.proposals || [], saUser, semester);
 
     return {
         proposals,

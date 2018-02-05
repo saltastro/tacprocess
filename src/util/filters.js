@@ -133,26 +133,29 @@ export const loadedPage = pathname => {
  *
  * @param proposals array of proposals
  * @param astronomer a SALT astronomer
+ * @param semester Current semester
  * @return Array reduced proposals
  * */
 
-export const reduceProposalsPerAstronomer = (proposals, astronomer) => {
+export const reduceProposalsPerAstronomer = (proposals, astronomer, semester) => {
 	let prop = [];
 	if (astronomer === "All"){
 		prop = proposals
 	}
 	else if (astronomer === "Assigned"){
 		proposals.forEach(p => {
-			if (p.liaisonAstronomer !== null) {prop.push(p)}
+			console.log(p.techReviews[semester], astronomer);
+			if (p.techReviews[semester].reviewer.username !== null) {prop.push(p)}
 		})
 	}
 	else if (astronomer === "Not Assigned"){
 		proposals.forEach(p => {
-			if (p.liaisonAstronomer === null) {prop.push(p)}
+			if (p.techReviews[semester].reviewer.username === null) {prop.push(p)}
 		})
 	}else {
 		proposals.forEach(p => {
-			if (p.liaisonAstronomer === astronomer) {prop.push(p)}
+			console.log(p.techReviews[semester], astronomer);
+			if (p.techReviews[semester].reviewer.username === astronomer) {prop.push(p)}
 		})
 	}
 

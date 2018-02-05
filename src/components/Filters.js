@@ -1,14 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
+import { withRouter} from "react-router-dom"
 import DropDown from './selectors/DropDown'
 import { partnerChange, semesterChange, astronomerChange } from "../actions/filtersActions";
 import  fetchProposals  from "../actions/proposalsActions";
 import  fetchTargets  from "../actions/targetsActions";
 import { storePartnerAllocations  } from "../actions/timeAllocationActions";
 import { semestersArray, getPartnerList, getAstronomersList } from "../util/filters";
-import {
-	TECHNICAL_PAGE,
-} from "../types"
 
 class filters extends React.Component {
 	updateSemester = value => {
@@ -31,7 +29,7 @@ class filters extends React.Component {
 	};
 	
 	render() {
-		const { filters, user, SALTAstronomers  } = this.props;
+		const { filters, user, SALTAstronomers, location  } = this.props;
 		const { selectedPartner, selectedSemester, selectedLiaison } = filters;
 		const partnerList = getPartnerList(user.roles);
 		const astronomersList = ["All", "Assigned"].concat(getAstronomersList(SALTAstronomers)).concat(["Not Assigned"]);
@@ -54,7 +52,7 @@ class filters extends React.Component {
 						value={selectedPartner}/>
 				</div>
 				
-				{ filters.currentPage === TECHNICAL_PAGE ?
+				{ location.pathname === "/techreview" ?
                     <div className="left-2">
 						<DropDown
 							name="SALT Astronomer"
@@ -69,11 +67,11 @@ class filters extends React.Component {
 	}
 }
 
-export default connect(
+export default withRouter(connect(
 	store => ({
 		filters: store.filters,
 		statistics:store.statistics,
 		user:store.user.user,
 		SALTAstronomers: store.SALTAstronomers.SALTAstronomer
 	}) ,null
-)(filters);
+)(filters));
