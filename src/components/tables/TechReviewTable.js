@@ -3,25 +3,11 @@ import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 import { isReviewerAssigned, didProposalReporterChange } from '../../util/index';
 import { canAssignOtherReviewer } from "../../util";
+import { getTechnicalReport } from "../../util/filters";
 
 function getReviewer(proposal, semester){
 	const review = proposal.techReviews[semester];
     return review ? review.reviewer.username : null;
-}
-
-function getTechnicalReport(proposal, semester) {
-    const review = proposal.techReviews[semester];
-    const feasible = review && review.feasible ? review.feasible : null;
-    const comment = review && review.comment ? review.comment : null;
-    const details = review && review.details ? review.details : null;
-    const report = review && review.report ? review.report : null;
-
-    return {
-    	feasible,
-		comment,
-		details,
-		report
-	};
 }
 
 export default class TechReviewTable extends React.Component {
@@ -177,7 +163,7 @@ export default class TechReviewTable extends React.Component {
                                                                                                 e.target.value,
 																								techReport)
 																	}}>
-                                                                {!isReviewerAssigned(p) && <option value={null}>none</option>}
+                                                                {isReviewerAssigned(p) && <option value={null}>none</option>}
                                                                 {
                                                                     SALTAstronomers.sort(compareByFirstName).map(
                                                                             astronomer => (

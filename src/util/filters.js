@@ -116,7 +116,6 @@ export const getAstronomersList = saList => {
  * @return name of selected page or Home page by default
  */
 export const loadedPage = pathname => {
-	console.log({pathname});
 	return pathname === "/"? HOME_PAGE :
 		pathname === "/timeallocation"? TAC_PAGE :
 			pathname === "/statistics"? STATISTICS_PAGE :
@@ -162,11 +161,28 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer) => {
 
 export const isTechReportUpdated = (proposal, initProposals, semester) => {
 	const initProposal = initProposals.find(p => p.proposalCode === proposal.proposalCode);
-	if (!initProposal || !initProposal[semester])
 	return !initProposal || makeTechComment(proposal.techReviews[semester]) !== makeTechComment(initProposal.techReviews[semester]);
+	
+	
 };
 
 export const isReviewerUpdated = (proposal, initProposals, semester) => {
     const initProposal = initProposals.find(p => p.proposalCode === proposal.proposalCode);
-	return !initProposal || proposal.reviewer !== initProposal.reviewer;
+	return !initProposal || initProposal.techReviews[semester].reviewer.username !== proposal.techReviews[semester].reviewer.username;
 };
+
+
+export function getTechnicalReport(proposal, semester) {
+	const review = proposal.techReviews[semester];
+	const feasible = review && review.feasible ? review.feasible : null;
+	const comment = review && review.comment ? review.comment : null;
+	const details = review && review.details ? review.details : null;
+	const report = review && review.report ? review.report : null;
+	
+	return {
+		feasible,
+		comment,
+		details,
+		report
+	};
+}
