@@ -21,24 +21,26 @@ import fetchProposals from './actions/proposalsActions';
 
 class App extends React.Component {
     componentDidMount() {
-        const selected = this.props.filters;
-        const {dispatch } = this.props;
+    	if (this.props.isAuthenticated) {
+            const selected = this.props.filters;
+            const {dispatch} = this.props;
 
-        dispatch(actions.fetchUserData());
-        dispatch(
-                fetchTargets(
-                        selected.selectedSemester,
-                        selected.selectedPartner
-                ));
-        dispatch(
-                fetchProposals(
-                        selected.selectedSemester,
-                        selected.selectedPartner
-                ));
-        dispatch(storePartnerAllocations(
-                selected.selectedSemester,
-                selected.selectedPartner
-        ))
+            dispatch(actions.fetchUserData());
+            dispatch(
+                    fetchTargets(
+                            selected.selectedSemester,
+                            selected.selectedPartner
+                    ));
+            dispatch(
+                    fetchProposals(
+                            selected.selectedSemester,
+                            selected.selectedPartner
+                    ));
+            dispatch(storePartnerAllocations(
+                    selected.selectedSemester,
+                    selected.selectedPartner
+            ));
+        }
     }
 
     loggingOut = () => {
@@ -90,12 +92,13 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-	isAuthenticated: PropTypes.bool.isRequired
+	isAuthenticated: PropTypes.bool
 };
 
 function mapStateToProps(state) { /* state in params */
+	console.log('------', state.user);
 	return{
-		isAuthenticated: !!localStorage.tacPageJWT,
+		isAuthenticated: state.user.user.isAuthenticated,
 		filters: state.filters
 	};
 }

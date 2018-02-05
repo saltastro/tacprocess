@@ -14,7 +14,8 @@ class Navigation extends React.Component {
 
 
 	render() {
-		const { currentPage, userRoles, logout  } = this.props;
+		const { currentPage, user, logout  } = this.props;
+		const userRoles = user.roles;
 
 		return(
 			<div>
@@ -41,6 +42,7 @@ class Navigation extends React.Component {
 						<NavLink to="/admin">ADMIN</NavLink>
 					</li> }
 					<li className="logoutbtn" onClick={ logout }>Logout</li>
+					{user.firstName && <li>Hello { user.firstName } { user.lastName }</li>}
 				</ul>
 				<ul className="bigNav">
 					<h1>{ currentPage }</h1>
@@ -53,9 +55,9 @@ class Navigation extends React.Component {
 export default withRouter(connect(
 	store => ({
 		currentPage: store.filters.currentPage,
+		user: store.user.user,
 		filters: store.filters,
 		statistics:store.statistics,
-		userRoles:store.user.user.roles,
 		SALTAstronomers: store.SALTAstronomers.SALTAstronomer
 	}), null
 )(Navigation));
