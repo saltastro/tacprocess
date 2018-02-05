@@ -14,6 +14,16 @@ const graphqlClient = () => axios.create({
   }
 });
 
+const convertData = rowUser => {
+    return {
+        firstName: rowUser.firstName,
+        lastName: rowUser.lastName,
+        email: rowUser.email,
+        username: rowUser.username,
+        roles:rowUser.role
+    };
+};
+
 export function queryStatData(semester, partner){
   let partnerArgs = ""
   if (partner !== "All") {
@@ -84,7 +94,7 @@ export function queryStatData(semester, partner){
   `
   return graphqlClient().post(`/graphql?query=${query}`)
   .then(
-    response => response
+    response => convertData(response)
   )
 }
 
@@ -136,7 +146,9 @@ export function queryUserData(){
   }`
   return graphqlClient().post(`/graphql?query=${query}`)
   .then(
-    response => response
+    response => {
+        return convertData(response.data.data.user);
+    }
   )
 }
 
