@@ -85,7 +85,7 @@ export function instrumentCount(proposal) {
  *
  * observingTimeForInstrument(proposals, '2017-1', 'rss', {partner: 'RSA'})
  * observingTimeForInstrument(proposals, '2017-1', 'rss', {partner: 'RSA', field: 'mode', value: 'Polarimetry'})
- 
+
  * @param proposal
  * @param semester
  * @param instrument
@@ -97,15 +97,15 @@ export function proposalObservingTimeForInstrument(proposal, semester, instrumen
 	const instrumentModeCount = (proposal.instruments[instrument.toLowerCase()] || [])
 	.filter(v => !field || v[field] === value)
 		.length;
-	
+
 	const instrumentModeFraction = instrumentModeCount / instrumentCount(proposal);
-	
+
 	const totalObservingTime = proposal.timeRequests
 	.filter(r => r.semester === semester) // semester is correct
 	.reduce((distributionItems, r) => [...distributionItems, ...r.distribution], []) // collect all partner time requests
 	.filter(d => partner === 'All' || d.partnerCode === partner) // partner is correct
 	.reduce((sum, d) => sum + d.time, 0); // add all time requests
-	
+
 	return instrumentModeFraction * totalObservingTime;
 }
 
@@ -124,7 +124,7 @@ export function proposalObservingTimeForInstrument(proposal, semester, instrumen
  *
  * observingTimeForInstrument(proposals, '2017-1', 'rss', {partner: 'RSA'})
  * observingTimeForInstrument(proposals, '2017-1', 'rss', {partner: 'RSA', field: 'mode', value: 'Polarimetry'})
- 
+
  * @param proposals
  * @param semester
  * @param instrument
@@ -157,7 +157,7 @@ export function partners(user) {
 	const rolePartners = user.roles // collect partners from all roles
 	.reduce((prev, role) => [...(role.partners || []), ...prev], initial);
 	const partnerSet = new Set(rolePartners);
-	
+
 	return Array.from(partnerSet).sort();
 }
 
@@ -209,10 +209,10 @@ export function isFloat(val) {
 	const floatRegex = /^[+-]?\d+(?:[.,]\d*?)?$/;
 	if (!floatRegex.test(val))
 		return false;
-	
+
 	const temp = parseFloat(val);
 	return !isNaN(temp);
-	
+
 }
 
 export function canUserWriteAllocations(user, partner){
@@ -229,8 +229,8 @@ export function canUserWriteAllocations(user, partner){
 
 export function canUserWriteTechComments(user, partner){
 	let canWrite = false;
-	
-	
+
+
 	user.roles.forEach( r => {
 			if ((r.type === "ADMINISTRATOR" || r.type === "SALT_ASTRONOMER") &&
 				r.partners.some(p => (p === partner))){
@@ -250,7 +250,7 @@ export function allocatedTimeTotals( proposals, partner ){
 	 * @param proposals
 	 * @return object of allocated time totals per priority
 	 */
-	
+
 	let total = {
 		p0: 0,
 		p1: 0,
@@ -264,7 +264,7 @@ export function allocatedTimeTotals( proposals, partner ){
 		})
 	});
 	return total
-	
+
 }
 
 export function areAllocatedTimesCorrect(partner, availableTime, proposals){
@@ -277,13 +277,13 @@ export function areAllocatedTimesCorrect(partner, availableTime, proposals){
 	 * @return object stating if allocated time of proposals doen't exceed available time and charector are numbers
 	 */
 	const allocTotals = allocatedTimeTotals( proposals, partner );
-	
+
 	return {
 		p0p1: allocTotals.p0 + allocTotals.p1 <= availableTime.p0p1 *60*60,
 		p2: allocTotals.p2 <= availableTime.p2*60*60,
 		p3: allocTotals.p3 <= availableTime.p3*60*60,
 	}
-	
+
 }
 
 export function getLiaisonUsername(name, SALTAstronomers){
@@ -300,7 +300,7 @@ const pageRole = (page, role) => {
 	if (page === TAC_PAGE && (role.toLowerCase() === TAC_CHAIR.toLowerCase() || role.toLowerCase() === TAC_MEMBER.toLowerCase())) { return true }
 	if (page === TECHNICAL_PAGE && (role.toLowerCase() === SALT_ASTRONOMER.toLowerCase() )) { return true }
 	return page === STATISTICS_PAGE || page === DOCUMENTATION_PAGE;
-	
+
 };
 
 export function canViewPage (userRoles, page){
@@ -311,20 +311,20 @@ export function canViewPage (userRoles, page){
 		}
 
 
-export function makeTechComment (reportFields){
-	const feasible = reportFields.feasible !== "none" ? "Feasible: " + reportFields.feasible + "\n" : "";
-	const comment = (
-		reportFields.comment === "none" ||
-		reportFields.comment === "null" ||
-		reportFields.comment === "") ? "" : "Comments: " + reportFields.comment.replace(/^\s+|\s+$/g, "") + "\n";
-	const details = reportFields.details !== "none" ? "Detailed Check: " + reportFields.details + "\n" : "";
+export function makeTechComment (techReview){
+	const feasible = techReview.feasible ? "Feasible: " + techReview.feasible + "\n" : "";
+	const comment = techReview.comment ? "Comments: " + techReview.comment.replace(/^\s+|\s+$/g, "") + "\n" : "";
+	const details = techReview.details ? "Detailed Check: " + techReview.details + "\n" : "";
 	return feasible + comment + details;
 }
 
 export function getTechReportFields(report) {
-	let feasible = "none";
-	let comment = "";
-	let details = "none";
+	let feasible = null;
+	let comment = null;
+	let details = null;
+	if (!report) {
+		return { feasible, comment, details };
+	}
 	const regExp = /Feasible:\s*(yes|no|yes with caveats)\.?\s+Comments:(.*)\s+Detailed Check:\s*(yes|no|\s)/mi;
 	const fields = regExp.exec(report);
 	if ( !!fields ){
@@ -335,16 +335,16 @@ export function getTechReportFields(report) {
 		comment = report.split("Comments: ").pop();
 	}
 	return {
-		feasible: feasible.length < 2 ? "none" : feasible.replace(/^\s+|\s+$/g, ""),
-		comment: comment.replace(/^\s+|\s+$/g, ""),
-		details: details.length < 2 ? "none" : details.replace(/^\s+|\s+$/g, "")
+		feasible: !feasible || feasible.length < 2 ? null : feasible.replace(/^\s+|\s+$/g, ""),
+		comment: comment ? comment.replace(/^\s+|\s+$/g, "") : "",
+		details: !details || details.length < 2 ? null : details.replace(/^\s+|\s+$/g, "")
 	}
-	
+
 }
 
 export const isReviewerAssigned = (proposal) => {
-	return !(proposal.reviewer === "nhlavutelo" || proposal.reviewer === null || proposal.reviewer === "none");
-	
+	return !(proposal.reviewer === null);
+
 };
 
 export function canAssignOtherReviewer (roles){

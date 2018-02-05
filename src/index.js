@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route } from "react-router-dom";
 import 'react-select/dist/react-select.min.css';
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
@@ -17,11 +16,9 @@ const store = createStore(
 );
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Provider store={store}>
-      <Route component={App}/>
-    </Provider>
-  </BrowserRouter>,
-  document.getElementById('root'));
+        <Provider store={store}>
+            <App/>
+        </Provider>,
+        document.getElementById('root'));
 
 registerServiceWorker();

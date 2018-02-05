@@ -1,10 +1,6 @@
 import React from "react";
-import { NavLink } from "react-router-dom" // TODO: use NavLink and make sure that NavLink work
+import { NavLink, withRouter } from "react-router-dom" // TODO: use NavLink and make sure that NavLink work
 import { connect } from "react-redux";
-import * as actions from "../actions/auth";
-import fetchProposals, {fetchInitialProposals} from "../actions/proposalsActions";
-import  fetchTargets  from "../actions/targetsActions";
-import { storePartnerAllocations  } from "../actions/timeAllocationActions";
 import {
 	STATISTICS_PAGE,
 	DOCUMENTATION_PAGE,
@@ -15,41 +11,11 @@ import {
 import {canViewPage} from "../util";
 
 class Navigation extends React.Component {
-	
-	componentDidMount() {
-		const selected = this.props.filters;
-		const {dispatch } = this.props;
-		
-		dispatch(actions.fetchUserData());
-		dispatch(
-			fetchTargets(
-				selected.selectedSemester,
-				selected.selectedPartner
-			));
-		dispatch(
-			fetchProposals(
-				selected.selectedSemester,
-				selected.selectedPartner
-			));
-		dispatch(
-			fetchInitialProposals(
-				selected.selectedSemester,
-				selected.selectedPartner
-			));
-		dispatch(storePartnerAllocations(
-			selected.selectedSemester,
-			selected.selectedPartner
-		))
-	}
-	
-	loggingOut() {
-		const { dispatch } = this.props;
-		dispatch(actions.logout())
-	}
-	
+
+
 	render() {
-		const { currentPage, userRoles  } = this.props;
-		
+		const { currentPage, userRoles, logout  } = this.props;
+
 		return(
 			<div>
 				<ul className="nav">
@@ -74,7 +40,7 @@ class Navigation extends React.Component {
 					<li>
 						<NavLink to="/admin">ADMIN</NavLink>
 					</li> }
-					<li className="logoutbtn" onClick={ this.loggingOut.bind(this) }>Logout</li>
+					<li className="logoutbtn" onClick={ logout }>Logout</li>
 				</ul>
 				<ul className="bigNav">
 					<h1>{ currentPage }</h1>
@@ -84,7 +50,7 @@ class Navigation extends React.Component {
 	}
 }
 
-export default connect(
+export default withRouter(connect(
 	store => ({
 		currentPage: store.filters.currentPage,
 		filters: store.filters,
@@ -92,4 +58,4 @@ export default connect(
 		userRoles:store.user.user.roles,
 		SALTAstronomers: store.SALTAstronomers.SALTAstronomer
 	}), null
-)(Navigation);
+)(Navigation));

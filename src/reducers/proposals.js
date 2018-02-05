@@ -1,9 +1,8 @@
 import {
 	FETCH_PROPOSALS_START, FETCH_PROPOSALS_PASS, FETCH_PROPOSALS_FAIL,
-	FETCH_INITIAL_PROPOSALS_START, FETCH_INITIAL_PROPOSALS_PASS, FETCH_INITIAL_PROPOSALS_FAIL,
 	UPDATE_SINGLE_PROPOSAL, UPDATING_PROPOSALS,
-	UPDATE_REPORTING_ASTRONOMER,
-	UPDATE_TECHNICAL_REPORT, SUBMIT_REPORTING_ASTRONOMERS_START, SUBMIT_REPORTING_ASTRONOMERS_PASS,
+	UPDATE_TECHNICAL_REVIEW,
+	SUBMIT_REPORTING_ASTRONOMERS_START, SUBMIT_REPORTING_ASTRONOMERS_PASS,
 	SUBMIT_REPORTING_ASTRONOMERS_FAIL, SUBMIT_TECHNICAL_REPORTS_START, SUBMIT_TECHNICAL_REPORTS_PASS,
 	SUBMIT_TECHNICAL_REPORTS_FAIL,
 	UPDATE_TAC_COMMENT, UPDATE_ALLOCATED_PRIORITY, UN_ASSIGN_PROPOSAL,
@@ -21,6 +20,7 @@ const initialState = {
 	submittedTimeAllocations: {},
 	unSubmittedTacChanges: false,
 	proposals:[],
+	initProposals: [],
 	updatedProposals: [],
 	errors: {
 		fetchingError : null,
@@ -42,6 +42,7 @@ export default function proposals(state = initialState, action = {}) {
 				fetching: false,
 				fetched: false,
 				proposals: [],
+				initProposals: [],
 				errors: {
 					...state.errors,
 					fetchingError: "Fail to get proposals from api"
@@ -58,38 +59,7 @@ export default function proposals(state = initialState, action = {}) {
 					fetchingError: null
 				},
 				proposals: action.payload,
-			}
-		}
-		case FETCH_INITIAL_PROPOSALS_START:{
-			return {
-				...state,
-				fetchingInit: true,
-				fetchedInit: false,
-			};}
-		case FETCH_INITIAL_PROPOSALS_FAIL: {
-			return {
-				...state,
-				fetchingInit: false,
-				fetchedInit: false,
-				initialProposalsUpdated: false,
-				initProposals: [],
-				errorsInit: {
-					...state.errorsInit,
-					fetchingError: "Fail to get proposals from api"
-				}
-			}
-		}
-		case FETCH_INITIAL_PROPOSALS_PASS: {
-			return {
-				...state,
-				fetchingInit: false,
-				fetchedInit: true,
-				initialProposalsUpdated: true,
-				errorsInit: {
-					...state.errorsInit,
-					fetchingError: null
-				},
-				initProposals: action.payload,
+				initProposals: JSON.parse(JSON.stringify(action.payload))
 			}
 		}
 		case UPDATE_SINGLE_PROPOSAL: {
@@ -106,23 +76,6 @@ export default function proposals(state = initialState, action = {}) {
 				fetching: false,
 				fetched: true,
 				proposals: action.payload,
-			}
-		}
-		case UPDATE_REPORTING_ASTRONOMER: {
-			return {
-				...state,
-				submittedReportingAstronomers: false,
-				proposals: state.proposals.map(p => {
-					if (p.proposalCode === action.payload.proposalCode) {
-						return {
-							...p,
-							reviewer: action.payload.reviewer
-						}
-					}
-					else {
-						return p;
-					}
-				})
 			}
 		}
 		case UN_ASSIGN_PROPOSAL: {
@@ -142,10 +95,10 @@ export default function proposals(state = initialState, action = {}) {
 				})
 			}
 		}
-		case UPDATE_TECHNICAL_REPORT: {
-			state.updatedProposals.indexOf(action.payload.proposalCode) === -1 ?
-				state.updatedProposals.push(action.payload.proposalCode) : "";
-			
+		case UPDATE_TECHNICAL_REVIEW: {
+			const updatedProposals = state.updatedProposals.indexOf(action.payload.proposalCode) === -1 ?
+					[...state.updatedProposals, action.payload.proposalCode] : state.updatedProposals;
+
 			return {
 				...state,
 				submittedTechnicalReports: false,
@@ -153,15 +106,16 @@ export default function proposals(state = initialState, action = {}) {
 					if (p.proposalCode === action.payload.proposalCode) {
 						return {
 							...p,
-							techReport: {
-								...p.techReport,
-								[action.payload.field]: action.payload.techReport
+							techReviews: {
+								...p.techReviews,
+								[action.payload.semester]: action.payload.techReview
 							}
 						}
 					} else {
 						return p;
 					}
-				})
+				}),
+				updatedProposals
 			}
 		}
 		case SUBMIT_REPORTING_ASTRONOMERS_START: {
@@ -176,11 +130,10 @@ export default function proposals(state = initialState, action = {}) {
 				...state,
 				submittingReportingAstronomers: false,
 				submittedReportingAstronomers: true,
-				initialProposalsUpdated: false,
 				errors: {
 					...state.errors,
 					submittingError: null,
-					
+
 				}
 			}
 		}
@@ -192,7 +145,7 @@ export default function proposals(state = initialState, action = {}) {
 				errors: {
 					...state.errors,
 					submittingError: "Submitting the liaison astronomers failed.",
-					
+
 				}
 			}
 		}
@@ -208,11 +161,10 @@ export default function proposals(state = initialState, action = {}) {
 				...state,
 				submittingTechnicalReports: false,
 				submittedTechnicalReports: true,
-				initialProposalsUpdated: false,
 				errors: {
 					...state.errors,
 					submittingError: null,
-					
+
 				}
 			}
 		}
@@ -224,7 +176,7 @@ export default function proposals(state = initialState, action = {}) {
 				errors: {
 					...state.errors,
 					submittingError: "Submitting the technical reports failed.",
-					
+
 				}
 			}
 		}
@@ -289,7 +241,7 @@ export default function proposals(state = initialState, action = {}) {
 				errors: {
 					...state.errors,
 					submittingError: "Fail to submit time allocations",
-					
+
 				}
 			}
 		}
@@ -297,7 +249,6 @@ export default function proposals(state = initialState, action = {}) {
 			return {
 				...state,
 				submittingTimeAllocations: false,
-				initialProposalsUpdated: false,
 				submittedTimeAllocations: {
 					results: true,
 					partner: action.payload.partner
@@ -306,14 +257,14 @@ export default function proposals(state = initialState, action = {}) {
 				errors: {
 					...state.errors,
 					submittingError: null,
-					
+
 				}
 			}
 		}
 		default: {
 			return state;
 		}
-		
+
 	}
-	
+
 }
