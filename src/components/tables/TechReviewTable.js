@@ -102,8 +102,16 @@ export default class TechReviewTable extends React.Component {
 												<textarea
                                                         disabled={!(semester >= "2018-1")}
                                                         className="table-height-fixed width-400"
-                                                        value={semester >= "2018-1" ? techReport.comment
-                                                                || "" : techReport || ""}
+                                                        value={
+                                                        	semester >= "2018-1" ? techReport.comment
+	                                                        || ""
+	                                                        :
+		                                                        `Feasible: ${techReport.feasible !== null ? techReport.feasible : ""}
+		                                                        Comment: ${techReport.comment !== null ? techReport.comment : ""}
+		                                                        Detailed Check: ${techReport.details !== null ? techReport.details : ""}
+		                                                        `
+                                                        }
+                                                        
                                                         onChange={semester >= "2018-1" ? e => {
                                                             this.techReportChange(p.proposalCode,
 																				  techReport,

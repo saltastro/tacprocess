@@ -73,11 +73,14 @@ class TechReviewPage extends React.Component {
 		      {submittedTechnicalReports && <span style={{color: 'green'}}>Submission new reports successful</span>}
 		      {errors && <span style={{color: 'red'}}>Oops. The submission has failed.</span>}
 	      </div>
-          <button
-              disabled={semester < "2018-1" || submitting}
+          {
+	          semester < "2018-1" || submitting ? <div/> :
+          	<button
+              disabled={submitting}
               className="btn-success"
               onClick={ e => this.submitTechReview(proposals)
               }>Submit</button>
+          }
           
       </div>
     );
