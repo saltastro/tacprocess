@@ -297,8 +297,9 @@ export function getLiaisonUsername(name, SALTAstronomers){
 }
 
 const pageRole = (page, role) => {
-	if (page === TAC_PAGE && (role.toLowerCase() === TAC_CHAIR.toLowerCase() || role.toLowerCase() === TAC_MEMBER.toLowerCase())) { return true }
-	if (page === TECHNICAL_PAGE && (role.toLowerCase() === SALT_ASTRONOMER.toLowerCase() )) { return true }
+	console.log(page, TAC_PAGE, role);
+	if (page === TAC_PAGE && (role === 'TAC_CHAIR' || role === 'TAC_MEMBER')) { return true }
+	if (page === TECHNICAL_PAGE && (role === 'SALT_ASTRONOMER' )) { return true }
 	return page === STATISTICS_PAGE || page === DOCUMENTATION_PAGE;
 
 };
