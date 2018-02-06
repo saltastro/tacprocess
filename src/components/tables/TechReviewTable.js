@@ -63,9 +63,9 @@ export default class TechReviewTable extends React.Component {
                             <th>Proposal Code</th>
                             <th>Proposal Title</th>
                             <th>Proposal Investigator</th>
-                            {semester >= "2018-1" ? <th>Feasible</th> : <td/>}
+                            {semester >= "2018-1" && <th>Feasible</th> }
                             <th>Proposal Comment</th>
-                            {semester >= "2018-1" ? <th>Detailed check</th> : <td/>}
+                            {semester >= "2018-1" && <th>Detailed check</th> }
                             <th>Assigned Astronomer</th>
                         </tr>
                         </thead>
@@ -82,7 +82,7 @@ export default class TechReviewTable extends React.Component {
                                             <td className=" table-height width-400">{p.title}</td>
                                             <td className="width-100">{p.pi}</td>
                                             {
-                                                semester >= "2018-1" ? <td>
+                                                semester >= "2018-1" && <td>
                                                     <select
                                                             defaultValue={techReport.feasible}
                                                             onChange={e =>
@@ -97,7 +97,7 @@ export default class TechReviewTable extends React.Component {
                                                         <option>{"yes with caveats"}</option>
                                                         <option>{"no"}</option>
                                                     </select>
-                                                </td> : <td/>}
+                                                </td> }
                                             <td className="width-100">
 												<textarea
                                                         disabled={!(semester >= "2018-1")}
@@ -124,7 +124,7 @@ export default class TechReviewTable extends React.Component {
 												</textarea>
                                             </td>
                                             {
-                                                semester >= "2018-1" ? <td className="width-100">
+                                                semester >= "2018-1" && <td className="width-100">
                                                     <select
                                                             defaultValue={techReport.details}
                                                             onChange={e => {
@@ -138,11 +138,11 @@ export default class TechReviewTable extends React.Component {
                                                         <option>yes</option>
                                                         <option>no</option>
                                                     </select>
-                                                </td> : <td/>
+                                                </td>
                                             }
                                             <td className="width-150">
                                                 {
-                                                    !canAssignOtherReviewer(user.roles) ? !isReviewerAssigned(p) ? <div>
+                                                    !canAssignOtherReviewer(user.roles) ? !p.techReviews[semester] ? <div>
                                                                 <input
                                                                         style={{textSize: "20px"}}
                                                                         type={"checkbox"}
@@ -171,7 +171,7 @@ export default class TechReviewTable extends React.Component {
                                                                                                 e.target.value,
 																								techReport)
 																	}}>
-                                                                {isReviewerAssigned(p) && <option value={null}>none</option>}
+                                                                {!!p.techReviews[semester] && <option value={null}>none</option>}
                                                                 {
                                                                     SALTAstronomers.sort(compareByFirstName).map(
                                                                             astronomer => (

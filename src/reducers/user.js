@@ -1,4 +1,4 @@
-import { USER_LOGGED_IN, USER_LOGGED_OUT, FETCHING_USER, FAIL_TO_GET_USER } from "../types";
+import { USER_LOGGED_IN, USER_LOGGED_OUT, FETCHING_USER, FAIL_TO_GET_USER, SWITCH_USER_START, SWITCH_USER_FAIL } from "../types";
 
 
 const initialState = {
@@ -7,35 +7,66 @@ const initialState = {
 		lastName: undefined,
 		email: undefined,
 		username: undefined,
-		roles:undefined
+		roles: undefined,
+		isAuthenticated: !!localStorage.tacPageJWT
 	}};
 
 
 export default function user(state = initialState, action = {}) {
 	switch (action.type) {
-		case USER_LOGGED_IN:
-			return {
+	case USER_LOGGED_IN:
+		return {
+			...state,
+			user: {
+				...action.payload,
+				isAuthenticated: true
+            },
+			fetching: false,
+			error: null
+		};
+
+	case USER_LOGGED_OUT:
+		return {
 				...state,
-				user: action.user
-			};
-		
-		case USER_LOGGED_OUT:
-			return {};
-		
-		case FETCHING_USER:
-			return {
-				...state,
-				user: {}
-			};
-		
-		case FAIL_TO_GET_USER:
-			return {
-				...state,
-				user: {}
-			};
-		
-		default:
+			user: {}
+		};
+
+	case FETCHING_USER:
+		return {
+			...state,
+			user: {
+					isAuthenticated: state.user.isAuthenticated
+			},
+			fetching: true,
+			error: null
+		};
+
+	case FAIL_TO_GET_USER:
+		return {
+			...state,
+            user: {
+                isAuthenticated: state.user.isAuthenticated
+            },
+			fetching: false,
+			error: 'Authentication failed'
+		};
+
+	case SWITCH_USER_START:
+		return {
+			...state,
+			fetching: true,
+			error: null
+		};
+
+	case SWITCH_USER_FAIL:
+		return {
+			...state,
+			fetching: false,
+			error: 'The user could not be switched'
+		};
+
+	default:
 			return state;
-		
+
 	}
 }

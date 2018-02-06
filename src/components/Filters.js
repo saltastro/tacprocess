@@ -52,14 +52,14 @@ class filters extends React.Component {
 						value={selectedPartner}/>
 				</div>
 				
-				{ location.pathname === "/techreview" ?
+				{ location.pathname === "/techreview" &&
                     <div className="left-2">
 						<DropDown
 							name="SALT Astronomer"
 							listToDisplay={astronomersList}
 							OnChange={this.updateLiaison}
 							value={selectedLiaison}/>
-                    </div>: <div />
+                    </div>
 				}
 			</div>
 		);

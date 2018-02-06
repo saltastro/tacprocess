@@ -1,5 +1,5 @@
 import * as types from '../types';
-import {TAC_CHAIR, TAC_MEMBER, TAC_PAGE, TECHNICAL_PAGE, SALT_ASTRONOMER, STATISTICS_PAGE, DOCUMENTATION_PAGE} from "../types";
+import { TAC_PAGE, TECHNICAL_PAGE, STATISTICS_PAGE, DOCUMENTATION_PAGE } from "../types";
 import {ADMINISTRATOR} from "../types";
 
 /**
@@ -198,13 +198,6 @@ export function canDo(user, action, partner) {
 	}
 }
 
-// This utility method checks if a proposal has assigned an Astronomer or not
-export const astronomerAssigned = (proposal) => {
-	if(!proposal.SALTAstronomer){
-		return true;
-	}
-};
-
 export function isFloat(val) {
 	const floatRegex = /^[+-]?\d+(?:[.,]\d*?)?$/;
 	if (!floatRegex.test(val))
@@ -342,8 +335,9 @@ export function getTechReportFields(report) {
 
 }
 
-export const isReviewerAssigned = (proposal) => {
-	return !(proposal.reviewer === null);
+export const isReviewerAssigned = (proposal, semester) => {
+	console.log(">>>>: ", proposal.techReviews);
+	return !!proposal.techReviews[semester];
 
 };
 

@@ -6,6 +6,7 @@ import { ALL_PARTNER,
 	TAC_PAGE,
 	ADMIN_PAGE
 } from "../types"
+import _ from 'lodash'
 import {makeTechComment} from "./index";
 
 
@@ -194,28 +195,40 @@ export const isSemesterEditable = (semester) => {
 	return year <= semester;
 };
 
-function hasPreviousReviews (review, semester){
-	console.log(">>:", Object.keys(review));
-    return true
-}
 function getDefaultReview(p, semester) {
+	let name = null;
+	let feasible = null;
+	let details = null;
+	let comment = null;
+
 	if (Object.keys(p.techReviews).some( s => s < semester)){
-		console.log("got one!", p.techReviews);
+		Object.keys(p.techReviews).forEach( s => {
+			
+			if ( s < semester && (!_.isNull(p.techReviews[s].comment) || p.techReviews[s].comment !== "none")){
+				name =  p.techReviews[s].reviewer.username;
+				feasible = "ongoing";
+				details = "ongoing";
+				comment = "please check progress Report"
+			}
+		})
 	}
 	return{
-		reviewer:{ username: null},
-		feasible: null,
-		comment: null,
-		details: null
+		reviewer:{ username: name},
+		feasible: feasible,
+		comment: comment,
+		details: details
 		
 	}
 	
 }
-export function fixProposals (proposals, semester){
+export function setDefaultTechReviews (proposals, semester){
 	
 	
 	return (proposals || []).map( p => {
-		if (!p.techReviews[semester]){return p}
+		console.log(p.techReviews[semester]);
+		if (!p.techReviews[semester]){
+			return p
+		}
 		else{
 			const rev = getDefaultReview(p, semester);
 			return {

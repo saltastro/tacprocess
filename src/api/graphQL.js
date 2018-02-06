@@ -13,7 +13,8 @@ function isLongTermProposal(distributedTimes, semester){
 }
 
 function makeTechReviews(techReviews) {
-	return techReviews.reduce((prev, tr) => {
+	
+	return ( techReviews|| [] ).reduce((prev, tr) => {
 		return {
 			...prev,
 			[tr.semester]: {
@@ -80,6 +81,7 @@ function requestedTime(requests, semester){
 }
 
 export function convertProposals(proposals, semester, partner){
+	console.log({proposals});
 	if (!proposals.proposals){ return []}
 	return proposals.proposals.map( proposal => {
 		const minTotal  = minimumTotalRequested(proposal.timeRequests, semester);
@@ -118,6 +120,16 @@ const graphqlClient = () => axios.create({
 		'Content-Type': 'application/graphql',
 	}
 });
+
+const convertData = rowUser => {
+	return {
+		firstName: rowUser.firstName,
+		lastName: rowUser.lastName,
+		email: rowUser.email,
+		username: rowUser.username,
+		roles:rowUser.role
+	};
+};
 
 export function queryStatData(semester, partner){
 	let partnerArgs = "";
@@ -189,7 +201,7 @@ export function queryStatData(semester, partner){
   `;
 	return graphqlClient().post(`/graphql?query=${query}`)
 	.then(
-		response => response
+		response => convertData(response)
 	)
 }
 
@@ -241,7 +253,9 @@ export function queryUserData(){
   }`;
 	return graphqlClient().post(`/graphql?query=${query}`)
 	.then(
-		response => response
+		response => {
+			return convertData(response.data.data.user);
+		}
 	)
 }
 

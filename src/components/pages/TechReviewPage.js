@@ -8,7 +8,7 @@ import {
 } from "../../actions/technicalReviewActions";
 import TechReviewTable from "../tables/TechReviewTable";
 import { getLiaisonUsername } from '../../util';
-import { reduceProposalsPerAstronomer, fixProposals } from '../../util/filters';
+import { reduceProposalsPerAstronomer, setDefaultTechReviews } from '../../util/filters';
 
 
 class TechReviewPage extends React.Component {
@@ -46,8 +46,9 @@ class TechReviewPage extends React.Component {
     }= this.props;
     const submitting = submittingLiaisonAstronomers || submittingTechnicalReports;
     const submitted = submittedLiaisonAstronomers && submittedTechnicalReports;
-    const otherProposals = fixProposals(proposals, semester);
+    const otherProposals = setDefaultTechReviews(proposals, semester);
     const errors = this.props.errors.submittingError;
+    console.log(otherProposals);
 
       if (loading ){
           return ( <div className='spinner'>
