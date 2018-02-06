@@ -4,7 +4,7 @@ import { USER_LOGGED_IN,
 	FAIL_TO_GET_USER,
 	SWITCH_USER_START,
 	SWITCH_USER_FAIL,
-	PARTNER_CHANGE
+	PARTNER_CHANGE,
 } from "../types";
 import { queryUserData } from "../api/graphQL"
 import api from "../api/api";
@@ -40,12 +40,12 @@ export const switchUser = (username) => {
 	return async (dispatch) => {
 		dispatch(switchUserStart());
 		try {
-            const user = await api.user.switchUser(username);
-            console.log({user});
-            localStorage.tacPageJWT = user.token;
-            const userData = await queryUserData();
-            dispatch(userLoggedIn(userData));
-        } catch (e) {
+			const user = await api.user.switchUser(username);
+			localStorage.tacPageJWT = user.token;
+			const userData = await queryUserData();
+			dispatch(partnersFilter(firstSelectedPartner(user.roles)));
+			dispatch(userLoggedIn(userData));
+		} catch (e) {
 			dispatch(switchUserFail());
 		}
 	}
@@ -56,12 +56,19 @@ export const partnersFilter = partner => ({
 	changeTo: partner
 });
 
-export const login = credentials => dispatch =>
-	api.user.login(credentials)
-			.then(user => {
-				localStorage.tacPageJWT = user.token;
-				dispatch(userLoggedIn(user));
-			});
+export const login = credentials => {
+	return async (dispatch) => {
+		try {
+			const user = await api.user.login(credentials);
+			localStorage.tacPageJWT = user.token;
+			const userData = await queryUserData();
+			dispatch(userLoggedIn(userData));
+			dispatch(partnersFilter(firstSelectedPartner(user.roles)))
+		} catch (e) {
+			dispatch(fetchingUserFail());
+		}
+	}
+};
 
 export const logout = () => dispatch => {
 	localStorage.removeItem("tacPageJWT");
