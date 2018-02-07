@@ -20,20 +20,15 @@ export default class TechReviewTable extends React.Component {
 				[field]: value
 			});
 	};
-	
-	techReviewerChange = (proposalCode, event, techReport) => {
-		if ((!event.target.checked && event.target.checked === false) || event.target.value === "none"){
-			console.log("un assigning");
-			this.props.unAssign(proposalCode)
-		}
-		else {
-			this.props.onTechReviewChange(proposalCode,
-			{
-				reviewer: { username: event.target.value },
-				...techReport
-			});
-		}
+
+	techReviewerChange = (proposalCode, reviewer, techReport) => {
+		this.props.onTechReviewChange(proposalCode,
+									  {
+										  reviewer: { username: reviewer },
+										  ...techReport
+									  });
 	};
+
 	disableCheckbox = (proposalCode, reviewer, semester) => {
 		return this.props.initProposals.some(p => {
 			if( p.proposalCode === proposalCode){
@@ -41,7 +36,7 @@ export default class TechReviewTable extends React.Component {
 			}
 			return false
 		})
-		
+
 	};
 	showNone = (proposalCode, semester) => {
 		return this.props.initProposals.some(p => {
@@ -50,7 +45,7 @@ export default class TechReviewTable extends React.Component {
 			}
 			return false
 		})
-		
+
 	};
 	showChecked = (proposalCode, semester) => {
 		return this.props.proposals.some(p => {
@@ -59,15 +54,15 @@ export default class TechReviewTable extends React.Component {
 			}
 			return false
 		})
-		
+
 	};
-	
+
 	render() {
 		const {proposals, user, SALTAstronomers, semester, initProposals} = this.props;
 		if (proposals.length === 0) {
 			return (<br/>)
 		}
-		
+
 		// compare astronomers by their first name
 		const compareByFirstName = (a, b) => {
 			const name1 = a.name.toUpperCase();
@@ -91,14 +86,14 @@ export default class TechReviewTable extends React.Component {
 			}
 			return 0;
 		};
-		
+
 		const saltAstronomerName = (username) => {
 			const name = (SALTAstronomers).find(a => {
 				return a.username === username
 			});
 			return name ? name.name : null;
 		};
-		
+
 		return (
 			<div className='SATableDiv'>
 				<h1>Salt Astronomers Proposal Assigning</h1>
@@ -156,7 +151,7 @@ export default class TechReviewTable extends React.Component {
 		                                                        Detailed Check: ${techReport.details !== null ? techReport.details : ""}
 		                                                        `
 													}
-													
+
 													onChange={semester >= "2018-1" ? e => {
 														this.techReportChange(p.proposalCode,
 															techReport,
@@ -196,19 +191,19 @@ export default class TechReviewTable extends React.Component {
 														value={user.username}
 														onChange={e => {
 															this.techReviewerChange(p.proposalCode,
-																e,
+																e.target.checked ? user.username : null,
 																techReport)
 														}}/>
 													{p.techReviews[semester].reviewer.username === null  ?
 													<label>Assign Yourself</label>:<label>{saltAstronomerName(reviewer)}</label>}
 												</div>
-												
+
 												:
 												<select disabled={!(semester >= "2018-1")}
 												        value={reviewer ? reviewer : null}
 												        onChange={e => {
 													        this.techReviewerChange(p.proposalCode,
-														        e,
+														        e.target.value,
 														        techReport)
 												        }}>
 													{this.showNone(p.proposalCode, semester) && <option value={"none"}>none</option>}

@@ -27,10 +27,6 @@ class TechReviewPage extends React.Component {
 		this.props.dispatch(updateTechnicalReview(proposalCode, this.props.semester, techReview));
 	};
 
-	unAssign = (proposalCode) => {
-		this.props.dispatch(unAssignProposal(proposalCode, this.props.semester))
-	};
-
 	render() {
 		const {
 			proposals,
@@ -65,7 +61,6 @@ class TechReviewPage extends React.Component {
 					SALTAstronomers={SALTAstronomers}
 					onTechReviewChange={ this.onTechReviewChange }
 					semester={semester}
-					unAssign={ this.unAssign}
 					initProposals={ initProposals}
 				/>
 				<div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'right', marginTop: 40 }}>
