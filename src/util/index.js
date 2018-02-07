@@ -338,12 +338,3 @@ export function getTechReportFields(report) {
 export function canAssignOtherReviewer (roles){
     return (roles || []).some(r => r.type === "ADMINISTRATOR");
 }
-
-export function didProposalReporterChange (proposal, initProposals, semester){
-	return (initProposals||[]).some( p => {
-		if (p.proposalCode === proposal.proposalCode){
-			return p.techReviews[semester].reviewer.username !== proposal.techReviews[semester].reviewer.username
-		}
-		return false
-	})
-}
