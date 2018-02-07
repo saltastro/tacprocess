@@ -171,6 +171,10 @@ export default class TechReviewTable extends React.Component {
 												>
 
 												</textarea>
+                                        {(didReportChange(p, initProposals, semester) && reviewer === null) &&
+                                        <p style={{color: "#b7a201", textAlign: "center"}}>{
+                                            "A reviewer must be assigned if there is a comment."
+                                        }</p>}
 									</td>
 									{
 										semester >= "2018-1" && <td className="width-100">
@@ -238,13 +242,7 @@ export default class TechReviewTable extends React.Component {
 													</option>}
 												</select>
 										}
-										<br/> {
-										(didReportChange(p, initProposals, semester) && reviewer === null) &&
-										<p style={{color: "#b7a201", textAlign: "center"}}>{
-											"A reviewer must be assigned if there is a comment."
-										}</p>
-									}
-									</td>
+                                    </td>
 								</tr>
 							);
 						})
