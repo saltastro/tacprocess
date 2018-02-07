@@ -197,10 +197,10 @@ function getDefaultReview(p, semester) {
 		Object.keys(p.techReviews).forEach( s => {
 			
 			if ( s < semester && (!_.isNull(p.techReviews[s].comment) || p.techReviews[s].comment !== "none")){
-				name =  p.techReviews[s].reviewer.username;
-				feasible = "ongoing";
-				details = "ongoing";
-				comment = "please check progress Report"
+				name =  p.liaisonAstronomer;
+				feasible = "yes";
+				details = "no";
+				comment = "Continuation of an existing proposal. Please see the PI’s report."
 			}
 		})
 	}
