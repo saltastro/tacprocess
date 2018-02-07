@@ -305,9 +305,10 @@ export function canViewPage (userRoles, page){
 
 
 export function makeTechComment (techReview){
-	const feasible = techReview.feasible ? "Feasible: " + techReview.feasible + "\n" : "";
+	console.log(techReview);
+	const feasible = techReview.feasible && techReview.feasible !== "none"? "Feasible: " + techReview.feasible + "\n" : "";
 	const comment = techReview.comment ? "Comments: " + techReview.comment.replace(/^\s+|\s+$/g, "") + "\n" : "";
-	const details = techReview.details ? "Detailed Check: " + techReview.details + "\n" : "";
+	const details = techReview.details && techReview.details !== "none" ? "Detailed Check: " + techReview.details + "\n" : "";
 	return feasible + comment + details;
 }
 

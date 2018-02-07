@@ -3,6 +3,7 @@ import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 import { canAssignOtherReviewer } from "../../util";
 import {getTechnicalReport} from "../../util/filters";
+import {didReportChange} from "../../util/proposal";
 
 function getReviewer(proposal, semester){
 	const review = proposal.techReviews[semester];
@@ -38,7 +39,7 @@ export default class TechReviewTable extends React.Component {
 	};
 	
 	render() {
-		const {proposals, user, SALTAstronomers, semester, unAssign} = this.props;
+		const {proposals, user, SALTAstronomers, semester, unAssign, initProposals} = this.props;
 		if (proposals.length === 0) {
 			return (<br/>)
 		}
@@ -101,11 +102,11 @@ export default class TechReviewTable extends React.Component {
 														e.target.value,
 														reviewer)
 												}>
-												<option>{"none"}</option>
-												<option>{"yes"}</option>
-												<option>{"yes with caveats"}</option>
-												<option>{"no"}</option>
-												<option>{"ongoing"}</option>
+												<option  value={null}>{"none"}</option>
+												<option value={"yes"}>yes</option>
+												<option value={"yes with caveats"}>yes with caveats</option>
+												<option value={"no"}>no</option>
+												<option value={"ongoing"}>ongoing</option>
 											</select>
 										</td> }
 									<td className="width-100">
@@ -200,6 +201,12 @@ export default class TechReviewTable extends React.Component {
 													}
 												</select>
 										}
+										<br/> {
+										(didReportChange(p, initProposals, semester) && reviewer === null) &&
+										<p style={{color: "#b7a201", textAlign: "center"}}>{
+											"you cannot uncheck yourself if comment made "
+										}</p>
+									}
 									</td>
 								</tr>
 							);
