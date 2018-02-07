@@ -1,7 +1,6 @@
 import React from 'react';
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
-import {  didProposalReporterChange } from '../../util/index';
 import { canAssignOtherReviewer } from "../../util";
 import {getTechnicalReport} from "../../util/filters";
 
@@ -12,6 +11,7 @@ function getReviewer(proposal, semester){
 
 export default class TechReviewTable extends React.Component {
 	techReportChange = (proposalCode, prevTechReport, field, value, reviewer) => {
+		reviewer = reviewer === null ? this.props.user.username : reviewer;
 		this.props.onTechReviewChange(proposalCode,
 			{
 				reviewer: { username: reviewer },
@@ -38,7 +38,7 @@ export default class TechReviewTable extends React.Component {
 	};
 	
 	render() {
-		const {proposals, user, SALTAstronomers, semester, unAssign, initProposals} = this.props;
+		const {proposals, user, SALTAstronomers, semester, unAssign} = this.props;
 		if (proposals.length === 0) {
 			return (<br/>)
 		}
