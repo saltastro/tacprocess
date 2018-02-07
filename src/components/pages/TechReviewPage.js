@@ -12,25 +12,21 @@ import { reduceProposalsPerAstronomer} from '../../util/filters';
 
 
 class TechReviewPage extends React.Component {
-	
+
 	componentDidMount() {
 		const { dispatch } = this.props;
 		dispatch(fetchSA())
 	}
-	
+
 	submitTechReview(proposals){
-		this.props.dispatch(submitTechnicalReviewDetails(proposals, this.props.user, this.props.initProposals, this.props.semester));
+		this.props.dispatch(submitTechnicalReviewDetails(proposals, this.props.user, this.props.initProposals, this.props.partner, this.props.semester));
 	}
-	
+
 	// Updates the comment of the specific proposal
 	onTechReviewChange = (proposalCode, techReview) => {
 		this.props.dispatch(updateTechnicalReview(proposalCode, this.props.semester, techReview));
 	};
-	
-	unAssign = (proposalCode) => {
-		this.props.dispatch(unAssignProposal(proposalCode, this.props.semester))
-	};
-	
+
 	render() {
 		const {
 			proposals,
@@ -40,24 +36,24 @@ class TechReviewPage extends React.Component {
 			submittingLiaisonAstronomers,
 			submittingTechnicalReports,
 			submittedTechnicalReports,
-			submittedLiaisonAstronomers,
+			submittedReportingAstronomers,
 			semester,
 			loading,
-			reviewerErrors,
+			reviewerError,
 			reportError,
-		}= this.props;
+		} = this.props;
 		const submitting = submittingLiaisonAstronomers || submittingTechnicalReports;
 		const errors = this.props.errors.submittingError;
-		
+
 		if (loading ){
 			return ( <div className='spinner'>
 				<div className ='dot1'/>
 				<div className='dot2'/>
 			</div>)
 		}
-		
+
 		return(
-			
+
 			<div>
 				<TechReviewTable
 					user={user}
@@ -65,15 +61,14 @@ class TechReviewPage extends React.Component {
 					SALTAstronomers={SALTAstronomers}
 					onTechReviewChange={ this.onTechReviewChange }
 					semester={semester}
-					unAssign={ this.unAssign}
 					initProposals={ initProposals}
 				/>
 				<div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'right', marginTop: 40 }}>
 					{submitting && <span>Submitting...</span>}
-					{submittedLiaisonAstronomers && <span style={{color: 'green'}}><br/>Submission of reporters is successful</span>}
-					{submittedTechnicalReports && <span style={{color: 'green'}}><br/>Submission new reports successful</span>}
-					{reviewerErrors && <span style={{color: 'red'}}><br/>Oops. The submission of reporter(s) failed.</span>}
-					{reportError && <span style={{color: 'red'}}><br/>Oops. The submission of report(s) has failed.</span>}
+					{submittedReportingAstronomers && <span style={{color: 'green'}}><br/>Submission of reviewers successful</span>}
+					{submittedTechnicalReports && <span style={{color: 'green'}}><br/>Submission of reports successful</span>}
+					{reviewerError && <span style={{color: 'red'}}><br/>Submission of reviewers failed</span>}
+					{reportError && <span style={{color: 'red'}}><br/>Submission of reports failed</span>}
 				</div>
 				{
 					semester < "2018-1" || submitting ? <div/> :
@@ -83,10 +78,10 @@ class TechReviewPage extends React.Component {
 							onClick={ () => this.submitTechReview(proposals)
 							}>Submit</button>
 				}
-			
+
 			</div>
 		);
-		
+
 	}
 }
 
@@ -96,10 +91,11 @@ export default connect(store => {
 	const semester = store.filters.selectedSemester;
 	const saUser = selectedSA === "All" || selectedSA === "Not Assigned" || selectedSA === "Assigned"? selectedSA : getLiaisonUsername(selectedSA, SALTAstronomers);
 	const proposals = reduceProposalsPerAstronomer(store.proposals.proposals || [], saUser, semester);
-	
+
 	return {
 		proposals,
 		updatedProposals: store.proposals.updatedProposals,
+		partner: store.filters.selectedPartner,
 		semester: store.filters.selectedSemester,
 		user: store.user.user,
 		SALTAstronomers: store.SALTAstronomers.SALTAstronomer,
@@ -109,9 +105,9 @@ export default connect(store => {
 		submittingTechnicalReports: store.proposals.submittingTechnicalReports,
 		submittedTechnicalReports: store.proposals.submittedTechnicalReports,
 		errors: store.proposals.errors,
-		reviewerErrors: store.proposals.errors.submittingReviewerError,
+		reviewerError: store.proposals.errors.submittingReviewerError,
 		reportError: store.proposals.errors.submittingReportError,
 		initProposals: store.proposals.initProposals,
-		
+
 	}
 }, null)(TechReviewPage);

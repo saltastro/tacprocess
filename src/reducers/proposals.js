@@ -81,29 +81,6 @@ export default function proposals(state = initialState, action = {}) {
 				proposals: action.payload,
 			}
 		}
-		case UN_ASSIGN_PROPOSAL: {
-			return {
-				...state,
-				submittedTechnicalReviewer: false,
-				proposals: state.proposals.map(p => {
-					if (p.proposalCode === action.payload.proposalCode) {
-						return {
-							...p,
-							techReviews: {
-								...p.techReviews,
-								[action.payload.semester] : {
-									...p.techReviews[action.payload.semester],
-									reviewer:{username: null}
-								}
-							}
-						}
-					}
-					else {
-						return p;
-					}
-				})
-			}
-		}
 		case UPDATE_TECHNICAL_REVIEW: {
 			const updatedProposals = state.updatedProposals.indexOf(action.payload.proposalCode) === -1 ?
 					[...state.updatedProposals, action.payload.proposalCode] : state.updatedProposals;
@@ -153,7 +130,7 @@ export default function proposals(state = initialState, action = {}) {
 				submittedReportingAstronomers: false,
 				errors: {
 					...state.errors,
-					submittingReviewerError: "Submitting the liaison astronomers failed.",
+					submittingReviewerError: "Submitting the reviewers failed.",
 
 				}
 			}

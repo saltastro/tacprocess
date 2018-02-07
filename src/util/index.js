@@ -339,11 +339,19 @@ export function canAssignOtherReviewer (roles){
     return (roles || []).some(r => r.type === "ADMINISTRATOR");
 }
 
-export function didProposalReporterChange (proposal, initProposals, semester){
-	return (initProposals||[]).some( p => {
-		if (p.proposalCode === proposal.proposalCode){
-			return p.techReviews[semester].reviewer.username !== proposal.techReviews[semester].reviewer.username
-		}
-		return false
-	})
+export function defaultSemester() {
+    const today = new Date();
+    const month = today.getMonth() + 1; // use offset 1 for month
+    let year = today.getFullYear();
+    let semester = null;
+    if (1 <= month && month <=4) {
+    	semester = 1;
+	} else if (5 <= month && month <= 10) {
+    	semester = 2;
+	} else {
+    	year += 1;
+    	semester = 1;
+	}
+
+	return `${year}-${semester}`;
 }

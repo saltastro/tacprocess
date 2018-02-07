@@ -10,14 +10,14 @@ class LoginForm extends React.Component {
 		},
 		loading: false,
 		errors: {}
-		
+
 	};
 	onChange = e =>
 		this.setState({
 			data:{...this.state.data,
 				[e.target.name]: e.target.value},
 		});
-	
+
 	onSubmit = e => {
 		e.preventDefault();
 		const errors = this.validate(this.state.data);
@@ -27,28 +27,28 @@ class LoginForm extends React.Component {
 			this.props
 			.submit(this.state.data)
 			.catch(err => {
-				let erro;
+				let error;
 				if (!!err.response && !!err.response.data && !!err.response.data.errors ) {
-					erro = err.response.data.errors
+					error = err.response.data.errors
 				}else {
-					erro = ["unknown Erro"]
+					error = ["unknown error"]
 				}
-				
+
 				this.setState({
-					errors: erro,
+					errors: error,
 					loading: false
 				});
 			});
 		}
 	};
-	
+
 	validate = (data) => {
 		const errors = {};
 		if (!data.username) errors.username = "Please provide username";
 		if (!data.password) errors.password = "Please provide password";
 		return errors;
 	};
-	
+
 	render(){
 		const { data, errors } = this.state;
 		return(
@@ -57,7 +57,7 @@ class LoginForm extends React.Component {
 					{
 						errors.global &&
 						<div>
-							<h1>Someting went wrong</h1>
+							<h1>Something went wrong</h1>
 							<InLineError text={errors.global} />
 						</div>
 					}

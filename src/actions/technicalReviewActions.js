@@ -11,6 +11,7 @@ import {
 import { jsonClient } from '../api/api';
 import { makeTechComment } from "../util";
 import { isTechReportUpdated, isReviewerUpdated } from '../util/filters'
+import fetchProposals from './proposalsActions';
 
 /**
  * An action for updating the technical reviewer of a proposal in the local store.
@@ -60,12 +61,6 @@ function submitTechnicalReportsFail() {
 		type: SUBMIT_TECHNICAL_REPORTS_FAIL
 	}
 }
-export function unAssignProposal(proposalCode, semester) {
-	return {
-		type: UN_ASSIGN_PROPOSAL,
-		payload: {proposalCode: proposalCode, semester: semester}
-	}
-}
 
 function submitTechnicalReportsPass() {
 	return {
@@ -80,9 +75,11 @@ function submitTechnicalReportsPass() {
  * @param user Current user of tac Web
  * @param initProposals Proposals downloaded from the server. They are used to check whether reviewers or
  *                      technical reports have changed.
+ * @param partner Partner code, such "RSA" or "IUCAA".
  * @param semester Semester, such as "2018-1".
  */
-export function submitTechnicalReviewDetails(proposals, user, initProposals, semester) {
+export function submitTechnicalReviewDetails(proposals, user, initProposals, partner, semester) {
+	console.log({partner, semester});
 	return async (dispatch) => {
 		await Promise.all(
 			[
@@ -97,6 +94,7 @@ export function submitTechnicalReviewDetails(proposals, user, initProposals, sem
 									   semester,
 									   user)
 			]);
+		dispatch(fetchProposals(semester, partner))
 	}
 }
 
@@ -124,6 +122,7 @@ async function submitTechnicalReports(dispatch, proposals, initProposals, semest
 	dispatch(startSubmitTechnicalReports());
 	try {
 		const reports = proposals
+				.filter(p => p.techReviews[semester])
 				.filter(p => isTechReportUpdated(p, initProposals, semester) ||
 					p.techReviews[semester].reviewer.username === user.username)
 				.map(p => {
@@ -138,6 +137,7 @@ async function submitTechnicalReports(dispatch, proposals, initProposals, semest
 		await jsonClient().post('technical-reports', {semester, reports});
 		dispatch(submitTechnicalReportsPass());
 	} catch (e) {
+		console.error(e);
 		dispatch(submitTechnicalReportsFail());
 	}
 }
