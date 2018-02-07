@@ -21,12 +21,18 @@ export default class TechReviewTable extends React.Component {
 			});
 	};
 	
-	techReviewerChange = (proposalCode, reviewer, techReport) => {
-		this.props.onTechReviewChange(proposalCode,
+	techReviewerChange = (proposalCode, event, techReport) => {
+		if ((!event.target.checked && event.target.checked === false) || event.target.value === "none"){
+			console.log("un assigning");
+			this.props.unAssign(proposalCode)
+		}
+		else {
+			this.props.onTechReviewChange(proposalCode,
 			{
-				reviewer: { username: reviewer },
+				reviewer: { username: event.target.value },
 				...techReport
 			});
+		}
 	};
 	disableCheckbox = (proposalCode, reviewer, semester) => {
 		return this.props.initProposals.some(p => {
@@ -37,9 +43,27 @@ export default class TechReviewTable extends React.Component {
 		})
 		
 	};
+	showNone = (proposalCode, semester) => {
+		return this.props.initProposals.some(p => {
+			if( p.proposalCode === proposalCode){
+				return p.techReviews[semester].reviewer.username === null
+			}
+			return false
+		})
+		
+	};
+	showChecked = (proposalCode, semester) => {
+		return this.props.proposals.some(p => {
+			if( p.proposalCode === proposalCode){
+				return p.techReviews[semester].reviewer.username === null
+			}
+			return false
+		})
+		
+	};
 	
 	render() {
-		const {proposals, user, SALTAstronomers, semester, unAssign, initProposals} = this.props;
+		const {proposals, user, SALTAstronomers, semester, initProposals} = this.props;
 		if (proposals.length === 0) {
 			return (<br/>)
 		}
@@ -145,7 +169,7 @@ export default class TechReviewTable extends React.Component {
 														e.target.value,
 														reviewer);
 												}}>
-												<option value={null}>none</option>
+												<option>none</option>
 												<option>yes</option>
 												<option>no</option>
 												<option>ongoing</option>
@@ -154,39 +178,31 @@ export default class TechReviewTable extends React.Component {
 									}
 									<td className="width-200">
 										{
-											!canAssignOtherReviewer(user.roles) ? p.techReviews[semester].reviewer.username === null  ?
+											!canAssignOtherReviewer(user.roles) ?
 												<div>
 													<input
+														disabled={!this.showNone(p.proposalCode, semester)}
 														type={"checkbox"}
+														checked={!this.showChecked(p.proposalCode, semester)}
 														value={user.username}
 														onChange={e => {
 															this.techReviewerChange(p.proposalCode,
-																e.target.value,
+																e,
 																techReport)
 														}}/>
-													<label>Assign Yourself</label>
+													{p.techReviews[semester].reviewer.username === null  ?
+													<label>Assign Yourself</label>:<label>{saltAstronomerName(reviewer)}</label>}
 												</div>
-												: <div>
-													
-													{
-													<input
-														disabled={this.disableCheckbox(p.proposalCode,  p.techReviews[semester].reviewer.username, semester)}
-														checked={true}
-														type={"checkbox"}
-														onChange={() => unAssign(p.proposalCode)
-														}/>
-													}
-													<label>{saltAstronomerName(reviewer)}</label>
-												</div>
+												
 												:
 												<select disabled={!(semester >= "2018-1")}
 												        value={reviewer ? reviewer : null}
 												        onChange={e => {
 													        this.techReviewerChange(p.proposalCode,
-														        e.target.value,
+														        e,
 														        techReport)
 												        }}>
-													{!p.techReviews[semester].reviewer.username && <option value={null}>none</option>}
+													{this.showNone(p.proposalCode, semester) && <option value={"none"}>none</option>}
 													{
 														SALTAstronomers.sort(compareByFirstName).map(
 															astronomer => (
