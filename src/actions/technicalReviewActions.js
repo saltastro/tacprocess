@@ -60,10 +60,10 @@ function submitTechnicalReportsFail() {
 		type: SUBMIT_TECHNICAL_REPORTS_FAIL
 	}
 }
-export function unAssignProposal(proposalCode) {
+export function unAssignProposal(proposalCode, semester) {
 	return {
 		type: UN_ASSIGN_PROPOSAL,
-		payload: {proposalCode: proposalCode}
+		payload: {proposalCode: proposalCode, semester: semester}
 	}
 }
 
