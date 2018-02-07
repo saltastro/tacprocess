@@ -1,5 +1,4 @@
 import { queryProposals } from "../api/graphQL"
-import { getTechReportFields } from "../util";
 import {
 	FETCH_PROPOSALS_START,
 	FETCH_PROPOSALS_PASS,
@@ -24,11 +23,14 @@ function FetchProposalsFail() {
 	);
 }
 
-function FetchProposalsPass(proposals) {
+function FetchProposalsPass(proposals, semester) {
 	return (
 		{
 			type: FETCH_PROPOSALS_PASS,
-			payload: proposals
+			payload: {
+				proposals: proposals,
+				semester: semester
+			}
 		}
 	);
 }
@@ -39,7 +41,7 @@ export default function fetchProposals(semester, partner="All") {
 		dispatch(startFetchProposals());
 		queryProposals(semester, partner).then( res =>
 			{
-				dispatch(FetchProposalsPass(res))
+				dispatch(FetchProposalsPass(res, semester))
 			}
 		).catch((e) => {
 			console.error(e);
