@@ -19,7 +19,7 @@ class TechReviewPage extends React.Component {
 	}
 
 	submitTechReview(proposals){
-		this.props.dispatch(submitTechnicalReviewDetails(proposals, this.props.user, this.props.initProposals, this.props.semester));
+		this.props.dispatch(submitTechnicalReviewDetails(proposals, this.props.user, this.props.initProposals, this.props.partner, this.props.semester));
 	}
 
 	// Updates the comment of the specific proposal
@@ -41,7 +41,7 @@ class TechReviewPage extends React.Component {
 			loading,
 			reviewerError,
 			reportError,
-		}= this.props;
+		} = this.props;
 		const submitting = submittingLiaisonAstronomers || submittingTechnicalReports;
 		const errors = this.props.errors.submittingError;
 
@@ -95,6 +95,7 @@ export default connect(store => {
 	return {
 		proposals,
 		updatedProposals: store.proposals.updatedProposals,
+		partner: store.filters.selectedPartner,
 		semester: store.filters.selectedSemester,
 		user: store.user.user,
 		SALTAstronomers: store.SALTAstronomers.SALTAstronomer,
