@@ -39,7 +39,7 @@ class TechReviewPage extends React.Component {
 			submittedReportingAstronomers,
 			semester,
 			loading,
-			reviewerErrors: reviewerError,
+			reviewerError,
 			reportError,
 		}= this.props;
 		const submitting = submittingLiaisonAstronomers || submittingTechnicalReports;
