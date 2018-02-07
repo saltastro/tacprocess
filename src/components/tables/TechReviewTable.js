@@ -80,6 +80,17 @@ export default class TechReviewTable extends React.Component {
 			}
 			return 0;
 		};
+		const compareByProposalCode = (a, b) => {
+			const name1 = a.proposalCode.toUpperCase();
+			const name2 = b.proposalCode.toUpperCase();
+			if (name1 < name2) {
+				return -1;
+			}
+			if (name1 > name2) {
+				return 1;
+			}
+			return 0;
+		};
 		
 		const saltAstronomerName = (username) => {
 			const name = (SALTAstronomers).find(a => {
@@ -100,12 +111,12 @@ export default class TechReviewTable extends React.Component {
 						{semester >= "2018-1" && <th>Feasible</th> }
 						<th>Proposal Comment</th>
 						{semester >= "2018-1" && <th>Detailed check</th> }
-						<th>Assigned Astronomer</th>
+						<th>Reviewed by</th>
 					</tr>
 					</thead>
 					<tbody>
 					{
-						proposals.map(p => {
+						proposals.sort(compareByProposalCode).map(p => {
 							const reviewer = getReviewer(p, semester);
 							const techReport = getTechnicalReport(p, semester);
 							return (
@@ -130,7 +141,6 @@ export default class TechReviewTable extends React.Component {
 												<option value={"yes"}>yes</option>
 												<option value={"yes with caveats"}>yes with caveats</option>
 												<option value={"no"}>no</option>
-												<option value={"ongoing"}>ongoing</option>
 											</select>
 										</td> }
 									<td className="width-100">
@@ -172,7 +182,6 @@ export default class TechReviewTable extends React.Component {
 												<option>none</option>
 												<option>yes</option>
 												<option>no</option>
-												<option>ongoing</option>
 											</select>
 										</td>
 									}
