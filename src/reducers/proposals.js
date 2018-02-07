@@ -8,6 +8,7 @@ import {
 	UPDATE_TAC_COMMENT, UPDATE_ALLOCATED_PRIORITY, UN_ASSIGN_PROPOSAL,
 	SUBMIT_TIME_ALLOCATIONS_START, SUBMIT_TIME_ALLOCATIONS_FAIL, SUBMIT_TIME_ALLOCATIONS_PASS
 } from "../types";
+import {setDefaultTechReviews} from "../util/filters";
 
 const initialState = {
 	fetching: false,
@@ -25,6 +26,8 @@ const initialState = {
 	errors: {
 		fetchingError : null,
 		submittingError : null,
+		submittingReportError : null,
+		submittingReviewerError : null,
 	},
 };
 
@@ -58,8 +61,8 @@ export default function proposals(state = initialState, action = {}) {
 					...state.errors,
 					fetchingError: null
 				},
-				proposals: action.payload,
-				initProposals: JSON.parse(JSON.stringify(action.payload))
+				proposals: setDefaultTechReviews(action.payload.proposals, action.payload.semester),
+				initProposals: JSON.parse(JSON.stringify(setDefaultTechReviews(action.payload.proposals, action.payload.semester)))
 			}
 		}
 		case UPDATE_SINGLE_PROPOSAL: {
@@ -86,7 +89,13 @@ export default function proposals(state = initialState, action = {}) {
 					if (p.proposalCode === action.payload.proposalCode) {
 						return {
 							...p,
-							reviewer: "none"
+							techReviews: {
+								...p.techReviews,
+								[action.payload.semester] : {
+									...p.techReviews[action.payload.semester],
+									reviewer:{username: null}
+								}
+							}
 						}
 					}
 					else {
@@ -132,7 +141,7 @@ export default function proposals(state = initialState, action = {}) {
 				submittedReportingAstronomers: true,
 				errors: {
 					...state.errors,
-					submittingError: null,
+					submittingReviewerError: null,
 
 				}
 			}
@@ -144,7 +153,7 @@ export default function proposals(state = initialState, action = {}) {
 				submittedReportingAstronomers: false,
 				errors: {
 					...state.errors,
-					submittingError: "Submitting the liaison astronomers failed.",
+					submittingReviewerError: "Submitting the liaison astronomers failed.",
 
 				}
 			}
@@ -163,7 +172,7 @@ export default function proposals(state = initialState, action = {}) {
 				submittedTechnicalReports: true,
 				errors: {
 					...state.errors,
-					submittingError: null,
+					submittingReportError: null,
 
 				}
 			}
@@ -175,7 +184,7 @@ export default function proposals(state = initialState, action = {}) {
 				submittedTechnicalReports: false,
 				errors: {
 					...state.errors,
-					submittingError: "Submitting the technical reports failed.",
+					submittingReportError: "Submitting the technical reports failed.",
 
 				}
 			}

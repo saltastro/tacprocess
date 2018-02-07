@@ -1,3 +1,5 @@
+import {makeTechComment} from "./index";
+
 const isProposalRequestingTimeInPartner = (request, partner, semester) => {
 	
 	let belong = false;
@@ -45,3 +47,13 @@ export default function PartnerProposals(proposalList, partners, semester){
 	});
 	return proposalPerPartner
 }
+
+export const didReportChange = (proposal, initProposals, semester) => {
+	let didIt = false;
+	(initProposals || []).forEach(p => {
+		if (p.proposalCode === proposal.proposalCode){
+			didIt = makeTechComment(p.techReviews[semester]) !== makeTechComment(proposal.techReviews[semester])
+		}
+	});
+	return didIt
+};

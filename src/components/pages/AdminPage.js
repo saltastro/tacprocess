@@ -9,7 +9,6 @@ class AdminPage extends React.Component {
     };
 
     render() {
-        console.log(this.props);
         return (
                 <div>
                     {this.props.fetchingUser && <h1>LOADING!!!!</h1>}

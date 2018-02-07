@@ -1,5 +1,4 @@
 import { queryProposals } from "../api/graphQL"
-import { getTechReportFields } from "../util";
 import {
 	FETCH_PROPOSALS_START,
 	FETCH_PROPOSALS_PASS,
@@ -24,125 +23,25 @@ function FetchProposalsFail() {
 	);
 }
 
-function FetchProposalsPass(proposals) {
+function FetchProposalsPass(proposals, semester) {
 	return (
 		{
 			type: FETCH_PROPOSALS_PASS,
-			payload: proposals
+			payload: {
+				proposals: proposals,
+				semester: semester
+			}
 		}
 	);
 }
 
-function isNewProposal(distributedTimes, semester){
-	return distributedTimes.some(t => t.semester > semester)
-}
-
-function isLongTermProposal(distributedTimes, semester){
-	return distributedTimes.some(t => t.semester !== semester )
-}
-
-function makeTechReviews(techReviews) {
-	return techReviews.reduce((prev, tr) => {
-		return {
-            ...prev,
-            [tr.semester]: {
-                reviewer: tr.reviewer,
-                ...getTechReportFields(tr.report)
-            }
-        };
-	}, {});
-}
-
-function makeAllocatedTime(alloc){
-	let allocations = {};
-	alloc.forEach( a => {
-		allocations[a.partnerCode] = {
-			p0: (a.p0 === null) ? 0 : a.p0,
-			p1: (a.p1 === null) ? 0 : a.p1,
-			p2: (a.p2 === null) ? 0 : a.p2,
-			p3: (a.p3 === null) ? 0 : a.p3,
-			p4: (a.p4 === null) ? 0 : a.p4,
-		}
-	});
-	return allocations
-}
-
-function makeTacComments(tComm){
-
-	let tacComment = {};
-	tComm.forEach( c => {
-		tacComment[c.partnerCode] = {
-			comment: c.comment == null ? "" : `${c.comment}`
-		};
-	});
-	return tacComment;
-}
-
-function minimumTotalRequested(distributedTimes, semester){
-	let total = 0;
-	let minimum = 0;
-	distributedTimes.forEach( t => {
-		if (t.semester === semester ){
-			minimum = t.minimumUsefulTime;
-			t.distribution.forEach( d => { total += parseFloat(d.time) }
-			)}
-	});
-	return { total, minimum }
-}
-
-function requestedTime(requests, semester){
-
-	let reqTime = {
-		minimum: 0,
-		semester: semester,
-		requests: {}
-	};
-	requests.forEach(p => {
-		if (p.semester === semester){
-			reqTime.minimum = p.minimumUsefulTime;
-			p.distribution.forEach(d => {
-				reqTime.requests[d.partnerCode] = d.time
-			})
-		}
-	});
-	return reqTime
-}
-
-function convertProposals(proposals, semester, partner){
-	if (!proposals.proposals){ return []}
-	return proposals.proposals.map( proposal => {
-	    const minTotal  = minimumTotalRequested(proposal.timeRequests, semester);
-	    return ({
-            proposalId: proposal.id,
-            title: proposal.title,
-            abstract: proposal.abstract,
-            proposalCode: proposal.code,
-            isP4: proposal.isP4,
-            status: proposal.status,
-            maxSeeing: proposal.maxSeeing,
-            transparency: proposal.transparency,
-            isNew: isNewProposal(proposal.timeRequests, semester),
-            isLong: isLongTermProposal(proposal.timeRequests, semester),
-            totalRequestedTime: minTotal.total,
-            timeRequests: proposal.timeRequests,
-            minTime: minTotal.minimum,
-            instruments: proposal.instruments,
-            pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
-            liaisonAstronomer: proposal.SALTAstronomer ? proposal.SALTAstronomer.username : null,
-            techReviews: makeTechReviews(proposal.techReviews),
-            allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner),
-            tacComment: makeTacComments(proposal.tacComment, partner),
-            requestedTime: requestedTime(proposal.timeRequests, semester)
-        })
-	});
-}
 
 export default function fetchProposals(semester, partner="All") {
 	return function disp(dispatch){
 		dispatch(startFetchProposals());
 		queryProposals(semester, partner).then( res =>
 			{
-				dispatch(FetchProposalsPass(convertProposals(res.data.data, semester, partner)))
+				dispatch(FetchProposalsPass(res, semester))
 			}
 		).catch((e) => {
 			console.error(e);

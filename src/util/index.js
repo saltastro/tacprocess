@@ -1,5 +1,5 @@
 import * as types from '../types';
-import {TAC_CHAIR, TAC_MEMBER, TAC_PAGE, TECHNICAL_PAGE, SALT_ASTRONOMER, STATISTICS_PAGE, DOCUMENTATION_PAGE} from "../types";
+import { TAC_PAGE, TECHNICAL_PAGE, STATISTICS_PAGE, DOCUMENTATION_PAGE } from "../types";
 import {ADMINISTRATOR} from "../types";
 
 /**
@@ -198,13 +198,6 @@ export function canDo(user, action, partner) {
 	}
 }
 
-// This utility method checks if a proposal has assigned an Astronomer or not
-export const astronomerAssigned = (proposal) => {
-	if(!proposal.SALTAstronomer){
-		return true;
-	}
-};
-
 export function isFloat(val) {
 	const floatRegex = /^[+-]?\d+(?:[.,]\d*?)?$/;
 	if (!floatRegex.test(val))
@@ -297,8 +290,8 @@ export function getLiaisonUsername(name, SALTAstronomers){
 }
 
 const pageRole = (page, role) => {
-	if (page === TAC_PAGE && (role.toLowerCase() === TAC_CHAIR.toLowerCase() || role.toLowerCase() === TAC_MEMBER.toLowerCase())) { return true }
-	if (page === TECHNICAL_PAGE && (role.toLowerCase() === SALT_ASTRONOMER.toLowerCase() )) { return true }
+	if (page === TAC_PAGE && (role === 'TAC_CHAIR' || role === 'TAC_MEMBER')) { return true }
+	if (page === TECHNICAL_PAGE && (role === 'SALT_ASTRONOMER' )) { return true }
 	return page === STATISTICS_PAGE || page === DOCUMENTATION_PAGE;
 
 };
@@ -312,9 +305,9 @@ export function canViewPage (userRoles, page){
 
 
 export function makeTechComment (techReview){
-	const feasible = techReview.feasible ? "Feasible: " + techReview.feasible + "\n" : "";
+	const feasible = techReview.feasible && techReview.feasible !== "none"? "Feasible: " + techReview.feasible + "\n" : "";
 	const comment = techReview.comment ? "Comments: " + techReview.comment.replace(/^\s+|\s+$/g, "") + "\n" : "";
-	const details = techReview.details ? "Detailed Check: " + techReview.details + "\n" : "";
+	const details = techReview.details && techReview.details !== "none" ? "Detailed Check: " + techReview.details + "\n" : "";
 	return feasible + comment + details;
 }
 
@@ -342,19 +335,14 @@ export function getTechReportFields(report) {
 
 }
 
-export const isReviewerAssigned = (proposal) => {
-	return !(proposal.reviewer === null);
-
-};
-
 export function canAssignOtherReviewer (roles){
     return (roles || []).some(r => r.type === "ADMINISTRATOR");
 }
 
-export function didProposalReporterChange (proposal, initProposals){
+export function didProposalReporterChange (proposal, initProposals, semester){
 	return (initProposals||[]).some( p => {
 		if (p.proposalCode === proposal.proposalCode){
-			return p.reviewer !== proposal.reviewer
+			return p.techReviews[semester].reviewer.username !== proposal.techReviews[semester].reviewer.username
 		}
 		return false
 	})

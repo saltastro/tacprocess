@@ -60,10 +60,10 @@ function submitTechnicalReportsFail() {
 		type: SUBMIT_TECHNICAL_REPORTS_FAIL
 	}
 }
-export function unAssignProposal(proposalCode) {
+export function unAssignProposal(proposalCode, semester) {
 	return {
 		type: UN_ASSIGN_PROPOSAL,
-		payload: {proposalCode: proposalCode}
+		payload: {proposalCode: proposalCode, semester: semester}
 	}
 }
 
@@ -77,35 +77,40 @@ function submitTechnicalReportsPass() {
  * An action for submitting reviewers and technical reviews.
  *
  * @param proposals Proposals whose reviewer and technical report are submitted, if they have changed.
+ * @param user Current user of tac Web
  * @param initProposals Proposals downloaded from the server. They are used to check whether reviewers or
  *                      technical reports have changed.
  * @param semester Semester, such as "2018-1".
  */
-export function submitTechnicalReviewDetails(proposals, initProposals, semester) {
+export function submitTechnicalReviewDetails(proposals, user, initProposals, semester) {
 	return async (dispatch) => {
 		await Promise.all(
 			[
 				submitTechnicalReviewers(dispatch,
 										 proposals,
 										 initProposals,
-										 semester),
+										 semester,
+					                     user),
 				submitTechnicalReports(dispatch,
 									   proposals,
 									   initProposals,
-									   semester)
+									   semester,
+									   user)
 			]);
 	}
 }
 
-async function submitTechnicalReviewers(dispatch, proposals, initProposals, semester) {
+async function submitTechnicalReviewers(dispatch, proposals, initProposals, semester, user) {
 	dispatch(startSubmittingReportingAstronomers());
 	try {
 		const assignments = proposals
-				.filter(p => isReviewerUpdated(p, initProposals, semester))
+				.filter(p => isReviewerUpdated(p, initProposals, semester) ||
+					p.techReviews[semester].reviewer.username === user.username)
 				.map(p => {
 					return {
 						proposalCode: p.proposalCode,
-						reviewer: p.techReviews[semester].reviewer
+						reviewer: (p.techReviews[semester].reviewer.username === null ||
+							p.techReviews[semester].reviewer.username === "none") ? user.username : p.techReviews[semester].reviewer.username
 					}
 				});
 		await jsonClient().post('reviewers', {semester, assignments});
@@ -115,12 +120,16 @@ async function submitTechnicalReviewers(dispatch, proposals, initProposals, seme
 	}
 }
 
-async function submitTechnicalReports(dispatch, proposals, initProposals, semester) {
+async function submitTechnicalReports(dispatch, proposals, initProposals, semester, user) {
 	dispatch(startSubmitTechnicalReports());
 	try {
 		const reports = proposals
-				.filter(p => isTechReportUpdated(p, initProposals, semester))
+				.filter(p => isTechReportUpdated(p, initProposals, semester) ||
+					p.techReviews[semester].reviewer.username === user.username)
 				.map(p => {
+					if (p.techReviews[semester].reviewer.username === null){
+						throw `${p.proposalCode} have no reviewer`
+					}
 					return {
 						proposalCode: p.proposalCode,
 						report: makeTechComment(p.techReviews[semester])

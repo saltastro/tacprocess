@@ -6,6 +6,7 @@ import { ALL_PARTNER,
 	TAC_PAGE,
 	ADMIN_PAGE
 } from "../types"
+import _ from 'lodash'
 import {makeTechComment} from "./index";
 
 
@@ -116,7 +117,6 @@ export const getAstronomersList = saList => {
  * @return name of selected page or Home page by default
  */
 export const loadedPage = pathname => {
-	console.log({pathname});
 	return pathname === "/"? HOME_PAGE :
 		pathname === "/timeallocation"? TAC_PAGE :
 			pathname === "/statistics"? STATISTICS_PAGE :
@@ -134,26 +134,27 @@ export const loadedPage = pathname => {
  *
  * @param proposals array of proposals
  * @param astronomer a SALT astronomer
+ * @param semester Current semester
  * @return Array reduced proposals
  * */
 
-export const reduceProposalsPerAstronomer = (proposals, astronomer) => {
+export const reduceProposalsPerAstronomer = (proposals, astronomer, semester) => {
 	let prop = [];
 	if (astronomer === "All"){
 		prop = proposals
 	}
 	else if (astronomer === "Assigned"){
 		proposals.forEach(p => {
-			if (p.liaisonAstronomer !== null) {prop.push(p)}
+			if (p.techReviews[semester].reviewer.username !== null) {prop.push(p)}
 		})
 	}
 	else if (astronomer === "Not Assigned"){
 		proposals.forEach(p => {
-			if (p.liaisonAstronomer === null) {prop.push(p)}
+			if (p.techReviews[semester].reviewer.username === null) {prop.push(p)}
 		})
 	}else {
 		proposals.forEach(p => {
-			if (p.liaisonAstronomer === astronomer) {prop.push(p)}
+			if (p.techReviews[semester].reviewer.username === astronomer) {prop.push(p)}
 		})
 	}
 
@@ -162,11 +163,76 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer) => {
 
 export const isTechReportUpdated = (proposal, initProposals, semester) => {
 	const initProposal = initProposals.find(p => p.proposalCode === proposal.proposalCode);
-	if (!initProposal || !initProposal[semester])
 	return !initProposal || makeTechComment(proposal.techReviews[semester]) !== makeTechComment(initProposal.techReviews[semester]);
 };
 
 export const isReviewerUpdated = (proposal, initProposals, semester) => {
     const initProposal = initProposals.find(p => p.proposalCode === proposal.proposalCode);
-	return !initProposal || proposal.reviewer !== initProposal.reviewer;
+	return !initProposal || initProposal.techReviews[semester].reviewer.username !== proposal.techReviews[semester].reviewer.username;
 };
+
+
+export function getTechnicalReport(proposal, semester) {
+	const review = proposal.techReviews[semester];
+	const feasible = review && review.feasible ? review.feasible : null;
+	const comment = review && review.comment ? review.comment : null;
+	const details = review && review.details ? review.details : null;
+	const report = review && review.report ? review.report : null;
+	
+	return {
+		feasible,
+		comment,
+		details,
+		report
+	};
+}
+
+function getDefaultReview(p, semester) {
+	let name = null;
+	let feasible = null;
+	let details = null;
+	let comment = null;
+
+	if (Object.keys(p.techReviews).some( s => s < semester)){
+		Object.keys(p.techReviews).forEach( s => {
+			
+			if ( s < semester && (!_.isNull(p.techReviews[s].comment) || p.techReviews[s].comment !== "none")){
+				name =  p.techReviews[s].reviewer.username;
+				feasible = "ongoing";
+				details = "ongoing";
+				comment = "please check progress Report"
+			}
+		})
+	}
+	return{
+		reviewer:{ username: name},
+		feasible: feasible,
+		comment: comment,
+		details: details
+		
+	}
+	
+}
+export function setDefaultTechReviews (proposals, semester){
+	return (proposals || []).map( p => {
+		if (!!p.techReviews[semester]){
+			return p
+		}
+		else{
+			const rev = getDefaultReview(p, semester);
+			return {
+				...p,
+				techReviews:{
+					...p.techReviews,
+					[semester] :{
+						reviewer: rev.reviewer,
+						feasible: rev.feasible,
+						comment: rev.comment,
+						details: rev.details
+					}
+				}
+			}
+		}
+		
+	})
+}

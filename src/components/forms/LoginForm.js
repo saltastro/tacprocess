@@ -51,7 +51,6 @@ class LoginForm extends React.Component {
 	
 	render(){
 		const { data, errors } = this.state;
-		console.log(this.state);
 		return(
 			<form onSubmit={this.onSubmit} >
 				<div className="login">
