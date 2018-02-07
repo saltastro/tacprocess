@@ -130,7 +130,7 @@ export default function proposals(state = initialState, action = {}) {
 				submittedReportingAstronomers: false,
 				errors: {
 					...state.errors,
-					submittingReviewerError: "Submitting the liaison astronomers failed.",
+					submittingReviewerError: "Submitting the reviewers failed.",
 
 				}
 			}
