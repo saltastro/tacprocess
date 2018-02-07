@@ -26,6 +26,8 @@ const initialState = {
 	errors: {
 		fetchingError : null,
 		submittingError : null,
+		submittingReportError : null,
+		submittingReviewerError : null,
 	},
 };
 
@@ -139,7 +141,7 @@ export default function proposals(state = initialState, action = {}) {
 				submittedReportingAstronomers: true,
 				errors: {
 					...state.errors,
-					submittingError: null,
+					submittingReviewerError: null,
 
 				}
 			}
@@ -151,7 +153,7 @@ export default function proposals(state = initialState, action = {}) {
 				submittedReportingAstronomers: false,
 				errors: {
 					...state.errors,
-					submittingError: "Submitting the liaison astronomers failed.",
+					submittingReviewerError: "Submitting the liaison astronomers failed.",
 
 				}
 			}
@@ -170,7 +172,7 @@ export default function proposals(state = initialState, action = {}) {
 				submittedTechnicalReports: true,
 				errors: {
 					...state.errors,
-					submittingError: null,
+					submittingReportError: null,
 
 				}
 			}
@@ -182,7 +184,7 @@ export default function proposals(state = initialState, action = {}) {
 				submittedTechnicalReports: false,
 				errors: {
 					...state.errors,
-					submittingError: "Submitting the technical reports failed.",
+					submittingReportError: "Submitting the technical reports failed.",
 
 				}
 			}

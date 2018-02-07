@@ -164,8 +164,6 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer, semester) =>
 export const isTechReportUpdated = (proposal, initProposals, semester) => {
 	const initProposal = initProposals.find(p => p.proposalCode === proposal.proposalCode);
 	return !initProposal || makeTechComment(proposal.techReviews[semester]) !== makeTechComment(initProposal.techReviews[semester]);
-	
-	
 };
 
 export const isReviewerUpdated = (proposal, initProposals, semester) => {

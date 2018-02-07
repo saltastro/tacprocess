@@ -42,7 +42,9 @@ class TechReviewPage extends React.Component {
 			submittedTechnicalReports,
 			submittedLiaisonAstronomers,
 			semester,
-			loading
+			loading,
+			reviewerErrors,
+			reportError,
 		}= this.props;
 		const submitting = submittingLiaisonAstronomers || submittingTechnicalReports;
 		const errors = this.props.errors.submittingError;
@@ -68,9 +70,10 @@ class TechReviewPage extends React.Component {
 				/>
 				<div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'right', marginTop: 40 }}>
 					{submitting && <span>Submitting...</span>}
-					{submittedLiaisonAstronomers && <span style={{color: 'green'}}>Submission of reporters is successful</span>}
-					{submittedTechnicalReports && <span style={{color: 'green'}}>Submission new reports successful</span>}
-					{errors && <span style={{color: 'red'}}>Oops. The submission has failed.</span>}
+					{submittedLiaisonAstronomers && <span style={{color: 'green'}}><br/>Submission of reporters is successful</span>}
+					{submittedTechnicalReports && <span style={{color: 'green'}}><br/>Submission new reports successful</span>}
+					{reviewerErrors && <span style={{color: 'red'}}><br/>Oops. The submission of reporter(s) failed.</span>}
+					{reportError && <span style={{color: 'red'}}><br/>Oops. The submission of report(s) has failed.</span>}
 				</div>
 				{
 					semester < "2018-1" || submitting ? <div/> :
@@ -106,6 +109,8 @@ export default connect(store => {
 		submittingTechnicalReports: store.proposals.submittingTechnicalReports,
 		submittedTechnicalReports: store.proposals.submittedTechnicalReports,
 		errors: store.proposals.errors,
+		reviewerErrors: store.proposals.errors.submittingReviewerError,
+		reportError: store.proposals.errors.submittingReportError,
 		initProposals: store.proposals.initProposals,
 		
 	}

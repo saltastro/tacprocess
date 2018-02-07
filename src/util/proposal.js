@@ -55,6 +55,5 @@ export const didReportChange = (proposal, initProposals, semester) => {
 			didIt = makeTechComment(p.techReviews[semester]) !== makeTechComment(proposal.techReviews[semester])
 		}
 	});
-	console.log({didIt});
 	return didIt
 };
