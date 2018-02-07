@@ -234,7 +234,7 @@ export default class TechReviewTable extends React.Component {
 										<br/> {
 										(didReportChange(p, initProposals, semester) && reviewer === null) &&
 										<p style={{color: "#b7a201", textAlign: "center"}}>{
-											"you cannot uncheck yourself if comment made "
+											"A reviewer must be assigned if there is a comment."
 										}</p>
 									}
 									</td>
