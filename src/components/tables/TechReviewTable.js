@@ -91,8 +91,12 @@ export default class TechReviewTable extends React.Component {
 			const name = (SALTAstronomers).find(a => {
 				return a.username === username
 			});
-			return name ? name.name : null;
+			return name ? name.name : username;
 		};
+
+		const saltAstronomers = SALTAstronomers.sort(compareByFirstName);
+
+		const isSaltAstronomer = (username) => saltAstronomers.some(astronomer => astronomer.username === username);
 
 		return (
 			<div className='SATableDiv'>
@@ -208,7 +212,7 @@ export default class TechReviewTable extends React.Component {
 												        }}>
 													{this.showNone(p.proposalCode, semester) && <option value={"none"}>none</option>}
 													{
-														SALTAstronomers.sort(compareByFirstName).map(
+														saltAstronomers.map(
 															astronomer => (
 																<option
 																	key={astronomer.username}
@@ -219,6 +223,12 @@ export default class TechReviewTable extends React.Component {
 																</option>
 															))
 													}
+													{reviewer && !isSaltAstronomer(reviewer) &&
+													<option
+														key={reviewer}
+														value={reviewer}>
+														{reviewer}
+													</option>}
 												</select>
 										}
 										<br/> {
