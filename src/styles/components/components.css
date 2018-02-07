@@ -175,6 +175,9 @@ input[type=checkbox] {
     margin-left: 17px;
     margin-right: 17px;
 }
-input[disabled=true] {
+input[disabled] {
     background-color: #0E1119;
+}
+input[disabled]+label {
+    color: darkgray;
 }

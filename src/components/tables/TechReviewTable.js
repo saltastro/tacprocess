@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
-import { canAssignOtherReviewer } from "../../util";
+import { canAssignOtherReviewer, defaultSemester } from "../../util";
 import {getTechnicalReport} from "../../util/filters";
 import {didReportChange} from "../../util/proposal";
 
@@ -98,6 +98,8 @@ export default class TechReviewTable extends React.Component {
 
 		const isSaltAstronomer = (username) => saltAstronomers.some(astronomer => astronomer.username === username);
 
+		const isPastSemester = semester < defaultSemester();
+
 		return (
 			<div className='SATableDiv'>
 				<h1>Salt Astronomers Proposal Assigning</h1>
@@ -118,7 +120,8 @@ export default class TechReviewTable extends React.Component {
 						proposals.sort(compareByProposalCode).map(p => {
 							const reviewer = getReviewer(p, semester);
 							const techReport = getTechnicalReport(p, semester);
-							return (
+
+                            return (
 								<tr key={p.proposalId}>
 									<td className="width-150"><a target="_blank"
 									                             href={`https://www.salt.ac.za/wm/proposal/${p.proposalCode}`}>{p.proposalCode}</a>
@@ -135,8 +138,10 @@ export default class TechReviewTable extends React.Component {
 														"feasible",
 														e.target.value,
 														reviewer)
-												}>
-												<option  value={null}>{"none"}</option>
+												}
+												disabled={isPastSemester}
+											>
+												<option value={null}>{"none"}</option>
 												<option value={"yes"}>yes</option>
 												<option value={"yes with caveats"}>yes with caveats</option>
 												<option value={"no"}>no</option>
@@ -144,7 +149,7 @@ export default class TechReviewTable extends React.Component {
 										</td> }
 									<td className="width-100">
 												<textarea
-													disabled={!(semester >= "2018-1")}
+													disabled={isPastSemester}
 													className="table-height-fixed width-400"
 													value={
 														semester >= "2018-1" ? techReport.comment
@@ -177,7 +182,9 @@ export default class TechReviewTable extends React.Component {
 														"details",
 														e.target.value,
 														reviewer);
-												}}>
+												}}
+											disabled={isPastSemester}
+											>
 												<option>none</option>
 												<option>yes</option>
 												<option>no</option>
@@ -189,7 +196,7 @@ export default class TechReviewTable extends React.Component {
 											!canAssignOtherReviewer(user.roles) ?
 												<div>
 													<input
-														disabled={!this.showNone(p.proposalCode, semester)}
+														disabled={isPastSemester || !this.showNone(p.proposalCode, semester)}
 														type={"checkbox"}
 														checked={!this.showChecked(p.proposalCode, semester)}
 														value={user.username}
@@ -203,7 +210,7 @@ export default class TechReviewTable extends React.Component {
 												</div>
 
 												:
-												<select disabled={!(semester >= "2018-1")}
+												<select disabled={isPastSemester}
 												        value={reviewer ? reviewer : null}
 												        onChange={e => {
 													        this.techReviewerChange(p.proposalCode,
