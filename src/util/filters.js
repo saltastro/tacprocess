@@ -189,12 +189,6 @@ export function getTechnicalReport(proposal, semester) {
 	};
 }
 
-export const isSemesterEditable = (semester) => {
-	const today = new Date();
-	const year = today.getFullYear().toString();
-	return year <= semester;
-};
-
 function getDefaultReview(p, semester) {
 	let name = null;
 	let feasible = null;
@@ -222,11 +216,8 @@ function getDefaultReview(p, semester) {
 	
 }
 export function setDefaultTechReviews (proposals, semester){
-	
-	
 	return (proposals || []).map( p => {
-		console.log(p.techReviews[semester]);
-		if (!p.techReviews[semester]){
+		if (!!p.techReviews[semester]){
 			return p
 		}
 		else{

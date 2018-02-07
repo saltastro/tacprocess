@@ -335,20 +335,14 @@ export function getTechReportFields(report) {
 
 }
 
-export const isReviewerAssigned = (proposal, semester) => {
-	console.log(">>>>: ", proposal.techReviews);
-	return !!proposal.techReviews[semester];
-
-};
-
 export function canAssignOtherReviewer (roles){
     return (roles || []).some(r => r.type === "ADMINISTRATOR");
 }
 
-export function didProposalReporterChange (proposal, initProposals){
+export function didProposalReporterChange (proposal, initProposals, semester){
 	return (initProposals||[]).some( p => {
 		if (p.proposalCode === proposal.proposalCode){
-			return p.reviewer !== proposal.reviewer
+			return p.techReviews[semester].reviewer.username !== proposal.techReviews[semester].reviewer.username
 		}
 		return false
 	})

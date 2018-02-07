@@ -167,7 +167,7 @@ export default class TechReviewTable extends React.Component {
 												</div>
 												: <div>
 													
-													{didProposalReporterChange(p, initProposals, semester) &&
+													{
 													<input
 														disabled={this.disableCheckbox(p.proposalCode,  p.techReviews[semester].reviewer.username, semester)}
 														checked={true}
