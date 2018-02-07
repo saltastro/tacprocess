@@ -81,7 +81,6 @@ function requestedTime(requests, semester){
 }
 
 export function convertProposals(proposals, semester, partner){
-	console.log({proposals});
 	if (!proposals.proposals){ return []}
 	return proposals.proposals.map( proposal => {
 		const minTotal  = minimumTotalRequested(proposal.timeRequests, semester);

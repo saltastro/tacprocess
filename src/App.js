@@ -96,7 +96,6 @@ App.propTypes = {
 };
 
 function mapStateToProps(state) { /* state in params */
-	console.log('------', state.user);
 	return{
 		isAuthenticated: state.user.user.isAuthenticated,
 		filters: state.filters

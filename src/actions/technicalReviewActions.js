@@ -94,7 +94,8 @@ export function submitTechnicalReviewDetails(proposals, user, initProposals, sem
 				submitTechnicalReports(dispatch,
 									   proposals,
 									   initProposals,
-									   semester)
+									   semester,
+									   user)
 			]);
 	}
 }
@@ -103,7 +104,8 @@ async function submitTechnicalReviewers(dispatch, proposals, initProposals, seme
 	dispatch(startSubmittingReportingAstronomers());
 	try {
 		const assignments = proposals
-				.filter(p => isReviewerUpdated(p, initProposals, semester))
+				.filter(p => isReviewerUpdated(p, initProposals, semester) ||
+					p.techReviews[semester].reviewer.username === user.username)
 				.map(p => {
 					return {
 						proposalCode: p.proposalCode,
@@ -118,12 +120,16 @@ async function submitTechnicalReviewers(dispatch, proposals, initProposals, seme
 	}
 }
 
-async function submitTechnicalReports(dispatch, proposals, initProposals, semester) {
+async function submitTechnicalReports(dispatch, proposals, initProposals, semester, user) {
 	dispatch(startSubmitTechnicalReports());
 	try {
 		const reports = proposals
-				.filter(p => isTechReportUpdated(p, initProposals, semester))
+				.filter(p => isTechReportUpdated(p, initProposals, semester) ||
+					p.techReviews[semester].reviewer.username === user.username)
 				.map(p => {
+					if (p.techReviews[semester].reviewer.username === null){
+						throw `${p.proposalCode} have no reviewer`
+					}
 					return {
 						proposalCode: p.proposalCode,
 						report: makeTechComment(p.techReviews[semester])
