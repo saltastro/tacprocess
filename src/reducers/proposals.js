@@ -2,9 +2,7 @@ import {
 	FETCH_PROPOSALS_START, FETCH_PROPOSALS_PASS, FETCH_PROPOSALS_FAIL,
 	UPDATE_SINGLE_PROPOSAL, UPDATING_PROPOSALS,
 	UPDATE_TECHNICAL_REVIEW,
-	SUBMIT_REPORTING_ASTRONOMERS_START, SUBMIT_REPORTING_ASTRONOMERS_PASS,
-	SUBMIT_REPORTING_ASTRONOMERS_FAIL, SUBMIT_TECHNICAL_REPORTS_START, SUBMIT_TECHNICAL_REPORTS_PASS,
-	SUBMIT_TECHNICAL_REPORTS_FAIL,
+	SUBMIT_TECHNICAL_REVIEWS_START, SUBMIT_TECHNICAL_REVIEWS_PASS, SUBMIT_TECHNICAL_REVIEWS_FAIL,
 	UPDATE_TAC_COMMENT, UPDATE_ALLOCATED_PRIORITY,
 	SUBMIT_TIME_ALLOCATIONS_START, SUBMIT_TIME_ALLOCATIONS_FAIL, SUBMIT_TIME_ALLOCATIONS_PASS
 } from "../types";
@@ -13,10 +11,8 @@ import {setDefaultTechReviews} from "../util/filters";
 const initialState = {
 	fetching: false,
 	fetched: false,
-	submittingReportingAstronomers: false,
-	submittedReportingAstronomers: false,
-	submittingTechnicalReports: false,
-	submittedTechnicalReports: false,
+	submittingTechnicalReviews: false,
+	submittedTechnicalReviews: false,
 	submittingTimeAllocations: false,
 	submittedTimeAllocations: {},
 	unSubmittedTacChanges: false,
@@ -26,8 +22,7 @@ const initialState = {
 	errors: {
 		fetchingError : null,
 		submittingError : null,
-		submittingReportError : null,
-		submittingReviewerError : null,
+		submittingReviewsError : null,
 	},
 };
 
@@ -104,64 +99,32 @@ export default function proposals(state = initialState, action = {}) {
 				updatedProposals
 			}
 		}
-		case SUBMIT_REPORTING_ASTRONOMERS_START: {
+		case SUBMIT_TECHNICAL_REVIEWS_START: {
 			return {
 				...state,
-				submittingReportingAstronomers: true,
-				submittedReportingAstronomers: false,
-			}
-		}
-		case SUBMIT_REPORTING_ASTRONOMERS_PASS: {
-			return {
-				...state,
-				submittingReportingAstronomers: false,
-				submittedReportingAstronomers: true,
+				submittingTechnicalReviews: true,
+				submittedTechnicalReviews: false,
 				errors: {
 					...state.errors,
-					submittingReviewerError: null,
-
+					submittingReviewsError: null
 				}
 			}
 		}
-		case SUBMIT_REPORTING_ASTRONOMERS_FAIL: {
+		case SUBMIT_TECHNICAL_REVIEWS_PASS: {
 			return {
 				...state,
-				submittingReportingAstronomers: false,
-				submittedReportingAstronomers: false,
-				errors: {
-					...state.errors,
-					submittingReviewerError: "Submitting the reviewers failed.",
-
-				}
+				submittingTechnicalReviews: false,
+				submittedTechnicalReviews: true,
 			}
 		}
-		case SUBMIT_TECHNICAL_REPORTS_START: {
+		case SUBMIT_TECHNICAL_REVIEWS_FAIL: {
 			return {
 				...state,
-				submittingTechnicalReports: true,
-				submittedTechnicalReports: false,
-			}
-		}
-		case SUBMIT_TECHNICAL_REPORTS_PASS: {
-			return {
-				...state,
-				submittingTechnicalReports: false,
-				submittedTechnicalReports: true,
+				submittingTechnicalReviews: false,
+				submittedTechnicalReviews: false,
 				errors: {
 					...state.errors,
-					submittingReportError: null,
-
-				}
-			}
-		}
-		case SUBMIT_TECHNICAL_REPORTS_FAIL: {
-			return {
-				...state,
-				submittingTechnicalReports: false,
-				submittedTechnicalReports: false,
-				errors: {
-					...state.errors,
-					submittingReportError: "Submitting the technical reports failed.",
+					submittingReviewsError: "Submitting the reviews failed.",
 
 				}
 			}

@@ -29,12 +29,13 @@ class filters extends React.Component {
 	};
 	
 	render() {
-		const { filters, user, SALTAstronomers, location  } = this.props;
+		const { filters, user, SALTAstronomers, location, loadingProposals, loadingTargets  } = this.props;
 		const { selectedPartner, selectedSemester, selectedLiaison } = filters;
 		const partnerList = getPartnerList(user.roles);
 		const astronomersList = ["All", "Assigned"].concat(getAstronomersList(SALTAstronomers)).concat(["Not Assigned"]);
 		return(
 			<div className="selector-div">
+				{!(loadingProposals && loadingTargets) && <div className="dimScreen" />}
 				<div className="left">
 					<DropDown
 						className={"left-2"}
@@ -70,7 +71,8 @@ class filters extends React.Component {
 export default withRouter(connect(
 	store => ({
 		filters: store.filters,
-		statistics:store.statistics,
+		loadingTargets: store.targets.fetched,
+		loadingProposals: store.proposals.fetched,
 		user:store.user.user,
 		SALTAstronomers: store.SALTAstronomers.SALTAstronomer
 	}) ,null

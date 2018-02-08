@@ -171,7 +171,7 @@ export default class TechReviewTable extends React.Component {
 												>
 
 												</textarea>
-                                        {(didReportChange(p, initProposals, semester) && reviewer === null) &&
+                                        {(didReportChange(p, initProposals, semester) && !reviewer) &&
                                         <p style={{color: "#b7a201", textAlign: "center"}}>{
                                             "A reviewer must be assigned if there is a comment."
                                         }</p>}
@@ -206,22 +206,22 @@ export default class TechReviewTable extends React.Component {
 														value={user.username}
 														onChange={e => {
 															this.techReviewerChange(p.proposalCode,
-																e.target.checked ? user.username : null,
+																e.target.checked ? user.username : '',
 																techReport)
 														}}/>
-													{p.techReviews[semester].reviewer.username === null  ?
+													{!p.techReviews[semester].reviewer.username
+															?
 													<label>Assign Yourself</label>:<label>{saltAstronomerName(reviewer)}</label>}
 												</div>
-
 												:
 												<select disabled={isPastSemester}
-												        value={reviewer ? reviewer : "none"}
+												        value={reviewer ? reviewer : ""}
 												        onChange={e => {
-												        	this.techReviewerChange(p.proposalCode,
+													        this.techReviewerChange(p.proposalCode,
 														        e.target.value,
 														        techReport)
 												        }}>
-													{this.showNone(p.proposalCode, semester) && <option value={"none"}>none</option>}
+													{this.showNone(p.proposalCode, semester) && <option value={''}>none</option>}
 													{
 														saltAstronomers.map(
 															astronomer => (

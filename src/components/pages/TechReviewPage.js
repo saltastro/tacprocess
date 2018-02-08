@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import fetchSA from "../../actions/saltAstronomerActions";
 import {
 	submitTechnicalReviewDetails,
-	updateTechnicalReview
+	updateTechnicalReview,
+	unAssignProposal
 } from "../../actions/technicalReviewActions";
 import TechReviewTable from "../tables/TechReviewTable";
 import { getLiaisonUsername } from '../../util';
@@ -32,16 +33,13 @@ class TechReviewPage extends React.Component {
 			initProposals,
 			SALTAstronomers,
 			user,
-			submittingLiaisonAstronomers,
-			submittingTechnicalReports,
-			submittedTechnicalReports,
-			submittedReportingAstronomers,
+			submittingReviews,
+			submittedReviews,
 			semester,
 			loading,
-			reviewerError,
-			reportError,
+			reviewsError
 		} = this.props;
-		const submitting = submittingLiaisonAstronomers || submittingTechnicalReports;
+		const submitting = submittingReviews;
 
 		if (loading ){
 			return ( <div className='spinner'>
@@ -63,13 +61,11 @@ class TechReviewPage extends React.Component {
 				/>
 				<div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'right', marginTop: 40 }}>
 					{submitting && <span>Submitting...</span>}
-					{submittedReportingAstronomers && <span style={{color: 'green'}}><br/>Submission of reviewers successful</span>}
-					{submittedTechnicalReports && <span style={{color: 'green'}}><br/>Submission of reports successful</span>}
-					{reviewerError && <span style={{color: 'red'}}><br/>Submission of reviewers failed</span>}
-					{reportError && <span style={{color: 'red'}}><br/>Submission of reports failed</span>}
+					{submittedReviews && <span style={{color: 'green'}}><br/>Submission successful</span>}
+					{reviewsError && <span style={{color: 'red'}}><br/>Submission failed</span>}
 				</div>
 				{
-					semester < "2018-1" || submitting ? <div/> :
+					semester < defaultSemester() || submitting ? <div/> :
 						<button
 							disabled={submitting}
 							className="btn-success"
@@ -97,14 +93,10 @@ export default connect(store => {
 		semester: store.filters.selectedSemester,
 		user: store.user.user,
 		SALTAstronomers: store.SALTAstronomers.SALTAstronomer,
-		submittedReportingAstronomers: store.proposals.submittedReportingAstronomers,
 		loading: store.proposals.fetching,
-		submittingReportingAstronomers: store.proposals.submittingReportingAstronomers,
-		submittingTechnicalReports: store.proposals.submittingTechnicalReports,
-		submittedTechnicalReports: store.proposals.submittedTechnicalReports,
-		errors: store.proposals.errors,
-		reviewerError: store.proposals.errors.submittingReviewerError,
-		reportError: store.proposals.errors.submittingReportError,
+		submittingReviews: store.proposals.submittingTechnicalReviews,
+		submittedReviews: store.proposals.submittedTechnicalReviews,
+		reviewsError: store.proposals.errors.submittingReviewsError,
 		initProposals: store.proposals.initProposals,
 
 	}
