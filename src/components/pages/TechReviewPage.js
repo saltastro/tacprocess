@@ -3,11 +3,10 @@ import { connect } from "react-redux";
 import fetchSA from "../../actions/saltAstronomerActions";
 import {
 	submitTechnicalReviewDetails,
-	updateTechnicalReview,
-	unAssignProposal
+	updateTechnicalReview
 } from "../../actions/technicalReviewActions";
 import TechReviewTable from "../tables/TechReviewTable";
-import { getLiaisonUsername } from '../../util';
+import {defaultSemester, getLiaisonUsername} from '../../util';
 import { reduceProposalsPerAstronomer} from '../../util/filters';
 
 
