@@ -215,7 +215,7 @@ export default class TechReviewTable extends React.Component {
 												</div>
 												:
 												<select disabled={isPastSemester}
-												        value={reviewer ? reviewer : null}
+												        value={reviewer ? reviewer : ""}
 												        onChange={e => {
 													        this.techReviewerChange(p.proposalCode,
 														        e.target.value,
