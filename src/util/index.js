@@ -358,11 +358,19 @@ export function defaultSemester() {
 	return `${year}-${semester}`;
 }
 
+export function downloadSummary(proposalCode) {
+    jsonClient('blob').post('/proposal-summary', {proposalCode})
+            .then(res => {
+                saveAs(res.data, `${proposalCode}.pdf`);
+            })
+            .catch(err => console.error(err));
+}
+
 export function downloadSummaries(proposals) {
     const proposalCodes = proposals.map(p => p.proposalCode);
     jsonClient('blob').post('/proposal-summaries', {proposalCodes})
             .then(res => {
-                saveAs(res.data, 'proposal_summaries.zip')
+                saveAs(res.data, 'proposal_summaries.zip');
             })
             .catch(err => console.error(err));
 }
