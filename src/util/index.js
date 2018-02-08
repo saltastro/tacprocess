@@ -1,6 +1,8 @@
+import {saveAs} from 'file-saver';
 import * as types from '../types';
 import { TAC_PAGE, TECHNICAL_PAGE, STATISTICS_PAGE, DOCUMENTATION_PAGE } from "../types";
 import {ADMINISTRATOR} from "../types";
+import { jsonClient } from '../api/api';
 
 /**
  * Get the observing time for a semester in a proposal.
@@ -354,4 +356,13 @@ export function defaultSemester() {
 	}
 
 	return `${year}-${semester}`;
+}
+
+export function downloadSummaries(proposals) {
+    const proposalCodes = proposals.map(p => p.proposalCode);
+    jsonClient('blob').post('/proposal-summaries', {proposalCodes})
+            .then(res => {
+                saveAs(res.data, 'proposal_summaries.zip')
+            })
+            .catch(err => console.error(err));
 }
