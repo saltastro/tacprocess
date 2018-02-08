@@ -311,6 +311,29 @@ export function makeTechComment (techReview){
 	return feasible + comment + details;
 }
 
+function testTechReview(rev) {
+	let review = { comment: ""};
+	if (rev.length > 2) {
+		(rev || []).forEach((r, i) => {
+			if (r.indexOf("Feasible:") !== -1) {
+				review["feasible"] = r.split("Feasible: ").pop() || null
+			} else if (r.indexOf("Detailed Check:") !== -1) {
+				review["details"] = r.split("Detailed Check: ").pop() || null;
+			} else {
+				review.comment = review.comment.concat(r + "\n")
+			}
+			
+		});
+	} else {
+		review = {
+			feasible: null,
+			details: null,
+			comment: null
+		}
+	}
+	return review
+}
+
 export function getTechReportFields(report) {
 	let feasible = null;
 	let comment = null;
@@ -322,10 +345,13 @@ export function getTechReportFields(report) {
 	const fields = regExp.exec(report);
 	if ( !!fields ){
 		feasible = fields[1].toLowerCase();
-		comment = fields[2].toLowerCase();
+		comment = fields[2];
 		details = fields[3].toLowerCase();
 	} else {
-		comment = report.split("Comments: ").pop();
+		const rep = testTechReview(report.split("\n"));
+		feasible = rep.feasible ? rep.feasible : null;
+		comment = rep.comment ? rep.comment.split("Comments:").pop() : report.split("Comments:").pop();
+		details = rep.details ? rep.details: null;
 	}
 	return {
 		feasible: !feasible || feasible.length < 2 ? null : feasible.replace(/^\s+|\s+$/g, ""),
@@ -341,7 +367,7 @@ export function canAssignOtherReviewer (roles){
 
 export function defaultSemester() {
     const today = new Date();
-    const month = today.getMonth() + 1; // use offset 1 for month
+    const month = today.getMonth() + 1;
     let year = today.getFullYear();
     let semester = null;
     if (1 <= month && month <=4) {

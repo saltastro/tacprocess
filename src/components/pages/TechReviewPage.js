@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 import fetchSA from "../../actions/saltAstronomerActions";
 import {
 	submitTechnicalReviewDetails,
-	updateTechnicalReview,
-	unAssignProposal
+	updateTechnicalReview
 } from "../../actions/technicalReviewActions";
 import TechReviewTable from "../tables/TechReviewTable";
 import { getLiaisonUsername } from '../../util';
@@ -43,7 +42,6 @@ class TechReviewPage extends React.Component {
 			reportError,
 		} = this.props;
 		const submitting = submittingLiaisonAstronomers || submittingTechnicalReports;
-		const errors = this.props.errors.submittingError;
 
 		if (loading ){
 			return ( <div className='spinner'>

@@ -5,8 +5,7 @@ import {
 	SUBMIT_TECHNICAL_REPORTS_FAIL,
 	SUBMIT_TECHNICAL_REPORTS_PASS,
 	SUBMIT_TECHNICAL_REPORTS_START,
-	UPDATE_TECHNICAL_REVIEW,
-	UN_ASSIGN_PROPOSAL
+	UPDATE_TECHNICAL_REVIEW
 } from '../types';
 import { jsonClient } from '../api/api';
 import { makeTechComment } from "../util";
@@ -79,7 +78,6 @@ function submitTechnicalReportsPass() {
  * @param semester Semester, such as "2018-1".
  */
 export function submitTechnicalReviewDetails(proposals, user, initProposals, partner, semester) {
-	console.log({partner, semester});
 	return async (dispatch) => {
 		await Promise.all(
 			[
@@ -127,7 +125,7 @@ async function submitTechnicalReports(dispatch, proposals, initProposals, semest
 					p.techReviews[semester].reviewer.username === user.username)
 				.map(p => {
 					if (p.techReviews[semester].reviewer.username === null){
-						throw `${p.proposalCode} have no reviewer`
+						throw Error `${p.proposalCode} have no reviewer`
 					}
 					return {
 						proposalCode: p.proposalCode,
