@@ -48,8 +48,15 @@ export const switchUser = (username) => {
 			const user = await api.user.switchUser(username);
 			localStorage.tacPageJWT = user.token;
 			const userData = await queryUserData();
-			dispatch(partnersFilter(firstSelectedPartner(user.roles)));
 			dispatch(userLoggedIn(userData));
+			
+			const partner = firstSelectedPartner(user.roles);
+			const semester = defaultSemester();
+			
+			dispatch(partnersFilter(partner));
+			dispatch(fetchProposals( semester, partner));
+			dispatch(fetchTargets(semester, partner));
+			dispatch(storePartnerAllocations(semester, partner));
 		} catch (e) {
 			dispatch(switchUserFail());
 		}
