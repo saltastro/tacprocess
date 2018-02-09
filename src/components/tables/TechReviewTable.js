@@ -41,7 +41,7 @@ export default class TechReviewTable extends React.Component {
 	showNone = (proposalCode, semester) => {
 		return this.props.initProposals.some(p => {
 			if( p.proposalCode === proposalCode){
-				return p.techReviews[semester].reviewer.username === null
+				return !p.techReviews[semester].reviewer.username
 			}
 			return false
 		})
@@ -51,7 +51,7 @@ export default class TechReviewTable extends React.Component {
 	showChecked = (proposalCode, semester) => {
 		return this.props.proposals.some(p => {
 			if( p.proposalCode === proposalCode){
-				return p.techReviews[semester].reviewer.username === null
+				return !p.techReviews[semester].reviewer.username
 			}
 			return false
 		})
