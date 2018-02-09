@@ -54,17 +54,12 @@ class App extends React.Component {
 		return (
 				<BrowserRouter>
 					<div className="root-main">
-						{isAuthenticated ? (
+						
 								<div>
 									<Navigation logout={this.loggingOut}/>
 								</div>
 
-						) : (
-								<div>
-									<h1 className="login-txt">Please Login</h1>
-								</div>
-
-						)}
+						
 						<div className="loading">
 
 							{isAuthenticated ? <Filters/> : <div/>}
