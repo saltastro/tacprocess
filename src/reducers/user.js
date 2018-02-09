@@ -28,9 +28,15 @@ export default function user(state = initialState, action = {}) {
 		};
 
 	case USER_LOGGED_OUT: {
-		return initialState
-		}
-
+		return {
+			...initialState,
+			user: {
+				...initialState.user,
+				isAuthenticated: false
+			}
+		};
+	}
+	
 	case FETCHING_USER:
 		return {
 			

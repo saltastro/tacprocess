@@ -19,7 +19,6 @@ class LoginPage extends  React.Component{
 		);
 	
 	render(){
-		console.log(">>: ", this.props.user );
 		const { user } = this.props;
 		return(
 			<div>
