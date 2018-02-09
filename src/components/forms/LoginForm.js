@@ -21,7 +21,6 @@ class LoginForm extends React.Component {
 	onSubmit = e => {
 		e.preventDefault();
 		const errors = this.validate(this.state.data);
-		this.setState({ errors });
 		if (Object.keys(errors).length === 0) {
 			this.setState({ loading: true });
 			this.props
@@ -33,19 +32,22 @@ class LoginForm extends React.Component {
 				}else {
 					error = ["unknown error"]
 				}
-
+				this.setState({ error });
+				
 				this.setState({
 					errors: error,
 					loading: false
 				});
 			});
 		}
+		this.setState({ errors });
 	};
 
 	validate = (data) => {
 		const errors = {};
 		if (!data.username) errors.username = "Please provide username";
 		if (!data.password) errors.password = "Please provide password";
+		
 		return errors;
 	};
 
@@ -54,13 +56,6 @@ class LoginForm extends React.Component {
 		return(
 			<form onSubmit={this.onSubmit} >
 				<div className="login">
-					{
-						errors.global &&
-						<div>
-							<h1>Something went wrong</h1>
-							<InLineError text={errors.global} />
-						</div>
-					}
 					<input
 						type="text"
 						placeholder="Username"
@@ -81,7 +76,7 @@ class LoginForm extends React.Component {
 					{errors.password && <InLineError text={errors.password} />}
 					<input className="submit" type="submit" value="Login" />
 				</div>
-				<div className="shadow">hello</div> {/* text "hello" not showing just to satisfy eslint */}
+				<div className="shadow"/>
 			</form>
 		);
 	}

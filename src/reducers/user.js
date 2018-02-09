@@ -45,6 +45,8 @@ export default function user(state = initialState, action = {}) {
 		return {
 			...state,
             user: {
+				...state.user,
+	            username: action.payload.username,
                 isAuthenticated: state.user.isAuthenticated
             },
 			fetching: false,

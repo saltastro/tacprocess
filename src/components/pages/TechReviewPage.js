@@ -58,7 +58,7 @@ class TechReviewPage extends React.Component {
 					semester={semester}
 					initProposals={ initProposals}
 				/>
-				<div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'right', marginTop: 40 }}>
+				<div className={"massage"} style={{textAlign: "right"}}>
 					{submitting && <span>Submitting...</span>}
 					{submittedReviews && <span style={{color: 'green'}}><br/>Submission successful</span>}
 					{reviewsError && <span style={{color: 'red'}}><br/>Submission failed</span>}
