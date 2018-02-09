@@ -9,6 +9,10 @@ import { USER_LOGGED_IN,
 import { queryUserData } from "../api/graphQL"
 import api from "../api/api";
 import { firstSelectedPartner } from "../util/filters";
+import fetchTargets from "./targetsActions";
+import {storePartnerAllocations} from "./timeAllocationActions";
+import fetchProposals from "./proposalsActions";
+import {defaultSemester} from "../util";
 
 export const userLoggedIn = user => {
 	return ({
@@ -24,8 +28,9 @@ export const fetchingUserData = () => ({
 	type: FETCHING_USER
 });
 
-export const fetchingUserFail = () => ({
-	type: FAIL_TO_GET_USER
+export const fetchingUserFail = (username) => ({
+	type: FAIL_TO_GET_USER,
+	payload: {username: username}
 });
 
 export const switchUserStart = () => ({
@@ -63,9 +68,15 @@ export const login = credentials => {
 			localStorage.tacPageJWT = user.token;
 			const userData = await queryUserData();
 			dispatch(userLoggedIn(userData));
-			dispatch(partnersFilter(firstSelectedPartner(user.roles)))
+			const partner = firstSelectedPartner(user.roles);
+			const semester = defaultSemester();
+			dispatch(partnersFilter(partner));
+			
+			dispatch(fetchProposals( semester, partner));
+			dispatch(fetchTargets(semester, partner));
+			dispatch(storePartnerAllocations(semester, partner));
 		} catch (e) {
-			dispatch(fetchingUserFail());
+			dispatch(fetchingUserFail(credentials.username));
 		}
 	}
 };

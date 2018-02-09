@@ -136,7 +136,7 @@ input[type="submit"]:active {
 }
 
 .let1 {
-  animation: drop 1s ease-in-out infinite;
+  animation: drop 1.2s ease-in-out infinite;
   animation-delay: 1.2s;
 }
 
