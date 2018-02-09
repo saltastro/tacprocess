@@ -1,4 +1,6 @@
-import { USER_LOGGED_IN, USER_LOGGED_OUT, FETCHING_USER, FAIL_TO_GET_USER, SWITCH_USER_START, SWITCH_USER_FAIL } from "../types";
+import {
+	USER_LOGGED_IN, USER_LOGGED_OUT, FETCHING_USER, FAIL_TO_GET_USER, SWITCH_USER_START, SWITCH_USER_FAIL
+} from "../types";
 
 
 const initialState = {
@@ -25,15 +27,13 @@ export default function user(state = initialState, action = {}) {
 			error: null
 		};
 
-	case USER_LOGGED_OUT:
-		return {
-				...state,
-			user: {}
-		};
+	case USER_LOGGED_OUT: {
+		return initialState
+		}
 
 	case FETCHING_USER:
 		return {
-			...state,
+			
 			user: {
 					isAuthenticated: state.user.isAuthenticated
 			},
@@ -47,7 +47,7 @@ export default function user(state = initialState, action = {}) {
             user: {
 				...state.user,
 	            username: action.payload.username,
-                isAuthenticated: state.user.isAuthenticated
+                isAuthenticated: false
             },
 			fetching: false,
 			error: 'Authentication failed'
