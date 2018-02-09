@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 
 export default class SwitchUserForm extends React.Component {
@@ -32,7 +33,7 @@ export default class SwitchUserForm extends React.Component {
                            value={this.state.username}
                            onChange={this.onUsernameChange}
                            placeholder="Username"/>
-                    <button onClick={this.switchUser}>Switch User</button>
+                    <Link to="/"><button onClick={this.switchUser}>Switch User</button></Link>
                     {this.props.error && <span className="error">{this.props.error}</span>}
                 </div>
         );

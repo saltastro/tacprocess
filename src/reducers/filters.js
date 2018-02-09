@@ -7,19 +7,12 @@ import {
   PARTNER_CHANGE,
   ASTRONOMER_CHANGE
 } from "../types";
-
-const today = new Date()
-const month = today.getMonth() + 3
-const year = today.getFullYear()
-let semester
-if ( month >= 3  && month < 9){ semester = 1 } else {
-  semester = 2
-}
+import { defaultSemester } from '../util';
 
 const initialState = {
   fetching: false,
   errors: false,
-  selectedSemester: `${year}-${semester}`,
+  selectedSemester: defaultSemester(),
   selectedLiaison: "All"
 
 };

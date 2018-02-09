@@ -1,16 +1,13 @@
 import {
-	SUBMIT_REPORTING_ASTRONOMERS_FAIL,
-	SUBMIT_REPORTING_ASTRONOMERS_PASS,
-	SUBMIT_REPORTING_ASTRONOMERS_START,
-	SUBMIT_TECHNICAL_REPORTS_FAIL,
-	SUBMIT_TECHNICAL_REPORTS_PASS,
-	SUBMIT_TECHNICAL_REPORTS_START,
+	SUBMIT_TECHNICAL_REVIEWS_FAIL,
+	SUBMIT_TECHNICAL_REVIEWS_PASS,
+	SUBMIT_TECHNICAL_REVIEWS_START,
 	UPDATE_TECHNICAL_REVIEW,
-	UN_ASSIGN_PROPOSAL
 } from '../types';
 import { jsonClient } from '../api/api';
-import { makeTechComment } from "../util";
 import { isTechReportUpdated, isReviewerUpdated } from '../util/filters'
+import fetchProposals from './proposalsActions';
+import { makeTechComment } from '../util';
 
 /**
  * An action for updating the technical reviewer of a proposal in the local store.
@@ -31,45 +28,21 @@ export function updateTechnicalReview(proposalCode, semester, techReview) {
 	}
 }
 
-function startSubmittingReportingAstronomers() {
+function startSubmittingTechnicalReviews() {
 	return {
-		type: SUBMIT_REPORTING_ASTRONOMERS_START
+		type: SUBMIT_TECHNICAL_REVIEWS_START
 	}
 }
 
-function submittingReportingAstronomersFail() {
+function submittingTechnicalReviewsFail() {
 	return {
-		type: SUBMIT_REPORTING_ASTRONOMERS_FAIL
+		type: SUBMIT_TECHNICAL_REVIEWS_FAIL
 	}
 }
 
-function submittingReportingAstronomersPass() {
+function submittingTechnicalReviewsPass() {
 	return {
-		type: SUBMIT_REPORTING_ASTRONOMERS_PASS
-	}
-}
-
-function startSubmitTechnicalReports() {
-	return {
-		type: SUBMIT_TECHNICAL_REPORTS_START
-	}
-}
-
-function submitTechnicalReportsFail() {
-	return {
-		type: SUBMIT_TECHNICAL_REPORTS_FAIL
-	}
-}
-export function unAssignProposal(proposalCode, semester) {
-	return {
-		type: UN_ASSIGN_PROPOSAL,
-		payload: {proposalCode: proposalCode, semester: semester}
-	}
-}
-
-function submitTechnicalReportsPass() {
-	return {
-		type: SUBMIT_TECHNICAL_REPORTS_PASS
+		type: SUBMIT_TECHNICAL_REVIEWS_PASS
 	}
 }
 
@@ -80,64 +53,40 @@ function submitTechnicalReportsPass() {
  * @param user Current user of tac Web
  * @param initProposals Proposals downloaded from the server. They are used to check whether reviewers or
  *                      technical reports have changed.
+ * @param partner Partner code, such "RSA" or "IUCAA".
  * @param semester Semester, such as "2018-1".
  */
-export function submitTechnicalReviewDetails(proposals, user, initProposals, semester) {
+export function submitTechnicalReviewDetails(proposals, user, initProposals, partner, semester) {
+	console.log({partner, semester});
 	return async (dispatch) => {
-		await Promise.all(
-			[
-				submitTechnicalReviewers(dispatch,
-										 proposals,
-										 initProposals,
-										 semester,
-					                     user),
-				submitTechnicalReports(dispatch,
-									   proposals,
-									   initProposals,
-									   semester,
-									   user)
-			]);
-	}
-}
-
-async function submitTechnicalReviewers(dispatch, proposals, initProposals, semester, user) {
-	dispatch(startSubmittingReportingAstronomers());
-	try {
-		const assignments = proposals
-				.filter(p => isReviewerUpdated(p, initProposals, semester) ||
-					p.techReviews[semester].reviewer.username === user.username)
-				.map(p => {
-					return {
-						proposalCode: p.proposalCode,
-						reviewer: (p.techReviews[semester].reviewer.username === null ||
-							p.techReviews[semester].reviewer.username === "none") ? user.username : p.techReviews[semester].reviewer.username
-					}
+        dispatch(startSubmittingTechnicalReviews());
+        const updatedProposals = proposals
+                .filter(p => {
+					return isReviewerUpdated(p, initProposals, semester) ||
+							isTechReportUpdated(p, initProposals, semester)
 				});
-		await jsonClient().post('reviewers', {semester, assignments});
-		dispatch(submittingReportingAstronomersPass());
-	} catch (e) {
-		dispatch(submittingReportingAstronomersFail());
-	}
-}
-
-async function submitTechnicalReports(dispatch, proposals, initProposals, semester, user) {
-	dispatch(startSubmitTechnicalReports());
-	try {
-		const reports = proposals
-				.filter(p => isTechReportUpdated(p, initProposals, semester) ||
-					p.techReviews[semester].reviewer.username === user.username)
-				.map(p => {
-					if (p.techReviews[semester].reviewer.username === null){
-						throw `${p.proposalCode} have no reviewer`
-					}
-					return {
-						proposalCode: p.proposalCode,
+        if (updatedProposals.some(p => !p.techReviews[semester].reviewer || !p.techReviews[semester].reviewer.username)) {
+        	dispatch(submittingTechnicalReviewsFail());
+        	return;
+        }
+		const reviews = updatedProposals.map(p => {
+					const reviewer = !p.techReviews[semester].reviewer || !p.techReviews[semester].reviewer.username
+							? null
+							: p.techReviews[semester].reviewer.username;
+                    return {
+                        proposalCode: p.proposalCode,
+                        reviewer,
 						report: makeTechComment(p.techReviews[semester])
-					}
-				});
-		await jsonClient().post('technical-reports', {semester, reports});
-		dispatch(submitTechnicalReportsPass());
-	} catch (e) {
-		dispatch(submitTechnicalReportsFail());
+                    }
+                });
+
+        try {
+            await jsonClient().post('technical-reviews', {semester, reviews});
+        } catch (e) {
+        	dispatch(submittingTechnicalReviewsFail());
+        	return;
+		}
+		dispatch(fetchProposals(semester, partner));
+		dispatch(submittingTechnicalReviewsPass());
 	}
 }

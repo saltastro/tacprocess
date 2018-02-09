@@ -44,7 +44,6 @@ export default function fetchProposals(semester, partner="All") {
 				dispatch(FetchProposalsPass(res, semester))
 			}
 		).catch((e) => {
-			console.error(e);
 			dispatch(FetchProposalsFail())})
 	}
 }
