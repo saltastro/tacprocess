@@ -16,7 +16,7 @@ import * as d3 from 'd3';
  * The chart contains bars for the mandatory targets, the optional targets and all targets together. The CSS
  * classes for these are "mandatory target", "optional target" and "target".
  */
-class RightAscensionDistribution extends React.Component {
+class DeclinationDistribution extends React.Component {
     componentDidMount() {
         this.createPlot();
     }
@@ -168,11 +168,11 @@ class RightAscensionDistribution extends React.Component {
     }
 }
 
-RightAscensionDistribution.propTypes = {
+DeclinationDistribution.propTypes = {
     height: PropTypes.number,
     width: PropTypes.number,
     margin: PropTypes.object,
     targets: PropTypes.array.isRequired
 };
 
-export default RightAscensionDistribution;
+export default DeclinationDistribution;

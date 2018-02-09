@@ -1,0 +1,240 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstrumentDistribution Component Render the InstrumentDistribution Component having populated props with no errors 1`] = `
+<InstrumentDistribution
+  partner="UW"
+  proposals={
+    Array [
+      Object {
+        "instruments": Object {
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2018-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+            ],
+            "semester": "2017-1",
+          },
+        ],
+        "transparency": "Clear",
+      },
+    ]
+  }
+  semester="2017-1"
+>
+  <Histogram
+    datasets={
+      Array [
+        Object {
+          "className": "all-partners",
+          "data": Object {
+            "BVIT": 0,
+            "HRS": 0,
+            "RSS": 0,
+            "SCAM": 0.125,
+          },
+        },
+        Object {
+          "className": "partner-only",
+          "data": Object {
+            "BVIT": 0,
+            "HRS": 0,
+            "RSS": 0,
+            "SCAM": 0.013888888888888888,
+          },
+        },
+      ]
+    }
+    keys={
+      Array [
+        "SCAM",
+        "RSS",
+        "HRS",
+        "BVIT",
+      ]
+    }
+    xLabel="Instrument"
+    yLabel="Requested Time (hrs)"
+  >
+    <svg
+      className="histogram"
+      height={700}
+      width={700}
+    />
+  </Histogram>
+</InstrumentDistribution>
+`;
+
+exports[`InstrumentDistribution Component Render the InstrumentDistribution Component having populated props with no errors 2`] = `
+<InstrumentDistribution
+  partner="RSA"
+  proposals={
+    Array [
+      Object {
+        "instruments": Object {
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2018-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+            ],
+            "semester": "2017-1",
+          },
+        ],
+        "transparency": "Clear",
+      },
+    ]
+  }
+  semester="2018-1"
+>
+  <Histogram
+    datasets={
+      Array [
+        Object {
+          "className": "all-partners",
+          "data": Object {
+            "BVIT": 0,
+            "HRS": 0,
+            "RSS": 0,
+            "SCAM": 0.16666666666666666,
+          },
+        },
+        Object {
+          "className": "partner-only",
+          "data": Object {
+            "BVIT": 0,
+            "HRS": 0,
+            "RSS": 0,
+            "SCAM": 0.041666666666666664,
+          },
+        },
+      ]
+    }
+    keys={
+      Array [
+        "SCAM",
+        "RSS",
+        "HRS",
+        "BVIT",
+      ]
+    }
+    xLabel="Instrument"
+    yLabel="Requested Time (hrs)"
+  >
+    <svg
+      className="histogram"
+      height={700}
+      width={700}
+    />
+  </Histogram>
+</InstrumentDistribution>
+`;
+
+exports[`InstrumentDistribution Component Render the InstrumentDistribution Component having unpopulated props with no errors 1`] = `
+<InstrumentDistribution
+  partner=""
+  proposals={Array []}
+  semester=""
+>
+  <Histogram
+    datasets={
+      Array [
+        Object {
+          "className": "all-partners",
+          "data": Object {
+            "BVIT": 0,
+            "HRS": 0,
+            "RSS": 0,
+            "SCAM": 0,
+          },
+        },
+        Object {
+          "className": "partner-only",
+          "data": Object {
+            "BVIT": 0,
+            "HRS": 0,
+            "RSS": 0,
+            "SCAM": 0,
+          },
+        },
+      ]
+    }
+    keys={
+      Array [
+        "SCAM",
+        "RSS",
+        "HRS",
+        "BVIT",
+      ]
+    }
+    xLabel="Instrument"
+    yLabel="Requested Time (hrs)"
+  >
+    <svg
+      className="histogram"
+      height={700}
+      width={700}
+    />
+  </Histogram>
+</InstrumentDistribution>
+`;

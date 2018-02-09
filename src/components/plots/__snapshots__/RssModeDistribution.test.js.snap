@@ -1,0 +1,404 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RssModeDistribution Component Render the RssModeDistribution Component having populated props with no errors 1`] = `
+<RssModeDistribution
+  partner="UW"
+  proposals={
+    Array [
+      Object {
+        "instruments": Object {
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 350,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2018-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 500,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+            ],
+            "semester": "2017-2",
+          },
+        ],
+        "transparency": "Clear",
+      },
+      Object {
+        "instruments": Object {
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 300,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 550,
+              },
+            ],
+            "semester": "2017-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 100,
+              },
+            ],
+            "semester": "2017-2",
+          },
+        ],
+        "transparency": "Thin cloud",
+      },
+    ]
+  }
+  semester="2017-1"
+>
+  <Histogram
+    datasets={
+      Array [
+        Object {
+          "className": "all-partners",
+          "data": Object {
+            "FP polarimetry": 0,
+            "Fabry Perot": 0,
+            "Imaging": 0,
+            "MOS": 0,
+            "MOS polarimetry": 0,
+            "Spectropolarimetry": 0,
+            "Spectroscopy": 0,
+          },
+        },
+        Object {
+          "className": "partner-only",
+          "data": Object {
+            "FP polarimetry": 0,
+            "Fabry Perot": 0,
+            "Imaging": 0,
+            "MOS": 0,
+            "MOS polarimetry": 0,
+            "Spectropolarimetry": 0,
+            "Spectroscopy": 0,
+          },
+        },
+      ]
+    }
+    keys={
+      Array [
+        "Imaging",
+        "Fabry Perot",
+        "FP polarimetry",
+        "Imaging",
+        "MOS",
+        "MOS polarimetry",
+        "Spectropolarimetry",
+        "Spectroscopy",
+      ]
+    }
+    margin={
+      Object {
+        "bottom": 120,
+        "left": 65,
+        "right": 20,
+        "top": 20,
+      }
+    }
+    xLabel=""
+    xTickLabelAttrs={
+      Object {
+        "text-anchor": "end",
+        "transform": "rotate(-45)",
+        "x": -10,
+        "y": 10,
+      }
+    }
+    yLabel="Requested Time (hrs)"
+  >
+    <svg
+      className="histogram"
+      height={700}
+      width={700}
+    />
+  </Histogram>
+</RssModeDistribution>
+`;
+
+exports[`RssModeDistribution Component Render the RssModeDistribution Component having populated props with no errors 2`] = `
+<RssModeDistribution
+  partner="RSA"
+  proposals={
+    Array [
+      Object {
+        "instruments": Object {
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 350,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2018-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 500,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+            ],
+            "semester": "2017-2",
+          },
+        ],
+        "transparency": "Clear",
+      },
+      Object {
+        "instruments": Object {
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 300,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 550,
+              },
+            ],
+            "semester": "2017-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 100,
+              },
+            ],
+            "semester": "2017-2",
+          },
+        ],
+        "transparency": "Thin cloud",
+      },
+    ]
+  }
+  semester="2018-1"
+>
+  <Histogram
+    datasets={
+      Array [
+        Object {
+          "className": "all-partners",
+          "data": Object {
+            "FP polarimetry": 0,
+            "Fabry Perot": 0,
+            "Imaging": 0,
+            "MOS": 0,
+            "MOS polarimetry": 0,
+            "Spectropolarimetry": 0,
+            "Spectroscopy": 0,
+          },
+        },
+        Object {
+          "className": "partner-only",
+          "data": Object {
+            "FP polarimetry": 0,
+            "Fabry Perot": 0,
+            "Imaging": 0,
+            "MOS": 0,
+            "MOS polarimetry": 0,
+            "Spectropolarimetry": 0,
+            "Spectroscopy": 0,
+          },
+        },
+      ]
+    }
+    keys={
+      Array [
+        "Imaging",
+        "Fabry Perot",
+        "FP polarimetry",
+        "Imaging",
+        "MOS",
+        "MOS polarimetry",
+        "Spectropolarimetry",
+        "Spectroscopy",
+      ]
+    }
+    margin={
+      Object {
+        "bottom": 120,
+        "left": 65,
+        "right": 20,
+        "top": 20,
+      }
+    }
+    xLabel=""
+    xTickLabelAttrs={
+      Object {
+        "text-anchor": "end",
+        "transform": "rotate(-45)",
+        "x": -10,
+        "y": 10,
+      }
+    }
+    yLabel="Requested Time (hrs)"
+  >
+    <svg
+      className="histogram"
+      height={700}
+      width={700}
+    />
+  </Histogram>
+</RssModeDistribution>
+`;
+
+exports[`RssModeDistribution Component Render the RssModeDistribution Component having unpopulated props with no errors 1`] = `
+<RssModeDistribution
+  partner=""
+  proposals={Array []}
+  semester=""
+>
+  <Histogram
+    datasets={
+      Array [
+        Object {
+          "className": "all-partners",
+          "data": Object {
+            "FP polarimetry": 0,
+            "Fabry Perot": 0,
+            "Imaging": 0,
+            "MOS": 0,
+            "MOS polarimetry": 0,
+            "Spectropolarimetry": 0,
+            "Spectroscopy": 0,
+          },
+        },
+        Object {
+          "className": "partner-only",
+          "data": Object {
+            "FP polarimetry": 0,
+            "Fabry Perot": 0,
+            "Imaging": 0,
+            "MOS": 0,
+            "MOS polarimetry": 0,
+            "Spectropolarimetry": 0,
+            "Spectroscopy": 0,
+          },
+        },
+      ]
+    }
+    keys={
+      Array [
+        "Imaging",
+        "Fabry Perot",
+        "FP polarimetry",
+        "Imaging",
+        "MOS",
+        "MOS polarimetry",
+        "Spectropolarimetry",
+        "Spectroscopy",
+      ]
+    }
+    margin={
+      Object {
+        "bottom": 120,
+        "left": 65,
+        "right": 20,
+        "top": 20,
+      }
+    }
+    xLabel=""
+    xTickLabelAttrs={
+      Object {
+        "text-anchor": "end",
+        "transform": "rotate(-45)",
+        "x": -10,
+        "y": 10,
+      }
+    }
+    yLabel="Requested Time (hrs)"
+  >
+    <svg
+      className="histogram"
+      height={700}
+      width={700}
+    />
+  </Histogram>
+</RssModeDistribution>
+`;

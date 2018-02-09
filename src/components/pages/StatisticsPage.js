@@ -15,10 +15,10 @@ import TargetDistributionContourMap from "../plots/TargetDistributionContourMap"
 import TargetDistributionScatterPlot from "../plots/TargetDistributionScatterPlot";
 
 class StatisticsPage extends React.Component {
-	
+
 	render() {
 		/* this will require me to difine a shape on PropTypes  */
-		
+
 		const {  filters, allocatedTime, targets, proposals } = this.props;
 		if(proposals.fetching){
 			return(
@@ -73,7 +73,7 @@ class StatisticsPage extends React.Component {
 					semester={filters.selectedSemester}
 					partner={filters.selectedPartner}
 				/>
-				
+
 				<TransparencyDistribution
 					proposals={proposals.proposals}
 					semester={filters.selectedSemester}
