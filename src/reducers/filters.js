@@ -11,7 +11,7 @@ import { defaultSemester } from '../util';
 
 const initialState = {
   fetching: false,
-  errors: false,
+  error: false,
   selectedSemester: defaultSemester(),
   selectedLiaison: "All"
 
@@ -23,20 +23,19 @@ export default function selectors(state=initialState, action={}) {
       return {
         ...state,
         fetching: true,
-        errors: false,
+        error: null,
       };}
       case FETCH_SELECTOR_DATA_FAIL: {
         return {
           ...state,
           fetching: false,
-          errors: true
+          error: action.payload.error
         }
       }
       case FETCH_SELECTOR_DATA_PASS: {
         return {
           ...state,
           fetching: false,
-          errors: false,
           filters: action.filters,
         }
       }

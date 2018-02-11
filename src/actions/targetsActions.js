@@ -13,11 +13,12 @@ function startFetchTargets() {
 );
 
 }
-function FetchTargetsFail() {
+function FetchTargetsFail(error) {
   return (
     {
-       type: FETCH_TARGETS_FAIL
-  }
+        type: FETCH_TARGETS_FAIL,
+        payload: { error }
+    }
 );
 }
 
@@ -49,7 +50,7 @@ export default function fetchTargets(semester, partner="All"){
       {
         dispatch(FetchTargetsPass(convertTargets(res.data.data)))
       }
-    ).catch(() => {
-      dispatch(FetchTargetsFail())})
+    ).catch((e) => {
+      dispatch(FetchTargetsFail(e.message))})
   }
 }

@@ -189,7 +189,7 @@ export default class TechReviewTable extends React.Component {
 												</textarea>
                                         {(didReportChange(p, initProposals, semester) && !reviewer) &&
                                         <p style={{color: "#b7a201", textAlign: "center"}}>{
-                                            "A reviewer must be assigned if there is a comment."
+                                            "A reviewer must be assigned to the review."
                                         }</p>}
 									</td>
 									{

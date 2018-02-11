@@ -31,7 +31,7 @@ export default function statistics(state = initialState, action = {}) {
           ...state,
           fetching: false,
           fetched: false,
-          errors: "Fail to get statistics data from api" }
+          error: action.payload.error }
       }
       case FETCH_STAT_DATA_PASS: {
         return {

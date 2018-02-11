@@ -65,7 +65,17 @@ class App extends React.Component {
 								</div>
 
 						)}
-						<div className="loading">
+						<div>
+
+                            {this.props.fetchProposalsError &&
+                            <div className="error">
+                                {`The proposals could not be loaded: ${this.props.fetchProposalsError}`}
+                            </div>}
+
+                            {this.props.fetchTargetsError &&
+                            <div className="error">
+                                {`The targets could not be loaded: ${this.props.fetchTargetsError}`}
+                            </div>}
 
 							{isAuthenticated ? <Filters/> : <div/>}
 							<div className="main-div">
@@ -92,13 +102,18 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-	isAuthenticated: PropTypes.bool
+	isAuthenticated: PropTypes.bool,
+	filters: PropTypes.object,
+	fetchProposalsError: PropTypes.string,
+	fetchTargetsError: PropTypes.string
 };
 
 function mapStateToProps(state) { /* state in params */
 	return{
 		isAuthenticated: state.user.user.isAuthenticated,
-		filters: state.filters
+		filters: state.filters,
+		fetchProposalsError: state.proposals.errors.fetchingError,
+        fetchTargetsError: state.targets.error
 	};
 }
 

@@ -8,7 +8,7 @@ const initialState = {
   fetching: false,
   fetched: false,
   targets:[],
-  errors: null,
+  error: null,
 };
 
 export default function targets(state = initialState, action = {}) {
@@ -18,6 +18,7 @@ export default function targets(state = initialState, action = {}) {
         ...state,
         fetching: true,
         fetched: false,
+          error: null,
       };}
       case FETCH_TARGETS_FAIL: {
         return {
@@ -25,14 +26,13 @@ export default function targets(state = initialState, action = {}) {
           fetching: false,
           fetched: false,
           targets: [],
-          errors: "Fail to get targets from api" }
+          error: action.payload.error }
       }
       case FETCH_TARGETS_PASS: {
         return {
           ...state,
           fetching: false,
           fetched: true,
-          errors: null,
           targets: action.payload,
         }
       }
