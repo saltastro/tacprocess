@@ -3,7 +3,6 @@ import propTypes from "prop-types";
 import _ from "lodash";
 import { illegalAllocation } from "../../util/allocation";
 import { goodTime, badTime } from "../../types"
-import {makeTechComment} from "../../util";
 import { getTechnicalReport } from "../../util/filters";
 
 
