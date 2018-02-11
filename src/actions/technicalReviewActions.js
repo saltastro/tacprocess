@@ -67,7 +67,7 @@ export function submitTechnicalReviewDetails(proposals, user, initProposals, par
 							isTechReportUpdated(p, initProposals, semester)
 				});
         if (updatedProposals.some(p => !p.techReviews[semester].reviewer || !p.techReviews[semester].reviewer.username)) {
-        	dispatch(submittingTechnicalReviewsFail());
+        	dispatch(submittingTechnicalReviewsFail('A reviewing astronomer must be assigned to every updated review.'));
         	return;
         }
 		const reviews = updatedProposals.map(p => {
@@ -84,7 +84,7 @@ export function submitTechnicalReviewDetails(proposals, user, initProposals, par
         try {
             await jsonClient().post('technical-reviews', {semester, reviews});
         } catch (e) {
-        	dispatch(submittingTechnicalReviewsFail());
+        	dispatch(submittingTechnicalReviewsFail(e.message));
         	return;
 		}
 		dispatch(fetchProposals(semester, partner));

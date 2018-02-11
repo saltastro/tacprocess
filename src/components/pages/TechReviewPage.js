@@ -58,18 +58,18 @@ class TechReviewPage extends React.Component {
 					semester={semester}
 					initProposals={ initProposals}
 				/>
-				<div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'right', marginTop: 40 }}>
-					{submitting && <span>Submitting...</span>}
-					{submittedReviews && <span style={{color: 'green'}}><br/>Submission successful</span>}
-					{reviewsError && <span style={{color: 'red'}}><br/>Submission failed</span>}
-				</div>
+                <div style={{fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>
+                    {submitting && <span>Submitting...</span>}
+                    {submittedReviews && <span style={{color: 'green'}}><br/>Submission successful</span>}
+                    {reviewsError && <span style={{color: 'red'}}><br/>{`Submission failed: ${reviewsError}`}</span>}
+                </div>
 				{
-					semester < defaultSemester() || submitting ? <div/> :
-						<button
-							disabled={submitting}
-							className="btn-success"
-							onClick={ () => this.submitTechReview(proposals)
-							}>Submit</button>
+					semester >= defaultSemester() && !submitting &&
+								<button
+										disabled={submitting}
+										className="btn-success"
+										onClick={ () => this.submitTechReview(proposals)
+										}>Submit</button>
 				}
 
 			</div>
@@ -82,7 +82,7 @@ export default connect(store => {
 	const SALTAstronomers = store.SALTAstronomers.SALTAstronomer;
 	const selectedSA = store.filters.selectedLiaison;
 	const semester = store.filters.selectedSemester;
-	const saUser = selectedSA === "All" || selectedSA === "Not Assigned" || selectedSA === "Assigned"? selectedSA : getLiaisonUsername(selectedSA, SALTAstronomers);
+	const saUser = selectedSA === "All" || selectedSA === "Not Assigned" || selectedSA === "Assigned" ? selectedSA : getLiaisonUsername(selectedSA, SALTAstronomers);
 	const proposals = reduceProposalsPerAstronomer(store.proposals.proposals || [], saUser, semester);
 
 	return {
