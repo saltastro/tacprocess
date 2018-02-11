@@ -32,7 +32,7 @@ class TimeAllocationPage extends React.Component {
 		dispatch(startSubmittingTimeAllocations(partner));
 		submitAllocations(query).then(p => p.data, dispatch(failToSubmitTimeAllocations(partner)))
 		.then(d => {
-			d.data.updateTimeAllocations.success ? dispatch(TimeAllocationSubmittedSuccessfully(partner)) : dispatch(failToSubmitTimeAllocations(partner))
+			d.data.updateTimeAllocations.success ? dispatch(TimeAllocationSubmittedSuccessfully(partner)) : dispatch(failToSubmitTimeAllocations(partner, 'Something went pear-shaped...'))
 		});
 	}
 

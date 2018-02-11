@@ -43,7 +43,7 @@ export default function proposals(state = initialState, action = {}) {
 				initProposals: [],
 				errors: {
 					...state.errors,
-					fetchingError: "Fail to get proposals from api"
+					fetchingError: action.payload.error
 				}
 			}
 		}
@@ -124,7 +124,7 @@ export default function proposals(state = initialState, action = {}) {
 				submittedTechnicalReviews: false,
 				errors: {
 					...state.errors,
-					submittingReviewsError: "Submitting the reviews failed.",
+					submittingReviewsError: action.payload.error,
 
 				}
 			}
@@ -189,7 +189,7 @@ export default function proposals(state = initialState, action = {}) {
 				},
 				errors: {
 					...state.errors,
-					submittingError: "Fail to submit time allocations",
+					submittingError: action.payload.error,
 
 				}
 			}

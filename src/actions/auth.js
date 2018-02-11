@@ -24,16 +24,18 @@ export const fetchingUserData = () => ({
 	type: FETCHING_USER
 });
 
-export const fetchingUserFail = () => ({
-	type: FAIL_TO_GET_USER
+export const fetchingUserFail = (error) => ({
+	type: FAIL_TO_GET_USER,
+    payload: { error }
 });
 
 export const switchUserStart = () => ({
 	type: SWITCH_USER_START
 });
 
-export const switchUserFail = () => ({
-	type: SWITCH_USER_FAIL
+export const switchUserFail = (error) => ({
+	type: SWITCH_USER_FAIL,
+    payload: { error }
 });
 
 export const switchUser = (username) => {
@@ -46,7 +48,7 @@ export const switchUser = (username) => {
 			dispatch(partnersFilter(firstSelectedPartner(user.roles)));
 			dispatch(userLoggedIn(userData));
 		} catch (e) {
-			dispatch(switchUserFail());
+			dispatch(switchUserFail(e.message));
 		}
 	}
 };
@@ -65,7 +67,7 @@ export const login = credentials => {
 			dispatch(userLoggedIn(userData));
 			dispatch(partnersFilter(firstSelectedPartner(user.roles)))
 		} catch (e) {
-			dispatch(fetchingUserFail());
+			dispatch(fetchingUserFail(e.message));
 		}
 	}
 };
@@ -82,6 +84,6 @@ export function fetchUserData(){
 		queryUserData().then(user => {
 			dispatch(userLoggedIn(user));
 			dispatch(partnersFilter(firstSelectedPartner(user.roles)))
-		}).catch(() => dispatch(fetchingUserFail()))
+		}).catch((e) => dispatch(fetchingUserFail(e.message)))
 	}
 }

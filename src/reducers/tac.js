@@ -24,13 +24,14 @@ export default function statistics(state=initState, action = {}) {
         ...state,
         fetching: true,
         fetched: false,
+          error: null
       };}
       case TIME_ALLOCATIONS_QUERY_FAIL: {
         return {
           ...state,
           fetching: false,
           fetched: false,
-          errors: "Fail to get statistics data from api" }
+          error: action.payload.error }
       }
       case TIME_ALLOCATIONS_QUERY_PASS: {
         return {

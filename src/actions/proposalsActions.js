@@ -15,10 +15,11 @@ function startFetchProposals() {
 
 }
 
-function FetchProposalsFail() {
+function FetchProposalsFail(error) {
 	return (
 		{
-			type: FETCH_PROPOSALS_FAIL
+			type: FETCH_PROPOSALS_FAIL,
+			payload: { error }
 		}
 	);
 }
@@ -44,7 +45,7 @@ export default function fetchProposals(semester, partner="All") {
 				dispatch(FetchProposalsPass(res, semester))
 			}
 		).catch((e) => {
-			dispatch(FetchProposalsFail())})
+			dispatch(FetchProposalsFail(e.message))})
 	}
 }
 

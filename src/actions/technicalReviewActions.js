@@ -34,10 +34,11 @@ function startSubmittingTechnicalReviews() {
 	}
 }
 
-function submittingTechnicalReviewsFail() {
+function submittingTechnicalReviewsFail(error) {
 	return {
-		type: SUBMIT_TECHNICAL_REVIEWS_FAIL
-	}
+		type: SUBMIT_TECHNICAL_REVIEWS_FAIL,
+        payload: { error }
+    }
 }
 
 function submittingTechnicalReviewsPass() {

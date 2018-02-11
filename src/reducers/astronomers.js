@@ -8,7 +8,7 @@ const initialState = {
   fetching: false,
   fetched: false,
   SALTAstronomer:[],
-  errors: null,
+  error: null,
 };
 
 export default function SALTAstronomers(state = initialState, action = {}) {
@@ -23,7 +23,7 @@ export default function SALTAstronomers(state = initialState, action = {}) {
           ...state,
           fetching: false,
           fetched: false,
-          errors: "Fail to get SA from api" }
+          error: action.payload.error }
 
       }
       case FETCH_SA_PASS: {
