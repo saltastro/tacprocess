@@ -65,7 +65,7 @@ class App extends React.Component {
 								</div>
 
 						)}
-						<div className="loading">
+						<div>
 
 							{isAuthenticated ? <Filters/> : <div/>}
 							<div className="main-div">
