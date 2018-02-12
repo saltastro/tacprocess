@@ -1,7 +1,8 @@
 import {
-  FETCH_SA_START,
-  FETCH_SA_PASS,
-  FETCH_SA_FAIL,
+	FETCH_SA_START,
+	FETCH_SA_PASS,
+	FETCH_SA_FAIL,
+	USER_LOGGED_OUT
 } from "../types";
 
 const initialState = {
@@ -37,7 +38,11 @@ export default function SALTAstronomers(state = initialState, action = {}) {
       default:{
         return state;
       }
-
+	  case USER_LOGGED_OUT: {
+		  return {
+			  ...initialState
+		  }
+	  }
     }
 
 }

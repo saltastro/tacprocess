@@ -6,34 +6,34 @@ import * as actions from "../../actions/auth";
 import InfoMessage from "../messages/InfoMessage"
 
 const HomePage = ({ isAuthenticated }) => (
-  <div>
-
-    {isAuthenticated ? (
-    <div>
-      <div>
-        <InfoMessage page="Home Page"/>
-      </div>
-
-</div>
-
-    ) : (
-      <div>
-        <Link to="/login"> <button className="loginbtn">Login</button> </Link>
-      </div>
-
-
-    )}
-  </div>
+	<div>
+		
+		{isAuthenticated ? (
+			<div>
+				<div>
+					<InfoMessage page="Home Page"/>
+				</div>
+			</div>
+		
+		) : (
+			<div>
+				<h1 style={{textAlign: "left"}}>Please Login</h1>
+				<Link to="/login"> <button className="loginbtn">Login</button> </Link>
+			</div>
+		
+		
+		)}
+	</div>
 );
 
 HomePage.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired
-}
+	isAuthenticated: PropTypes.bool.isRequired
+};
 
 function mapStateToProps() { /* state in params */
-  return{
-    isAuthenticated: !!localStorage.tacPageJWT
-  };
+	return{
+		isAuthenticated: !!localStorage.tacPageJWT
+	};
 }
 
 export default connect(mapStateToProps, { logout: actions.logout })(HomePage);

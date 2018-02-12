@@ -1,11 +1,12 @@
 import {
-  FETCH_SELECTOR_DATA_START,
-  FETCH_SELECTOR_DATA_PASS,
-  FETCH_SELECTOR_DATA_FAIL,
-  PAGE_CHANGE,
-  SEMESTER_CHANGE,
-  PARTNER_CHANGE,
-  ASTRONOMER_CHANGE
+	FETCH_SELECTOR_DATA_START,
+	FETCH_SELECTOR_DATA_PASS,
+	FETCH_SELECTOR_DATA_FAIL,
+	PAGE_CHANGE,
+	SEMESTER_CHANGE,
+	PARTNER_CHANGE,
+	ASTRONOMER_CHANGE,
+	USER_LOGGED_OUT
 } from "../types";
 import { defaultSemester } from '../util';
 
@@ -63,6 +64,11 @@ export default function selectors(state=initialState, action={}) {
           selectedLiaison: action.current,
         }
       }
+      case USER_LOGGED_OUT: {
+	    return {
+		  ...initialState
+	  }
+  }
       default:{
         return state;
       }
