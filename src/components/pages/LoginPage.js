@@ -22,7 +22,7 @@ class LoginPage extends  React.Component{
 		const { user } = this.props;
 		return(
 			<div>
-				{(user.username && !user.isAuthenticated) && <div className={"massage"}>
+				{(!!user.error && !user.isAuthenticated) && <div className={"massage"}>
                     <h1>Something went wrong</h1>
                     <span style={{color: 'red'}}>fail to login</span>
                 </div>}
