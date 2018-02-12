@@ -64,6 +64,11 @@ export default function selectors(state=initialState, action={}) {
           selectedLiaison: action.current,
         }
       }
+      case USER_LOGGED_OUT: {
+	    return {
+		  ...initialState
+	  }
+  }
       default:{
         return state;
       }

@@ -38,7 +38,11 @@ export default function SALTAstronomers(state = initialState, action = {}) {
       default:{
         return state;
       }
-
+	  case USER_LOGGED_OUT: {
+		  return {
+			  ...initialState
+		  }
+	  }
     }
 
 }

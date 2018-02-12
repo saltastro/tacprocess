@@ -213,7 +213,7 @@ export default function proposals(state = initialState, action = {}) {
 		}
 		case USER_LOGGED_OUT: {
 			return {
-				initialState
+				...initialState
 			}
 		}
 		default: {
