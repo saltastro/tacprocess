@@ -28,17 +28,18 @@ export const fetchingUserData = () => ({
 	type: FETCHING_USER
 });
 
-export const fetchingUserFail = (username) => ({
+export const fetchingUserFail = (error) => ({
 	type: FAIL_TO_GET_USER,
-	payload: {username: username}
+    payload: { error }
 });
 
 export const switchUserStart = () => ({
 	type: SWITCH_USER_START
 });
 
-export const switchUserFail = () => ({
-	type: SWITCH_USER_FAIL
+export const switchUserFail = (error) => ({
+	type: SWITCH_USER_FAIL,
+    payload: { error }
 });
 
 export const switchUser = (username) => {
@@ -48,17 +49,10 @@ export const switchUser = (username) => {
 			const user = await api.user.switchUser(username);
 			localStorage.tacPageJWT = user.token;
 			const userData = await queryUserData();
+			dispatch(partnersFilter(firstSelectedPartner(user.roles)));
 			dispatch(userLoggedIn(userData));
-			
-			const partner = firstSelectedPartner(user.roles);
-			const semester = defaultSemester();
-			
-			dispatch(partnersFilter(partner));
-			dispatch(fetchProposals( semester, partner));
-			dispatch(fetchTargets(semester, partner));
-			dispatch(storePartnerAllocations(semester, partner));
 		} catch (e) {
-			dispatch(switchUserFail());
+			dispatch(switchUserFail(e.message));
 		}
 	}
 };
@@ -83,7 +77,7 @@ export const login = credentials => {
 			dispatch(fetchTargets(semester, partner));
 			dispatch(storePartnerAllocations(semester, partner));
 		} catch (e) {
-			dispatch(fetchingUserFail(credentials.username));
+			dispatch(fetchingUserFail(e.message));
 		}
 	}
 };
@@ -100,6 +94,6 @@ export function fetchUserData(){
 		queryUserData().then(user => {
 			dispatch(userLoggedIn(user));
 			dispatch(partnersFilter(firstSelectedPartner(user.roles)))
-		}).catch(() => dispatch(fetchingUserFail()))
+		}).catch((e) => dispatch(fetchingUserFail(e.message)))
 	}
 }

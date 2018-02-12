@@ -56,7 +56,7 @@ export default function user(state = initialState, action = {}) {
                 isAuthenticated: false
             },
 			fetching: false,
-			error: 'Authentication failed'
+			error: action.payload.error
 		};
 
 	case SWITCH_USER_START:
@@ -70,7 +70,7 @@ export default function user(state = initialState, action = {}) {
 		return {
 			...state,
 			fetching: false,
-			error: 'The user could not be switched'
+			error: action.payload.error
 		};
 
 	default:

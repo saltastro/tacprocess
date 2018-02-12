@@ -27,7 +27,7 @@ class filters extends React.Component {
 		const { dispatch } = this.props;
 		dispatch(astronomerChange(value));
 	};
-	
+
 	render() {
 		const { filters, user, SALTAstronomers, location, loadingProposals, loadingTargets  } = this.props;
 		const { selectedPartner, selectedSemester, selectedLiaison } = filters;
@@ -35,6 +35,7 @@ class filters extends React.Component {
 		const astronomersList = ["All", "Assigned"].concat(getAstronomersList(SALTAstronomers)).concat(["Not Assigned"]);
 		return(
 			<div className="selector-div">
+				{(loadingProposals || loadingTargets) && <div className="dimScreen" />}
 				{
 					(loadingProposals && loadingTargets) &&
 					<div className="dimScreen">
@@ -60,7 +61,7 @@ class filters extends React.Component {
 						OnChange={this.updateSemester}
 						value={selectedSemester}/>
 				</div>
-    
+
 				<div className="left-2">
 					<DropDown
 						name="Partner"
@@ -68,7 +69,7 @@ class filters extends React.Component {
 						OnChange={this.updatePartner}
 						value={selectedPartner}/>
 				</div>
-				
+
 				{ location.pathname === "/techreview" &&
                     <div className="left-2">
 						<DropDown
@@ -80,7 +81,7 @@ class filters extends React.Component {
 				}
 			</div>
 		);
-		
+
 	}
 }
 

@@ -13,7 +13,7 @@ function isLongTermProposal(distributedTimes, semester){
 }
 
 function makeTechReviews(techReviews) {
-	
+
 	return ( techReviews|| [] ).reduce((prev, tr) => {
 		return {
 			...prev,
@@ -40,7 +40,7 @@ function makeAllocatedTime(alloc){
 }
 
 function makeTacComments(tComm){
-	
+
 	let tacComment = {};
 	tComm.forEach( c => {
 		tacComment[c.partnerCode] = {
@@ -63,7 +63,7 @@ function minimumTotalRequested(distributedTimes, semester){
 }
 
 function requestedTime(requests, semester){
-	
+
 	let reqTime = {
 		minimum: 0,
 		semester: semester,
@@ -109,16 +109,30 @@ export function convertProposals(proposals, semester, partner){
 	});
 }
 
-const graphqlClient = () => axios.create({
-	baseURL: API_BASE_URL,
-	"routes": {
-		"cors": true
-	},
-	headers: {
-		'Authorization': `Token ${localStorage.tacPageJWT}`,
-		'Content-Type': 'application/graphql',
-	}
-});
+const graphqlClient = () => {
+	return {
+		_client: axios.create({
+                                  baseURL: API_BASE_URL,
+                                  "routes": {
+                                      "cors": true
+                                  },
+                                  headers: {
+                                      'Authorization': `Token ${localStorage.tacPageJWT}`,
+                                      'Content-Type': 'application/graphql',
+                                  }
+                              }),
+
+		post: function(url, data) {
+			return this._client.post(url, data)
+					.then(res => {
+						if (res.data.errors) {
+							throw new Error(res.data.errors.map(error => error.message).join(' | '));
+                        }
+                        return res;
+                    })
+		}
+    }
+};
 
 const convertData = rowUser => {
 	return {
@@ -218,7 +232,7 @@ export function queryPartnerAllocations(semester, partner="All" ){
 	if ( partner !== "All" ) {
 		par = ` , partnerCode:"${ partner}"`
 	}
-	
+
 	const query = `
   {
     partnerAllocations(semester:"${ semester }" ${ par }){
@@ -286,7 +300,7 @@ export function queryProposals(semester, partner){
 	} else{
 		par = ` allProposals: true `
 	}
-	
+
 	const query = `
   {
     proposals(semester: "${semester}", ${par} ){
@@ -355,6 +369,7 @@ export function queryProposals(semester, partner){
   }
   `;
 	return graphqlClient().post(`/graphql?query=${query}`)
+
 	.then(
 		response => convertProposals(response.data.data, semester, partner)
 	)
