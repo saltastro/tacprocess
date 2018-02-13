@@ -3,7 +3,8 @@ import React from "react";
 import { connect } from "react-redux"
 import CSVReader from 'react-csv-reader'
 import {CSVLink} from 'react-csv';
-import {saveAs} from 'file-saver';
+import { saveAs } from 'file-saver';
+import { stringify } from 'csv';
 import AvailableTimePerPartnerTable from "../tables/AvailableTimePerPartnerTable";
 import ProposalsPerPartner from "../tables/ProposalsPerPartner";
 import {getQuaryToAddAllocation } from "../../util/allocation";
@@ -90,6 +91,20 @@ class TimeAllocationPage extends React.Component {
 		];
 	};
 
+	downloadCSV = (proposals, partner) => {
+		const data = this.CSVData(proposals, partner);
+		const columns = data[0];
+		const rows = data.slice(1);
+		stringify(data, { columns }, (err, output) => {
+			if (err) {
+				alert('The CSV could not be generated.');
+				return;
+			}
+
+			const blob = new Blob([output], { type: 'text/csv' });
+			saveAs(blob, `${partner}-time-allocations.csv`);
+		});
+	};
 
 	updateFromCSV = (data, proposals, partner) => {
 		const { dispatch } = this.props;
@@ -156,9 +171,10 @@ class TimeAllocationPage extends React.Component {
 									updateFromCSV = {this.updateFromCSV.bind(this)}
 								/>
 								<label>Download table</label><br/>
-								<button className="btn"><CSVLink
-									data={this.CSVData(partnerProposals[partner] || [], partner)}
-									filename={`${partner}-time-allocations.csv`}>Download</CSVLink></button>
+								<button className="btn"
+										onClick={() => { this.downloadCSV(partnerProposals[partner] || [], partner); }}>
+									Download as CSV
+								</button>
 								<br/><label>Upload Allocations from CSV</label><br/>
 								<CSVReader
 									cssClass="btn"
