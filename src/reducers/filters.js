@@ -1,17 +1,18 @@
 import {
-  FETCH_SELECTOR_DATA_START,
-  FETCH_SELECTOR_DATA_PASS,
-  FETCH_SELECTOR_DATA_FAIL,
-  PAGE_CHANGE,
-  SEMESTER_CHANGE,
-  PARTNER_CHANGE,
-  ASTRONOMER_CHANGE
+	FETCH_SELECTOR_DATA_START,
+	FETCH_SELECTOR_DATA_PASS,
+	FETCH_SELECTOR_DATA_FAIL,
+	PAGE_CHANGE,
+	SEMESTER_CHANGE,
+	PARTNER_CHANGE,
+	ASTRONOMER_CHANGE,
+	USER_LOGGED_OUT
 } from "../types";
 import { defaultSemester } from '../util';
 
 const initialState = {
   fetching: false,
-  errors: false,
+  error: false,
   selectedSemester: defaultSemester(),
   selectedLiaison: "All"
 
@@ -23,20 +24,19 @@ export default function selectors(state=initialState, action={}) {
       return {
         ...state,
         fetching: true,
-        errors: false,
+        error: null,
       };}
       case FETCH_SELECTOR_DATA_FAIL: {
         return {
           ...state,
           fetching: false,
-          errors: true
+          error: action.payload.error
         }
       }
       case FETCH_SELECTOR_DATA_PASS: {
         return {
           ...state,
           fetching: false,
-          errors: false,
           filters: action.filters,
         }
       }
@@ -64,6 +64,11 @@ export default function selectors(state=initialState, action={}) {
           selectedLiaison: action.current,
         }
       }
+      case USER_LOGGED_OUT: {
+	    return {
+		  ...initialState
+	  }
+  }
       default:{
         return state;
       }

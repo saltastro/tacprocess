@@ -1,21 +1,22 @@
 import {
-  TIME_ALLOCATIONS_QUERY_START,
-  TIME_ALLOCATIONS_QUERY_PASS,
-  TIME_ALLOCATIONS_QUERY_FAIL,
-  SUBMIT_TIME_ALLOCATIONS_START,
-  SUBMIT_TIME_ALLOCATIONS_PASS,
-  SUBMIT_TIME_ALLOCATIONS_FAIL,
+	TIME_ALLOCATIONS_QUERY_START,
+	TIME_ALLOCATIONS_QUERY_PASS,
+	TIME_ALLOCATIONS_QUERY_FAIL,
+	SUBMIT_TIME_ALLOCATIONS_START,
+	SUBMIT_TIME_ALLOCATIONS_PASS,
+	SUBMIT_TIME_ALLOCATIONS_FAIL,
+    USER_LOGGED_OUT,
 } from "../types";
 
 const initState = {
-    data:{
-        p0p1: 0,
-        p2: 0,
-        p3: 0
-      },
-    submiting: false,
-    submited: true,
-    }
+	data:{
+		p0p1: 0,
+		p2: 0,
+		p3: 0
+	},
+	submiting: false,
+	submited: true,
+};
 
 export default function statistics(state=initState, action = {}) {
   switch (action.type) {
@@ -24,13 +25,14 @@ export default function statistics(state=initState, action = {}) {
         ...state,
         fetching: true,
         fetched: false,
+          error: null
       };}
       case TIME_ALLOCATIONS_QUERY_FAIL: {
         return {
           ...state,
           fetching: false,
           fetched: false,
-          errors: "Fail to get statistics data from api" }
+          error: action.payload.error }
       }
       case TIME_ALLOCATIONS_QUERY_PASS: {
         return {
@@ -61,7 +63,9 @@ export default function statistics(state=initState, action = {}) {
           partner: action.partner
         }
       }
-
+	  case USER_LOGGED_OUT: {
+		  return initState
+	  }
       default:{
         return state;
       }

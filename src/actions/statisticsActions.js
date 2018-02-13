@@ -87,11 +87,12 @@ function startFetchData() {
 );
 
 }
-function FetchDataFail() {
+function FetchDataFail(error) {
   return (
     {
-       type: FETCH_STAT_DATA_FAIL
-  }
+       type: FETCH_STAT_DATA_FAIL,
+        payload: { error }
+    }
 );
 }
 

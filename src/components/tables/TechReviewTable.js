@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
-import { canAssignOtherReviewer, defaultSemester } from "../../util";
+import { canAssignOtherReviewer, defaultSemester, downloadSummary } from "../../util";
 import {getTechnicalReport} from "../../util/filters";
 import {didReportChange} from "../../util/proposal";
 
@@ -36,26 +36,31 @@ export default class TechReviewTable extends React.Component {
 			}
 			return false
 		})
-
 	};
+
 	showNone = (proposalCode, semester) => {
 		return this.props.initProposals.some(p => {
 			if( p.proposalCode === proposalCode){
-				return p.techReviews[semester].reviewer.username === null
+				return !p.techReviews[semester].reviewer.username
 			}
 			return false
 		})
 
 	};
+
 	showChecked = (proposalCode, semester) => {
 		return this.props.proposals.some(p => {
 			if( p.proposalCode === proposalCode){
-				return p.techReviews[semester].reviewer.username === null
+				return !p.techReviews[semester].reviewer.username
 			}
 			return false
 		})
-
 	};
+
+	requestSummary = (event, proposalCode) => {
+	    event.preventDefault();
+	    downloadSummary(proposalCode);
+    };
 
 	render() {
 		const {proposals, user, SALTAstronomers, semester, initProposals} = this.props;
@@ -107,6 +112,7 @@ export default class TechReviewTable extends React.Component {
 					<thead>
 					<tr>
 						<th>Proposal Code</th>
+                        <th>Summary</th>
 						<th>Proposal Title</th>
 						<th>Proposal Investigator</th>
 						{semester >= "2018-1" && <th>Feasible</th> }
@@ -123,9 +129,19 @@ export default class TechReviewTable extends React.Component {
 
                             return (
 								<tr key={p.proposalId}>
-									<td className="width-150"><a target="_blank"
-									                             href={`https://www.salt.ac.za/wm/proposal/${p.proposalCode}`}>{p.proposalCode}</a>
+									<td className="width-150">
+                                        <a target="_blank"
+                                           href={`https://www.salt.ac.za/wm/proposal/${p.proposalCode}`}>
+                                            {p.proposalCode}
+                                        </a>
 									</td>
+                                    <td className="width-100">
+                                        <a className="file-download"
+                                           href=""
+                                           onClick={e => this.requestSummary(e, p.proposalCode)}>
+                                            Download
+                                        </a>
+                                    </td>
 									<td className=" table-height width-400">{p.title}</td>
 									<td className="width-100">{p.pi}</td>
 									{
@@ -173,7 +189,7 @@ export default class TechReviewTable extends React.Component {
 												</textarea>
                                         {(didReportChange(p, initProposals, semester) && !reviewer) &&
                                         <p style={{color: "#b7a201", textAlign: "center"}}>{
-                                            "A reviewer must be assigned if there is a comment."
+                                            "A reviewer must be assigned to the review."
                                         }</p>}
 									</td>
 									{

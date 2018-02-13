@@ -4,7 +4,8 @@ import {
 	UPDATE_TECHNICAL_REVIEW,
 	SUBMIT_TECHNICAL_REVIEWS_START, SUBMIT_TECHNICAL_REVIEWS_PASS, SUBMIT_TECHNICAL_REVIEWS_FAIL,
 	UPDATE_TAC_COMMENT, UPDATE_ALLOCATED_PRIORITY,
-	SUBMIT_TIME_ALLOCATIONS_START, SUBMIT_TIME_ALLOCATIONS_FAIL, SUBMIT_TIME_ALLOCATIONS_PASS
+	SUBMIT_TIME_ALLOCATIONS_START, SUBMIT_TIME_ALLOCATIONS_FAIL, SUBMIT_TIME_ALLOCATIONS_PASS,
+	USER_LOGGED_OUT
 } from "../types";
 import {setDefaultTechReviews} from "../util/filters";
 
@@ -43,7 +44,7 @@ export default function proposals(state = initialState, action = {}) {
 				initProposals: [],
 				errors: {
 					...state.errors,
-					fetchingError: "Fail to get proposals from api"
+					fetchingError: action.payload.error
 				}
 			}
 		}
@@ -78,8 +79,8 @@ export default function proposals(state = initialState, action = {}) {
 		}
 		case UPDATE_TECHNICAL_REVIEW: {
 			const updatedProposals = state.updatedProposals.indexOf(action.payload.proposalCode) === -1 ?
-					[...state.updatedProposals, action.payload.proposalCode] : state.updatedProposals;
-
+				[...state.updatedProposals, action.payload.proposalCode] : state.updatedProposals;
+			
 			return {
 				...state,
 				submittedTechnicalReports: false,
@@ -124,7 +125,7 @@ export default function proposals(state = initialState, action = {}) {
 				submittedTechnicalReviews: false,
 				errors: {
 					...state.errors,
-					submittingReviewsError: "Submitting the reviews failed.",
+					submittingReviewsError: action.payload.error,
 
 				}
 			}
@@ -189,7 +190,7 @@ export default function proposals(state = initialState, action = {}) {
 				},
 				errors: {
 					...state.errors,
-					submittingError: "Fail to submit time allocations",
+					submittingError: action.payload.error,
 
 				}
 			}
@@ -208,6 +209,11 @@ export default function proposals(state = initialState, action = {}) {
 					submittingError: null,
 
 				}
+			}
+		}
+		case USER_LOGGED_OUT: {
+			return {
+				...initialState
 			}
 		}
 		default: {

@@ -13,10 +13,11 @@ function startFetchSA() {
 );
 
 }
-function FetchSAFail() {
+function FetchSAFail(error) {
   return (
     {
-       type: FETCH_SA_FAIL
+       type: FETCH_SA_FAIL,
+        payload: { error }
   }
 );
 }
@@ -48,7 +49,7 @@ export default function fetchSA(){
       {
         dispatch(FetchSAPass(convertSA(res.data.data)))
       }
-    ).catch(() => {
-      dispatch(FetchSAFail())})
+    ).catch((e) => {
+      dispatch(FetchSAFail(e.message))})
   }
 }

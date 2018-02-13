@@ -3,10 +3,11 @@ import React from "react";
 import { connect } from "react-redux"
 import CSVReader from 'react-csv-reader'
 import {CSVLink} from 'react-csv';
+import {saveAs} from 'file-saver';
 import AvailableTimePerPartnerTable from "../tables/AvailableTimePerPartnerTable";
 import ProposalsPerPartner from "../tables/ProposalsPerPartner";
 import {getQuaryToAddAllocation } from "../../util/allocation";
-import { canUserWriteAllocations, canUserWriteTechComments }  from "../../util";
+import { canUserWriteAllocations, canUserWriteTechComments, downloadSummaries } from "../../util";
 import PartnerProposals  from "../../util/proposal";
 import { submitAllocations } from "../../api/graphQL";
 import { updateProposals } from "../../actions/proposalsActions";
@@ -19,11 +20,11 @@ import {updateTacComment, updateAllocatedTimePriority} from "../../actions/TimeA
 
 
 class TimeAllocationPage extends React.Component {
-	
+
 	submitForPartner(event, partner) {
 		const { proposals, user, dispatch, semester } = this.props;
 		const ppp = PartnerProposals(proposals.proposals, getPartnerList(user.user.roles), semester);
-		
+
 		const query = getQuaryToAddAllocation(ppp[partner],
 			partner,
 			semester
@@ -31,12 +32,12 @@ class TimeAllocationPage extends React.Component {
 		dispatch(startSubmittingTimeAllocations(partner));
 		submitAllocations(query).then(p => p.data, dispatch(failToSubmitTimeAllocations(partner)))
 		.then(d => {
-			d.data.updateTimeAllocations.success ? dispatch(TimeAllocationSubmittedSuccessfully(partner)) : dispatch(failToSubmitTimeAllocations(partner))
+			d.data.updateTimeAllocations.success ? dispatch(TimeAllocationSubmittedSuccessfully(partner)) : dispatch(failToSubmitTimeAllocations(partner, 'Something went pear-shaped...'))
 		});
 	}
-	
+
 	allocationChange(event, proposalCode, priority, partner) {
-		
+
 		const proposals = this.props;
 		const value = event.target.value;
 		const updatedProposals = proposals.proposals.map(p => {
@@ -47,45 +48,20 @@ class TimeAllocationPage extends React.Component {
 		});
 		data.dispatch(updateProposals(updatedProposals))
 	}
+
 	allocatedTimeChange = (event, proposalCode, partner) => {
 		const { dispatch, semester } = this.props;
 		const time = event.target.value;
 		const priority = event.target.name;
 		dispatch(updateAllocatedTimePriority(proposalCode, semester, partner, time, priority))
 	};
-	
+
 	tacCommentChange(event, proposalCode, partner) {
 		const { dispatch, semester } = this.props;
 		const tacComment = event.target.value;
 		dispatch(updateTacComment(proposalCode, semester, partner, tacComment))
 	}
-	
-	downloadSummaries(proposals) {
-		const proposalCodes = proposals.map(p => p.proposalCode);
-		jsonClient('blob').post('/proposal-summaries', {proposalCodes})
-		.then(res => {
-			
-			// Download link
-			const downloadLink = document.createElement("a");
-			
-			// File name
-			downloadLink.download = 'proposal_summaries.zip';
-			
-			// Create a link to the file
-			downloadLink.href = window.URL.createObjectURL(res.data);
-			
-			// Hide download link
-			downloadLink.style.display = "none";
-			
-			// Add the link to DOM
-			document.body.appendChild(downloadLink);
-			
-			// Click download link
-			downloadLink.click();
-		})
-		.catch(err => console.error(err));
-	}
-	
+
 	/*
 * This method setup the csv file content as it appears in the time allocation page table.
 * and returns that data to use in the react-csv Component for downloading.
@@ -94,7 +70,7 @@ class TimeAllocationPage extends React.Component {
 		let tableDataHeaders = [
 			"Code", "Title", "Abstract", "PI", "Semester", "TAC comment", "Minimum useful time",
 			"Total Requested Time", "P0", "P1", "P2", "P3", "P4",
-			
+
 			  "Transparency", "Max seeing", "Tech Report"
 		];
 		return [
@@ -108,13 +84,13 @@ class TimeAllocationPage extends React.Component {
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p2"] : 0,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p3"] : 0,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p4"] : 0,
-				
+
 				  p.transparency, p.maxSeeing, p.techReport
 			])
 		];
 	};
-	
-	
+
+
 	updateFromCSV = (data, proposals, partner) => {
 		const { dispatch } = this.props;
 		let allColumns = false;
@@ -132,27 +108,27 @@ class TimeAllocationPage extends React.Component {
 		});
 		dispatch(updateProposals(updatedProposals));
 	};
-	
+
 	handleDarkSideForce = (data, proposals, partner) => {
 		console.log(partner, data, proposals);
 	};
-	
-	
+
+
 	/*
 	* The exportTableToCSV() function creates CSV data from table HTML and
 	* download CSV data as a file by using the downloadCSV() function
 	*/
-	
+
 	exportTableToCSV = filename => {
 		let csv = [];
 		let rows = document.querySelectorAll("#propPerPartner tr");
-		
+
 		for (let i = 0; i < rows.length; i++) {
 			let row = [];
 			let cols = rows[i].querySelectorAll("th, #propCode, #propTitle, #propAbstract, #propPI, #propSemester,"
 				+ "#propComment, #propMinTime, #propRequestTime, #propCanAllocateP0, #propCanAllocateP1, #propCanAllocateP2,"
 				+ "#propCanAllocateP3, #propCanAllocateP4, #propTotalP0P3, #propBoolean, #propTranparency, #propMaxSeeing, #propEmpty, #propTechReport ");
-			
+
 			for (let j = 0; j < cols.length; j++) {
 				if (cols[j].nodeName === "TEXTAREA") {
 					let cleanText = cols[j].value;
@@ -165,25 +141,25 @@ class TimeAllocationPage extends React.Component {
 					row.push(cleanText);
 				}
 			}
-			
+
 			csv.push(row.join(","));
 		}
-		
+
 		// Download CSV file
 		this.downloadCSV(csv.join("\n"), filename);
 	};
-	
+
 	render() {
 		const {allocatedTime, filters, user, tac, semester } = this.props;
 		const { unSubmittedTacChanges, submittedTimeAllocations } = this.props.proposals;
 		const proposals = this.props.proposals.proposals || [];
 		let partners = listForDropdown(getPartnerList(this.props.user.user.roles || []));
-		
+
 		if (filters.selectedPartner !== ALL_PARTNER) {
 			partners = filters.selectedPartner ? [{value: filters.selectedPartner, label: filters.selectedPartner}] : []
 		}
-		const ppp = PartnerProposals(proposals, getPartnerList(this.props.user.user.roles || []), semester);
-		
+		const partnerProposals = PartnerProposals(proposals, getPartnerList(this.props.user.user.roles || []), semester);
+
 		return (
 			<div>
 				{
@@ -192,19 +168,19 @@ class TimeAllocationPage extends React.Component {
 						if (partner === ALL_PARTNER){
 							return null;
 						}
-						if ((ppp[partner] || []).length === 0){
+						if ((partnerProposals[partner] || []).length === 0){
 							return null;
 						}
-						
+
 						return (
 							<div key={partner}>
 								<AvailableTimePerPartnerTable
-									proposals={ppp[partner] || []}
+									proposals={partnerProposals[partner] || []}
 									partner={partner}
 									availableTime={allocatedTime}
 								/>
 								<ProposalsPerPartner
-									proposals={ppp[partner] || []}
+									proposals={partnerProposals[partner] || []}
 									partner={partner}
 									semester={semester}
 									tacCommentChange={this.tacCommentChange.bind(this)}
@@ -218,16 +194,16 @@ class TimeAllocationPage extends React.Component {
 								/>
 								<label>Download table</label><br/>
 								<button className="btn"><CSVLink
-									data={this.CSVData(ppp[partner] || [], partner)}
+									data={this.CSVData(partnerProposals[partner] || [], partner)}
 									filename={`${partner}-time-allocations.csv`}>Download</CSVLink></button>
 								<br/><label>Upload Allocations from CSV</label><br/>
 								<CSVReader
 									cssClass="btn"
-									onFileLoaded={e => this.updateFromCSV(e, ppp[partner] || [], partner)}
+									onFileLoaded={e => this.updateFromCSV(e, partnerProposals[partner] || [], partner)}
 									onError={this.handleDarkSideForce}
 								/>
-								
-								<button onClick={() => this.downloadSummaries(ppp[partner] || [])}>
+
+								<button onClick={() => downloadSummaries(partnerProposals[partner] || [])}>
 									Download summary files
 								</button>
 								<button
@@ -241,14 +217,14 @@ class TimeAllocationPage extends React.Component {
 									submittedTimeAllocations.partner !== partner ? <div />
 										: submittedTimeAllocations.results ? <div style={{ color: '#60FF60', fontSize: '20px'}}>Successfully Submitted</div>
 										: <div  style={{ color: '#FF6060', 'fontSize': '20px' }}>Fail to submit time allocations</div>
-										
+
 								}
-								
+
 							</div>
 						);
 					})
 				}
-				
+
 			</div>
 		);
 	}

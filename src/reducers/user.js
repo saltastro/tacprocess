@@ -1,4 +1,6 @@
-import { USER_LOGGED_IN, USER_LOGGED_OUT, FETCHING_USER, FAIL_TO_GET_USER, SWITCH_USER_START, SWITCH_USER_FAIL } from "../types";
+import {
+	USER_LOGGED_IN, USER_LOGGED_OUT, FETCHING_USER, FAIL_TO_GET_USER, SWITCH_USER_START, SWITCH_USER_FAIL
+} from "../types";
 
 
 const initialState = {
@@ -25,15 +27,19 @@ export default function user(state = initialState, action = {}) {
 			error: null
 		};
 
-	case USER_LOGGED_OUT:
+	case USER_LOGGED_OUT: {
 		return {
-				...state,
-			user: {}
+			...initialState,
+			user: {
+				...initialState.user,
+				isAuthenticated: false
+			}
 		};
-
+	}
+	
 	case FETCHING_USER:
 		return {
-			...state,
+			
 			user: {
 					isAuthenticated: state.user.isAuthenticated
 			},
@@ -45,10 +51,12 @@ export default function user(state = initialState, action = {}) {
 		return {
 			...state,
             user: {
-                isAuthenticated: state.user.isAuthenticated
+				...state.user,
+	            username: action.payload.username,
+                isAuthenticated: false
             },
 			fetching: false,
-			error: 'Authentication failed'
+			error: action.payload.error
 		};
 
 	case SWITCH_USER_START:
@@ -62,7 +70,7 @@ export default function user(state = initialState, action = {}) {
 		return {
 			...state,
 			fetching: false,
-			error: 'The user could not be switched'
+			error: action.payload.error
 		};
 
 	default:
