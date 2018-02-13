@@ -113,42 +113,6 @@ class TimeAllocationPage extends React.Component {
 		console.log(partner, data, proposals);
 	};
 
-
-	/*
-	* The exportTableToCSV() function creates CSV data from table HTML and
-	* download CSV data as a file by using the downloadCSV() function
-	*/
-
-	exportTableToCSV = filename => {
-		let csv = [];
-		let rows = document.querySelectorAll("#propPerPartner tr");
-
-		for (let i = 0; i < rows.length; i++) {
-			let row = [];
-			let cols = rows[i].querySelectorAll("th, #propCode, #propTitle, #propAbstract, #propPI, #propSemester,"
-				+ "#propComment, #propMinTime, #propRequestTime, #propCanAllocateP0, #propCanAllocateP1, #propCanAllocateP2,"
-				+ "#propCanAllocateP3, #propCanAllocateP4, #propTotalP0P3, #propBoolean, #propTranparency, #propMaxSeeing, #propEmpty, #propTechReport ");
-
-			for (let j = 0; j < cols.length; j++) {
-				if (cols[j].nodeName === "TEXTAREA") {
-					let cleanText = cols[j].value;
-					cleanText = cleanText.replace(/([,\n])/gm, " ");
-					row.push(cleanText);
-				}
-				else {
-					let cleanText = cols[j].innerText;
-					cleanText = cleanText.replace(/([,\n])/gm, " ");
-					row.push(cleanText);
-				}
-			}
-
-			csv.push(row.join(","));
-		}
-
-		// Download CSV file
-		this.downloadCSV(csv.join("\n"), filename);
-	};
-
 	render() {
 		const {allocatedTime, filters, user, tac, semester } = this.props;
 		const { unSubmittedTacChanges, submittedTimeAllocations } = this.props.proposals;
@@ -187,7 +151,6 @@ class TimeAllocationPage extends React.Component {
 									allocationChange={this.allocationChange.bind(this)}
 									canAllocate={canUserWriteAllocations(user.user, partner) || false}
 									canComment={canUserWriteTechComments(user.user, partner) || false}
-									exportTableToCSV={this.exportTableToCSV.bind(this)}
 									submitted={tac}
 									allocatedTimeChange = {this.allocatedTimeChange}
 									updateFromCSV = {this.updateFromCSV.bind(this)}
