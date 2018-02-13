@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 import { canAssignOtherReviewer, defaultSemester, downloadSummary } from "../../util";
-import {getTechnicalReport} from "../../util/filters";
+import {getTechnicalReport} from "../../util/technicalReports";
 import {didReportChange} from "../../util/proposal";
 
 function getReviewer(proposal, semester){

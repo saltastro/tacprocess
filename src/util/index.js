@@ -1,7 +1,6 @@
-import {saveAs} from 'file-saver';
+import { saveAs } from 'file-saver';
 import * as types from '../types';
-import { TAC_PAGE, TECHNICAL_PAGE, STATISTICS_PAGE, DOCUMENTATION_PAGE } from "../types";
-import {ADMINISTRATOR} from "../types";
+import { ADMINISTRATOR, DOCUMENTATION_PAGE, STATISTICS_PAGE, TAC_PAGE, TECHNICAL_PAGE } from '../types';
 import { jsonClient } from '../api/api';
 
 /**
@@ -324,7 +323,7 @@ function testTechReview(rev) {
 			} else {
 				review.comment = review.comment.concat(r + "\n")
 			}
-			
+
 		});
 	} else {
 		review = {
@@ -400,3 +399,4 @@ export function downloadSummaries(proposals) {
             })
             .catch(err => console.error(err));
 }
+
