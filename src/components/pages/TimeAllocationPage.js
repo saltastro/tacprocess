@@ -7,7 +7,7 @@ import {saveAs} from 'file-saver';
 import AvailableTimePerPartnerTable from "../tables/AvailableTimePerPartnerTable";
 import ProposalsPerPartner from "../tables/ProposalsPerPartner";
 import {getQuaryToAddAllocation } from "../../util/allocation";
-import { canUserWriteAllocations, canUserWriteTechComments, downloadSummaries } from "../../util";
+import {canUserWriteAllocations, canUserWriteTechComments, downloadSummaries, makeTechComment} from "../../util";
 import PartnerProposals  from "../../util/proposal";
 import { submitAllocations } from "../../api/graphQL";
 import { updateProposals } from "../../actions/proposalsActions";
@@ -73,10 +73,12 @@ class TimeAllocationPage extends React.Component {
 
 			  "Transparency", "Max seeing", "Tech Report"
 		];
+		const semester = this.props.semester;
 		return [
 			tableDataHeaders,
-			...proposals.map(p => [
-				p.proposalCode, p.title, p.abstract, p.pi, "2017-1",
+			...proposals.map(p => {
+				return [
+				p.proposalCode, p.title, p.abstract, p.pi, semester,
 				!!p.tacComment[partner]? p.tacComment[partner].comment : "",
 				p.minTime, p.totalRequestedTime,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p0"] : 0,
@@ -85,8 +87,8 @@ class TimeAllocationPage extends React.Component {
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p3"] : 0,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p4"] : 0,
 
-				  p.transparency, p.maxSeeing, p.techReport
-			])
+				  p.transparency, p.maxSeeing, makeTechComment(p.techReviews[semester])
+			]})
 		];
 	};
 
