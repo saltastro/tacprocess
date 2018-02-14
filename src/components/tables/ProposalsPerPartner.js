@@ -80,7 +80,9 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 										</div>
 									}
 								</td>
-								<td><div id={"propMinTime"} className="table-height width-100" >{ p.minTime }</div></td>
+								<td><div id={"propMinTime"} className="table-height width-100" >{
+									p.minTime ? p.minTime : "Not Available"
+								}</div></td>
 								<td><div id={"propRequestTime"} className="table-height width-100" >{ p.totalRequestedTime }</div></td>
 								<td id={"propCanAllocateP0"}>
 									{ canAllocate ?
