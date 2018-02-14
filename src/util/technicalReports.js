@@ -1,18 +1,56 @@
+import React from 'react';
 import * as _ from 'lodash';
 
-export function getTechnicalReport(proposal, semester) {
+/**
+ * Return the technical report. The returned object depends on the requested format:
+ *
+ * 'object' returns an object with fields 'feasible', 'comment' and 'details'.
+ * 'jsx' returns a JSX object.
+ * Any other format returns a string representation.
+ *
+ * The format is case-insensitive.
+ *
+ * @param proposal The proposal.
+ * @param semester The semester.
+ * @param format The format.
+ * @returns {*}
+ */
+export function getTechnicalReport(proposal, semester, format='string') {
     const review = proposal.techReviews[semester];
     const feasible = review && review.feasible ? review.feasible : null;
     const comment = review && review.comment ? review.comment : null;
     const details = review && review.details ? review.details : null;
     const report = review && review.report ? review.report : null;
 
-    return {
-        feasible,
-        comment,
-        details,
-        report
-    };
+    const lcFormat = format.toLowerCase();
+
+    if (lcFormat === 'object') {
+        return {
+            feasible,
+            comment,
+            details,
+            report
+        };
+    }
+
+    let lines;
+    if (!feasible && !comment && !details) {
+        lines = ['(no report yet)'];
+    } else {
+        lines = [
+            `Feasible: ${feasible ? feasible : ''}`,
+            `Comment: ${comment ? comment : ''}`,
+            `Detailed check: ${details ? details : ''}`
+        ];
+    }
+
+    if (lcFormat === 'jsx') {
+        return <div>
+            {lines.map(line => <div>{line}</div>)}
+        </div>
+    }
+
+    return lines.join('\n');
 }
 
 function getDefaultReview(p, semester) {

@@ -18,6 +18,7 @@ import { getPartnerList, listForDropdown } from "../../util/filters";
 import { jsonClient } from '../../api/api';
 import { checkColumns, getIndexOfColumns, updateProposalFromCSV } from "../../util/uploadCsv";
 import {updateTacComment, updateAllocatedTimePriority} from "../../actions/TimeAllocationsActions";
+import { getTechnicalReport } from '../../util/technicalReports';
 
 
 class TimeAllocationPage extends React.Component {
@@ -85,8 +86,7 @@ class TimeAllocationPage extends React.Component {
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p2"] : 0,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p3"] : 0,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p4"] : 0,
-
-				  p.transparency, p.maxSeeing, p.techReport
+				  p.transparency, p.maxSeeing, getTechnicalReport(p, this.props.semester)
 			])
 		];
 	};

@@ -156,11 +156,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 								<td><div className="table-height width-100" >false</div></td>
 								<td><div className="table-height width-100" >{ p.transparency }</div></td>
 								<td><div className="table-height width-100" >{ p.maxSeeing }</div></td>
-								<td><div className="table-height width-400" >
-									{`Feasible: ${techReport.feasible !== null ? techReport.feasible : ""}`}<br/>
-									{`Comment: ${techReport.comment !== null ? techReport.comment  : ""}`}<br/>
-									{`Detailed Check ${techReport.details !== null ? techReport.details : ""} `
-								} </div></td>
+								<td><div className="table-height width-400" >{ getTechnicalReport(p, semester, 'jsx') }</div></td>
 							</tr>
 						)})
 				}
