@@ -3,7 +3,7 @@ import propTypes from "prop-types";
 import _ from "lodash";
 import { illegalAllocation } from "../../util/allocation";
 import { goodTime, badTime } from "../../types"
-import { getTechnicalReport } from "../../util/filters";
+import { getTechnicalReport } from "../../util/technicalReports";
 
 
 const TimeAllocationInput = ({onChange, proposal, priority, partner, name}) => {
