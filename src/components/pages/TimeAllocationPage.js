@@ -68,7 +68,7 @@ class TimeAllocationPage extends React.Component {
 * This method setup the csv file content as it appears in the time allocation page table.
 * and returns that data to use in the react-csv Component for downloading.
 */
-	CSVData = (proposals, partner) => {
+	CSVData = (proposals, partner, semester) => {
 		let tableDataHeaders = [
 			"Code", "Title", "Abstract", "PI", "Semester", "TAC comment", "Minimum useful time",
 			"Total Requested Time", "P0", "P1", "P2", "P3", "P4",
@@ -78,7 +78,11 @@ class TimeAllocationPage extends React.Component {
 		return [
 			tableDataHeaders,
 			...proposals.map(p => [
-				p.proposalCode, p.title, p.abstract, p.pi, "2017-1",
+				p.proposalCode,
+				p.title,
+				p.abstract,
+				p.pi,
+				semester,
 				!!p.tacComment[partner]? p.tacComment[partner].comment : "",
 				p.minTime, p.totalRequestedTime,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p0"] : 0,
@@ -92,7 +96,7 @@ class TimeAllocationPage extends React.Component {
 	};
 
 	downloadCSV = (proposals, partner) => {
-		const data = this.CSVData(proposals, partner);
+		const data = this.CSVData(proposals, partner, this.props.semester);
 		const columns = data[0];
 		const rows = data.slice(1);
 		stringify(data, { columns }, (err, output) => {
