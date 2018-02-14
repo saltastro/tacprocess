@@ -54,16 +54,11 @@ class App extends React.Component {
 		return (
 				<BrowserRouter>
 					<div className="root-main">
-						{
-							isAuthenticated ?
-								<div>
-									<Navigation logout={this.loggingOut}/>
-								</div> :
-								<div>
-									<h1 className="login-txt">Please Login</h1>
-								</div>
-						}
 						<div>
+							<Navigation logout={this.loggingOut}/>
+						</div>
+						<div>
+
                             {this.props.fetchProposalsError &&
                             <div className="error">
                                 {`The proposals could not be loaded: ${this.props.fetchProposalsError}`}

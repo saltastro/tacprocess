@@ -80,6 +80,7 @@ export function submitTechnicalReviewDetails(proposals, user, initProposals, par
 						report: makeTechComment(p.techReviews[semester])
                     }
                 });
+        console.log(reviews);
 
         try {
             await jsonClient().post('technical-reviews', {semester, reviews});

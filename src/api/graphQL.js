@@ -164,7 +164,7 @@ export function queryStatData(semester, partner){
       instruments{
         rss{
           mode
-          dictatorMode
+          detectorMode
         }
         hrs{
           exposureMode
@@ -173,7 +173,7 @@ export function queryStatData(semester, partner){
           type
         }
         scam{
-          dictatorMode
+          detectorMode
         }
       }
       timeRequests{
@@ -322,7 +322,7 @@ export function queryProposals(semester, partner){
       instruments{
         rss{
           mode
-          dictatorMode
+          detectorMode
         }
         hrs{
           exposureMode
@@ -331,7 +331,7 @@ export function queryProposals(semester, partner){
           type
         }
         scam{
-          dictatorMode
+          detectorMode
         }
       }
       timeRequests{

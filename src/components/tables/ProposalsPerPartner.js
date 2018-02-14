@@ -26,7 +26,7 @@ const TimeAllocationInput = ({onChange, proposal, priority, partner, name}) => {
 const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentChange,  allocationChange,
                                  allocatedTimeChange, canAllocate, semester}) => {
 	const arrayOfProposals = proposals || [];
-
+	
 	return(
 		<div className="scroldiv">
 			<h1>{partner}</h1>
@@ -80,7 +80,9 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 										</div>
 									}
 								</td>
-								<td><div className="table-height width-100" >{ p.minTime }</div></td>
+								<td><div className="table-height width-100" >{
+									p.minTime ? p.minTime : "Not Available"
+								}</div></td>
 								<td><div className="table-height width-100" >{ p.totalRequestedTime }</div></td>
 								<td>
 									{ canAllocate ?
