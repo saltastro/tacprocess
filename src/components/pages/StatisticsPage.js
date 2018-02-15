@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React from "react";
 import { connect } from "react-redux"
-import StatTable from "../tables/StatTable";
 import StatisticsTables from "../tables/StatisticsTables";
 import Plot from '../plots/Plot';
 import InstrumentDistribution from '../plots/InstrumentDistribution';

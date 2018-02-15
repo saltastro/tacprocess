@@ -10,7 +10,7 @@ function countSCAMDetector(proposals) {
 		slot: 0,
 	};
 	(proposals|| []).forEach(p => {
-		p.instruments.rss.forEach( m => {
+		p.instruments.scam.forEach( m => {
 			if (m.detectorMode === "NORMAL") {expo.normal += 1}
 			if (m.detectorMode === "SLOT") {expo.slot += 1}
 			if (m.detectorMode === "DRIFTSCAN") {expo.dscan += 1}

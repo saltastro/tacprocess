@@ -6,6 +6,7 @@ import HRSStatistics from "./statisticsTables/HRSStatistics";
 import SALTICAMStatistics from "./statisticsTables/SALTICAMStatistics";
 import RSSDetectorModeTable from "./statisticsTables/RSSDetectorModeTable";
 import RSSObservingModeTable from "./statisticsTables/RSSObservingModeTable";
+import ConfigurationsStatistics from "./statisticsTables/ConfigurationStatistics";
 
 const StatisticsTables = ({proposals, partner}) => {
     return(
@@ -20,6 +21,7 @@ const StatisticsTables = ({proposals, partner}) => {
 			        partner={partner}
 		        />
 	        </div>
+	        <ConfigurationsStatistics proposals={proposals}/>
 	        <div  className={"stat-wrapper"}>
 		        <RSSDetectorModeTable proposals={proposals}/>
 		        <RSSObservingModeTable proposals={proposals}/>

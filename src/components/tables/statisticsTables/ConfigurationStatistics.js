@@ -19,34 +19,34 @@ export function countInstruments (proposals){
 }
 
 
-const ConfigurationsStatistics = (proposals) => {
+const ConfigurationsStatistics = ({proposals}) => {
 	const count = countInstruments (proposals);
 	return(
 		<div>
-			<h1>Configuration Statistics</h1>
-			<table className="table center-table">
+			<h2>Configuration Statistics</h2>
+			<table className="stat-table">
 				<thead>
 				<tr>
-					<th><h2>Instruments</h2></th>
-					<th><h2>Number of Proposals</h2></th>
+					<th>Instruments</th>
+					<th>Number of Proposals</th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr>
-					<td><h2>RSS</h2></td>
-					<td><h2>{ count.rss }</h2></td>
+					<td>RSS</td>
+					<td>{ count.rss }</td>
 				</tr>
 				<tr>
-					<td><h2>SALTICAM</h2></td>
-					<td><h2>{ count.scam }</h2></td>
+					<td>SALTICAM</td>
+					<td>{ count.scam }</td>
 				</tr>
 				<tr>
-					<td><h2>HRS</h2></td>
-					<td><h2>{ count.hrs }</h2></td>
+					<td>HRS</td>
+					<td>{ count.hrs }</td>
 				</tr>
 				<tr>
-					<td><h2>BVIT</h2></td>
-					<td><h2>{ count.bvit }</h2></td>
+					<td>BVIT</td>
+					<td>{ count.bvit }</td>
 				</tr>
 				</tbody>
 			</table>

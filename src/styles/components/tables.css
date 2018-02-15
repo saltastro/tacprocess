@@ -60,7 +60,7 @@ tbody { border: 3px solid #000}
   margin-top: 5em;
   margin-right: auto;
   overflow-x: scroll;
-  width: 1500;
+  width: 1500px;
   height: 100%;
   background-color: #EFF3F9;
 
@@ -101,9 +101,54 @@ td, th {
  margin-top: 2em;
  margin-right: auto;
  overflow-x: scroll;
- width: 1500;
+ width: 1500px;
  height: 100%;
  background-color: #EFF3F9;
+
+}
+
+.stat-table td, .stat-table th {
+	padding:1%;
+	border: 3px solid #eff4ff;
+}
+
+/* Background-color of the odd rows */
+.stat-table tr:nth-child(odd) {
+	background-color: #eff4ff;
+}
+
+/* Background-color of the even rows */
+.stat-table tr:nth-child(even) {
+	background-color: #efedf9;
+	width: 100%
+}
+
+.stat-table th {
+	background-color: #c4e4ff;
+}
+.stat-table  {
+	border: 3px solid #000;
+	background-color: #eff4ff;
+	width: 95%;
+	height: 90%;
+
+}
+
+.stat-table td:first-child { color: #301a14; }
+tbody { border: 3px solid #000}
+
+.stat-item {
+	width: 50%;
+	text-align: center;
+}
+
+.stat-wrapper{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 100%;
+	margin: auto auto 30px auto;
 
 }
 
