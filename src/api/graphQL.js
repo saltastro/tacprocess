@@ -221,7 +221,7 @@ export function queryStatData(semester, partner){
 
 
 export function queryPartnerAllocations(semester, partner="All" ){
-	/*
+	/**
 	* This method is only called by pages that will need and allocated time
 	* for partner at semester
 	*
@@ -376,8 +376,6 @@ export function queryProposals(semester, partner){
 		response => convertProposals(response.data.data, semester, partner)
 	)
 }
-
-
 
 export function submitAllocations(query){
 	return jsonClient().post(`/graphql`, { query })

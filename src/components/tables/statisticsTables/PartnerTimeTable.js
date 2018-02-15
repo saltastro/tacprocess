@@ -19,7 +19,7 @@ const partnerAlloc = (allocatedTime, partner) => {
 };
 
 const PartnerTimeTable = ({proposals, partner, allocatedTime, semester}) => {
-	const total = totalTimeRequestedPerPartner(proposals, partner, semester);
+	const total = totalTimeRequestedPerPartner(proposals, semester, partner);
 	const partnerAllocation = partnerAlloc(allocatedTime, partner);
 	const allocatedTimeSum = (partnerAllocation.p0p1 || 0) + (partnerAllocation.p2 || 0) + (partnerAllocation.p3 || 0);
 	console.log(total);

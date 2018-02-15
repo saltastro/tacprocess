@@ -10,10 +10,12 @@ import {
 
 const initState = {
 	data:{
-		p0p1: 0,
-		p2: 0,
-		p3: 0
-	},
+		"NONE": {
+			p0p1: 0,
+			p2: 0,
+			p3: 0
+		}
+		},
 	submiting: false,
 	submited: true,
 };
