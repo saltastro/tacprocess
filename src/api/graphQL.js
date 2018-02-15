@@ -91,6 +91,7 @@ export function convertProposals(proposals, semester, partner){
 			proposalCode: proposal.code,
 			isP4: proposal.isP4,
 			status: proposal.status,
+			actOnAlert: proposal.actOnAlert,
 			maxSeeing: proposal.maxSeeing,
 			transparency: proposal.transparency,
 			isNew: isNewProposal(proposal.timeRequests, semester),
@@ -317,6 +318,7 @@ export function queryProposals(semester, partner){
       }
       isP4
       status
+      actOnAlert
       transparency
       maxSeeing
       instruments{

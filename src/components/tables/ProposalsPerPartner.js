@@ -58,7 +58,6 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 					arrayOfProposals
 					.filter(p => !_.isNull(p.title))
 					.map( p => {
-						const techReport = getTechnicalReport(p, semester);
 						return (
 							<tr key={p.proposalId}>
 								<td><div className="width-150 padding-8" ><a target="_blank" href={`https://www.salt.ac.za/wm/proposal/${p.proposalCode}`}>{ p.proposalCode }</a></div></td>
@@ -155,7 +154,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 											priority="p4"/> : <div className="width-100">{ p.allocatedTime[partner]["p4"] }</div>
 									}
 								</td>
-								<td><div className="table-height width-100" >false</div></td>
+								<td><div className="table-height width-100" >{ `${p.actOnAlert}` }</div></td>
 								<td><div className="table-height width-100" >{ p.transparency }</div></td>
 								<td><div className="table-height width-100" >{ p.maxSeeing }</div></td>
 								<td><div className="table-height width-400" >{ getTechnicalReport(p, semester, 'jsx') }</div></td>
