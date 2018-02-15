@@ -20,35 +20,35 @@ function countSCAMDetector(proposals) {
 	return expo
 }
 
-const SALTICAMStatistics = (proposals) => {
+const SALTICAMStatistics = ({proposals}) => {
 	const detectorMode = countSCAMDetector(proposals);
 	return(
-		<div>
+		<div  className={"stat-item"} style={{textAlign: "center"}}>
 			{/* Salticam table */}
-			<h2>Salticam</h2>
-			<table className="table center-table">
+			<h2>Salticam Detector Mode</h2>
+			<table className="stat-table">
 				<thead>
 				<tr>
-					<th><h2>Detector mode</h2></th>
-					<th><h2>Number of Proposals</h2></th>
+					<th>Detector mode</th>
+					<th>Number of Proposals</th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr>
-					<td><h2>DRIFT SCAN</h2></td>
-					<td><h2>{ detectorMode.dscan }</h2></td>
+					<td>DRIFT SCAN</td>
+					<td>{ detectorMode.dscan }</td>
 				</tr>
 				<tr>
-					<td><h2>FRAME XFER</h2></td>
-					<td><h2>{ detectorMode.xfer }</h2></td>
+					<td>FRAME XFER</td>
+					<td>{ detectorMode.xfer }</td>
 				</tr>
 				<tr>
-					<td><h2>NORMAL</h2></td>
-					<td><h2>{ detectorMode.normal }</h2></td>
+					<td>NORMAL</td>
+					<td>{ detectorMode.normal }</td>
 				</tr>
 				<tr>
-					<td><h2>SLOT</h2></td>
-					<td><h2>{ detectorMode.slot }</h2></td>
+					<td>SLOT</td>
+					<td>{ detectorMode.slot }</td>
 				</tr>
 				</tbody>
 			</table>

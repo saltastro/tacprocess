@@ -21,39 +21,40 @@ function countHRSExposure(proposals) {
 	return expo
 }
 
-const HRSStatistics = (proposals) => {
+const HRSStatistics = ({proposals}) => {
 	
 	
 	const exposure = countHRSExposure(proposals);
     return(
-        <div>
-	        <table className="table center-table">
+        <div  className={"stat-item"} style={{textAlign: "center"}}>
+	        <h2>HRS Exposure Mode</h2>
+	        <table className="stat-table">
 		        <thead>
 		        <tr>
-			        <th><h2>Exposure mode</h2></th>
-			        <th><h2>Number of Proposals</h2></th>
+			        <th>Exposure mode</th>
+			        <th>Number of Proposals</th>
 		        </tr>
 		        </thead>
 		        <tbody>
 		        <tr>
-			        <td><h2>HIGH RESOLUTION</h2></td>
-			        <td><h2>{ exposure.hr }</h2></td>
+			        <td>HIGH RESOLUTION</td>
+			        <td>{ exposure.hr }</td>
 		        </tr>
 		        <tr>
-			        <td><h2>HIGH STABILITY</h2></td>
-			        <td><h2>{ exposure.hs }</h2></td>
+			        <td>HIGH STABILITY</td>
+			        <td>{ exposure.hs }</td>
 		        </tr>
 		        <tr>
-			        <td><h2>INT CAL FIBRE</h2></td>
-			        <td><h2>{ exposure.icf }</h2></td>
+			        <td>INT CAL FIBRE</td>
+			        <td>{ exposure.icf }</td>
 		        </tr>
 		        <tr>
-			        <td><h2>LOW RESOLUTION</h2></td>
-			        <td><h2>{ exposure.lr }</h2></td>
+			        <td>LOW RESOLUTION</td>
+			        <td>{ exposure.lr }</td>
 		        </tr>
 		        <tr>
-			        <td><h2>MEDIUM RESOLUTION</h2></td>
-			        <td><h2>{ exposure.mr }</h2></td>
+			        <td>MEDIUM RESOLUTION</td>
+			        <td>{ exposure.mr }</td>
 		        </tr>
 		        </tbody>
 	        </table>
