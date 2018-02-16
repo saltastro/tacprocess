@@ -40,46 +40,55 @@ class StatisticsPage extends React.Component {
 					<ProposalCountTable proposals={proposals}/>
 				</div>
 				
-				
-				<Plot caption={"Smoothed distribution of all targets on the sky."}>
-					<TargetDistributionContourMap targets={targets.targets}/>
-				</Plot>
-				<Plot caption="Distribution of mandatory targets <em>(squares)</em> and optional targets <em>(circles)</em> on the sky.">
-					<TargetDistributionScatterPlot targets={targets.targets}/>
-				</Plot>
-				<RightAscensionDistribution targets={targets.targets}/>
-				<DeclinationDistribution targets={targets.targets}/>
-				<HrsModeDistribution
-					proposals={proposals}
-					semester={semester}
-					partner={partner}
-				/>
-				<SalticamModeDistribution
-					proposals={proposals}
-					semester={semester}
-					partner={partner}
-				/>
-				<RssModeDistribution
-					proposals={proposals}
-					semester={semester}
-					partner={partner}
-				/>
-				<InstrumentDistribution
-					proposals={proposals}
-					semester={semester}
-					partner={partner}
-				/>
-				<TotalTimeDistribution
-					proposals={proposals}
-					semester={semester}
-					partner={partner}
-				/>
-				
-				<TransparencyDistribution
-					proposals={proposals}
-					semester={semester}
-					partner={partner}
-				/>
+				<div className={"stat-wrapper"}>
+					<Plot caption={"Smoothed distribution of all targets on the sky."}>
+						<TargetDistributionContourMap targets={targets.targets}/>
+					</Plot>
+					<Plot caption='Distribution of mandatory targets <em style="color:green;">(squares)</em> and optional targets <em style="color:purple;">(circles)</em> on the sky.'>
+						<TargetDistributionScatterPlot targets={targets.targets}/>
+					</Plot>
+				</div>
+				<div className={"stat-wrapper"}>
+					<RightAscensionDistribution targets={targets.targets}/>
+					<DeclinationDistribution targets={targets.targets}/>
+				</div>
+				<div className={"stat-wrapper"}>
+					<HrsModeDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+					<SalticamModeDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+				</div>
+				<div className={"stat-wrapper"}>
+					<RssModeDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+					<InstrumentDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+				</div>
+				<div className={"stat-wrapper"}>
+					<TotalTimeDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+					
+					<TransparencyDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+				</div>
 					
 				<StatisticsTables
 					proposals={proposals}

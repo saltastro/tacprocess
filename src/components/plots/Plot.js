@@ -13,7 +13,7 @@ import PlotCaption from './PlotCaption';
  */
 const Plot = ({caption, children}) =>
 {
-    return <div className="plot">
+    return <div  className={"stat-item"}>
         {children}
         <div>{caption && <PlotCaption caption={caption}/>}</div>
     </div>

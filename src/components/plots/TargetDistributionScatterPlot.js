@@ -18,6 +18,10 @@ import * as d3 from 'd3';
  * represented by circles with a CSS class "optional target".
  */
 class TargetDistributionScatterPlot extends React.Component {
+    DEFAULT_WIDTH = 700;
+    
+    DEFAULT_HEIGHT = 500;
+    
     componentDidMount() {
         this.createPlot();
     }
@@ -50,7 +54,7 @@ class TargetDistributionScatterPlot extends React.Component {
         const xTicks = 5;
         const yTicks = 10;
         const xScale = d3.scaleLinear()
-                .domain([0, 24])
+                .domain([-1, 25])
                 .range([0, innerWidth]);
         const yScale = d3.scaleLinear()
                 .domain([-80, 12])
@@ -119,11 +123,13 @@ class TargetDistributionScatterPlot extends React.Component {
         // plot mandatory targets
         const targets = this.props.targets;
         const mandatoryTargets = targets.filter(target => !target.optional);
-        const squareWidth = 5;
+        const squareWidth = 10;
         g.selectAll('rect')
                 .data(mandatoryTargets)
                 .enter()
                 .append('rect')
+                .style('fill', 'green')
+                .style("opacity", .6)
                 .attr('class', 'mandatory target')
                 .attr('x', d => xScale(d.ra) - squareWidth / 2)
                 .attr('y', d => yScale(d.dec) - squareWidth / 2)
@@ -137,6 +143,8 @@ class TargetDistributionScatterPlot extends React.Component {
                 .data(optionalTargets)
                 .enter()
                 .append('circle')
+                .style('fill', 'purple')
+                .style("opacity", .6)
                 .attr('class', 'optional target')
                 .attr('cx', d => xScale(d.ra))
                 .attr('cy', d => yScale(d.dec))
@@ -144,14 +152,17 @@ class TargetDistributionScatterPlot extends React.Component {
     };
 
     render() {
-        const width = this.props.width || 800;
-        const height = this.props.height || 500;
+        const width = this.props.width || this.DEFAULT_WIDTH;
+        const height = this.props.height || this.DEFAULT_HEIGHT;
         return (
-                <svg
+	        <div>
+                <h2>Target Scatter plot</h2>
+                <svg className={"plot"}
                     width={width}
                     height={height}
                     ref={svg => this.target = svg}
                 />
+            </div>
         );
     }
 }

@@ -19,6 +19,10 @@ import { interpolateOrRd } from 'd3-scale-chromatic';
  * https://bl.ocks.org/mbostock/7f5f22524bd1d824dd53c535eda0187f.
  */
 class TargetDistributionContourMap extends React.Component {
+    DEFAULT_WIDTH = 700;
+    
+    DEFAULT_HEIGHT = 500;
+    
     componentDidMount() {
         this.updatePlot();
     }
@@ -30,12 +34,13 @@ class TargetDistributionContourMap extends React.Component {
     updatePlot = () => {
         const svg = d3.select(this.target);
 
+
         // remove all existing content
         svg.selectAll('*').remove();
 
         // set up the geometry, using the margin pattern
-        const width = this.props.width || 800;
-        const height = this.props.height || 500;
+        const width = svg.attr('width');
+        const height = svg.attr('height');
         const margin = this.props.margin || {
             top: 20,
             bottom: 60,
@@ -51,7 +56,7 @@ class TargetDistributionContourMap extends React.Component {
         const xTicks = 5;
         const yTicks = 10;
         const xScale = d3.scaleLinear()
-                .domain([0, 24])
+                .domain([-1, 25])
                 .range([0, innerWidth]);
         const yScale = d3.scaleLinear()
                 .domain([-80, 12])
@@ -152,6 +157,7 @@ class TargetDistributionContourMap extends React.Component {
 
         // get a color range from 0 to the maximum contour value (i.e. target density)
         const contourDensityData = contourDensity(this.props.targets);
+        console.log(contourDensityData);
         /* below value was never used  and d3.max() raised an error some how */
         // const maximumContourValue = d3.max()
         g.append('g')
@@ -169,14 +175,17 @@ class TargetDistributionContourMap extends React.Component {
     };
 
     render() {
-        const width = this.props.width || 900;
-        const height = this.props.height || 500;
+        const width = this.props.width || this.DEFAULT_WIDTH;
+        const height = this.props.height || this.DEFAULT_HEIGHT;
         return (
-                <svg
+	        <div>
+                <h2>Target Distribution</h2>
+                <svg className={"plot"}
                         width={width}
                         height={height}
                         ref={(svg) => this.target = svg}
                 />
+            </div>
         );
     }
 }

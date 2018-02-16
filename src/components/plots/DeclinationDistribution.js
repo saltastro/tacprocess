@@ -147,23 +147,54 @@ class RightAscensionDistribution extends React.Component {
                             .data(data[key])
                             .enter()
                             .append('rect')
+                            .style("opacity", .6)
+                            .style('fill', key === 'mandatory' ? "green" : key === 'all' ? "blue" : "purple")
                             .attr('class', key !== 'all' ? `${key} target` : 'target')
                             .attr('x', d => xScale(d.x0))
                             .attr('y', d => yScale(d.length))
                             .attr('width', d => xScale(d.x1) - xScale(d.x0))
                             .attr('height', d => innerHeight - yScale(d.length));
                 });
+	
+	    const legend = svg.append("g")
+	        .attr("class", "legend")
+	        .attr("x", 620)
+	        .attr("y", 25)
+	        .attr("height", 100)
+	        .attr("width", 100);
+	
+	
+	    [{color: "green", text: 'all'}, {color: "blue", text:'mandatory'}, {color: "purple", text: 'optional'}]
+	    .forEach( (t, i) => {
+		    console.log(t);
+		    legend.append("rect")
+		    .attr("x", 570)
+		    .attr("y", 35 + 18*i)
+		    .attr("width", 10)
+		    .attr("height", 10)
+		    .style("opacity", .6)
+		    .style("fill", t.color);
+		    legend.append("text")
+		    .attr("x", 590)
+		    .attr("y", 45 + 18*i)
+		    .attr("width", 10)
+		    .attr("height", 10)
+		    .style("fill", "black")
+		    .text(t.text);
+	    });
     };
 
     render() {
         const width = this.props.width || 700;
         const height = this.props.height || 700;
         return (
-                <svg className="plots"
+	        <div className={"stat-item"}>
+                <svg className="plots plot"
                         width={width}
                         height={height}
                         ref={svg => this.target = svg}
                 />
+            </div>
         );
     }
 }
