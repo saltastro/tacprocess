@@ -6,7 +6,7 @@ import Histogram from './Histogram';
 
 const SalticamModeDistribution = ({proposals, semester, partner}) => {
     const detectorModes = [
-            'DRIFT SCAN',
+            'DRIFTSCAN',
             'FRAME XFER',
             'NORMAL',
             'SLOT'
@@ -21,7 +21,7 @@ const SalticamModeDistribution = ({proposals, semester, partner}) => {
                                                                    semester,
                                                                    'SCAM',
                                                                    {
-                                                                       field: 'dictatorMode',
+                                                                       field: 'detectorMode',
                                                                        value: detectorMode,
                                                                        partner
                                                                    }) / 3600
@@ -43,6 +43,7 @@ const SalticamModeDistribution = ({proposals, semester, partner}) => {
     return <Histogram
             keys={detectorModes}
             datasets={datasets}
+            heading={"SALTICAM requested time per Detector Mode"}
             xLabel=""
             yLabel="Requested Time (hrs)"
             xTickLabelAttrs={

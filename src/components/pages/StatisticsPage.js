@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import { connect } from "react-redux"
-import StatTable from "../tables/StatTable";
+import StatisticsTables from "../tables/StatisticsTables";
 import Plot from '../plots/Plot';
 import InstrumentDistribution from '../plots/InstrumentDistribution';
 import HrsModeDistribution from '../plots/HrsModeDistribution';
@@ -13,6 +13,8 @@ import TotalTimeDistribution from '../plots/TotalTimeDistribution';
 import TransparencyDistribution from '../plots/TransparencyDistribution';
 import TargetDistributionContourMap from "../plots/TargetDistributionContourMap";
 import TargetDistributionScatterPlot from "../plots/TargetDistributionScatterPlot";
+import PartnerTimeTable from "../tables/statisticsTables/PartnerTimeTable";
+import ProposalCountTable from "../tables/statisticsTables/ProposalsCountTable";
 
 class StatisticsPage extends React.Component {
 	
@@ -20,6 +22,8 @@ class StatisticsPage extends React.Component {
 		/* this will require me to difine a shape on PropTypes  */
 		
 		const {  filters, allocatedTime, targets, proposals } = this.props;
+		const partner = filters.selectedPartner || "";
+		const semester = filters.selectedSemester;
 		if(proposals.fetching){
 			return(
 				<div className='spinner'>
@@ -28,65 +32,69 @@ class StatisticsPage extends React.Component {
 				</div>
 			)
 		}
-		if(!proposals.fetched){
-			return(
-				<div>
-					<div className="error">
-						<h1>Fail to get Data from API.</h1>
-						<h1>API might be down</h1>
-					</div>
-				</div>
-			)
-		}
+		
 		return(
 			<div>
-				<Plot caption="Smoothed distribution of all targets on the sky.">
-					<TargetDistributionContourMap targets={targets.targets}/>
-				</Plot>
-				<Plot caption="Distribution of mandatory targets <em>(squares)</em> and optional targets <em>(circles)</em> on the sky.">
-					<TargetDistributionScatterPlot targets={targets.targets}/>
-				</Plot>
-				<RightAscensionDistribution targets={targets.targets}/>
-				<DeclinationDistribution targets={targets.targets}/>
-				<HrsModeDistribution
-					proposals={proposals.proposals}
-					semester={filters.selectedSemester}
-					partner={filters.selectedPartner}
-				/>
-				<SalticamModeDistribution
-					proposals={proposals.proposals}
-					semester={filters.selectedSemester}
-					partner={filters.selectedPartner}
-				/>
-				<RssModeDistribution
-					proposals={proposals.proposals}
-					semester={filters.selectedSemester}
-					partner={filters.selectedPartner}
-				/>
-				<InstrumentDistribution
-					proposals={proposals.proposals}
-					semester={filters.selectedSemester}
-					partner={filters.selectedPartner}
-				/>
-				<TotalTimeDistribution
-					proposals={proposals.proposals}
-					semester={filters.selectedSemester}
-					partner={filters.selectedPartner}
-				/>
+				<div className={"stat-wrapper"}>
+					<PartnerTimeTable proposals={proposals} allocatedTime={allocatedTime} partner={partner} semester={semester}/>
+					<ProposalCountTable proposals={proposals}/>
+				</div>
 				
-				<TransparencyDistribution
-					proposals={proposals.proposals}
-					semester={filters.selectedSemester}
-					partner={filters.selectedPartner}
+				<div className={"stat-wrapper"}>
+					<Plot caption={"Smoothed distribution of all targets on the sky."}>
+						<TargetDistributionContourMap targets={targets.targets}/>
+					</Plot>
+					<Plot caption='Distribution of mandatory targets <em style="color:green;">(squares)</em> and optional targets <em style="color:purple;">(circles)</em> on the sky.'>
+						<TargetDistributionScatterPlot targets={targets.targets}/>
+					</Plot>
+				</div>
+				<div className={"stat-wrapper"}>
+					<RightAscensionDistribution targets={targets.targets}/>
+					<DeclinationDistribution targets={targets.targets}/>
+				</div>
+				<div className={"stat-wrapper"}>
+					<HrsModeDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+					<SalticamModeDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+				</div>
+				<div className={"stat-wrapper"}>
+					<RssModeDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+					<InstrumentDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+				</div>
+				<div className={"stat-wrapper"}>
+					<TotalTimeDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+					
+					<TransparencyDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+				</div>
+					
+				<StatisticsTables
+					proposals={proposals}
+					partner={partner}
+					allocatedTime = {allocatedTime}
 				/>
-				<StatTable
-					proposals={ proposals.proposals }
-					allocatedTime={ allocatedTime }
-					semester={filters.selectedSemester}
-					partner={filters.selectedPartner}
-				/>
-				<br />
-				<br />
 			</div>
 		);
 	}
@@ -95,7 +103,7 @@ class StatisticsPage extends React.Component {
 export default connect(
 	store => ({
 		statistics: store.statistics,
-		proposals: store.proposals,
+		proposals: store.proposals.proposals,
 		targets: store.targets,
 		filters:store.filters,
 		allocatedTime:store.tac.data,

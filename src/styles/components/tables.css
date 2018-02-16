@@ -33,10 +33,7 @@
 }
 
 .table td, .table th {
-	  padding-bottom: 2%;
-	  padding-top: 2%;
-  padding-left:1%;
-  padding-right:1%;
+    padding: 2% 1%;
 }
 
 /* Background-color of the odd rows */
@@ -53,14 +50,16 @@
 	  background-color: #5E6F91;
 }
 
-.table td:first-child { color: #FB667A; }
+.table td:first-child {
+	color: #FB667A;
+	font-weight: bold;
+}
 tbody { border: 3px solid #000}
 
 .scroldiv {
-  margin-top: 5em;
+  margin-top: 1em;
   margin-right: auto;
   overflow-x: scroll;
-  width: 1500;
   height: 100%;
   background-color: #EFF3F9;
 
@@ -101,9 +100,58 @@ td, th {
  margin-top: 2em;
  margin-right: auto;
  overflow-x: scroll;
- width: 1500;
  height: 100%;
  background-color: #EFF3F9;
 
+}
+
+.stat-table td, .stat-table th {
+	padding:1%;
+	border: 3px solid #eff4ff;
+}
+
+/* Background-color of the odd rows */
+.stat-table tr:nth-child(odd) {
+	background-color: #eff4ff;
+}
+
+/* Background-color of the even rows */
+.stat-table tr:nth-child(even) {
+	background-color: #efedf9;
+	width: 100%
+}
+
+.stat-table th {
+	background-color: #b6daff;
+}
+.stat-table  {
+	border: 3px solid #000;
+	background-color: #eff4ff;
+	width: 95%;
+	height: 90%;
+
+}
+
+.stat-table td:first-child { color: #09004c; font-weight: bold; }
+tbody { border: 3px solid #000}
+
+.stat-item {
+	width: 50%;
+	text-align: center;
+}
+
+.stat-wrapper{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 100%;
+	margin: auto auto 30px auto;
+	padding: 10px;
+
+}
+
+.page {
+	padding-bottom: 20px;
 }
 

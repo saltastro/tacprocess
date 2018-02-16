@@ -4,6 +4,13 @@ import { ADMINISTRATOR, DOCUMENTATION_PAGE, STATISTICS_PAGE, TAC_PAGE, TECHNICAL
 import { jsonClient } from '../api/api';
 
 /**
+ * Return the sum of a and b
+ * */
+export function add(a, b) {
+	return a + b;
+}
+
+/**
  * Get the observing time for a semester in a proposal.
  * If a partner is given, the observing time is the time requested for that partner.
  *

@@ -139,7 +139,7 @@ class TotalTimeDistribution extends React.Component {
             'all-partners': totalHoursData,
             'partner-only': partnerHoursData
         };
-        ['all-partners', 'partner-only'].forEach(key => {
+        ['partner-only','all-partners' ].forEach(key => {
             g.append('g')
                     .classed(key, true)
                     .classed('time', true)
@@ -147,22 +147,55 @@ class TotalTimeDistribution extends React.Component {
                     .data(data[key])
                     .enter()
                     .append('rect')
+                    .style("opacity", .6)
+                    .style('fill', key === 'partner-only' ? "green" : "purple")
                     .attr('x', d => xScale(d.x0))
                     .attr('y', d => yScale(d.length))
                     .attr('width', d => xScale(d.x1) - xScale(d.x0))
                     .attr('height', d => innerHeight - yScale(d.length));
         });
+	
+	    const legend = svg.append("g")
+	    .attr("class", "legend")
+	    .attr("x", 590)
+	    .attr("y", 25)
+	    .attr("height", 100)
+	    .attr("width", 100);
+	
+	
+	    [{color: "green", text: 'partner-only'}, {color: "purple", text: 'all-partners'}]
+	    .forEach( (t, i) => {
+		    console.log(t);
+		    legend.append("rect")
+		    .attr("x", 550)
+		    .attr("y", 35 + 18*i)
+		    .attr("width", 10)
+		    .attr("height", 10)
+		    .style("opacity", .6)
+		    .style("fill", t.color);
+		    legend.append("text")
+		    .attr("x", 565)
+		    .attr("y", 45 + 18*i)
+		    .attr("width", 10)
+		    .attr("height", 10)
+		    .style("fill", "black")
+		    .text(t.text);
+	    });
     };
 
     render() {
         const width = this.props.width || 700;
         const height = this.props.height || 700;
         return (
+            <div className={"stat-item"}>
+	            <h2>Number of proposals vs Requested time</h2>
                 <svg
+                    className={"plot"}
                     width={width}
                     height={height}
                     ref={(svg) => this.target = svg}
                 />
+            </div>
         );
     }
 }

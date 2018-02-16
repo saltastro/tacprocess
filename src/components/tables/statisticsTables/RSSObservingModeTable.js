@@ -14,65 +14,66 @@ function countRSSDetector(proposals) {
 	};
 	(proposals|| []).forEach(p => {
 		p.instruments.rss.forEach( m => {
-			if (m.mode === "Fabry Perot") {obz.normal += 1}
-			if (m.mode === "FP polarimetry") {obz.slot += 1}
-			if (m.mode === "Imaging") {obz.dscan += 1}
-			if (m.mode === "MOS") {obz.dscan += 1}
-			if (m.mode === "MOS polarimetry") {obz.shuffle += 1}
-			if (m.mode === "Polarimetric imaging") {obz.xfer += 1}
-			if (m.mode === "Spectropolarimetry") {obz.dscan += 1}
-			if (m.mode === "Spectroscopy") {obz.dscan += 1}
+			if (m.mode === "Fabry Perot") {obz.fp += 1}
+			if (m.mode === "FP polarimetry") {obz.fpp += 1}
+			if (m.mode === "Imaging") {obz.im += 1}
+			if (m.mode === "MOS") {obz.mos += 1}
+			if (m.mode === "MOS polarimetry") {obz.mosp += 1}
+			if (m.mode === "Polarimetric imaging") {obz.pi += 1}
+			if (m.mode === "Spectropolarimetry") {obz.sp += 1}
+			if (m.mode === "Spectroscopy") {obz.spec += 1}
 		})
 	});
 	return obz
 }
 
-const RSSObservingModeTable = (proposals) => {
+const RSSObservingModeTable = ({proposals}) => {
 	const observingMode =countRSSDetector(proposals);
 	return(
-		<div>
-			<table className="table center-table">
+		<div className={"stat-item"} style={{textAlign: "center"}}>
+			<h2>RSS Observing Mode</h2>
+			<table className="stat-table">
 				
 				{/* RSS Observing mode */}
 				<thead>
 				<tr>
-					<th><h2>Observing mode</h2></th>
-					<th><h2>Number of Proposals</h2></th>
+					<th>Observing mode</th>
+					<th>Number of Proposals</th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr>
-					<td><h2>Fabry Perot</h2></td>
-					<td><h2>{ observingMode.fp }</h2></td>
+					<td>Fabry Perot</td>
+					<td>{ observingMode.fp }</td>
 				</tr>
 				<tr>
-					<td><h2>FP polarimetry</h2></td>
-					<td><h2>{ observingMode.fpp }</h2></td>
+					<td>FP polarimetry</td>
+					<td>{ observingMode.fpp }</td>
 				</tr>
 				
 				<tr>
-					<td><h2>MOS</h2></td>
-					<td><h2>{ observingMode.mos }</h2></td>
+					<td>MOS</td>
+					<td>{ observingMode.mos }</td>
 				</tr>
 				<tr>
-					<td><h2>MOS polarimetry</h2></td>
-					<td><h2>{ observingMode.mosp }</h2></td>
+					<td>MOS polarimetry</td>
+					<td>{ observingMode.mosp }</td>
 				</tr>
 				<tr>
-					<td><h2>Polarimetric imaging</h2></td>
-					<td><h2>{ observingMode.pi }</h2></td>
+					<td>Polarimetric imaging</td>
+					<td>{ observingMode.pi }</td>
 				</tr>
 				<tr>
-					<td><h2>Imaging</h2></td>
-					<td><h2>{ observingMode.im }</h2></td>
+					<td>Imaging</td>
+					<td>{ observingMode.im }</td>
 				</tr>
 				<tr>
-					<td><h2>Spectropolarimetry</h2></td>
-					<td><h2>{ observingMode.sp }</h2></td>
+					<td>Spectropolarimetry</td>
+					<td>{ observingMode.sp }</td>
 				</tr>
 				<tr>
-					<td><h2>Spectroscopy</h2></td>
-					<td><h2>{ observingMode.spec }</h2></td>
+					<td>Spectroscopy</td>
+					<td>{ observingMode.spec }</td>
 				</tr>
 				</tbody>
 			

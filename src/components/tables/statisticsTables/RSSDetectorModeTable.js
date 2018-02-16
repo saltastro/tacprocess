@@ -21,38 +21,39 @@ function countRSSDetector(proposals) {
 	return expo
 }
 
-const RSSDetectorModeTable = (proposals) => {
+const RSSDetectorModeTable = ({proposals}) => {
 	const detectorMode =countRSSDetector(proposals);
     return(
-        <div>
-	        <table className="table center-table">
+        <div className={"stat-item"} style={{textAlign: "center"}}>
+	        <h2>RSS Detector Mode</h2>
+	        <table className="stat-table">
 		        {/* RSS Dictator mode */}
 		        <thead>
 		        <tr>
-			        <th><h2>Detector mode</h2></th>
-			        <th><h2>Number of Proposals</h2></th>
+			        <th>Detector mode</th>
+			        <th>Number of Proposals</th>
 		        </tr>
 		        </thead>
 		        <tbody>
 		        <tr>
-			        <td><h2>DRIFT SCAN</h2></td>
-			        <td><h2>{ detectorMode.dscan }</h2></td>
+			        <td>DRIFT SCAN</td>
+			        <td>{ detectorMode.dscan }</td>
 		        </tr>
 		        <tr>
-			        <td><h2>FRAME TRANSFER</h2></td>
-			        <td><h2>{ detectorMode.xfer }</h2></td>
+			        <td>FRAME TRANSFER</td>
+			        <td>{ detectorMode.xfer }</td>
 		        </tr>
 		        <tr>
-			        <td><h2>NORMAL</h2></td>
-			        <td><h2>{ detectorMode.normal }</h2></td>
+			        <td>NORMAL</td>
+			        <td>{ detectorMode.normal }</td>
 		        </tr>
 		        <tr>
-			        <td><h2>SHUFFLE</h2></td>
-			        <td><h2>{ detectorMode.shuffle }</h2></td>
+			        <td>SHUFFLE</td>
+			        <td>{ detectorMode.shuffle }</td>
 		        </tr>
 		        <tr>
-			        <td><h2>SLOT MODE</h2></td>
-			        <td><h2>{ detectorMode.slot }</h2></td>
+			        <td>SLOT MODE</td>
+			        <td>{ detectorMode.slot }</td>
 		        </tr>
 		        </tbody>
 	        </table>

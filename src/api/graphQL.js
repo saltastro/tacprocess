@@ -91,6 +91,7 @@ export function convertProposals(proposals, semester, partner){
 			proposalCode: proposal.code,
 			isP4: proposal.isP4,
 			status: proposal.status,
+			actOnAlert: proposal.actOnAlert,
 			maxSeeing: proposal.maxSeeing,
 			transparency: proposal.transparency,
 			isNew: isNewProposal(proposal.timeRequests, semester),
@@ -220,7 +221,7 @@ export function queryStatData(semester, partner){
 
 
 export function queryPartnerAllocations(semester, partner="All" ){
-	/*
+	/**
 	* This method is only called by pages that will need and allocated time
 	* for partner at semester
 	*
@@ -317,6 +318,7 @@ export function queryProposals(semester, partner){
       }
       isP4
       status
+      actOnAlert
       transparency
       maxSeeing
       instruments{
@@ -374,8 +376,6 @@ export function queryProposals(semester, partner){
 		response => convertProposals(response.data.data, semester, partner)
 	)
 }
-
-
 
 export function submitAllocations(query){
 	return jsonClient().post(`/graphql`, { query })

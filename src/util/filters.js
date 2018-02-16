@@ -10,7 +10,7 @@ import {
 import { makeTechComment } from "./index";
 
 
-export function totalTimeRequestedPerParner(proposals, semester, partner="All" ){
+export function totalTimeRequestedPerPartner(proposals, semester, partner="All" ){
 	/*
 	*
 	* @param proposals of a selected partner all or single

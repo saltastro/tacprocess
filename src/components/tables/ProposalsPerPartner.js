@@ -39,14 +39,15 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 					<th>PI</th>
 					<th>Semester</th>
 					<th>TAC comment</th>
-					<th>Minimum useful time</th>
-					<th>Total Requested Time</th>
-					<th>P0</th>
-					<th>P1</th>
-					<th>P2</th>
-					<th>P3</th>
-					<th>Total P0-P3</th>
-					<th>P4</th>
+					<th>Minimum useful time (seconds)</th>
+					<th>Requested Time from {partner} (seconds)</th>
+					<th>Total Requested Time (seconds)</th>
+					<th>P0 (seconds)</th>
+					<th>P1 (seconds)</th>
+					<th>P2 (seconds)</th>
+					<th>P3 (seconds)</th>
+					<th>Total P0-P3 (seconds)</th>
+					<th>P4 (seconds)</th>
 					<th>Act on Alert</th>
 					<th>Transparency</th>
 					<th>Max seeing</th>
@@ -58,9 +59,11 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 					arrayOfProposals
 					.filter(p => !_.isNull(p.title))
 					.map( p => {
-						const techReport = getTechnicalReport(p, semester);
 						return (
-							<tr key={p.proposalId}>
+							<tr key={p.proposalId} style={{"background-color":
+									p.requestedTime.requests[partner] > 0 ?"": "#FEE"
+							}
+					}>
 								<td><div className="width-150 padding-8" ><a target="_blank" href={`https://www.salt.ac.za/wm/proposal/${p.proposalCode}`}>{ p.proposalCode }</a></div></td>
 								<td><div className="table-height width-300" >{ p.title }</div></td>
 								<td><div className="table-height width-400" >{ p.abstract }</div></td>
@@ -83,6 +86,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 								<td><div className="table-height width-100" >{
 									p.minTime ? p.minTime : "Not Available"
 								}</div></td>
+								<td><div className="table-height width-150" >{ p.requestedTime.requests[partner] || 0 }</div></td>
 								<td><div className="table-height width-100" >{ p.totalRequestedTime }</div></td>
 								<td>
 									{ canAllocate ?
@@ -155,7 +159,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 											priority="p4"/> : <div className="width-100">{ p.allocatedTime[partner]["p4"] }</div>
 									}
 								</td>
-								<td><div className="table-height width-100" >false</div></td>
+								<td><div className="table-height width-100" >{ `${p.actOnAlert}` }</div></td>
 								<td><div className="table-height width-100" >{ p.transparency }</div></td>
 								<td><div className="table-height width-100" >{ p.maxSeeing }</div></td>
 								<td><div className="table-height width-400" >{ getTechnicalReport(p, semester, 'jsx') }</div></td>
