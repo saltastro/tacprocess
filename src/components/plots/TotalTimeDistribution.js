@@ -139,7 +139,7 @@ class TotalTimeDistribution extends React.Component {
             'all-partners': totalHoursData,
             'partner-only': partnerHoursData
         };
-        ['all-partners', 'partner-only'].forEach(key => {
+        ['partner-only','all-partners' ].forEach(key => {
             g.append('g')
                     .classed(key, true)
                     .classed('time', true)
@@ -188,6 +188,7 @@ class TotalTimeDistribution extends React.Component {
         const height = this.props.height || 700;
         return (
             <div className={"stat-item"}>
+	            <h2>Number of proposals vs Requested time</h2>
                 <svg
                     className={"plot"}
                     width={width}

@@ -38,6 +38,7 @@ const TransparencyDistribution = ({proposals, semester, partner}) => {
 
     return <Histogram
             keys={transparencies}
+            heading={"Requested time per Transparency"}
             datasets={datasets}
             xLabel="Transparency"
             yLabel="Requested Time (hrs)"/>

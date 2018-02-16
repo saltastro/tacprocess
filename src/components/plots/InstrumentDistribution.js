@@ -30,6 +30,7 @@ const InstrumentDistribution = ({proposals, semester, partner}) => {
 
     return <Histogram
             keys={instruments}
+            heading={"Requested time per Instrument"}
             datasets={datasets}
             xLabel="Instrument"
             yLabel="Requested Time (hrs)"/>
