@@ -157,7 +157,7 @@ class TotalTimeDistribution extends React.Component {
 	
 	    const legend = svg.append("g")
 	    .attr("class", "legend")
-	    .attr("x", 620)
+	    .attr("x", 590)
 	    .attr("y", 25)
 	    .attr("height", 100)
 	    .attr("width", 100);
@@ -167,14 +167,14 @@ class TotalTimeDistribution extends React.Component {
 	    .forEach( (t, i) => {
 		    console.log(t);
 		    legend.append("rect")
-		    .attr("x", 570)
+		    .attr("x", 550)
 		    .attr("y", 35 + 18*i)
 		    .attr("width", 10)
 		    .attr("height", 10)
 		    .style("opacity", .6)
 		    .style("fill", t.color);
 		    legend.append("text")
-		    .attr("x", 590)
+		    .attr("x", 565)
 		    .attr("y", 45 + 18*i)
 		    .attr("width", 10)
 		    .attr("height", 10)
