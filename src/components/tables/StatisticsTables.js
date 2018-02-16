@@ -21,7 +21,9 @@ const StatisticsTables = ({proposals, partner}) => {
 			        partner={partner}
 		        />
 	        </div>
-	        <ConfigurationsStatistics proposals={proposals}/>
+	        <div className={"stat-wrapper"}>
+	            <ConfigurationsStatistics proposals={proposals}/>
+	        </div>
 	        <div  className={"stat-wrapper"}>
 		        <RSSDetectorModeTable proposals={proposals}/>
 		        <RSSObservingModeTable proposals={proposals}/>

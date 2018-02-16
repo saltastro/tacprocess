@@ -50,11 +50,14 @@
 	  background-color: #5E6F91;
 }
 
-.table td:first-child { color: #FB667A; }
+.table td:first-child {
+	color: #FB667A;
+	font-weight: bold;
+}
 tbody { border: 3px solid #000}
 
 .scroldiv {
-  margin-top: 5em;
+  margin-top: 1em;
   margin-right: auto;
   overflow-x: scroll;
   height: 100%;
@@ -119,7 +122,7 @@ td, th {
 }
 
 .stat-table th {
-	background-color: #c4e4ff;
+	background-color: #b6daff;
 }
 .stat-table  {
 	border: 3px solid #000;
@@ -129,7 +132,7 @@ td, th {
 
 }
 
-.stat-table td:first-child { color: #09004c; }
+.stat-table td:first-child { color: #09004c; font-weight: bold; }
 tbody { border: 3px solid #000}
 
 .stat-item {
@@ -144,6 +147,11 @@ tbody { border: 3px solid #000}
 	justify-content: space-between;
 	width: 100%;
 	margin: auto auto 30px auto;
+	padding: 10px;
 
+}
+
+.page {
+	padding-bottom: 20px;
 }
 

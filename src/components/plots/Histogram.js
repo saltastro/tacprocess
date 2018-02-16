@@ -160,7 +160,8 @@ class Histogram extends React.Component {
                     .data(this.props.keys)
                     .enter()
                     .append('rect')
-                    .style('fill', 'blue')
+                    .style('fill', '#b6daff')
+                    .style("stroke", '#b6daff')
                     .attr('class', 'histogram count')
                     .attr('x', d => xScale(xValue(d)))
                     .attr('y', d => yScale(yValue(dataset, d)))
@@ -174,6 +175,7 @@ class Histogram extends React.Component {
         const height = this.props.height || 700;
         return (
 	        <div className={"stat-item"}>
+		        <h2>{this.props.heading}</h2>
                 <svg className='histogram plot'
                     width={width}
                     height={height}
@@ -188,6 +190,7 @@ Histogram.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
     margin: PropTypes.object,
+    heading: PropTypes.string,
     xTickLabelAttrs: PropTypes.object,
     yTicks: PropTypes.number,
     keys: PropTypes.array.isRequired,

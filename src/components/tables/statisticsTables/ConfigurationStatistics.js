@@ -22,7 +22,7 @@ export function countInstruments (proposals){
 const ConfigurationsStatistics = ({proposals}) => {
 	const count = countInstruments (proposals);
 	return(
-		<div>
+		<div className={"stat-item"}>
 			<h2>Configuration Statistics</h2>
 			<table className="stat-table">
 				<thead>

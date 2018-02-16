@@ -44,6 +44,7 @@ const HrsModeDistribution = ({proposals, semester, partner}) => {
     return <Histogram
             keys={exposureModes}
             datasets={datasets}
+            heading={"HRS requested time per Exposure Mode"}
             xLabel=""
             yLabel="Requested Time (hrs)"
             xTickLabelAttrs={

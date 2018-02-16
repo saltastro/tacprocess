@@ -47,6 +47,7 @@ const RssModeDistribution = ({proposals, semester, partner}) => {
     return <Histogram
             keys={modes}
             datasets={datasets}
+            heading={"RSS requested time per Observing Mode"}
             xLabel=""
             yLabel="Requested Time (hrs)"
             xTickLabelAttrs={

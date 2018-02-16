@@ -156,7 +156,7 @@ class TimeAllocationPage extends React.Component {
 						}
 
 						return (
-							<div key={partner}>
+							<div key={partner}  style={{paddingBottom:"40px"}}>
 								<AvailableTimePerPartnerTable
 									proposals={partnerProposals[partner] || []}
 									partner={partner}

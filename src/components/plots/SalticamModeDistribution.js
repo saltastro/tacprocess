@@ -43,6 +43,7 @@ const SalticamModeDistribution = ({proposals, semester, partner}) => {
     return <Histogram
             keys={detectorModes}
             datasets={datasets}
+            heading={"SALTICAM requested time per Detector Mode"}
             xLabel=""
             yLabel="Requested Time (hrs)"
             xTickLabelAttrs={
