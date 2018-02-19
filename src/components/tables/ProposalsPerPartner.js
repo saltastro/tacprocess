@@ -60,7 +60,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 					.filter(p => !_.isNull(p.title))
 					.map( p => {
 						return (
-							<tr key={p.proposalId} style={{"background-color":
+							<tr key={p.proposalId} style={{"backgroundColor":
 									p.requestedTime.requests[partner] > 0 ?"": "#FEE"
 							}
 					}>
