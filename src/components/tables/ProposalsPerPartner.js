@@ -79,7 +79,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 											onChange={ e =>
 												tacCommentChange(e, p.proposalCode, partner) }
 										/> : <div className="table-height-fixed width-400" >
-											{  p.tacComment[partner].comment }
+											{  !!p.tacComment[partner] ? p.tacComment[partner]["comment"] : ""  }
 										</div>
 									}
 								</td>
@@ -98,7 +98,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 											name="p0"
 											proposal={p}
 											partner={partner}
-											priority="p0"/> : <div className="width-100">{ p.allocatedTime[partner]["p0"] }</div>
+											priority="p0"/> : <div className="width-100">{   p.allocatedTime[partner] ?  p.allocatedTime[partner]["p0"] : 0 }</div>
 									}
 								</td>
 								<td>
@@ -111,7 +111,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 											name="p1"
 											proposal={p}
 											partner={partner}
-											priority="p1"/> : <div className="width-100">{ p.allocatedTime[partner]["p1"] }</div>
+											priority="p1"/> : <div className="width-100">{   p.allocatedTime[partner] ?  p.allocatedTime[partner]["p1"] : 0 }</div>
 									}
 								</td>
 								<td>
@@ -124,7 +124,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 											name="p2"
 											proposal={p}
 											partner={partner}
-											priority="p2"/> : <div className="width-100">{ p.allocatedTime[partner]["p2"] }</div>
+											priority="p2"/> : <div className="width-100">{   p.allocatedTime[partner] ?  p.allocatedTime[partner]["p2"] : 0 }</div>
 									}
 								</td>
 								<td>
@@ -137,7 +137,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 											name="p3"
 											proposal={p}
 											partner={partner}
-											priority="p3"/> : <div className="width-100">{ p.allocatedTime[partner]["p3"] }</div>
+											priority="p3"/> : <div className="width-100">{   p.allocatedTime[partner] ?  p.allocatedTime[partner]["p3"] : 0 }</div>
 									}
 								</td>
 								<td><div className="table-height width-100" >{
@@ -156,7 +156,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 											name="p4"
 											proposal={p}
 											partner={partner}
-											priority="p4"/> : <div className="width-100">{ p.allocatedTime[partner]["p4"] }</div>
+											priority="p4"/> : <div className="width-100">{  p.allocatedTime[partner] ?  p.allocatedTime[partner]["p4"] : 0 }</div>
 									}
 								</td>
 								<td><div className="table-height width-100" >{ `${p.actOnAlert}` }</div></td>
