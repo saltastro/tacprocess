@@ -8,26 +8,26 @@ function add(a, b) {
 
 function setTransparency(proposals, partner) {
 	const transparency = {
-			clear: {
-				timeRequests: 0,
-				noOfProposals: 0,
-				fraction: 0
-			},
-			thin: {
-				timeRequests: 0,
-				noOfProposals: 0,
-				fraction: 0
-			},
-			thick: {
-				timeRequests: 0,
-				noOfProposals: 0,
-				fraction: 0
-			},
-			any: {
-				timeRequests: 0,
-				noOfProposals: 0,
-				fraction: 0
-			}
+		clear: {
+			timeRequests: 0,
+			noOfProposals: 0,
+			fraction: 0
+		},
+		thin: {
+			timeRequests: 0,
+			noOfProposals: 0,
+			fraction: 0
+		},
+		thick: {
+			timeRequests: 0,
+			noOfProposals: 0,
+			fraction: 0
+		},
+		any: {
+			timeRequests: 0,
+			noOfProposals: 0,
+			fraction: 0
+		}
 	};
 	proposals.forEach(p => {
 		let reqTime = partner === ALL_PARTNER ? (Object.values(p.requestedTime.requests)||[]).reduce(add, 0) : p.requestedTime.requests[partner] || 0;
@@ -56,7 +56,6 @@ const ObservingStatisticsTransparency = ({proposals, partner}) => {
 	const transparency = setTransparency(proposals, partner);
 	return(
 		<div  className={"stat-item"}>
-			<h2>Observing Conditions Transparency</h2>
 			<table className="stat-table">
 				<thead>
 				<tr>

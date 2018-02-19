@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React from "react";
 import { connect } from "react-redux"
-import StatisticsTables from "../tables/StatisticsTables";
 import Plot from '../plots/Plot';
 import InstrumentDistribution from '../plots/InstrumentDistribution';
 import HrsModeDistribution from '../plots/HrsModeDistribution';
@@ -15,16 +14,27 @@ import TargetDistributionContourMap from "../plots/TargetDistributionContourMap"
 import TargetDistributionScatterPlot from "../plots/TargetDistributionScatterPlot";
 import PartnerTimeTable from "../tables/statisticsTables/PartnerTimeTable";
 import ProposalCountTable from "../tables/statisticsTables/ProposalsCountTable";
+import PartnerProposals from "../../util/proposal";
+import {getPartnerList} from "../../util/filters";
+import {ALL_PARTNER} from "../../types";
+import TargetStatistics from "../tables/statisticsTables/TargetStatistics";
+import ObservingStatisticsSeeing from "../tables/statisticsTables/ObservingStatisticsSeeing";
+import ObservingStatisticsTransparency from "../tables/statisticsTables/ObservingStatisticsTransparacy";
+import ConfigurationsStatistics from "../tables/statisticsTables/ConfigurationStatistics";
+import RSSDetectorModeTable from "../tables/statisticsTables/RSSDetectorModeTable";
+import HRSStatistics from "../tables/statisticsTables/HRSStatistics";
+import RSSObservingModeTable from "../tables/statisticsTables/RSSObservingModeTable";
+import SALTICAMStatistics from "../tables/statisticsTables/SALTICAMStatistics";
 
 class StatisticsPage extends React.Component {
 	
 	render() {
 		/* this will require me to difine a shape on PropTypes  */
 		
-		const {  filters, allocatedTime, targets, proposals } = this.props;
+		const {  filters, allocatedTime, targets, proposalsData, roles } = this.props;
 		const partner = filters.selectedPartner || "";
 		const semester = filters.selectedSemester;
-		if(proposals.fetching){
+		if(proposalsData.fetching){
 			return(
 				<div className='spinner'>
 					<div className ='dot1'/>
@@ -33,13 +43,75 @@ class StatisticsPage extends React.Component {
 			)
 		}
 		
+		let proposals = [];
+		if (partner === ALL_PARTNER) {
+			
+			  proposals = proposalsData.proposals;
+		}else{
+			proposals = PartnerProposals(proposalsData.proposals, getPartnerList(roles))[partner] || [];
+		}
 		return(
 			<div>
+				
 				<div className={"stat-wrapper"}>
-					<PartnerTimeTable proposals={proposals} allocatedTime={allocatedTime} partner={partner} semester={semester}/>
 					<ProposalCountTable proposals={proposals}/>
+					<PartnerTimeTable proposals={proposals} allocatedTime={allocatedTime} partner={partner} semester={semester}/>
+				</div>
+				<div className={"stat-wrapper"}>
+					<TotalTimeDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+				
+				
 				</div>
 				
+				<div className={"stat-wrapper"}>
+					<InstrumentDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+					<ConfigurationsStatistics proposals={proposals}/>
+				</div>
+				<div  className={"stat-wrapper"}>
+					<RSSDetectorModeTable proposals={proposals}/>
+					
+				</div>
+				<div  className={"stat-wrapper"}>
+					<RssModeDistribution
+					proposals={proposals}
+					semester={semester}
+					partner={partner}
+					/>
+					<RSSObservingModeTable proposals={proposals}/>
+				</div>
+				<h2>HRS Detector Mode</h2>
+				<div  className={"stat-wrapper"}>
+					<HrsModeDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+					<HRSStatistics proposals={proposals}/>
+				</div>
+				<h2>Salticam Detector Mode</h2>
+				<div className={"stat-wrapper"}>
+					<SalticamModeDistribution
+						proposals={proposals}
+						semester={semester}
+						partner={partner}
+					/>
+					<SALTICAMStatistics proposals={proposals}/>
+				</div>
+				<div className={"stat-wrapper"}>
+				
+					
+				</div>
+				<div className={"stat-wrapper"}>
+					<TargetStatistics targets={targets.targets}/>
+				</div>
 				<div className={"stat-wrapper"}>
 					<Plot caption={"Smoothed distribution of all targets on the sky."}>
 						<TargetDistributionContourMap targets={targets.targets}/>
@@ -52,49 +124,18 @@ class StatisticsPage extends React.Component {
 					<RightAscensionDistribution targets={targets.targets}/>
 					<DeclinationDistribution targets={targets.targets}/>
 				</div>
+				<h2>Observing Conditions</h2>
 				<div className={"stat-wrapper"}>
-					<HrsModeDistribution
-						proposals={proposals}
-						semester={semester}
-						partner={partner}
-					/>
-					<SalticamModeDistribution
-						proposals={proposals}
-						semester={semester}
-						partner={partner}
-					/>
-				</div>
-				<div className={"stat-wrapper"}>
-					<RssModeDistribution
-						proposals={proposals}
-						semester={semester}
-						partner={partner}
-					/>
-					<InstrumentDistribution
-						proposals={proposals}
-						semester={semester}
-						partner={partner}
-					/>
-				</div>
-				<div className={"stat-wrapper"}>
-					<TotalTimeDistribution
-						proposals={proposals}
-						semester={semester}
-						partner={partner}
-					/>
-					
 					<TransparencyDistribution
 						proposals={proposals}
 						semester={semester}
 						partner={partner}
 					/>
+					<ObservingStatisticsTransparency
+						proposals={proposals}
+						partner={partner}
+					/>
 				</div>
-					
-				<StatisticsTables
-					proposals={proposals}
-					partner={partner}
-					allocatedTime = {allocatedTime}
-				/>
 			</div>
 		);
 	}
@@ -103,9 +144,10 @@ class StatisticsPage extends React.Component {
 export default connect(
 	store => ({
 		statistics: store.statistics,
-		proposals: store.proposals.proposals,
+		proposalsData: store.proposals,
 		targets: store.targets,
 		filters:store.filters,
 		allocatedTime:store.tac.data,
+		roles: store.user.user.roles
 	}), null
 )(StatisticsPage) ;

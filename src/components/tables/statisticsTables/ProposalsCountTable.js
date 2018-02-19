@@ -37,7 +37,7 @@ const ProposalCountTable = ({proposals}) => {
 	return(
 		<div className={"stat-item"}>
 			<h2>Submitted Proposals</h2>
-			<table className="stat-table">
+			<table className="stat-table"  style={ { height: "90%"}}>
 				<thead>
 				<tr>
 					<th />

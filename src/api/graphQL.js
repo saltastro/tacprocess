@@ -145,81 +145,6 @@ const convertData = rowUser => {
 	};
 };
 
-export function queryStatData(semester, partner){
-	let partnerArgs = "";
-	if (partner !== "All") {
-		partnerArgs = `partnerCode:"${partner}"`
-	}
-	const query = `
-  {
-    proposals(semester: "${semester}", ${partnerArgs}){
-      id
-      code
-      title
-      abstract
-      techReport
-      isP4
-      status
-      transparency
-      maxSeeing
-      instruments{
-        rss{
-          mode
-          detectorMode
-        }
-        hrs{
-          exposureMode
-        }
-        bvit{
-          type
-        }
-        scam{
-          detectorMode
-        }
-      }
-      timeRequests{
-        semester
-        minimumUsefulTime
-        distribution{
-          partnerName
-          partnerCode
-          time
-        }
-      }
-      pi{
-        name
-        surname
-      }
-      SALTAstronomer{
-        username
-      }
-      allocatedTime{
-        partnerCode
-        p0
-        p1
-        p2
-        p3
-        p4
-      }
-    }
-
-    targets(semester:"${semester}", ${partnerArgs}){
-      id
-      optional
-      coordinates{
-        ra
-        dec
-      }
-    }
-  }
-  `;
-	return graphqlClient().post(`/graphql?query=${query}`)
-	.then(
-		response => convertData(response)
-	)
-}
-
-
 export function queryPartnerAllocations(semester, partner="All" ){
 	/**
 	* This method is only called by pages that will need and allocated time
@@ -304,7 +229,7 @@ export function queryProposals(semester, partner){
 
 	const query = `
   {
-    proposals(semester: "${semester}", ${par} ){
+    proposals(semester: "${semester}",${par} ){
       id
       code
       title
