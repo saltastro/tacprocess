@@ -57,14 +57,13 @@ class StatisticsPage extends React.Component {
 					<ProposalCountTable proposals={proposals}/>
 					<PartnerTimeTable proposals={proposals} allocatedTime={allocatedTime} partner={partner} semester={semester}/>
 				</div>
-				<div className={"stat-wrapper"}>
+				<h2><br/>Number of proposals vs Requested time</h2>
+				<div className={"stat-wrapper-center"}>
 					<TotalTimeDistribution
 						proposals={proposals}
 						semester={semester}
 						partner={partner}
 					/>
-				
-				
 				</div>
 				
 				<div className={"stat-wrapper"}>
@@ -75,9 +74,8 @@ class StatisticsPage extends React.Component {
 					/>
 					<ConfigurationsStatistics proposals={proposals}/>
 				</div>
-				<div  className={"stat-wrapper"}>
+				<div  className={"stat-wrapper-center"}>
 					<RSSDetectorModeTable proposals={proposals}/>
-					
 				</div>
 				<div  className={"stat-wrapper"}>
 					<RssModeDistribution
@@ -109,7 +107,7 @@ class StatisticsPage extends React.Component {
 				
 					
 				</div>
-				<div className={"stat-wrapper"}>
+				<div className={"stat-wrapper-center"}>
 					<TargetStatistics targets={targets.targets}/>
 				</div>
 				<div className={"stat-wrapper"}>

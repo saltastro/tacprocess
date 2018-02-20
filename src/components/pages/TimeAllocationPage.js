@@ -173,20 +173,31 @@ class TimeAllocationPage extends React.Component {
 										onClick={() => { this.downloadCSV(partnerProposals[partner] || [], partner); }}>
 									Download as CSV
 								</button>
-								<br/><label>Upload Allocations from CSV</label><br/>
-								<CSVReader
-									cssClass="btn"
-									onFileLoaded={e => this.updateFromCSV(e, partnerProposals[partner] || [], partner)}
-									onError={this.handleDarkSideForce}
-								/>
+								{
+									canUserWriteAllocations(user.user, partner) || false &&
+									<label><br/>Upload Allocations from CSV<br/></label>
+								}
+								{
+									canUserWriteAllocations(user.user, partner) || false && <CSVReader
+										cssClass="btn"
+										onFileLoaded={e => this.updateFromCSV(e, partnerProposals[partner] || [], partner)}
+										onError={this.handleDarkSideForce}
+									/>
+								}
 
-								<button onClick={() => downloadSummaries(partnerProposals[partner] || [])}>
-									Download summary files
-								</button>
-								<button
-									disabled={semester < "2018-1"}
-									className="btn-success"
-									onClick={ e => this.submitForPartner(e, partner) }>Submit {partner}</button>
+								{
+									canUserWriteAllocations(user.user, partner) || false &&
+									<button onClick={() => downloadSummaries(partnerProposals[partner] || [])}>
+										Download summary files
+									</button>
+								}
+								{
+									canUserWriteAllocations(user.user, partner) || false &&
+									<button
+										disabled={semester < "2018-1"}
+										className="btn-success"
+										onClick={e => this.submitForPartner(e, partner)}>Submit {partner}</button>
+								}
 								{
 									!unSubmittedTacChanges[partner] ? <div /> : <div style={{ color: '#866604', fontSize: '20px'}}>Change detected</div>
 								}

@@ -187,7 +187,6 @@ class TotalTimeDistribution extends React.Component {
 		const height = this.props.height || 700;
 		return (
 			<div className={"stat-item"}>
-				<h2>Number of proposals vs Requested time</h2>
 				<svg
 					className={"plot"}
 					width={width}
