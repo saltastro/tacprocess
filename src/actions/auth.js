@@ -1,14 +1,14 @@
-import { USER_LOGGED_IN,
+import {
+	USER_LOGGED_IN,
 	USER_LOGGED_OUT,
 	FETCHING_USER,
 	FAIL_TO_GET_USER,
 	SWITCH_USER_START,
 	SWITCH_USER_FAIL,
-	PARTNER_CHANGE,
+	PARTNER_CHANGE, ALL_PARTNER,
 } from "../types";
 import { queryUserData } from "../api/graphQL"
 import api from "../api/api";
-import { firstSelectedPartner } from "../util/filters";
 import fetchTargets from "./targetsActions";
 import {storePartnerAllocations} from "./timeAllocationActions";
 import fetchProposals from "./proposalsActions";
@@ -49,7 +49,7 @@ export const switchUser = (username) => {
 			const user = await api.user.switchUser(username);
 			localStorage.tacPageJWT = user.token;
 			const userData = await queryUserData();
-			dispatch(partnersFilter(firstSelectedPartner(user.roles)));
+			dispatch(partnersFilter(ALL_PARTNER));
 			dispatch(userLoggedIn(userData));
 		} catch (e) {
 			dispatch(switchUserFail(e.message));
@@ -69,13 +69,12 @@ export const login = credentials => {
 			localStorage.tacPageJWT = user.token;
 			const userData = await queryUserData();
 			dispatch(userLoggedIn(userData));
-			const partner = firstSelectedPartner(user.roles);
 			const semester = defaultSemester();
-			dispatch(partnersFilter(partner));
+			dispatch(partnersFilter(ALL_PARTNER));
 			
-			dispatch(fetchProposals( semester, partner));
-			dispatch(fetchTargets(semester, partner));
-			dispatch(storePartnerAllocations(semester, partner));
+			dispatch(fetchProposals( semester, ALL_PARTNER));
+			dispatch(fetchTargets(semester, ALL_PARTNER));
+			dispatch(storePartnerAllocations(semester, ALL_PARTNER));
 		} catch (e) {
 			dispatch(fetchingUserFail(e.message));
 		}
@@ -93,7 +92,7 @@ export function fetchUserData(){
 		dispatch(fetchingUserData());
 		queryUserData().then(user => {
 			dispatch(userLoggedIn(user));
-			dispatch(partnersFilter(firstSelectedPartner(user.roles)))
+			dispatch(partnersFilter(ALL_PARTNER))
 		}).catch((e) => dispatch(fetchingUserFail(e.message)))
 	}
 }

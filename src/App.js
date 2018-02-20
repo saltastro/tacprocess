@@ -18,77 +18,80 @@ import * as actions from './actions/auth';
 import fetchTargets from './actions/targetsActions';
 import { storePartnerAllocations } from './actions/timeAllocationActions';
 import fetchProposals from './actions/proposalsActions';
+import {defaultSemester} from "./util";
+import {ALL_PARTNER} from "./types";
 
 class App extends React.Component {
-    componentDidMount() {
-    	if (this.props.isAuthenticated) {
-            const selected = this.props.filters;
-            const {dispatch} = this.props;
-
-            dispatch(actions.fetchUserData());
-            dispatch(
-                    fetchTargets(
-                            selected.selectedSemester,
-                            selected.selectedPartner
-                    ));
-            dispatch(
-                    fetchProposals(
-                            selected.selectedSemester,
-                            selected.selectedPartner
-                    ));
-            dispatch(storePartnerAllocations(
-                    selected.selectedSemester,
-                    selected.selectedPartner
-            ));
-        }
-    }
-
-    loggingOut = () => {
-        const { dispatch } = this.props;
-        dispatch(actions.logout())
-    };
-
-    render() {
+	componentDidMount() {
+		if (this.props.isAuthenticated) {
+			const selected = this.props.filters;
+			const {dispatch} = this.props;
+			const semester = defaultSemester();
+			
+			dispatch(actions.fetchUserData());
+			dispatch(
+				fetchTargets(
+					semester,
+					ALL_PARTNER
+				));
+			dispatch(
+				fetchProposals(
+					semester,
+					selected.selectedPartner
+				));
+			dispatch(storePartnerAllocations(
+				semester,
+				ALL_PARTNER
+			));
+		}
+	}
+	
+	loggingOut = () => {
+		const { dispatch } = this.props;
+		dispatch(actions.logout())
+	};
+	
+	render() {
 		const isAuthenticated = this.props.isAuthenticated;
-
+		
 		return (
-				<BrowserRouter>
-					<div className="root-main">
-						<div>
-							<Navigation logout={this.loggingOut}/>
+			<BrowserRouter>
+				<div className="root-main">
+					<div>
+						<Navigation logout={this.loggingOut}/>
+					</div>
+					<div>
+						
+						{this.props.fetchProposalsError &&
+						<div className="error">
+							{`The proposals could not be loaded: ${this.props.fetchProposalsError}`}
+						</div>}
+						
+						{this.props.fetchTargetsError &&
+						<div className="error">
+							{`The targets could not be loaded: ${this.props.fetchTargetsError}`}
+						</div>}
+						
+						{isAuthenticated ? <Filters/> : <div/>}
+						<div className="main-div">
+							<Route path="/" exact component={HomePage}/>
+							<GuestRoute path="/login" exact component={LoginPage} isAuthenticated={isAuthenticated}/>
+							<UserRoute path="/statistics" exact component={StatisticsPage}
+							           isAuthenticated={isAuthenticated}/>
+							<UserRoute path="/timeallocation" exact component={TimeAllocationPage}
+							           isAuthenticated={isAuthenticated}/>
+							<UserRoute path="/techreview" exact component={TechReviewPage}
+							           isAuthenticated={isAuthenticated}/>
+							<UserRoute path="/documentation" exact component={DocumentationPage}
+							           isAuthenticated={isAuthenticated}/>
+							<UserRoute path="/admin" exact component={AdminPage} isAuthenticated={isAuthenticated}/>
 						</div>
-						<div>
-
-                            {this.props.fetchProposalsError &&
-                            <div className="error">
-                                {`The proposals could not be loaded: ${this.props.fetchProposalsError}`}
-                            </div>}
-
-                            {this.props.fetchTargetsError &&
-                            <div className="error">
-                                {`The targets could not be loaded: ${this.props.fetchTargetsError}`}
-                            </div>}
-
-							{isAuthenticated ? <Filters/> : <div/>}
-							<div className="main-div">
-								<Route path="/" exact component={HomePage}/>
-								<GuestRoute path="/login" exact component={LoginPage} isAuthenticated={isAuthenticated}/>
-								<UserRoute path="/statistics" exact component={StatisticsPage}
-										   isAuthenticated={isAuthenticated}/>
-								<UserRoute path="/timeallocation" exact component={TimeAllocationPage}
-										   isAuthenticated={isAuthenticated}/>
-								<UserRoute path="/techreview" exact component={TechReviewPage}
-										   isAuthenticated={isAuthenticated}/>
-								<UserRoute path="/documentation" exact component={DocumentationPage}
-										   isAuthenticated={isAuthenticated}/>
-								<UserRoute path="/admin" exact component={AdminPage} isAuthenticated={isAuthenticated}/>
-							</div>
-							<div className="footer">
-								<p>Copyright © 2018 TAC</p>
-							</div>
+						<div className="footer">
+							<p>Copyright © 2018 TAC</p>
 						</div>
 					</div>
-				</BrowserRouter>
+				</div>
+			</BrowserRouter>
 		);
 	}
 }
@@ -103,9 +106,10 @@ App.propTypes = {
 function mapStateToProps(state) { /* state in params */
 	return{
 		isAuthenticated: state.user.user.isAuthenticated,
+		user: state.user.user,
 		filters: state.filters,
 		fetchProposalsError: state.proposals.errors.fetchingError,
-        fetchTargetsError: state.targets.error
+		fetchTargetsError: state.targets.error
 	};
 }
 

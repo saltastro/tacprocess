@@ -1,29 +1,29 @@
 .table th h2 {
-	  font-weight: bold;
-	  font-size: 2em;
-       text-align: left;
+	font-weight: bold;
+	font-size: 2em;
+	text-align: left;
 
 }
 
 .table td {
-	  font-weight: normal;
-  -webkit-box-shadow: 0 2px 2px -2px #0E1119;
-	   -moz-box-shadow: 0 2px 2px -2px #0E1119;
-	        box-shadow: 0 2px 2px -2px #0E1119;
+	font-weight: normal;
+	-webkit-box-shadow: 0 2px 2px -2px #0E1119;
+	-moz-box-shadow: 0 2px 2px -2px #0E1119;
+	box-shadow: 0 2px 2px -2px #0E1119;
 }
 
 .table {
-	  overflow: hidden;
-	  width: 50%;
-	  margin: auto;
-      display: table;
-      color:black;
+	overflow: hidden;
+	width: 50%;
+	margin: auto;
+	display: table;
+	color:black;
 }
 .table-half {
-	  width: 40%;
+	width: 40%;
 }
 .table-space {
-	  padding: 3% 0 0 0;
+	padding: 3% 0 0 0;
 }
 .left-table {
 	text-align: left;
@@ -33,21 +33,21 @@
 }
 
 .table td, .table th {
-    padding: 2% 1%;
+	padding: 2% 1%;
 }
 
 /* Background-color of the odd rows */
 .table tr:nth-child(odd) {
-	  background-color: #D9E3F7;
+	background-color: #D9E3F7;
 }
 
 /* Background-color of the even rows */
 .table tr:nth-child(even) {
-	  background-color: #EFF3F9;
+	background-color: #EFF3F9;
 }
 
 .table th {
-	  background-color: #5E6F91;
+	background-color: #5E6F91;
 }
 
 .table td:first-child {
@@ -57,25 +57,25 @@
 tbody { border: 3px solid #000}
 
 .scroldiv {
-  margin-top: 1em;
-  margin-right: auto;
-  overflow-x: scroll;
-  height: 100%;
-  background-color: #EFF3F9;
+	margin-top: 1em;
+	margin-right: auto;
+	overflow-x: scroll;
+	height: 100%;
+	background-color: #EFF3F9;
 
 }
 td, th {
-    border: 2px solid #dddddd;
-    text-align: left;
+	border: 2px solid #dddddd;
+	text-align: left;
 }
 
 .table-height{
-	 max-height:100px;
-	 overflow:auto;
+	max-height:100px;
+	overflow:auto;
 }
 .table-height-fixed{
-	 height:100px;
-	 overflow:auto;
+	height:100px;
+	overflow:auto;
 }
 .width-100{
 	width: 100px;
@@ -97,11 +97,11 @@ td, th {
 }
 
 .SATableDiv{
- margin-top: 2em;
- margin-right: auto;
- overflow-x: scroll;
- height: 100%;
- background-color: #EFF3F9;
+	margin-top: 2em;
+	margin-right: auto;
+	overflow-x: scroll;
+	height: 100%;
+	background-color: #EFF3F9;
 
 }
 
@@ -128,7 +128,6 @@ td, th {
 	border: 3px solid #000;
 	background-color: #eff4ff;
 	width: 95%;
-	height: 90%;
 
 }
 
@@ -148,6 +147,16 @@ tbody { border: 3px solid #000}
 	width: 100%;
 	margin: auto auto 30px auto;
 	padding: 10px;
+
+}
+.stat-wrapper-center{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 50%;
+	margin: auto auto 30px auto;
+	padding: 10px;
+	position: center;
 
 }
 

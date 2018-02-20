@@ -24,7 +24,7 @@ function countRSSDetector(proposals) {
 const RSSDetectorModeTable = ({proposals}) => {
 	const detectorMode =countRSSDetector(proposals);
     return(
-        <div className={"stat-item"} style={{textAlign: "center"}}>
+        <div className={"stat-item"} style={{textAlign: "center", width: "100%"}}>
 	        <h2>RSS Detector Mode</h2>
 	        <table className="stat-table">
 		        {/* RSS Dictator mode */}

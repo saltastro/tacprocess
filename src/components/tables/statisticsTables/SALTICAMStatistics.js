@@ -24,8 +24,6 @@ const SALTICAMStatistics = ({proposals}) => {
 	const detectorMode = countSCAMDetector(proposals);
 	return(
 		<div  className={"stat-item"} style={{textAlign: "center"}}>
-			{/* Salticam table */}
-			<h2>Salticam Detector Mode</h2>
 			<table className="stat-table">
 				<thead>
 				<tr>

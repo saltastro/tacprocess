@@ -1,11 +1,11 @@
 import {
-    ADMIN_PAGE,
-    ALL_PARTNER,
-    DOCUMENTATION_PAGE,
-    HOME_PAGE,
-    STATISTICS_PAGE,
-    TAC_PAGE,
-    TECHNICAL_PAGE
+	ADMIN_PAGE,
+	ALL_PARTNER,
+	DOCUMENTATION_PAGE,
+	HOME_PAGE,
+	STATISTICS_PAGE,
+	TAC_PAGE,
+	TECHNICAL_PAGE
 } from "../types"
 import { makeTechComment } from "./index";
 
@@ -18,7 +18,7 @@ export function totalTimeRequestedPerPartner(proposals, semester, partner="All" 
 	* @param partner all partners or a single
 	* @return total
 	*/
-
+	
 	let total = 0;
 	proposals.forEach( p =>{
 		p.timeRequests.forEach( r => {
@@ -30,7 +30,7 @@ export function totalTimeRequestedPerPartner(proposals, semester, partner="All" 
 						total += d.time
 					}
 				})
-
+				
 			}
 		})
 	});
@@ -51,38 +51,14 @@ export const semestersArray = () => {
 	return semester
 };
 
-export const firstSelectedPartner = roles => {
-	let first = ALL_PARTNER;
-
-	for (let r of roles || []) {
-		if (r.type === "ADMINISTRATOR") {
-			first = ALL_PARTNER;
-			break;
-		}
-		if (r.type === "SALT_ASTRONOMER") {
-			first = ALL_PARTNER;
-			break;
-		}
-		if (r.type === "TAC_CHAIR") {
-			first = r.partners[0] || "";
-		}
-		if (r.type === "TAC_MEMBER") {
-			first = r.partners[0] || "";
-		}
-	}
-
-	return first
-};
-
 export const getPartnerList = roles => {
 	let partnerList = [];
 	for (let r of roles || []) {
 		if (r.type === "ADMINISTRATOR" || r.type === "SALT_ASTRONOMER") {
 			partnerList = r.partners;
-			partnerList.includes(ALL_PARTNER) ? partnerList.push() : partnerList.push(ALL_PARTNER);
 			break;
 		}
-
+		
 		if (r.type === "TAC_CHAIR") {
 			partnerList = r.partners;
 		}
@@ -90,6 +66,7 @@ export const getPartnerList = roles => {
 			partnerList = r.partners;
 		}
 	}
+	partnerList.includes(ALL_PARTNER) ? partnerList.push() : partnerList.push(ALL_PARTNER);
 	return partnerList
 };
 
@@ -157,7 +134,7 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer, semester) =>
 			if (p.techReviews[semester].reviewer.username === astronomer) {prop.push(p)}
 		})
 	}
-
+	
 	return prop
 };
 
@@ -167,7 +144,7 @@ export const isTechReportUpdated = (proposal, initProposals, semester) => {
 };
 
 export const isReviewerUpdated = (proposal, initProposals, semester) => {
-    const initProposal = initProposals.find(p => p.proposalCode === proposal.proposalCode);
+	const initProposal = initProposals.find(p => p.proposalCode === proposal.proposalCode);
 	return !initProposal || initProposal.techReviews[semester].reviewer.username !== proposal.techReviews[semester].reviewer.username;
 };
 

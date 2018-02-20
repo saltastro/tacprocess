@@ -58,7 +58,6 @@ function submittingTechnicalReviewsPass() {
  * @param semester Semester, such as "2018-1".
  */
 export function submitTechnicalReviewDetails(proposals, user, initProposals, partner, semester) {
-	console.log({partner, semester});
 	return async (dispatch) => {
         dispatch(startSubmittingTechnicalReviews());
         const updatedProposals = proposals
@@ -80,7 +79,6 @@ export function submitTechnicalReviewDetails(proposals, user, initProposals, par
 						report: makeTechComment(p.techReviews[semester])
                     }
                 });
-        console.log(reviews);
 
         try {
             await jsonClient().post('technical-reviews', {semester, reviews});
