@@ -38,7 +38,7 @@ const ProposalCountTable = ({proposals}) => {
 				</tr>
 				<tr>
 					<td>New proposals </td>
-					<td>{ count.newAndLong}</td>
+					<td>{ count.newProposals}</td>
 				</tr>
 				<tr>
 					<td>Older Proposals </td>

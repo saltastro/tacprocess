@@ -53,3 +53,16 @@ export const didReportChange = (proposal, initProposals, semester) => {
 	});
 	return didIt
 };
+
+/**
+ * check if proposal is requesting anytime from previous semester and if so it can not be new proposal
+ * hence return false
+ *
+ * @param proposal A proposal from API
+ * @param semester
+ * @return Boolean (true) if the proposal is new
+ * */
+export const isNewProposal = (proposal, semester) => {
+	console.log(proposal.timeRequests, semester);
+	return !proposal.timeRequests.some(t =>  t.semester < semester )
+};

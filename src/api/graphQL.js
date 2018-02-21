@@ -1,12 +1,8 @@
 import axios from 'axios';
 import { API_BASE_URL } from '../types';
 import { jsonClient } from './api';
-import {getTechReportFields} from "../util";
-
-
-function isNewProposal(distributedTimes, semester){
-	return distributedTimes.some(t => t.semester > semester)
-}
+import { getTechReportFields } from "../util";
+import { isNewProposal } from "../util/proposal";
 
 function isLongTermProposal(distributedTimes, semester){
 	return distributedTimes.some(t => t.semester !== semester )
@@ -94,8 +90,9 @@ export function convertProposals(proposals, semester, partner){
 			actOnAlert: proposal.actOnAlert,
 			maxSeeing: proposal.maxSeeing,
 			transparency: proposal.transparency,
-			isNew: isNewProposal(proposal.timeRequests, semester),
+			isNew: isNewProposal(proposal, semester),
 			isLong: isLongTermProposal(proposal.timeRequests, semester),
+			isThesis: proposal.isThesis,
 			totalRequestedTime: minTotal.total,
 			timeRequests: proposal.timeRequests,
 			minTime: minTotal.minimum,
@@ -242,6 +239,7 @@ export function queryProposals(semester, partner){
         report
       }
       isP4
+      isThesis
       status
       actOnAlert
       transparency
