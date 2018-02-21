@@ -81,10 +81,16 @@ exports[`TotalTimeDistribution Component Render the TotalTimeDistribution Compon
   }
   semester="2017-1"
 >
-  <svg
-    height={700}
-    width={700}
-  />
+  <div
+    className="stat-item"
+  >
+    <svg
+      className="plot"
+      height={700}
+      width={700}
+    />
+  </div>
+
 </TotalTimeDistribution>
 `;
 
@@ -169,10 +175,16 @@ exports[`TotalTimeDistribution Component Render the TotalTimeDistribution Compon
   }
   semester="2017-1"
 >
-  <svg
-    height={700}
-    width={700}
-  />
+  <div
+    className="stat-item"
+  >
+    <svg
+      className="plot"
+      height={700}
+      width={700}
+    />
+  </div>
+
 </TotalTimeDistribution>
 `;
 
@@ -182,9 +194,15 @@ exports[`TotalTimeDistribution Component Render the TotalTimeDistribution Compon
   proposals={Array []}
   semester=""
 >
-  <svg
-    height={700}
-    width={700}
-  />
+  <div
+    className="stat-item"
+  >
+    <svg
+      className="plot"
+      height={700}
+      width={700}
+    />
+  </div>
+
 </TotalTimeDistribution>
 `;

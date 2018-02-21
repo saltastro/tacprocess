@@ -5,7 +5,8 @@ exports[`Plot Component Render the Plot Component having populated props with no
   caption="The Plot Caption"
 >
   <div
-    className="plot"
+    className="stat-item"
+
   >
     <div>
       <PlotCaption
@@ -30,7 +31,8 @@ exports[`Plot Component Render the Plot Component having unpopulated props with 
   caption=""
 >
   <div
-    className="plot"
+    className="stat-item"
+
   >
     <div />
   </div>

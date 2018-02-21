@@ -40,11 +40,16 @@ exports[`TransparencyDistribution Component Render the TransparencyDistribution 
     xLabel="Transparency"
     yLabel="Requested Time (hrs)"
   >
-    <svg
-      className="histogram"
-      height={700}
-      width={700}
-    />
+    <div
+      className="stat-item"
+    >
+      <svg
+        className="histogram plot"
+        height={700}
+        width={700}
+      />
+    </div>
+
   </Histogram>
 </TransparencyDistribution>
 `;
@@ -204,11 +209,16 @@ exports[`TransparencyDistribution Component Render the TransparencyDistribution 
     xLabel="Transparency"
     yLabel="Requested Time (hrs)"
   >
-    <svg
-      className="histogram"
-      height={700}
-      width={700}
-    />
+    <div
+      className="stat-item"
+    >
+      <svg
+        className="histogram plot"
+        height={700}
+        width={700}
+      />
+    </div>
+
   </Histogram>
 </TransparencyDistribution>
 `;

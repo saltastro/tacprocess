@@ -124,6 +124,7 @@ exports[`RssModeDistribution Component Render the RssModeDistribution Component 
         },
       ]
     }
+    heading="RSS requested time per Observing Mode"r
     keys={
       Array [
         "Imaging",
@@ -155,11 +156,19 @@ exports[`RssModeDistribution Component Render the RssModeDistribution Component 
     }
     yLabel="Requested Time (hrs)"
   >
-    <svg
-      className="histogram"
-      height={700}
-      width={700}
-    />
+    <div
+      className="stat-item"
+    >
+      <h2>
+        RSS requested time per Observing Mode
+      </h2>
+      <svg
+        className="histogram plot"
+        height={700}
+        width={700}
+      />
+    </div>
+
   </Histogram>
 </RssModeDistribution>
 `;
@@ -288,6 +297,8 @@ exports[`RssModeDistribution Component Render the RssModeDistribution Component 
         },
       ]
     }
+    heading="RSS requested time per Observing Mode"
+
     keys={
       Array [
         "Imaging",
@@ -319,11 +330,18 @@ exports[`RssModeDistribution Component Render the RssModeDistribution Component 
     }
     yLabel="Requested Time (hrs)"
   >
-    <svg
-      className="histogram"
-      height={700}
-      width={700}
-    />
+    <div
+      className="stat-item"
+    >
+      <h2>
+        RSS requested time per Observing Mode
+      </h2>
+      <svg
+        className="histogram plot"
+        height={700}
+        width={700}
+      />
+    </div>
   </Histogram>
 </RssModeDistribution>
 `;
@@ -363,6 +381,8 @@ exports[`RssModeDistribution Component Render the RssModeDistribution Component 
         },
       ]
     }
+    heading="RSS requested time per Observing Mode"
+
     keys={
       Array [
         "Imaging",
@@ -394,11 +414,19 @@ exports[`RssModeDistribution Component Render the RssModeDistribution Component 
     }
     yLabel="Requested Time (hrs)"
   >
-    <svg
-      className="histogram"
-      height={700}
-      width={700}
-    />
+    <div
+      className="stat-item"
+    >
+      <h2>
+        RSS requested time per Observing Mode
+      </h2>
+      <svg
+        className="histogram plot"
+        height={700}
+        width={700}
+      />
+    </div>
+
   </Histogram>
 </RssModeDistribution>
 `;

@@ -12,11 +12,18 @@ exports[`TargetDistributionScatterPlot Component Render the TargetDistributionSc
       },
     ]
   }
->
-  <svg
-    height={500}
-    width={800}
-  />
+  >
+  <div>
+    <h2>
+      Target Scatter plot
+    </h2>
+    <svg
+      className="plot"
+      height={500}
+      width={700}
+    />
+  </div>
+
 </TargetDistributionScatterPlot>
 `;
 
@@ -24,9 +31,16 @@ exports[`TargetDistributionScatterPlot Component Render the TargetDistributionSc
 <TargetDistributionScatterPlot
   targets={Array []}
 >
-  <svg
-    height={500}
-    width={800}
-  />
+  <div>
+    <h2>
+      Target Scatter plot
+    </h2>
+    <svg
+      className="plot"
+      height={500}
+      width={700}
+    />
+  </div>
+
 </TargetDistributionScatterPlot>
 `;

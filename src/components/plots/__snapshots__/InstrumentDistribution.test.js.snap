@@ -75,6 +75,8 @@ exports[`InstrumentDistribution Component Render the InstrumentDistribution Comp
         },
       ]
     }
+    heading="Requested time per Instrument"
+
     keys={
       Array [
         "SCAM",
@@ -86,6 +88,7 @@ exports[`InstrumentDistribution Component Render the InstrumentDistribution Comp
     xLabel="Instrument"
     yLabel="Requested Time (hrs)"
   >
+
     <svg
       className="histogram"
       height={700}
@@ -170,6 +173,8 @@ exports[`InstrumentDistribution Component Render the InstrumentDistribution Comp
         },
       ]
     }
+
+
     keys={
       Array [
         "SCAM",
@@ -181,6 +186,7 @@ exports[`InstrumentDistribution Component Render the InstrumentDistribution Comp
     xLabel="Instrument"
     yLabel="Requested Time (hrs)"
   >
+
     <svg
       className="histogram"
       height={700}
@@ -219,6 +225,7 @@ exports[`InstrumentDistribution Component Render the InstrumentDistribution Comp
         },
       ]
     }
+
     keys={
       Array [
         "SCAM",
@@ -230,6 +237,7 @@ exports[`InstrumentDistribution Component Render the InstrumentDistribution Comp
     xLabel="Instrument"
     yLabel="Requested Time (hrs)"
   >
+
     <svg
       className="histogram"
       height={700}

@@ -15,7 +15,7 @@ export function countInstruments (proposals){
 	    count.bvit += p.instruments.bvit.length > 0 && 1;
 	});
 	return count
- 
+
 }
 
 

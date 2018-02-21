@@ -19,10 +19,17 @@ exports[`TargetDistributionScatterPlot Component Render the TargetDistributionCo
     ]
   }
 >
-  <svg
-    height={500}
-    width={900}
-  />
+  <div>
+    <h2>
+      Target Distribution
+    </h2>
+    <svg
+      className="plot"
+      height={500}
+      width={700}
+    />
+  </div>
+
 </TargetDistributionContourMap>
 `;
 
@@ -30,9 +37,16 @@ exports[`TargetDistributionScatterPlot Component Render the TargetDistributionCo
 <TargetDistributionContourMap
   targets={Array []}
 >
-  <svg
-    height={500}
-    width={900}
-  />
+  <div>
+    <h2>
+      Target Distribution
+    </h2>
+    <svg
+      className="plot"
+      height={500}
+      width={700}
+    />
+  </div>
+
 </TargetDistributionContourMap>
 `;
