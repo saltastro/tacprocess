@@ -21,18 +21,21 @@ export function totalTimeRequestedPerPartner(proposals, semester, partner="All" 
 	
 	let total = 0;
 	proposals.forEach( p =>{
-		p.timeRequests.forEach( r => {
-			if (r.semester === semester){
-				r.distribution.forEach(d => {
-					if ( partner === "All"){
-						total += d.time
-					}else if (d.partnerCode === partner){
-						total += d.time
-					}
-				})
-				
-			}
-		})
+		if (!p.isP4){
+			p.timeRequests.forEach( r => {
+				if (r.semester === semester){
+					r.distribution.forEach(d => {
+						if ( partner === "All"){
+							total += d.time
+						}else if (d.partnerCode === partner){
+							total += d.time
+						}
+					})
+					
+				}
+			})
+		}
+		
 	});
 	return total
 }
