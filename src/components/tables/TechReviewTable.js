@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 import { canAssignOtherReviewer, defaultSemester, downloadSummary } from "../../util";
-import {getTechnicalReport} from "../../util/filters";
+import {getTechnicalReport} from "../../util/technicalReports";
 import {didReportChange} from "../../util/proposal";
 
 function getReviewer(proposal, semester){
@@ -125,7 +125,8 @@ export default class TechReviewTable extends React.Component {
 					{
 						proposals.sort(compareByProposalCode).map(p => {
 							const reviewer = getReviewer(p, semester);
-							const techReport = getTechnicalReport(p, semester);
+							const techReport = getTechnicalReport(p, semester, 'object');
+							const techReportString = getTechnicalReport(p, semester, 'string');
 
                             return (
 								<tr key={p.proposalId}>
@@ -168,13 +169,9 @@ export default class TechReviewTable extends React.Component {
 													disabled={isPastSemester}
 													className="table-height-fixed width-400"
 													value={
-														semester >= "2018-1" ? techReport.comment
-															|| ""
-															:
-															`Feasible: ${techReport.feasible !== null ? techReport.feasible : ""}
-		                                                        Comment: ${techReport.comment !== null ? techReport.comment : ""}
-		                                                        Detailed Check: ${techReport.details !== null ? techReport.details : ""}
-		                                                        `
+														semester >= "2018-1"
+																? techReport.comment || ""
+																: techReportString
 													}
 
 													onChange={semester >= "2018-1" ? e => {

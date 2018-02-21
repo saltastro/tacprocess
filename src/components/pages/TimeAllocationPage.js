@@ -2,8 +2,8 @@
 import React from "react";
 import { connect } from "react-redux"
 import CSVReader from 'react-csv-reader'
-import {CSVLink} from 'react-csv';
-import {saveAs} from 'file-saver';
+import { saveAs } from 'file-saver';
+import  Papa  from 'papaparse';
 import AvailableTimePerPartnerTable from "../tables/AvailableTimePerPartnerTable";
 import ProposalsPerPartner from "../tables/ProposalsPerPartner";
 import {getQuaryToAddAllocation } from "../../util/allocation";
@@ -14,9 +14,9 @@ import { updateProposals } from "../../actions/proposalsActions";
 import { startSubmittingTimeAllocations, TimeAllocationSubmittedSuccessfully, failToSubmitTimeAllocations } from "../../actions/timeAllocationActions";
 import { ALL_PARTNER } from "../../types";
 import { getPartnerList, listForDropdown } from "../../util/filters";
-import { jsonClient } from '../../api/api';
 import { checkColumns, getIndexOfColumns, updateProposalFromCSV } from "../../util/uploadCsv";
 import {updateTacComment, updateAllocatedTimePriority} from "../../actions/TimeAllocationsActions";
+import { getTechnicalReport } from '../../util/technicalReports';
 
 
 class TimeAllocationPage extends React.Component {
@@ -66,7 +66,7 @@ class TimeAllocationPage extends React.Component {
 * This method setup the csv file content as it appears in the time allocation page table.
 * and returns that data to use in the react-csv Component for downloading.
 */
-	CSVData = (proposals, partner) => {
+	CSVData = (proposals, partner, semester) => {
 		let tableDataHeaders = [
 			"Code", "Title", "Abstract", "PI", "Semester", "TAC comment", "Minimum useful time",
 			"Total Requested Time", "P0", "P1", "P2", "P3", "P4",
@@ -76,7 +76,11 @@ class TimeAllocationPage extends React.Component {
 		return [
 			tableDataHeaders,
 			...proposals.map(p => [
-				p.proposalCode, p.title, p.abstract, p.pi, "2017-1",
+				p.proposalCode,
+				p.title,
+				p.abstract,
+				p.pi,
+				semester,
 				!!p.tacComment[partner]? p.tacComment[partner].comment : "",
 				p.minTime, p.totalRequestedTime,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p0"] : 0,
@@ -84,12 +88,21 @@ class TimeAllocationPage extends React.Component {
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p2"] : 0,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p3"] : 0,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p4"] : 0,
-
-				  p.transparency, p.maxSeeing, p.techReport
+				  p.transparency, p.maxSeeing, getTechnicalReport(p, this.props.semester)
 			])
 		];
 	};
 
+	downloadCSV = (proposals, partner) => {
+		const data = this.CSVData(proposals, partner, this.props.semester);
+		const columns = data[0];
+		const rows = data.slice(1);
+		const csv = Papa.unparse({fields: columns, data: rows});
+		
+		const blob = new Blob([csv], { type: 'text/csv' });
+		saveAs(blob, `${partner}-time-allocations.csv`);
+		
+	};
 
 	updateFromCSV = (data, proposals, partner) => {
 		const { dispatch } = this.props;
@@ -111,42 +124,6 @@ class TimeAllocationPage extends React.Component {
 
 	handleDarkSideForce = (data, proposals, partner) => {
 		console.log(partner, data, proposals);
-	};
-
-
-	/*
-	* The exportTableToCSV() function creates CSV data from table HTML and
-	* download CSV data as a file by using the downloadCSV() function
-	*/
-
-	exportTableToCSV = filename => {
-		let csv = [];
-		let rows = document.querySelectorAll("#propPerPartner tr");
-
-		for (let i = 0; i < rows.length; i++) {
-			let row = [];
-			let cols = rows[i].querySelectorAll("th, #propCode, #propTitle, #propAbstract, #propPI, #propSemester,"
-				+ "#propComment, #propMinTime, #propRequestTime, #propCanAllocateP0, #propCanAllocateP1, #propCanAllocateP2,"
-				+ "#propCanAllocateP3, #propCanAllocateP4, #propTotalP0P3, #propBoolean, #propTranparency, #propMaxSeeing, #propEmpty, #propTechReport ");
-
-			for (let j = 0; j < cols.length; j++) {
-				if (cols[j].nodeName === "TEXTAREA") {
-					let cleanText = cols[j].value;
-					cleanText = cleanText.replace(/([,\n])/gm, " ");
-					row.push(cleanText);
-				}
-				else {
-					let cleanText = cols[j].innerText;
-					cleanText = cleanText.replace(/([,\n])/gm, " ");
-					row.push(cleanText);
-				}
-			}
-
-			csv.push(row.join(","));
-		}
-
-		// Download CSV file
-		this.downloadCSV(csv.join("\n"), filename);
 	};
 
 	render() {
@@ -173,7 +150,7 @@ class TimeAllocationPage extends React.Component {
 						}
 
 						return (
-							<div key={partner}>
+							<div key={partner}  style={{paddingBottom:"40px"}}>
 								<AvailableTimePerPartnerTable
 									proposals={partnerProposals[partner] || []}
 									partner={partner}
@@ -187,31 +164,42 @@ class TimeAllocationPage extends React.Component {
 									allocationChange={this.allocationChange.bind(this)}
 									canAllocate={canUserWriteAllocations(user.user, partner) || false}
 									canComment={canUserWriteTechComments(user.user, partner) || false}
-									exportTableToCSV={this.exportTableToCSV.bind(this)}
 									submitted={tac}
 									allocatedTimeChange = {this.allocatedTimeChange}
 									updateFromCSV = {this.updateFromCSV.bind(this)}
 								/>
 								<label>Download table</label><br/>
-								<button className="btn"><CSVLink
-									data={this.CSVData(partnerProposals[partner] || [], partner)}
-									filename={`${partner}-time-allocations.csv`}>Download</CSVLink></button>
-								<br/><label>Upload Allocations from CSV</label><br/>
-								<CSVReader
-									cssClass="btn"
-									onFileLoaded={e => this.updateFromCSV(e, partnerProposals[partner] || [], partner)}
-									onError={this.handleDarkSideForce}
-								/>
-
-								<button onClick={() => downloadSummaries(partnerProposals[partner] || [])}>
-									Download summary files
+								<button className="btn"
+										onClick={() => { this.downloadCSV(partnerProposals[partner] || [], partner); }}>
+									Download as CSV
 								</button>
-								<button
-									disabled={semester < "2018-1"}
-									className="btn-success"
-									onClick={ e => this.submitForPartner(e, partner) }>Submit {partner}</button>
 								{
-									!unSubmittedTacChanges[partner] ? <div /> : <div style={{ color: '#F0F060', fontSize: '20px'}}>Change detected</div>
+									canUserWriteAllocations(user.user, partner) || false &&
+									<label><br/>Upload Allocations from CSV<br/></label>
+								}
+								{
+									canUserWriteAllocations(user.user, partner) || false && <CSVReader
+										cssClass="btn"
+										onFileLoaded={e => this.updateFromCSV(e, partnerProposals[partner] || [], partner)}
+										onError={this.handleDarkSideForce}
+									/>
+								}
+
+								{
+									canUserWriteAllocations(user.user, partner) || false &&
+									<button onClick={() => downloadSummaries(partnerProposals[partner] || [])}>
+										Download summary files
+									</button>
+								}
+								{
+									canUserWriteAllocations(user.user, partner) || false &&
+									<button
+										disabled={semester < "2018-1"}
+										className="btn-success"
+										onClick={e => this.submitForPartner(e, partner)}>Submit {partner}</button>
+								}
+								{
+									!unSubmittedTacChanges[partner] ? <div /> : <div style={{ color: '#866604', fontSize: '20px'}}>Change detected</div>
 								}
 								{
 									submittedTimeAllocations.partner !== partner ? <div />

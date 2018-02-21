@@ -1,24 +1,20 @@
 import {makeTechComment} from "./index";
 
-const isProposalRequestingTimeInPartner = (request, partner, semester) => {
+const isProposalRequestingTimeInPartner = (request, partner) => {
 	
 	let belong = false;
-	(request || []).forEach( r => {
-		if (r.semester === semester){
-			(r.distribution || []).forEach( d => {
-				if (d.partnerCode === partner){
-					belong = true
-				}
-			})
+	if (request[partner]){
+		if (request[partner] > 0){
+			belong = true
 		}
-	});
+	}
 	return belong;
 };
 
 
 
 
-export default function PartnerProposals(proposalList, partners, semester){
+export default function PartnerProposals(proposalList, partners){
 	/**
 	 *
 	 *
@@ -31,15 +27,15 @@ export default function PartnerProposals(proposalList, partners, semester){
 	
 	partners.forEach(partner => {
 		if (partner !== "OTH"){
-			proposalList.forEach( proposal => {
+			(proposalList || []).forEach( proposal => {
 				if (!proposalPerPartner[partner]){
 					proposalPerPartner[partner] = [];
-					if (isProposalRequestingTimeInPartner(proposal.timeRequests, partner, semester)){
+					if (isProposalRequestingTimeInPartner(proposal.requestedTime.requests, partner)){
 						proposalPerPartner[partner].push(proposal)
 					}
 					
 				}else{
-					if (isProposalRequestingTimeInPartner(proposal.timeRequests, partner, semester)){
+					if (isProposalRequestingTimeInPartner(proposal.requestedTime.requests, partner)){
 						proposalPerPartner[partner].push(proposal)
 					}
 				}

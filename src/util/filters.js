@@ -1,16 +1,16 @@
-import { ALL_PARTNER,
+import {
+	ADMIN_PAGE,
+	ALL_PARTNER,
+	DOCUMENTATION_PAGE,
 	HOME_PAGE,
 	STATISTICS_PAGE,
-	DOCUMENTATION_PAGE,
-	TECHNICAL_PAGE,
 	TAC_PAGE,
-	ADMIN_PAGE
+	TECHNICAL_PAGE
 } from "../types"
-import _ from 'lodash'
-import {makeTechComment} from "./index";
+import { makeTechComment } from "./index";
 
 
-export function totalTimeRequestedPerParner(proposals, semester, partner="All" ){
+export function totalTimeRequestedPerPartner(proposals, semester, partner="All" ){
 	/*
 	*
 	* @param proposals of a selected partner all or single
@@ -18,7 +18,7 @@ export function totalTimeRequestedPerParner(proposals, semester, partner="All" )
 	* @param partner all partners or a single
 	* @return total
 	*/
-
+	
 	let total = 0;
 	proposals.forEach( p =>{
 		p.timeRequests.forEach( r => {
@@ -30,7 +30,7 @@ export function totalTimeRequestedPerParner(proposals, semester, partner="All" )
 						total += d.time
 					}
 				})
-
+				
 			}
 		})
 	});
@@ -51,38 +51,14 @@ export const semestersArray = () => {
 	return semester
 };
 
-export const firstSelectedPartner = roles => {
-	let first = ALL_PARTNER;
-
-	for (let r of roles || []) {
-		if (r.type === "ADMINISTRATOR") {
-			first = ALL_PARTNER;
-			break;
-		}
-		if (r.type === "SALT_ASTRONOMER") {
-			first = ALL_PARTNER;
-			break;
-		}
-		if (r.type === "TAC_CHAIR") {
-			first = r.partners[0] || "";
-		}
-		if (r.type === "TAC_MEMBER") {
-			first = r.partners[0] || "";
-		}
-	}
-
-	return first
-};
-
 export const getPartnerList = roles => {
 	let partnerList = [];
 	for (let r of roles || []) {
 		if (r.type === "ADMINISTRATOR" || r.type === "SALT_ASTRONOMER") {
 			partnerList = r.partners;
-			partnerList.includes(ALL_PARTNER) ? partnerList.push() : partnerList.push(ALL_PARTNER);
 			break;
 		}
-
+		
 		if (r.type === "TAC_CHAIR") {
 			partnerList = r.partners;
 		}
@@ -90,6 +66,7 @@ export const getPartnerList = roles => {
 			partnerList = r.partners;
 		}
 	}
+	partnerList.includes(ALL_PARTNER) ? partnerList.push() : partnerList.push(ALL_PARTNER);
 	return partnerList
 };
 
@@ -157,7 +134,7 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer, semester) =>
 			if (p.techReviews[semester].reviewer.username === astronomer) {prop.push(p)}
 		})
 	}
-
+	
 	return prop
 };
 
@@ -167,72 +144,8 @@ export const isTechReportUpdated = (proposal, initProposals, semester) => {
 };
 
 export const isReviewerUpdated = (proposal, initProposals, semester) => {
-    const initProposal = initProposals.find(p => p.proposalCode === proposal.proposalCode);
+	const initProposal = initProposals.find(p => p.proposalCode === proposal.proposalCode);
 	return !initProposal || initProposal.techReviews[semester].reviewer.username !== proposal.techReviews[semester].reviewer.username;
 };
 
 
-export function getTechnicalReport(proposal, semester) {
-	const review = proposal.techReviews[semester];
-	const feasible = review && review.feasible ? review.feasible : null;
-	const comment = review && review.comment ? review.comment : null;
-	const details = review && review.details ? review.details : null;
-	const report = review && review.report ? review.report : null;
-	
-	return {
-		feasible,
-		comment,
-		details,
-		report
-	};
-}
-
-function getDefaultReview(p, semester) {
-	let name = null;
-	let feasible = null;
-	let details = null;
-	let comment = null;
-
-	if (Object.keys(p.techReviews).some( s => s < semester)){
-		Object.keys(p.techReviews).forEach( s => {
-			
-			if ( s < semester && (!_.isNull(p.techReviews[s].comment) || p.techReviews[s].comment !== "none")){
-				name =  p.liaisonAstronomer;
-				feasible = "yes";
-				details = "no";
-				comment = "Continuation of an existing proposal. Please see the PI’s report."
-			}
-		})
-	}
-	return{
-		reviewer:{ username: name},
-		feasible: feasible,
-		comment: comment,
-		details: details
-		
-	}
-	
-}
-export function setDefaultTechReviews (proposals, semester){
-	return (proposals || []).map( p => {
-		if (!!p.techReviews[semester]){
-			return p
-		}
-		else{
-			const rev = getDefaultReview(p, semester);
-			return {
-				...p,
-				techReviews:{
-					...p.techReviews,
-					[semester] :{
-						reviewer: rev.reviewer,
-						feasible: rev.feasible,
-						comment: rev.comment,
-						details: rev.details
-					}
-				}
-			}
-		}
-		
-	})
-}

@@ -9,8 +9,8 @@ const AvailableTimePerPartnerTable = (partner, proposals, availableTime) => {
   const allocatedTotals = allocatedTimeTotals(partner.proposals, partner.partner)
 
   return(
-    <div className="table-space">
-      <table className="table-half left-table table">
+    <div className="stat-item">
+      <table className="stat-table">
           <thead>
               <tr>
                   <th><h2>{ partner.partner }</h2></th>
@@ -20,24 +20,24 @@ const AvailableTimePerPartnerTable = (partner, proposals, availableTime) => {
           </thead>
           <tbody>
               <tr>
-                <td><h3>Priority 0 & 1</h3></td>
-                <td><h3>{ (availableTime.p0p1).toFixed(2) }</h3></td>
-                <td style={correctAllocations.p0p1 ? goodTime : badTime }><h3>{ (parseFloat(allocatedTotals.p0/(60*60)) + parseFloat(allocatedTotals.p1/(60*60))).toFixed(2) || 0 }</h3></td>
+                <td>Priority 0 & 1</td>
+                <td>{ (availableTime.p0p1).toFixed(2) }</td>
+                <td style={correctAllocations.p0p1 ? goodTime : badTime }>{ (parseFloat(allocatedTotals.p0/(60*60)) + parseFloat(allocatedTotals.p1/(60*60))).toFixed(2) || 0 }</td>
               </tr>
               <tr>
-                  <td><h3>Priority 2  </h3></td>
-                  <td><h3>{ (availableTime.p2).toFixed(2) } </h3></td>
-                  <td style={correctAllocations.p2 ? goodTime : badTime }><h3>{ parseFloat(allocatedTotals.p2/(60*60).toFixed(2)) || 0 }</h3></td>
+                  <td>Priority 2  </td>
+                  <td>{ (availableTime.p2).toFixed(2) } </td>
+                  <td style={correctAllocations.p2 ? goodTime : badTime }>{ parseFloat(allocatedTotals.p2/(60*60).toFixed(2)) || 0 }</td>
               </tr>
               <tr>
-                  <td><h3>Priority 3  </h3></td>
-                  <td><h3>{ (availableTime.p3).toFixed(2) } </h3></td>
-                  <td style={correctAllocations.p3 ? goodTime : badTime }><h3>{ parseFloat(allocatedTotals.p3/(60*60).toFixed(2)) || 0 }</h3></td>
+                  <td>Priority 3  </td>
+                  <td>{ (availableTime.p3).toFixed(2) } </td>
+                  <td style={correctAllocations.p3 ? goodTime : badTime }>{ parseFloat(allocatedTotals.p3/(60*60).toFixed(2)) || 0 }</td>
               </tr>
               <tr>
-                  <td><h3>Priority 4 </h3></td>
-                  <td><h1> &infin; </h1></td>
-                  <td style={ goodTime }><h3>{ parseFloat(allocatedTotals.p4.toFixed(2)) }</h3></td>
+                  <td>Priority 4 </td>
+                  <td> <label style={{fontSize:"30px"}}>&infin;</label> </td>
+                  <td style={ goodTime }>{ parseFloat(allocatedTotals.p4.toFixed(2)) }</td>
               </tr>
         </tbody>
     </table>

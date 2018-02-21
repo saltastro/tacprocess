@@ -7,7 +7,7 @@ import {
 	SUBMIT_TIME_ALLOCATIONS_START, SUBMIT_TIME_ALLOCATIONS_FAIL, SUBMIT_TIME_ALLOCATIONS_PASS,
 	USER_LOGGED_OUT
 } from "../types";
-import {setDefaultTechReviews} from "../util/filters";
+import {setDefaultTechReviews} from "../util/technicalReports";
 
 const initialState = {
 	fetching: false,
@@ -80,7 +80,7 @@ export default function proposals(state = initialState, action = {}) {
 		case UPDATE_TECHNICAL_REVIEW: {
 			const updatedProposals = state.updatedProposals.indexOf(action.payload.proposalCode) === -1 ?
 				[...state.updatedProposals, action.payload.proposalCode] : state.updatedProposals;
-			
+
 			return {
 				...state,
 				submittedTechnicalReports: false,
