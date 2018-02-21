@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TargetDistributionScatterPlot Component Render the TargetDistributionScatterPlot Component having populated props with no errors 1`] = `
+<TargetDistributionScatterPlot
+  targets={
+    Array [
+      Object {
+        "dec": 0,
+        "optional": true,
+        "ra": 0,
+        "targetId": "Target: Target_Id 18378 Target_Id 18378 Name: 0, dtype: object",
+      },
+    ]
+  }
+>
+  <svg
+    height={500}
+    width={800}
+  />
+</TargetDistributionScatterPlot>
+`;
+
+exports[`TargetDistributionScatterPlot Component Render the TargetDistributionScatterPlot Component having unpopulated props with no errors 1`] = `
+<TargetDistributionScatterPlot
+  targets={Array []}
+>
+  <svg
+    height={500}
+    width={800}
+  />
+</TargetDistributionScatterPlot>
+`;

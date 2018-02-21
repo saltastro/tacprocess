@@ -27,14 +27,20 @@ import RSSObservingModeTable from "../tables/statisticsTables/RSSObservingModeTa
 import SALTICAMStatistics from "../tables/statisticsTables/SALTICAMStatistics";
 
 class StatisticsPage extends React.Component {
-	
+
 	render() {
 		/* this will require me to difine a shape on PropTypes  */
+<<<<<<< HEAD
+
+		const {  filters, allocatedTime, targets, proposals } = this.props;
+		if(proposals.fetching){
+=======
 		
 		const {  filters, allocatedTime, targets, proposalsData, roles } = this.props;
 		const partner = filters.selectedPartner || "";
 		const semester = filters.selectedSemester;
 		if(proposalsData.fetching){
+>>>>>>> upstream/master
 			return(
 				<div className='spinner'>
 					<div className ='dot1'/>
@@ -52,6 +58,55 @@ class StatisticsPage extends React.Component {
 		}
 		return(
 			<div>
+<<<<<<< HEAD
+				<Plot caption="Smoothed distribution of all targets on the sky.">
+					<TargetDistributionContourMap targets={targets.targets}/>
+				</Plot>
+				<Plot caption="Distribution of mandatory targets <em>(squares)</em> and optional targets <em>(circles)</em> on the sky.">
+					<TargetDistributionScatterPlot targets={targets.targets}/>
+				</Plot>
+				<RightAscensionDistribution targets={targets.targets}/>
+				<DeclinationDistribution targets={targets.targets}/>
+				<HrsModeDistribution
+					proposals={proposals.proposals}
+					semester={filters.selectedSemester}
+					partner={filters.selectedPartner}
+				/>
+				<SalticamModeDistribution
+					proposals={proposals.proposals}
+					semester={filters.selectedSemester}
+					partner={filters.selectedPartner}
+				/>
+				<RssModeDistribution
+					proposals={proposals.proposals}
+					semester={filters.selectedSemester}
+					partner={filters.selectedPartner}
+				/>
+				<InstrumentDistribution
+					proposals={proposals.proposals}
+					semester={filters.selectedSemester}
+					partner={filters.selectedPartner}
+				/>
+				<TotalTimeDistribution
+					proposals={proposals.proposals}
+					semester={filters.selectedSemester}
+					partner={filters.selectedPartner}
+				/>
+
+				<TransparencyDistribution
+					proposals={proposals.proposals}
+					semester={filters.selectedSemester}
+					partner={filters.selectedPartner}
+				/>
+				<StatTable
+					proposals={ proposals.proposals }
+					allocatedTime={ allocatedTime }
+					semester={filters.selectedSemester}
+					partner={filters.selectedPartner}
+				/>
+				<br />
+				<br />
+=======
 				
 				<div className={"stat-wrapper"}>
 					<ProposalCountTable proposals={proposals}/>
@@ -134,6 +189,7 @@ class StatisticsPage extends React.Component {
 						partner={partner}
 					/>
 				</div>
+>>>>>>> upstream/master
 			</div>
 		);
 	}

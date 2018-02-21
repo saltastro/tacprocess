@@ -1,0 +1,214 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransparencyDistribution Component Render the TransparencyDistribution Component having unpopulated props with no errors 1`] = `
+<TransparencyDistribution
+  partner=""
+  proposals={Array []}
+  semester=""
+>
+  <Histogram
+    datasets={
+      Array [
+        Object {
+          "className": "all-partners",
+          "data": Object {
+            "Any": 0,
+            "Clear": 0,
+            "Thick Cloud": 0,
+            "Thin cloud": 0,
+          },
+        },
+        Object {
+          "className": "partner-only",
+          "data": Object {
+            "Any": 0,
+            "Clear": 0,
+            "Thick Cloud": 0,
+            "Thin cloud": 0,
+          },
+        },
+      ]
+    }
+    keys={
+      Array [
+        "Clear",
+        "Thin cloud",
+        "Thick Cloud",
+        "Any",
+      ]
+    }
+    xLabel="Transparency"
+    yLabel="Requested Time (hrs)"
+  >
+    <svg
+      className="histogram"
+      height={700}
+      width={700}
+    />
+  </Histogram>
+</TransparencyDistribution>
+`;
+
+exports[`TransparencyDistribution Component Render the TransparencyDistribution Component having unpopulated props with no errors 2`] = `
+<TransparencyDistribution
+  partner="2017-1"
+  proposals={
+    Array [
+      Object {
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2018-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 350,
+              },
+            ],
+            "semester": "2017-1",
+          },
+        ],
+        "transparency": "Clear",
+      },
+      Object {
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "UW",
+                "time": 250,
+              },
+              Object {
+                "partnerCode": "RSA",
+                "time": 100,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 350,
+              },
+            ],
+            "semester": "2018-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 800,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 620,
+              },
+            ],
+            "semester": "2017-2",
+          },
+        ],
+        "transparency": "Thin cloud",
+      },
+      Object {
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "UW",
+                "time": 550,
+              },
+              Object {
+                "partnerCode": "RSA",
+                "time": 600,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 150,
+              },
+            ],
+            "semester": "2018-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 320,
+              },
+            ],
+            "semester": "2017-1",
+          },
+        ],
+        "transparency": "Clear",
+      },
+    ]
+  }
+  semester="2017-1"
+>
+  <Histogram
+    datasets={
+      Array [
+        Object {
+          "className": "all-partners",
+          "data": Object {
+            "Any": 0,
+            "Clear": 0.4222222222222222,
+            "Thick Cloud": 0,
+            "Thin cloud": 0,
+          },
+        },
+        Object {
+          "className": "partner-only",
+          "data": Object {
+            "Any": 0,
+            "Clear": 0,
+            "Thick Cloud": 0,
+            "Thin cloud": 0,
+          },
+        },
+      ]
+    }
+    keys={
+      Array [
+        "Clear",
+        "Thin cloud",
+        "Thick Cloud",
+        "Any",
+      ]
+    }
+    xLabel="Transparency"
+    yLabel="Requested Time (hrs)"
+  >
+    <svg
+      className="histogram"
+      height={700}
+      width={700}
+    />
+  </Histogram>
+</TransparencyDistribution>
+`;

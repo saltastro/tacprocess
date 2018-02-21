@@ -1,0 +1,188 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HrsModeDistribution Component Render the HrsModeDistribution Component having populated props with no errors 1`] = `
+<HrsModeDistribution
+  partner="UW"
+  proposals={
+    Array [
+      Object {
+        "instruments": Object {
+          "hrs": Array [
+            Object {
+              "exposureMode": "HIGH RESOLUTION",
+            },
+          ],
+          "rss": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+              "mode": "Spectroscopy",
+            },
+          ],
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2018-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+            ],
+            "semester": "2018-1",
+          },
+        ],
+        "transparency": "Clear",
+      },
+    ]
+  }
+  semester="2017-1"
+>
+  <Histogram
+    datasets={
+      Array [
+        Object {
+          "className": "all-partners",
+          "data": Object {
+            "HIGH RESOLUTION": 0,
+            "HIGH STABILITY": 0,
+            "LOW RESOLUTION": 0,
+            "MEDIUM RESOLUTION": 0,
+          },
+        },
+        Object {
+          "className": "partner-only",
+          "data": Object {
+            "HIGH RESOLUTION": 0,
+            "HIGH STABILITY": 0,
+            "LOW RESOLUTION": 0,
+            "MEDIUM RESOLUTION": 0,
+          },
+        },
+      ]
+    }
+    keys={
+      Array [
+        "HIGH RESOLUTION",
+        "HIGH STABILITY",
+        "LOW RESOLUTION",
+        "MEDIUM RESOLUTION",
+      ]
+    }
+    margin={
+      Object {
+        "bottom": 150,
+        "left": 65,
+        "right": 20,
+        "top": 20,
+      }
+    }
+    xLabel=""
+    xTickLabelAttrs={
+      Object {
+        "text-anchor": "end",
+        "transform": "rotate(-45)",
+        "x": -10,
+        "y": 10,
+      }
+    }
+    yLabel="Requested Time (hrs)"
+  >
+    <svg
+      className="histogram"
+      height={700}
+      width={700}
+    />
+  </Histogram>
+</HrsModeDistribution>
+`;
+
+exports[`HrsModeDistribution Component Render the HrsModeDistribution Component having unpopulated props with no errors 1`] = `
+<HrsModeDistribution
+  partner=""
+  proposals={Array []}
+  semester=""
+>
+  <Histogram
+    datasets={
+      Array [
+        Object {
+          "className": "all-partners",
+          "data": Object {
+            "HIGH RESOLUTION": 0,
+            "HIGH STABILITY": 0,
+            "LOW RESOLUTION": 0,
+            "MEDIUM RESOLUTION": 0,
+          },
+        },
+        Object {
+          "className": "partner-only",
+          "data": Object {
+            "HIGH RESOLUTION": 0,
+            "HIGH STABILITY": 0,
+            "LOW RESOLUTION": 0,
+            "MEDIUM RESOLUTION": 0,
+          },
+        },
+      ]
+    }
+    keys={
+      Array [
+        "HIGH RESOLUTION",
+        "HIGH STABILITY",
+        "LOW RESOLUTION",
+        "MEDIUM RESOLUTION",
+      ]
+    }
+    margin={
+      Object {
+        "bottom": 150,
+        "left": 65,
+        "right": 20,
+        "top": 20,
+      }
+    }
+    xLabel=""
+    xTickLabelAttrs={
+      Object {
+        "text-anchor": "end",
+        "transform": "rotate(-45)",
+        "x": -10,
+        "y": 10,
+      }
+    }
+    yLabel="Requested Time (hrs)"
+  >
+    <svg
+      className="histogram"
+      height={700}
+      width={700}
+    />
+  </Histogram>
+</HrsModeDistribution>
+`;

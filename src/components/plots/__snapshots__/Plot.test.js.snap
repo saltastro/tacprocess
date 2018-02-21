@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Plot Component Render the Plot Component having populated props with no errors 1`] = `
+<Plot
+  caption="The Plot Caption"
+>
+  <div
+    className="plot"
+  >
+    <div>
+      <PlotCaption
+        caption="The Plot Caption"
+      >
+        <div
+          className="plot-caption"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "The Plot Caption",
+            }
+          }
+        />
+      </PlotCaption>
+    </div>
+  </div>
+</Plot>
+`;
+
+exports[`Plot Component Render the Plot Component having unpopulated props with no errors 1`] = `
+<Plot
+  caption=""
+>
+  <div
+    className="plot"
+  >
+    <div />
+  </div>
+</Plot>
+`;
