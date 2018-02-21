@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '../types';
 import { jsonClient } from './api';
 import {getTechReportFields} from "../util";
-
+import {getStorage} from "../util/storage";
 
 function isNewProposal(distributedTimes, semester){
 	return distributedTimes.some(t => t.semester > semester)
@@ -117,7 +117,7 @@ const graphqlClient = () => {
                                       "cors": true
                                   },
                                   headers: {
-                                      'Authorization': `Token ${localStorage.tacPageJWT}`,
+                                      'Authorization': `Token ${getStorage()}`,
                                       'Content-Type': 'application/graphql',
                                   }
                               }),
@@ -173,7 +173,7 @@ export function queryStatData(semester, partner){
           type
         }
         scam{
-          dictatorMode
+          detectorMode
         }
       }
       timeRequests{
@@ -331,7 +331,7 @@ export function queryProposals(semester, partner){
           type
         }
         scam{
-          dictatorMode
+          detectorMode
         }
       }
       timeRequests{
