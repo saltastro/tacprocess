@@ -44,10 +44,10 @@ export const UPDATE_TECHNICAL_REVIEW = "UPDATE_TECHNICAL_REVIEW";
 
 export const ALL_PARTNER = 'All';
 
-export const ADMINISTRATOR = 'Administrator';
-export const SALT_ASTRONOMER = 'SALT Astronomer';
-export const TAC_CHAIR = 'TAC Chair';
-export const TAC_MEMBER = 'TAC Member';
+export const ADMINISTRATOR = 'ADMINISTRATOR';
+export const SALT_ASTRONOMER = 'SALT_ASTRONOMER';
+export const TAC_CHAIR = 'TAC_CHAIR';
+export const TAC_MEMBER = 'TAC_MEMBER';
 
 export const HOME_PAGE = "Time Allocation Committee";
 export const TECHNICAL_PAGE = "Technical Review";

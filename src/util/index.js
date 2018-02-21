@@ -206,40 +206,64 @@ export function canDo(user, action, partner) {
 	}
 }
 
+/**
+ * Test is the given value can be a float
+ * @param val is a value to test
+ * @return boolean (true)if value can be a float
+ * */
 export function isFloat(val) {
 	const floatRegex = /^[+-]?\d+(?:[.,]\d*?)?$/;
 	if (!floatRegex.test(val))
 		return false;
+	if (Array.isArray(val))return false;
 
 	const temp = parseFloat(val);
 	return !isNaN(temp);
 
 }
 
-export function canUserWriteAllocations(user, partner){
+
+/**
+ * Only tac chair and administrator that can Allocate time and write tac comment
+ * @param roles an array of user roles like [{type: "ADMINISTRATOR", partners: [... , "RSA", ...] }]
+ * @param partner a partner to test if the user has role of e.g. "RSA"
+ * @return boolean (true if the roles is Admin or tac chair for a partner )
+ * */
+export function canUserWriteAllocations(roles, partner){
 	let canWrite = false;
-	user.roles.forEach( r => {
-			if ((r.type === "ADMINISTRATOR" || r.type === "TAC_CHAIR") &&
-				r.partners.some(p => (p === partner))){
-				canWrite = true;
-			}
-		}
+	(roles ||[]).forEach( r => {
+		if (r.type === types.ADMINISTRATOR){canWrite = true}
+		if ( r.type === types.TAC_CHAIR && r.partners.some(p => (p === partner))){ canWrite = true; }}
 	);
 	return canWrite;
 }
 
-export function canUserWriteTechComments(user, partner){
+/**
+ * Only SA and administrator that can write technical Review
+ * @param roles an array of user roles like [{type: "ADMINISTRATOR", partners: [... , "RSA", ...] }]
+ * @param partner a partner to test if the user has role of e.g. "RSA"
+ * @return boolean (true if the roles is Admin or SALT Astronomer )
+ * */
+export function canUserWriteTechReviews(roles, partner){
 	let canWrite = false;
-
-
-	user.roles.forEach( r => {
-			if ((r.type === "ADMINISTRATOR" || r.type === "SALT_ASTRONOMER") &&
-				r.partners.some(p => (p === partner))){
-				canWrite = true;
-			}
-		}
-	);
+	(roles||[]).forEach( r => {
+		if (r.type === types.ADMINISTRATOR || r.type === types.SALT_ASTRONOMER){ canWrite = true }});
 	return canWrite;
+}
+/**
+ * Only tac chair and Admins that can submit allocations
+ * @param roles an array of user roles like [{type: "ADMINISTRATOR", partners: [... , "RSA", ...] }]
+ * @param partner a partner to test if the user has role of e.g. "RSA"
+ * @return boolean (true if the roles is Admin or tac chair for a partner )
+ * */
+export function canSubmitTimeAllocations(roles, partner){
+	let canSubmit = false;
+	
+	(roles || []).forEach( r => {
+		if (r.type === types.ADMINISTRATOR){canSubmit = true}
+		if (r.type === "TAC_CHAIR" && r.partners.some(p => (p === partner))){ canSubmit = true; }}
+	);
+	return canSubmit;
 }
 
 export function allocatedTimeTotals( proposals, partner ){
@@ -261,7 +285,9 @@ export function allocatedTimeTotals( proposals, partner ){
 	};
 	proposals.forEach(p => {
 		[0, 1, 2, 3, 4].forEach( pr => {
+			if(p.allocatedTime && p.allocatedTime[partner]){
 			total[`p${pr}`] += parseFloat(!!p.allocatedTime[partner] ? p.allocatedTime[partner][`p${pr}`] : 0) || 0
+			}
 		})
 	});
 	return total
