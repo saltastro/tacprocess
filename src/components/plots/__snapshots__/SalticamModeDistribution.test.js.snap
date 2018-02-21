@@ -1,0 +1,386 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SalticamModeDistribution Component Render the SalticamModeDistribution Component having populated props with no errors 1`] = `
+<SalticamModeDistribution
+  partner="UW"
+  proposals={
+    Array [
+      Object {
+        "instruments": Object {
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2018-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+            ],
+            "semester": "2018-1",
+          },
+        ],
+        "transparency": "Clear",
+      },
+      Object {
+        "instruments": Object {
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2017-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+            ],
+            "semester": "2018-1",
+          },
+        ],
+        "transparency": "Thin cloud",
+      },
+    ]
+  }
+  semester="2017-1"
+>
+  <Histogram
+    datasets={
+      Array [
+        Object {
+          "className": "all-partners",
+          "data": Object {
+            "DRIFTSCAN": 0,
+            "FRAME XFER": 0,
+            "NORMAL": 0,
+            "SLOT": 0,
+          },
+        },
+        Object {
+          "className": "partner-only",
+          "data": Object {
+            "DRIFTSCAN": 0,
+            "FRAME XFER": 0,
+            "NORMAL": 0,
+            "SLOT": 0,
+          },
+        },
+      ]
+    }
+    keys={
+      Array [
+        "DRIFTSCAN",
+        "FRAME XFER",
+        "NORMAL",
+        "SLOT",
+      ]
+    }
+    margin={
+      Object {
+        "bottom": 100,
+        "left": 65,
+        "right": 20,
+        "top": 20,
+      }
+    }
+    xLabel=""
+    xTickLabelAttrs={
+      Object {
+        "text-anchor": "end",
+        "transform": "rotate(-45)",
+        "x": -10,
+        "y": 10,
+      }
+    }
+    yLabel="Requested Time (hrs)"
+  >
+    <div
+      className="stat-item"
+    >
+      <svg
+        className="histogram plot"
+        height={700}
+        width={700}
+      />
+    </div>
+  </Histogram>
+</SalticamModeDistribution>
+`;
+
+exports[`SalticamModeDistribution Component Render the SalticamModeDistribution Component having populated props with no errors 2`] = `
+<SalticamModeDistribution
+  partner="RSA"
+  proposals={
+    Array [
+      Object {
+        "instruments": Object {
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2018-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+            ],
+            "semester": "2018-1",
+          },
+        ],
+        "transparency": "Clear",
+      },
+      Object {
+        "instruments": Object {
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2017-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+            ],
+            "semester": "2018-1",
+          },
+        ],
+        "transparency": "Thin cloud",
+      },
+    ]
+  }
+  semester="2018-1"
+>
+  <Histogram
+    datasets={
+      Array [
+        Object {
+          "className": "all-partners",
+          "data": Object {
+            "DRIFTSCAN": 0,
+            "FRAME XFER": 0,
+            "NORMAL": 0,
+            "SLOT": 0,
+          },
+        },
+        Object {
+          "className": "partner-only",
+          "data": Object {
+            "DRIFTSCAN": 0,
+            "FRAME XFER": 0,
+            "NORMAL": 0,
+            "SLOT": 0,
+          },
+        },
+      ]
+    }
+    keys={
+      Array [
+        "DRIFTSCAN",
+        "FRAME XFER",
+        "NORMAL",
+        "SLOT",
+      ]
+    }
+    margin={
+      Object {
+        "bottom": 100,
+        "left": 65,
+        "right": 20,
+        "top": 20,
+      }
+    }
+    xLabel=""
+    xTickLabelAttrs={
+      Object {
+        "text-anchor": "end",
+        "transform": "rotate(-45)",
+        "x": -10,
+        "y": 10,
+      }
+    }
+    yLabel="Requested Time (hrs)"
+  >
+    <div
+      className="stat-item"
+    >
+      <svg
+        className="histogram plot"
+        height={700}
+        width={700}
+      />
+    </div>
+  </Histogram>
+</SalticamModeDistribution>
+`;
+
+exports[`SalticamModeDistribution Component Render the SalticamModeDistribution Component having unpopulated props with no errors 1`] = `
+<SalticamModeDistribution
+  partner=""
+  proposals={Array []}
+  semester=""
+>
+  <Histogram
+    datasets={
+      Array [
+        Object {
+          "className": "all-partners",
+          "data": Object {
+            "DRIFTSCAN": 0,
+            "FRAME XFER": 0,
+            "NORMAL": 0,
+            "SLOT": 0,
+          },
+        },
+        Object {
+          "className": "partner-only",
+          "data": Object {
+            "DRIFTSCAN": 0,
+            "FRAME XFER": 0,
+            "NORMAL": 0,
+            "SLOT": 0,
+          },
+        },
+      ]
+    }
+    keys={
+      Array [
+        "DRIFTSCAN",
+        "FRAME XFER",
+        "NORMAL",
+        "SLOT",
+      ]
+    }
+    margin={
+      Object {
+        "bottom": 100,
+        "left": 65,
+        "right": 20,
+        "top": 20,
+      }
+    }
+    xLabel=""
+    xTickLabelAttrs={
+      Object {
+        "text-anchor": "end",
+        "transform": "rotate(-45)",
+        "x": -10,
+        "y": 10,
+      }
+    }
+    yLabel="Requested Time (hrs)"
+  >
+    <div
+      className="stat-item"
+    >
+      <svg
+        className="histogram plot"
+        height={700}
+        width={700}
+      />
+    </div>
+  </Histogram>
+</SalticamModeDistribution>
+`;

@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Histogram Component Render the Histogram Component having populated props with no errors 1`] = `
+<Histogram
+  datasets={
+    Array [
+      Object {
+        "className": "all-partners",
+        "data": Object {
+          "Any": 340,
+          "Clear": 450,
+          "ThickCloud": 0,
+          "Thincloud": 2258,
+        },
+      },
+      Object {
+        "className": "all-partners",
+        "data": Object {
+          "Any": 350,
+          "Clear": 350,
+          "ThickCloud": 10,
+          "Thincloud": 1258,
+        },
+      },
+    ]
+  }
+  keys={
+    Array [
+      "Clear",
+      "Thincloud",
+      "ThickCloud",
+      "Any",
+    ]
+  }
+  xLabel="X-Lable"
+  yLabel="Y-Label"
+>
+  <div
+    className="stat-item"
+  >
+    <svg
+      className="histogram plot"
+      height={700}
+      width={700}
+    />
+  </div>
+</Histogram>
+`;
+
+exports[`Histogram Component Render the Histogram Component having populated props with no errors 2`] = `
+<Histogram
+  datasets={
+    Array [
+      Object {
+        "className": "all-partners",
+        "data": Object {
+          "Any": 340,
+          "Clear": 450,
+          "ThickCloud": 0,
+          "Thincloud": 2258,
+        },
+      },
+      Object {
+        "className": "all-partners",
+        "data": Object {
+          "Any": 350,
+          "Clear": 350,
+          "ThickCloud": 10,
+          "Thincloud": 1258,
+        },
+      },
+    ]
+  }
+  keys={
+    Array [
+      "Clear",
+      "Thincloud",
+      "ThickCloud",
+      "Any",
+    ]
+  }
+  xLabel="X-Lable1"
+  yLabel="Y-Lable1"
+>
+  <div
+    className="stat-item"
+  >
+    <svg
+      className="histogram plot"
+      height={700}
+      width={700}
+    />
+  </div>
+</Histogram>
+`;
+
+exports[`Histogram Component Render the Histogram Component having unpopulated props with no errors 1`] = `
+<Histogram
+  datasets={Array []}
+  keys={Array []}
+  xLabel=""
+  yLabel=""
+>
+  <div
+    className="stat-item"
+  >
+    <svg
+      className="histogram plot"
+      height={700}
+      width={700}
+    />
+  </div>
+</Histogram>
+`;
