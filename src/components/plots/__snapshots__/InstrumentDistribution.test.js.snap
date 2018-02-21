@@ -76,6 +76,7 @@ exports[`InstrumentDistribution Component Render the InstrumentDistribution Comp
       ]
     }
     heading="Requested time per Instrument"
+
     keys={
       Array [
         "SCAM",
@@ -87,18 +88,12 @@ exports[`InstrumentDistribution Component Render the InstrumentDistribution Comp
     xLabel="Instrument"
     yLabel="Requested Time (hrs)"
   >
-    <div
-      className="stat-item"
-    >
-      <h2>
-        Requested time per Instrument
-      </h2>
-      <svg
-        className="histogram plot"
-        height={700}
-        width={700}
-      />
-    </div>
+
+    <svg
+      className="histogram"
+      height={700}
+      width={700}
+    />
   </Histogram>
 </InstrumentDistribution>
 `;
@@ -178,7 +173,8 @@ exports[`InstrumentDistribution Component Render the InstrumentDistribution Comp
         },
       ]
     }
-    heading="Requested time per Instrument"
+
+
     keys={
       Array [
         "SCAM",
@@ -190,18 +186,12 @@ exports[`InstrumentDistribution Component Render the InstrumentDistribution Comp
     xLabel="Instrument"
     yLabel="Requested Time (hrs)"
   >
-    <div
-      className="stat-item"
-    >
-      <h2>
-        Requested time per Instrument
-      </h2>
-      <svg
-        className="histogram plot"
-        height={700}
-        width={700}
-      />
-    </div>
+
+    <svg
+      className="histogram"
+      height={700}
+      width={700}
+    />
   </Histogram>
 </InstrumentDistribution>
 `;
@@ -235,7 +225,7 @@ exports[`InstrumentDistribution Component Render the InstrumentDistribution Comp
         },
       ]
     }
-    heading="Requested time per Instrument"
+
     keys={
       Array [
         "SCAM",
@@ -247,18 +237,12 @@ exports[`InstrumentDistribution Component Render the InstrumentDistribution Comp
     xLabel="Instrument"
     yLabel="Requested Time (hrs)"
   >
-    <div
-      className="stat-item"
-    >
-      <h2>
-        Requested time per Instrument
-      </h2>
-      <svg
-        className="histogram plot"
-        height={700}
-        width={700}
-      />
-    </div>
+
+    <svg
+      className="histogram"
+      height={700}
+      width={700}
+    />
   </Histogram>
 </InstrumentDistribution>
 `;

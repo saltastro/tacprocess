@@ -35,6 +35,7 @@ exports[`Histogram Component Render the Histogram Component having populated pro
   xLabel="X-Lable"
   yLabel="Y-Label"
 >
+
   <div
     className="stat-item"
   >
@@ -44,6 +45,7 @@ exports[`Histogram Component Render the Histogram Component having populated pro
       width={700}
     />
   </div>
+
 </Histogram>
 `;
 
@@ -82,6 +84,7 @@ exports[`Histogram Component Render the Histogram Component having populated pro
   xLabel="X-Lable1"
   yLabel="Y-Lable1"
 >
+
   <div
     className="stat-item"
   >
@@ -91,6 +94,7 @@ exports[`Histogram Component Render the Histogram Component having populated pro
       width={700}
     />
   </div>
+
 </Histogram>
 `;
 
@@ -110,5 +114,6 @@ exports[`Histogram Component Render the Histogram Component having unpopulated p
       width={700}
     />
   </div>
+
 </Histogram>
 `;

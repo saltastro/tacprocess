@@ -12,7 +12,7 @@ exports[`TargetDistributionScatterPlot Component Render the TargetDistributionSc
       },
     ]
   }
->
+  >
   <div>
     <h2>
       Target Scatter plot
@@ -23,6 +23,7 @@ exports[`TargetDistributionScatterPlot Component Render the TargetDistributionSc
       width={700}
     />
   </div>
+
 </TargetDistributionScatterPlot>
 `;
 
@@ -40,5 +41,6 @@ exports[`TargetDistributionScatterPlot Component Render the TargetDistributionSc
       width={700}
     />
   </div>
+
 </TargetDistributionScatterPlot>
 `;

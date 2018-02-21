@@ -49,6 +49,7 @@ exports[`TransparencyDistribution Component Render the TransparencyDistribution 
         width={700}
       />
     </div>
+
   </Histogram>
 </TransparencyDistribution>
 `;
@@ -217,6 +218,7 @@ exports[`TransparencyDistribution Component Render the TransparencyDistribution 
         width={700}
       />
     </div>
+
   </Histogram>
 </TransparencyDistribution>
 `;

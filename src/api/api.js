@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from '../types';
+import {getStorage} from "../util/storage";
 
 export const jsonClient = (responseType='json') => {
     return {
@@ -10,7 +11,7 @@ export const jsonClient = (responseType='json') => {
                                       "cors": true
                                   },
                                   headers: {
-                                      'Authorization': `Token ${localStorage.tacPageJWT}`,
+                                      'Authorization': `Token ${getStorage()}`,
                                       'Content-Type': 'application/json',
                                   }
                               }),

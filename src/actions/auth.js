@@ -13,6 +13,7 @@ import fetchTargets from "./targetsActions";
 import {storePartnerAllocations} from "./timeAllocationActions";
 import fetchProposals from "./proposalsActions";
 import {defaultSemester} from "../util";
+import {setStorage} from "../util/storage";
 
 export const userLoggedIn = user => {
 	return ({
@@ -66,15 +67,24 @@ export const login = credentials => {
 	return async (dispatch) => {
 		try {
 			const user = await api.user.login(credentials);
-			localStorage.tacPageJWT = user.token;
+			//localStorage.tacPageJWT = user.token;
+			setStorage(user);
 			const userData = await queryUserData();
 			dispatch(userLoggedIn(userData));
 			const semester = defaultSemester();
+<<<<<<< HEAD
+			dispatch(partnersFilter(partner));
+
+			dispatch(fetchProposals( semester, partner));
+			dispatch(fetchTargets(semester, partner));
+			dispatch(storePartnerAllocations(semester, partner));
+=======
 			dispatch(partnersFilter(ALL_PARTNER));
 			
 			dispatch(fetchProposals( semester, ALL_PARTNER));
 			dispatch(fetchTargets(semester, ALL_PARTNER));
 			dispatch(storePartnerAllocations(semester, ALL_PARTNER));
+>>>>>>> upstream/master
 		} catch (e) {
 			dispatch(fetchingUserFail(e.message));
 		}

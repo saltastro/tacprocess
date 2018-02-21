@@ -16,6 +16,57 @@ import * as d3 from 'd3';
  * The chart contains bars for the mandatory targets, the optional targets and all targets together. The CSS
  * classes for these are "mandatory target", "optional target" and "target".
  */
+<<<<<<< HEAD
+class DeclinationDistribution extends React.Component {
+    componentDidMount() {
+        this.createPlot();
+    }
+
+    componentDidUpdate() {
+        this.createPlot();
+    }
+
+    createPlot = () => {
+        const svg = d3.select(this.target);
+
+        // remove any existing plot content
+        svg.selectAll('*').remove();
+
+        // set up the geometry, using the margin pattern
+        const width = svg.attr('width');
+        const height = svg.attr('height');
+        const margin = this.props.margin || {
+            top: 20,
+            bottom: 60,
+            left: 65,
+            right: 20
+        };
+        const innerWidth = width - margin.left - margin.right;
+        const innerHeight = height - margin.top - margin.bottom;
+        const g = svg.append('g')
+                .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+        // prepare the data
+        const targetsHistogramData = targets => {
+            const histogram = d3.histogram()
+                    .domain([-85, 15])
+                    .value(d => d.dec)
+                    .thresholds(d3.range(0, 51).map(n => -85 + 2 * n));
+            return histogram(targets);
+        };
+        const targets = this.props.targets;
+        const mandatoryTargets = targets.filter(target => !target.optional);
+        const mandatoryTargetsData = targetsHistogramData(mandatoryTargets);
+        const optionalTargets = targets.filter(target => target.optional);
+        const optionalTargetsData = targetsHistogramData(optionalTargets);
+        const targetsData = targetsHistogramData(targets);
+
+        // scales
+        const maxTargetCount = d3.max(targetsData, d => d.length);
+        const xTicks = 5;
+        const yTicks = 5;
+        const xScale = d3.scaleLinear()
+=======
 class RightAscensionDistribution extends React.Component {
 	componentDidMount() {
 		this.createPlot();
@@ -48,6 +99,7 @@ class RightAscensionDistribution extends React.Component {
 		// prepare the data
 		const targetsHistogramData = targets => {
 			const histogram = d3.histogram()
+>>>>>>> upstream/master
                 .domain([-85, 15])
                 .value(d => d.dec)
                 .thresholds(d3.range(0, 51).map(n => -85 + 2 * n));
@@ -198,11 +250,19 @@ class RightAscensionDistribution extends React.Component {
 	}
 }
 
+<<<<<<< HEAD
+DeclinationDistribution.propTypes = {
+    height: PropTypes.number,
+    width: PropTypes.number,
+    margin: PropTypes.object,
+    targets: PropTypes.array.isRequired
+=======
 RightAscensionDistribution.propTypes = {
 	height: PropTypes.number,
 	width: PropTypes.number,
 	margin: PropTypes.object,
 	targets: PropTypes.array.isRequired
+>>>>>>> upstream/master
 };
 
-export default RightAscensionDistribution;
+export default DeclinationDistribution;
