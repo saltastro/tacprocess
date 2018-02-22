@@ -63,6 +63,5 @@ export const didReportChange = (proposal, initProposals, semester) => {
  * @return Boolean (true) if the proposal is new
  * */
 export const isNewProposal = (proposal, semester) => {
-	console.log(proposal.timeRequests, semester);
 	return !proposal.timeRequests.some(t =>  t.semester < semester )
 };

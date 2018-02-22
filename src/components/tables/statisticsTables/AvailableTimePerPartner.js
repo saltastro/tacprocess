@@ -4,15 +4,15 @@ import { areAllocatedTimesCorrect, allocatedTimeTotals }  from "../../../util";
 import {badTime, goodTime} from "../../../types";
 
 const AvailableTimePerPartner = ({partner, availableTime, proposals}) => {
-	!!partner.availableTime[partner.partner] ? availableTime = partner.availableTime[partner.partner] : availableTime = {p0p1: 0, p2: 0, p3: 0};
+	!!availableTime[partner] ? availableTime = availableTime[partner] : availableTime = {p0p1: 0, p2: 0, p3: 0};
 	const correctAllocations = areAllocatedTimesCorrect(partner, availableTime, proposals);
-	const allocatedTotals = allocatedTimeTotals(partner.proposals, partner.partner);
+	const allocatedTotals = allocatedTimeTotals(proposals, partner);
 	return(
 		<div className="table-space">
 			<table className="table-half left-table table">
 				<thead>
 				<tr>
-					<th><h2>{ partner.partner }</h2></th>
+					<th><h2>{ partner }</h2></th>
 					<th><h2>Available Time</h2></th>
 					<th><h2>Allocated Time</h2></th>
 				</tr>

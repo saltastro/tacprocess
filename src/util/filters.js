@@ -77,7 +77,8 @@ export const getPartnerList = roles => {
 * @params list an array of
 */
 export const listForDropdown = list => {
-	return (list || []).map( l => ({ label: l, value: l }))
+	list = ( list||[] ).filter( l => l !== "OTH");
+	return ( list || [] ).map( l => ({ label: l, value: l }))
 };
 
 /**

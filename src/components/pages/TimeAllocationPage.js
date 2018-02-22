@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import CSVReader from 'react-csv-reader'
 import { saveAs } from 'file-saver';
 import  Papa  from 'papaparse';
-import AvailableTimePerPartnerTable from "../tables/AvailableTimePerPartnerTable";
+import AvailableTimePerPartner from "../tables/statisticsTables/AvailableTimePerPartner";
 import ProposalsPerPartner from "../tables/ProposalsPerPartner";
 import {getQuaryToAddAllocation } from "../../util/allocation";
 import { canUserWriteAllocations, canUserWriteTechReviews, downloadSummaries, canSubmitTimeAllocations } from "../../util";
@@ -153,7 +153,7 @@ class TimeAllocationPage extends React.Component {
 
 						return (
 							<div key={partner}  style={{paddingBottom:"40px"}}>
-								<AvailableTimePerPartnerTable
+								<AvailableTimePerPartner
 									proposals={partnerProposals[partner] || []}
 									partner={partner}
 									availableTime={allocatedTime}
