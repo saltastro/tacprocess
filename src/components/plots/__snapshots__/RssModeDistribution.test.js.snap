@@ -124,7 +124,7 @@ exports[`RssModeDistribution Component Render the RssModeDistribution Component 
         },
       ]
     }
-    heading="RSS requested time per Observing Mode"r
+    heading="RSS requested time per Observing Mode"
     keys={
       Array [
         "Imaging",
@@ -168,7 +168,6 @@ exports[`RssModeDistribution Component Render the RssModeDistribution Component 
         width={700}
       />
     </div>
-
   </Histogram>
 </RssModeDistribution>
 `;
@@ -298,7 +297,6 @@ exports[`RssModeDistribution Component Render the RssModeDistribution Component 
       ]
     }
     heading="RSS requested time per Observing Mode"
-
     keys={
       Array [
         "Imaging",
@@ -382,7 +380,6 @@ exports[`RssModeDistribution Component Render the RssModeDistribution Component 
       ]
     }
     heading="RSS requested time per Observing Mode"
-
     keys={
       Array [
         "Imaging",
@@ -426,7 +423,6 @@ exports[`RssModeDistribution Component Render the RssModeDistribution Component 
         width={700}
       />
     </div>
-
   </Histogram>
 </RssModeDistribution>
 `;

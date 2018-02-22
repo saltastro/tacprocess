@@ -171,7 +171,7 @@ exports[`PartnerTimeTable Component Render the PartnerTimeTable Component having
             Subscription rate 
           </td>
           <td>
-            0.00
+            Infinity
              %
           </td>
         </tr>

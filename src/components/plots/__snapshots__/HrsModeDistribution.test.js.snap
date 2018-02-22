@@ -113,11 +113,15 @@ exports[`HrsModeDistribution Component Render the HrsModeDistribution Component 
     }
     yLabel="Requested Time (hrs)"
   >
-    <svg
-      className="histogram"
-      height={700}
-      width={700}
-    />
+    <div
+      className="stat-item"
+    >
+      <svg
+        className="histogram plot"
+        height={700}
+        width={700}
+      />
+    </div>
   </Histogram>
 </HrsModeDistribution>
 `;
@@ -178,12 +182,15 @@ exports[`HrsModeDistribution Component Render the HrsModeDistribution Component 
     }
     yLabel="Requested Time (hrs)"
   >
-
-    <svg
-      className="histogram"
-      height={700}
-      width={700}
-    />
+    <div
+      className="stat-item"
+    >
+      <svg
+        className="histogram plot"
+        height={700}
+        width={700}
+      />
+    </div>
   </Histogram>
 </HrsModeDistribution>
 `;

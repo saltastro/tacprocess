@@ -90,7 +90,6 @@ exports[`TotalTimeDistribution Component Render the TotalTimeDistribution Compon
       width={700}
     />
   </div>
-
 </TotalTimeDistribution>
 `;
 
@@ -184,7 +183,6 @@ exports[`TotalTimeDistribution Component Render the TotalTimeDistribution Compon
       width={700}
     />
   </div>
-
 </TotalTimeDistribution>
 `;
 
@@ -203,6 +201,5 @@ exports[`TotalTimeDistribution Component Render the TotalTimeDistribution Compon
       width={700}
     />
   </div>
-
 </TotalTimeDistribution>
 `;
