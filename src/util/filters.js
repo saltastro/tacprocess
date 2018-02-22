@@ -135,7 +135,7 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer, semester) =>
 		})
 	}else {
 		proposals.forEach(p => {
-			if (p.techReviews[semester].reviewer.username === astronomer) {prop.push(p)}
+			if (p.techReviews && p.techReviews[semester] && p.techReviews[semester].reviewer && p.techReviews[semester].reviewer.username === astronomer) {prop.push(p)}
 		})
 	}
 	
