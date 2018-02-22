@@ -7,9 +7,9 @@ import {
 	partners,
 	hasRole,
 	canDo, isFloat, canUserWriteAllocations, canUserWriteTechReviews, canSubmitTimeAllocations, allocatedTimeTotals
-} from './index';
+} from '../../util/index';
 
-import * as types from '../types';
+import * as types from '../../types';
 
 const proposals = [
     {
@@ -788,11 +788,11 @@ describe('canUserWriteTechReviews', () => {
 				partners: ["ABC"]
 			},
 		];
-		expect(canUserWriteTechReviews(roles2)).toBe(true);
-		expect(canUserWriteTechReviews(roles2, undefined)).toBe(true);
-		expect(canUserWriteTechReviews(roles2, null)).toBe(true);
-		expect(canUserWriteTechReviews(roles2,"RSA")).toBe(true);
-		expect(canUserWriteTechReviews(roles2, "ABC")).toBe(true);
+		expect(canUserWriteTechReviews(roles1)).toBe(true);
+		expect(canUserWriteTechReviews(roles1, undefined)).toBe(true);
+		expect(canUserWriteTechReviews(roles1, null)).toBe(true);
+		expect(canUserWriteTechReviews(roles1,"RSA")).toBe(true);
+		expect(canUserWriteTechReviews(roles1, "ABC")).toBe(true);
 		
 		expect(canUserWriteTechReviews(roles2)).toBe(true);
 		expect(canUserWriteTechReviews(roles2, undefined)).toBe(true);
