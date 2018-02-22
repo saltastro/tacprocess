@@ -45,6 +45,8 @@
     "lint": "eslint src"
   },
   "devDependencies": {
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.16.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-config-prettier": "^2.6.0",
@@ -53,6 +55,7 @@
     "eslint-plugin-prettier": "^2.5.0",
     "eslint-plugin-react": "^7.5.1",
     "fly": "^2.0.6",
-    "prettier": "^1.10.2"
+    "prettier": "^1.10.2",
+    "react-test-renderer": "^16.2.0"
   }
 }
