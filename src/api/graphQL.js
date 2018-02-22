@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { API_BASE_URL } from '../types';
 import { jsonClient } from './api';
-import { getTechReportFields } from "../util";
+import {getTechReportFields} from "../util";
+import {getStorage} from "../util/storage";
 import { isNewProposal } from "../util/proposal";
 
 function isLongTermProposal(distributedTimes, semester){
@@ -115,7 +116,7 @@ const graphqlClient = () => {
                                       "cors": true
                                   },
                                   headers: {
-                                      'Authorization': `Token ${localStorage.tacPageJWT}`,
+                                      'Authorization': `Token ${getStorage()}`,
                                       'Content-Type': 'application/graphql',
                                   }
                               }),

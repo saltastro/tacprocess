@@ -1,0 +1,3753 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StatPropos Component Render the StatPropos Component having populated props with no errors 1`] = `
+<StatPropos
+  allocatedTime={
+    Object {
+      "UKSC": Object {
+        "p0": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+      },
+      "UW": Object {
+        "p0": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+      },
+    }
+  }
+  partner="UW"
+  proposals={
+    Array [
+      Object {
+        "instruments": Object {
+          "bvit": Array [
+            Object {
+              "type": "BVIT",
+            },
+          ],
+          "hrs": Array [
+            Object {
+              "exposureMode": "HIGH RESOLUTION",
+            },
+          ],
+          "rss": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+              "mode": "Spectroscopy",
+            },
+          ],
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2018-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+            ],
+            "semester": "2018-1",
+          },
+        ],
+        "transparency": "Clear",
+      },
+      Object {
+        "instruments": Object {
+          "bvit": Array [
+            Object {
+              "type": "BVIT",
+            },
+          ],
+          "hrs": Array [
+            Object {
+              "exposureMode": "HIGH RESOLUTION",
+            },
+          ],
+          "rss": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+              "mode": "Spectroscopy",
+            },
+          ],
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2017-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+            ],
+            "semester": "2018-1",
+          },
+        ],
+        "transparency": "Thin cloud",
+      },
+    ]
+  }
+  semester="2017-1"
+>
+  <div>
+    <ProposalTable
+      proposals={
+        Array [
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Clear",
+          },
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2017-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Thin cloud",
+          },
+        ]
+      }
+    >
+      <div>
+        <table
+          className="table left-table"
+        >
+          <thead>
+            <tr>
+              <th />
+              <th>
+                <h2>
+                  Total
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h3>
+                  New proposals plus older proposals
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  2
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  New proposals 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Older Proposals 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  2
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  All long term proposals 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  New long term proposals 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0
+                </h3>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ProposalTable>
+    <PartnerTable
+      allocatedTime={
+        Object {
+          "UKSC": Object {
+            "p0": 0,
+            "p1": 0,
+            "p2": 0,
+            "p3": 0,
+            "p4": 0,
+          },
+          "UW": Object {
+            "p0": 0,
+            "p1": 0,
+            "p2": 0,
+            "p3": 0,
+            "p4": 0,
+          },
+        }
+      }
+      partner="UW"
+      proposals={
+        Array [
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Clear",
+          },
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2017-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Thin cloud",
+          },
+        ]
+      }
+      semester="2017-1"
+    >
+      <div>
+        <h2>
+          UW
+        </h2>
+        <table
+          className="table left-table"
+        >
+          <thead>
+            <tr>
+              <th />
+              <th>
+                <h2>
+                  Total
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h3>
+                  Time available
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Requested Time 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0.06
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Subscription rate 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0.00
+                   %
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Average per Proposal 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0.03
+                </h3>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </PartnerTable>
+    <ObservingStatTable
+      proposals={
+        Array [
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Clear",
+          },
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2017-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Thin cloud",
+          },
+        ]
+      }
+    >
+      <div>
+        <h1>
+          Observing Statistics
+        </h1>
+        <table
+          className="table center-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Conditions
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Time requested (hrs)
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Fraction of Total Request (%)
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  Clear
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  1
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Thin cloud
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  1
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Thick cloud
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Any
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th />
+              <th />
+              <th />
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h3>
+                  Max Seeing 
+                  <br />
+                   ≦ 1.0 
+                </h3>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Max Seeing 
+                  <br />
+                   ≦ 1.5
+                </h3>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Max Seeing 
+                  <br />
+                   ≦ 2.0
+                </h3>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Max Seeing 
+                  <br />
+                   ≦ 5.0
+                </h3>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ObservingStatTable>
+    <ConfigStats
+      proposals={
+        Array [
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Clear",
+          },
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2017-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Thin cloud",
+          },
+        ]
+      }
+    >
+      <div>
+        <h1>
+          Configuration Statistics
+        </h1>
+        <table
+          className="table center-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Instruments
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  RSS
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  SALTICAM
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  HRS
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  BVIT
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>
+          Salticam
+        </h2>
+        <table
+          className="table center-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Detector mode
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  DRIFT SCAN
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  FRAME XFER
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  NORMAL
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  SLOT
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>
+          RSS
+        </h2>
+        <table
+          className="table center-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Detector mode
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  DRIFT SCAN
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  FRAME TRANSFER
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  NORMAL
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  SHUFFLE
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  SLOT MODE
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Observing mode
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  Fabry Perot
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  FP polarimetry
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  MOS
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  MOS polarimetry
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Polarimetric imaging
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Imaging
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Spectropolarimetry
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Spectroscopy
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>
+          HRS
+        </h2>
+        <table
+          className="table center-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Exposure mode
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  HIGH RESOLUTION
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  HIGH STABILITY
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  INT CAL FIBRE
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  LOW RESOLUTION
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  MEDIUM RESOLUTION
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ConfigStats>
+  </div>
+</StatPropos>
+`;
+
+exports[`StatPropos Component Render the StatPropos Component having populated props with no errors 2`] = `
+<StatPropos
+  allocatedTime={
+    Object {
+      "UKSC": Object {
+        "p0": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+      },
+    }
+  }
+  partner="RSA"
+  proposals={
+    Array [
+      Object {
+        "instruments": Object {
+          "bvit": Array [
+            Object {
+              "type": "BVIT",
+            },
+          ],
+          "hrs": Array [
+            Object {
+              "exposureMode": "HIGH RESOLUTION",
+            },
+          ],
+          "rss": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+              "mode": "Spectroscopy",
+            },
+          ],
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2018-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+            ],
+            "semester": "2018-1",
+          },
+        ],
+        "transparency": "Clear",
+      },
+      Object {
+        "instruments": Object {
+          "bvit": Array [
+            Object {
+              "type": "BVIT",
+            },
+          ],
+          "hrs": Array [
+            Object {
+              "exposureMode": "HIGH RESOLUTION",
+            },
+          ],
+          "rss": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+              "mode": "Spectroscopy",
+            },
+          ],
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2017-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+            ],
+            "semester": "2018-1",
+          },
+        ],
+        "transparency": "Thin cloud",
+      },
+    ]
+  }
+  semester="2018-1"
+>
+  <div>
+    <ProposalTable
+      proposals={
+        Array [
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Clear",
+          },
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2017-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Thin cloud",
+          },
+        ]
+      }
+    >
+      <div>
+        <table
+          className="table left-table"
+        >
+          <thead>
+            <tr>
+              <th />
+              <th>
+                <h2>
+                  Total
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h3>
+                  New proposals plus older proposals
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  2
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  New proposals 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Older Proposals 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  2
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  All long term proposals 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  New long term proposals 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0
+                </h3>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ProposalTable>
+    <PartnerTable
+      allocatedTime={
+        Object {
+          "UKSC": Object {
+            "p0": 0,
+            "p1": 0,
+            "p2": 0,
+            "p3": 0,
+            "p4": 0,
+          },
+        }
+      }
+      partner="RSA"
+      proposals={
+        Array [
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Clear",
+          },
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2017-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Thin cloud",
+          },
+        ]
+      }
+      semester="2018-1"
+    >
+      <div>
+        <h2>
+          RSA
+        </h2>
+        <table
+          className="table left-table"
+        >
+          <thead>
+            <tr>
+              <th />
+              <th>
+                <h2>
+                  Total
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h3>
+                  Time available
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Requested Time 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0.26
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Subscription rate 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0.00
+                   %
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Average per Proposal 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0.13
+                </h3>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </PartnerTable>
+    <ObservingStatTable
+      proposals={
+        Array [
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Clear",
+          },
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2017-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Thin cloud",
+          },
+        ]
+      }
+    >
+      <div>
+        <h1>
+          Observing Statistics
+        </h1>
+        <table
+          className="table center-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Conditions
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Time requested (hrs)
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Fraction of Total Request (%)
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  Clear
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  1
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Thin cloud
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  1
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Thick cloud
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Any
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th />
+              <th />
+              <th />
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h3>
+                  Max Seeing 
+                  <br />
+                   ≦ 1.0 
+                </h3>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Max Seeing 
+                  <br />
+                   ≦ 1.5
+                </h3>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Max Seeing 
+                  <br />
+                   ≦ 2.0
+                </h3>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Max Seeing 
+                  <br />
+                   ≦ 5.0
+                </h3>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ObservingStatTable>
+    <ConfigStats
+      proposals={
+        Array [
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Clear",
+          },
+          Object {
+            "instruments": Object {
+              "bvit": Array [
+                Object {
+                  "type": "BVIT",
+                },
+              ],
+              "hrs": Array [
+                Object {
+                  "exposureMode": "HIGH RESOLUTION",
+                },
+              ],
+              "rss": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                  "mode": "Spectroscopy",
+                },
+              ],
+              "scam": Array [
+                Object {
+                  "dictatorMode": "NORMAL",
+                },
+              ],
+            },
+            "maxSeeing": 2,
+            "timeRequests": Array [
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 150,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 200,
+                  },
+                  Object {
+                    "partnerCode": "IUCAA",
+                    "time": 250,
+                  },
+                ],
+                "semester": "2017-1",
+              },
+              Object {
+                "distribution": Array [
+                  Object {
+                    "partnerCode": "RSA",
+                    "time": 400,
+                  },
+                  Object {
+                    "partnerCode": "UW",
+                    "time": 50,
+                  },
+                ],
+                "semester": "2018-1",
+              },
+            ],
+            "transparency": "Thin cloud",
+          },
+        ]
+      }
+    >
+      <div>
+        <h1>
+          Configuration Statistics
+        </h1>
+        <table
+          className="table center-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Instruments
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  RSS
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  SALTICAM
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  HRS
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  BVIT
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>
+          Salticam
+        </h2>
+        <table
+          className="table center-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Detector mode
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  DRIFT SCAN
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  FRAME XFER
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  NORMAL
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  SLOT
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>
+          RSS
+        </h2>
+        <table
+          className="table center-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Detector mode
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  DRIFT SCAN
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  FRAME TRANSFER
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  NORMAL
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  SHUFFLE
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  SLOT MODE
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Observing mode
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  Fabry Perot
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  FP polarimetry
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  MOS
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  MOS polarimetry
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Polarimetric imaging
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Imaging
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Spectropolarimetry
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Spectroscopy
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>
+          HRS
+        </h2>
+        <table
+          className="table center-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Exposure mode
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  HIGH RESOLUTION
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  2
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  HIGH STABILITY
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  INT CAL FIBRE
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  LOW RESOLUTION
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  MEDIUM RESOLUTION
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ConfigStats>
+  </div>
+</StatPropos>
+`;
+
+exports[`StatPropos Component Render the StatPropos Component having unpopulated props with no errors 1`] = `
+<StatPropos
+  allocatedTime={Object {}}
+  partner=""
+  proposals={Array []}
+  semester=""
+>
+  <div>
+    <ProposalTable
+      proposals={Array []}
+    >
+      <div>
+        <table
+          className="table left-table"
+        >
+          <thead>
+            <tr>
+              <th />
+              <th>
+                <h2>
+                  Total
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h3>
+                  New proposals plus older proposals
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  New proposals 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Older Proposals 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  All long term proposals 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  New long term proposals 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0
+                </h3>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ProposalTable>
+    <PartnerTable
+      allocatedTime={Object {}}
+      partner=""
+      proposals={Array []}
+      semester=""
+    >
+      <div>
+        <h2 />
+        <table
+          className="table left-table"
+        >
+          <thead>
+            <tr>
+              <th />
+              <th>
+                <h2>
+                  Total
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h3>
+                  Time available
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Requested Time 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  0.00
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Subscription rate 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  NaN
+                   %
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Average per Proposal 
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  NaN
+                </h3>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </PartnerTable>
+    <ObservingStatTable
+      proposals={Array []}
+    >
+      <div>
+        <h1>
+          Observing Statistics
+        </h1>
+        <table
+          className="table center-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Conditions
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Time requested (hrs)
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Fraction of Total Request (%)
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  Clear
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Thin cloud
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Thick cloud
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Any
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th />
+              <th />
+              <th />
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h3>
+                  Max Seeing 
+                  <br />
+                   ≦ 1.0 
+                </h3>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Max Seeing 
+                  <br />
+                   ≦ 1.5
+                </h3>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Max Seeing 
+                  <br />
+                   ≦ 2.0
+                </h3>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>
+                  Max Seeing 
+                  <br />
+                   ≦ 5.0
+                </h3>
+              </td>
+              <td>
+                <h2>
+                  0.00
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ObservingStatTable>
+    <ConfigStats
+      proposals={Array []}
+    >
+      <div>
+        <h1>
+          Configuration Statistics
+        </h1>
+        <table
+          className="table center-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Instruments
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  RSS
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  SALTICAM
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  HRS
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  BVIT
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>
+          Salticam
+        </h2>
+        <table
+          className="table center-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Detector mode
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  DRIFT SCAN
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  FRAME XFER
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  NORMAL
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  SLOT
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>
+          RSS
+        </h2>
+        <table
+          className="table center-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Detector mode
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  DRIFT SCAN
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  FRAME TRANSFER
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  NORMAL
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  SHUFFLE
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  SLOT MODE
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Observing mode
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  Fabry Perot
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  FP polarimetry
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  MOS
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  MOS polarimetry
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Polarimetric imaging
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Imaging
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Spectropolarimetry
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  Spectroscopy
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>
+          HRS
+        </h2>
+        <table
+          className="table center-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <h2>
+                  Exposure mode
+                </h2>
+              </th>
+              <th>
+                <h2>
+                  Number of Proposals
+                </h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h2>
+                  HIGH RESOLUTION
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  HIGH STABILITY
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  INT CAL FIBRE
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  LOW RESOLUTION
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2>
+                  MEDIUM RESOLUTION
+                </h2>
+              </td>
+              <td>
+                <h2>
+                  0
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ConfigStats>
+  </div>
+</StatPropos>
+`;

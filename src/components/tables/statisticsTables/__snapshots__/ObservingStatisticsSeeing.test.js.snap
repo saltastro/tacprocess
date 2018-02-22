@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObservingStatisticsSeeing Component Render the ObservingStatisticsSeeing Component having unpopulated props with no errors 1`] = `
+<ObservingStatisticsSeeing
+  partner=""
+  proposals={Array []}
+>
+  <div
+    className="stat-item"
+  >
+    <table
+      className="stat-table"
+      style={
+        Object {
+          "height": "100%",
+        }
+      }
+    >
+      <thead>
+        <tr>
+          <th>
+            Conditions
+          </th>
+          <th>
+            Time requested (hrs)
+          </th>
+          <th>
+            Number of Proposals
+          </th>
+          <th>
+            Fraction of Total Request (%)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Max Seeing 
+            <br />
+             ≦ 1.0 
+          </td>
+          <td>
+            0.00
+          </td>
+          <td>
+            0
+          </td>
+          <td>
+            0
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Max Seeing 
+            <br />
+             ≦ 1.5
+          </td>
+          <td>
+            0.00
+          </td>
+          <td>
+            0
+          </td>
+          <td>
+            0
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Max Seeing 
+            <br />
+             ≦ 2.0
+          </td>
+          <td>
+            0.00
+          </td>
+          <td>
+            0
+          </td>
+          <td>
+            0
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Max Seeing 
+            <br />
+             ≦ 5.0
+          </td>
+          <td>
+            0.00
+          </td>
+          <td>
+            0
+          </td>
+          <td>
+            0
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ObservingStatisticsSeeing>
+`;
