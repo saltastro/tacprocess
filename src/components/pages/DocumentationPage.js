@@ -1,10 +1,12 @@
 import React from "react";
-import InfoMessage from "../messages/InfoMessage";
+import AllocationPageDocumentation from "../messages/AllocationPageDocumentation";
+import StatisticsPageDocumentation from "../messages/StatisticsPageDocumentation";
 
 const DocumentatonPage = () => (
-  <div>
-    <InfoMessage page="Documentaton"/>
-  </div>
-  )
+	<div className={"main-doc"}>
+		<AllocationPageDocumentation/>
+		<StatisticsPageDocumentation/>
+	</div>
+);
 
 export default DocumentatonPage;
