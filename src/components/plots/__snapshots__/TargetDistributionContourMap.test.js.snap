@@ -29,7 +29,6 @@ exports[`TargetDistributionScatterPlot Component Render the TargetDistributionCo
       width={700}
     />
   </div>
-
 </TargetDistributionContourMap>
 `;
 
@@ -47,6 +46,5 @@ exports[`TargetDistributionScatterPlot Component Render the TargetDistributionCo
       width={700}
     />
   </div>
-
 </TargetDistributionContourMap>
 `;

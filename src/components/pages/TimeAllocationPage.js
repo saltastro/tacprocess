@@ -4,10 +4,10 @@ import { connect } from "react-redux"
 import CSVReader from 'react-csv-reader'
 import { saveAs } from 'file-saver';
 import  Papa  from 'papaparse';
-import AvailableTimePerPartnerTable from "../tables/AvailableTimePerPartnerTable";
+import AvailableTimePerPartner from "../tables/statisticsTables/AvailableTimePerPartner";
 import ProposalsPerPartner from "../tables/ProposalsPerPartner";
 import {getQuaryToAddAllocation } from "../../util/allocation";
-import { canUserWriteAllocations, canUserWriteTechComments, downloadSummaries } from "../../util";
+import { canUserWriteAllocations, canUserWriteTechReviews, downloadSummaries, canSubmitTimeAllocations } from "../../util";
 import PartnerProposals  from "../../util/proposal";
 import { submitAllocations } from "../../api/graphQL";
 import { updateProposals } from "../../actions/proposalsActions";
@@ -23,7 +23,7 @@ class TimeAllocationPage extends React.Component {
 
 	submitForPartner(event, partner) {
 		const { proposals, user, dispatch, semester } = this.props;
-		const ppp = PartnerProposals(proposals.proposals, getPartnerList(user.user.roles), semester);
+		const ppp = PartnerProposals(proposals.proposals, getPartnerList(user.roles), semester);
 
 		const query = getQuaryToAddAllocation(ppp[partner],
 			partner,
@@ -130,18 +130,20 @@ class TimeAllocationPage extends React.Component {
 		const {allocatedTime, filters, user, tac, semester } = this.props;
 		const { unSubmittedTacChanges, submittedTimeAllocations } = this.props.proposals;
 		const proposals = this.props.proposals.proposals || [];
-		let partners = listForDropdown(getPartnerList(this.props.user.user.roles || []));
+		const roles = user.roles;
+		let partners = listForDropdown(getPartnerList(roles || []));
 
 		if (filters.selectedPartner !== ALL_PARTNER) {
 			partners = filters.selectedPartner ? [{value: filters.selectedPartner, label: filters.selectedPartner}] : []
 		}
-		const partnerProposals = PartnerProposals(proposals, getPartnerList(this.props.user.user.roles || []), semester);
+		const partnerProposals = PartnerProposals(proposals, getPartnerList(roles || []), semester);
 
 		return (
 			<div>
 				{
 					tac.submiting ? (<div><h1>Submitting...</h1></div>) : partners.map(part => {
 						const partner = part.value;
+						
 						if (partner === ALL_PARTNER){
 							return null;
 						}
@@ -151,7 +153,7 @@ class TimeAllocationPage extends React.Component {
 
 						return (
 							<div key={partner}  style={{paddingBottom:"40px"}}>
-								<AvailableTimePerPartnerTable
+								<AvailableTimePerPartner
 									proposals={partnerProposals[partner] || []}
 									partner={partner}
 									availableTime={allocatedTime}
@@ -162,8 +164,8 @@ class TimeAllocationPage extends React.Component {
 									semester={semester}
 									tacCommentChange={this.tacCommentChange.bind(this)}
 									allocationChange={this.allocationChange.bind(this)}
-									canAllocate={canUserWriteAllocations(user.user, partner) || false}
-									canComment={canUserWriteTechComments(user.user, partner) || false}
+									canAllocate={canUserWriteAllocations(roles, partner) || false}
+									canComment={canUserWriteTechReviews(roles, partner) || false}
 									submitted={tac}
 									allocatedTimeChange = {this.allocatedTimeChange}
 									updateFromCSV = {this.updateFromCSV.bind(this)}
@@ -174,11 +176,11 @@ class TimeAllocationPage extends React.Component {
 									Download as CSV
 								</button>
 								{
-									canUserWriteAllocations(user.user, partner) || false &&
+									canSubmitTimeAllocations(roles, partner) &&
 									<label><br/>Upload Allocations from CSV<br/></label>
 								}
 								{
-									canUserWriteAllocations(user.user, partner) || false && <CSVReader
+									canSubmitTimeAllocations(roles, partner) && <CSVReader
 										cssClass="btn"
 										onFileLoaded={e => this.updateFromCSV(e, partnerProposals[partner] || [], partner)}
 										onError={this.handleDarkSideForce}
@@ -186,13 +188,13 @@ class TimeAllocationPage extends React.Component {
 								}
 
 								{
-									canUserWriteAllocations(user.user, partner) || false &&
+									canSubmitTimeAllocations(roles, partner) &&
 									<button onClick={() => downloadSummaries(partnerProposals[partner] || [])}>
 										Download summary files
 									</button>
 								}
 								{
-									canUserWriteAllocations(user.user, partner) || false &&
+									canSubmitTimeAllocations(roles, partner) &&
 									<button
 										disabled={semester < "2018-1"}
 										className="btn-success"
@@ -224,7 +226,7 @@ export default connect(
 		allocatedTime:store.tac.data,
 		proposals: store.proposals,
 		filters: store.filters,
-		user: store.user,
+		user: store.user.user,
 		semester: store.filters.selectedSemester,
 	}),null
 )(TimeAllocationPage);

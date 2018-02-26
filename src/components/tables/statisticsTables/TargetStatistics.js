@@ -14,7 +14,6 @@ const countTargets = targets => {
 
 const TargetStatistics = ({targets}) => {
 	const count = countTargets(targets);
-	console.log("LLL", count);
 	return(
 		<div className={"stat-item"} style={{textAlign: "center", width: "100%"}}>
 			<h2>Target Statistics</h2>

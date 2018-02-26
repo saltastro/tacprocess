@@ -1,7 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DeclinationsDistribution Component Render the DeclinationDistribution Component having populated props with no errors 1`] = `
-
 <DeclinationDistribution
   targets={
     Array [
@@ -20,10 +19,20 @@ exports[`DeclinationsDistribution Component Render the DeclinationDistribution C
     ]
   }
 >
-
+  <div
+    className="stat-item"
+  >
+    <svg
+      className="plots plot"
+      height={700}
+      width={700}
+    />
+  </div>
+</DeclinationDistribution>
+`;
 
 exports[`DeclinationsDistribution Component Render the DeclinationDistribution Component having unpopulated props with no errors 1`] = `
-<RightAscensionDistribution
+<DeclinationDistribution
   targets={Array []}
 >
   <div
@@ -35,22 +44,5 @@ exports[`DeclinationsDistribution Component Render the DeclinationDistribution C
       width={700}
     />
   </div>
-  <svg
-    className="plots"
-    height={700}
-    width={700}
-  />
-</DeclinationDistribution>
-`;
-
-exports[`DeclinationsDistribution Component Render the DeclinationDistribution Component having unpopulated props with no errors 1`] = `
-<DeclinationDistribution
-  targets={Array []}
->
-  <svg
-    className="plots"
-    height={700}
-    width={700}
-  />
 </DeclinationDistribution>
 `;

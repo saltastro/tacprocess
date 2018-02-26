@@ -1,15 +1,15 @@
 import {
-    instrumentCount,
-    observingTimeForSeeing,
-    observingTimeForTransparency,
-    proposalObservingTime,
-    proposalObservingTimeForInstrument,
-    partners,
-    hasRole,
-    canDo
-} from './index';
+	instrumentCount,
+	observingTimeForSeeing,
+	observingTimeForTransparency,
+	proposalObservingTime,
+	proposalObservingTimeForInstrument,
+	partners,
+	hasRole,
+	canDo, isFloat, canUserWriteAllocations, canUserWriteTechReviews, canSubmitTimeAllocations, allocatedTimeTotals
+} from '../../util/index';
 
-import * as types from '../types';
+import * as types from '../../types';
 
 const proposals = [
     {
@@ -437,7 +437,7 @@ describe('partners for a user', () => {
                 },
                 {
                     partners: [],
-                    role: 'ABC'
+                    type: 'ABC'
                 },
                 {
                     partners: ['AMNH']
@@ -455,11 +455,11 @@ describe('partners for a user', () => {
         const user = {
             roles: [
                 {
-                    role: types.TAC_MEMBER,
+                    type: types.TAC_MEMBER,
                     partners: ['DC']
                 },
                 {
-                    role: types.ADMINISTRATOR,
+                    type: types.ADMINISTRATOR,
                     partners: ['RSA', 'UKSC', 'DC']
                 }
             ]
@@ -472,11 +472,11 @@ describe('partners for a user', () => {
         const user = {
             roles: [
                 {
-                    role: types.TAC_MEMBER,
+                    type: types.TAC_MEMBER,
                     partners: ['DC']
                 },
                 {
-                    role: types.SALT_ASTRONOMER,
+                    type: types.SALT_ASTRONOMER,
                     partners: ['RSA', 'UKSC', 'DC']
                 }
             ]
@@ -488,7 +488,7 @@ describe('partners for a user', () => {
 
 describe('hasRole', () => {
     it('should return false for a user with no roles', () => {
-        const user = {};
+        const user = {roles:[]};
 
         expect(hasRole(user, types.TAC_CHAIR, 'UKSC')).toBe(false);
     });
@@ -497,11 +497,11 @@ describe('hasRole', () => {
         const user = {
             roles: [
                 {
-                    role: types.TAC_CHAIR,
+                    type: types.TAC_CHAIR,
                     partners: ['AMNH', 'RSA']
                 },
                 {
-                    role: types.SALT_ASTRONOMER,
+                    type: types.SALT_ASTRONOMER,
                     partners: ['UKSC']
                 }
             ]
@@ -514,7 +514,7 @@ describe('hasRole', () => {
         const user = {
             roles: [
                 {
-                    role: types.TAC_MEMBER,
+	                type: types.TAC_MEMBER,
                     partners: ['UKSC', 'RSA']
                 }
             ]
@@ -527,7 +527,7 @@ describe('hasRole', () => {
         const user = {
             roles: [
                 {
-                    role: types.TAC_CHAIR,
+	                type: types.TAC_CHAIR,
                     partners: ['DC']
                 }
             ]
@@ -540,7 +540,7 @@ describe('hasRole', () => {
         const user = {
             roles: [
                 {
-                    role: types.SALT_ASTRONOMER,
+	                type: types.SALT_ASTRONOMER,
                     partners: ['DC']
                 }
             ]
@@ -554,7 +554,7 @@ describe('hasRole', () => {
         const user = {
             roles: [
                 {
-                    role: types.ADMINISTRATOR,
+	                type: types.ADMINISTRATOR,
                     partners: ['DC']
                 }
             ]
@@ -570,7 +570,7 @@ describe('canDo', () => {
         const user = {
             roles: [
                 {
-                    role: types.TAC_MEMBER,
+                    type: types.TAC_MEMBER,
                     partners: ['RSA']
                 }
             ]
@@ -581,3 +581,437 @@ describe('canDo', () => {
     })
 });
 
+describe('isFloat', () =>  {
+	it('should return true if value can be a float', () => {
+        expect(isFloat()).toBe(false);
+        expect(isFloat("23")).toBe(true);
+        expect(isFloat("23.1")).toBe(true);
+        expect(isFloat("23.2.3.2")).toBe(false);
+        expect(isFloat(63)).toBe(true);
+        expect(isFloat(63.2)).toBe(true);
+        expect(isFloat({name: 36.3})).toBe(false);
+        expect(isFloat([2333.3])).toBe(false);
+        expect(isFloat([23.3, 6, 3.1])).toBe(false);
+        expect(isFloat({})).toBe(false);
+        expect(isFloat([])).toBe(false);
+        expect(isFloat("")).toBe(false);
+        expect(isFloat(63+9.0)).toBe(true);
+	});
+});
+
+describe('canUserWriteAllocations', () => {
+	it('should be false for any unknown role', () => {
+        const roles = [
+	        {
+		        type: "UNKNOWN",
+		        partners: ["ABC"]
+	        }
+        ];
+		expect(canUserWriteAllocations(roles)).toBe(false);
+		expect(canUserWriteAllocations(roles, undefined)).toBe(false);
+		expect(canUserWriteAllocations(roles, null)).toBe(false);
+		expect(canUserWriteAllocations(roles,"RSA")).toBe(false);
+		expect(canUserWriteAllocations()).toBe(false);
+		expect(canUserWriteAllocations(roles, "ABC")).toBe(false);
+	});
+	it('should be true when ever the user is an administrator', () => {
+        const roles = [
+                {
+                    type: types.ADMINISTRATOR,
+                    partners: []
+                }
+            ];
+        expect(canUserWriteAllocations(roles, "RSA")).toBe(true);
+        expect(canUserWriteAllocations(roles)).toBe(true);
+        expect(canUserWriteAllocations(roles, undefined)).toBe(true);
+        expect(canUserWriteAllocations(roles, null)).toBe(true);
+        expect(canUserWriteAllocations(roles, "ABC")).toBe(true);
+	});
+	it('should be true only when the user is a tac chair for a partner', () => {
+		const roles = [
+			{
+				type: types.TAC_CHAIR,
+				partners: ["ABC"]
+			}
+		];
+		expect(canUserWriteAllocations(roles)).toBe(false);
+		expect(canUserWriteAllocations(roles, undefined)).toBe(false);
+		expect(canUserWriteAllocations(roles, null)).toBe(false);
+		expect(canUserWriteAllocations(roles,"RSA")).toBe(false);
+		expect(canUserWriteAllocations(roles, "ABC")).toBe(true);
+	});
+	it('should be false for any other role or no arguments', () => {
+        const roles = [
+	        {
+		        type: types.TAC_MEMBER,
+		        partners: ["ABC"]
+	        },
+	        {
+		        type: types.SALT_ASTRONOMER,
+		        partners: ["ABC"]
+	        },
+        ];
+		expect(canUserWriteAllocations(roles)).toBe(false);
+		expect(canUserWriteAllocations(roles, undefined)).toBe(false);
+		expect(canUserWriteAllocations(roles, null)).toBe(false);
+		expect(canUserWriteAllocations(roles,"RSA")).toBe(false);
+		expect(canUserWriteAllocations(roles, "ABC")).toBe(false);
+	});
+	it('should be true if one of the roles match', () => {
+		const roles1 = [
+			{
+				type: types.TAC_MEMBER,
+				partners: ["ABC"]
+			},
+			{
+				type: types.SALT_ASTRONOMER,
+				partners: ["ABC"]
+			},
+			{
+				type: types.TAC_CHAIR,
+				partners: ["ABC"]
+			},
+		];
+		const roles2 = [
+			{
+				type: types.TAC_MEMBER,
+				partners: ["ABC"]
+			},
+			{
+				type: types.SALT_ASTRONOMER,
+				partners: ["ABC"]
+			},
+			{
+				type: types.ADMINISTRATOR,
+				partners: ["ABC"]
+			},
+		];
+		expect(canUserWriteAllocations(roles1)).toBe(false);
+		expect(canUserWriteAllocations(roles1, undefined)).toBe(false);
+		expect(canUserWriteAllocations(roles1, null)).toBe(false);
+		expect(canUserWriteAllocations(roles1,"RSA")).toBe(false);
+		expect(canUserWriteAllocations(roles1, "ABC")).toBe(true);
+		
+		expect(canUserWriteAllocations(roles2)).toBe(true);
+		expect(canUserWriteAllocations(roles2, undefined)).toBe(true);
+		expect(canUserWriteAllocations(roles2, null)).toBe(true);
+		expect(canUserWriteAllocations(roles2,"RSA")).toBe(true);
+		expect(canUserWriteAllocations(roles2, "ABC")).toBe(true);
+	});
+});
+
+
+describe('canUserWriteTechReviews', () => {
+	it('should be false for any unknown role', () => {
+		const roles = [
+			{
+				type: "UNKNOWN",
+				partners: ["ABC"]
+			}
+		];
+		expect(canUserWriteTechReviews(roles)).toBe(false);
+		expect(canUserWriteTechReviews(roles, undefined)).toBe(false);
+		expect(canUserWriteTechReviews(roles, null)).toBe(false);
+		expect(canUserWriteTechReviews(roles,"RSA")).toBe(false);
+		expect(canUserWriteTechReviews()).toBe(false);
+		expect(canUserWriteTechReviews(roles, "ABC")).toBe(false);
+	});
+	it('should be true when ever the user is an administrator', () => {
+		const roles = [
+			{
+				type: types.ADMINISTRATOR,
+				partners: []
+			}
+		];
+		expect(canUserWriteTechReviews(roles, "RSA")).toBe(true);
+		expect(canUserWriteTechReviews(roles)).toBe(true);
+		expect(canUserWriteTechReviews(roles, undefined)).toBe(true);
+		expect(canUserWriteTechReviews(roles, null)).toBe(true);
+		expect(canUserWriteTechReviews(roles, "ABC")).toBe(true);
+	});
+	it('should be true only when the user is a SALT astronomer', () => {
+		const roles = [
+			{
+				type: types.SALT_ASTRONOMER,
+				partners: ["ABC"]
+			}
+		];
+		expect(canUserWriteTechReviews(roles)).toBe(true);
+		expect(canUserWriteTechReviews(roles, undefined)).toBe(true);
+		expect(canUserWriteTechReviews(roles, null)).toBe(true);
+		expect(canUserWriteTechReviews(roles,"RSA")).toBe(true);
+		expect(canUserWriteTechReviews(roles, "ABC")).toBe(true);
+	});
+	it('should be false for any other role', () => {
+		const roles = [
+			{
+				type: types.TAC_MEMBER,
+				partners: ["ABC"]
+			},
+			{
+				type: types.TAC_CHAIR,
+				partners: ["ABC"]
+			},
+		];
+		expect(canUserWriteTechReviews(roles)).toBe(false);
+		expect(canUserWriteTechReviews(roles, undefined)).toBe(false);
+		expect(canUserWriteTechReviews(roles, null)).toBe(false);
+		expect(canUserWriteTechReviews(roles,"RSA")).toBe(false);
+		expect(canUserWriteTechReviews(roles, "ABC")).toBe(false);
+	});
+	it('should be true if one of the roles match', () => {
+		const roles1 = [
+			{
+				type: types.TAC_MEMBER,
+				partners: ["ABC"]
+			},
+			{
+				type: types.SALT_ASTRONOMER,
+				partners: ["ABC"]
+			},
+			{
+				type: types.TAC_CHAIR,
+				partners: ["ABC"]
+			},
+		];
+		const roles2 = [
+			{
+				type: types.TAC_MEMBER,
+				partners: ["ABC"]
+			},
+			{
+				type: types.TAC_CHAIR,
+				partners: ["ABC"]
+			},
+			{
+				type: types.ADMINISTRATOR,
+				partners: ["ABC"]
+			},
+		];
+		expect(canUserWriteTechReviews(roles1)).toBe(true);
+		expect(canUserWriteTechReviews(roles1, undefined)).toBe(true);
+		expect(canUserWriteTechReviews(roles1, null)).toBe(true);
+		expect(canUserWriteTechReviews(roles1,"RSA")).toBe(true);
+		expect(canUserWriteTechReviews(roles1, "ABC")).toBe(true);
+		
+		expect(canUserWriteTechReviews(roles2)).toBe(true);
+		expect(canUserWriteTechReviews(roles2, undefined)).toBe(true);
+		expect(canUserWriteTechReviews(roles2, null)).toBe(true);
+		expect(canUserWriteTechReviews(roles2,"RSA")).toBe(true);
+		expect(canUserWriteTechReviews(roles2, "ABC")).toBe(true);
+	});
+});
+
+describe('canSubmitTimeAllocations', () => {
+	it('should be false for any unknown role', () => {
+		const roles = [
+			{
+				type: "UNKNOWN",
+				partners: ["ABC"]
+			}
+		];
+		expect(canSubmitTimeAllocations(roles)).toBe(false);
+		expect(canSubmitTimeAllocations(roles, undefined)).toBe(false);
+		expect(canSubmitTimeAllocations(roles, null)).toBe(false);
+		expect(canSubmitTimeAllocations(roles,"RSA")).toBe(false);
+		expect(canSubmitTimeAllocations()).toBe(false);
+		expect(canSubmitTimeAllocations(roles, "ABC")).toBe(false);
+	});
+	it('should be true when ever the user is an administrator', () => {
+		const roles = [
+			{
+				type: types.ADMINISTRATOR,
+				partners: []
+			}
+		];
+		expect(canSubmitTimeAllocations(roles, "RSA")).toBe(true);
+		expect(canSubmitTimeAllocations(roles)).toBe(true);
+		expect(canSubmitTimeAllocations(roles, undefined)).toBe(true);
+		expect(canSubmitTimeAllocations(roles, null)).toBe(true);
+		expect(canSubmitTimeAllocations(roles, "ABC")).toBe(true);
+	});
+	it('should be true only when the user is a tac chair for a partner', () => {
+		const roles = [
+			{
+				type: types.TAC_CHAIR,
+				partners: ["ABC"]
+			}
+		];
+		expect(canSubmitTimeAllocations(roles)).toBe(false);
+		expect(canSubmitTimeAllocations(roles, undefined)).toBe(false);
+		expect(canSubmitTimeAllocations(roles, null)).toBe(false);
+		expect(canSubmitTimeAllocations(roles,"RSA")).toBe(false);
+		expect(canSubmitTimeAllocations(roles, "ABC")).toBe(true);
+	});
+	it('should be false for any other role or no arguments', () => {
+		const roles = [
+			{
+				type: types.TAC_MEMBER,
+				partners: ["ABC"]
+			},
+			{
+				type: types.SALT_ASTRONOMER,
+				partners: ["ABC"]
+			},
+		];
+		expect(canSubmitTimeAllocations(roles)).toBe(false);
+		expect(canSubmitTimeAllocations(roles, undefined)).toBe(false);
+		expect(canSubmitTimeAllocations(roles, null)).toBe(false);
+		expect(canSubmitTimeAllocations(roles,"RSA")).toBe(false);
+		expect(canSubmitTimeAllocations(roles, "ABC")).toBe(false);
+	});
+	it('should be true if one of the roles match', () => {
+		const roles1 = [
+			{
+				type: types.TAC_MEMBER,
+				partners: ["ABC"]
+			},
+			{
+				type: types.SALT_ASTRONOMER,
+				partners: ["ABC"]
+			},
+			{
+				type: types.TAC_CHAIR,
+				partners: ["ABC"]
+			},
+		];
+		const roles2 = [
+			{
+				type: types.TAC_MEMBER,
+				partners: ["ABC"]
+			},
+			{
+				type: types.SALT_ASTRONOMER,
+				partners: ["ABC"]
+			},
+			{
+				type: types.ADMINISTRATOR,
+				partners: ["ABC"]
+			},
+		];
+		expect(canSubmitTimeAllocations(roles1)).toBe(false);
+		expect(canSubmitTimeAllocations(roles1, undefined)).toBe(false);
+		expect(canSubmitTimeAllocations(roles1, null)).toBe(false);
+		expect(canSubmitTimeAllocations(roles1,"RSA")).toBe(false);
+		expect(canSubmitTimeAllocations(roles1, "ABC")).toBe(true);
+		
+		expect(canSubmitTimeAllocations(roles2)).toBe(true);
+		expect(canSubmitTimeAllocations(roles2, undefined)).toBe(true);
+		expect(canSubmitTimeAllocations(roles2, null)).toBe(true);
+		expect(canSubmitTimeAllocations(roles2,"RSA")).toBe(true);
+		expect(canSubmitTimeAllocations(roles2, "ABC")).toBe(true);
+	});
+});
+
+describe('allocatedTimeTotals', () => {
+	it('should return the sum of allocated time pre priority', () => {
+		const proposals = [
+			{
+				allocatedTime: {
+					"ABC" :{
+						p0: 1,
+						p1: 1,
+						p2: 1,
+						p3: 1,
+						p4: 1,
+					},
+					"DEF" : {
+						p0: 2,
+						p1: 2,
+						p2: 2,
+						p3: 2,
+						p4: 2,
+                    },
+					"GHI" : {
+						p0: 3,
+						p1: 3,
+						p2: 3,
+						p3: 3,
+						p4: 3,
+					}
+				}
+    
+			},
+			{
+				allocatedTime: {
+					"ABC" :{
+						p0: 1,
+						p1: 1,
+						p2: 1,
+						p3: 1,
+						p4: 1,
+					},
+					"GHI" : {
+						p0: 3,
+						p1: 3,
+						p2: 3,
+						p3: 3,
+						p4: 3,
+					}
+				}
+				
+			},
+			{
+				allocatedTime: {
+					"XYZ" :{
+						p0: 4,
+						p1: 4,
+						p2: 4,
+						p3: 4,
+						p4: 4,
+					},
+				}
+				
+			},
+			{
+				allocatedTime: {
+					"ABC" :{
+						p0: 1,
+						p1: 1,
+						p2: 1,
+						p3: 1,
+						p4: 1,
+					},
+					"DEF" : undefined,
+					"JKL" : { }
+				}
+				
+			},
+		];
+		expect(allocatedTimeTotals(proposals, "XYZ")).toEqual({ p0: 4, p1: 4, p2: 4, p3: 4, p4: 4 });
+		expect(allocatedTimeTotals(proposals, "ABC")).toEqual({ p0: 3, p1: 3, p2: 3, p3: 3, p4: 3 });
+		expect(allocatedTimeTotals(proposals, "DEF")).toEqual({ p0: 2, p1: 2, p2: 2, p3: 2, p4: 2 });
+		expect(allocatedTimeTotals(proposals, "JKL")).toEqual({ p0: 0, p1: 0, p2: 0, p3: 0, p4: 0 });
+  
+	});
+	it('should return all priority to be zero if no allocation to proposals', () => {
+		const proposals = [
+			{
+				somethingElse: {
+					"ABC" :{
+						p0: 4,
+						p1: 4,
+						p2: 4,
+						p3: 4,
+						p4: 4,
+					},
+				}
+				
+			},
+			{
+				somethingElse: {
+					"ABC" :{
+						p0: 1,
+						p1: 1,
+						p2: 1,
+						p3: 1,
+						p4: 1,
+					}
+				}
+				
+			},
+		];
+		expect(allocatedTimeTotals(proposals, "ABC")).toEqual({ p0: 0, p1: 0, p2: 0, p3: 0, p4: 0 });
+		expect(allocatedTimeTotals(proposals, "ABC")).not.toEqual({ p0: 5, p1: 5, p2: 5, p3: 5, p4: 5 });
+	});
+});

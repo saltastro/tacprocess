@@ -1,39 +1,26 @@
 import React from "react";
 import propTypes from "prop-types";
 
-const proposalsFilter = proposals => {
-	const newProposals = [];
-	const longTermProposals = [];
-	proposals
-	.forEach( p => {
-		if (p.isNew){
-			newProposals.push(p)
-		}
-		
-		if (p.isLong) {
-			longTermProposals.push(p)
-		}
-		return p
-	});
-	return {
-		longTermProposals,
-		newProposals
+const countProposals = proposals => {
+	const  count = {
+		p4: 0,
+		thesis: 0,
+		longProposals: 0,
+		newProposals:0,
+		newAndLong: 0
 	};
-};
-
-const getMatch = (a, b) => {
-	const matches = [];
-	
-	for ( let i = 0; i < a.length; i++ ) {
-		for ( let e = 0; e < b.length; e++ ) {
-			if ( a[i] === b[e] ) matches.push( a[i] );
-		}
-	}
-	return matches;
+	(proposals || []).forEach(p => {
+		if ( p.isNew) { count.newProposals += 1 }
+		if ( p.isLong) { count.longProposals += 1 }
+		if ( p.isP4) { count.p4 += 1 }
+		if ( p.isThesis) { count.thesis += 1 }
+		if ( p.isNew && p.isLong ) { count.newAndLong += 1 }
+	});
+	return count
 };
 
 const ProposalCountTable = ({proposals}) => {
-	const newAndLong = proposalsFilter(proposals);
+	const count = countProposals(proposals);
 	return(
 		<div className={"stat-item"}>
 			<h2>Submitted Proposals</h2>
@@ -46,24 +33,32 @@ const ProposalCountTable = ({proposals}) => {
 				</thead>
 				<tbody>
 				<tr>
-					<td>New proposals plus older proposals</td>
+					<td>Number of Proposals</td>
 					<td>{proposals.length}</td>
 				</tr>
 				<tr>
 					<td>New proposals </td>
-					<td>{newAndLong.newProposals.length}</td>
+					<td>{ count.newProposals}</td>
 				</tr>
 				<tr>
 					<td>Older Proposals </td>
-					<td>{proposals.length - newAndLong.newProposals.length}</td>
+					<td>{proposals.length - count.newProposals}</td>
 				</tr>
 				<tr>
-					<td>All long term proposals </td>
-					<td>{newAndLong.longTermProposals.length}</td>
+					<td>Number of long term proposals </td>
+					<td>{ count.longProposals}</td>
 				</tr>
 				<tr>
-					<td>New long term proposals </td>
-					<td>{getMatch(newAndLong.longTermProposals, newAndLong.newProposals).length}</td>
+					<td>Number of new long term proposals </td>
+					<td>{count.newAndLong}</td>
+				</tr>
+				<tr>
+					<td>Thesis projects </td>
+					<td>{count.thesis}</td>
+				</tr>
+				<tr>
+					<td>P4 proposals </td>
+					<td>{count.p4}</td>
 				</tr>
 				</tbody>
 			</table>

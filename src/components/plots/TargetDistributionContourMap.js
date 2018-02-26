@@ -49,7 +49,6 @@ class TargetDistributionContourMap extends React.Component {
 		};
 		const innerWidth = width - margin.left - margin.right;
 		const innerHeight = height - margin.top - margin.bottom;
-		console.log(">>>: ",innerHeight, innerWidth);
 		const g = svg.append('g')
             .attr('transform', `translate(${margin.left}, ${margin.top})`);
 		

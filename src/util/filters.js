@@ -21,18 +21,21 @@ export function totalTimeRequestedPerPartner(proposals, semester, partner="All" 
 	
 	let total = 0;
 	proposals.forEach( p =>{
-		p.timeRequests.forEach( r => {
-			if (r.semester === semester){
-				r.distribution.forEach(d => {
-					if ( partner === "All"){
-						total += d.time
-					}else if (d.partnerCode === partner){
-						total += d.time
-					}
-				})
-				
-			}
-		})
+		if (!p.isP4){
+			p.timeRequests.forEach( r => {
+				if (r.semester === semester){
+					r.distribution.forEach(d => {
+						if ( partner === "All"){
+							total += d.time
+						}else if (d.partnerCode === partner){
+							total += d.time
+						}
+					})
+					
+				}
+			})
+		}
+		
 	});
 	return total
 }
@@ -74,7 +77,8 @@ export const getPartnerList = roles => {
 * @params list an array of
 */
 export const listForDropdown = list => {
-	return (list || []).map( l => ({ label: l, value: l }))
+	list = ( list||[] ).filter( l => l !== "OTH");
+	return ( list || [] ).map( l => ({ label: l, value: l }))
 };
 
 /**
@@ -131,7 +135,7 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer, semester) =>
 		})
 	}else {
 		proposals.forEach(p => {
-			if (p.techReviews[semester].reviewer.username === astronomer) {prop.push(p)}
+			if (p.techReviews && p.techReviews[semester] && p.techReviews[semester].reviewer && p.techReviews[semester].reviewer.username === astronomer) {prop.push(p)}
 		})
 	}
 	

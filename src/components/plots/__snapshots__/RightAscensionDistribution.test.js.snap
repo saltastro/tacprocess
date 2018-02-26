@@ -28,7 +28,6 @@ exports[`RightAscensionDistribution Component Render the RightAscensionDistribut
       width={700}
     />
   </div>
-
 </RightAscensionDistribution>
 `;
 
@@ -45,6 +44,5 @@ exports[`RightAscensionDistribution Component Render the RightAscensionDistribut
       width={700}
     />
   </div>
-
 </RightAscensionDistribution>
 `;

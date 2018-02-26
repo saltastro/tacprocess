@@ -101,28 +101,25 @@ exports[`SalticamModeDistribution Component Render the SalticamModeDistribution 
         Object {
           "className": "all-partners",
           "data": Object {
-
-            "DRIFT SCAN": 0,
+            "DRIFTSCAN": 0,
             "FRAME XFER": 0,
-            "NORMAL": 0.16666666666666666,
-
+            "NORMAL": 0,
             "SLOT": 0,
           },
         },
         Object {
           "className": "partner-only",
           "data": Object {
-
             "DRIFTSCAN": 0,
             "FRAME XFER": 0,
             "NORMAL": 0,
-
             "SLOT": 0,
           },
         },
       ]
     }
     keys={
+      Array [
         "DRIFTSCAN",
         "FRAME XFER",
         "NORMAL",
@@ -157,7 +154,6 @@ exports[`SalticamModeDistribution Component Render the SalticamModeDistribution 
         width={700}
       />
     </div>
-
   </Histogram>
 </SalticamModeDistribution>
 `;
@@ -266,7 +262,6 @@ exports[`SalticamModeDistribution Component Render the SalticamModeDistribution 
             "DRIFTSCAN": 0,
             "FRAME XFER": 0,
             "NORMAL": 0,
-
             "SLOT": 0,
           },
         },
@@ -276,7 +271,6 @@ exports[`SalticamModeDistribution Component Render the SalticamModeDistribution 
             "DRIFTSCAN": 0,
             "FRAME XFER": 0,
             "NORMAL": 0,
-
             "SLOT": 0,
           },
         },
@@ -285,7 +279,6 @@ exports[`SalticamModeDistribution Component Render the SalticamModeDistribution 
     keys={
       Array [
         "DRIFTSCAN",
-
         "FRAME XFER",
         "NORMAL",
         "SLOT",
@@ -319,7 +312,6 @@ exports[`SalticamModeDistribution Component Render the SalticamModeDistribution 
         width={700}
       />
     </div>
-
   </Histogram>
 </SalticamModeDistribution>
 `;
@@ -337,7 +329,6 @@ exports[`SalticamModeDistribution Component Render the SalticamModeDistribution 
           "className": "all-partners",
           "data": Object {
             "DRIFTSCAN": 0,
-
             "FRAME XFER": 0,
             "NORMAL": 0,
             "SLOT": 0,
@@ -347,7 +338,6 @@ exports[`SalticamModeDistribution Component Render the SalticamModeDistribution 
           "className": "partner-only",
           "data": Object {
             "DRIFTSCAN": 0,
-
             "FRAME XFER": 0,
             "NORMAL": 0,
             "SLOT": 0,
@@ -358,7 +348,6 @@ exports[`SalticamModeDistribution Component Render the SalticamModeDistribution 
     keys={
       Array [
         "DRIFTSCAN",
-=
         "FRAME XFER",
         "NORMAL",
         "SLOT",
@@ -392,7 +381,6 @@ exports[`SalticamModeDistribution Component Render the SalticamModeDistribution 
         width={700}
       />
     </div>
-
   </Histogram>
 </SalticamModeDistribution>
 `;

@@ -45,7 +45,7 @@ const PartnerTimeTable = ({proposals, partner, allocatedTime, semester}) => {
 				</tr>
 				<tr>
 					<td>Subscription rate </td>
-					<td>{((allocatedTimeSum/(total/3600))*100).toFixed(2)} %</td>
+					<td>{(((total/3600)/(allocatedTimeSum))*100).toFixed(2)} %</td>
 				</tr>
 				<tr>
 					<td>Average per Proposal </td>
