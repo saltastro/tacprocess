@@ -63,5 +63,18 @@ export const didReportChange = (proposal, initProposals, semester) => {
  * @return Boolean (true) if the proposal is new
  * */
 export const isNewProposal = (proposal, semester) => {
-	return !proposal.timeRequests.some(t =>  t.semester < semester )
+	return !( proposal.timeRequests || [] ).some(t =>  t.semester < semester )
+};
+
+/**
+ * check if proposal is requesting anytime from any semester other than selected semester
+ * and if so it is a long term proposal
+ * hence return false
+ *
+ * @param proposal A proposal from API
+ * @param semester
+ * @return Boolean (true) if the proposal is new
+ * */
+export const isLongTermProposal = (proposal, semester) => {
+	return ( proposal.timeRequests || [] ).some(t => t.semester !== semester )
 };

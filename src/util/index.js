@@ -1,7 +1,7 @@
 import { saveAs } from 'file-saver';
 import * as types from '../types';
 import { ADMINISTRATOR, DOCUMENTATION_PAGE, STATISTICS_PAGE, TAC_PAGE, TECHNICAL_PAGE } from '../types';
-import { jsonClient } from '../api/api';
+import { jsonClient } from '../api';
 
 /**
  * Return the sum of a and b

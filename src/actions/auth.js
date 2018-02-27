@@ -72,19 +72,12 @@ export const login = credentials => {
 			const userData = await queryUserData();
 			dispatch(userLoggedIn(userData));
 			const semester = defaultSemester();
-<<<<<<< HEAD
-			dispatch(partnersFilter(partner));
 
-			dispatch(fetchProposals( semester, partner));
-			dispatch(fetchTargets(semester, partner));
-			dispatch(storePartnerAllocations(semester, partner));
-=======
 			dispatch(partnersFilter(ALL_PARTNER));
 			
 			dispatch(fetchProposals( semester, ALL_PARTNER));
 			dispatch(fetchTargets(semester, ALL_PARTNER));
 			dispatch(storePartnerAllocations(semester, ALL_PARTNER));
->>>>>>> upstream/master
 		} catch (e) {
 			dispatch(fetchingUserFail(e.message));
 		}

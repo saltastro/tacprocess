@@ -23,9 +23,20 @@ const TimeAllocationInput = ({onChange, proposal, priority, partner, name}) => {
 	);
 };
 
+const byProposalCode = (a, b) => {
+	const name1 = a.proposalCode.toUpperCase();
+	const name2 = b.proposalCode.toUpperCase();
+	if (name1 < name2) {
+		return -1;
+	}
+	if (name1 > name2) {
+		return 1;
+	}
+	return 0;
+};
 const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentChange,  allocationChange,
                                  allocatedTimeChange, canAllocate, semester}) => {
-	const arrayOfProposals = proposals || [];
+	const arrayOfProposals = [...proposals] || [];
 	
 	return(
 		<div className="scroldiv">
@@ -56,7 +67,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 				</thead>
 				<tbody>
 				{
-					arrayOfProposals
+					(arrayOfProposals.sort(byProposalCode))
 					.filter(p => !_.isNull(p.title))
 					.map( p => {
 						return (
