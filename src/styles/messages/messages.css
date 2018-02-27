@@ -1,5 +1,5 @@
 .inLineError {
-  color: #ae5856;
+  color: red;
   padding-left: 10px;
 
 }
@@ -33,5 +33,5 @@
 
 .login-txt {
   color: #013d19;
-  padding: 2em 0 1em 0; 
+  padding: 2em 0 1em 0;
 }
