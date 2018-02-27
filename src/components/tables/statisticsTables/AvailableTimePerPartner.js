@@ -13,8 +13,8 @@ const AvailableTimePerPartner = ({partner, availableTime, proposals}) => {
 				<thead>
 				<tr>
 					<th><h2>{ partner }</h2></th>
-					<th><h2>Available Time</h2></th>
-					<th><h2>Allocated Time</h2></th>
+					<th><h2>Available Time (hours)</h2></th>
+					<th><h2>Allocated Time (hours)</h2></th>
 				</tr>
 				</thead>
 				<tbody>
