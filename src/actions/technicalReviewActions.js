@@ -4,7 +4,7 @@ import {
 	SUBMIT_TECHNICAL_REVIEWS_START,
 	UPDATE_TECHNICAL_REVIEW,
 } from '../types';
-import { jsonClient } from '../api/api';
+import { jsonClient } from '../api/';
 import { isTechReportUpdated, isReviewerUpdated } from '../util/filters'
 import fetchProposals from './proposalsActions';
 import { makeTechComment } from '../util';

@@ -1,13 +1,7 @@
-import axios from 'axios';
-import { API_BASE_URL } from '../types';
-import { jsonClient } from './api';
+import { jsonClient, graphqlClient } from './index';
 import {getTechReportFields} from "../util";
-import {getStorage} from "../util/storage";
-import { isNewProposal } from "../util/proposal";
+import { isNewProposal, isLongTermProposal } from "../util/proposal";
 
-function isLongTermProposal(distributedTimes, semester){
-	return distributedTimes.some(t => t.semester !== semester )
-}
 
 function makeTechReviews(techReviews) {
 
@@ -92,7 +86,7 @@ export function convertProposals(proposals, semester, partner){
 			maxSeeing: proposal.maxSeeing,
 			transparency: proposal.transparency,
 			isNew: isNewProposal(proposal, semester),
-			isLong: isLongTermProposal(proposal.timeRequests, semester),
+			isLong: isLongTermProposal(proposal, semester),
 			isThesis: proposal.isThesis,
 			totalRequestedTime: minTotal.total,
 			timeRequests: proposal.timeRequests,
@@ -107,31 +101,6 @@ export function convertProposals(proposals, semester, partner){
 		})
 	});
 }
-
-const graphqlClient = () => {
-	return {
-		_client: axios.create({
-                                  baseURL: API_BASE_URL,
-                                  "routes": {
-                                      "cors": true
-                                  },
-                                  headers: {
-                                      'Authorization': `Token ${getStorage()}`,
-                                      'Content-Type': 'application/graphql',
-                                  }
-                              }),
-
-		post: function(url, data) {
-			return this._client.post(url, data)
-					.then(res => {
-						if (res.data.errors) {
-							throw new Error(res.data.errors.map(error => error.message).join(' | '));
-                        }
-                        return res;
-                    })
-		}
-    }
-};
 
 const convertData = rowUser => {
 	return {
@@ -169,7 +138,7 @@ export function queryPartnerAllocations(semester, partner="All" ){
     }
   }
   `;
-	return graphqlClient().post(`/graphql?query=${query}`)
+	return graphqlClient().post(`/graphql`, {query})
 	.then(
 		response => response
 	)
@@ -188,7 +157,7 @@ export function queryUserData(){
       }
     }
   }`;
-	return graphqlClient().post(`/graphql?query=${query}`)
+	return graphqlClient().post(`/graphql`, {query})
 	.then(
 		response => {
 			return convertData(response.data.data.user);
@@ -211,7 +180,7 @@ export function queryTargets(semester, partner){
       }
     }
   }`;
-	return graphqlClient().post(`/graphql?query=${query}`)
+	return graphqlClient().post(`/graphql`, {query})
 	.then(
 		response => response
 	)
@@ -294,8 +263,7 @@ export function queryProposals(semester, partner){
     }
   }
   `;
-	return graphqlClient().post(`/graphql?query=${query}`)
-
+	return graphqlClient().post(`/graphql`, { query })
 	.then(
 		response => convertProposals(response.data.data, semester, partner)
 	)
@@ -316,6 +284,6 @@ export function querySALTAstronomers(){
     }
   }
   `;
-	return graphqlClient().post(`/graphql?query=${query}`)
+	return graphqlClient().post(`/graphql`, {query})
 	.then(response => response)
 }
