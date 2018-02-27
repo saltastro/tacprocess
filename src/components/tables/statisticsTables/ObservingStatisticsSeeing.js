@@ -60,11 +60,11 @@ function setSeeing(proposals, partner) {
 const ObservingStatisticsSeeing = ({proposals, partner}) => {
 	const maxSeeing = setSeeing(proposals, partner);
 	return(
-		<div className={"stat-item"}>
+		<div className={"stat-item"}  style={{textAlign: "left", width: "100%"}}>
 			<table className="stat-table"  style={ { height: "100%"}}>
 				<thead>
 				<tr>
-					<th>Conditions</th>
+					<th className={"width-150"}>Conditions</th>
 					<th>Time requested (hrs)</th>
 					<th>Number of Proposals</th>
 					<th>Fraction of Total Request (%)</th>

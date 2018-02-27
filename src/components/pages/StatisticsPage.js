@@ -134,6 +134,7 @@ class StatisticsPage extends React.Component {
 						partner={partner}
 					/>
 				</div>
+				<h2>Seeing</h2>
 				<div className={"stat-wrapper-center"}>
 					<ObservingStatisticsSeeing proposals={proposals} partner={partner}/>
 				</div>
