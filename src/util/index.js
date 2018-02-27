@@ -258,7 +258,7 @@ export function canUserWriteTechReviews(roles, partner){
  * */
 export function canSubmitTimeAllocations(roles, partner){
 	let canSubmit = false;
-	
+
 	(roles || []).forEach( r => {
 		if (r.type === types.ADMINISTRATOR){canSubmit = true}
 		if (r.type === "TAC_CHAIR" && r.partners.some(p => (p === partner))){ canSubmit = true; }}
@@ -416,17 +416,17 @@ export function defaultSemester() {
 	return `${year}-${semester}`;
 }
 
-export function downloadSummary(proposalCode) {
-    jsonClient('blob').post('/proposal-summary', {proposalCode})
+export function downloadSummary(proposalCode, semester) {
+    jsonClient('blob').post('/proposal-summary', {proposalCode, semester})
             .then(res => {
                 saveAs(res.data, `${proposalCode}.pdf`);
             })
             .catch(err => console.error(err));
 }
 
-export function downloadSummaries(proposals) {
+export function downloadSummaries(proposals, semester) {
     const proposalCodes = proposals.map(p => p.proposalCode);
-    jsonClient('blob').post('/proposal-summaries', {proposalCodes})
+    jsonClient('blob').post('/proposal-summaries', {proposalCodes, semester})
             .then(res => {
                 saveAs(res.data, 'proposal_summaries.zip');
             })
