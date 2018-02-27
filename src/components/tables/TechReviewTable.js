@@ -57,9 +57,9 @@ export default class TechReviewTable extends React.Component {
 		})
 	};
 
-	requestSummary = (event, proposalCode) => {
+	requestSummary = (event, proposalCode, semester) => {
 	    event.preventDefault();
-	    downloadSummary(proposalCode);
+	    downloadSummary(proposalCode, semester);
     };
 
 	render() {
@@ -139,7 +139,7 @@ export default class TechReviewTable extends React.Component {
                                     <td className="width-100">
                                         <a className="file-download"
                                            href=""
-                                           onClick={e => this.requestSummary(e, p.proposalCode)}>
+                                           onClick={e => this.requestSummary(e, p.proposalCode, semester)}>
                                             Download
                                         </a>
                                     </td>
