@@ -28,7 +28,7 @@ const ConfigurationsStatistics = ({proposals}) => {
 				<thead>
 				<tr>
 					<th>Instruments</th>
-					<th>Number of Proposals</th>
+					<th>Number of configurations</th>
 				</tr>
 				</thead>
 				<tbody>

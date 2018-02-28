@@ -18,7 +18,7 @@ export function totalTimeRequestedPerPartner(proposals, semester, partner="All" 
 	* @param partner all partners or a single
 	* @return total
 	*/
-	
+
 	let total = 0;
 	proposals.forEach( p =>{
 		if (!p.isP4){
@@ -31,14 +31,36 @@ export function totalTimeRequestedPerPartner(proposals, semester, partner="All" 
 							total += d.time
 						}
 					})
-					
+
 				}
 			})
 		}
-		
+
 	});
 	return total
 }
+
+export function totalTimeRequestedForP4(proposals, semester, partner="All" ){
+	let total = 0;
+	proposals.forEach( p =>{
+		if (p.isP4){
+			p.timeRequests.forEach( r => {
+				if (r.semester === semester){
+					r.distribution.forEach(d => {
+						if ( partner === "All"){
+							total += d.time
+						}else if (d.partnerCode === partner){
+							total += d.time
+						}
+					})
+				}
+			})
+		}
+
+	});
+	return total
+}
+
 
 export const semestersArray = () => {
 	let startYear = 2006;
@@ -61,7 +83,7 @@ export const getPartnerList = roles => {
 			partnerList = r.partners;
 			break;
 		}
-		
+
 		if (r.type === "TAC_CHAIR") {
 			partnerList = r.partners;
 		}
@@ -138,7 +160,7 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer, semester) =>
 			if (p.techReviews && p.techReviews[semester] && p.techReviews[semester].reviewer && p.techReviews[semester].reviewer.username === astronomer) {prop.push(p)}
 		})
 	}
-	
+
 	return prop
 };
 
@@ -151,5 +173,3 @@ export const isReviewerUpdated = (proposal, initProposals, semester) => {
 	const initProposal = initProposals.find(p => p.proposalCode === proposal.proposalCode);
 	return !initProposal || initProposal.techReviews[semester].reviewer.username !== proposal.techReviews[semester].reviewer.username;
 };
-
-

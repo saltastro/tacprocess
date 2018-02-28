@@ -7,6 +7,8 @@ import  fetchProposals  from "../actions/proposalsActions";
 import  fetchTargets  from "../actions/targetsActions";
 import { storePartnerAllocations  } from "../actions/timeAllocationActions";
 import { semestersArray, getPartnerList, getAstronomersList } from "../util/filters";
+import { defaultSemester } from "../util";
+import { ADMINISTRATOR, SALT_ASTRONOMER } from "../types";
 
 class filters extends React.Component {
 	updateSemester = value => {
@@ -33,6 +35,7 @@ class filters extends React.Component {
 		const { selectedPartner, selectedSemester, selectedLiaison } = filters;
 		const partnerList = getPartnerList(user.roles);
 		const astronomersList = ["All", "Assigned"].concat(getAstronomersList(SALTAstronomers)).concat(["Not Assigned"]);
+		const semesters = ( user.roles || []).some(r => r.type === ADMINISTRATOR || r.type === SALT_ASTRONOMER) ? semestersArray() : [defaultSemester()]
 		return(
 			<div className="selector-div">
 				{(loadingProposals || loadingTargets) && <div className="dimScreen" />}
@@ -57,7 +60,7 @@ class filters extends React.Component {
 					<DropDown
 						className={"left-2"}
 						name="Semester"
-						listToDisplay={semestersArray()}
+						listToDisplay={semesters}
 						OnChange={this.updateSemester}
 						value={selectedSemester}/>
 				</div>
