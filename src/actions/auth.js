@@ -74,7 +74,7 @@ export const login = credentials => {
 			const semester = defaultSemester();
 
 			dispatch(partnersFilter(ALL_PARTNER));
-			
+
 			dispatch(fetchProposals( semester, ALL_PARTNER));
 			dispatch(fetchTargets(semester, ALL_PARTNER));
 			dispatch(storePartnerAllocations(semester, ALL_PARTNER));
