@@ -188,13 +188,10 @@ class TimeAllocationPage extends React.Component {
 										onError={this.handleDarkSideForce}
 									/>
 								}
-
-								{
-									canSubmitTimeAllocations(roles, partner) &&
-									<button onClick={() => downloadSummaries(partnerProposals[partner] || [], semester)}>
-										Download summary files
-									</button>
-								}
+								
+								<button onClick={() => downloadSummaries(partnerProposals[partner] || [], semester)}>
+									Download summary files
+								</button>
 								{
 									canSubmitTimeAllocations(roles, partner) &&
 									<button
