@@ -5,3 +5,7 @@ export const setStorage = (user) => {
 export const getStorage = () => {
   return localStorage.tacPageJWT;
 }
+
+export const removeStorage = () => {
+  localStorage.removeItem("tacPageJWT");
+}
