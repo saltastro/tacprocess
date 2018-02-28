@@ -33,12 +33,12 @@ const RSSObservingModeTable = ({proposals}) => {
 		<div className={"stat-item"} style={{textAlign: "center"}}>
 			<h2>RSS Observing Mode</h2>
 			<table className="stat-table">
-				
+
 				{/* RSS Observing mode */}
 				<thead>
 				<tr>
 					<th>Observing mode</th>
-					<th>Number of Proposals</th>
+					<th>Number of configurations</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -50,7 +50,7 @@ const RSSObservingModeTable = ({proposals}) => {
 					<td>FP polarimetry</td>
 					<td>{ observingMode.fpp }</td>
 				</tr>
-				
+
 				<tr>
 					<td>MOS</td>
 					<td>{ observingMode.mos }</td>
@@ -76,7 +76,7 @@ const RSSObservingModeTable = ({proposals}) => {
 					<td>{ observingMode.spec }</td>
 				</tr>
 				</tbody>
-			
+
 			</table>
 		</div>
 	)

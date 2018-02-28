@@ -47,7 +47,7 @@ const convertData = (data) => {
 		p2: 0,
 		p3: 0
 	}};
-	data.partnerAllocations.forEach( (a, i) => {
+	data.partnerAllocations.forEach( a => {
 		const partner = !!a.code ? a.code : ALL_PARTNER;
 		if (partner === ALL_PARTNER){
 				availableTime[partner].p0p1 += a.allocatedTime.AllocatedP0P1;
