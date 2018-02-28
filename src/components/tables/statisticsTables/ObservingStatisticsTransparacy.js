@@ -10,23 +10,19 @@ function setTransparency(proposals, partner) {
 	const transparency = {
 		clear: {
 			timeRequests: 0,
-			noOfProposals: 0,
-			fraction: 0
+			noOfProposals: 0
 		},
 		thin: {
 			timeRequests: 0,
-			noOfProposals: 0,
-			fraction: 0
+			noOfProposals: 0
 		},
 		thick: {
 			timeRequests: 0,
-			noOfProposals: 0,
-			fraction: 0
+			noOfProposals: 0
 		},
 		any: {
 			timeRequests: 0,
-			noOfProposals: 0,
-			fraction: 0
+			noOfProposals: 0
 		}
 	};
 	proposals.forEach(p => {
@@ -36,7 +32,7 @@ function setTransparency(proposals, partner) {
 			transparency.clear.timeRequests += reqTime
 		}
 		if (p.transparency === "Any"){
-			
+
 			transparency.any.noOfProposals += 1;
 			transparency.any.timeRequests += reqTime
 		}
@@ -54,6 +50,7 @@ function setTransparency(proposals, partner) {
 
 const ObservingStatisticsTransparency = ({proposals, partner}) => {
 	const transparency = setTransparency(proposals, partner);
+	const totalReqTime = (transparency.clear.timeRequests/3600) + (transparency.thin.timeRequests/3600) + (transparency.thick.timeRequests/3600) + (transparency.any.timeRequests/3600);
 	return(
 		<div  className={"stat-item"}>
 			<table className="stat-table">
@@ -70,25 +67,25 @@ const ObservingStatisticsTransparency = ({proposals, partner}) => {
 					<td>Clear</td>
 					<td>{ (transparency.clear.timeRequests/3600).toFixed(2) }</td>
 					<td>{ transparency.clear.noOfProposals }</td>
-					<td>{0}</td>
+					<td>{ ((transparency.clear.timeRequests/3600)/totalReqTime).toFixed(2) } %</td>
 				</tr>
 				<tr>
 					<td>Thin cloud</td>
 					<td>{ (transparency.thin.timeRequests/3600).toFixed(2) }</td>
 					<td>{ transparency.thin.noOfProposals }</td>
-					<td>{0}</td>
+					<td>{ ((transparency.thin.timeRequests/3600)/totalReqTime).toFixed(2) }</td>
 				</tr>
 				<tr>
 					<td>Thick cloud</td>
 					<td>{ (transparency.thick.timeRequests/3600 ).toFixed(2)}</td>
 					<td>{ transparency.thick.noOfProposals }</td>
-					<td>{0}</td>
+					<td>{ ((transparency.thick.timeRequests/3600)/totalReqTime).toFixed(2) }</td>
 				</tr>
 				<tr>
 					<td>Any</td>
 					<td>{ (transparency.any.timeRequests/3600).toFixed(2) }</td>
 					<td>{ transparency.any.noOfProposals }</td>
-					<td>{0}</td>
+					<td>{ ((transparency.any.timeRequests/3600)/totalReqTime).toFixed(2) }</td>
 				</tr>
 				</tbody>
 			</table>
