@@ -13,7 +13,7 @@ import fetchTargets from "./targetsActions";
 import {storePartnerAllocations} from "./timeAllocationActions";
 import fetchProposals from "./proposalsActions";
 import {defaultSemester} from "../util";
-import {setStorage} from "../util/storage";
+import {setStorage, removeStorage} from "../util/storage";
 
 export const userLoggedIn = user => {
 	return ({
@@ -48,7 +48,7 @@ export const switchUser = (username) => {
 		dispatch(switchUserStart());
 		try {
 			const user = await api.user.switchUser(username);
-			localStorage.tacPageJWT = user.token;
+			setStorage(user);
 			const userData = await queryUserData();
 			dispatch(partnersFilter(ALL_PARTNER));
 			dispatch(userLoggedIn(userData));
@@ -67,7 +67,6 @@ export const login = credentials => {
 	return async (dispatch) => {
 		try {
 			const user = await api.user.login(credentials);
-			//localStorage.tacPageJWT = user.token;
 			setStorage(user);
 			const userData = await queryUserData();
 			dispatch(userLoggedIn(userData));
@@ -85,10 +84,9 @@ export const login = credentials => {
 };
 
 export const logout = () => dispatch => {
-	localStorage.removeItem("tacPageJWT");
+	removeStorage();
 	dispatch(userLoggedOut());
 };
-
 
 export function fetchUserData(){
 	return function disp(dispatch){

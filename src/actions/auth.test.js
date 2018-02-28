@@ -7,7 +7,7 @@ import thunk from 'redux-thunk'
 import {Provider} from "react-redux";
 import {createStore} from "redux";
 
-import {login} from "./auth";
+import {login, switchUser, logout} from "./auth";
 
 import * as storage from "../util/storage";
 import * as api from "../api/api";
@@ -29,18 +29,12 @@ let store = mockStore(initialState);
 
 // Testing the auth actions
 describe("Auth Actions", () => {
-  // afterEach(() => {
-  //   fetchMock.reset();
-  //   fetchMock.restore();
-  // })
-
   /*
-  * The Auth actions contains asynchonous actions, hence the use of async and await
-  * as there are functions which returns promises.
+  * The Auth login actions contains asynchonous functions, hence the use of async and await
+  * for the returned promises.
   */
-  it('Check action add using an async/await', async () => {
+  it('Checks login actions using an async/await', async () => {
     await store.dispatch(login({username:"myezasifiso", password:"Mzukwase11"}));
-    console.log(store.getActions());
     //expect the action to be USER_LOGGED_IN
     expect(store.getActions()[0].type).toEqual("USER_LOGGED_IN");
     //expect the action to be PARTNER_CHANGE
@@ -58,6 +52,30 @@ describe("Auth Actions", () => {
     //expect the action to be TIME_ALLOCATIONS_QUERY_PASS
     expect(store.getActions()[7].type).toEqual("TIME_ALLOCATIONS_QUERY_PASS");
 
+  });
 
+
+  /*
+  * The Auth switch user actions contains asynchonous functions, hence the use of async and await
+  * for the returned promises.
+  */
+  it('Checks switch user actions using an async/await', async () => {
+    await store.dispatch(switchUser("myezasifiso"));
+    //expect the action to be SWITCH_USER_START
+    expect(store.getActions()[8].type).toEqual("SWITCH_USER_START");
+    //expect the action to be PARTNER_CHANGE
+    expect(store.getActions()[9].type).toEqual("PARTNER_CHANGE");
+    //expect the action to be USER_LOGGED_IN
+    expect(store.getActions()[10].type).toEqual("USER_LOGGED_IN");
+
+  });
+
+  /*
+  * The Auth logout actions testing
+  */
+  it('Checks logout actions success', () => {
+    store.dispatch(logout());
+    //expect the action to be USER_LOGGED_OUT
+    expect(store.getActions()[11].type).toEqual("USER_LOGGED_OUT");
   });
 });

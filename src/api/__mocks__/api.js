@@ -4,6 +4,12 @@ export default {
         return new Promise((resolve) => {
           resolve(credentials)
         })
+      },
+
+      switchUser: username =>{
+        return new Promise((resolve) => {
+          resolve(username)
+        })
       }
   }
 }
