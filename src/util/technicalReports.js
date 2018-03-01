@@ -46,7 +46,7 @@ export function getTechnicalReport(proposal, semester, format='string') {
 
     if (lcFormat === 'jsx') {
         return <div>
-            {lines.map(line => <div>{line}</div>)}
+            {lines.map((line, index) => <div key={index}>{line}</div>)}
         </div>
     }
 

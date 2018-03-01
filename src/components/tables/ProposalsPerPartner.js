@@ -4,6 +4,7 @@ import _ from "lodash";
 import { illegalAllocation } from "../../util/allocation";
 import { goodTime, badTime } from "../../types"
 import { getTechnicalReport } from "../../util/technicalReports";
+import {downloadSummary} from "../../util/index";
 
 
 const TimeAllocationInput = ({onChange, proposal, priority, partner, name}) => {
@@ -34,10 +35,16 @@ const byProposalCode = (a, b) => {
 	}
 	return 0;
 };
+
+const requestSummary = (event, proposalCode, semester) => {
+    event.preventDefault();
+    downloadSummary(proposalCode, semester);
+};
+
 const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentChange,  allocationChange,
                                  allocatedTimeChange, canAllocate, semester}) => {
 	const arrayOfProposals = [...proposals] || [];
-	
+
 	return(
 		<div className="scroldiv">
 			<h1>{partner}</h1>
@@ -45,6 +52,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 				<thead>
 				<tr>
 					<th>Code</th>
+					<th>Summary</th>
 					<th>Title</th>
 					<th>Abstract</th>
 					<th>PI</th>
@@ -76,6 +84,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 							}
 					}>
 								<td><div className="width-150 padding-8" ><a target="_blank" href={`https://www.salt.ac.za/wm/proposal/${p.proposalCode}`}>{ p.proposalCode }</a></div></td>
+								<td><a href="" onClick={e => requestSummary(e, p.proposalCode, semester)}>Download</a></td>
 								<td><div className="table-height width-300" >{ p.title }</div></td>
 								<td><div className="table-height width-400" >{ p.abstract }</div></td>
 								<td>{ p.pi }</td>
