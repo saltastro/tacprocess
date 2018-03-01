@@ -68,9 +68,11 @@ class TimeAllocationPage extends React.Component {
 */
 	CSVData = (proposals, partner, semester) => {
 		let tableDataHeaders = [
-			"Code", "Title", "Abstract", "PI", "Semester", "TAC comment", "Minimum useful time",
-			"Total Requested Time", "P0", "P1", "P2", "P3", "P4",
-
+			"Code", "Title", "Abstract", "PI", "Semester", "TAC comment",
+			"Minimum useful time (Sec)",
+			`Total Requested Time for ${partner} (Sec)`,
+			"Total Requested Time (Sec)",
+			"P0", "P1", "P2", "P3", "P4",
 			"Transparency", "Max seeing", "Tech Report"
 		];
 		return [
@@ -82,7 +84,9 @@ class TimeAllocationPage extends React.Component {
 				p.pi,
 				semester,
 				!!p.tacComment[partner]? p.tacComment[partner].comment : "",
-				p.minTime, p.totalRequestedTime,
+				p.minTime,
+				p.requestedTime.requests[partner],
+				p.totalRequestedTime,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p0"] : 0,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p1"] : 0,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p2"] : 0,
