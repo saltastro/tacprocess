@@ -1,6 +1,6 @@
 import React from "react";
 import propTypes from "prop-types";
-import {totalTimeRequestedPerPartner} from "../../../util/filters";
+import {totalTimeRequestedPerPartner, totalTimeRequestedForP4} from "../../../util/filters";
 import {ALL_PARTNER} from "../../../types";
 
 const partnerAlloc = (allocatedTime, partner) => {
@@ -14,12 +14,13 @@ const partnerAlloc = (allocatedTime, partner) => {
 	} else {
 		d = allocatedTime[partner] || d
 	}
-	
+
 	return d
 };
 
 const PartnerTimeTable = ({proposals, partner, allocatedTime, semester}) => {
 	const total = totalTimeRequestedPerPartner(proposals, semester, partner);
+	const p4Total = totalTimeRequestedForP4(proposals, semester, partner);
 	const partnerAllocation = partnerAlloc(allocatedTime, partner);
 	const allocatedTimeSum = (partnerAllocation.p0p1 || 0) + (partnerAllocation.p2 || 0) + (partnerAllocation.p3 || 0);
 	return(
@@ -29,16 +30,16 @@ const PartnerTimeTable = ({proposals, partner, allocatedTime, semester}) => {
 				<thead>
 				<tr>
 					<th />
-					<th>Total</th>
+					<th>Total  (hours)</th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr>
 					<td>Time available</td>
-					
-					<td>{ allocatedTimeSum.toFixed(2) }</td>
+
+					<td>{ allocatedTimeSum.toFixed(2) } </td>
 				</tr>
-				
+
 				<tr>
 					<td>Requested Time </td>
 					<td>{(total/3600).toFixed(2)}</td>
@@ -51,7 +52,11 @@ const PartnerTimeTable = ({proposals, partner, allocatedTime, semester}) => {
 					<td>Average per Proposal </td>
 					<td>{((total/3600)/ (proposals.length)).toFixed(2) }</td>
 				</tr>
-				
+				<tr>
+					<td>P4 Requested Time </td>
+					<td>{(p4Total/3600).toFixed(2) }</td>
+				</tr>
+
 				</tbody>
 			</table>
 		</div>

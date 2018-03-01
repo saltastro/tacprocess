@@ -25,29 +25,17 @@ class LoginForm extends React.Component {
 			this.setState({ loading: true });
 			this.props
 			.submit(this.state.data)
-			.catch(err => {
-				let error;
-				if (!!err.response && !!err.response.data && !!err.response.data.errors ) {
-					error = err.response.data.errors
-				}else {
-					error = ["unknown error"]
-				}
-				this.setState({ error });
-				
-				this.setState({
-					errors: error,
-					loading: false
-				});
-			});
 		}
-		this.setState({ errors });
+		this.setState({
+				...this.state,
+				errors : errors });
 	};
 
 	validate = (data) => {
 		const errors = {};
 		if (!data.username) errors.username = "Please provide username";
 		if (!data.password) errors.password = "Please provide password";
-		
+
 		return errors;
 	};
 

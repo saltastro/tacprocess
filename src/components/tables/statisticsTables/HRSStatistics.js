@@ -22,8 +22,8 @@ function countHRSExposure(proposals) {
 }
 
 const HRSStatistics = ({proposals}) => {
-	
-	
+
+
 	const exposure = countHRSExposure(proposals);
 	return(
 		<div  className={"stat-item"} style={{textAlign: "center"}}>
@@ -31,7 +31,7 @@ const HRSStatistics = ({proposals}) => {
 				<thead>
 				<tr>
 					<th>Exposure mode</th>
-					<th>Number of Proposals</th>
+					<th>Number of configurations</th>
 				</tr>
 				</thead>
 				<tbody>

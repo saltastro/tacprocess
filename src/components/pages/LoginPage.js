@@ -7,24 +7,22 @@ import { login } from "../../actions";
 
 
 class LoginPage extends  React.Component{
-	
+
 	submit = data =>
 		this.props.login(data).then(() =>{
-				if (this.props.user.isAuthenticated) {
+				if (this.props.user.user.isAuthenticated) {
 					this.props.history.push("/")
 				}
-				this.props.history.push("/login")
-				
 			}
 		);
-	
+
 	render(){
 		const { user } = this.props;
 		return(
 			<div>
 				{(!!user.error && !user.isAuthenticated) && <div className={"massage"}>
-                    <h1>Something went wrong</h1>
-                    <span style={{color: 'red'}}>fail to login</span>
+                    <h1>Fail to login</h1>
+                    <span style={{color: 'red'}}>{user.error}</span>
                 </div>}
 				<LoginForm submit={this.submit} />
 			</div>
@@ -40,5 +38,5 @@ LoginPage.propTypes = {
 };
 
 export default connect(store => ({
-	user: store.user.user
+	user: store.user
 }), { login })(LoginPage);

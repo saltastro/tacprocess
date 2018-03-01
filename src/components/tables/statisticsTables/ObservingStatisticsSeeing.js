@@ -59,6 +59,8 @@ function setSeeing(proposals, partner) {
 
 const ObservingStatisticsSeeing = ({proposals, partner}) => {
 	const maxSeeing = setSeeing(proposals, partner);
+	const totalReqTime = (maxSeeing.less10.timeRequests/3600) + (maxSeeing.less15.timeRequests/3600) + (maxSeeing.less20.timeRequests/3600) + (maxSeeing.less50.timeRequests/3600);
+	
 	return(
 		<div className={"stat-item"}  style={{textAlign: "left", width: "100%"}}>
 			<table className="stat-table"  style={ { height: "100%"}}>
@@ -75,25 +77,25 @@ const ObservingStatisticsSeeing = ({proposals, partner}) => {
 					<td>Max Seeing <br /> &#x2266; 1.0 </td>
 					<td>{ (maxSeeing.less10.timeRequests/3600).toFixed(2) }</td>
 					<td>{ maxSeeing.less10.noOfProposals }</td>
-					<td>{0}</td>
+					<td>{ (((maxSeeing.less10.timeRequests/3600)/totalReqTime)*100).toFixed(1) }</td>
 				</tr>
 				<tr>
 					<td>Max Seeing <br /> &#x2266; 1.5</td>
 					<td>{ (maxSeeing.less15.timeRequests/3600).toFixed(2) }</td>
 					<td>{ maxSeeing.less15.noOfProposals }</td>
-					<td>{0}</td>
+					<td>{ (((maxSeeing.less15.timeRequests/3600)/totalReqTime)*100).toFixed(1) }</td>
 				</tr>
 				<tr>
 					<td>Max Seeing <br /> &#x2266; 2.0</td>
 					<td>{ (maxSeeing.less20.timeRequests/3600).toFixed(2) }</td>
 					<td>{ maxSeeing.less20.noOfProposals }</td>
-					<td>{0}</td>
+					<td>{ (((maxSeeing.less20.timeRequests/3600)/totalReqTime)*100).toFixed(1) }</td>
 				</tr>
 				<tr>
 					<td>Max Seeing <br /> &#x2266; 5.0</td>
 					<td>{ (maxSeeing.less50.timeRequests/3600).toFixed(2) }</td>
 					<td>{ maxSeeing.less50.noOfProposals }</td>
-					<td>{0}</td>
+					<td>{ (((maxSeeing.less50.timeRequests/3600)/totalReqTime)*100).toFixed(1) }</td>
 				</tr>
 				</tbody>
 			</table>

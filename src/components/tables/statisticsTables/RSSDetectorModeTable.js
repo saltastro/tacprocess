@@ -31,7 +31,7 @@ const RSSDetectorModeTable = ({proposals}) => {
 		        <thead>
 		        <tr>
 			        <th>Detector mode</th>
-			        <th>Number of Proposals</th>
+			        <th>Number of configurations</th>
 		        </tr>
 		        </thead>
 		        <tbody>

@@ -5,6 +5,7 @@ import { TIME_ALLOCATIONS_QUERY_START,
 	SUBMIT_TIME_ALLOCATIONS_START,
 	SUBMIT_TIME_ALLOCATIONS_PASS,
 	SUBMIT_TIME_ALLOCATIONS_FAIL,
+	ALL_PARTNER
 } from "../types";
 
 
@@ -40,13 +41,25 @@ export const failToSubmitTimeAllocations = (partner, error) => ({
 });
 
 const convertData = (data) => {
-	let availableTime = {};
+	let availableTime = {
+		[ALL_PARTNER] :{
+		p0p1: 0,
+		p2: 0,
+		p3: 0
+	}};
 	data.partnerAllocations.forEach( a => {
-		availableTime[a.code] = {
-			p0p1: a.allocatedTime.AllocatedP0P1,
-			p2: a.allocatedTime.AllocatedP2,
-			p3: a.allocatedTime.AllocatedP3
-		}
+		const partner = !!a.code ? a.code : ALL_PARTNER;
+		if (partner === ALL_PARTNER){
+				availableTime[partner].p0p1 += a.allocatedTime.AllocatedP0P1;
+				availableTime[partner].p2 += a.allocatedTime.AllocatedP2;
+				availableTime[partner].p3 += a.allocatedTime.AllocatedP3;
+
+		} else {
+			availableTime[partner] = {
+					p0p1: a.allocatedTime.AllocatedP0P1,
+					p2: a.allocatedTime.AllocatedP2,
+					p3: a.allocatedTime.AllocatedP3
+			}}
 	});
 	return availableTime
 };
@@ -56,6 +69,7 @@ export const storePartnerAllocations = (semester, partner="All") => function fit
 	queryPartnerAllocations(semester, partner).then( res => {
 		dispatch(passQuery(convertData(res.data.data)))
 	}).catch((e) => {
+		console.log(e);
 		dispatch(failQuery(e.message))
 	})
 
