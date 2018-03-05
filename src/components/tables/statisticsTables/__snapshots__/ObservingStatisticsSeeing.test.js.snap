@@ -7,6 +7,12 @@ exports[`ObservingStatisticsSeeing Component Render the ObservingStatisticsSeein
 >
   <div
     className="stat-item"
+    style={
+      Object {
+        "textAlign": "left",
+        "width": "100%",
+      }
+    }
   >
     <table
       className="stat-table"
@@ -18,7 +24,9 @@ exports[`ObservingStatisticsSeeing Component Render the ObservingStatisticsSeein
     >
       <thead>
         <tr>
-          <th>
+          <th
+            className="width-150"
+          >
             Conditions
           </th>
           <th>
