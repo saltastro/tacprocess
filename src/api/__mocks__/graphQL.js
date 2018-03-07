@@ -79,3 +79,17 @@ export function queryPartnerAllocations(semester, partner="All" ){
     })
   })
 }
+
+export function querySALTAstronomers(){
+	return new Promise((resolve) => {
+		resolve({
+      data:{
+        data : {
+          SALTAstronomers:[
+            { name: "Sifiso", surname: "Myeza", username: "myezasifiso" }
+          ]
+        }
+      }
+    })
+	});
+}
