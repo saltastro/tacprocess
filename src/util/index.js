@@ -1,6 +1,12 @@
 import { saveAs } from 'file-saver';
 import * as types from '../types';
-import { ADMINISTRATOR, DOCUMENTATION_PAGE, STATISTICS_PAGE, TAC_PAGE, TECHNICAL_PAGE } from '../types';
+import {
+	ADMINISTRATOR,
+	TAC_CHAIR,
+	DOCUMENTATION_PAGE,
+	STATISTICS_PAGE,
+	TAC_PAGE,
+	TECHNICAL_PAGE } from '../types';
 import { jsonClient } from '../api';
 
 /**
@@ -334,6 +340,9 @@ export function canViewPage (userRoles, page){
 	if ((userRoles || []).some( p => p.type.toLowerCase() === ADMINISTRATOR.toLowerCase())) {
 		return true;
 	}
+	if ((userRoles || []).some( p => p.type.toLowerCase() === TAC_CHAIR.toLowerCase() && page === "Admin")) {
+		return true;
+	}
 	return (userRoles || []).some( p => pageRole(page, p.type))
 		}
 
@@ -348,7 +357,7 @@ export function makeTechComment (techReview){
 function testTechReview(rev) {
 	let review = { comment: ""};
 	if (rev.length > 2) {
-		(rev || []).forEach((r, i) => {
+		(rev || []).forEach(r => {
 			if (r.indexOf("Feasible:") !== -1) {
 				review["feasible"] = r.split("Feasible: ").pop() || null
 			} else if (r.indexOf("Detailed Check:") !== -1) {
@@ -416,20 +425,19 @@ export function defaultSemester() {
 	return `${year}-${semester}`;
 }
 
-export function downloadSummary(proposalCode, semester) {
-    jsonClient('blob').post('/proposal-summary', {proposalCode, semester})
+export function downloadSummary(proposalCode, semester, partner) {
+    jsonClient('blob').post('/proposal-summary', {proposalCode, semester, partner})
             .then(res => {
                 saveAs(res.data, `${proposalCode}.pdf`);
             })
             .catch(err => console.error(err));
 }
 
-export function downloadSummaries(proposals, semester) {
+export function downloadSummaries(proposals, semester, partner) {
     const proposalCodes = proposals.map(p => p.proposalCode);
-    jsonClient('blob').post('/proposal-summaries', {proposalCodes, semester})
+    jsonClient('blob').post('/proposal-summaries', {proposalCodes, semester, partner})
             .then(res => {
                 saveAs(res.data, 'proposal_summaries.zip');
             })
             .catch(err => console.error(err));
 }
-

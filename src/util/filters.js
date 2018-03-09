@@ -84,10 +84,10 @@ export const getPartnerList = roles => {
 			break;
 		}
 
-		if (r.type === "TAC_CHAIR") {
+		if (r.type === "TAC_MEMBER") {
 			partnerList = r.partners;
 		}
-		if (r.type === "TAC_MEMBER") {
+		if (r.type === "TAC_CHAIR") {
 			partnerList = r.partners;
 		}
 	}
@@ -172,4 +172,17 @@ export const isTechReportUpdated = (proposal, initProposals, semester) => {
 export const isReviewerUpdated = (proposal, initProposals, semester) => {
 	const initProposal = initProposals.find(p => p.proposalCode === proposal.proposalCode);
 	return !initProposal || initProposal.techReviews[semester].reviewer.username !== proposal.techReviews[semester].reviewer.username;
+};
+
+
+export const compareByValue = (a, b) => {
+	const name1 = a.value;
+	const name2 = b.value;
+	if (name1 < name2) {
+		return -1;
+	}
+	if (name1 > name2) {
+		return 1;
+	}
+	return 0;
 };
