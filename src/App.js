@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import { BrowserRouter, Route }  from "react-router-dom";
+import { BrowserRouter, Route, withRouter }  from "react-router-dom";
 import { connect } from "react-redux";
 
+import PageNotFound from "./components/pages/PageNotFound";
 import HomePage from "./components/pages/HomePage";
 import LoginPage from "./components/pages/LoginPage";
 import StatisticsPage from "./components/pages/StatisticsPage";
@@ -13,13 +14,19 @@ import AdminPage from "./components/pages/AdminPage";
 import UserRoute from "./components/routes/UserRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 import Navigation from "./components/Navigation";
-import Filters from "./components/Filters";
 import * as actions from './actions/auth';
 import fetchTargets from './actions/targetsActions';
 import { storePartnerAllocations } from './actions/timeAllocationActions';
 import fetchProposals from './actions/proposalsActions';
-import {defaultSemester} from "./util";
-import {ALL_PARTNER} from "./types";
+import {defaultSemester, canViewPage} from "./util";
+import {
+	ALL_PARTNER,
+	STATISTICS_PAGE,
+	DOCUMENTATION_PAGE,
+	TECHNICAL_PAGE,
+	TAC_PAGE,
+	ADMIN_PAGE
+} from "./types"
 
 class App extends React.Component {
 	componentDidMount() {
@@ -27,7 +34,7 @@ class App extends React.Component {
 			const selected = this.props.filters;
 			const {dispatch} = this.props;
 			const semester = defaultSemester();
-			
+
 			dispatch(actions.fetchUserData());
 			dispatch(
 				fetchTargets(
@@ -45,15 +52,18 @@ class App extends React.Component {
 			));
 		}
 	}
-	
+
 	loggingOut = () => {
 		const { dispatch } = this.props;
 		dispatch(actions.logout())
 	};
-	
+
 	render() {
+		const { location } = this.props;
 		const isAuthenticated = this.props.isAuthenticated;
-		
+		let userRoles = []
+		if(this.props.user && this.props.user.roles) {userRoles = this.props.user.roles}
+		console.log(">>: ", this);
 		return (
 			<BrowserRouter>
 				<div className="root-main">
@@ -61,30 +71,32 @@ class App extends React.Component {
 						<Navigation logout={this.loggingOut}/>
 					</div>
 					<div>
-						
+
 						{this.props.fetchProposalsError &&
 						<div className="error">
 							{`The proposals could not be loaded: ${this.props.fetchProposalsError}`}
 						</div>}
-						
+
 						{this.props.fetchTargetsError &&
 						<div className="error">
 							{`The targets could not be loaded: ${this.props.fetchTargetsError}`}
 						</div>}
-						
-						{isAuthenticated ? <Filters/> : <div/>}
+
 						<div className="main-div">
 							<Route path="/" exact component={HomePage}/>
 							<GuestRoute path="/login" exact component={LoginPage} isAuthenticated={isAuthenticated}/>
-							<UserRoute path="/statistics" exact component={StatisticsPage}
-							           isAuthenticated={isAuthenticated}/>
+							{canViewPage(userRoles, STATISTICS_PAGE) &&
+								<UserRoute path="/statistics" exact component={StatisticsPage}
+							           isAuthenticated={isAuthenticated}/>}
 							<UserRoute path="/timeallocation" exact component={TimeAllocationPage}
-							           isAuthenticated={isAuthenticated}/>
-							<UserRoute path="/techreview" exact component={TechReviewPage}
-							           isAuthenticated={isAuthenticated}/>
+							           isAuthenticated={isAuthenticated} view={ canViewPage(userRoles, TAC_PAGE) }/>
+							{canViewPage(userRoles, TECHNICAL_PAGE) &&
+								<UserRoute path="/techreview" exact component={TechReviewPage}
+							           isAuthenticated={isAuthenticated}/> }
 							<UserRoute path="/documentation" exact component={DocumentationPage}
 							           isAuthenticated={isAuthenticated}/>
-							<UserRoute path="/admin" exact component={AdminPage} isAuthenticated={isAuthenticated}/>
+							{canViewPage(userRoles, ADMIN_PAGE) &&
+								<UserRoute path="/admin" exact component={AdminPage} isAuthenticated={isAuthenticated}/>}
 						</div>
 						<div className="footer">
 							<p>Copyright © 2018 TAC</p>
