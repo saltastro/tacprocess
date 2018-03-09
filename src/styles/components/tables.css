@@ -164,3 +164,32 @@ tbody { border: 3px solid #000}
 	padding-bottom: 20px;
 }
 
+.admin-table td, .admin-table th {
+	padding:1%;
+	border: 3px solid #eff4ff;
+}
+
+/* Background-color of the odd rows */
+.admin-table tr:nth-child(odd) {
+	background-color: #eff4ff;
+}
+
+/* Background-color of the even rows */
+.admin-table tr:nth-child(even) {
+	background-color: #efedf9;
+	width: 100%
+}
+
+.admin-table th {
+	background-color: #b6daff;
+}
+.admin-table  {
+	border: 3px solid #000;
+	background-color: #eff4ff;
+	width: 95%;
+
+}
+.new-tac-row td{
+	background: rgba(76, 175, 80, 0.3);
+
+}
