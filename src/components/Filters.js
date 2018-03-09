@@ -29,62 +29,67 @@ class filters extends React.Component {
 		const { dispatch } = this.props;
 		dispatch(astronomerChange(value));
 	};
-
+	
 	render() {
 		const { filters, user, SALTAstronomers, location, loadingProposals, loadingTargets  } = this.props;
 		const { selectedPartner, selectedSemester, selectedLiaison } = filters;
 		const partnerList = getPartnerList(user.roles);
 		const astronomersList = ["All", "Assigned"].concat(getAstronomersList(SALTAstronomers)).concat(["Not Assigned"]);
-		const semesters = ( user.roles || []).some(r => r.type === ADMINISTRATOR || r.type === SALT_ASTRONOMER) ? semestersArray() : [defaultSemester()]
-		return(
-			<div className="selector-div">
-				{(loadingProposals || loadingTargets) && <div className="dimScreen" />}
-				{
-					(loadingProposals && loadingTargets) &&
-					<div className="dimScreen">
-						<h1 className={"loader"}>
-							<span className="let1 span-loader">l</span>
-							<span className="let2 span-loader">o</span>
-							<span className="let3 span-loader">a</span>
-							<span className="let4 span-loader">d</span>
-							<span className="let5 span-loader">i</span>
-							<span className="let6 span-loader">n</span>
-							<span className="let7 span-loader">g</span>
-							<span className="let8 span-loader">.</span>
-							<span className="let9 span-loader">.</span>
-							<span className="let10 span-loader">.</span>
-						</h1>
+		const semesters = ( user.roles || []).some(r => r.type === ADMINISTRATOR || r.type === SALT_ASTRONOMER) ? semestersArray() : [defaultSemester()];
+		if (location.pathname === "/" ||
+			location.pathname === "/admin" ||
+			location.pathname === "/documentation") {
+			return <b/>
+		}else{
+			return(
+				<div className="selector-div">
+					{(loadingProposals || loadingTargets) && <div className="dimScreen" />}
+					{
+						(loadingProposals && loadingTargets) &&
+						<div className="dimScreen">
+							<h1 className={"loader"}>
+								<span className="let1 span-loader">l</span>
+								<span className="let2 span-loader">o</span>
+								<span className="let3 span-loader">a</span>
+								<span className="let4 span-loader">d</span>
+								<span className="let5 span-loader">i</span>
+								<span className="let6 span-loader">n</span>
+								<span className="let7 span-loader">g</span>
+								<span className="let8 span-loader">.</span>
+								<span className="let9 span-loader">.</span>
+								<span className="let10 span-loader">.</span>
+							</h1>
+						</div>
+					}
+					<div className="left">
+						<DropDown
+							className={"left-2"}
+							name="Semester"
+							listToDisplay={semesters}
+							OnChange={this.updateSemester}
+							value={selectedSemester}/>
 					</div>
-				}
-				<div className="left">
-					<DropDown
-						className={"left-2"}
-						name="Semester"
-						listToDisplay={semesters}
-						OnChange={this.updateSemester}
-						value={selectedSemester}/>
-				</div>
-
-				<div className="left-2">
-					<DropDown
-						name="Partner"
-						listToDisplay={partnerList}
-						OnChange={this.updatePartner}
-						value={selectedPartner}/>
-				</div>
-
-				{ location.pathname === "/techreview" &&
-                    <div className="left-2">
+					
+					<div className="left-2">
+						<DropDown
+							name="Partner"
+							listToDisplay={partnerList}
+							OnChange={this.updatePartner}
+							value={selectedPartner}/>
+					</div>
+					
+					{ location.pathname === "/techreview" &&
+					<div className="left-2">
 						<DropDown
 							name="SALT Astronomer"
 							listToDisplay={astronomersList}
 							OnChange={this.updateLiaison}
 							value={selectedLiaison}/>
-                    </div>
-				}
-			</div>
-		);
-
+					</div>
+					}
+				</div>
+			)}
+		
 	}
 }
 
