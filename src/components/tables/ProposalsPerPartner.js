@@ -36,9 +36,9 @@ const byProposalCode = (a, b) => {
 	return 0;
 };
 
-const requestSummary = (event, proposalCode, semester) => {
+const requestSummary = (event, proposalCode, semester, partner) => {
     event.preventDefault();
-    downloadSummary(proposalCode, semester);
+    downloadSummary(proposalCode, semester, partner);
 };
 
 const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentChange,  allocationChange,
@@ -84,7 +84,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 							}
 					}>
 								<td><div className="width-150 padding-8" ><a target="_blank" href={`https://www.salt.ac.za/wm/proposal/${p.proposalCode}`}>{ p.proposalCode }</a></div></td>
-								<td><a href="" onClick={e => requestSummary(e, p.proposalCode, semester)}>Download</a></td>
+								<td><a href="" onClick={e => requestSummary(e, p.proposalCode, semester, partner)}>Download</a></td>
 								<td><div className="table-height width-300" >{ p.title }</div></td>
 								<td><div className="table-height width-400" >{ p.abstract }</div></td>
 								<td>{ p.pi }</td>
@@ -111,7 +111,6 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 								<td>
 									{ canAllocate ?
 										<TimeAllocationInput
-
 											onChange={ e =>
 												allocatedTimeChange(e, p.proposalCode, partner)
 											}
