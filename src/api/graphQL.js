@@ -1,10 +1,10 @@
-import { jsonClient, graphqlClient } from './index';
+import { graphqlClient } from './index';
 import {getTechReportFields} from "../util";
 import { isNewProposal, isLongTermProposal } from "../util/proposal";
 
 
 function makeTechReviews(techReviews) {
-
+	
 	return ( techReviews|| [] ).reduce((prev, tr) => {
 		return {
 			...prev,
@@ -31,7 +31,7 @@ function makeAllocatedTime(alloc){
 }
 
 function makeTacComments(tComm){
-
+	
 	let tacComment = {};
 	tComm.forEach( c => {
 		tacComment[c.partnerCode] = {
@@ -54,7 +54,7 @@ function minimumTotalRequested(distributedTimes, semester){
 }
 
 function requestedTime(requests, semester){
-
+	
 	let reqTime = {
 		minimum: 0,
 		semester: semester,
@@ -114,18 +114,18 @@ const convertData = rowUser => {
 
 export function queryPartnerAllocations(semester, partner="All" ){
 	/**
-	* This method is only called by pages that will need and allocated time
-	* for partner at semester
-	*
-	* @params semester like "2017-1" type String
-	* @params partner is a partner code as it will be shown on partner filter
-	* @return GQL results of the below query
-	*/
+	 * This method is only called by pages that will need and allocated time
+	 * for partner at semester
+	 *
+	 * @params semester like "2017-1" type String
+	 * @params partner is a partner code as it will be shown on partner filter
+	 * @return GQL results of the below query
+	 */
 	let par = "";
 	if ( partner !== "All" ) {
 		par = ` , partnerCode:"${ partner}"`
 	}
-
+	
 	const query = `
   {
     partnerAllocations(semester:"${ semester }" ${ par }){
@@ -193,7 +193,7 @@ export function queryProposals(semester, partner){
 	} else{
 		par = ` allProposals: true `
 	}
-
+	
 	const query = `
   {
     proposals(semester: "${semester}",${par} ){
@@ -269,21 +269,51 @@ export function queryProposals(semester, partner){
 	)
 }
 
-export function submitAllocations(query){
-	return jsonClient().post(`/graphql`, { query })
+export const  submitAllocations = (query) => {
+	return graphqlClient().post(`/graphql`, { query })
 	.then(response => response)
-}
+};
 
 export function querySALTAstronomers(){
 	const query=`
   {
     SALTAstronomers{
-      name
-      username
-      surname
+        name
+	    username
+	    surname
     }
   }
   `;
 	return graphqlClient().post(`/graphql`, {query})
 	.then(response => response)
 }
+
+export const queryTacMembers = () => {
+	const query = `
+{
+	tacMembers{
+		lastName
+	    firstName
+	    partnerCode
+	    username
+	    isChair
+	}
+}
+	`;
+	return graphqlClient().post(`/graphql`, {query})
+	.then( response => response)
+};
+
+export const querySaltUsers = () => {
+	const query = `
+	{
+		saltUsers{
+			lastName
+		    firstName
+		    username
+		}
+	}
+	`;
+	return graphqlClient().post(`/graphql`, {query})
+	.then( response => response)
+};
