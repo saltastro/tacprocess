@@ -5,7 +5,8 @@ import {
 	HOME_PAGE,
 	STATISTICS_PAGE,
 	TAC_PAGE,
-	TECHNICAL_PAGE
+	TECHNICAL_PAGE,
+	PAGE_NOT_FOUND
 } from "../types"
 import { makeTechComment } from "./index";
 
@@ -125,7 +126,8 @@ export const loadedPage = pathname => {
 			pathname === "/statistics"? STATISTICS_PAGE :
 				pathname === "/techreview"? TECHNICAL_PAGE :
 					pathname === "/documentation"? DOCUMENTATION_PAGE :
-						pathname === "/admin"? ADMIN_PAGE : HOME_PAGE;
+						pathname === "/admin"? ADMIN_PAGE : 
+							pathname === "/login"? HOME_PAGE : PAGE_NOT_FOUND;
 };
 
 /**\

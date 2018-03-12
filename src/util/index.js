@@ -6,6 +6,7 @@ import {
 	DOCUMENTATION_PAGE,
 	STATISTICS_PAGE,
 	TAC_PAGE,
+	HOME_PAGE,
 	TECHNICAL_PAGE } from '../types';
 import { jsonClient } from '../api';
 
@@ -337,6 +338,7 @@ const pageRole = (page, role) => {
 };
 
 export function canViewPage (userRoles, page){
+	if (page === HOME_PAGE){return true}
 	if ((userRoles || []).some( p => p.type.toLowerCase() === ADMINISTRATOR.toLowerCase())) {
 		return true;
 	}
