@@ -25,7 +25,7 @@ class Navigation extends React.Component {
 				<div style={{textAlign:"center"}}>
 					<h2 style={{color: "red"}}>Page does not Exist</h2><br/>
 					<div id="emoticons">
-					  <div class="emoti" data-emoti="annoyed"></div>
+					  <div className="emoti" data-emoti="sad"/>
 					</div>
 				</div>
 			)
@@ -35,7 +35,7 @@ class Navigation extends React.Component {
 				<div  style={{textAlign:"center"}}>
 					<h2 style={{ color: "red"}}>Not allowed to view this page</h2><br/>
 					<div id="emoticons">
-					  <div class="emoti" data-emoti="sad"></div>
+					  <div className="emoti" data-emoti="sad"/>
 					</div>
 				</div>
 			)
