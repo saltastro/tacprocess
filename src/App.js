@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import { BrowserRouter, Route, withRouter }  from "react-router-dom";
+import { BrowserRouter, Route }  from "react-router-dom";
 import { connect } from "react-redux";
 
-import PageNotFound from "./components/pages/PageNotFound";
 import HomePage from "./components/pages/HomePage";
 import LoginPage from "./components/pages/LoginPage";
 import StatisticsPage from "./components/pages/StatisticsPage";
@@ -22,7 +21,6 @@ import {defaultSemester, canViewPage} from "./util";
 import {
 	ALL_PARTNER,
 	STATISTICS_PAGE,
-	DOCUMENTATION_PAGE,
 	TECHNICAL_PAGE,
 	TAC_PAGE,
 	ADMIN_PAGE
