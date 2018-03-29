@@ -14,8 +14,7 @@ const initialState = {
   fetching: false,
   error: false,
   selectedSemester: defaultSemester(),
-  selectedLiaison: "All"
-
+  selectedLiaison: "All",
 };
 
 export default function selectors(state=initialState, action={}) {
@@ -40,12 +39,12 @@ export default function selectors(state=initialState, action={}) {
           filters: action.filters,
         }
       }
-      case PAGE_CHANGE: {
-        return {
-          ...state,
-          currentPage: action.current,
-        }
-      }
+      // case PAGE_CHANGE: {
+      //   return {
+      //     ...state,
+      //     currentPage: action.current,
+      //   }
+      // }
       case SEMESTER_CHANGE: {
         return {
           ...state,

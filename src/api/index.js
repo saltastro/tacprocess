@@ -17,7 +17,7 @@ export const jsonClient = (responseType='json') => {
                               }),
 
         _handleError: function(error) {
-            console.error(error.response);
+            //console.error(error.response);
             if (error.response && error.response.data) {
                 throw new Error(error.response.data.message);
             } else {

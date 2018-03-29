@@ -38,9 +38,9 @@
     "yarn": "^1.3.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "start": "REACT_APP_API_BASE_URL=http://tacapidev.cape.saao.ac.za react-scripts start",
+    "build": "REACT_APP_API_BASE_URL=http://tacapidev.cape.saao.ac.za react-scripts build",
+    "test": "REACT_APP_API_BASE_URL=http://test; react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint src"
   },
