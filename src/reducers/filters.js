@@ -2,7 +2,6 @@ import {
 	FETCH_SELECTOR_DATA_START,
 	FETCH_SELECTOR_DATA_PASS,
 	FETCH_SELECTOR_DATA_FAIL,
-	PAGE_CHANGE,
 	SEMESTER_CHANGE,
 	PARTNER_CHANGE,
 	ASTRONOMER_CHANGE,
@@ -39,12 +38,6 @@ export default function selectors(state=initialState, action={}) {
           filters: action.filters,
         }
       }
-      // case PAGE_CHANGE: {
-      //   return {
-      //     ...state,
-      //     currentPage: action.current,
-      //   }
-      // }
       case SEMESTER_CHANGE: {
         return {
           ...state,
