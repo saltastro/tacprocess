@@ -1,10 +1,10 @@
-export const setStorage = (user) => {
+export const setToken = (user) => {
 	localStorage.tacPageJWT = user.token;
 };
 
-export const getStorage = () => localStorage.tacPageJWT;
+export const getToken = () => localStorage.tacPageJWT;
 
 
-export const removeStorage = () => {
+export const removeToken = () => {
 	localStorage.removeItem("tacPageJWT");
 };

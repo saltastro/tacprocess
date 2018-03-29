@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from '../types';
-import {getStorage} from "../util/storage";
+import {getToken} from "../util/storage";
 
 export const jsonClient = (responseType='json') => {
     return {
@@ -11,7 +11,7 @@ export const jsonClient = (responseType='json') => {
                                       "cors": true
                                   },
                                   headers: {
-                                      'Authorization': `Token ${getStorage()}`,
+                                      'Authorization': `Token ${getToken()}`,
                                       'Content-Type': 'application/json',
                                   }
                               }),
@@ -43,7 +43,7 @@ export const graphqlClient = () => {
                                       "cors": true
                                   },
                                   headers: {
-                                      'Authorization': `Token ${getStorage()}`,
+                                      'Authorization': `Token ${getToken()}`,
                                       'Content-Type': 'application/json',
                                   }
                               }),

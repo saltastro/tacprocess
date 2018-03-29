@@ -13,7 +13,7 @@ import fetchTargets from "./targetsActions";
 import {storePartnerAllocations} from "./timeAllocationActions";
 import fetchProposals from "./proposalsActions";
 import {defaultSemester} from "../util";
-import {setStorage, removeStorage} from "../util/storage";
+import {setToken, removeToken} from "../util/storage";
 
 export const userLoggedIn = user => ({
 	type: USER_LOGGED_IN,
@@ -28,10 +28,13 @@ export const fetchingUserData = () => ({
 	type: FETCHING_USER
 });
 
-export const fetchingUserFail = (error) => ({
+export const fetchingUserFail = (error) => {
+
+	return {
 	type: FAIL_TO_GET_USER,
 	payload: { error }
-});
+	};
+};
 
 export const switchUserStart = () => ({
 	type: SWITCH_USER_START
@@ -51,7 +54,7 @@ export const switchUser = (username) =>  async (dispatch) => {
 	dispatch(switchUserStart());
 	try {
 		const user = await api.user.switchUser(username);
-		setStorage(user);
+		setToken(user);
 		const userData = await queryUserData();
 		dispatch(partnersFilter(ALL_PARTNER));
 		dispatch(userLoggedIn(userData));
@@ -63,7 +66,7 @@ export const switchUser = (username) =>  async (dispatch) => {
 export const login = credentials => async (dispatch) => {
 	try {
 		const user = await api.user.login(credentials);
-		setStorage(user);
+		setToken(user);
 		const userData = await queryUserData();
 		dispatch(userLoggedIn(userData));
 		const semester = defaultSemester();
@@ -79,7 +82,7 @@ export const login = credentials => async (dispatch) => {
 };
 
 export const logout = () => dispatch => {
-	removeStorage();
+	removeToken();
 	dispatch(userLoggedOut());
 };
 
