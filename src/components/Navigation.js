@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, withRouter } from "react-router-dom" // TODO: use NavLink and make sure that NavLink work
+import { NavLink, withRouter, Link } from "react-router-dom" // TODO: use NavLink and make sure that NavLink work
 import { connect } from "react-redux";
 import {
 	STATISTICS_PAGE,
@@ -37,6 +37,8 @@ class Navigation extends React.Component {
 					<div id="emoticons">
 					  <div className="emoti" data-emoti="sad"/>
 					</div>
+					<br/>
+					<button><Link to="/">Go Home</Link></button>
 				</div>
 			)
 		}

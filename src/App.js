@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import { BrowserRouter, Route }  from "react-router-dom";
+import { BrowserRouter, Route, Redirect }  from "react-router-dom";
 import { connect } from "react-redux";
 
 import HomePage from "./components/pages/HomePage";
