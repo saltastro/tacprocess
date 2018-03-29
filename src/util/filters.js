@@ -94,7 +94,6 @@ export const getPartnerList = roles => {
 	}
 	partnerList.includes(ALL_PARTNER) ? partnerList.push() : partnerList.push(ALL_PARTNER);
 
-	( roles || [] ).forEach();
 	return partnerList
 };
 

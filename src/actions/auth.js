@@ -29,7 +29,7 @@ export const fetchingUserData = () => ({
 });
 
 export const fetchingUserFail = (error) => {
-
+	removeToken();
 	return {
 	type: FAIL_TO_GET_USER,
 	payload: { error }
