@@ -193,3 +193,6 @@ tbody { border: 3px solid #000}
 	background: rgba(76, 175, 80, 0.3);
 
 }
+.danger-line {
+	background: #FEE;
+}
