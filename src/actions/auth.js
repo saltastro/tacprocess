@@ -15,11 +15,10 @@ import fetchProposals from "./proposalsActions";
 import {defaultSemester} from "../util";
 import {setStorage, removeStorage} from "../util/storage";
 
-export const userLoggedIn = user => {
-	return ({
-		type: USER_LOGGED_IN,
-		payload: user
-	})};
+export const userLoggedIn = user => ({
+	type: USER_LOGGED_IN,
+	payload: user
+});
 
 export const userLoggedOut = () => ({
 	type: USER_LOGGED_OUT
@@ -31,7 +30,7 @@ export const fetchingUserData = () => ({
 
 export const fetchingUserFail = (error) => ({
 	type: FAIL_TO_GET_USER,
-    payload: { error }
+	payload: { error }
 });
 
 export const switchUserStart = () => ({
@@ -40,46 +39,42 @@ export const switchUserStart = () => ({
 
 export const switchUserFail = (error) => ({
 	type: SWITCH_USER_FAIL,
-    payload: { error }
+	payload: { error }
 });
-
-export const switchUser = (username) => {
-	return async (dispatch) => {
-		dispatch(switchUserStart());
-		try {
-			const user = await api.user.switchUser(username);
-			setStorage(user);
-			const userData = await queryUserData();
-			dispatch(partnersFilter(ALL_PARTNER));
-			dispatch(userLoggedIn(userData));
-		} catch (e) {
-			dispatch(switchUserFail(e.message));
-		}
-	}
-};
 
 export const partnersFilter = partner => ({
 	type: PARTNER_CHANGE,
 	changeTo: partner
 });
 
-export const login = credentials => {
-	return async (dispatch) => {
-		try {
-			const user = await api.user.login(credentials);
-			setStorage(user);
-			const userData = await queryUserData();
-			dispatch(userLoggedIn(userData));
-			const semester = defaultSemester();
+export const switchUser = (username) =>  async (dispatch) => {
+	dispatch(switchUserStart());
+	try {
+		const user = await api.user.switchUser(username);
+		setStorage(user);
+		const userData = await queryUserData();
+		dispatch(partnersFilter(ALL_PARTNER));
+		dispatch(userLoggedIn(userData));
+	} catch (e) {
+		dispatch(switchUserFail(e.message));
+	}
+};
 
-			dispatch(partnersFilter(ALL_PARTNER));
+export const login = credentials => async (dispatch) => {
+	try {
+		const user = await api.user.login(credentials);
+		setStorage(user);
+		const userData = await queryUserData();
+		dispatch(userLoggedIn(userData));
+		const semester = defaultSemester();
 
-			dispatch(fetchProposals( semester, ALL_PARTNER));
-			dispatch(fetchTargets(semester, ALL_PARTNER));
-			dispatch(storePartnerAllocations(semester, ALL_PARTNER));
-		} catch (e) {
-			dispatch(fetchingUserFail(e.message));
-		}
+		dispatch(partnersFilter(ALL_PARTNER));
+
+		dispatch(fetchProposals( semester, ALL_PARTNER));
+		dispatch(fetchTargets(semester, ALL_PARTNER));
+		dispatch(storePartnerAllocations(semester, ALL_PARTNER));
+	} catch (e) {
+		dispatch(fetchingUserFail(e.message));
 	}
 };
 

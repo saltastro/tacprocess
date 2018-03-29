@@ -37,8 +37,8 @@ function startSubmittingTechnicalReviews() {
 function submittingTechnicalReviewsFail(error) {
 	return {
 		type: SUBMIT_TECHNICAL_REVIEWS_FAIL,
-        payload: { error }
-    }
+		payload: { error }
+	}
 }
 
 function submittingTechnicalReviewsPass() {
@@ -59,32 +59,32 @@ function submittingTechnicalReviewsPass() {
  */
 export function submitTechnicalReviewDetails(proposals, user, initProposals, partner, semester) {
 	return async (dispatch) => {
-        dispatch(startSubmittingTechnicalReviews());
-        const updatedProposals = proposals
-                .filter(p => {
-					return isReviewerUpdated(p, initProposals, semester) ||
-							isTechReportUpdated(p, initProposals, semester)
-				});
-        if (updatedProposals.some(p => !p.techReviews[semester].reviewer || !p.techReviews[semester].reviewer.username)) {
-        	dispatch(submittingTechnicalReviewsFail('A reviewing astronomer must be assigned to every updated review.'));
-        	return;
-        }
+		dispatch(startSubmittingTechnicalReviews());
+		const updatedProposals = proposals
+		.filter(p => (
+			isReviewerUpdated(p, initProposals, semester) ||
+			isTechReportUpdated(p, initProposals, semester)
+		));
+		if (updatedProposals.some(p => !p.techReviews[semester].reviewer || !p.techReviews[semester].reviewer.username)) {
+			dispatch(submittingTechnicalReviewsFail('A reviewing astronomer must be assigned to every updated review.'));
+			return;
+		}
 		const reviews = updatedProposals.map(p => {
-					const reviewer = !p.techReviews[semester].reviewer || !p.techReviews[semester].reviewer.username
-							? null
-							: p.techReviews[semester].reviewer.username;
-                    return {
-                        proposalCode: p.proposalCode,
-                        reviewer,
-						report: makeTechComment(p.techReviews[semester])
-                    }
-                });
+			const reviewer = !p.techReviews[semester].reviewer || !p.techReviews[semester].reviewer.username
+				? null
+				: p.techReviews[semester].reviewer.username;
+			return {
+				proposalCode: p.proposalCode,
+				reviewer,
+				report: makeTechComment(p.techReviews[semester])
+			}
+		});
 
-        try {
-            await jsonClient().post('technical-reviews', {semester, reviews});
-        } catch (e) {
-        	dispatch(submittingTechnicalReviewsFail(e.message));
-        	return;
+		try {
+			await jsonClient().post('technical-reviews', {semester, reviews});
+		} catch (e) {
+			dispatch(submittingTechnicalReviewsFail(e.message));
+			return;
 		}
 		dispatch(fetchProposals(semester, partner));
 		dispatch(submittingTechnicalReviewsPass());

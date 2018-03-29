@@ -5,19 +5,17 @@ import { isNewProposal, isLongTermProposal } from "../util/proposal";
 
 function makeTechReviews(techReviews) {
 	
-	return ( techReviews|| [] ).reduce((prev, tr) => {
-		return {
+	return ( techReviews|| [] ).reduce((prev, tr) => ({
 			...prev,
 			[tr.semester]: {
 				reviewer: tr.reviewer,
 				...getTechReportFields(tr.report)
 			}
-		};
-	}, {});
+		}), {});
 }
 
 function makeAllocatedTime(alloc){
-	let allocations = {};
+	const allocations = {};
 	alloc.forEach( a => {
 		allocations[a.partnerCode] = {
 			p0: (a.p0 === null) ? 0 : a.p0,
@@ -32,7 +30,7 @@ function makeAllocatedTime(alloc){
 
 function makeTacComments(tComm){
 	
-	let tacComment = {};
+	const tacComment = {};
 	tComm.forEach( c => {
 		tacComment[c.partnerCode] = {
 			comment: c.comment == null ? "" : `${c.comment}`
@@ -55,9 +53,9 @@ function minimumTotalRequested(distributedTimes, semester){
 
 function requestedTime(requests, semester){
 	
-	let reqTime = {
+	const reqTime = {
 		minimum: 0,
-		semester: semester,
+		semester,
 		requests: {}
 	};
 	requests.forEach(p => {
@@ -102,15 +100,14 @@ export function convertProposals(proposals, semester, partner){
 	});
 }
 
-const convertData = rowUser => {
-	return {
+const convertData = rowUser => ({
 		firstName: rowUser.firstName,
 		lastName: rowUser.lastName,
 		email: rowUser.email,
 		username: rowUser.username,
 		roles:rowUser.role
-	};
-};
+	}
+);
 
 export function queryPartnerAllocations(semester, partner="All" ){
 	/**
@@ -159,9 +156,7 @@ export function queryUserData(){
   }`;
 	return graphqlClient().post(`/graphql`, {query})
 	.then(
-		response => {
-			return convertData(response.data.data.user);
-		}
+		response =>  convertData(response.data.data.user)
 	)
 }
 
@@ -269,10 +264,7 @@ export function queryProposals(semester, partner){
 	)
 }
 
-export const  submitAllocations = (query) => {
-	return graphqlClient().post(`/graphql`, { query })
-	.then(response => response)
-};
+export const  submitAllocations = (query) =>  graphqlClient().post(`/graphql`, { query }).then(response => response);
 
 export function querySALTAstronomers(){
 	const query=`

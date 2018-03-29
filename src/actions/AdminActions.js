@@ -42,7 +42,7 @@ function convertSaltUsers(users){
 }
 
 function convertTacMembers(tacs){
-	let newTacs = {};
+	const newTacs = {};
 	tacs.tacMembers.forEach(tac => {
 		if (!newTacs[tac.partnerCode]){
 			newTacs[tac.partnerCode] = []

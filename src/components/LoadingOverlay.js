@@ -9,7 +9,10 @@ const LoadingOverlay = ({loading, children}) => {
             </div>
     );
 };
-
+LoadingOverlay.defaultProps = {
+    children: undefined
+};
 LoadingOverlay.propTypes = {
-    loading: PropTypes.bool.isRequired()
+    loading: PropTypes.bool.isRequired,
+    children: PropTypes.string
 };
