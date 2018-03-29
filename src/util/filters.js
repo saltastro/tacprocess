@@ -67,7 +67,7 @@ export const semestersArray = () => {
 	let startYear = 2006;
 	const today = new Date();
 	const year = today.getFullYear();
-	let semester = [];
+	const semester = [];
 	while (startYear < year + 8){
 		semester.push(
 			`${ startYear }-1`, `${ startYear }-2`
@@ -93,16 +93,15 @@ export const getPartnerList = roles => {
 		}
 	}
 	partnerList.includes(ALL_PARTNER) ? partnerList.push() : partnerList.push(ALL_PARTNER);
+
+	( roles || [] ).forEach();
 	return partnerList
 };
 
 /*
 * @params list an array of
 */
-export const listForDropdown = list => {
-	list = ( list||[] ).filter( l => l !== "OTH");
-	return ( list || [] ).map( l => ({ label: l, value: l }))
-};
+export const listForDropdown = list => ( list || [] ).filter( l => l !== "OTH").map( l => ({ label: l, value: l }));
 
 /**
  * method convert a standard SA object to an array of SA names
@@ -110,9 +109,7 @@ export const listForDropdown = list => {
  * @params Array of SALT astronomers directly from server
  * @return Array of SALT astronomers names
  * */
-export const getAstronomersList = saList => {
-	return (saList || []).map( l => (`${l.name}`))
-};
+export const getAstronomersList = saList => (saList || []).map( l => (`${l.name}`));
 
 /**
  * get a current uri path and return the selected page name
@@ -121,16 +118,19 @@ export const getAstronomersList = saList => {
  * @return name of selected page or Home page by default
  */
 export const loadedPage = pathname => {
-	return pathname === "/"? HOME_PAGE :
-		pathname === "/timeallocation"? TAC_PAGE :
-			pathname === "/statistics"? STATISTICS_PAGE :
-				pathname === "/techreview"? TECHNICAL_PAGE :
-					pathname === "/documentation"? DOCUMENTATION_PAGE :
-						pathname === "/admin"? ADMIN_PAGE : 
-							pathname === "/login"? HOME_PAGE : PAGE_NOT_FOUND;
+	let page = HOME_PAGE;
+	if (pathname === "/" ) page = HOME_PAGE;
+	else if (pathname === "/timeallocation" ) page = TAC_PAGE;
+	else if( pathname === "/statistics" ) page = STATISTICS_PAGE;
+	else if( pathname === "/techreview" ) page = TECHNICAL_PAGE;
+	else if( pathname === "/documentation" ) page = DOCUMENTATION_PAGE;
+	else if( pathname === "/admin" ) page = ADMIN_PAGE;
+	else if( pathname === "/login" ) page = HOME_PAGE;
+	else page = PAGE_NOT_FOUND;
+	return page;
 };
 
-/**\
+/**
  * It reduce the proposals to only proposals that are assigned to @param astronomer
  * if @param astronomer is "All" all are returned
  * if @param astronomer is "Assigned" only assigned proposals returned

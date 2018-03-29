@@ -2,7 +2,7 @@ import { isFloat } from "../util";
 
 
 export function illegalAllocation(proposal, priority, partner) {
-  const t = !!proposal.allocatedTime[partner] ? proposal.allocatedTime[partner][priority] : 0;
+  const t = proposal.allocatedTime[partner] ? proposal.allocatedTime[partner][priority] : 0;
   return !isFloat(t) || parseFloat(t) < 0;
 }
 
@@ -17,26 +17,26 @@ export function checkAllocatedTimes(proposals, partner){
 }
 
 export function getQuaryToAddAllocation(proposals, partner, semester){
-  const allocationsList = []
-  const commentList = []
+  const allocationsList = [];
+  const commentList = [];
 
   // TODO: this must check validy of allocations
   if (true){
     proposals.forEach( p => {
       commentList.push(`{
             proposalCode: "${p.proposalCode}",
-            comment: "${(!!p.tacComment[partner] ? p.tacComment[partner].comment : "")
+            comment: "${(p.tacComment[partner] ? p.tacComment[partner].comment : "")
               .replace(/(?:\\)/g, '\\\\')
               .replace(/(?:\r\n|\r|\n)/g, '\\n')
               .replace(/(?:")/g, '\\"')}"
          }`);
        [0, 1, 2, 3, 4].forEach( t => {
-         const priority = `p${t}`
+         const priority = `p${t}`;
          allocationsList.push(
            `{
                proposalCode: "${p.proposalCode}",
                priority: ${t},
-               time: ${!!p.allocatedTime[partner] ? p.allocatedTime[partner][priority] : 0}
+               time: ${p.allocatedTime[partner] ? p.allocatedTime[partner][priority] : 0}
             }`
           );
        })
@@ -58,6 +58,6 @@ export function getQuaryToAddAllocation(proposals, partner, semester){
           success
         }
       }
-  `
+  `;
   return mutateQuery
 }

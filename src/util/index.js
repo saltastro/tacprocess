@@ -313,9 +313,9 @@ export function areAllocatedTimesCorrect(partner, availableTime, proposals){
 	const allocTotals = allocatedTimeTotals( proposals, partner );
 
 	return {
-		p0p1: allocTotals.p0 + allocTotals.p1 <= availableTime.p0p1 *60*60,
-		p2: allocTotals.p2 <= availableTime.p2*60*60,
-		p3: allocTotals.p3 <= availableTime.p3*60*60,
+		p0p1: allocTotals.p0 + allocTotals.p1 <= (availableTime.p0p1) *60*60+30,
+		p2: allocTotals.p2 <= availableTime.p2*60*60+30,
+		p3: allocTotals.p3 <= availableTime.p3*60*60+30,
 	}
 
 }
