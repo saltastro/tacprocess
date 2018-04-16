@@ -42,6 +42,7 @@ Proposals Table
 
 table view for SA
 <select></select>
+
 +--------+----------+------------+------+-----------+
 |code    |Title     | Download   | ...  | Liaison   |
 +========+==========+============+======+===========+
@@ -66,7 +67,9 @@ table view for SA
 |code-11 |title-1   | download   | ...  | liaison-1 |
 +--------+----------+------------+------+-----------+
 
+
 table view for Admin
+
 
 +--------+----------+------------+------+-----------+
 |code    |Title     | Download   | ...  | Liaison   |
