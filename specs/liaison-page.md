@@ -4,16 +4,15 @@ Conceptual and Logical Solution
 ===============================
 purpose of the page
 -------------------
-This page allows the SA to select proposal that they want to be liaison of. Proposal that
-already have SA's can not be selected. Once selections is submitted LA's can not ***unselect*** them
-Administrators of the page can select any SA to be the
-the LA of any proposal and they are the only users that can change LA's.
+The Liaison Astronomer page allows the SA to select proposals that they want to be their liaison. Proposals that
+already have SA's can not be selected. Once selections are submitted, LA's can not ***unselect*** themselves.
+Administrators of the page can select any SA to be the LA of any proposal and they are the only users that can change LA's.
 
 users
 -----
  - SALT Astronomers
  - Page Administrators
- - Anyone else can no view this page
+ - Anyone else can not view this page
 
 functionality
 -------------
@@ -23,7 +22,7 @@ functionality
 
 views
 -----
-Page will contains:
+Page will contain:
 
 Semester selector
 
@@ -31,14 +30,14 @@ Semester selector
     
 Liaison astronomer selector
 
-    it will select between current user's proposals all proposals or all proposals that
+    it will select between current user's proposals, all proposals or all proposals that
     does not have a LA yet
     
 Proposals Table
 
-    this will contains all the required **need to be confirmed**
-    SA's will have a check box for selecting a proposal to them selfs and Admins will
-    have a Drop down selector to assign a proposal to someone.
+    this will contain all the required **need to be confirmed**
+    SA's will have a check box for assigning a proposal to themselves and Admins will
+    have a Drop down selector to assign a proposal to SA.
     tables preview below
 
 table view for SA
@@ -89,15 +88,15 @@ data
 Physical solution
 =================
 
-this page will be done using JavaScripts, with  React.js framework and React Redux for data storage.
+this page will be developed using JavaScript, with the React.js framework and React Redux for data storage management.
 
-All the data necessary to complete this page is should be in the redux store.
-From the store the page only need proposals, user and SALTAstronomers.
+All the data necessary to complete this page should be in the redux store.
+From the store, the page only needs proposals, user and SALTAstronomers.
 Data should have or be like:
 
 - user {Json} with keys         
-    - 'usename' as primary key/ id {str}
-    - roles {array} of object with keys
+    - 'username' as a primary key/ id {str}
+    - roles {array} of objects with keys
       - type {str}
       - partners {array} of str
     
@@ -106,7 +105,7 @@ Data should have or be like:
     - liaisonAstronomer {str}
     - (other content to display on table e.g Title)..
     
-- SALTAstronomer {Array} of object with keys
+- SALTAstronomer {Array} of objects with keys
     - name {str}
     - surname {str}
     - username {str}
@@ -116,7 +115,7 @@ return
 
 upon Save/Submit
     
-    only changed proposals need to submited
-data parsed to TAC API should be a array of Json with keys
+    only changed proposals need to be submited
+data parsed to TAC API should be an array of Json with keys
 - proposalCode {str}
 - Liaison Astronomer Username {str}
