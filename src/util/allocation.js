@@ -36,7 +36,9 @@ export function getQuaryToAddAllocation(proposals, partner, semester){
            `{
                proposalCode: "${p.proposalCode}",
                priority: ${t},
-               time: ${p.allocatedTime[partner] ? p.allocatedTime[partner][priority] : 0}
+               time: ${p.allocatedTime[partner] && 
+           !isNaN(parseFloat(p.allocatedTime[partner][priority])) && 
+           isFinite(p.allocatedTime[partner][priority]) ? p.allocatedTime[partner][priority] : 0}
             }`
           );
        })

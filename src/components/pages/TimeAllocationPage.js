@@ -30,14 +30,13 @@ class TimeAllocationPage extends React.Component {
 			semester
 		);
 		dispatch(startSubmittingTimeAllocations(partner));
-		submitAllocations(query, partner)
-		.then(p => p.data)
+		submitAllocations(query)
 		.then(d => {
-			d.data.updateTimeAllocations.success ?
+			d.data.data.updateTimeAllocations.success ?
 					dispatch(TimeAllocationSubmittedSuccessfully(partner))
 					: dispatch(failToSubmitTimeAllocations(partner, 'Something went pear-shaped...'))
 		})
-		.catch(dispatch(failToSubmitTimeAllocations(partner)));
+		.catch(dispatch(failToSubmitTimeAllocations(partner, "Why fail...")));
 	}
 
 	allocationChange(event, proposalCode, priority, partner) {

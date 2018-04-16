@@ -78,7 +78,6 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 					(arrayOfProposals.sort(byProposalCode))
 					.filter(p => !_.isNull(p.title))
 					.map( p => {
-						console.log(p.isP4);
 						return (
 							<tr key={p.proposalId} className={(p.isP4 || !p.requestedTime.requests[partner] > 0 ) ? "danger-line" : "" }>
 								<td><div className="width-150 padding-8" ><a target="_blank" href={`https://www.salt.ac.za/wm/proposal/${p.proposalCode}`}>{ p.proposalCode }</a></div></td>

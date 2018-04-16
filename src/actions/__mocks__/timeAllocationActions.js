@@ -29,7 +29,7 @@ export const startSubmittingTimeAllocations = () => ({
 
 export const TimeAllocationSubmittedSuccessfully = partner => ({
 	type: SUBMIT_TIME_ALLOCATIONS_PASS,
-	payload: {partner: partner}
+	payload: { partner}
 });
 
 export const failToSubmitTimeAllocations = (partner, error) => ({
