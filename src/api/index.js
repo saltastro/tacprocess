@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from '../types';
-import {getStorage} from "../util/storage";
+import {getToken} from "../util/storage";
 
 export const jsonClient = (responseType='json') => {
     return {
@@ -11,13 +11,12 @@ export const jsonClient = (responseType='json') => {
                                       "cors": true
                                   },
                                   headers: {
-                                      'Authorization': `Token ${getStorage()}`,
+                                      'Authorization': `Token ${getToken()}`,
                                       'Content-Type': 'application/json',
                                   }
                               }),
 
         _handleError: function(error) {
-            //console.error(error.response);
             if (error.response && error.response.data) {
                 throw new Error(error.response.data.message);
             } else {
@@ -43,7 +42,7 @@ export const graphqlClient = () => {
                                       "cors": true
                                   },
                                   headers: {
-                                      'Authorization': `Token ${getStorage()}`,
+                                      'Authorization': `Token ${getToken()}`,
                                       'Content-Type': 'application/json',
                                   }
                               }),

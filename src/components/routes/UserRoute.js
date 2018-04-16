@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import { Route, Redirect } from "react-router-dom";
 
 const UserRoute = ({ isAuthenticated, component: Component, ...rest }) => {
+	if ( !isAuthenticated ) return <Redirect to="/login" />;
 	return(
 		<Route
 			{ ...rest }
-			render={ props =>
-				isAuthenticated ? <Component { ...props } /> : <Redirect to="/login" /> }
+			render={ props => <Component { ...props } /> }
 		/>
 	)};
 

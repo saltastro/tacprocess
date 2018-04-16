@@ -23,7 +23,7 @@ export default function PartnerProposals(proposalList, partners){
 	 * @return proposals belonging to that partner
 	 */
 	
-	let proposalPerPartner = {};
+	const proposalPerPartner = {};
 	
 	partners.forEach(partner => {
 		if (partner !== "OTH"){
@@ -62,9 +62,9 @@ export const didReportChange = (proposal, initProposals, semester) => {
  * @param semester
  * @return Boolean (true) if the proposal is new
  * */
-export const isNewProposal = (proposal, semester) => {
-	return !( proposal.timeRequests || [] ).some(t =>  t.semester < semester )
-};
+export const isNewProposal = (proposal, semester) =>  !(
+	proposal.timeRequests || [] ).some(t =>  t.semester < semester
+);
 
 /**
  * check if proposal is requesting anytime from any semester other than selected semester
@@ -75,6 +75,6 @@ export const isNewProposal = (proposal, semester) => {
  * @param semester
  * @return Boolean (true) if the proposal is new
  * */
-export const isLongTermProposal = (proposal, semester) => {
-	return ( proposal.timeRequests || [] ).some(t => t.semester !== semester )
-};
+export const isLongTermProposal = (proposal, semester) =>  (
+	proposal.timeRequests || [] ).some(t => t.semester !== semester
+);

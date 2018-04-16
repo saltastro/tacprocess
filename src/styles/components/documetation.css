@@ -2,22 +2,22 @@
     display: grid;
     grid-template-columns: auto;
     background-color: #d6e2f3;
-    padding: 10px;
+    padding: 5px;
     text-align: left;
 }
 .doc-div {
     text-align: left;
     font-family: Arial, Helvetica, sans-serif;
     background-color: #FDFDFD;
-    padding: 20px;
+    padding-left: 2%;
 }
 
 ul.doc li {
-    padding: 8px;
+    padding-bottom: 1%;
     margin-left: 35px;
+    float: none;
 }
 
 .doc-div p {
     margin-left: 35px;
-    padding: 10px;
 }

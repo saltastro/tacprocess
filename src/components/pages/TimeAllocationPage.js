@@ -30,10 +30,13 @@ class TimeAllocationPage extends React.Component {
 			semester
 		);
 		dispatch(startSubmittingTimeAllocations(partner));
-		submitAllocations(query).then(p => p.data, dispatch(failToSubmitTimeAllocations(partner)))
+		submitAllocations(query)
 		.then(d => {
-			d.data.updateTimeAllocations.success ? dispatch(TimeAllocationSubmittedSuccessfully(partner)) : dispatch(failToSubmitTimeAllocations(partner, 'Something went pear-shaped...'))
-		});
+			d.data.data.updateTimeAllocations.success ?
+					dispatch(TimeAllocationSubmittedSuccessfully(partner))
+					: dispatch(failToSubmitTimeAllocations(partner, 'Something went pear-shaped...'))
+		})
+		.catch(dispatch(failToSubmitTimeAllocations(partner, "Why fail...")));
 	}
 
 	allocationChange(event, proposalCode, priority, partner) {
@@ -68,9 +71,11 @@ class TimeAllocationPage extends React.Component {
 */
 	CSVData = (proposals, partner, semester) => {
 		let tableDataHeaders = [
-			"Code", "Title", "Abstract", "PI", "Semester", "TAC comment", "Minimum useful time",
-			"Total Requested Time", "P0", "P1", "P2", "P3", "P4",
-
+			"Code", "Title", "Abstract", "PI", "Semester", "TAC comment",
+			"Minimum useful time (Sec)",
+			`Total Requested Time for ${partner} (Sec)`,
+			"Total Requested Time (Sec)",
+			"P0", "P1", "P2", "P3", "P4",
 			"Transparency", "Max seeing", "Tech Report"
 		];
 		return [
@@ -82,7 +87,9 @@ class TimeAllocationPage extends React.Component {
 				p.pi,
 				semester,
 				!!p.tacComment[partner]? p.tacComment[partner].comment : "",
-				p.minTime, p.totalRequestedTime,
+				p.minTime,
+				p.requestedTime.requests[partner],
+				p.totalRequestedTime,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p0"] : 0,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p1"] : 0,
 				!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p2"] : 0,
@@ -128,7 +135,7 @@ class TimeAllocationPage extends React.Component {
 
 	render() {
 		const {allocatedTime, filters, user, tac, semester } = this.props;
-		const { unSubmittedTacChanges, submittedTimeAllocations } = this.props.proposals;
+		const { submittedTimeAllocations } = this.props.proposals;
 		const proposals = this.props.proposals.proposals || [];
 		const roles = user.roles;
 		let partners = listForDropdown(getPartnerList(roles || []));
@@ -188,8 +195,8 @@ class TimeAllocationPage extends React.Component {
 										onError={this.handleDarkSideForce}
 									/>
 								}
-								
-								<button onClick={() => downloadSummaries(partnerProposals[partner] || [], semester)}>
+
+								<button onClick={() => downloadSummaries(partnerProposals[partner] || [], semester, partner)}>
 									Download summary files
 								</button>
 								{
@@ -198,9 +205,6 @@ class TimeAllocationPage extends React.Component {
 										disabled={semester < "2018-1"}
 										className="btn-success"
 										onClick={e => this.submitForPartner(e, partner)}>Submit {partner}</button>
-								}
-								{
-									!unSubmittedTacChanges[partner] ? <div /> : <div style={{ color: '#866604', fontSize: '20px'}}>Change detected</div>
 								}
 								{
 									submittedTimeAllocations.partner !== partner ? <div />

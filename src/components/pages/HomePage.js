@@ -3,25 +3,24 @@ import PropTypes from 'prop-types'
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../../actions/auth";
-import InfoMessage from "../messages/InfoMessage"
 
 const HomePage = ({ isAuthenticated }) => (
 	<div>
-		
+
 		{isAuthenticated ? (
 			<div>
-				<div>
-					<InfoMessage page="Home Page"/>
+				<div className="homepage">
+					<h1>Welcome to SALT time allocation committee</h1>
 				</div>
 			</div>
-		
+
 		) : (
 			<div>
 				<h1 style={{textAlign: "left"}}>Please Login</h1>
 				<Link to="/login"> <button className="loginbtn">Login</button> </Link>
 			</div>
-		
-		
+
+
 		)}
 	</div>
 );
