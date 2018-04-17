@@ -3,7 +3,7 @@ import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 import {getSaltAstronomerName} from "../../util/salt-astronomer";
 
-const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary}) => (
+const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, username}) => (
   <div className='SATableDiv'>
     <h1>Salt Astronomers Proposal Assigning</h1>
     <table className='SATable' align='center'>
@@ -20,21 +20,19 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary}) => (
       {
         proposals.map(p => {
           const liaison = getSaltAstronomerName(p.liaisonAstronomer, selectArray)
-          return ( <tr>
+          return ( <tr key={`liaison-${p.proposalCode}`}>
           <td>
             <a target="_blank"
                href={`https://www.salt.ac.za/wm/proposal/${p.proposalCode}`}>
               {p.proposalCode}
             </a>
           </td>
-          <td>
-            <td className="width-100">
-              <a className="file-download"
-                 href=""
-                 onClick={() => requestSummary(p.proposalCode)}>
-                Download
-              </a>
-            </td>
+          <td className="width-100">
+            <a className="file-download"
+               href=""
+               onClick={e => requestSummary(e, p.proposalCode)}>
+              Download
+            </a>
           </td>
           <td className=" table-height width-400">{p.title}</td>
           <td className="width-100">{p.pi}</td>
@@ -55,7 +53,16 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary}) => (
 
                 </select>
               </td> :
-              <td>!liaison && <option>none</option></td>
+              <td>
+                {
+                  liaison ||
+                    <input
+                      type={"checkbox"}
+                      value={ username }
+                      onChange={e => {
+                        console.log("Checking: ", e)
+                      }}/>}
+              </td>
           }
 
         </tr>)})
@@ -70,6 +77,7 @@ LiaisonTable.propTypes = {
   proposals: propTypes.array.isRequired,
   canAssign: propTypes.bool.isRequired,
   selectArray: propTypes.array.isRequired,
+  username: propTypes.string.isRequired,
   requestSummary: propTypes.func.isRequired // todo request summary should know the current selected semester
 };
 export default LiaisonTable
