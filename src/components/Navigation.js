@@ -52,6 +52,10 @@ class Navigation extends React.Component {
 						<li>
 							<NavLink to="/techreview">TECH REVIEW</NavLink>
 						</li> }
+            { (canViewPage(userRoles, TECHNICAL_PAGE) && isAuthenticated) &&
+            <li>
+              <NavLink to="/liaison">PROPOSAL LIAISON</NavLink>
+            </li> }
 						{ (canViewPage(userRoles, STATISTICS_PAGE) && isAuthenticated) &&
 						<li>
 							<NavLink to="/statistics">STATISTICS</NavLink>

@@ -1,13 +1,13 @@
 import {
-	ADMIN_PAGE,
-	ALL_PARTNER,
-	DOCUMENTATION_PAGE,
-	HOME_PAGE,
-	STATISTICS_PAGE,
-	TAC_PAGE,
-	TECHNICAL_PAGE,
-	PAGE_NOT_FOUND
-} from "../types"
+  ADMIN_PAGE,
+  ALL_PARTNER,
+  DOCUMENTATION_PAGE,
+  HOME_PAGE,
+  STATISTICS_PAGE,
+  TAC_PAGE,
+  TECHNICAL_PAGE,
+  PAGE_NOT_FOUND, LIAISON_PAGE
+} from '../types'
 import { makeTechComment } from "./index";
 
 
@@ -120,6 +120,7 @@ export const loadedPage = pathname => {
 	let page = HOME_PAGE;
 	if (pathname === "/" ) page = HOME_PAGE;
 	else if (pathname === "/timeallocation" ) page = TAC_PAGE;
+	else if (pathname === "/liaison" ) page = LIAISON_PAGE;
 	else if( pathname === "/statistics" ) page = STATISTICS_PAGE;
 	else if( pathname === "/techreview" ) page = TECHNICAL_PAGE;
 	else if( pathname === "/documentation" ) page = DOCUMENTATION_PAGE;
