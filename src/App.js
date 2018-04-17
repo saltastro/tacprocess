@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import { BrowserRouter, Route, Redirect }  from "react-router-dom";
+import { BrowserRouter, Route }  from "react-router-dom";
 import { connect } from "react-redux";
 
 import HomePage from "./components/pages/HomePage";
@@ -26,6 +26,7 @@ import {
 	ADMIN_PAGE
 } from "./types"
 import LiaisonPage from './components/pages/LiaisonPage'
+import fetchSA from './actions/saltAstronomerActions'
 
 class App extends React.Component {
 	componentDidMount() {
@@ -49,6 +50,7 @@ class App extends React.Component {
 				semester,
 				ALL_PARTNER
 			));
+      dispatch(fetchSA())
 		}
 	}
 
@@ -58,11 +60,9 @@ class App extends React.Component {
 	};
 
 	render() {
-		const { location } = this.props;
 		const isAuthenticated = this.props.isAuthenticated;
 		let userRoles = []
 		if(this.props.user && this.props.user.roles) {userRoles = this.props.user.roles}
-		console.log(">>: ", this);
 		return (
 			<BrowserRouter>
 				<div className="root-main">

@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import fetchSA from "../../actions/saltAstronomerActions";
 import {
 	submitTechnicalReviewDetails,
 	updateTechnicalReview
@@ -11,12 +10,6 @@ import { reduceProposalsPerAstronomer} from '../../util/filters';
 
 
 class TechReviewPage extends React.Component {
-
-	componentDidMount() {
-		const { dispatch } = this.props;
-		dispatch(fetchSA())
-	}
-
 	submitTechReview(proposals){
 		this.props.dispatch(submitTechnicalReviewDetails(proposals, this.props.user, this.props.initProposals, this.props.partner, this.props.semester));
 	}
