@@ -25,6 +25,7 @@ import {
 	TAC_PAGE,
 	ADMIN_PAGE
 } from "./types"
+import LiaisonPage from './components/pages/LiaisonPage'
 
 class App extends React.Component {
 	componentDidMount() {
@@ -91,6 +92,9 @@ class App extends React.Component {
 							{canViewPage(userRoles, TECHNICAL_PAGE) &&
 								<UserRoute path="/techreview" exact component={TechReviewPage}
 							           isAuthenticated={isAuthenticated}/> }
+              {canViewPage(userRoles, TECHNICAL_PAGE) &&
+              <UserRoute path="/liaison" exact component={LiaisonPage}
+                         isAuthenticated={isAuthenticated}/> }
 							<UserRoute path="/documentation" exact component={DocumentationPage}
 							           isAuthenticated={isAuthenticated}/>
 							{canViewPage(userRoles, ADMIN_PAGE) &&
