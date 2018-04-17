@@ -20,21 +20,19 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary}) => (
       {
         proposals.map(p => {
           const liaison = getSaltAstronomerName(p.liaisonAstronomer, selectArray)
-          return ( <tr>
+          return ( <tr key={p.proposalId}>
           <td>
             <a target="_blank"
                href={`https://www.salt.ac.za/wm/proposal/${p.proposalCode}`}>
               {p.proposalCode}
             </a>
           </td>
-          <td>
-            <td className="width-100">
-              <a className="file-download"
-                 href=""
-                 onClick={() => requestSummary(p.proposalCode)}>
-                Download
-              </a>
-            </td>
+          <td className="width-100">
+            <a className="file-download"
+               href=""
+               onClick={() => requestSummary(p.proposalCode)}>
+              Download
+            </a>
           </td>
           <td className=" table-height width-400">{p.title}</td>
           <td className="width-100">{p.pi}</td>
@@ -42,7 +40,7 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary}) => (
             canAssign ?
               <td>
                 <select defaultValue={liaison}>
-                  { 
+                  {
                     !liaison && <option>none</option>
                   }
                   {
