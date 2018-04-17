@@ -145,7 +145,7 @@ exports[`PartnerTimeTable Component Render the PartnerTimeTable Component having
         <tr>
           <th />
           <th>
-            Total
+            Total  (hours)
           </th>
         </tr>
       </thead>
@@ -156,6 +156,7 @@ exports[`PartnerTimeTable Component Render the PartnerTimeTable Component having
           </td>
           <td>
             0.00
+             
           </td>
         </tr>
         <tr>
@@ -181,6 +182,14 @@ exports[`PartnerTimeTable Component Render the PartnerTimeTable Component having
           </td>
           <td>
             0.03
+          </td>
+        </tr>
+        <tr>
+          <td>
+            P4 Requested Time 
+          </td>
+          <td>
+            0.00
           </td>
         </tr>
       </tbody>
@@ -215,7 +224,7 @@ exports[`PartnerTimeTable Component Render the PartnerTimeTable Component having
         <tr>
           <th />
           <th>
-            Total
+            Total  (hours)
           </th>
         </tr>
       </thead>
@@ -226,6 +235,7 @@ exports[`PartnerTimeTable Component Render the PartnerTimeTable Component having
           </td>
           <td>
             0.00
+             
           </td>
         </tr>
         <tr>
@@ -251,6 +261,14 @@ exports[`PartnerTimeTable Component Render the PartnerTimeTable Component having
           </td>
           <td>
             NaN
+          </td>
+        </tr>
+        <tr>
+          <td>
+            P4 Requested Time 
+          </td>
+          <td>
+            0.00
           </td>
         </tr>
       </tbody>

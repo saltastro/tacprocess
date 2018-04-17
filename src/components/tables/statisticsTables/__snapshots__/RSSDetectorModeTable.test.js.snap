@@ -146,7 +146,7 @@ exports[`RSSDetectorModeTable Component Render the RSSDetectorModeTable Componen
             Detector mode
           </th>
           <th>
-            Number of Proposals
+            Number of configurations
           </th>
         </tr>
       </thead>
@@ -222,7 +222,7 @@ exports[`RSSDetectorModeTable Component Render the RSSDetectorModeTable Componen
             Detector mode
           </th>
           <th>
-            Number of Proposals
+            Number of configurations
           </th>
         </tr>
       </thead>

@@ -145,7 +145,7 @@ exports[`RSSObservingModeTable Component Render the RSSObservingModeTable Compon
             Observing mode
           </th>
           <th>
-            Number of Proposals
+            Number of configurations
           </th>
         </tr>
       </thead>
@@ -244,7 +244,7 @@ exports[`RSSObservingModeTable Component Render the RSSObservingModeTable Compon
             Observing mode
           </th>
           <th>
-            Number of Proposals
+            Number of configurations
           </th>
         </tr>
       </thead>

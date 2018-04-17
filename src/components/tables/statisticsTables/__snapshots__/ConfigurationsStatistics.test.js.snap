@@ -140,7 +140,7 @@ exports[`ConfigurationsStatistics Component Render the ConfigurationsStatistics 
             Instruments
           </th>
           <th>
-            Number of Proposals
+            Number of configurations
           </th>
         </tr>
       </thead>
@@ -202,7 +202,7 @@ exports[`ConfigurationsStatistics Component Render the ConfigurationsStatistics 
             Instruments
           </th>
           <th>
-            Number of Proposals
+            Number of configurations
           </th>
         </tr>
       </thead>

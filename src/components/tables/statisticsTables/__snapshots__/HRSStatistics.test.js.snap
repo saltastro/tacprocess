@@ -142,7 +142,7 @@ exports[`HRSStatistics Component Render the HRSStatistics Component having popul
             Exposure mode
           </th>
           <th>
-            Number of Proposals
+            Number of configurations
           </th>
         </tr>
       </thead>
@@ -214,7 +214,7 @@ exports[`HRSStatistics Component Render the HRSStatistics Component having unpop
             Exposure mode
           </th>
           <th>
-            Number of Proposals
+            Number of configurations
           </th>
         </tr>
       </thead>

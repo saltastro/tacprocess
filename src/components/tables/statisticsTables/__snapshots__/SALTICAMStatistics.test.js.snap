@@ -142,7 +142,7 @@ exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component ha
             Detector mode
           </th>
           <th>
-            Number of Proposals
+            Number of configurations
           </th>
         </tr>
       </thead>
@@ -206,7 +206,7 @@ exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component ha
             Detector mode
           </th>
           <th>
-            Number of Proposals
+            Number of configurations
           </th>
         </tr>
       </thead>
