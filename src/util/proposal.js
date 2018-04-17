@@ -78,3 +78,19 @@ export const isNewProposal = (proposal, semester) =>  !(
 export const isLongTermProposal = (proposal, semester) =>  (
 	proposal.timeRequests || [] ).some(t => t.semester !== semester
 );
+
+/**
+ * method used fro sorting proposals by proposal code
+ * */
+
+export const compareByProposalCode = (a, b) => {
+  const name1 = a.proposalCode.toUpperCase();
+  const name2 = b.proposalCode.toUpperCase();
+  if (name1 < name2) {
+    return -1;
+  }
+  if (name1 > name2) {
+    return 1;
+  }
+  return 0;
+};

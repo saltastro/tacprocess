@@ -3,7 +3,8 @@ import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 import { canAssignOtherReviewer, defaultSemester, downloadSummary } from "../../util";
 import {getTechnicalReport} from "../../util/technicalReports";
-import {didReportChange} from "../../util/proposal";
+import {compareByProposalCode, didReportChange} from '../../util/proposal';
+import {compareByFirstName} from '../../util/salt-astronomer'
 
 function getReviewer(proposal, semester){
 	const review = proposal.techReviews[semester];
@@ -67,30 +68,6 @@ export default class TechReviewTable extends React.Component {
 		if (proposals.length === 0) {
 			return (<br/>)
 		}
-
-		// compare astronomers by their first name
-		const compareByFirstName = (a, b) => {
-			const name1 = a.name.toUpperCase();
-			const name2 = b.name.toUpperCase();
-			if (name1 < name2) {
-				return -1;
-			}
-			if (name1 > name2) {
-				return 1;
-			}
-			return 0;
-		};
-		const compareByProposalCode = (a, b) => {
-			const name1 = a.proposalCode.toUpperCase();
-			const name2 = b.proposalCode.toUpperCase();
-			if (name1 < name2) {
-				return -1;
-			}
-			if (name1 > name2) {
-				return 1;
-			}
-			return 0;
-		};
 
 		const saltAstronomerName = (username) => {
 			const name = (SALTAstronomers).find(a => {
