@@ -11,6 +11,19 @@ export const getSaltAstronomerName = (username, SALTAstronomers) => {
 };
 
 /**
+ * It get a salt astronomer username from the list of astronomers that match salt astronomer name or none
+ * @params name
+ * @params SALTAstronomers
+ * @return name
+ * */
+export const getSaltAstronomerUsername = (name, SALTAstronomers) => {
+  if ( !name ) return null
+  const username = (SALTAstronomers || []).find(a =>  a.name === name )
+  console.log(username, SALTAstronomers)
+  return username ? username.username : null;
+};
+
+/**
  * method used for sorting Salt Astronomers by name
  * */
 export const compareByFirstName = (a, b) => {

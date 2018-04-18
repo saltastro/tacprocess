@@ -15,6 +15,7 @@ import {
 import fetchSA from './actions/saltAstronomerActions'
 import ApplicationPages from './components/pages/ApplicationPages'
 import {setLiaisonAstronomer} from './actions/proposalAction'
+import {getSaltAstronomerUsername} from './util/salt-astronomer'
 
 class App extends React.Component {
 	componentDidMount() {
@@ -48,7 +49,7 @@ class App extends React.Component {
 		let  liaisonUsername = event.target.value
 		if (event.target.name === 'selector') {
 			isChecked = true
-      liaisonUsername = event.target.name
+      liaisonUsername = getSaltAstronomerUsername(event.target.value, this.props.astronomers)
 		}
 		console.log(event.target.value)
 		this.props.dispatch(setLiaisonAstronomer(proposalCode, liaisonUsername, isChecked))
