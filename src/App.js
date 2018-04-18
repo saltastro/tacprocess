@@ -14,6 +14,7 @@ import {
 } from "./types"
 import fetchSA from './actions/saltAstronomerActions'
 import ApplicationPages from './components/pages/ApplicationPages'
+import {setLiaisonAstronomer} from './actions/proposalAction'
 
 class App extends React.Component {
 	componentDidMount() {
@@ -41,13 +42,28 @@ class App extends React.Component {
 		}
 	}
 
+	setLiaison =  (event, proposalCode) => {
+		event.preventDefault()
+		let isChecked = event.target.checked
+		let  liaisonUsername = event.target.value
+		if (event.target.name === 'selector') {
+			isChecked = true
+      liaisonUsername = event.target.name
+		}
+		console.log(event.target.value)
+		this.props.dispatch(setLiaisonAstronomer(proposalCode, liaisonUsername, isChecked))
+
+	}
+
 	loggingOut = () => {
 		const { dispatch } = this.props;
+
 		dispatch(actions.logout())
 	};
 
 	render() {
 		const {user, isAuthenticated, proposals, initProposals, filters, astronomers} = this.props
+		console.log(astronomers)
 		return (
 			<BrowserRouter>
 				<div className="root-main">
@@ -72,6 +88,7 @@ class App extends React.Component {
 							initProposals={initProposals}
 							filters={filters}
 							astronomers={astronomers}
+							setLiaison={this.setLiaison}
 						/>
 						<div className="footer">
 							<p>Copyright © 2018 TAC</p>
@@ -90,18 +107,7 @@ App.propTypes = {
 	fetchTargetsError: PropTypes.string,
   proposals: PropTypes.array,
 	initProposals: PropTypes.array,
-	astronomers: PropTypes.shape({
-    fetching: PropTypes.bool,
-    fetched: PropTypes.bool,
-		error: PropTypes.string,
-		SALTAstronomer: PropTypes.arrayOf(
-			PropTypes.shape({
-				name: PropTypes.string,
-				username: PropTypes.string,
-				surname: PropTypes.string,
-			})
-		)
-  }),
+	astronomers: PropTypes.array,
 	user: PropTypes.object
 };
 

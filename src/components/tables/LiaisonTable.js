@@ -2,10 +2,12 @@ import React from 'react';
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 import {getSaltAstronomerName} from "../../util/salt-astronomer";
+import {compareByProposalCode} from '../../util/proposal'
+import {isLiaisonAstronomer} from '../../util/proposal-changes'
 
-const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, username}) => (
+const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, username, setLiaison, initProposals}) => (
   <div className='SATableDiv'>
-    <h1>Salt Astronomers Proposal Assigning</h1>
+    <h1>Salt Astronomers Liaison Assigning</h1>
     <table className='SATable' align='center'>
       <thead>
       <tr>
@@ -18,8 +20,9 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
       </thead>
       <tbody>
       {
-        proposals.map(p => {
+        proposals.sort(compareByProposalCode).map(p => {
           const liaison = getSaltAstronomerName(p.liaisonAstronomer, selectArray)
+          const col = isLiaisonAstronomer(p.proposalCode, initProposals) ? {color: 'black'} : {color: 'blue'}
           return ( <tr key={`liaison-${p.proposalCode}`}>
           <td>
             <a target="_blank"
@@ -39,13 +42,13 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
           {
             canAssign ?
               <td>
-                <select defaultValue={liaison}>
-                  { 
+                <select defaultValue={liaison} onChange={e => setLiaison(e, p.proposalCode)} name={'selector'}>
+                  {
                     !liaison && <option>none</option>
                   }
                   {
                     selectArray.map(op => (
-                      <option key={op.username} value={op.name}>
+                      <option key={op.username} value={op.name} name={op.username}>
                         { op.name}
                       </option>
                     ))
@@ -57,14 +60,13 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
                 {
                   <div>
                     <input
-                      checked={liaison}
-                      disabled={liaison}
+                      checked={isLiaisonAstronomer(p.proposalCode, proposals)}
+                      disabled={isLiaisonAstronomer(p.proposalCode, initProposals)}
                       type={"checkbox"}
                       value={ username }
-                      onChange={e => {
-                        console.log("Checking: ", e)
-                      }}/>
-                    <label>{ liaison }</label>
+                      onChange={e => setLiaison(e, p.proposalCode)}/>
+                    { isLiaisonAstronomer(p.proposalCode, proposals) ?
+                      <a style={col}> {liaison} </a>: <a style={{color: 'red'}}>{'Select'}</a>}
                   </div>
                 }
               </td>
@@ -80,9 +82,11 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
 
 LiaisonTable.propTypes = {
   proposals: propTypes.array.isRequired,
+  initProposals: propTypes.array.isRequired,
   canAssign: propTypes.bool.isRequired,
   selectArray: propTypes.array.isRequired,
   username: propTypes.string.isRequired,
-  requestSummary: propTypes.func.isRequired // todo request summary should know the current selected semester
+  requestSummary: propTypes.func.isRequired,  // todo request summary should know the current selected semester
+  setLiaison: propTypes.func.isRequired
 };
 export default LiaisonTable

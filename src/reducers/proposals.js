@@ -1,12 +1,12 @@
 import {
-	FETCH_PROPOSALS_START, FETCH_PROPOSALS_PASS, FETCH_PROPOSALS_FAIL,
-	UPDATE_SINGLE_PROPOSAL, UPDATING_PROPOSALS,
-	UPDATE_TECHNICAL_REVIEW,
-	SUBMIT_TECHNICAL_REVIEWS_START, SUBMIT_TECHNICAL_REVIEWS_PASS, SUBMIT_TECHNICAL_REVIEWS_FAIL,
-	UPDATE_TAC_COMMENT, UPDATE_ALLOCATED_PRIORITY,
-	SUBMIT_TIME_ALLOCATIONS_START, SUBMIT_TIME_ALLOCATIONS_FAIL, SUBMIT_TIME_ALLOCATIONS_PASS,
-	USER_LOGGED_OUT
-} from "../types";
+  FETCH_PROPOSALS_START, FETCH_PROPOSALS_PASS, FETCH_PROPOSALS_FAIL,
+  UPDATE_SINGLE_PROPOSAL, UPDATING_PROPOSALS,
+  UPDATE_TECHNICAL_REVIEW,
+  SUBMIT_TECHNICAL_REVIEWS_START, SUBMIT_TECHNICAL_REVIEWS_PASS, SUBMIT_TECHNICAL_REVIEWS_FAIL,
+  UPDATE_TAC_COMMENT, UPDATE_ALLOCATED_PRIORITY,
+  SUBMIT_TIME_ALLOCATIONS_START, SUBMIT_TIME_ALLOCATIONS_FAIL, SUBMIT_TIME_ALLOCATIONS_PASS,
+  USER_LOGGED_OUT, SET_LIAISON_ASTRONOMER, UNSET_LIAISON_ASTRONOMER
+} from '../types';
 import {setDefaultTechReviews} from "../util/technicalReports";
 
 const initialState = {
@@ -214,6 +214,28 @@ export default function proposals(state = initialState, action = {}) {
 				}
 			}
 		}
+    case SET_LIAISON_ASTRONOMER: {
+      return {
+        ...state,
+				proposals: state.proposals.map(p => {
+					if (p.proposalCode === action.payload.proposalCode){
+						p.liaisonAstronomer = action.payload.astronomerUsername
+					}
+					return p
+				})
+      }
+    }
+    case UNSET_LIAISON_ASTRONOMER: {
+      return {
+        ...state,
+        proposals: state.proposals.map(p => {
+          if (p.proposalCode === action.payload.proposalCode){
+            p.liaisonAstronomer = null
+          }
+          return p
+        })
+      }
+    }
 		case USER_LOGGED_OUT: {
 			return {
 				...initialState
