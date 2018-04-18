@@ -1,41 +1,42 @@
 import React from "react";
-import { connect } from "react-redux";
+import propTypes from "prop-types";
 import LiaisonTable from '../tables/LiaisonTable'
 import {downloadSummary, getLiaisonUsername} from '../../util';
 import {reduceProposalsPerAstronomer} from '../../util/filters'
 import {ADMINISTRATOR} from '../../types'
 
-class LiaisonPage extends React.Component {
-  requestSummary = (event, proposalCode) => {
-    event.preventDefault();
-    const { semester } = this.props
-    downloadSummary(proposalCode, semester)
-  }
-  render() {
-    const {proposals, astronomers, user } = this.props
-    const canAssign = (user.roles || [] ).some(r => r.type === ADMINISTRATOR)
-    return (
-      <div>
-        <h1> Liaison page</h1>
-        <LiaisonTable proposals={proposals} canAssign={canAssign} username={"this guy"} selectArray={astronomers} requestSummary={this.requestSummary} />
-        <button>Submit</button>
-      </div>
-    )
-  }
 
+
+const requestSummary = (event, proposalCode) => {
+  event.preventDefault();
+  downloadSummary(proposalCode, this.props.selectedSemester)
 }
 
-export default connect( store => {
-  const astronomers = store.SALTAstronomers.SALTAstronomer;
-  const selectedSA = store.filters.selectedLiaison;
-  const semester = store.filters.selectedSemester;
-  const saUser = selectedSA === "All" || selectedSA === "Not Assigned" || selectedSA === "Assigned" ? selectedSA : getLiaisonUsername(selectedSA, astronomers);
-  const proposals = reduceProposalsPerAstronomer(store.proposals.proposals || [], saUser, semester);
-  return {
-    proposals,
-    astronomers,
-    initProposals: store.proposals.initProposals,
-    semester: store.filters.selectedSemester,
-    user: store.user.user
-  }}, null
-)(LiaisonPage);
+const LiaisonPage = ({proposals, filters, astronomers, user}) => {
+  const canAssign = (user.roles || [] ).some(r => r.type === ADMINISTRATOR)
+  const semester = filters.selectedSemester
+  const selectedSA = filters.selectedLiaison
+  const saUser = selectedSA === "All" || selectedSA === "Not Assigned" || selectedSA === "Assigned" ?
+    selectedSA : getLiaisonUsername(selectedSA, astronomers);
+  const filteredProposals = reduceProposalsPerAstronomer(proposals || [], saUser, semester);
+  return (
+    <div>
+      <h1> Liaison page</h1>
+      <LiaisonTable
+        proposals={filteredProposals}
+        canAssign={canAssign}
+        username={"this guy"}
+        selectArray={astronomers}
+        requestSummary={requestSummary} />
+      <button>Submit</button>
+    </div>
+)}
+
+LiaisonPage.propTypes = {
+  proposals: propTypes.array.isRequired,
+  initProposals: propTypes.array.isRequired,
+  astronomers: propTypes.array.isRequired,
+  filters: propTypes.array.isRequired,
+  user: propTypes.array.isRequired,
+};
+export default LiaisonPage
