@@ -55,13 +55,18 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
               </td> :
               <td>
                 {
-                  liaison ||
+                  <div>
                     <input
+                      checked={liaison}
+                      disabled={liaison}
                       type={"checkbox"}
                       value={ username }
                       onChange={e => {
                         console.log("Checking: ", e)
-                      }}/>}
+                      }}/>
+                    <label>{ liaison }</label>
+                  </div>
+                }
               </td>
           }
 

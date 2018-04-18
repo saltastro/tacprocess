@@ -6,7 +6,7 @@
  * */
 export const getSaltAstronomerName = (username, SALTAstronomers) => {
     if ( !username ) return null
-    const name = (SALTAstronomers).find(a =>  a.username === username )
+    const name = (SALTAstronomers || []).find(a =>  a.username === username )
     return name ? name.name : null;
 };
 
