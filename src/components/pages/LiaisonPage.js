@@ -1,7 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import LiaisonTable from '../tables/LiaisonTable'
-import { downloadSummary } from "../../util";
+import {downloadSummary, getLiaisonUsername} from '../../util';
+import {reduceProposalsPerAstronomer} from '../../util/filters'
+import {ADMINISTRATOR} from '../../types'
 
 class LiaisonPage extends React.Component {
   requestSummary = (event, proposalCode) => {
@@ -11,10 +13,11 @@ class LiaisonPage extends React.Component {
   }
   render() {
     const {proposals, astronomers, user } = this.props
+    const canAssign = (user.roles || [] ).some(r => r.type === ADMINISTRATOR)
     return (
       <div>
         <h1> Liaison page</h1>
-        <LiaisonTable proposals={proposals} canAssign={false} username={"this guy"} selectArray={astronomers} requestSummary={this.requestSummary} />
+        <LiaisonTable proposals={proposals} canAssign={canAssign} username={"this guy"} selectArray={astronomers} requestSummary={this.requestSummary} />
         <button>Submit</button>
       </div>
     )
@@ -22,12 +25,17 @@ class LiaisonPage extends React.Component {
 
 }
 
-export default connect(
-  store => ({
-    proposals: store.proposals.proposals,
-    astronomers: store.SALTAstronomers.SALTAstronomer,
+export default connect( store => {
+  const astronomers = store.SALTAstronomers.SALTAstronomer;
+  const selectedSA = store.filters.selectedLiaison;
+  const semester = store.filters.selectedSemester;
+  const saUser = selectedSA === "All" || selectedSA === "Not Assigned" || selectedSA === "Assigned" ? selectedSA : getLiaisonUsername(selectedSA, astronomers);
+  const proposals = reduceProposalsPerAstronomer(store.proposals.proposals || [], saUser, semester);
+  return {
+    proposals,
+    astronomers,
     initProposals: store.proposals.initProposals,
     semester: store.filters.selectedSemester,
     user: store.user.user
-  }), null
+  }}, null
 )(LiaisonPage);
