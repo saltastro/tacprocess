@@ -209,7 +209,10 @@ class TimeAllocationPage extends React.Component {
 								{
 									submittedTimeAllocations.partner !== partner ? <div />
 										: submittedTimeAllocations.results ? <div style={{ color: '#60FF60', fontSize: '20px'}}>Successfully Submitted</div>
-										: <div  style={{ color: '#FF6060', 'fontSize': '20px' }}>Fail to submit time allocations</div>
+											: <div style={{ color: '#FF6060', 'fontSize': '20px' }}>
+												<p>Time allocations <strong>not</strong> submitted.</p>
+												<p>Please check for missing or invalid values.</p>
+											</div>
 
 								}
 

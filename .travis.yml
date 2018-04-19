@@ -1,8 +1,6 @@
-language: python
-python:
-  - "3.6"
+language: JAVASCRIPT
 # command to install dependencies
-install: "pip install -r requirements.txt"
+install: "yarn install"
 
 # command to run tests
-script: python server/test/test_proposals.py
+script: yarn test
