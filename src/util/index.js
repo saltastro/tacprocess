@@ -9,6 +9,7 @@ import {
 	HOME_PAGE,
 	TECHNICAL_PAGE } from '../types';
 import { jsonClient } from '../api';
+import {LIAISON_PAGE} from '../types'
 
 /**
  * Return the sum of a and b
@@ -332,7 +333,7 @@ export function getLiaisonUsername(name, SALTAstronomers){
 
 const pageRole = (page, role) => {
 	if (page === TAC_PAGE && (role === 'TAC_CHAIR' || role === 'TAC_MEMBER')) { return true }
-	if (page === TECHNICAL_PAGE && (role === 'SALT_ASTRONOMER' )) { return true }
+	if ((page === TECHNICAL_PAGE || page === LIAISON_PAGE) && (role === 'SALT_ASTRONOMER' )) { return true }
 	return page === STATISTICS_PAGE || page === DOCUMENTATION_PAGE;
 
 };

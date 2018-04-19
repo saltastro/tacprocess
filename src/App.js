@@ -1,31 +1,21 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import { BrowserRouter, Route, Redirect }  from "react-router-dom";
+import { BrowserRouter }  from "react-router-dom";
 import { connect } from "react-redux";
 
-import HomePage from "./components/pages/HomePage";
-import LoginPage from "./components/pages/LoginPage";
-import StatisticsPage from "./components/pages/StatisticsPage";
-import TechReviewPage from "./components/pages/TechReviewPage";
-import TimeAllocationPage from "./components/pages/TimeAllocationPage";
-import DocumentationPage from "./components/pages/DocumentationPage";
-import AdminPage from "./components/pages/AdminPage";
-import UserRoute from "./components/routes/UserRoute";
-import GuestRoute from "./components/routes/GuestRoute";
 import Navigation from "./components/Navigation";
 import * as actions from './actions/auth';
 import fetchTargets from './actions/targetsActions';
 import { storePartnerAllocations } from './actions/timeAllocationActions';
 import fetchProposals from './actions/proposalsActions';
-import {defaultSemester, canViewPage} from "./util";
+import {defaultSemester} from "./util";
 import {
-	ALL_PARTNER,
-	STATISTICS_PAGE,
-	TECHNICAL_PAGE,
-	TAC_PAGE,
-	ADMIN_PAGE
+	ALL_PARTNER
 } from "./types"
-import LiaisonPage from './components/pages/LiaisonPage'
+import fetchSA from './actions/saltAstronomerActions'
+import ApplicationPages from './components/pages/ApplicationPages'
+import {setLiaisonAstronomer} from './actions/proposalAction'
+import {getSaltAstronomerUsername} from './util/salt-astronomer'
 
 class App extends React.Component {
 	componentDidMount() {
@@ -49,20 +39,32 @@ class App extends React.Component {
 				semester,
 				ALL_PARTNER
 			));
+      dispatch(fetchSA())
 		}
+	}
+
+	setLiaison =  (event, proposalCode) => {
+		event.preventDefault()
+		let isChecked = event.target.checked
+		let  liaisonUsername = event.target.value
+		if (event.target.name === 'selector') {
+			isChecked = true
+      liaisonUsername = getSaltAstronomerUsername(event.target.value, this.props.astronomers)
+		}
+		console.log(event.target.value)
+		this.props.dispatch(setLiaisonAstronomer(proposalCode, liaisonUsername, isChecked))
+
 	}
 
 	loggingOut = () => {
 		const { dispatch } = this.props;
+
 		dispatch(actions.logout())
 	};
 
 	render() {
-		const { location } = this.props;
-		const isAuthenticated = this.props.isAuthenticated;
-		let userRoles = []
-		if(this.props.user && this.props.user.roles) {userRoles = this.props.user.roles}
-		console.log(">>: ", this);
+		const {user, isAuthenticated, proposals, initProposals, filters, astronomers} = this.props
+		console.log(astronomers)
 		return (
 			<BrowserRouter>
 				<div className="root-main">
@@ -80,26 +82,15 @@ class App extends React.Component {
 						<div className="error">
 							{`The targets could not be loaded: ${this.props.fetchTargetsError}`}
 						</div>}
-
-						<div className="main-div">
-							<Route path="/" exact component={HomePage}/>
-							<GuestRoute path="/login" exact component={LoginPage} isAuthenticated={isAuthenticated}/>
-							{canViewPage(userRoles, STATISTICS_PAGE) &&
-								<UserRoute path="/statistics" exact component={StatisticsPage}
-							           isAuthenticated={isAuthenticated}/>}
-							<UserRoute path="/timeallocation" exact component={TimeAllocationPage}
-							           isAuthenticated={isAuthenticated} view={ canViewPage(userRoles, TAC_PAGE) }/>
-							{canViewPage(userRoles, TECHNICAL_PAGE) &&
-								<UserRoute path="/techreview" exact component={TechReviewPage}
-							           isAuthenticated={isAuthenticated}/> }
-              {canViewPage(userRoles, TECHNICAL_PAGE) &&
-              <UserRoute path="/liaison" exact component={LiaisonPage}
-                         isAuthenticated={isAuthenticated}/> }
-							<UserRoute path="/documentation" exact component={DocumentationPage}
-							           isAuthenticated={isAuthenticated}/>
-							{canViewPage(userRoles, ADMIN_PAGE) &&
-								<UserRoute path="/admin" exact component={AdminPage} isAuthenticated={isAuthenticated}/>}
-						</div>
+						<ApplicationPages
+							proposals={proposals}
+							isAuthenticated={isAuthenticated}
+							user={user}
+							initProposals={initProposals}
+							filters={filters}
+							astronomers={astronomers}
+							setLiaison={this.setLiaison}
+						/>
 						<div className="footer">
 							<p>Copyright © 2018 TAC</p>
 						</div>
@@ -114,7 +105,11 @@ App.propTypes = {
 	isAuthenticated: PropTypes.bool,
 	filters: PropTypes.object,
 	fetchProposalsError: PropTypes.string,
-	fetchTargetsError: PropTypes.string
+	fetchTargetsError: PropTypes.string,
+  proposals: PropTypes.array,
+	initProposals: PropTypes.array,
+	astronomers: PropTypes.array,
+	user: PropTypes.object
 };
 
 function mapStateToProps(state) { /* state in params */
@@ -123,7 +118,10 @@ function mapStateToProps(state) { /* state in params */
 		user: state.user.user,
 		filters: state.filters,
 		fetchProposalsError: state.proposals.errors.fetchingError,
-		fetchTargetsError: state.targets.error
+		fetchTargetsError: state.targets.error,
+		proposals: state.proposals.proposals,
+		initProposals: state.proposals.initProposals,
+		astronomers: state.SALTAstronomers.SALTAstronomer
 	};
 }
 

@@ -78,7 +78,7 @@ class filters extends React.Component {
 							value={selectedPartner}/>
 					</div>
 					
-					{ location.pathname === "/techreview" &&
+					{ (location.pathname === "/techreview" || location.pathname === "/liaison" ) &&
 					<div className="left-2">
 						<DropDown
 							name="SALT Astronomer"
