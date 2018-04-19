@@ -3,7 +3,7 @@ import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 import {getSaltAstronomerName} from "../../util/salt-astronomer";
 import {compareByProposalCode} from '../../util/proposal'
-import {isLiaisonAstronomer} from '../../util/proposal-changes'
+import {isLiaisonAstronomer, isLiaisonAstronomerChanged} from '../../util/proposal-changes'
 
 const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, username, setLiaison, initProposals}) => (
   <div className='SATableDiv'>
@@ -22,7 +22,7 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
       {
         proposals.sort(compareByProposalCode).map(p => {
           const liaison = getSaltAstronomerName(p.liaisonAstronomer, selectArray)
-          const col = isLiaisonAstronomer(p.proposalCode, initProposals) ? {color: 'black'} : {color: 'blue'}
+          const col = isLiaisonAstronomerChanged(p, initProposals) ? {color: 'black'} : {color: 'blue'}
           return ( <tr key={`liaison-${p.proposalCode}`}>
           <td>
             <a target="_blank"
@@ -42,14 +42,14 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
           {
             canAssign ?
               <td>
-                <select defaultValue={liaison} onChange={e => setLiaison(e, p.proposalCode)} name={'selector'}>
+                <select style={col} defaultValue={liaison} onChange={e => setLiaison(e, p.proposalCode)} name={'selector'}>
                   {
                     !liaison && <option>none</option>
                   }
                   {
                     selectArray.map(op => (
                       <option key={op.username} value={op.name} name={op.username}>
-                        { op.name}
+                        {op.name}
                       </option>
                     ))
                   }
