@@ -51,7 +51,6 @@ class App extends React.Component {
 			isChecked = true
       liaisonUsername = getSaltAstronomerUsername(event.target.value, this.props.astronomers)
 		}
-		console.log(event.target.value)
 		this.props.dispatch(setLiaisonAstronomer(proposalCode, liaisonUsername, isChecked))
 
 	}
@@ -64,7 +63,6 @@ class App extends React.Component {
 
 	render() {
 		const {user, isAuthenticated, proposals, initProposals, filters, astronomers} = this.props
-		console.log(astronomers)
 		return (
 			<BrowserRouter>
 				<div className="root-main">

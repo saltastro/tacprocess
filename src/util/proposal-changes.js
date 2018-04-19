@@ -13,3 +13,10 @@ export const isLiaisonAstronomer = (proposalCode, initProposals) => initProposal
     }
     return false
   });
+
+export const isLiaisonAstronomerChanged = (proposal, initProposals) => initProposals.some(p => {
+  if( p.proposalCode === proposal.proposalCode){
+    return (p.liaisonAstronomer === proposal.liaisonAstronomer)
+  }
+  return false
+});
