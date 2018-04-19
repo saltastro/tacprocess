@@ -1,0 +1,219 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiaisonTable Component Render the LiaisonTable Component having populated props with no errors 1`] = `
+<LiaisonTable
+  canAssign={true}
+  proposals={
+    Array [
+      Object {
+        "liaisonAstronomer": "Eric",
+        "pi": "Jeffery Simon",
+        "proposalCode": "2018-1-SCI-038",
+        "proposalId": "0",
+        "title": "Surface Chemistry of Peculiar Hot Subdwarfs",
+      },
+      Object {
+        "liaisonAstronomer": "brent",
+        "pi": "Serjeant Stephen",
+        "proposalCode": "2015-2-MLT-006",
+        "proposalId": "1",
+        "title": "THE SALT GRAVITATIONAL LENSING LEGACY SURVEY",
+      },
+    ]
+  }
+  requestSummary={[Function]}
+  selectArray={
+    Array [
+      Object {
+        "name": "brent",
+        "username": "brent",
+      },
+      Object {
+        "name": "encarni",
+        "username": "encarni",
+      },
+    ]
+  }
+>
+  <div
+    className="SATableDiv"
+  >
+    <h1>
+      Salt Astronomers Proposal Assigning
+    </h1>
+    <table
+      align="center"
+      className="SATable"
+    >
+      <thead>
+        <tr>
+          <th>
+            Proposal Code
+          </th>
+          <th>
+            Summary
+          </th>
+          <th>
+            Proposal Title
+          </th>
+          <th>
+            Proposal Investigator
+          </th>
+          <th>
+            Liaison Astronomer
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          key="0"
+        >
+          <td>
+            <a
+              href="https://www.salt.ac.za/wm/proposal/2018-1-SCI-038"
+              target="_blank"
+            >
+              2018-1-SCI-038
+            </a>
+          </td>
+          <td
+            className="width-100"
+          >
+            <a
+              className="file-download"
+              href=""
+              onClick={[Function]}
+            >
+              Download
+            </a>
+          </td>
+          <td
+            className=" table-height width-400"
+          >
+            Surface Chemistry of Peculiar Hot Subdwarfs
+          </td>
+          <td
+            className="width-100"
+          >
+            Jeffery Simon
+          </td>
+          <td>
+            <select
+              defaultValue={null}
+            >
+              <option>
+                none
+              </option>
+              <option
+                key="brent"
+                value="brent"
+              >
+                brent
+              </option>
+              <option
+                key="encarni"
+                value="encarni"
+              >
+                encarni
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr
+          key="1"
+        >
+          <td>
+            <a
+              href="https://www.salt.ac.za/wm/proposal/2015-2-MLT-006"
+              target="_blank"
+            >
+              2015-2-MLT-006
+            </a>
+          </td>
+          <td
+            className="width-100"
+          >
+            <a
+              className="file-download"
+              href=""
+              onClick={[Function]}
+            >
+              Download
+            </a>
+          </td>
+          <td
+            className=" table-height width-400"
+          >
+            THE SALT GRAVITATIONAL LENSING LEGACY SURVEY
+          </td>
+          <td
+            className="width-100"
+          >
+            Serjeant Stephen
+          </td>
+          <td>
+            <select
+              defaultValue="brent"
+            >
+              <option
+                key="brent"
+                value="brent"
+              >
+                brent
+              </option>
+              <option
+                key="encarni"
+                value="encarni"
+              >
+                encarni
+              </option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</LiaisonTable>
+`;
+
+exports[`LiaisonTable Component Render the LiaisonTable Component having unpopulated props with no errors 1`] = `
+<LiaisonTable
+  canAssign={false}
+  proposals={Array []}
+  requestSummary={[Function]}
+  selectArray={Array []}
+>
+  <div
+    className="SATableDiv"
+  >
+    <h1>
+      Salt Astronomers Proposal Assigning
+    </h1>
+    <table
+      align="center"
+      className="SATable"
+    >
+      <thead>
+        <tr>
+          <th>
+            Proposal Code
+          </th>
+          <th>
+            Summary
+          </th>
+          <th>
+            Proposal Title
+          </th>
+          <th>
+            Proposal Investigator
+          </th>
+          <th>
+            Liaison Astronomer
+          </th>
+        </tr>
+      </thead>
+      <tbody />
+    </table>
+  </div>
+</LiaisonTable>
+`;
