@@ -4,15 +4,21 @@ import LiaisonTable from '../tables/LiaisonTable'
 import {downloadSummary, getLiaisonUsername} from '../../util';
 import {reduceProposalsPerAstronomer} from '../../util/filters'
 import {ADMINISTRATOR} from '../../types'
+import {isLiaisonAstronomerUpdated, submitLiaisons} from '../../util/proposal-filtering'
 
 
 
-const requestSummary = (event, proposalCode) => {
+const requestSummary = (event, proposalCode, semester) => {
+
   event.preventDefault();
-  downloadSummary(proposalCode, this.props.selectedSemester)
+  downloadSummary(proposalCode, semester)
 }
 
-const LiaisonPage = ({proposals, filters, astronomers, user, setLiaison, initProposals}) => {
+const modifiedProposals = ( proposals, initial) => {
+  return (proposals||[]).filter(p => isLiaisonAstronomerUpdated(p, initial))
+}
+
+const LiaisonPage = ({proposals, filters, astronomers, user, setLiaison, initProposals, submitLiaisons}) => {
   const canAssign = (user.roles || [] ).some(r => r.type === ADMINISTRATOR)
   const semester = filters.selectedSemester
   const selectedSA = filters.selectedLiaison
@@ -29,8 +35,9 @@ const LiaisonPage = ({proposals, filters, astronomers, user, setLiaison, initPro
         username={username}
         selectArray={astronomers}
         setLiaison={setLiaison}
+        semester={semester}
         requestSummary={requestSummary} />
-      <button>Submit</button>
+      <button onClick={e => submitLiaisons(e, modifiedProposals(proposals, initProposals))}>Submit</button>
     </div>
 )}
 
@@ -41,5 +48,6 @@ LiaisonPage.propTypes = {
   filters: propTypes.object.isRequired,
   user: propTypes.object.isRequired,
   setLiaison: propTypes.func.isRequired,
+  submitLiaisons: propTypes.func.isRequired
 };
 export default LiaisonPage

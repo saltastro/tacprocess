@@ -5,7 +5,7 @@ import {getSaltAstronomerName} from "../../util/salt-astronomer";
 import {compareByProposalCode} from '../../util/proposal'
 import {isLiaisonAstronomer, isLiaisonAstronomerChanged} from '../../util/proposal-changes'
 
-const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, username, setLiaison, initProposals}) => (
+const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, username, setLiaison, initProposals, semester}) => (
   <div className='SATableDiv'>
     <h1>Salt Astronomers Liaison Assigning</h1>
     <table className='SATable' align='center'>
@@ -33,7 +33,7 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
           <td className="width-100">
             <a className="file-download"
                href=""
-               onClick={e => requestSummary(e, p.proposalCode)}>
+               onClick={e => requestSummary(e, p.proposalCode, semester)}>
               Download
             </a>
           </td>
@@ -87,6 +87,7 @@ LiaisonTable.propTypes = {
   selectArray: propTypes.array.isRequired,
   username: propTypes.string.isRequired,
   requestSummary: propTypes.func.isRequired,  // todo request summary should know the current selected semester
-  setLiaison: propTypes.func.isRequired
+  setLiaison: propTypes.func.isRequired,
+  semester: propTypes.string.isRequired
 };
 export default LiaisonTable
