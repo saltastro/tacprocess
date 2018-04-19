@@ -1,0 +1,278 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PartnerTimeTable Component Render the PartnerTimeTable Component having populated props with no errors 1`] = `
+<PartnerTimeTable
+  allocatedTime={
+    Object {
+      "DUR": Object {
+        "p0": 0,
+        "p1": 54720,
+        "p2": 54720,
+        "p3": 8200,
+        "p4": 0,
+      },
+    }
+  }
+  partner="UW"
+  proposals={
+    Array [
+      Object {
+        "allocatedTime": Object {
+          "UKSC": Object {
+            "p0": 0,
+            "p0p1": 0,
+            "p1": 0,
+            "p2": 0,
+            "p3": 0,
+            "p4": 0,
+          },
+          "UW": Object {
+            "p0": 0,
+            "p0p1": 0,
+            "p1": 0,
+            "p2": 0,
+            "p3": 0,
+            "p4": 0,
+          },
+        },
+        "instruments": Object {
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2018-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+            ],
+            "semester": "2018-1",
+          },
+        ],
+        "transparency": "Clear",
+      },
+      Object {
+        "instruments": Object {
+          "scam": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+            },
+          ],
+        },
+        "maxSeeing": 2,
+        "timeRequests": Array [
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 150,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 200,
+              },
+              Object {
+                "partnerCode": "IUCAA",
+                "time": 250,
+              },
+            ],
+            "semester": "2017-1",
+          },
+          Object {
+            "distribution": Array [
+              Object {
+                "partnerCode": "RSA",
+                "time": 400,
+              },
+              Object {
+                "partnerCode": "UW",
+                "time": 50,
+              },
+            ],
+            "semester": "2018-1",
+          },
+        ],
+        "transparency": "Thin cloud",
+      },
+    ]
+  }
+  semester="2017-1"
+>
+  <div
+    className="stat-item"
+  >
+    <h2>
+      Time for Partner 
+      <strong>
+        UW
+      </strong>
+    </h2>
+    <table
+      className="stat-table"
+      style={
+        Object {
+          "height": "90%",
+        }
+      }
+    >
+      <thead>
+        <tr>
+          <th />
+          <th>
+            Total  (hours)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Time available
+          </td>
+          <td>
+            0.00
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Requested Time 
+          </td>
+          <td>
+            0.06
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Subscription rate 
+          </td>
+          <td>
+            Infinity
+             %
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Average per Proposal 
+          </td>
+          <td>
+            0.03
+          </td>
+        </tr>
+        <tr>
+          <td>
+            P4 Requested Time 
+          </td>
+          <td>
+            0.00
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</PartnerTimeTable>
+`;
+
+exports[`PartnerTimeTable Component Render the PartnerTimeTable Component having unpopulated props with no errors 1`] = `
+<PartnerTimeTable
+  allocatedTime={Object {}}
+  partner=""
+  proposals={Array []}
+  semester=""
+>
+  <div
+    className="stat-item"
+  >
+    <h2>
+      Time for Partner 
+      <strong />
+    </h2>
+    <table
+      className="stat-table"
+      style={
+        Object {
+          "height": "90%",
+        }
+      }
+    >
+      <thead>
+        <tr>
+          <th />
+          <th>
+            Total  (hours)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Time available
+          </td>
+          <td>
+            0.00
+             
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Requested Time 
+          </td>
+          <td>
+            0.00
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Subscription rate 
+          </td>
+          <td>
+            NaN
+             %
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Average per Proposal 
+          </td>
+          <td>
+            NaN
+          </td>
+        </tr>
+        <tr>
+          <td>
+            P4 Requested Time 
+          </td>
+          <td>
+            0.00
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</PartnerTimeTable>
+`;
