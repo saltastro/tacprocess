@@ -4,7 +4,7 @@ import LiaisonTable from '../tables/LiaisonTable'
 import {downloadSummary, getLiaisonUsername} from '../../util';
 import {reduceProposalsPerAstronomer} from '../../util/filters'
 import {ADMINISTRATOR} from '../../types'
-import {isLiaisonAstronomerUpdated, submitLiaisons} from '../../util/proposal-filtering'
+import {isLiaisonAstronomerUpdated} from '../../util/proposal-filtering'
 
 
 
