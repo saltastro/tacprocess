@@ -16,30 +16,16 @@ import fetchSA from './actions/saltAstronomerActions'
 import ApplicationPages from './components/pages/ApplicationPages'
 import {setLiaisonAstronomer} from './actions/proposalAction'
 import {getSaltAstronomerUsername} from './util/salt-astronomer'
+import submitProposalsLiaison from './actions/liaison-astronomer-actions'
 
 class App extends React.Component {
 	componentDidMount() {
 		if (this.props.isAuthenticated) {
-			const selected = this.props.filters;
-			const {dispatch} = this.props;
-			const semester = defaultSemester();
+      this.props.dispatch(actions.fetchUserData())
+      this.props.dispatch(storePartnerAllocations(defaultSemester(), ALL_PARTNER))
+      this.props.dispatch(fetchSA())
 
-			dispatch(actions.fetchUserData());
-			dispatch(
-				fetchTargets(
-					semester,
-					ALL_PARTNER
-				));
-			dispatch(
-				fetchProposals(
-					semester,
-					selected.selectedPartner
-				));
-			dispatch(storePartnerAllocations(
-				semester,
-				ALL_PARTNER
-			));
-      dispatch(fetchSA())
+			this.LoadProposalsAndTargets(defaultSemester(), this.props.filters.selectedPartner)
 		}
 	}
 
@@ -51,20 +37,27 @@ class App extends React.Component {
 			isChecked = true
       liaisonUsername = getSaltAstronomerUsername(event.target.value, this.props.astronomers)
 		}
-		console.log(event.target.value)
 		this.props.dispatch(setLiaisonAstronomer(proposalCode, liaisonUsername, isChecked))
-
 	}
 
-	loggingOut = () => {
-		const { dispatch } = this.props;
+  submitLiaisons =  (event, proposals) => {
+		event.preventDefault()
+		this.props.dispatch(
+			submitProposalsLiaison(proposals, this.props.filters.selectedSemester, this.props.filters.selectedPartner)
+		)
+	}
 
-		dispatch(actions.logout())
+  LoadProposalsAndTargets = (semester, partner) => {
+    this.props.dispatch(fetchTargets(semester, partner));
+    this.props.dispatch(fetchProposals(semester, partner));
+  }
+
+	loggingOut = () => {
+    this.props.dispatch(actions.logout())
 	};
 
 	render() {
 		const {user, isAuthenticated, proposals, initProposals, filters, astronomers} = this.props
-		console.log(astronomers)
 		return (
 			<BrowserRouter>
 				<div className="root-main">
@@ -72,7 +65,6 @@ class App extends React.Component {
 						<Navigation logout={this.loggingOut}/>
 					</div>
 					<div>
-
 						{this.props.fetchProposalsError &&
 						<div className="error">
 							{`The proposals could not be loaded: ${this.props.fetchProposalsError}`}
@@ -89,6 +81,7 @@ class App extends React.Component {
 							initProposals={initProposals}
 							filters={filters}
 							astronomers={astronomers}
+              submitLiaisons={this.submitLiaisons}
 							setLiaison={this.setLiaison}
 						/>
 						<div className="footer">
@@ -109,7 +102,8 @@ App.propTypes = {
   proposals: PropTypes.array,
 	initProposals: PropTypes.array,
 	astronomers: PropTypes.array,
-	user: PropTypes.object
+	user: PropTypes.object,
+	dispatch: PropTypes.func
 };
 
 function mapStateToProps(state) { /* state in params */
