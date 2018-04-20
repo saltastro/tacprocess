@@ -1,11 +1,23 @@
 import {
-  FETCH_PROPOSALS_START, FETCH_PROPOSALS_PASS, FETCH_PROPOSALS_FAIL,
-  UPDATE_SINGLE_PROPOSAL, UPDATING_PROPOSALS,
+  FETCH_PROPOSALS_START,
+  FETCH_PROPOSALS_PASS,
+  FETCH_PROPOSALS_FAIL,
+  UPDATE_SINGLE_PROPOSAL,
+  UPDATING_PROPOSALS,
   UPDATE_TECHNICAL_REVIEW,
-  SUBMIT_TECHNICAL_REVIEWS_START, SUBMIT_TECHNICAL_REVIEWS_PASS, SUBMIT_TECHNICAL_REVIEWS_FAIL,
-  UPDATE_TAC_COMMENT, UPDATE_ALLOCATED_PRIORITY,
-  SUBMIT_TIME_ALLOCATIONS_START, SUBMIT_TIME_ALLOCATIONS_FAIL, SUBMIT_TIME_ALLOCATIONS_PASS,
-  USER_LOGGED_OUT, SET_LIAISON_ASTRONOMER, UNSET_LIAISON_ASTRONOMER
+  SUBMIT_TECHNICAL_REVIEWS_START,
+  SUBMIT_TECHNICAL_REVIEWS_PASS,
+  SUBMIT_TECHNICAL_REVIEWS_FAIL,
+  UPDATE_TAC_COMMENT,
+  UPDATE_ALLOCATED_PRIORITY,
+  SUBMIT_TIME_ALLOCATIONS_START,
+  SUBMIT_TIME_ALLOCATIONS_FAIL,
+  SUBMIT_TIME_ALLOCATIONS_PASS,
+  USER_LOGGED_OUT,
+  SET_LIAISON_ASTRONOMER,
+  UNSET_LIAISON_ASTRONOMER,
+  SUBMIT_LIAISON_ASTRONOMERS_START,
+  SUBMIT_LIAISON_ASTRONOMERS_PASS, SUBMIT_LIAISON_ASTRONOMERS_FAIL
 } from '../types';
 import {setDefaultTechReviews} from "../util/technicalReports";
 
@@ -14,6 +26,8 @@ const initialState = {
 	fetched: false,
 	submittingTechnicalReviews: false,
 	submittedTechnicalReviews: false,
+  submittingLiaison: false,
+  submittedLiaison: false,
 	submittingTimeAllocations: false,
 	submittedTimeAllocations: {},
 	unSubmittedTacChanges: false,
@@ -24,6 +38,7 @@ const initialState = {
 		fetchingError : null,
 		submittingError : null,
 		submittingReviewsError : null,
+		submittingLiaisonError : null,
 	},
 };
 
@@ -93,9 +108,9 @@ export default function proposals(state = initialState, action = {}) {
 								[action.payload.semester]: action.payload.techReview
 							}
 						}
-					} else {
+					} 
 						return p;
-					}
+					
 				}),
 				updatedProposals
 			}
@@ -144,9 +159,9 @@ export default function proposals(state = initialState, action = {}) {
 							...p,
 							tacComment: commentForPartner
 						}
-					} else {
+					} 
 						return p;
-					}
+					
 				})
 			}
 		}
@@ -170,9 +185,9 @@ export default function proposals(state = initialState, action = {}) {
 								}
 							}
 						}
-					} else {
+					} 
 						return p;
-					}
+					
 				})
 			}
 		}
@@ -236,7 +251,37 @@ export default function proposals(state = initialState, action = {}) {
         })
       }
     }
-		case USER_LOGGED_OUT: {
+    case SUBMIT_LIAISON_ASTRONOMERS_START: {
+      return {
+        ...state,
+        submittingLiaison: true,
+        submittedLiaison: false,
+        errors: {
+          ...state.errors,
+          submittingLiaisonError: null
+        }
+      }
+    }
+    case SUBMIT_LIAISON_ASTRONOMERS_PASS: {
+      return {
+        ...state,
+        submittingLiaison: false,
+        submittedLiaison: true,
+      }
+    }
+    case SUBMIT_LIAISON_ASTRONOMERS_FAIL: {
+      return {
+        ...state,
+        submittingLiaison: false,
+        submittedTechnicalReviews: false,
+        errors: {
+          ...state.errors,
+          submittingLiaisonError: action.payload.error,
+
+        }
+      }
+    }
+    case USER_LOGGED_OUT: {
 			return {
 				...initialState
 			}

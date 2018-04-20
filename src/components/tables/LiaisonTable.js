@@ -3,9 +3,9 @@ import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 import {getSaltAstronomerName} from "../../util/salt-astronomer";
 import {compareByProposalCode} from '../../util/proposal'
-import {isLiaisonAstronomer} from '../../util/proposal-changes'
+import {isLiaisonAstronomerUpdated} from '../../util/proposal-filtering'
 
-const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, username, setLiaison, initProposals}) => (
+const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, username, setLiaison, initProposals, semester}) => (
   <div className='SATableDiv'>
     <h1>Salt Astronomers Liaison Assigning</h1>
     <table className='SATable' align='center'>
@@ -22,7 +22,7 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
       {
         proposals.sort(compareByProposalCode).map(p => {
           const liaison = getSaltAstronomerName(p.liaisonAstronomer, selectArray)
-          const col = isLiaisonAstronomer(p.proposalCode, initProposals) ? {color: 'black'} : {color: 'blue'}
+          const col = isLiaisonAstronomerUpdated(p, initProposals) ? {color: 'blue'} : {color: 'black'}
           return ( <tr key={`liaison-${p.proposalCode}`}>
           <td>
             <a target="_blank"
@@ -33,7 +33,7 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
           <td className="width-100">
             <a className="file-download"
                href=""
-               onClick={e => requestSummary(e, p.proposalCode)}>
+               onClick={e => requestSummary(e, p.proposalCode, semester)}>
               Download
             </a>
           </td>
@@ -42,14 +42,14 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
           {
             canAssign ?
               <td>
-                <select className="setLiaison" defaultValue={liaison} onChange={e => setLiaison(e, p.proposalCode)} name={'selector'}>
+                <select className="setLiaison"  style={col} defaultValue={liaison} onChange={e => setLiaison(e, p.proposalCode)} name={'selector'}>
                   {
                     !liaison && <option>none</option>
                   }
                   {
                     selectArray.map(op => (
                       <option key={op.username} value={op.name} name={op.username}>
-                        { op.name}
+                        {op.name}
                       </option>
                     ))
                   }
@@ -61,12 +61,14 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
                   <div>
                     <input
                       className="saAssign"
-                      checked={isLiaisonAstronomer(p.proposalCode, proposals)}
-                      disabled={isLiaisonAstronomer(p.proposalCode, initProposals)}
+                      checked={p.liaisonAstronomer}
+                      disabled={initProposals.filter(
+                        ip => ip.proposalCode === p.proposalCode)[0].liaisonAstronomer
+                      }
                       type={"checkbox"}
                       value={ username }
                       onChange={e => setLiaison(e, p.proposalCode)}/>
-                    { isLiaisonAstronomer(p.proposalCode, proposals) ?
+                    { p.liaisonAstronomer ?
                       <a style={col}> {liaison} </a>: <a style={{color: 'red'}}>{'Select'}</a>}
                   </div>
                 }
@@ -88,6 +90,7 @@ LiaisonTable.propTypes = {
   selectArray: propTypes.array.isRequired,
   username: propTypes.string.isRequired,
   requestSummary: propTypes.func.isRequired,  // todo request summary should know the current selected semester
-  setLiaison: propTypes.func.isRequired
+  setLiaison: propTypes.func.isRequired,
+  semester: propTypes.string.isRequired
 };
 export default LiaisonTable
