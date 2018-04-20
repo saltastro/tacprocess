@@ -21,6 +21,16 @@ const proposals = [
   }
 ]
 
+const initProposals = [
+  {
+    proposalId: '',
+    proposalCode: '',
+    title: '',
+    pi: '',
+    liaisonAstronomer: ''
+  }
+]
+
 const canAssign = [true, false]
 
 const selectArray = [
@@ -34,21 +44,110 @@ const selectArray = [
   }
 ]
 
-const requestSummary = () => {
+const username = 'myezasifiso'
 
-}
+const requestSummary = jest.fn()
+
+const setLiaison = jest.fn()
 
 // Checking if the LiaisonTable Component renders correctly for different input
 describe("LiaisonTable Component", () => {
 
   //Enzyme method testing if it renders correctly with empty values of the proposals
   it("Render the LiaisonTable Component having unpopulated props with no errors", () => {
-    const rendered = mount(<LiaisonTable proposals= {[]} canAssign= {canAssign[1]} selectArray= {[]} requestSummary= {requestSummary} />)
+    const rendered = mount(<LiaisonTable
+      proposals= {[]}
+      initProposals= {[]}
+      canAssign= {canAssign[1]}
+      selectArray= {[]}
+      username = {''}
+      requestSummary= {requestSummary}
+      setLiaison= {setLiaison} />)
     expect(shallowToJson(rendered)).toMatchSnapshot()
   })
 
   it("Render the LiaisonTable Component having populated props with no errors", () => {
-    const rendered = mount(<LiaisonTable proposals= {proposals} canAssign= {canAssign[0]} selectArray= {selectArray} requestSummary= {requestSummary} />)
+    const rendered = mount(<LiaisonTable
+      proposals= {proposals}
+      initProposals= {initProposals}
+      canAssign= {canAssign[0]}
+      selectArray= {selectArray}
+      username = {username}
+      requestSummary= {requestSummary}
+      setLiaison= {setLiaison} />)
     expect(shallowToJson(rendered)).toMatchSnapshot()
+  })
+})
+
+// Checking if the setLiaison function works properly in LiaisonTable Component
+describe("LiaisonTable Component", () => {
+  it("setLiaison function should be called", () => {
+    const wrapper = mount(<LiaisonTable
+      proposals= {[proposals[0]]}
+      initProposals= {initProposals}
+      canAssign= {canAssign[0]}
+      selectArray= {selectArray}
+      username = {username}
+      requestSummary= {requestSummary}
+      setLiaison= {setLiaison} />)
+
+    wrapper.find('select').simulate('change');
+    //Expect the setLiaison function to be called once
+    expect(setLiaison.mock.calls.length).toBe(1)
+    //Expect the setLiaison function to be called with the proposalCode
+    expect(setLiaison.mock.calls[0][1]).toBe(proposals[0].proposalCode)
+  })
+})
+
+// Checking if the requestSummary function works properly in LiaisonTable Component
+describe("LiaisonTable Component", () => {
+  it("setLiaison function should be called", () => {
+    const wrapper = mount(<LiaisonTable
+      proposals= {[proposals[0]]}
+      initProposals= {initProposals}
+      canAssign= {canAssign[0]}
+      selectArray= {selectArray}
+      username = {username}
+      requestSummary= {requestSummary}
+      setLiaison= {setLiaison} />)
+
+    wrapper.find('.file-download').simulate('click');
+    //Expect the requestSummary function to be called once
+    expect(requestSummary.mock.calls.length).toBe(1)
+    //Expect the requestSummary function to be called with the proposalCode
+    expect(requestSummary.mock.calls[0][1]).toBe(proposals[0].proposalCode)
+  })
+})
+
+// Checking if the drop down exist only for ADMINISTRATOR in LiaisonTable Component
+describe("LiaisonTable Component", () => {
+  it("Drop down should exist", () => {
+    const wrapper = shallow(<LiaisonTable
+      proposals= {[proposals[0]]}
+      initProposals= {initProposals}
+      canAssign= {canAssign[0]}
+      selectArray= {selectArray}
+      username = {username}
+      requestSummary= {requestSummary}
+      setLiaison= {setLiaison} />)
+      // Drop down exists
+      expect(wrapper.find('.setLiaison').exists()).toBe(true);
+      // Checkbox does not exist
+      expect(wrapper.find('.saAssign').exists()).toBe(false)
+  })
+
+  it("Drop down should not exist but checkbox should", () => {
+    const wrapper = shallow(<LiaisonTable
+      proposals= {[proposals[0]]}
+      initProposals= {initProposals}
+      canAssign= {canAssign[1]}
+      selectArray= {selectArray}
+      username = {username}
+      requestSummary= {requestSummary}
+      setLiaison= {setLiaison} />)
+      // Drop down does not exists
+      expect(wrapper.find('.setLiaison').exists()).toBe(false)
+      // Checkbox exist
+      expect(wrapper.find('.saAssign').exists()).toBe(true)
   })
 })
