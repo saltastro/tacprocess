@@ -1,9 +1,15 @@
 import React from 'react';
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
-import {getSaltAstronomerName} from "../../util/salt-astronomer";
+import {getSaltAstronomerName, getSaltAstronomerUsername} from '../../util/salt-astronomer';
 import {compareByProposalCode} from '../../util/proposal'
 import {isLiaisonAstronomerUpdated} from '../../util/proposal-filtering'
+
+const getEventValue = (event, astronomers) => {
+  event.preventDefault()
+  if (event.target.name === 'select') return getSaltAstronomerUsername(event.target.value, astronomers)
+  return event.target.value
+}
 
 const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, username, setLiaison, initProposals, semester}) => (
   <div className='SATableDiv'>
@@ -42,7 +48,9 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
           {
             canAssign ?
               <td>
-                <select style={col} defaultValue={liaison} onChange={e => setLiaison(e, p.proposalCode)} name={'selector'}>
+                <select style={col} defaultValue={liaison} onChange={
+                  e => setLiaison(getEventValue(e, selectArray), p.proposalCode, true)
+                } name={'selector'}>
                   {
                     !liaison && <option>none</option>
                   }
@@ -66,7 +74,7 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
                       }
                       type={"checkbox"}
                       value={ username }
-                      onChange={e => setLiaison(e, p.proposalCode)}/>
+                      onChange={e => setLiaison(getEventValue(e, selectArray), p.proposalCode, e.target.checked)}/>
                     { p.liaisonAstronomer ?
                       <a style={col}> {liaison} </a>: <a style={{color: 'red'}}>{'Select'}</a>}
                   </div>

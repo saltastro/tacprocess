@@ -29,15 +29,8 @@ class App extends React.Component {
 		}
 	}
 
-	setLiaison =  (event, proposalCode) => {
-		event.preventDefault()
-		let isChecked = event.target.checked
-		let  liaisonUsername = event.target.value
-		if (event.target.name === 'selector') {
-			isChecked = true
-      liaisonUsername = getSaltAstronomerUsername(event.target.value, this.props.astronomers)
-		}
-		this.props.dispatch(setLiaisonAstronomer(proposalCode, liaisonUsername, isChecked))
+	setLiaison =  (liaisonUsername, proposalCode, isValueSet) => {
+		this.props.dispatch(setLiaisonAstronomer(proposalCode, liaisonUsername, isValueSet))
 	}
 
   submitLiaisons =  (event, proposals) => {
