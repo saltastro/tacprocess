@@ -42,7 +42,6 @@ class App extends React.Component {
 
   submitLiaisons =  (event, proposals) => {
 		event.preventDefault()
-    console.log(proposals)
 		this.props.dispatch(
 			submitProposalsLiaison(proposals, this.props.filters.selectedSemester, this.props.filters.selectedPartner)
 		)

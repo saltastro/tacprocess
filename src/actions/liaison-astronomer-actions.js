@@ -37,12 +37,12 @@ function submitLiaisonFail(message) {
 export default function submitProposalsLiaison(proposals, semester, partner){
   return async (dispatch) => {
     dispatch(submitLiaisonStart());
-    const toSubmit = proposals.map(p => ({
+    const assignments = proposals.map(p => ({
       proposalCode: p.proposalCode,
-      liaison: p.liaisonAstronomer
+      liaisonAstronomer: p.liaisonAstronomer
     }))
     try {
-      await jsonClient().post('proposals-liaison', {semester, toSubmit});
+      await jsonClient().post('liaison-astronomers', {assignments});
     } catch (e) {
       dispatch(submitLiaisonFail(e.message));
       return;
