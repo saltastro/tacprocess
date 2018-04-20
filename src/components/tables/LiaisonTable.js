@@ -3,7 +3,7 @@ import propTypes from "prop-types";
 import '../../styles/components/tables.css';
 import {getSaltAstronomerName} from "../../util/salt-astronomer";
 import {compareByProposalCode} from '../../util/proposal'
-import {isLiaisonAstronomer, isLiaisonAstronomerChanged} from '../../util/proposal-changes'
+import {isLiaisonAstronomerUpdated} from '../../util/proposal-filtering'
 
 const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, username, setLiaison, initProposals, semester}) => (
   <div className='SATableDiv'>
@@ -22,7 +22,7 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
       {
         proposals.sort(compareByProposalCode).map(p => {
           const liaison = getSaltAstronomerName(p.liaisonAstronomer, selectArray)
-          const col = isLiaisonAstronomerChanged(p, initProposals) ? {color: 'black'} : {color: 'blue'}
+          const col = isLiaisonAstronomerUpdated(p, initProposals) ? {color: 'blue'} : {color: 'black'}
           return ( <tr key={`liaison-${p.proposalCode}`}>
           <td>
             <a target="_blank"
@@ -60,12 +60,14 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
                 {
                   <div>
                     <input
-                      checked={isLiaisonAstronomer(p.proposalCode, proposals)}
-                      disabled={isLiaisonAstronomer(p.proposalCode, initProposals)}
+                      checked={p.liaisonAstronomer}
+                      disabled={initProposals.filter(
+                        ip => ip.proposalCode === p.proposalCode)[0].liaisonAstronomer
+                      }
                       type={"checkbox"}
                       value={ username }
                       onChange={e => setLiaison(e, p.proposalCode)}/>
-                    { isLiaisonAstronomer(p.proposalCode, proposals) ?
+                    { p.liaisonAstronomer ?
                       <a style={col}> {liaison} </a>: <a style={{color: 'red'}}>{'Select'}</a>}
                   </div>
                 }
