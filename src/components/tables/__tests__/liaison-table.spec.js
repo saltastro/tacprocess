@@ -81,9 +81,9 @@ describe("LiaisonTable Component", () => {
 
 // Checking if the setLiaison function works properly in LiaisonTable Component
 describe("LiaisonTable Component", () => {
-  it("setLiaison function should be called", () => {
+  it("setLiaison function should be called with the correct proposalCode", () => {
     const wrapper = mount(<LiaisonTable
-      proposals= {[proposals[0]]}
+      proposals= {proposals}
       initProposals= {initProposals}
       canAssign= {canAssign[0]}
       selectArray= {selectArray}
@@ -91,19 +91,31 @@ describe("LiaisonTable Component", () => {
       requestSummary= {requestSummary}
       setLiaison= {setLiaison} />)
 
-    wrapper.find('select').simulate('change');
+    wrapper.find('select').at(0).simulate('change');
     //Expect the setLiaison function to be called once
     expect(setLiaison.mock.calls.length).toBe(1)
-    //Expect the setLiaison function to be called with the proposalCode
+    //Expect the setLiaison function to be called with the correct proposalCode
     expect(setLiaison.mock.calls[0][1]).toBe(proposals[0].proposalCode)
+
+    wrapper.find('select').at(1).simulate('change');
+    //Expect the setLiaison function to be called twice
+    expect(setLiaison.mock.calls.length).toBe(2)
+    //Expect the setLiaison function to be called with the correct proposalCode
+    expect(setLiaison.mock.calls[1][1]).toBe(proposals[1].proposalCode)
+
+    wrapper.find('select').at(1).simulate('change');
+    //Expect the setLiaison function to be called once
+    expect(setLiaison.mock.calls.length).toBe(3)
+    //Expect the setLiaison function to be called with the incorrect proposalCode
+    expect(setLiaison.mock.calls[1][1]).not.toBe(proposals[0].proposalCode)
   })
 })
 
 // Checking if the requestSummary function works properly in LiaisonTable Component
 describe("LiaisonTable Component", () => {
-  it("setLiaison function should be called", () => {
+  it("requestSummary function should be called with the correct proposalCode", () => {
     const wrapper = mount(<LiaisonTable
-      proposals= {[proposals[0]]}
+      proposals= {proposals}
       initProposals= {initProposals}
       canAssign= {canAssign[0]}
       selectArray= {selectArray}
@@ -111,9 +123,21 @@ describe("LiaisonTable Component", () => {
       requestSummary= {requestSummary}
       setLiaison= {setLiaison} />)
 
-    wrapper.find('.file-download').simulate('click');
+    wrapper.find('.file-download').at(0).simulate('click');
     //Expect the requestSummary function to be called once
     expect(requestSummary.mock.calls.length).toBe(1)
+    //Expect the requestSummary function to be called with the proposalCode
+    expect(requestSummary.mock.calls[0][1]).toBe(proposals[0].proposalCode)
+
+    wrapper.find('.file-download').at(0).simulate('click');
+    //Expect the requestSummary function to be called once
+    expect(requestSummary.mock.calls.length).toBe(2)
+    //Expect the requestSummary function to be called with the proposalCode
+    expect(requestSummary.mock.calls[0][1]).toBe(proposals[0].proposalCode)
+
+    wrapper.find('.file-download').at(0).simulate('click');
+    //Expect the requestSummary function to be called once
+    expect(requestSummary.mock.calls.length).toBe(3)
     //Expect the requestSummary function to be called with the proposalCode
     expect(requestSummary.mock.calls[0][1]).toBe(proposals[0].proposalCode)
   })
@@ -121,9 +145,9 @@ describe("LiaisonTable Component", () => {
 
 // Checking if the drop down exist only for ADMINISTRATOR in LiaisonTable Component
 describe("LiaisonTable Component", () => {
-  it("Drop down should exist", () => {
-    const wrapper = shallow(<LiaisonTable
-      proposals= {[proposals[0]]}
+  it("Drop down should exist if the user is an ADMINISTRATOR", () => {
+    const wrapper = mount(<LiaisonTable
+      proposals= {proposals}
       initProposals= {initProposals}
       canAssign= {canAssign[0]}
       selectArray= {selectArray}
@@ -131,14 +155,14 @@ describe("LiaisonTable Component", () => {
       requestSummary= {requestSummary}
       setLiaison= {setLiaison} />)
       // Drop down exists
-      expect(wrapper.find('.setLiaison').exists()).toBe(true);
+      expect(wrapper.find('.setLiaison').exists()).toBe(true)
       // Checkbox does not exist
       expect(wrapper.find('.saAssign').exists()).toBe(false)
   })
 
-  it("Drop down should not exist but checkbox should", () => {
+  it("Drop down should not exist but checkbox should if user is not an ADMINISTRATOR", () => {
     const wrapper = shallow(<LiaisonTable
-      proposals= {[proposals[0]]}
+      proposals= {proposals}
       initProposals= {initProposals}
       canAssign= {canAssign[1]}
       selectArray= {selectArray}
