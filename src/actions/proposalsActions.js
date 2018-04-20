@@ -29,8 +29,8 @@ function FetchProposalsPass(proposals, semester) {
 		{
 			type: FETCH_PROPOSALS_PASS,
 			payload: {
-				proposals: proposals,
-				semester: semester
+				proposals,
+				semester
 			}
 		}
 	);

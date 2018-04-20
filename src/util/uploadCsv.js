@@ -16,28 +16,28 @@ export const checkColumns = columnArray => {
 
 
 export const getIndexOfColumns = columnArray => {
-  let columnIndex = {};
+  const columnIndex = {};
   (columnArray || [] ).forEach( (p, i) => {
       if ( p.toLowerCase() === "p0" ){
-        columnIndex["P0"] = i
+        columnIndex.P0 = i
       }
       if ( p.toLowerCase() === "p1"){
-        columnIndex["P1"] = i
+        columnIndex.P1 = i
       }
       if  ( p.toLowerCase() === "p2"){
-        columnIndex["P2"] = i
+        columnIndex.P2 = i
       }
       if ( p.toLowerCase() === "p3"){
-        columnIndex["P3"] = i
+        columnIndex.P3 = i
       }
       if ( p.toLowerCase() === "p4"){
-        columnIndex["P4"] = i
+        columnIndex.P4 = i
       }
       if (p.toLowerCase() === "code" || p.toLowerCase() === "proposalcode" || p.toLowerCase() === "proposal code"){
-        columnIndex["proposalCode"] = i
+        columnIndex.proposalCode = i
       }
 	  if ( p.toLowerCase() === "taccomment" || p.toLowerCase() === "tac comment" ){
-		  columnIndex["tacComment"] = i
+		  columnIndex.tacComment = i
 	  }
     });
     return columnIndex

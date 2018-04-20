@@ -2,10 +2,16 @@ import {
 	TIME_ALLOCATIONS_QUERY_START,
 	TIME_ALLOCATIONS_QUERY_PASS,
 	TIME_ALLOCATIONS_QUERY_FAIL,
-	SUBMIT_TIME_ALLOCATIONS_START,
-	SUBMIT_TIME_ALLOCATIONS_PASS,
-	SUBMIT_TIME_ALLOCATIONS_FAIL,
     USER_LOGGED_OUT,
+		REMOVE_MEMBER,
+		SAVE_MEMBERS,
+		ADD_NEW_MEMBER,
+		FAIL_TO_GET_SALT_USERS,
+		FAIL_TO_GET_TAC_MEMBERS,
+		SALT_USERS_QUERY_PASS,
+		TAC_MEMBERS_QUERY_PASS,
+		FETCHING_SALT_USERS_START,
+		FETCHING_TAC_MEMBERS_START
 } from "../types";
 
 const initState = {
@@ -15,9 +21,17 @@ const initState = {
 			p2: 0,
 			p3: 0
 		}
-		},
+	},
+	fetchingTacs:false,
+	fetchedTacs:false,
+	fetchingusers:false,
+	fetchedusers:false,
+	errors: {},
 	submiting: false,
 	submited: true,
+	newMembers: {},
+	tacMembers: {},
+	saltUsers: []
 };
 
 export default function statistics(state=initState, action = {}) {
@@ -44,27 +58,115 @@ export default function statistics(state=initState, action = {}) {
           data: action.timeallocation,
         }
       }
-      case SUBMIT_TIME_ALLOCATIONS_PASS: {
-        return {
-          ...state,
-          submiting: false,
-          submited: true,
-        }
-      }
-      case SUBMIT_TIME_ALLOCATIONS_FAIL: {
-        return {
-          ...state,
-          submiting: false,
-          submited: false,
-        }
-      }
-      case SUBMIT_TIME_ALLOCATIONS_START: {
-        return {
-          ...state,
-          submiting: true,
-          partner: action.partner
-        }
-      }
+			case ADD_NEW_MEMBER: {
+				if (!state.newMembers[action.payload.partner]){
+					state.newMembers[action.payload.partner] = []
+				}
+				if (state.newMembers[action.payload.partner].some( p => (
+						p.username === action.payload.member.username)) ||
+						state.tacMembers[action.payload.partner].some( p => (
+								p.username === action.payload.member.username))
+					){
+					return {...state}
+				}
+				return {
+					...state,
+					newMembers: {
+						...state.newMembers,
+						[action.payload.partner] : [
+								...state.newMembers[action.payload.partner],
+								action.payload.member
+							]
+					}
+				}
+			}
+			case REMOVE_MEMBER: {
+				if (!state.newMembers[action.payload.partner]){
+					state.newMembers[action.payload.partner] = []
+				}
+				return {
+					...state,
+					tacMembers: {
+						...state.tacMembers,
+						[action.payload.partner]: [
+							...state.tacMembers[action.payload.partner].filter( m => (action.payload.member.username !== m.username))]
+						},
+					newMembers: {
+							...state.newMembers,
+							[action.payload.partner]: [
+							...state.newMembers[action.payload.partner].filter( m => (action.payload.member.username !== m.username))]
+						}
+
+				}
+			}
+			case SAVE_MEMBERS: {
+				return {...state, unsavedMember: false}
+			}
+			case FAIL_TO_GET_TAC_MEMBERS: {
+				return {
+					...state,
+					fetchedTacs: false,
+					fetchingTacs: false,
+					errors:{
+						...state.errors,
+						tacsError: "Fail to get tac members"
+					}
+				}
+			}
+			case FAIL_TO_GET_SALT_USERS: {
+				return {
+					...state,
+					fetchedSaltUsers: false,
+					fetchingSaltUsers: false,
+					errors:{
+						...state.errors,
+						saltUsersError: "Fail to get salt users"
+					}
+				}
+			}
+			case FETCHING_TAC_MEMBERS_START: {
+				return {
+					...state,
+					fetchingTacs: true,
+					errors:{
+						...state.errors,
+						tacsError: undefined
+					},
+					tacMembers: {}
+				}
+			}
+			case FETCHING_SALT_USERS_START: {
+				return {
+					...state,
+					fetchingSaltUsers: true,
+					errors: {
+						...state.errors,
+						saltUsersError: undefined
+					}
+				}
+			}
+			case TAC_MEMBERS_QUERY_PASS: {
+				return {
+					...state,
+					fetchingTacs: true,
+					errors:{
+						...state.errors,
+						tacsError: undefined
+					},
+					tacMembers: action.payload
+				}
+			}
+			case SALT_USERS_QUERY_PASS: {
+				return {
+					...state,
+					fetchingSaltUsers: true,
+					errors:{
+						...state.errors,
+						saltUsersError: undefined
+					},
+					saltUsers: action.payload
+				}
+			}
 	  case USER_LOGGED_OUT: {
 		  return initState
 	  }

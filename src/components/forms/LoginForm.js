@@ -28,7 +28,7 @@ class LoginForm extends React.Component {
 		}
 		this.setState({
 				...this.state,
-				errors : errors });
+				errors });
 	};
 
 	validate = (data) => {

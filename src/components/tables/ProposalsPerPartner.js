@@ -36,9 +36,9 @@ const byProposalCode = (a, b) => {
 	return 0;
 };
 
-const requestSummary = (event, proposalCode, semester) => {
+const requestSummary = (event, proposalCode, semester, partner) => {
     event.preventDefault();
-    downloadSummary(proposalCode, semester);
+    downloadSummary(proposalCode, semester, partner);
 };
 
 const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentChange,  allocationChange,
@@ -78,13 +78,11 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 					(arrayOfProposals.sort(byProposalCode))
 					.filter(p => !_.isNull(p.title))
 					.map( p => {
+						console.log(p.isP4);
 						return (
-							<tr key={p.proposalId} style={{"backgroundColor":
-									p.requestedTime.requests[partner] > 0 ?"": "#FEE"
-							}
-					}>
+							<tr key={p.proposalId} className={(p.isP4 || !p.requestedTime.requests[partner] > 0 ) ? "danger-line" : "" }>
 								<td><div className="width-150 padding-8" ><a target="_blank" href={`https://www.salt.ac.za/wm/proposal/${p.proposalCode}`}>{ p.proposalCode }</a></div></td>
-								<td><a href="" onClick={e => requestSummary(e, p.proposalCode, semester)}>Download</a></td>
+								<td><a href="" onClick={e => requestSummary(e, p.proposalCode, semester, partner)}>Download</a></td>
 								<td><div className="table-height width-300" >{ p.title }</div></td>
 								<td><div className="table-height width-400" >{ p.abstract }</div></td>
 								<td>{ p.pi }</td>
@@ -111,7 +109,6 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 								<td>
 									{ canAllocate ?
 										<TimeAllocationInput
-
 											onChange={ e =>
 												allocatedTimeChange(e, p.proposalCode, partner)
 											}
@@ -161,7 +158,7 @@ const ProposalsPerPartner = ({proposals, partner, submitForPartner, tacCommentCh
 									}
 								</td>
 								<td><div className="table-height width-100" >{
-									parseFloat(!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p0"] : 0 ) +
+									parseFloat(p.allocatedTime[partner] ? p.allocatedTime[partner].p0 : 0 ) +
 									parseFloat(!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p1"] : 0 ) +
 									parseFloat(!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p2"] : 0 ) +
 									parseFloat(!!p.allocatedTime[partner] ? p.allocatedTime[partner]["p3"] : 0 )

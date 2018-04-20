@@ -1,7 +1,7 @@
 import {
 	USER_LOGGED_IN, USER_LOGGED_OUT, FETCHING_USER, FAIL_TO_GET_USER, SWITCH_USER_START, SWITCH_USER_FAIL
 } from "../types";
-import {getStorage} from "../util/storage";
+import {getToken} from "../util/storage";
 
 const initialState = {
 	user: {
@@ -10,8 +10,9 @@ const initialState = {
 		email: undefined,
 		username: undefined,
 		roles: undefined,
-		isAuthenticated: !!getStorage()
-	}};
+		isAuthenticated: !!getToken()
+	}
+};
 
 
 export default function user(state = initialState, action = {}) {
@@ -36,10 +37,10 @@ export default function user(state = initialState, action = {}) {
 			}
 		};
 	}
-
+	
 	case FETCHING_USER:
 		return {
-
+			
 			user: {
 					isAuthenticated: state.user.isAuthenticated
 			},

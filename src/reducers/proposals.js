@@ -157,6 +157,9 @@ export default function proposals(state = initialState, action = {}) {
 				unSubmittedTacChanges: { [partner]: true},
 				proposals: state.proposals.map(p => {
 					if (p.proposalCode === action.payload.proposalCode) {
+						if ( !p.allocatedTime[partner]){p.allocatedTime[partner] = {
+							p0: 0, p1: 0, p2: 0, p3: 0, p4: 0
+						}}
 						return {
 							...p,
 							allocatedTime: {

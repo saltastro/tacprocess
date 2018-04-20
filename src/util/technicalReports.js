@@ -38,15 +38,17 @@ export function getTechnicalReport(proposal, semester, format='string') {
         lines = ['(no report yet)'];
     } else {
         lines = [
-            `Feasible: ${feasible ? feasible : ''}`,
-            `Comment: ${comment ? comment : ''}`,
-            `Detailed check: ${details ? details : ''}`
+            `Feasible: ${feasible || ''}`,
+            `Comment: ${comment || ''}`,
+            `Detailed check: ${details || ''}`
         ];
     }
 
     if (lcFormat === 'jsx') {
         return <div>
-            {lines.map((line, index) => <div key={index}>{line}</div>)}
+            {lines.map((line) => {
+                return <div key={line}>{line}</div>
+            })}
         </div>
     }
 
@@ -72,9 +74,9 @@ function getDefaultReview(p, semester) {
     }
     return {
         reviewer: {username: name},
-        feasible: feasible,
-        comment: comment,
-        details: details
+        feasible,
+        comment,
+        details
 
     }
 
@@ -82,10 +84,10 @@ function getDefaultReview(p, semester) {
 
 export function setDefaultTechReviews(proposals, semester) {
     return (proposals || []).map(p => {
-        if (!!p.techReviews[semester]) {
+        if (p.techReviews[semester]) {
             return p
         }
-        else {
+        
             const rev = getDefaultReview(p, semester);
             return {
                 ...p,
@@ -99,7 +101,7 @@ export function setDefaultTechReviews(proposals, semester) {
                     }
                 }
             }
-        }
+        
 
     })
 }

@@ -1,23 +1,21 @@
-import { jsonClient, graphqlClient } from './index';
+import { graphqlClient } from './index';
 import {getTechReportFields} from "../util";
 import { isNewProposal, isLongTermProposal } from "../util/proposal";
 
 
 function makeTechReviews(techReviews) {
-
-	return ( techReviews|| [] ).reduce((prev, tr) => {
-		return {
+	
+	return ( techReviews|| [] ).reduce((prev, tr) => ({
 			...prev,
 			[tr.semester]: {
 				reviewer: tr.reviewer,
 				...getTechReportFields(tr.report)
 			}
-		};
-	}, {});
+		}), {});
 }
 
 function makeAllocatedTime(alloc){
-	let allocations = {};
+	const allocations = {};
 	alloc.forEach( a => {
 		allocations[a.partnerCode] = {
 			p0: (a.p0 === null) ? 0 : a.p0,
@@ -31,8 +29,8 @@ function makeAllocatedTime(alloc){
 }
 
 function makeTacComments(tComm){
-
-	let tacComment = {};
+	
+	const tacComment = {};
 	tComm.forEach( c => {
 		tacComment[c.partnerCode] = {
 			comment: c.comment == null ? "" : `${c.comment}`
@@ -54,10 +52,10 @@ function minimumTotalRequested(distributedTimes, semester){
 }
 
 function requestedTime(requests, semester){
-
-	let reqTime = {
+	
+	const reqTime = {
 		minimum: 0,
-		semester: semester,
+		semester,
 		requests: {}
 	};
 	requests.forEach(p => {
@@ -102,30 +100,29 @@ export function convertProposals(proposals, semester, partner){
 	});
 }
 
-const convertData = rowUser => {
-	return {
+const convertData = rowUser => ({
 		firstName: rowUser.firstName,
 		lastName: rowUser.lastName,
 		email: rowUser.email,
 		username: rowUser.username,
 		roles:rowUser.role
-	};
-};
+	}
+);
 
 export function queryPartnerAllocations(semester, partner="All" ){
 	/**
-	* This method is only called by pages that will need and allocated time
-	* for partner at semester
-	*
-	* @params semester like "2017-1" type String
-	* @params partner is a partner code as it will be shown on partner filter
-	* @return GQL results of the below query
-	*/
+	 * This method is only called by pages that will need and allocated time
+	 * for partner at semester
+	 *
+	 * @params semester like "2017-1" type String
+	 * @params partner is a partner code as it will be shown on partner filter
+	 * @return GQL results of the below query
+	 */
 	let par = "";
 	if ( partner !== "All" ) {
 		par = ` , partnerCode:"${ partner}"`
 	}
-
+	
 	const query = `
   {
     partnerAllocations(semester:"${ semester }" ${ par }){
@@ -159,9 +156,7 @@ export function queryUserData(){
   }`;
 	return graphqlClient().post(`/graphql`, {query})
 	.then(
-		response => {
-			return convertData(response.data.data.user);
-		}
+		response =>  convertData(response.data.data.user)
 	)
 }
 
@@ -193,7 +188,7 @@ export function queryProposals(semester, partner){
 	} else{
 		par = ` allProposals: true `
 	}
-
+	
 	const query = `
   {
     proposals(semester: "${semester}",${par} ){
@@ -269,21 +264,48 @@ export function queryProposals(semester, partner){
 	)
 }
 
-export function submitAllocations(query){
-	return jsonClient().post(`/graphql`, { query })
-	.then(response => response)
-}
+export const  submitAllocations = (query) =>  graphqlClient().post(`/graphql`, { query }).then(response => response);
 
 export function querySALTAstronomers(){
 	const query=`
   {
     SALTAstronomers{
-      name
-      username
-      surname
+        name
+	    username
+	    surname
     }
   }
   `;
 	return graphqlClient().post(`/graphql`, {query})
 	.then(response => response)
 }
+
+export const queryTacMembers = () => {
+	const query = `
+{
+	tacMembers{
+		lastName
+	    firstName
+	    partnerCode
+	    username
+	    isChair
+	}
+}
+	`;
+	return graphqlClient().post(`/graphql`, {query})
+	.then( response => response)
+};
+
+export const querySaltUsers = () => {
+	const query = `
+	{
+		saltUsers{
+			lastName
+		    firstName
+		    username
+		}
+	}
+	`;
+	return graphqlClient().post(`/graphql`, {query})
+	.then( response => response)
+};

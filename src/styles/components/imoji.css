@@ -1,0 +1,220 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro:500);
+/* EMOTICONS */
+#emoticons{
+  width: 80%;
+  margin: auto;
+  text-align: center;
+}
+
+.emoti{
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+  margin: 10px;
+  background-color:#d6b368;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+/* eyes */
+.emoti:before{
+  position: absolute;
+  display: block;
+  content: ':';
+  font-size: 80px;
+  margin-left: 32px;
+  margin-top: -15px;
+  -ms-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+/* mouth */
+.emoti:after{
+  display: block;
+  content: '';
+  width: 50px;
+  height: 0px;
+  font-size: 40px;
+  margin-top: 35px;
+  margin-left: 5px;
+}
+
+/* different emoticons */
+[data-emoti="happy"]:before{
+  -webkit-animation: happyEye 4s ease infinite;
+  animation: happyEye 4s ease infinite;
+}
+[data-emoti="happy"]:after{
+  height: 10px;
+  margin-top: 15px;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  border-bottom: 4px solid #000000;
+  -webkit-animation: happyMouth 4s ease infinite;
+  animation: happyMouth 4s ease infinite;
+}
+
+[data-emoti="sad"]:before{
+  -webkit-animation: sadEye 4s ease infinite;
+  animation: sadEye 4s ease infinite;
+}
+[data-emoti="sad"]:after{
+  height: 25%;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  border-top: 4px solid #000000;
+  -webkit-animation: sadMouth 4s ease infinite;
+  animation: sadMouth 4s ease infinite;
+}
+
+[data-emoti="annoyed"]:after{
+  width: 40px;
+  margin-top: 40px;
+  margin-left: 15px;
+  border-bottom: 4px solid #000000;
+  -webkit-animation: annoyedMouth 4s ease infinite;
+  animation: annoyedMouth 4s ease infinite;
+}
+
+[data-emoti="searching"]:before{
+  margin-top: 10px;
+  -webkit-animation: searchingEye 4s ease infinite;
+  animation: searchingEye 4s ease infinite;
+}
+
+[data-emoti="tired"]:before{
+  overflow: hidden;
+  -webkit-animation: tiredEye 4s ease infinite;
+  animation: tiredEye 4s ease infinite;
+}
+[data-emoti="tired"]:after{
+  width: 1px;
+  height: 1px;
+  border: 2px solid #000000;
+  border-radius: 50%;
+  margin-top: 50px;
+  margin-left: 45px;
+  -webkit-animation: tiredMouth 4s ease infinite;
+  animation: tiredMouth 4s ease infinite;
+}
+
+/* EMOTICONS ANIMATIONS */
+/* happy */
+@-webkit-keyframes happyEye {
+   0% { margin-top: -25px; }
+  40% { margin-top: -15px; }
+  60% { margin-top: -15px; }
+ 100% { margin-top: -25px; }
+}
+
+@keyframes happyEye {
+   0% { margin-top: -25px; }
+  40% { margin-top: -15px; }
+  60% { margin-top: -15px; }
+ 100% { margin-top: -25px; }
+}
+
+@-webkit-keyframes happyMouth {
+   0% { height: 10px; margin-top: 15px; }
+  40% { height: 45px; margin-top: 0px; }
+  60% { height: 45px; margin-top: 0px; }
+ 100% { height: 10px; margin-top: 15px; }
+}
+
+@keyframes happyMouth {
+   0% { height: 10px; margin-top: 15px; }
+  40% { height: 45px; margin-top: 0px; }
+  60% { height: 45px; margin-top: 0px; }
+ 100% { height: 10px; margin-top: 15px; }
+}
+
+/* sad */
+@-webkit-keyframes sadEye {
+   0% { margin-top: -5px; }
+  40% { margin-top: -15px; }
+  60% { margin-top: -15px; }
+ 100% { margin-top: -5px; }
+}
+
+@keyframes sadEye {
+   0% { margin-top: -5px; }
+  40% { margin-top: -15px; }
+  60% { margin-top: -15px; }
+ 100% { margin-top: -5px; }
+}
+
+@-webkit-keyframes sadMouth {
+   0% { height: 20px; margin-top: 50px; }
+  40% { height: 45px; margin-top: 40px; }
+  60% { height: 45px; margin-top: 40px; }
+ 100% { height: 20px; margin-top: 50px; }
+}
+
+@keyframes sadMouth {
+   0% { height: 20px; margin-top: 50px; }
+  40% { height: 45px; margin-top: 40px; }
+  60% { height: 45px; margin-top: 40px; }
+ 100% { height: 20px; margin-top: 50px; }
+}
+
+/* annoyed */
+@-webkit-keyframes annoyedEye{
+   0% { -webkit-transform: rotate(0deg); margin-left: 20px; }
+  40% { -webkit-transform: rotate(10deg); margin-left: 15px; }
+  60% { -webkit-transform: rotate(-10deg); margin-left: 25px; }
+ 100% { -webkit-transform: rotate(0deg); margin-left: 20px; }
+}
+
+@keyframes annoyedMouth {
+   0% { transform: rotate(0deg); margin-left: 20px; }
+  40% { transform: rotate(10deg); margin-left: 15px; }
+  60% { transform: rotate(-10deg); margin-left: 25px; }
+ 100% { transform: rotate(0deg); margin-left: 20px; }
+}
+
+/* searching */
+@-webkit-keyframes searchingEye {
+   0% { margin-left: 39px; }
+  40% { margin-left: 25px; }
+  60% { margin-left: 25px; }
+ 100% { margin-left: 39px; }
+}
+
+@keyframes searchingEye {
+   0% { margin-left: 39px; }
+  40% { margin-left: 25px; }
+  60% { margin-left: 25px; }
+ 100% { margin-left: 39px; }
+}
+
+/* tired */
+@-webkit-keyframes tiredEye {
+   0% { width: 39px; }
+  30% { width: 39px; }
+  40% { width: 0px; }
+  60% { width: 0px; }
+ 100% { width: 39px; }
+}
+
+@keyframes tiredEye {
+   0% { width: 39px; }
+  30% { width: 39px; }
+  40% { width: 0px; }
+  60% { width: 0px; }
+ 100% { width: 39px; }
+}
+
+@-webkit-keyframes tiredMouth {
+   0% { margin-left: 45px; border-width: 0px; }
+  15% { margin-left: 40px; border-width: 4px; }
+  25% { margin-left: 40px; border-width: 4px; }
+  30% { margin-left: 45px; border-width: 0px; }
+}
+
+@keyframes tiredMouth {
+   0% { margin-left: 45px; border-width: 0px; }
+  15% { margin-left: 40px; border-width: 4px; }
+  25% { margin-left: 40px; border-width: 4px; }
+  30% { margin-left: 45px; border-width: 0px; }
+}
