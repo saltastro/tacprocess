@@ -33,8 +33,7 @@ class App extends React.Component {
 		this.props.dispatch(setLiaisonAstronomer(proposalCode, liaisonUsername, isValueSet))
 	}
 
-  submitLiaisons =  (event, proposals) => {
-		event.preventDefault()
+  submitLiaisons =  ( proposals) => {
 		this.props.dispatch(
 			submitProposalsLiaison(proposals, this.props.filters.selectedSemester, this.props.filters.selectedPartner)
 		)
