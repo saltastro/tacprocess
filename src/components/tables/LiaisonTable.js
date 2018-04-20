@@ -42,7 +42,7 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
           {
             canAssign ?
               <td>
-                <select defaultValue={liaison} onChange={e => setLiaison(e, p.proposalCode)} name={'selector'}>
+                <select className="setLiaison" defaultValue={liaison} onChange={e => setLiaison(e, p.proposalCode)} name={'selector'}>
                   {
                     !liaison && <option>none</option>
                   }
@@ -60,6 +60,7 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
                 {
                   <div>
                     <input
+                      className="saAssign"
                       checked={isLiaisonAstronomer(p.proposalCode, proposals)}
                       disabled={isLiaisonAstronomer(p.proposalCode, initProposals)}
                       type={"checkbox"}
