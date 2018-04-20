@@ -18,6 +18,10 @@ const modifiedProposals = ( proposals, initial) => {
   return (proposals||[]).filter(p => isLiaisonAstronomerUpdated(p, initial))
 }
 
+function preventEvent(event) {
+  event.preventDefault()
+}
+
 const LiaisonPage = ({proposals, filters, astronomers, user, setLiaison, initProposals, submitLiaisons}) => {
   const canAssign = (user.roles || [] ).some(r => r.type === ADMINISTRATOR)
   const semester = filters.selectedSemester
@@ -37,7 +41,10 @@ const LiaisonPage = ({proposals, filters, astronomers, user, setLiaison, initPro
         setLiaison={setLiaison}
         semester={semester}
         requestSummary={requestSummary} />
-      <button onClick={e => submitLiaisons(e, modifiedProposals(proposals, initProposals))}>Submit</button>
+      <button onClick={e => {
+        preventEvent(e)
+        submitLiaisons(modifiedProposals(proposals, initProposals))
+      }}>Submit</button>
     </div>
 )}
 
