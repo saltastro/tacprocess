@@ -23,13 +23,15 @@ const proposals = [
 
 const initProposals = [
   {
-    proposalId: '',
-    proposalCode: '',
-    title: '',
-    pi: '',
-    liaisonAstronomer: ''
+    proposalId: 'Proposal Id',
+    proposalCode: 'Proposal Code',
+    title: 'Proposal Title',
+    pi: 'Proposal Investigator',
+    liaisonAstronomer: 'Proposal Liaison Astronomer'
   }
 ]
+
+const semester = "2018-1"
 
 const canAssign = [true, false]
 
@@ -58,6 +60,7 @@ describe("LiaisonTable Component", () => {
     const rendered = mount(<LiaisonTable
       proposals= {[]}
       initProposals= {[]}
+      semester= {''}
       canAssign= {canAssign[1]}
       selectArray= {[]}
       username = {''}
@@ -70,6 +73,7 @@ describe("LiaisonTable Component", () => {
     const rendered = mount(<LiaisonTable
       proposals= {proposals}
       initProposals= {initProposals}
+      semester= {semester}
       canAssign= {canAssign[0]}
       selectArray= {selectArray}
       username = {username}
@@ -85,6 +89,7 @@ describe("LiaisonTable Component", () => {
     const wrapper = mount(<LiaisonTable
       proposals= {proposals}
       initProposals= {initProposals}
+      semester= {semester}
       canAssign= {canAssign[0]}
       selectArray= {selectArray}
       username = {username}
@@ -104,7 +109,7 @@ describe("LiaisonTable Component", () => {
     expect(setLiaison.mock.calls[1][1]).toBe(proposals[1].proposalCode)
 
     wrapper.find('select').at(1).simulate('change');
-    //Expect the setLiaison function to be called once
+    //Expect the setLiaison function to be called three times
     expect(setLiaison.mock.calls.length).toBe(3)
     //Expect the setLiaison function to be called with the incorrect proposalCode
     expect(setLiaison.mock.calls[1][1]).not.toBe(proposals[0].proposalCode)
@@ -117,6 +122,7 @@ describe("LiaisonTable Component", () => {
     const wrapper = mount(<LiaisonTable
       proposals= {proposals}
       initProposals= {initProposals}
+      semester= {semester}
       canAssign= {canAssign[0]}
       selectArray= {selectArray}
       username = {username}
@@ -130,13 +136,13 @@ describe("LiaisonTable Component", () => {
     expect(requestSummary.mock.calls[0][1]).toBe(proposals[0].proposalCode)
 
     wrapper.find('.file-download').at(0).simulate('click');
-    //Expect the requestSummary function to be called once
+    //Expect the requestSummary function to be called twice
     expect(requestSummary.mock.calls.length).toBe(2)
     //Expect the requestSummary function to be called with the proposalCode
     expect(requestSummary.mock.calls[0][1]).toBe(proposals[0].proposalCode)
 
     wrapper.find('.file-download').at(0).simulate('click');
-    //Expect the requestSummary function to be called once
+    //Expect the requestSummary function to be called three times
     expect(requestSummary.mock.calls.length).toBe(3)
     //Expect the requestSummary function to be called with the proposalCode
     expect(requestSummary.mock.calls[0][1]).toBe(proposals[0].proposalCode)
@@ -149,6 +155,7 @@ describe("LiaisonTable Component", () => {
     const wrapper = mount(<LiaisonTable
       proposals= {proposals}
       initProposals= {initProposals}
+      semester= {semester}
       canAssign= {canAssign[0]}
       selectArray= {selectArray}
       username = {username}
@@ -164,6 +171,7 @@ describe("LiaisonTable Component", () => {
     const wrapper = shallow(<LiaisonTable
       proposals= {proposals}
       initProposals= {initProposals}
+      semester= {semester}
       canAssign= {canAssign[1]}
       selectArray= {selectArray}
       username = {username}

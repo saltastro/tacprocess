@@ -6,11 +6,11 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
   initProposals={
     Array [
       Object {
-        "liaisonAstronomer": "",
-        "pi": "",
-        "proposalCode": "",
-        "proposalId": "",
-        "title": "",
+        "liaisonAstronomer": "Proposal Liaison Astronomer",
+        "pi": "Proposal Investigator",
+        "proposalCode": "Proposal Code",
+        "proposalId": "Proposal Id",
+        "title": "Proposal Title",
       },
     ]
   }
@@ -45,6 +45,7 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
       },
     ]
   }
+  semester="2018-1"
   setLiaison={[Function]}
   username="myezasifiso"
 >
@@ -116,6 +117,11 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
               defaultValue="brent"
               name="selector"
               onChange={[Function]}
+              style={
+                Object {
+                  "color": "blue",
+                }
+              }
             >
               <option
                 key="brent"
@@ -172,6 +178,11 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
               defaultValue={null}
               name="selector"
               onChange={[Function]}
+              style={
+                Object {
+                  "color": "blue",
+                }
+              }
             >
               <option>
                 none
@@ -206,6 +217,7 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having unpopul
   proposals={Array []}
   requestSummary={[Function]}
   selectArray={Array []}
+  semester=""
   setLiaison={[Function]}
   username=""
 >

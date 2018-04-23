@@ -56,6 +56,7 @@ const user = {
 }
 
 const setLiaison = jest.fn()
+const submitLiaisons = jest.fn()
 
 // Checking if the LiaisonPage Component renders correctly for different input
 describe("LiaisonPage Component", () => {
@@ -68,7 +69,8 @@ describe("LiaisonPage Component", () => {
       filters= {{}}
       astronomers= {[]}
       user = {{}}
-      setLiaison= {setLiaison} />)
+      setLiaison= {setLiaison}
+      submitLiaisons= {submitLiaisons} />)
     expect(shallowToJson(rendered)).toMatchSnapshot()
   })
 
@@ -79,7 +81,29 @@ describe("LiaisonPage Component", () => {
       filters= {filters}
       astronomers= {astronomers}
       user = {user}
-      setLiaison= {setLiaison} />)
+      setLiaison= {setLiaison}
+      submitLiaisons= {submitLiaisons} />)
     expect(shallowToJson(rendered)).toMatchSnapshot()
+  })
+})
+
+// Testing the click of a button if it triggers the event accordingly
+describe("LiaisonPage Component", () => {
+
+  it("Should trigger the event with the correct proposals infomation", () => {
+    const wrapper = mount(<LiaisonPage
+      proposals= {proposals}
+      initProposals= {initProposals}
+      filters= {filters}
+      astronomers= {astronomers}
+      user = {user}
+      setLiaison= {setLiaison}
+      submitLiaisons= {submitLiaisons} />)
+
+    wrapper.find('button').simulate('click', {preventDefault: () => {}})
+    //Expect the submitLiaisons function to be called once
+    expect(submitLiaisons.mock.calls.length).toBe(1);
+    //Expect the submitLiaisons function to be called with the correct proposals
+    expect(submitLiaisons.mock.calls[0][1]).toEqual(proposals)
   })
 })
