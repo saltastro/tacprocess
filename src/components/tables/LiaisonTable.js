@@ -1,9 +1,19 @@
 import React from 'react';
 import propTypes from "prop-types";
 import '../../styles/components/tables.css';
-import {getSaltAstronomerName} from "../../util/salt-astronomer";
+import {getSaltAstronomerName, getSaltAstronomerUsername, hasLiaison} from '../../util/salt-astronomer';
 import {compareByProposalCode} from '../../util/proposal'
 import {isLiaisonAstronomerUpdated} from '../../util/proposal-filtering'
+
+const getEventValue = (event, astronomers) => {
+  event.preventDefault()
+  if (event.target.name === 'selector') {
+    if (event.target.value === 'none' ) return null
+    return getSaltAstronomerUsername(event.target.value, astronomers)
+  }
+  if (event.target.checked) return event.target.value
+  return null
+}
 
 const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, username, setLiaison, initProposals, semester}) => (
   <div className='SATableDiv'>
@@ -42,9 +52,11 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
           {
             canAssign ?
               <td>
-                <select className="setLiaison"  style={col} defaultValue={liaison} onChange={e => setLiaison(e, p.proposalCode)} name={'selector'}>
+                <select className={'setLiaison'} style={col} defaultValue={liaison} onChange={
+                  e => setLiaison(getEventValue(e, selectArray), p.proposalCode)
+                } name={'selector'}>
                   {
-                    !liaison && <option>none</option>
+                    !hasLiaison(p.proposalCode, initProposals) && <option value={'none'}>none</option>
                   }
                   {
                     selectArray.map(op => (
@@ -60,14 +72,12 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
                 {
                   <div>
                     <input
-                      className="saAssign"
+                      className={'saAssign'}
                       checked={p.liaisonAstronomer}
-                      disabled={initProposals.filter(
-                        ip => ip.proposalCode === p.proposalCode)[0].liaisonAstronomer
-                      }
-                      type={"checkbox"}
+                      disabled={ hasLiaison(p.proposalCode, initProposals)}
+                      type={'checkbox'}
                       value={ username }
-                      onChange={e => setLiaison(e, p.proposalCode)}/>
+                      onChange={e => setLiaison(getEventValue(e, selectArray), p.proposalCode)}/>
                     { p.liaisonAstronomer ?
                       <a style={col}> {liaison} </a>: <a style={{color: 'red'}}>{'Select'}</a>}
                   </div>
