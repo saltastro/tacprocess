@@ -29,8 +29,8 @@ class App extends React.Component {
 		}
 	}
 
-	setLiaison =  (liaisonUsername, proposalCode, isValueSet) => {
-		this.props.dispatch(setLiaisonAstronomer(proposalCode, liaisonUsername, isValueSet))
+	setLiaison =  (liaisonUsername, proposalCode) => {
+		this.props.dispatch(setLiaisonAstronomer(proposalCode, liaisonUsername))
 	}
 
   submitLiaisons =  ( proposals) => {

@@ -1,4 +1,4 @@
-import { getSaltAstronomerName} from "../salt-astronomer";
+import {getSaltAstronomerName, hasLiaison} from '../salt-astronomer';
 
 const SALTAstronomers = [
     {username: 'astro-1', name: 'Astro-1'},
@@ -8,6 +8,14 @@ const SALTAstronomers = [
     {username: 'astro-5', name: 'Astro-5'},
     {username: 'astro-6', name: null},
 ];
+
+const proposals = [
+  {proposalCode: 'code-1', liaisonAstronomer: 'astro-1'},
+  {proposalCode: 'code-2', liaisonAstronomer: null},
+  {proposalCode: 'code-3', liaisonAstronomer: undefined},
+  {proposalCode: 'code-4'},
+  {proposalCode: 'code-5', liaisonAstronomer: ''}
+]
 
 describe('get correct name for astronomers', () => {
 
@@ -35,4 +43,21 @@ describe('get correct name for astronomers', () => {
     it('should be null again', () => {
         expect(getSaltAstronomerName('astro-6', SALTAstronomers)).toBe(null);
     })
+})
+
+describe( ' checking if proposals has a liaison astronomers', () => {
+  it ('should be true if salt astronomer exists', () => {
+    expect(hasLiaison('code-1', proposals)).toBe(true)
+  })
+  it ('should be false if salt astronomer is null undefined or saltAstronomer attribute does not exist', () => {
+    expect(hasLiaison('code-2', proposals)).toBe(false)
+    expect(hasLiaison('code-3', proposals)).toBe(false)
+    expect(hasLiaison('code-4', proposals)).toBe(false)
+  })
+  it ('should be false if the liaison astronomer has an empty string', () => {
+    expect(hasLiaison('code-5', proposals)).toBe(false)
+  })
+  it ('should be false if proposal code not in proposals', () => {
+    expect(hasLiaison('code-6', proposals)).toBe(false)
+  })
 })

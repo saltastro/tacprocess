@@ -37,3 +37,22 @@ export const compareByFirstName = (a, b) => {
   }
   return 0;
 };
+
+/**
+ * this method checks if the proposal with given proposal code has a liaison astronomer form given proposals
+ *
+ * @param proposalCode
+ * @param proposals
+ * @return boolean
+* */
+export const hasLiaison = (proposalCode, proposals) => {
+  const proposal = (proposals||[]).filter(
+    ip => ip.proposalCode === proposalCode)
+  if (proposal.length > 0){
+    if (proposal[0].liaisonAstronomer === '') {
+      return false
+    }
+    return !!proposal[0].liaisonAstronomer
+  }
+  return false
+}
