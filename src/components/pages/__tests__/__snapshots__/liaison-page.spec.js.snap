@@ -187,6 +187,11 @@ exports[`LiaisonPage Component Render the LiaisonPage Component having populated
                   }
                 >
                   <option
+                    value="none"
+                  >
+                    none
+                  </option>
+                  <option
                     key="brent"
                     name="brent"
                     value="brent"
@@ -247,7 +252,9 @@ exports[`LiaisonPage Component Render the LiaisonPage Component having populated
                     }
                   }
                 >
-                  <option>
+                  <option
+                    value="none"
+                  >
                     none
                   </option>
                   <option

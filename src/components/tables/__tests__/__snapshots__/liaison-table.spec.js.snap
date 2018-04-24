@@ -24,7 +24,7 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
         "title": "THE SALT GRAVITATIONAL LENSING LEGACY SURVEY",
       },
       Object {
-        "liaisonAstronomer": "Eric",
+        "liaisonAstronomer": "encarni",
         "pi": "Jeffery Simon",
         "proposalCode": "2018-1-SCI-038",
         "proposalId": "0",
@@ -42,6 +42,10 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
       Object {
         "name": "encarni",
         "username": "encarni",
+      },
+      Object {
+        "name": "eric",
+        "username": "eric",
       },
     ]
   }
@@ -124,6 +128,11 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
               }
             >
               <option
+                value="none"
+              >
+                none
+              </option>
+              <option
                 key="brent"
                 name="brent"
                 value="brent"
@@ -136,6 +145,13 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
                 value="encarni"
               >
                 encarni
+              </option>
+              <option
+                key="eric"
+                name="eric"
+                value="eric"
+              >
+                eric
               </option>
             </select>
           </td>
@@ -175,7 +191,7 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
           <td>
             <select
               className="setLiaison"
-              defaultValue={null}
+              defaultValue="encarni"
               name="selector"
               onChange={[Function]}
               style={
@@ -184,7 +200,9 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
                 }
               }
             >
-              <option>
+              <option
+                value="none"
+              >
                 none
               </option>
               <option
@@ -200,6 +218,13 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
                 value="encarni"
               >
                 encarni
+              </option>
+              <option
+                key="eric"
+                name="eric"
+                value="eric"
+              >
+                eric
               </option>
             </select>
           </td>

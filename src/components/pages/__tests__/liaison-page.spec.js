@@ -100,10 +100,16 @@ describe("LiaisonPage Component", () => {
       setLiaison= {setLiaison}
       submitLiaisons= {submitLiaisons} />)
 
-    wrapper.find('button').simulate('click', {preventDefault: () => {}})
+    wrapper.find('button').simulate('click')
     //Expect the submitLiaisons function to be called once
     expect(submitLiaisons.mock.calls.length).toBe(1);
+    //Expect the submitLiaisons function to be called with the correct proposal
+    expect(submitLiaisons.mock.calls[0][0][0]).toEqual(proposals[0])
+    //Expect the submitLiaisons function to be called with the correct proposal
+    expect(submitLiaisons.mock.calls[0][0][1]).toEqual(proposals[1])
     //Expect the submitLiaisons function to be called with the correct proposals
-    expect(submitLiaisons.mock.calls[0][1]).toEqual(proposals)
+    expect(submitLiaisons.mock.calls[0][0]).toEqual(proposals)
+    //Expect the submitLiaisons function to be called with the correct proposals
+    expect(submitLiaisons.mock.calls[0][0]).not.toEqual(initProposals)
   })
 })

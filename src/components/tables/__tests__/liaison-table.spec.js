@@ -10,7 +10,7 @@ const proposals = [
     proposalCode: '2018-1-SCI-038',
     title: 'Surface Chemistry of Peculiar Hot Subdwarfs',
     pi: 'Jeffery Simon',
-    liaisonAstronomer: 'Eric'
+    liaisonAstronomer: 'encarni'
   },
   {
     proposalId: '1',
@@ -43,6 +43,10 @@ const selectArray = [
   {
     username: 'encarni',
     name: 'encarni'
+  },
+  {
+    username: 'eric',
+    name: 'eric'
   }
 ]
 
@@ -99,18 +103,24 @@ describe("LiaisonTable Component", () => {
     wrapper.find('select').at(0).simulate('change');
     //Expect the setLiaison function to be called once
     expect(setLiaison.mock.calls.length).toBe(1)
+    //Expect the setLiaison function to be called with the correct username
+    expect(setLiaison.mock.calls[0][0]).toBe(selectArray[0].username)
     //Expect the setLiaison function to be called with the correct proposalCode
     expect(setLiaison.mock.calls[0][1]).toBe(proposals[0].proposalCode)
 
     wrapper.find('select').at(1).simulate('change');
     //Expect the setLiaison function to be called twice
     expect(setLiaison.mock.calls.length).toBe(2)
+    //Expect the setLiaison function to be called with the correct username
+    expect(setLiaison.mock.calls[1][0]).toBe(selectArray[1].username)
     //Expect the setLiaison function to be called with the correct proposalCode
     expect(setLiaison.mock.calls[1][1]).toBe(proposals[1].proposalCode)
 
     wrapper.find('select').at(1).simulate('change');
     //Expect the setLiaison function to be called three times
     expect(setLiaison.mock.calls.length).toBe(3)
+    //Expect the setLiaison function to be called with the incorrect username
+    expect(setLiaison.mock.calls[1][0]).not.toBe(selectArray[2].username)
     //Expect the setLiaison function to be called with the incorrect proposalCode
     expect(setLiaison.mock.calls[1][1]).not.toBe(proposals[0].proposalCode)
   })
@@ -132,20 +142,26 @@ describe("LiaisonTable Component", () => {
     wrapper.find('.file-download').at(0).simulate('click');
     //Expect the requestSummary function to be called once
     expect(requestSummary.mock.calls.length).toBe(1)
-    //Expect the requestSummary function to be called with the proposalCode
+    //Expect the requestSummary function to be called with the correct semester
     expect(requestSummary.mock.calls[0][1]).toBe(proposals[0].proposalCode)
+    //Expect the requestSummary function to be called with the correct semester
+    expect(requestSummary.mock.calls[0][2]).toBe(semester)
 
-    wrapper.find('.file-download').at(0).simulate('click');
+    wrapper.find('.file-download').at(1).simulate('click');
     //Expect the requestSummary function to be called twice
     expect(requestSummary.mock.calls.length).toBe(2)
     //Expect the requestSummary function to be called with the proposalCode
-    expect(requestSummary.mock.calls[0][1]).toBe(proposals[0].proposalCode)
+    expect(requestSummary.mock.calls[1][1]).toBe(proposals[1].proposalCode)
+    //Expect the requestSummary function to be called with the correct semester
+    expect(requestSummary.mock.calls[1][2]).toBe(semester)
 
-    wrapper.find('.file-download').at(0).simulate('click');
+    wrapper.find('.file-download').at(1).simulate('click');
     //Expect the requestSummary function to be called three times
     expect(requestSummary.mock.calls.length).toBe(3)
-    //Expect the requestSummary function to be called with the proposalCode
-    expect(requestSummary.mock.calls[0][1]).toBe(proposals[0].proposalCode)
+    //Expect the requestSummary function to be called with the incorrect proposalCode
+    expect(requestSummary.mock.calls[1][1]).not.toBe(proposals[0].proposalCode)
+    //Expect the requestSummary function to be called with the incorrect semester
+    expect(requestSummary.mock.calls[1][2]).not.toBe('2017-1')
   })
 })
 
