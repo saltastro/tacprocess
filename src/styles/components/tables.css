@@ -193,6 +193,10 @@ tbody { border: 3px solid #000}
 	background: rgba(76, 175, 80, 0.3);
 
 }
+.removed-tac-row td{
+	background: rgba(253, 35, 5, 0.3);
+
+}
 .danger-line {
 	background: #FEE;
 }
