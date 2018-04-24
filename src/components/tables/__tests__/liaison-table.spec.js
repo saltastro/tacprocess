@@ -28,6 +28,13 @@ const initProposals = [
     title: 'Proposal Title',
     pi: 'Proposal Investigator',
     liaisonAstronomer: 'Proposal Liaison Astronomer'
+  },
+  {
+    proposalId: '1',
+    proposalCode: '2015-2-MLT-006',
+    title: 'THE SALT GRAVITATIONAL LENSING LEGACY SURVEY',
+    pi: 'Serjeant Stephen',
+    liaisonAstronomer: 'brent'
   }
 ]
 
@@ -115,14 +122,6 @@ describe("LiaisonTable Component", () => {
     expect(setLiaison.mock.calls[1][0]).toBe(selectArray[1].username)
     //Expect the setLiaison function to be called with the correct proposalCode
     expect(setLiaison.mock.calls[1][1]).toBe(proposals[1].proposalCode)
-
-    wrapper.find('select').at(1).simulate('change');
-    //Expect the setLiaison function to be called three times
-    expect(setLiaison.mock.calls.length).toBe(3)
-    //Expect the setLiaison function to be called with the incorrect username
-    expect(setLiaison.mock.calls[1][0]).not.toBe(selectArray[2].username)
-    //Expect the setLiaison function to be called with the incorrect proposalCode
-    expect(setLiaison.mock.calls[1][1]).not.toBe(proposals[0].proposalCode)
   })
 })
 
@@ -155,13 +154,6 @@ describe("LiaisonTable Component", () => {
     //Expect the requestSummary function to be called with the correct semester
     expect(requestSummary.mock.calls[1][2]).toBe(semester)
 
-    wrapper.find('.file-download').at(1).simulate('click');
-    //Expect the requestSummary function to be called three times
-    expect(requestSummary.mock.calls.length).toBe(3)
-    //Expect the requestSummary function to be called with the incorrect proposalCode
-    expect(requestSummary.mock.calls[1][1]).not.toBe(proposals[0].proposalCode)
-    //Expect the requestSummary function to be called with the incorrect semester
-    expect(requestSummary.mock.calls[1][2]).not.toBe('2017-1')
   })
 })
 

@@ -23,11 +23,18 @@ exports[`LiaisonPage Component Render the LiaisonPage Component having populated
   initProposals={
     Array [
       Object {
-        "liaisonAstronomer": "",
-        "pi": "",
-        "proposalCode": "",
-        "proposalId": "",
-        "title": "",
+        "liaisonAstronomer": "Proposal Liaison Astronomer",
+        "pi": "Proposal Investigator",
+        "proposalCode": "Proposal Code",
+        "proposalId": "Proposal Id",
+        "title": "Proposal Title",
+      },
+      Object {
+        "liaisonAstronomer": "brent",
+        "pi": "Serjeant Stephen",
+        "proposalCode": "2015-2-MLT-006",
+        "proposalId": "1",
+        "title": "THE SALT GRAVITATIONAL LENSING LEGACY SURVEY",
       },
     ]
   }
@@ -69,11 +76,18 @@ exports[`LiaisonPage Component Render the LiaisonPage Component having populated
       initProposals={
         Array [
           Object {
-            "liaisonAstronomer": "",
-            "pi": "",
-            "proposalCode": "",
-            "proposalId": "",
-            "title": "",
+            "liaisonAstronomer": "Proposal Liaison Astronomer",
+            "pi": "Proposal Investigator",
+            "proposalCode": "Proposal Code",
+            "proposalId": "Proposal Id",
+            "title": "Proposal Title",
+          },
+          Object {
+            "liaisonAstronomer": "brent",
+            "pi": "Serjeant Stephen",
+            "proposalCode": "2015-2-MLT-006",
+            "proposalId": "1",
+            "title": "THE SALT GRAVITATIONAL LENSING LEGACY SURVEY",
           },
         ]
       }
@@ -182,15 +196,10 @@ exports[`LiaisonPage Component Render the LiaisonPage Component having populated
                   onChange={[Function]}
                   style={
                     Object {
-                      "color": "blue",
+                      "color": "black",
                     }
                   }
                 >
-                  <option
-                    value="none"
-                  >
-                    none
-                  </option>
                   <option
                     key="brent"
                     name="brent"

@@ -12,6 +12,13 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
         "proposalId": "Proposal Id",
         "title": "Proposal Title",
       },
+      Object {
+        "liaisonAstronomer": "brent",
+        "pi": "Serjeant Stephen",
+        "proposalCode": "2015-2-MLT-006",
+        "proposalId": "1",
+        "title": "THE SALT GRAVITATIONAL LENSING LEGACY SURVEY",
+      },
     ]
   }
   proposals={
@@ -123,15 +130,10 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
               onChange={[Function]}
               style={
                 Object {
-                  "color": "blue",
+                  "color": "black",
                 }
               }
             >
-              <option
-                value="none"
-              >
-                none
-              </option>
               <option
                 key="brent"
                 name="brent"

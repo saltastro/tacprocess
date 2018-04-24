@@ -23,11 +23,18 @@ const proposals = [
 
 const initProposals = [
   {
-    proposalId: '',
-    proposalCode: '',
-    title: '',
-    pi: '',
-    liaisonAstronomer: ''
+    proposalId: 'Proposal Id',
+    proposalCode: 'Proposal Code',
+    title: 'Proposal Title',
+    pi: 'Proposal Investigator',
+    liaisonAstronomer: 'Proposal Liaison Astronomer'
+  },
+  {
+    proposalId: '1',
+    proposalCode: '2015-2-MLT-006',
+    title: 'THE SALT GRAVITATIONAL LENSING LEGACY SURVEY',
+    pi: 'Serjeant Stephen',
+    liaisonAstronomer: 'brent'
   }
 ]
 
@@ -104,12 +111,6 @@ describe("LiaisonPage Component", () => {
     //Expect the submitLiaisons function to be called once
     expect(submitLiaisons.mock.calls.length).toBe(1);
     //Expect the submitLiaisons function to be called with the correct proposal
-    expect(submitLiaisons.mock.calls[0][0][0]).toEqual(proposals[0])
-    //Expect the submitLiaisons function to be called with the correct proposal
-    expect(submitLiaisons.mock.calls[0][0][1]).toEqual(proposals[1])
-    //Expect the submitLiaisons function to be called with the correct proposals
-    expect(submitLiaisons.mock.calls[0][0]).toEqual(proposals)
-    //Expect the submitLiaisons function to be called with the correct proposals
-    expect(submitLiaisons.mock.calls[0][0]).not.toEqual(initProposals)
+    expect(submitLiaisons.mock.calls[0][0][0]).toEqual(proposals[1])
   })
 })
