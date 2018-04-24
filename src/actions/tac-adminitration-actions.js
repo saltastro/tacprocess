@@ -17,9 +17,12 @@ function submitNewTacMembersFail(message) {
   }
 }
 
-function submitNewTacMembersPass() {
+function submitNewTacMembersPass(partner) {
   return {
-    type: SUBMIT_NEW_TAC_PASS
+    type: SUBMIT_NEW_TAC_PASS,
+    payload: {
+      partner
+    }
   };
 }
 
@@ -28,22 +31,24 @@ function submitNewTacMembersPass() {
  * @params tac
  * @return function
  */
-export default function submitNewTacMembers(tacMembers, partner){
-  console.log('------------------------------')
+export default function submitNewTacMembers(newMembers, removedMembers, partner){
   return async (dispatch) => {
     dispatch(submitNewTacMembersStart());
-    console.log("++++++++++ in +++++++++++")
-    const members = tacMembers.map(m => ({
+    const added = newMembers.map(m => ({
+      member: m.username,
+      is_chair: 0
+    }))
+    const removed = removedMembers.map(m => ({
       member: m.username
     }))
     try {
-      console.log("X XXX XXX XXX XXX XXX X")
-      await jsonClient().post('update_tac_members', {members, partner});
+      await jsonClient().post('update_tac_members', {members: added, partner});
+      await jsonClient().post('remove_tac_members', {members: removed, partner});
     } catch (e) {
       dispatch(submitNewTacMembersFail(e.message));
       return;
     }
     dispatch(fetchTacMembers());
-    dispatch(submitNewTacMembersPass());
+    dispatch(submitNewTacMembersPass(partner));
   }
 }
