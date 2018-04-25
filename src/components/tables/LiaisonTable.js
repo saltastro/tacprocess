@@ -5,7 +5,7 @@ import {compareByProposalCode} from '../../util/proposal'
 import LiaisonTableRow from './tablesComponents/LiaisonTableRow'
 
 
-const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, username, setLiaison, initProposals, semester}) => (
+const LiaisonTable = ({proposals, canAssign, astronomers, requestSummary, username, setLiaison, initProposals, semester}) => (
   <div className='SATableDiv'>
     <h1>Salt Astronomers Liaison Assigning</h1>
     <table className='SATable' align='center'>
@@ -24,7 +24,7 @@ const LiaisonTable = ({proposals, canAssign, selectArray, requestSummary, userna
           proposal={p}
           initProposals={initProposals}
           canAssign={canAssign}
-          astronomers={selectArray}
+          astronomers={astronomers}
           username={username}
           requestSummary={requestSummary}
           setLiaison={setLiaison}
@@ -41,7 +41,7 @@ LiaisonTable.propTypes = {
   proposals: propTypes.array.isRequired,
   initProposals: propTypes.array.isRequired,
   canAssign: propTypes.bool.isRequired,
-  selectArray: propTypes.array.isRequired,
+  astronomers: propTypes.array.isRequired,
   username: propTypes.string.isRequired,
   requestSummary: propTypes.func.isRequired,  // todo request summary should know the current selected semester
   setLiaison: propTypes.func.isRequired,
