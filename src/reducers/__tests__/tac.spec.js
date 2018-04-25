@@ -27,7 +27,7 @@ describe("Statistics Reducers Testing", () => {
 
   it("Should test the TIME_ALLOCATIONS_QUERY_FAIL reducer", () => {
     state = statistics(state = initialState, {type:"TIME_ALLOCATIONS_QUERY_FAIL", payload: {error: "Failed to fetch astronomers"}});
-    expect(state).toEqual({...state, error:"Failed to fetch astronomers"});
+    expect(state).toEqual({...state, error:{timeAllocationQueryError: "Failed to fetch astronomers"}});
   });
 
   it("Should test the SUBMIT_TIME_ALLOCATIONS_START reducer", () => {

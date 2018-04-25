@@ -5,8 +5,8 @@
 import {SET_LIAISON_ASTRONOMER, UNSET_LIAISON_ASTRONOMER} from '../types'
 
 
-export const setLiaisonAstronomer = (proposalCode, astronomerUsername, isChecked) => {
-  if ( isChecked ) return {
+export const setLiaisonAstronomer = (proposalCode, astronomerUsername) => {
+  if ( astronomerUsername ) return {
     type: SET_LIAISON_ASTRONOMER,
     payload: {
       proposalCode,

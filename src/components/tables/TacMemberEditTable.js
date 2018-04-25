@@ -3,7 +3,7 @@ import propTypes from "prop-types";
 import Select from "react-select";
 import { ALL_PARTNER } from "../../types"
 
-const TacMemberEditTable = ({ newMembers, tacMembers, addMember, removeMember, saltUsers, partners, saveMembers }) => {
+const TacMemberEditTable = ({ newMembers,removedMembers, tacMembers, addMember, removeMember, saltUsers, partners, saveMembers }) => {
 	const saltUsersList = ( saltUsers || [] ).map( u => {
 		return ({value: u, label: `${u.surname} ${u.name}` })
 	});
@@ -23,21 +23,22 @@ const TacMemberEditTable = ({ newMembers, tacMembers, addMember, removeMember, s
 							</tr>
 							</thead>
 							<tbody>
-							{(tacMembers[p] || []).map((m, i) => (
-								<tr key={i+"b"}>
+							{(tacMembers[p] || []).map((m, ii) => (
+								<tr key={`${ii}b`}>
 									<td>{m.surname}</td>
 									<td>{m.name}</td>
 									<td>{m.isTacChair ? "True": "False"}</td>
 									<td>{!m.isTacChair && <button  onClick={ () => removeMember(m, p)}>- remove</button>}</td>
 								</tr>))
 							}
-							{(newMembers[p] || []).map((m, i) => (
-								<tr key={i + "c"} className={"new-tac-row"}>
-									<td>{m.surname}</td>
-									<td>{m.name}</td>
-									<td>{m.isTacChair ? "True": "False"}</td>
-									<td>{!m.isTacChair && <button  onClick={ () => removeMember(m, p)}>- remove</button>}</td>
-								</tr>))
+							{
+								(newMembers[p] || []).map((m, ii) => (
+									<tr key={ii + "c"} className={"new-tac-row"}>
+										<td>{m.surname}</td>
+										<td>{m.name}</td>
+										<td>{m.isTacChair ? "True": "False"}</td>
+										<td>{!m.isTacChair && <button  onClick={ () => removeMember(m, p)}>- remove</button>}</td>
+									</tr>))
 							}
 							<tr key="newValue">
 								<td colSpan="4">
@@ -50,6 +51,15 @@ const TacMemberEditTable = ({ newMembers, tacMembers, addMember, removeMember, s
 									/>
 								</td>
 							</tr>
+              {
+                (removedMembers[p] || []).map((m, ii) => (
+                  <tr key={ii + "r"} className={"removed-tac-row"}>
+                    <td><strike>{m.surname}</strike></td>
+                    <td><strike>{m.name}</strike></td>
+                    <td><strike>{m.isTacChair ? "True": "False"}</strike></td>
+                    <td>{!m.isTacChair && <button  onClick={ () => addMember(m, p)}>+ add again</button>}</td>
+                  </tr>))
+              }
 							</tbody>
 						</table>
 						<button onClick={() => saveMembers(p) }>save</button>
@@ -61,6 +71,7 @@ const TacMemberEditTable = ({ newMembers, tacMembers, addMember, removeMember, s
 
 TacMemberEditTable.propTypes = {
 	newMembers: propTypes.object.isRequired,
+	removedMembers: propTypes.object.isRequired,
 	tacMembers: propTypes.object.isRequired,
 	saveMembers: propTypes.func.isRequired,
 	saltUsers: propTypes.array.isRequired,
