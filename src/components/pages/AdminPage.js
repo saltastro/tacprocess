@@ -7,6 +7,7 @@ import { addNewMember, removeMember } from '../../actions/timeAllocationActions'
 import { fetchTacMembers, fetchSaltUsers } from '../../actions/AdminActions';
 import { getPartnerList } from '../../util/filters';
 import { ADMINISTRATOR } from '../../types';
+import submitNewTacMembers from '../../actions/tac-adminitration-actions'
 
 class AdminPage extends React.Component {
 	componentDidMount() {
@@ -24,7 +25,9 @@ class AdminPage extends React.Component {
 		this.props.dispatch(removeMember(member, partner))
 	};
 	saveMembers = (partner) => {
-		console.log("Saving...", partner);
+		const newMembers = this.props.newMembers[partner] || []
+		const removedMembers = this.props.removedMembers[partner] || []
+		this.props.dispatch(submitNewTacMembers(newMembers, removedMembers, partner))
 	};
 	
 	render() {
@@ -43,6 +46,7 @@ class AdminPage extends React.Component {
 					<TacMemberEditTable
 						tacMembers={this.props.tacMembers}
 						newMembers={this.props.newMembers}
+						removedMembers={this.props.removedMembers}
 						saveMembers={this.saveMembers}
 						saltUsers={this.props.saltUsers}
 						addMember={this.addMember}
@@ -62,5 +66,6 @@ export default connect((store) => ({
 	user: store.user.user,
 	tacMembers: store.tac.tacMembers,
 	saltUsers: store.tac.saltUsers,
+	removedMembers: store.tac.removedMembers,
 	newMembers: store.tac.newMembers
 }))(AdminPage);

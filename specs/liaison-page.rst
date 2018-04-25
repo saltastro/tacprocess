@@ -143,7 +143,7 @@ with submitting status either
 - params - proposal code and new liaison
 - return - none
 
-*SUBMIT_LIAISON_ASTRONOMER*
+*SUBMIT_LIAISON_ASTRONOMERS*
 - params - changed proposals with new liaisons username {array}
 - return - submission status {boolean}
 - *headers* - should contain a user token
