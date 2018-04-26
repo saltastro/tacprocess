@@ -5,12 +5,16 @@ exports[`LiaisonPage Component Render the LiaisonPage Component having populated
   astronomers={
     Array [
       Object {
-        "name": "brent",
-        "username": "brent",
+        "name": "LA-1",
+        "username": "LA-1",
       },
       Object {
-        "name": "encarni",
-        "username": "encarni",
+        "name": "LA-2",
+        "username": "LA-2",
+      },
+      Object {
+        "name": "LA-3",
+        "username": "LA-3",
       },
     ]
   }
@@ -23,36 +27,43 @@ exports[`LiaisonPage Component Render the LiaisonPage Component having populated
   initProposals={
     Array [
       Object {
-        "liaisonAstronomer": "Proposal Liaison Astronomer",
-        "pi": "Proposal Investigator",
-        "proposalCode": "Proposal Code",
-        "proposalId": "Proposal Id",
-        "title": "Proposal Title",
+        "liaisonAstronomer": "LIAISON",
+        "pi": "INVESTIGATOR",
+        "proposalCode": "CODE",
+        "proposalId": "ID",
+        "title": "TITLE",
       },
       Object {
-        "liaisonAstronomer": "brent",
-        "pi": "Serjeant Stephen",
-        "proposalCode": "2015-2-MLT-006",
-        "proposalId": "1",
-        "title": "THE SALT GRAVITATIONAL LENSING LEGACY SURVEY",
+        "liaisonAstronomer": "LA-3",
+        "pi": "PI-3",
+        "proposalCode": "Code-3",
+        "proposalId": "2",
+        "title": "Title-3",
       },
     ]
   }
   proposals={
     Array [
       Object {
-        "liaisonAstronomer": "brent",
-        "pi": "Serjeant Stephen",
-        "proposalCode": "2015-2-MLT-006",
-        "proposalId": "1",
-        "title": "THE SALT GRAVITATIONAL LENSING LEGACY SURVEY",
+        "liaisonAstronomer": "LA-1",
+        "pi": "PI-1",
+        "proposalCode": "Code-1",
+        "proposalId": "0",
+        "title": "Title-1",
       },
       Object {
-        "liaisonAstronomer": "Eric",
-        "pi": "Jeffery Simon",
-        "proposalCode": "2018-1-SCI-038",
-        "proposalId": "0",
-        "title": "Surface Chemistry of Peculiar Hot Subdwarfs",
+        "liaisonAstronomer": "LA-2",
+        "pi": "PI-2",
+        "proposalCode": "Code-2",
+        "proposalId": "1",
+        "title": "Title-2",
+      },
+      Object {
+        "liaisonAstronomer": "LA-3",
+        "pi": "PI-3",
+        "proposalCode": "Code-3",
+        "proposalId": "2",
+        "title": "Title-3",
       },
     ]
   }
@@ -72,56 +83,67 @@ exports[`LiaisonPage Component Render the LiaisonPage Component having populated
 >
   <div>
     <LiaisonTable
+      astronomers={
+        Array [
+          Object {
+            "name": "LA-1",
+            "username": "LA-1",
+          },
+          Object {
+            "name": "LA-2",
+            "username": "LA-2",
+          },
+          Object {
+            "name": "LA-3",
+            "username": "LA-3",
+          },
+        ]
+      }
       canAssign={true}
       initProposals={
         Array [
           Object {
-            "liaisonAstronomer": "Proposal Liaison Astronomer",
-            "pi": "Proposal Investigator",
-            "proposalCode": "Proposal Code",
-            "proposalId": "Proposal Id",
-            "title": "Proposal Title",
+            "liaisonAstronomer": "LIAISON",
+            "pi": "INVESTIGATOR",
+            "proposalCode": "CODE",
+            "proposalId": "ID",
+            "title": "TITLE",
           },
           Object {
-            "liaisonAstronomer": "brent",
-            "pi": "Serjeant Stephen",
-            "proposalCode": "2015-2-MLT-006",
-            "proposalId": "1",
-            "title": "THE SALT GRAVITATIONAL LENSING LEGACY SURVEY",
+            "liaisonAstronomer": "LA-3",
+            "pi": "PI-3",
+            "proposalCode": "Code-3",
+            "proposalId": "2",
+            "title": "Title-3",
           },
         ]
       }
       proposals={
         Array [
           Object {
-            "liaisonAstronomer": "brent",
-            "pi": "Serjeant Stephen",
-            "proposalCode": "2015-2-MLT-006",
-            "proposalId": "1",
-            "title": "THE SALT GRAVITATIONAL LENSING LEGACY SURVEY",
+            "liaisonAstronomer": "LA-1",
+            "pi": "PI-1",
+            "proposalCode": "Code-1",
+            "proposalId": "0",
+            "title": "Title-1",
           },
           Object {
-            "liaisonAstronomer": "Eric",
-            "pi": "Jeffery Simon",
-            "proposalCode": "2018-1-SCI-038",
-            "proposalId": "0",
-            "title": "Surface Chemistry of Peculiar Hot Subdwarfs",
+            "liaisonAstronomer": "LA-2",
+            "pi": "PI-2",
+            "proposalCode": "Code-2",
+            "proposalId": "1",
+            "title": "Title-2",
+          },
+          Object {
+            "liaisonAstronomer": "LA-3",
+            "pi": "PI-3",
+            "proposalCode": "Code-3",
+            "proposalId": "2",
+            "title": "Title-3",
           },
         ]
       }
       requestSummary={[Function]}
-      selectArray={
-        Array [
-          Object {
-            "name": "brent",
-            "username": "brent",
-          },
-          Object {
-            "name": "encarni",
-            "username": "encarni",
-          },
-        ]
-      }
       semester="2018-1"
       setLiaison={[Function]}
       username="myezasifiso"
@@ -156,133 +178,520 @@ exports[`LiaisonPage Component Render the LiaisonPage Component having populated
             </tr>
           </thead>
           <tbody>
-            <tr
-              key="liaison-2015-2-MLT-006"
+            <LiaisonTableRow
+              astronomers={
+                Array [
+                  Object {
+                    "name": "LA-1",
+                    "username": "LA-1",
+                  },
+                  Object {
+                    "name": "LA-2",
+                    "username": "LA-2",
+                  },
+                  Object {
+                    "name": "LA-3",
+                    "username": "LA-3",
+                  },
+                ]
+              }
+              canAssign={true}
+              initProposals={
+                Array [
+                  Object {
+                    "liaisonAstronomer": "LIAISON",
+                    "pi": "INVESTIGATOR",
+                    "proposalCode": "CODE",
+                    "proposalId": "ID",
+                    "title": "TITLE",
+                  },
+                  Object {
+                    "liaisonAstronomer": "LA-3",
+                    "pi": "PI-3",
+                    "proposalCode": "Code-3",
+                    "proposalId": "2",
+                    "title": "Title-3",
+                  },
+                ]
+              }
+              proposal={
+                Object {
+                  "liaisonAstronomer": "LA-1",
+                  "pi": "PI-1",
+                  "proposalCode": "Code-1",
+                  "proposalId": "0",
+                  "title": "Title-1",
+                }
+              }
+              requestSummary={[Function]}
+              semester="2018-1"
+              setLiaison={[Function]}
+              username="myezasifiso"
             >
-              <td>
-                <a
-                  href="https://www.salt.ac.za/wm/proposal/2015-2-MLT-006"
-                  target="_blank"
+              <tr
+                key="liaison-Code-1"
+              >
+                <td>
+                  <a
+                    href="https://www.salt.ac.za/wm/proposal/Code-1"
+                    target="_blank"
+                  >
+                    Code-1
+                  </a>
+                </td>
+                <td
+                  className="width-100"
                 >
-                  2015-2-MLT-006
-                </a>
-              </td>
-              <td
-                className="width-100"
-              >
-                <a
-                  className="file-download"
-                  href=""
-                  onClick={[Function]}
+                  <a
+                    className="file-download"
+                    href=""
+                    onClick={[Function]}
+                  >
+                    Download
+                  </a>
+                </td>
+                <td
+                  className=" table-height width-400"
                 >
-                  Download
-                </a>
-              </td>
-              <td
-                className=" table-height width-400"
-              >
-                THE SALT GRAVITATIONAL LENSING LEGACY SURVEY
-              </td>
-              <td
-                className="width-100"
-              >
-                Serjeant Stephen
-              </td>
-              <td>
-                <select
-                  className="setLiaison"
-                  defaultValue="brent"
-                  name="selector"
-                  onChange={[Function]}
-                  style={
+                  Title-1
+                </td>
+                <td
+                  className="width-100"
+                >
+                  PI-1
+                </td>
+                <LiaisonSelector
+                  astronomers={
+                    Array [
+                      Object {
+                        "name": "LA-1",
+                        "username": "LA-1",
+                      },
+                      Object {
+                        "name": "LA-2",
+                        "username": "LA-2",
+                      },
+                      Object {
+                        "name": "LA-3",
+                        "username": "LA-3",
+                      },
+                    ]
+                  }
+                  canAssign={true}
+                  initProposals={
+                    Array [
+                      Object {
+                        "liaisonAstronomer": "LIAISON",
+                        "pi": "INVESTIGATOR",
+                        "proposalCode": "CODE",
+                        "proposalId": "ID",
+                        "title": "TITLE",
+                      },
+                      Object {
+                        "liaisonAstronomer": "LA-3",
+                        "pi": "PI-3",
+                        "proposalCode": "Code-3",
+                        "proposalId": "2",
+                        "title": "Title-3",
+                      },
+                    ]
+                  }
+                  inputValue="myezasifiso"
+                  proposal={
                     Object {
-                      "color": "black",
+                      "liaisonAstronomer": "LA-1",
+                      "pi": "PI-1",
+                      "proposalCode": "Code-1",
+                      "proposalId": "0",
+                      "title": "Title-1",
                     }
                   }
+                  setLiaison={[Function]}
                 >
-                  <option
-                    key="brent"
-                    name="brent"
-                    value="brent"
-                  >
-                    brent
-                  </option>
-                  <option
-                    key="encarni"
-                    name="encarni"
-                    value="encarni"
-                  >
-                    encarni
-                  </option>
-                </select>
-              </td>
-            </tr>
-            <tr
-              key="liaison-2018-1-SCI-038"
+                  <td>
+                    <select
+                      className="setLiaison"
+                      defaultValue="LA-1"
+                      name="selector"
+                      onChange={[Function]}
+                      style={
+                        Object {
+                          "color": "blue",
+                        }
+                      }
+                    >
+                      <option
+                        value="none"
+                      >
+                        none
+                      </option>
+                      <option
+                        key="LA-1"
+                        name="LA-1"
+                        value="LA-1"
+                      >
+                        LA-1
+                      </option>
+                      <option
+                        key="LA-2"
+                        name="LA-2"
+                        value="LA-2"
+                      >
+                        LA-2
+                      </option>
+                      <option
+                        key="LA-3"
+                        name="LA-3"
+                        value="LA-3"
+                      >
+                        LA-3
+                      </option>
+                    </select>
+                  </td>
+                </LiaisonSelector>
+              </tr>
+            </LiaisonTableRow>
+            <LiaisonTableRow
+              astronomers={
+                Array [
+                  Object {
+                    "name": "LA-1",
+                    "username": "LA-1",
+                  },
+                  Object {
+                    "name": "LA-2",
+                    "username": "LA-2",
+                  },
+                  Object {
+                    "name": "LA-3",
+                    "username": "LA-3",
+                  },
+                ]
+              }
+              canAssign={true}
+              initProposals={
+                Array [
+                  Object {
+                    "liaisonAstronomer": "LIAISON",
+                    "pi": "INVESTIGATOR",
+                    "proposalCode": "CODE",
+                    "proposalId": "ID",
+                    "title": "TITLE",
+                  },
+                  Object {
+                    "liaisonAstronomer": "LA-3",
+                    "pi": "PI-3",
+                    "proposalCode": "Code-3",
+                    "proposalId": "2",
+                    "title": "Title-3",
+                  },
+                ]
+              }
+              proposal={
+                Object {
+                  "liaisonAstronomer": "LA-2",
+                  "pi": "PI-2",
+                  "proposalCode": "Code-2",
+                  "proposalId": "1",
+                  "title": "Title-2",
+                }
+              }
+              requestSummary={[Function]}
+              semester="2018-1"
+              setLiaison={[Function]}
+              username="myezasifiso"
             >
-              <td>
-                <a
-                  href="https://www.salt.ac.za/wm/proposal/2018-1-SCI-038"
-                  target="_blank"
+              <tr
+                key="liaison-Code-2"
+              >
+                <td>
+                  <a
+                    href="https://www.salt.ac.za/wm/proposal/Code-2"
+                    target="_blank"
+                  >
+                    Code-2
+                  </a>
+                </td>
+                <td
+                  className="width-100"
                 >
-                  2018-1-SCI-038
-                </a>
-              </td>
-              <td
-                className="width-100"
-              >
-                <a
-                  className="file-download"
-                  href=""
-                  onClick={[Function]}
+                  <a
+                    className="file-download"
+                    href=""
+                    onClick={[Function]}
+                  >
+                    Download
+                  </a>
+                </td>
+                <td
+                  className=" table-height width-400"
                 >
-                  Download
-                </a>
-              </td>
-              <td
-                className=" table-height width-400"
-              >
-                Surface Chemistry of Peculiar Hot Subdwarfs
-              </td>
-              <td
-                className="width-100"
-              >
-                Jeffery Simon
-              </td>
-              <td>
-                <select
-                  className="setLiaison"
-                  defaultValue={null}
-                  name="selector"
-                  onChange={[Function]}
-                  style={
+                  Title-2
+                </td>
+                <td
+                  className="width-100"
+                >
+                  PI-2
+                </td>
+                <LiaisonSelector
+                  astronomers={
+                    Array [
+                      Object {
+                        "name": "LA-1",
+                        "username": "LA-1",
+                      },
+                      Object {
+                        "name": "LA-2",
+                        "username": "LA-2",
+                      },
+                      Object {
+                        "name": "LA-3",
+                        "username": "LA-3",
+                      },
+                    ]
+                  }
+                  canAssign={true}
+                  initProposals={
+                    Array [
+                      Object {
+                        "liaisonAstronomer": "LIAISON",
+                        "pi": "INVESTIGATOR",
+                        "proposalCode": "CODE",
+                        "proposalId": "ID",
+                        "title": "TITLE",
+                      },
+                      Object {
+                        "liaisonAstronomer": "LA-3",
+                        "pi": "PI-3",
+                        "proposalCode": "Code-3",
+                        "proposalId": "2",
+                        "title": "Title-3",
+                      },
+                    ]
+                  }
+                  inputValue="myezasifiso"
+                  proposal={
                     Object {
-                      "color": "blue",
+                      "liaisonAstronomer": "LA-2",
+                      "pi": "PI-2",
+                      "proposalCode": "Code-2",
+                      "proposalId": "1",
+                      "title": "Title-2",
                     }
                   }
+                  setLiaison={[Function]}
                 >
-                  <option
-                    value="none"
+                  <td>
+                    <select
+                      className="setLiaison"
+                      defaultValue="LA-2"
+                      name="selector"
+                      onChange={[Function]}
+                      style={
+                        Object {
+                          "color": "blue",
+                        }
+                      }
+                    >
+                      <option
+                        value="none"
+                      >
+                        none
+                      </option>
+                      <option
+                        key="LA-1"
+                        name="LA-1"
+                        value="LA-1"
+                      >
+                        LA-1
+                      </option>
+                      <option
+                        key="LA-2"
+                        name="LA-2"
+                        value="LA-2"
+                      >
+                        LA-2
+                      </option>
+                      <option
+                        key="LA-3"
+                        name="LA-3"
+                        value="LA-3"
+                      >
+                        LA-3
+                      </option>
+                    </select>
+                  </td>
+                </LiaisonSelector>
+              </tr>
+            </LiaisonTableRow>
+            <LiaisonTableRow
+              astronomers={
+                Array [
+                  Object {
+                    "name": "LA-1",
+                    "username": "LA-1",
+                  },
+                  Object {
+                    "name": "LA-2",
+                    "username": "LA-2",
+                  },
+                  Object {
+                    "name": "LA-3",
+                    "username": "LA-3",
+                  },
+                ]
+              }
+              canAssign={true}
+              initProposals={
+                Array [
+                  Object {
+                    "liaisonAstronomer": "LIAISON",
+                    "pi": "INVESTIGATOR",
+                    "proposalCode": "CODE",
+                    "proposalId": "ID",
+                    "title": "TITLE",
+                  },
+                  Object {
+                    "liaisonAstronomer": "LA-3",
+                    "pi": "PI-3",
+                    "proposalCode": "Code-3",
+                    "proposalId": "2",
+                    "title": "Title-3",
+                  },
+                ]
+              }
+              proposal={
+                Object {
+                  "liaisonAstronomer": "LA-3",
+                  "pi": "PI-3",
+                  "proposalCode": "Code-3",
+                  "proposalId": "2",
+                  "title": "Title-3",
+                }
+              }
+              requestSummary={[Function]}
+              semester="2018-1"
+              setLiaison={[Function]}
+              username="myezasifiso"
+            >
+              <tr
+                key="liaison-Code-3"
+              >
+                <td>
+                  <a
+                    href="https://www.salt.ac.za/wm/proposal/Code-3"
+                    target="_blank"
                   >
-                    none
-                  </option>
-                  <option
-                    key="brent"
-                    name="brent"
-                    value="brent"
+                    Code-3
+                  </a>
+                </td>
+                <td
+                  className="width-100"
+                >
+                  <a
+                    className="file-download"
+                    href=""
+                    onClick={[Function]}
                   >
-                    brent
-                  </option>
-                  <option
-                    key="encarni"
-                    name="encarni"
-                    value="encarni"
-                  >
-                    encarni
-                  </option>
-                </select>
-              </td>
-            </tr>
+                    Download
+                  </a>
+                </td>
+                <td
+                  className=" table-height width-400"
+                >
+                  Title-3
+                </td>
+                <td
+                  className="width-100"
+                >
+                  PI-3
+                </td>
+                <LiaisonSelector
+                  astronomers={
+                    Array [
+                      Object {
+                        "name": "LA-1",
+                        "username": "LA-1",
+                      },
+                      Object {
+                        "name": "LA-2",
+                        "username": "LA-2",
+                      },
+                      Object {
+                        "name": "LA-3",
+                        "username": "LA-3",
+                      },
+                    ]
+                  }
+                  canAssign={true}
+                  initProposals={
+                    Array [
+                      Object {
+                        "liaisonAstronomer": "LIAISON",
+                        "pi": "INVESTIGATOR",
+                        "proposalCode": "CODE",
+                        "proposalId": "ID",
+                        "title": "TITLE",
+                      },
+                      Object {
+                        "liaisonAstronomer": "LA-3",
+                        "pi": "PI-3",
+                        "proposalCode": "Code-3",
+                        "proposalId": "2",
+                        "title": "Title-3",
+                      },
+                    ]
+                  }
+                  inputValue="myezasifiso"
+                  proposal={
+                    Object {
+                      "liaisonAstronomer": "LA-3",
+                      "pi": "PI-3",
+                      "proposalCode": "Code-3",
+                      "proposalId": "2",
+                      "title": "Title-3",
+                    }
+                  }
+                  setLiaison={[Function]}
+                >
+                  <td>
+                    <select
+                      className="setLiaison"
+                      defaultValue="LA-3"
+                      name="selector"
+                      onChange={[Function]}
+                      style={
+                        Object {
+                          "color": "black",
+                        }
+                      }
+                    >
+                      <option
+                        key="LA-1"
+                        name="LA-1"
+                        value="LA-1"
+                      >
+                        LA-1
+                      </option>
+                      <option
+                        key="LA-2"
+                        name="LA-2"
+                        value="LA-2"
+                      >
+                        LA-2
+                      </option>
+                      <option
+                        key="LA-3"
+                        name="LA-3"
+                        value="LA-3"
+                      >
+                        LA-3
+                      </option>
+                    </select>
+                  </td>
+                </LiaisonSelector>
+              </tr>
+            </LiaisonTableRow>
           </tbody>
         </table>
       </div>
@@ -308,11 +717,11 @@ exports[`LiaisonPage Component Render the LiaisonPage Component having unpopulat
 >
   <div>
     <LiaisonTable
+      astronomers={Array []}
       canAssign={false}
       initProposals={Array []}
       proposals={Array []}
       requestSummary={[Function]}
-      selectArray={Array []}
       setLiaison={[Function]}
     >
       <div

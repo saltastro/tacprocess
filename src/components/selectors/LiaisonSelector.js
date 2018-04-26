@@ -13,7 +13,7 @@ const getEventValue = (event, astronomers) => {
   return null
 }
 
-const LiaisonSelector = ({proposal, astronomers, setLiaison, initProposals, inputValue, canAssign}) => {
+const LiaisonSelector = ({proposal, astronomers, setLiaison, initProposals, username, canAssign}) => {
   const col = isLiaisonAstronomerUpdated(proposal, initProposals) ? {color: 'blue'} : {color: 'black'}
   const liaison = getSaltAstronomerName(proposal.liaisonAstronomer, astronomers)
   return (
@@ -36,11 +36,11 @@ const LiaisonSelector = ({proposal, astronomers, setLiaison, initProposals, inpu
           </select> :
           <div>
             <input
-              className={'saAssign'}
+              className={'setLiaison'}
               checked={proposal.liaisonAstronomer}
               disabled={ hasLiaison(proposal.proposalCode, initProposals)}
               type={'checkbox'}
-              value={ inputValue }
+              value={ username }
               onChange={e => setLiaison(getEventValue(e, astronomers), proposal.proposalCode)}/>
             { proposal.liaisonAstronomer ?
               <a style={col}> {liaison} </a>: <a style={{color: 'red'}}>{'Select'}</a>}
@@ -54,7 +54,7 @@ LiaisonSelector.propTypes = {
   astronomers: propTypes.array.isRequired,
   setLiaison: propTypes.func.isRequired,
   initProposals: propTypes.array.isRequired,
-  inputValue: propTypes.string.isRequired,
+  username: propTypes.string.isRequired,
   canAssign: propTypes.bool.isRequired
 };
 export default LiaisonSelector
