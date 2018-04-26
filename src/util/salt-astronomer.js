@@ -19,7 +19,6 @@ export const getSaltAstronomerName = (username, SALTAstronomers) => {
 export const getSaltAstronomerUsername = (name, SALTAstronomers) => {
   if ( !name ) return null
   const username = (SALTAstronomers || []).find(a =>  a.name === name )
-  console.log(username, SALTAstronomers)
   return username ? username.username : null;
 };
 

@@ -2,7 +2,7 @@ import React from "react"
 import renderer from "react-test-renderer"
 import { shallow, mount, render } from 'enzyme'
 import { shallowToJson } from 'enzyme-to-json'
-import LiaisonTable from "../LiaisonTable"
+import LiaisonTableRow from "../LiaisonTableRow"
 
 const proposals = [
   { proposalId: '0', proposalCode: 'Code-1', title: 'Title-1', pi: 'PI-1', liaisonAstronomer: 'LA-1' },
@@ -27,13 +27,12 @@ const requestSummary = jest.fn()
 
 const setLiaison = jest.fn()
 
-// Checking if the LiaisonTable Component renders correctly for different input
-describe("LiaisonTable Component", () => {
-
+// Checking if the LiaisonTableRow Component renders correctly for different input
+describe("LiaisonTableRow Component", () => {
   //Enzyme method testing if it renders correctly with empty values of the proposals
-  it("Render the LiaisonTable Component having unpopulated props with no errors", () => {
-    const rendered = mount(<LiaisonTable
-      proposals= {[]}
+  it("Render the LiaisonTableRow Component having unpopulated props with no errors", () => {
+    const rendered = mount(<LiaisonTableRow
+      proposal= {{}}
       initProposals= {[]}
       semester= {''}
       canAssign= {canAssign[1]}
@@ -44,9 +43,9 @@ describe("LiaisonTable Component", () => {
     expect(shallowToJson(rendered)).toMatchSnapshot()
   })
 
-  it("Render the LiaisonTable Component having populated props with no errors", () => {
-    const rendered = mount(<LiaisonTable
-      proposals= {proposals}
+  it("Render the LiaisonTableRow Component having populated props with no errors", () => {
+    const rendered = mount(<LiaisonTableRow
+      proposal= {proposals[0]}
       initProposals= {initProposals}
       semester= {semester}
       canAssign= {canAssign[0]}
@@ -55,5 +54,28 @@ describe("LiaisonTable Component", () => {
       requestSummary= {requestSummary}
       setLiaison= {setLiaison} />)
     expect(shallowToJson(rendered)).toMatchSnapshot()
+  })
+})
+
+// Checking if the requestSummary function works properly in LiaisonTableRow Component
+describe("LiaisonTable Component", () => {
+  it("requestSummary function should be called with the correct proposalCode", () => {
+    const wrapper = mount(<LiaisonTableRow
+      proposal= {proposals[0]}
+      initProposals= {initProposals}
+      semester= {semester}
+      canAssign= {canAssign[0]}
+      astronomers= {astronomers}
+      username = {username}
+      requestSummary= {requestSummary}
+      setLiaison= {setLiaison} />)
+
+    wrapper.find('.file-download').simulate('click');
+    //Expect the requestSummary function to be called once
+    expect(requestSummary.mock.calls.length).toBe(1)
+    //Expect the requestSummary function to be called with the correct proposal code
+    expect(requestSummary.mock.calls[0][1]).toBe(proposals[0].proposalCode)
+    //Expect the requestSummary function to be called with the correct semester
+    expect(requestSummary.mock.calls[0][2]).toBe(semester)
   })
 })
