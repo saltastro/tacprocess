@@ -57,10 +57,7 @@ describe("LiaisonPage Component", () => {
 describe("LiaisonPage Component", () => {
 
   it("Should trigger the event with the correct proposals infomation", () => {
-    let expectedProposals = [
-      { proposalId: '0', proposalCode: 'Code-1', title: 'Title-1', pi: 'PI-1', liaisonAstronomer: 'LA-1' },
-      { proposalId: '1', proposalCode: 'Code-2', title: 'Title-2', pi: 'PI-2', liaisonAstronomer: 'LA-2' }
-    ]
+    let expectedProposals = [proposals[0], proposals[1]]
 
     const wrapper = mount(<LiaisonPage
       proposals= {proposals}
