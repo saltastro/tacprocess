@@ -5,27 +5,21 @@ import { connect } from "react-redux";
 
 import Navigation from "./components/Navigation";
 import * as actions from './actions/auth';
-import fetchTargets from './actions/targetsActions';
-import { storePartnerAllocations } from './actions/timeAllocationActions';
-import fetchProposals from './actions/proposalsActions';
-import {defaultSemester} from "./util";
-import {
-	ALL_PARTNER
-} from "./types"
-import fetchSA from './actions/saltAstronomerActions'
+import {defaultSemester} from './util';
 import ApplicationPages from './components/pages/ApplicationPages'
 import {setLiaisonAstronomer} from './actions/proposalAction'
-import {getSaltAstronomerUsername} from './util/salt-astronomer'
 import submitProposalsLiaison from './actions/liaison-astronomer-actions'
+import {fetchAllData} from './actions/data-actions'
+import Loading from './components/messages/Loading'
+import FailToLoad from './components/messages/FailToLoad'
 
 class App extends React.Component {
 	componentDidMount() {
+		const partner = this.props.filters.selectedPartner
+		const semester = defaultSemester()
 		if (this.props.isAuthenticated) {
-      this.props.dispatch(actions.fetchUserData())
-      this.props.dispatch(storePartnerAllocations(defaultSemester(), ALL_PARTNER))
-      this.props.dispatch(fetchSA())
+			this.props.dispatch(fetchAllData(semester, partner))
 
-			this.LoadProposalsAndTargets(defaultSemester(), this.props.filters.selectedPartner)
 		}
 	}
 
@@ -39,17 +33,21 @@ class App extends React.Component {
 		)
 	}
 
-  LoadProposalsAndTargets = (semester, partner) => {
-    this.props.dispatch(fetchTargets(semester, partner));
-    this.props.dispatch(fetchProposals(semester, partner));
-  }
-
 	loggingOut = () => {
     this.props.dispatch(actions.logout())
 	};
 
 	render() {
-		const {user, isAuthenticated, proposals, initProposals, filters, astronomers} = this.props
+		const {user, isAuthenticated, proposals, initProposals, filters, SALTAstronomers, data} = this.props
+    if (data.error && !data.fetchedData){
+		  return (
+		    <FailToLoad />
+      )
+    } else if ( data.fetchingData) {
+		  return (
+          <Loading />
+        )
+    }
 		return (
 			<BrowserRouter>
 				<div className="root-main">
@@ -67,12 +65,12 @@ class App extends React.Component {
 							{`The targets could not be loaded: ${this.props.fetchTargetsError}`}
 						</div>}
 						<ApplicationPages
-							proposals={proposals}
+							proposals={proposals.proposals}
 							isAuthenticated={isAuthenticated}
 							user={user}
 							initProposals={initProposals}
 							filters={filters}
-							astronomers={astronomers}
+							astronomers={SALTAstronomers.SALTAstronomer}
               submitLiaisons={this.submitLiaisons}
 							setLiaison={this.setLiaison}
 						/>
@@ -89,11 +87,16 @@ class App extends React.Component {
 App.propTypes = {
 	isAuthenticated: PropTypes.bool,
 	filters: PropTypes.object,
+	data: PropTypes.object,
 	fetchProposalsError: PropTypes.string,
 	fetchTargetsError: PropTypes.string,
-  proposals: PropTypes.array,
+	userError: PropTypes.string,
+	astroError: PropTypes.string,
+  proposals: PropTypes.object,
 	initProposals: PropTypes.array,
-	astronomers: PropTypes.array,
+	tacs: PropTypes.object,
+	targets: PropTypes.object,
+  SALTAstronomers: PropTypes.object,
 	user: PropTypes.object,
 	dispatch: PropTypes.func
 };
@@ -101,13 +104,18 @@ App.propTypes = {
 function mapStateToProps(state) { /* state in params */
 	return{
 		isAuthenticated: state.user.user.isAuthenticated,
+		data: state.data,
 		user: state.user.user,
 		filters: state.filters,
 		fetchProposalsError: state.proposals.errors.fetchingError,
 		fetchTargetsError: state.targets.error,
-		proposals: state.proposals.proposals,
+		userError: state.user.error,
+		astroError: state.user.error,
+		proposals: state.proposals,
 		initProposals: state.proposals.initProposals,
-		astronomers: state.SALTAstronomers.SALTAstronomer
+		targets: state.targets,
+		tacs: state.tac,
+    SALTAstronomers: state.SALTAstronomers
 	};
 }
 
