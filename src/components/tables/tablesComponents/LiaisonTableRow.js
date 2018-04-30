@@ -24,13 +24,13 @@ const LiaisonTableRow = ({proposal, initProposals, requestSummary, semester, set
         astronomers={astronomers}
         setLiaison={setLiaison}
         initProposals={initProposals}
-        inputValue={username}
+        username={username}
         canAssign={canAssign}/>
     </tr>
 )
 
 LiaisonTableRow.propTypes = {
-  proposal: propTypes.array.isRequired,
+  proposal: propTypes.object.isRequired,
   initProposals: propTypes.array.isRequired,
   canAssign: propTypes.bool.isRequired,
   astronomers: propTypes.array.isRequired,

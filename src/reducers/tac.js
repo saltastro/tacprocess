@@ -123,7 +123,6 @@ export default function tac(state=initState, action = {}) {
         if (!state.newMembers[action.payload.partner]){
           state.newMembers[action.payload.partner] = []
         }
-        console.log([...state.removedMembers[action.payload.partner]])
         let removedMembers = []
 				if ( !state.removedMembers[action.payload.partner].some( m => action.payload.member.username === m.username) &&
 				state.initMembers[action.payload.partner].some(m => action.payload.member.username === m.username)) {
@@ -154,7 +153,6 @@ export default function tac(state=initState, action = {}) {
 				}
 			}
 			case SAVE_MEMBERS: {
-				console.log("Saving>>>>>")
 				return {
 					...state,
 					unsavedMember: false,
