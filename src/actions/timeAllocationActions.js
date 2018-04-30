@@ -11,16 +11,16 @@ import { TIME_ALLOCATIONS_QUERY_START,
 } from "../types";
 
 
-const startQuery = () => ({
+const fetchAllocationsStart = () => ({
 	type: TIME_ALLOCATIONS_QUERY_START
 });
 
-const failQuery = (error) => ({
+const fetchAllocationFail = (error) => ({
 	type: TIME_ALLOCATIONS_QUERY_FAIL,
 	payload: { error }
 });
 
-export const passQuery = data => ({
+export const fetchAllocationsPass = data => ({
 	type: TIME_ALLOCATIONS_QUERY_PASS,
 	timeallocation: data
 });
@@ -56,7 +56,7 @@ export const removeMember = (member, partner) => ({
 		partner}
 });
 
-const convertData = (data) => {
+export const convertPartnerAllocations = (data) => {
 	const availableTime = {
 		[ALL_PARTNER] :{
 			p0p1: 0,
@@ -80,12 +80,12 @@ const convertData = (data) => {
 	return availableTime
 };
 
-export const storePartnerAllocations = (semester, partner="All") => function fits(dispatch) {
-	dispatch(startQuery());
+export const fetchPartnerAllocations = (semester, partner="All") => function fits(dispatch) {
+	dispatch(fetchAllocationsStart());
 	queryPartnerAllocations(semester, partner).then( res => {
-		dispatch(passQuery(convertData(res.data.data)))
+		dispatch(fetchAllocationsPass(convertPartnerAllocations(res.data.data)))
 	}).catch((e) => {
-		dispatch(failQuery(e.message))
+		dispatch(fetchAllocationFail(e.message))
 	})
 
 };

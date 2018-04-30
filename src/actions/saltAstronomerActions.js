@@ -22,7 +22,7 @@ function FetchSAFail(error) {
 	);
 }
 
-function FetchSAPass(sa) {
+export function FetchSAPass(sa) {
 	return (
 		{
 			type: FETCH_SA_PASS,
@@ -31,7 +31,7 @@ function FetchSAPass(sa) {
 	);
 }
 
-function convertSA(sa){
+export function convertSA(sa){
 	const convertedSA = sa.SALTAstronomers.map(ast => (
 		{
 			name: ast.name,

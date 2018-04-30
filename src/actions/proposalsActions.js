@@ -1,4 +1,4 @@
-import { queryProposals } from "../api/graphQL"
+import {convertProposals, queryProposals} from '../api/graphQL'
 import {
 	FETCH_PROPOSALS_START,
 	FETCH_PROPOSALS_PASS,
@@ -24,7 +24,7 @@ function FetchProposalsFail(error) {
 	);
 }
 
-function FetchProposalsPass(proposals, semester) {
+export function FetchProposalsPass(proposals, semester) {
 	return (
 		{
 			type: FETCH_PROPOSALS_PASS,
@@ -42,7 +42,7 @@ export default function fetchProposals(semester, partner="All") {
 		dispatch(startFetchProposals());
 		queryProposals(semester, partner).then( res =>
 			{
-				dispatch(FetchProposalsPass(res, semester))
+				dispatch(FetchProposalsPass(convertProposals(res.data.data, semester, partner), semester))
 			}
 		).catch((e) => {
 			dispatch(FetchProposalsFail(e.message))})

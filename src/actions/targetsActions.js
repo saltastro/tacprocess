@@ -8,39 +8,38 @@ import {
 function startFetchTargets() {
   return (
     {
-       type: FETCH_TARGETS_START
-  }
-);
+      type: FETCH_TARGETS_START
+    }
+  );
 
 }
 function FetchTargetsFail(error) {
   return (
     {
-        type: FETCH_TARGETS_FAIL,
-        payload: { error }
+      type: FETCH_TARGETS_FAIL,
+      payload: { error }
     }
-);
+  );
 }
 
-function FetchTargetsPass(targets) {
+export function FetchTargetsPass(targets) {
   return (
     {
-       type: FETCH_TARGETS_PASS,
-       payload: targets
-  }
-);
+      type: FETCH_TARGETS_PASS,
+      payload: targets
+    }
+  );
 }
 
-function convertTargets(targets){
-  const convertedTargets = targets.targets.map(target => (
-          {
-              targetId: target.id,
-              optional: target.optional,
-              ra: target.coordinates.ra / 15,
-              dec: target.coordinates.dec
-          }
+export function convertTargets(targets){
+  return targets.targets.map(target => (
+    {
+      targetId: target.id,
+      optional: target.optional,
+      ra: target.coordinates.ra / 15,
+      dec: target.coordinates.dec
+    }
   ));
-  return convertedTargets
 }
 
 export default function fetchTargets(semester, partner="All"){
