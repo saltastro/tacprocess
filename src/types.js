@@ -1,5 +1,9 @@
 export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
+export const FETCHING_DATA = "FETCHING_DATA";
+export const FETCHED_DATA = "FETCHED_DATA";
+export const FETCHING_DATA_FAIL = "FETCHING_DATA_FAIL";
+
 export const USER_LOGGED_IN = "USER_LOGGED_IN";
 export const USER_LOGGED_OUT = "USER_LOGGED_OUT";
 export const FETCHING_USER = "FETCHING_USER";
