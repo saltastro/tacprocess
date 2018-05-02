@@ -2,7 +2,7 @@ import {ALL_PARTNER, FETCHED_DATA, FETCHING_DATA_FAIL, FETCHING_DATA} from '../t
 import {convertPartnerAllocations, fetchAllocationsPass} from './timeAllocationActions'
 import {convertTargets, fetchTargetsPass} from './targetsActions'
 import {fetchProposalsPass} from './proposalsActions'
-import {convertSA, FetchSAPass} from './saltAstronomerActions'
+import {convertSA, fetchSAPass} from './saltAstronomerActions'
 import {
   convertProposals, convertUserData,
   queryPartnerAllocations,
@@ -50,7 +50,7 @@ export function fetchAllData(semester, partner){
       const saltUsers = querySaltUsers()
       await Promise.all([saltAstronomers, user, proposals, targets, allocations, tacMembers, saltUsers])
         .then(data => {
-          dispatch(FetchSAPass(convertSA(data[0].data.data)))
+          dispatch(fetchSAPass(convertSA(data[0].data.data)))
           dispatch(userLoggedIn(convertUserData(data[1].data.data.user)))
           dispatch(partnersFilter(ALL_PARTNER))
           dispatch(fetchProposalsPass(convertProposals(data[2].data.data, semester, partner), semester))
