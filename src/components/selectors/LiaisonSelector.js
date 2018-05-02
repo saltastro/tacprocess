@@ -36,7 +36,7 @@ const LiaisonSelector = ({proposal, astronomers, setLiaison, initProposals, user
           </select> :
           <div>
             <input
-              className={'saAssign'}
+              className={'setLiaison'}
               checked={proposal.liaisonAstronomer}
               disabled={ hasLiaison(proposal.proposalCode, initProposals)}
               type={'checkbox'}

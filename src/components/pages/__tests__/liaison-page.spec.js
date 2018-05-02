@@ -5,57 +5,24 @@ import { shallowToJson } from 'enzyme-to-json'
 import LiaisonPage from "../LiaisonPage"
 
 const proposals = [
-  {
-    proposalId: '0',
-    proposalCode: '2018-1-SCI-038',
-    title: 'Surface Chemistry of Peculiar Hot Subdwarfs',
-    pi: 'Jeffery Simon',
-    liaisonAstronomer: 'Eric'
-  },
-  {
-    proposalId: '1',
-    proposalCode: '2015-2-MLT-006',
-    title: 'THE SALT GRAVITATIONAL LENSING LEGACY SURVEY',
-    pi: 'Serjeant Stephen',
-    liaisonAstronomer: 'brent'
-  }
+  { proposalId: '0', proposalCode: 'Code-1', title: 'Title-1', pi: 'PI-1', liaisonAstronomer: 'LA-1' },
+  { proposalId: '1', proposalCode: 'Code-2', title: 'Title-2', pi: 'PI-2', liaisonAstronomer: 'LA-2' },
+  { proposalId: '2', proposalCode: 'Code-3', title: 'Title-3', pi: 'PI-3', liaisonAstronomer: 'LA-3'}
 ]
 
 const initProposals = [
-  {
-    proposalId: '',
-    proposalCode: '',
-    title: '',
-    pi: '',
-    liaisonAstronomer: ''
-  }
+  { proposalId: 'ID', proposalCode: 'CODE', title: 'TITLE', pi: 'INVESTIGATOR', liaisonAstronomer: 'LIAISON' },
+  { proposalId: '2', proposalCode: 'Code-3', title: 'Title-3', pi: 'PI-3', liaisonAstronomer: 'LA-3'}
 ]
 
-const filters = {
-  selectedSemester: '2018-1',
-  selectedLiaison: 'All'
-}
+const filters = { selectedSemester: '2018-1', selectedLiaison: 'All' }
 
-const astronomers = [
-  {
-    username: 'brent',
-    name: 'brent'
-  },
-  {
-    username: 'encarni',
-    name: 'encarni'
-  }
-]
+const astronomers = [ { username: 'LA-1', name: 'LA-1' }, { username: 'LA-2', name: 'LA-2' }, { username: 'LA-3', name: 'LA-3' } ]
 
-const user = {
-  name: 'Sifiso',
-  username: 'myezasifiso',
-  roles: [{
-    type: 'ADMINISTRATOR'
-  }]
-}
+const user = { name: 'Sifiso', username: 'myezasifiso', roles: [{ type: 'ADMINISTRATOR' }] }
 
 const setLiaison = jest.fn()
+const submitLiaisons = jest.fn()
 
 // Checking if the LiaisonPage Component renders correctly for different input
 describe("LiaisonPage Component", () => {
@@ -68,7 +35,8 @@ describe("LiaisonPage Component", () => {
       filters= {{}}
       astronomers= {[]}
       user = {{}}
-      setLiaison= {setLiaison} />)
+      setLiaison= {setLiaison}
+      submitLiaisons= {submitLiaisons} />)
     expect(shallowToJson(rendered)).toMatchSnapshot()
   })
 
@@ -79,7 +47,31 @@ describe("LiaisonPage Component", () => {
       filters= {filters}
       astronomers= {astronomers}
       user = {user}
-      setLiaison= {setLiaison} />)
+      setLiaison= {setLiaison}
+      submitLiaisons= {submitLiaisons} />)
     expect(shallowToJson(rendered)).toMatchSnapshot()
+  })
+})
+
+// Testing the click of a button if it triggers the event accordingly
+describe("LiaisonPage Component", () => {
+
+  it("Should trigger the event with the correct proposals infomation", () => {
+    let expectedProposals = [proposals[0], proposals[1]]
+
+    const wrapper = mount(<LiaisonPage
+      proposals= {proposals}
+      initProposals= {initProposals}
+      filters= {filters}
+      astronomers= {astronomers}
+      user = {user}
+      setLiaison= {setLiaison}
+      submitLiaisons= {submitLiaisons} />)
+
+    wrapper.find('button').simulate('click')
+    //Expect the submitLiaisons function to be called once
+    expect(submitLiaisons.mock.calls.length).toBe(1);
+    //Expect the submitLiaisons function to be called with the correct proposal
+    expect(submitLiaisons.mock.calls[0][0]).toEqual(expectedProposals)
   })
 })
