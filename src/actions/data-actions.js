@@ -1,7 +1,7 @@
 import {ALL_PARTNER, FETCHED_DATA, FETCHING_DATA_FAIL, FETCHING_DATA} from '../types'
 import {convertPartnerAllocations, fetchAllocationsPass} from './timeAllocationActions'
-import {convertTargets, FetchTargetsPass} from './targetsActions'
-import {FetchProposalsPass} from './proposalsActions'
+import {convertTargets, fetchTargetsPass} from './targetsActions'
+import {fetchProposalsPass} from './proposalsActions'
 import {convertSA, FetchSAPass} from './saltAstronomerActions'
 import {
   convertProposals, convertUserData,
@@ -30,8 +30,8 @@ export const fetchedAllDataFail = (message) => ({
 });
 
 /**
- * this method fetch and dispatch all the data needed on the tac pages
- * data include:
+ * this method fetch and dispatch all the dataStatus needed on the tac pages
+ * dataStatus include:
  *  proposals, targets, user, salt astronomers, partners allocated times, tac members of all partners
  *  and all salt users
  *  @param semester
@@ -53,8 +53,8 @@ export function fetchAllData(semester, partner){
           dispatch(FetchSAPass(convertSA(data[0].data.data)))
           dispatch(userLoggedIn(convertUserData(data[1].data.data.user)))
           dispatch(partnersFilter(ALL_PARTNER))
-          dispatch(FetchProposalsPass(convertProposals(data[2].data.data, semester, partner), semester))
-          dispatch(FetchTargetsPass(convertTargets(data[3].data.data)))
+          dispatch(fetchProposalsPass(convertProposals(data[2].data.data, semester, partner), semester))
+          dispatch(fetchTargetsPass(convertTargets(data[3].data.data)))
           dispatch(fetchAllocationsPass(convertPartnerAllocations(data[4].data.data)))
           dispatch(fetchTacMembersPass(convertTacMembers(data[5].data.data)))
           dispatch(fetchSaltUsersPass(convertSaltUsers(data[6].data.data)))

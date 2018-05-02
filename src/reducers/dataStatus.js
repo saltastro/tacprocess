@@ -9,7 +9,7 @@ const initialState = {
   error: null
 };
 
-export default function targets(state = initialState, action = {}) {
+export default function dataStatus(state = initialState, action = {}) {
   switch (action.type) {
     case FETCHING_DATA:{
       return {

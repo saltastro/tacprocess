@@ -6,10 +6,10 @@ import proposals from "./reducers/proposals";
 import targets from "./reducers/targets";
 import tac from "./reducers/tac";
 import SALTAstronomers from "./reducers/astronomers";
-import data from "./reducers/data";
+import dataStatus from "./reducers/dataStatus";
 
 export default combineReducers({
-	data,
+	dataStatus,
 	user,
 	filters,
 	tac,

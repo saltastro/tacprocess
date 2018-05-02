@@ -24,7 +24,7 @@ function FetchProposalsFail(error) {
 	);
 }
 
-export function FetchProposalsPass(proposals, semester) {
+export function fetchProposalsPass(proposals, semester) {
 	return (
 		{
 			type: FETCH_PROPOSALS_PASS,
@@ -42,7 +42,7 @@ export default function fetchProposals(semester, partner="All") {
 		dispatch(startFetchProposals());
 		queryProposals(semester, partner).then( res =>
 			{
-				dispatch(FetchProposalsPass(convertProposals(res.data.data, semester, partner), semester))
+				dispatch(fetchProposalsPass(convertProposals(res.data.data, semester, partner), semester))
 			}
 		).catch((e) => {
 			dispatch(FetchProposalsFail(e.message))})

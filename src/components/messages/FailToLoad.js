@@ -7,7 +7,7 @@ const FailToLoad = () => (
           <div className="emoti" data-emoti="sad"/>
         </div>
       <div>
-        <h2>Fail to load data please reload</h2>
+        <h2>Oops. Data download failed.</h2>
       </div>
     </div>
   </div>

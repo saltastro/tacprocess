@@ -38,12 +38,12 @@ class App extends React.Component {
 	};
 
 	render() {
-		const {user, isAuthenticated, proposals, initProposals, filters, SALTAstronomers, data} = this.props
-    if (data.error && !data.fetchedData){
+		const {user, isAuthenticated, proposals, initProposals, filters, SALTAstronomers, dataStatus} = this.props
+    if (dataStatus.error && !dataStatus.fetchedData){
 		  return (
 		    <FailToLoad />
       )
-    } else if ( data.fetchingData) {
+    } else if ( dataStatus.fetchingData) {
 		  return (
           <Loading />
         )
@@ -90,8 +90,6 @@ App.propTypes = {
 	data: PropTypes.object,
 	fetchProposalsError: PropTypes.string,
 	fetchTargetsError: PropTypes.string,
-	userError: PropTypes.string,
-	astroError: PropTypes.string,
   proposals: PropTypes.object,
 	initProposals: PropTypes.array,
 	tacs: PropTypes.object,
@@ -104,13 +102,11 @@ App.propTypes = {
 function mapStateToProps(state) { /* state in params */
 	return{
 		isAuthenticated: state.user.user.isAuthenticated,
-		data: state.data,
+		dataStatus: state.dataStatus,
 		user: state.user.user,
 		filters: state.filters,
 		fetchProposalsError: state.proposals.errors.fetchingError,
 		fetchTargetsError: state.targets.error,
-		userError: state.user.error,
-		astroError: state.user.error,
 		proposals: state.proposals,
 		initProposals: state.proposals.initProposals,
 		targets: state.targets,
