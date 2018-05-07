@@ -402,7 +402,7 @@ export function canAssignOtherReviewer (roles){
 }
 
 /**
- * A default semester is a semester which is 3 month ahead of the current semester.
+ * A default semester is the semester which is 3 months ahead of the current semester.
  *
  * @returns {string} Semester
  */
@@ -413,7 +413,7 @@ export function defaultSemester() {
     let semester = null;
     if (month >= 2 && month <=7) {
     	semester = 1;
-	} else if (month >= 8 && month <= 12) {
+	} else if (month >= 8) {
     	semester = 2;
 	} else {
     	year -= 1;
@@ -436,7 +436,7 @@ export function currentSemester() {
 	let semester = null;
 	if (month >= 5 && month <=10) {
 		semester = 1;
-	} else if (month >= 11 && month <= 12) {
+	} else if (month >= 11) {
 		semester = 2;
 	} else {
 		year -= 1;
