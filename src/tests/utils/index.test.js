@@ -19,7 +19,7 @@ import {
 
 import * as types from '../../types';
 
-let proposals = [
+const defaultProposals = () => [
     {
         transparency: 'Clear',
         maxSeeing: 2,
@@ -157,6 +157,7 @@ describe('observing time in a proposal', () => {
 });
 
 describe('observing time for a transparency', () => {
+    const proposals = defaultProposals()
     it('should be calculated for a single partner', () => {
         expect(observingTimeForTransparency(proposals, '2017-1', 'Clear', 'RSA')).toBeCloseTo(270);
         expect(observingTimeForTransparency(proposals, '2017-2', 'Clear', 'RSA')).toBeCloseTo(400);
@@ -175,6 +176,7 @@ describe('observing time for a transparency', () => {
 });
 
 describe('observing time for a seeing', () => {
+	const proposals = defaultProposals()
     it('should be calculated for a single partner', () => {
         expect(observingTimeForSeeing(proposals, '2017-1', [1, 2], 'RSA')).toBeCloseTo(0);
         expect(observingTimeForSeeing(proposals, '2017-1', [2, 3], 'RSA')).toBeCloseTo(460);
@@ -913,7 +915,7 @@ describe('canSubmitTimeAllocations', () => {
 
 describe('allocatedTimeTotals', () => {
 	it('should return the sum of allocated time pre priority', () => {
-		proposals = [
+		const proposals = [
 			{
 				allocatedTime: {
 					"ABC" :{
@@ -993,7 +995,7 @@ describe('allocatedTimeTotals', () => {
   
 	});
 	it('should return all priority to be zero if no allocation to proposals', () => {
-		proposals = [
+		const proposals = [
 			{
 				somethingElse: {
 					"ABC" :{
