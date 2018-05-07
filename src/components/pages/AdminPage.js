@@ -10,11 +10,7 @@ import { ADMINISTRATOR } from '../../types';
 import submitNewTacMembers from '../../actions/tac-adminitration-actions'
 
 class AdminPage extends React.Component {
-	componentDidMount() {
-		const { dispatch } = this.props;
-		dispatch(fetchTacMembers());
-		dispatch(fetchSaltUsers())
-	}
+
 	onSwitchUser = (username) => {
 		this.props.dispatch(switchUser(username));
 	};

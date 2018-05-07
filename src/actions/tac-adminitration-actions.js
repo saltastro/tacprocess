@@ -42,8 +42,8 @@ export default function submitNewTacMembers(newMembers, removedMembers, partner)
       member: m.username
     }))
     try {
-      await jsonClient().post('update_tac_members', {members: added, partner});
-      await jsonClient().post('remove_tac_members', {members: removed, partner});
+      await jsonClient().post('update-tac-members', {members: added, partner});
+      await jsonClient().post('remove-tac-members', {members: removed, partner});
     } catch (e) {
       dispatch(submitNewTacMembersFail(e.message));
       return;

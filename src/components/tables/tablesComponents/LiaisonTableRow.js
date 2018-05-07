@@ -24,7 +24,7 @@ const LiaisonTableRow = ({proposal, initProposals, requestSummary, semester, set
         astronomers={astronomers}
         setLiaison={setLiaison}
         initProposals={initProposals}
-        inputValue={username}
+        username={username}
         canAssign={canAssign}/>
     </tr>
 )

@@ -444,3 +444,6 @@ export function downloadSummaries(proposals, semester, partner) {
             })
             .catch(err => console.error(err));
 }
+
+export const isAllDataLoaded = (proposals, targets, user, astronomers, tacs, filters) => (
+	proposals && targets && user && astronomers && tacs && filters)

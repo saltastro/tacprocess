@@ -5,7 +5,7 @@ import DropDown from './selectors/DropDown'
 import { partnerChange, semesterChange, astronomerChange } from "../actions/filtersActions";
 import  fetchProposals  from "../actions/proposalsActions";
 import  fetchTargets  from "../actions/targetsActions";
-import { storePartnerAllocations  } from "../actions/timeAllocationActions";
+import { fetchPartnerAllocations  } from "../actions/timeAllocationActions";
 import { semestersArray, getPartnerList, getAstronomersList } from "../util/filters";
 import { defaultSemester } from "../util";
 import { ADMINISTRATOR, SALT_ASTRONOMER } from "../types";
@@ -15,14 +15,14 @@ class filters extends React.Component {
 		const {dispatch, filters} = this.props;
 		dispatch(fetchProposals( value, filters.selectedPartner));
 		dispatch(fetchTargets(value, filters.selectedPartner));
-		dispatch(storePartnerAllocations(value, filters.selectedPartner));
+		dispatch(fetchPartnerAllocations(value, filters.selectedPartner));
 		dispatch(semesterChange(value))
 	};
 	updatePartner = value => {
 		const { dispatch, filters } = this.props;
 		dispatch(fetchProposals( filters.selectedSemester, value));
 		dispatch(fetchTargets(filters.selectedSemester, value));
-		dispatch(storePartnerAllocations(filters.selectedSemester, value));
+		dispatch(fetchPartnerAllocations(filters.selectedSemester, value));
 		dispatch(partnerChange(value))
 	};
 	updateLiaison = value => {
