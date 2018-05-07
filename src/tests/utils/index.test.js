@@ -1,3 +1,4 @@
+import MockDate from 'mockdate'
 import {
 	instrumentCount,
 	observingTimeForSeeing,
@@ -6,12 +7,19 @@ import {
 	proposalObservingTimeForInstrument,
 	partners,
 	hasRole,
-	canDo, isFloat, canUserWriteAllocations, canUserWriteTechReviews, canSubmitTimeAllocations, allocatedTimeTotals
+	canDo,
+	isFloat,
+	canUserWriteAllocations,
+	canUserWriteTechReviews,
+	canSubmitTimeAllocations,
+	allocatedTimeTotals,
+	currentSemester,
+	defaultSemester
 } from '../../util/index';
 
 import * as types from '../../types';
 
-const proposals = [
+let proposals = [
     {
         transparency: 'Clear',
         maxSeeing: 2,
@@ -905,7 +913,7 @@ describe('canSubmitTimeAllocations', () => {
 
 describe('allocatedTimeTotals', () => {
 	it('should return the sum of allocated time pre priority', () => {
-		const proposals = [
+		proposals = [
 			{
 				allocatedTime: {
 					"ABC" :{
@@ -985,7 +993,7 @@ describe('allocatedTimeTotals', () => {
   
 	});
 	it('should return all priority to be zero if no allocation to proposals', () => {
-		const proposals = [
+		proposals = [
 			{
 				somethingElse: {
 					"ABC" :{
@@ -1013,5 +1021,79 @@ describe('allocatedTimeTotals', () => {
 		];
 		expect(allocatedTimeTotals(proposals, "ABC")).toEqual({ p0: 0, p1: 0, p2: 0, p3: 0, p4: 0 });
 		expect(allocatedTimeTotals(proposals, "ABC")).not.toEqual({ p0: 5, p1: 5, p2: 5, p3: 5, p4: 5 });
+	});
+});
+
+describe('Current semester should be set set correctly ', () => {
+	
+	it('should be 2018-1 for date 01/05/2018', () => {
+		MockDate.set('05/01/2018');
+		expect(currentSemester()).toBe('2018-1');
+	});
+	it('should be 2018-1 for date 10/31/2018', () => {
+		MockDate.set('10/31/2018');
+		expect(currentSemester()).toBe('2018-1');
+	});
+	it('should be 2018-1 for date between 01/05/2018 and 10/31/2018', () => {
+		MockDate.set('07/11/2018');
+		expect(currentSemester()).toBe('2018-1');
+	});
+	
+	it('should be 2018-2 for date 11/01/2018', () => {
+		MockDate.set('11/01/2018');
+		expect(currentSemester()).toBe('2018-2');
+	});
+	it('should be 2018-2 for date 04/30/2019', () => {
+		MockDate.set('04/30/2019');
+		expect(currentSemester()).toBe('2018-2');
+	});
+	it('should be 2018-2 for date between 11/01/2018 and  04/30/2019', () => {
+		MockDate.set('01/01/2019');
+		expect(currentSemester()).toBe('2018-2');
+	});
+	
+	afterEach(() => {
+		MockDate.reset();
+	});
+});
+
+describe('Default semester should be set set correctly ', () => {
+	
+	it('should be 2018-1 for date 02/01/2018', () => {
+		MockDate.set('02/01/2018');
+		expect(defaultSemester()).toBe('2018-1');
+	});
+	it('should be 2018-1 for date 07/31/2018', () => {
+		MockDate.set('07/31/2018');
+		expect(defaultSemester()).toBe('2018-1');
+	});
+	it('should be 2018-2 for date 08/01/2018', () => {
+		MockDate.set('08/01/2018');
+		expect(defaultSemester()).toBe('2018-2');
+	});
+	it('should be 2017-2 for date 01/31/2018', () => {
+		MockDate.set('01/31/2018');
+		expect(defaultSemester()).toBe('2017-2');
+	});
+	it('should be 2018-1 for date 05/01/2018', () => {
+		MockDate.set('05/01/2018');
+		expect(defaultSemester()).toBe('2018-1');
+	});
+	it('should be 2018-2 for date 10/31/2018', () => {
+		MockDate.set('10/31/2018');
+		expect(defaultSemester()).toBe('2018-2');
+	});
+	
+	it('should be 2018-2 for date 11/01/2018', () => {
+		MockDate.set('11/01/2018');
+		expect(defaultSemester()).toBe('2018-2');
+	});
+	it('should be 2019-1 for date 04/30/2019', () => {
+		MockDate.set('04/30/2019');
+		expect(defaultSemester()).toBe('2019-1');
+	});
+	
+	afterEach(() => {
+		MockDate.reset();
 	});
 });
