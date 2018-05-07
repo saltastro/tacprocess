@@ -20,7 +20,7 @@ const LiaisonTable = ({proposals, canAssign, astronomers, requestSummary, userna
       </thead>
       <tbody>
       {
-        proposals.sort(compareByProposalCode).map(p => ( <LiaisonTableRow
+        proposals.sort(compareByProposalCode).map(p => ( <LiaisonTableRow key={p.proposalCode}
           proposal={p}
           initProposals={initProposals}
           canAssign={canAssign}

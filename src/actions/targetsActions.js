@@ -8,39 +8,38 @@ import {
 function startFetchTargets() {
   return (
     {
-       type: FETCH_TARGETS_START
-  }
-);
-
-}
-function FetchTargetsFail(error) {
-  return (
-    {
-        type: FETCH_TARGETS_FAIL,
-        payload: { error }
+      type: FETCH_TARGETS_START
     }
-);
-}
+  );
 
-function FetchTargetsPass(targets) {
+}
+function fetchTargetsFail(error) {
   return (
     {
-       type: FETCH_TARGETS_PASS,
-       payload: targets
-  }
-);
+      type: FETCH_TARGETS_FAIL,
+      payload: { error }
+    }
+  );
 }
 
-function convertTargets(targets){
-  const convertedTargets = targets.targets.map(target => (
-          {
-              targetId: target.id,
-              optional: target.optional,
-              ra: target.coordinates.ra / 15,
-              dec: target.coordinates.dec
-          }
+export function fetchTargetsPass(targets) {
+  return (
+    {
+      type: FETCH_TARGETS_PASS,
+      payload: targets
+    }
+  );
+}
+
+export function convertTargets(targets){
+  return targets.targets.map(target => (
+    {
+      targetId: target.id,
+      optional: target.optional,
+      ra: target.coordinates.ra / 15,
+      dec: target.coordinates.dec
+    }
   ));
-  return convertedTargets
 }
 
 export default function fetchTargets(semester, partner="All"){
@@ -48,9 +47,9 @@ export default function fetchTargets(semester, partner="All"){
     dispatch(startFetchTargets());
     queryTargets(semester, partner).then( res =>
       {
-        dispatch(FetchTargetsPass(convertTargets(res.data.data)))
+        dispatch(fetchTargetsPass(convertTargets(res.data.data)))
       }
     ).catch((e) => {
-      dispatch(FetchTargetsFail(e.message))})
+      dispatch(fetchTargetsFail(e.message))})
   }
 }

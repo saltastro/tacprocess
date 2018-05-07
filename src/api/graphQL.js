@@ -100,7 +100,7 @@ export function convertProposals(proposals, semester, partner){
 	});
 }
 
-const convertData = rowUser => ({
+export const convertUserData = rowUser => ({
 		firstName: rowUser.firstName,
 		lastName: rowUser.lastName,
 		email: rowUser.email,
@@ -136,9 +136,8 @@ export function queryPartnerAllocations(semester, partner="All" ){
   }
   `;
 	return graphqlClient().post(`/graphql`, {query})
-	.then(
-		response => response
-	)
+	.then(response => response)
+    .catch(e => e.response)
 }
 
 export function queryUserData(){
@@ -155,9 +154,8 @@ export function queryUserData(){
     }
   }`;
 	return graphqlClient().post(`/graphql`, {query})
-	.then(
-		response =>  convertData(response.data.data.user)
-	)
+	.then( response =>  response)
+    .catch(e => e.response)
 }
 
 export function queryTargets(semester, partner){
@@ -176,9 +174,8 @@ export function queryTargets(semester, partner){
     }
   }`;
 	return graphqlClient().post(`/graphql`, {query})
-	.then(
-		response => response
-	)
+	.then( response => response )
+		.catch(e => e.response)
 }
 
 export function queryProposals(semester, partner){
@@ -260,8 +257,8 @@ export function queryProposals(semester, partner){
   `;
 	return graphqlClient().post(`/graphql`, { query })
 	.then(
-		response => convertProposals(response.data.data, semester, partner)
-	)
+		response => response
+	).catch(e => e.response)
 }
 
 export const  submitAllocations = (query) =>  graphqlClient().post(`/graphql`, { query }).then(response => response);
@@ -277,7 +274,7 @@ export function querySALTAstronomers(){
   }
   `;
 	return graphqlClient().post(`/graphql`, {query})
-	.then(response => response)
+	.then(response => response).catch(e => e.response)
 }
 
 export const queryTacMembers = () => {
@@ -293,7 +290,7 @@ export const queryTacMembers = () => {
 }
 	`;
 	return graphqlClient().post(`/graphql`, {query})
-	.then( response => response)
+	.then( response => response).catch(e => e.response)
 };
 
 export const querySaltUsers = () => {
@@ -307,5 +304,5 @@ export const querySaltUsers = () => {
 	}
 	`;
 	return graphqlClient().post(`/graphql`, {query})
-	.then( response => response)
+	.then( response => response).catch(e => e.response)
 };

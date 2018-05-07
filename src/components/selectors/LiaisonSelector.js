@@ -40,7 +40,7 @@ const LiaisonSelector = ({proposal, astronomers, setLiaison, initProposals, user
               checked={proposal.liaisonAstronomer}
               disabled={ hasLiaison(proposal.proposalCode, initProposals)}
               type={'checkbox'}
-              value={ username }
+              value={ username}
               onChange={e => setLiaison(getEventValue(e, astronomers), proposal.proposalCode)}/>
             { proposal.liaisonAstronomer ?
               <a style={col}> {liaison} </a>: <a style={{color: 'red'}}>{'Select'}</a>}
