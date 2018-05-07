@@ -42,7 +42,7 @@ export default function submitProposalsLiaison(proposals, semester, partner){
       liaisonAstronomer: p.liaisonAstronomer
     }))
     try {
-      await jsonClient().post('liaison-astronomers', {assignments});
+      await jsonClient().post('liaison-astronomers', {assignments})
     } catch (e) {
       dispatch(submitLiaisonFail(e.message));
       return;

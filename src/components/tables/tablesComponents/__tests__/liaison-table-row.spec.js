@@ -73,7 +73,7 @@ describe("LiaisonTable Component", () => {
     wrapper.find('.file-download').simulate('click');
     //Expect the requestSummary function to be called once
     expect(requestSummary.mock.calls.length).toBe(1)
-    //Expect the requestSummary function to be called with the correct proposal code
+    //Expect the requestSummary function to be called with the correct semester
     expect(requestSummary.mock.calls[0][1]).toBe(proposals[0].proposalCode)
     //Expect the requestSummary function to be called with the correct semester
     expect(requestSummary.mock.calls[0][2]).toBe(semester)
