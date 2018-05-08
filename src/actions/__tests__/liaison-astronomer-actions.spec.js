@@ -15,6 +15,10 @@ const store = mockStore(initialState)
 
 // Testing the liaison astronomers actions
 describe("Liaison Astronomers Actions", () => {
+  afterEach(() => {
+    // Redux Mock store - clear actions after each test to assert the new actions being dispatched
+    store.clearActions();
+  });
 
   /*
   * The Liaison Astronomer actions contains asynchronous function, hence the use of async and await
@@ -30,26 +34,22 @@ describe("Liaison Astronomers Actions", () => {
     await store.dispatch(submitProposalsLiaison(proposals, '2018-1',  'RSA'))
     // expect the api to have been called with the correct arguments to post
     expect(index.jsonClient().getLatestArguments()[0]).toEqual({ data: {assignments: proposals}, url: 'liaison-astronomers'})
-    // expect the action type to be SUBMIT_LIAISON_ASTRONOMERS_START
+    // expect the first action
     expect(store.getActions()[0].type).toEqual('SUBMIT_LIAISON_ASTRONOMERS_START')
-    // expect the action type to be FETCH_PROPOSALS_START
+    // expect the second action
     expect(store.getActions()[1].type).toEqual('FETCH_PROPOSALS_START')
-    // expect the action type to be SUBMIT_LIAISON_ASTRONOMERS_PASS
+    // expect the third action
     expect(store.getActions()[2].type).toEqual('SUBMIT_LIAISON_ASTRONOMERS_PASS')
 
   })
 
   it('should fail to submit the liaison astronomer', async () => {
-    const proposals = [
-      { proposalCode: 'Code-1', liaisonAstronomer: 'LA-1' },
-      { proposalCode: 'Code-2', liaisonAstronomer: 'LA-2' },
-      { proposalCode: 'Code-3', liaisonAstronomer: 'LA-3'}
-    ]
-
     index.jsonClient().setOnceOfPromiseReject(() => true)
-    await store.dispatch(submitProposalsLiaison(proposals, '2018-1',  'RSA'))
-    // expect the action type to be SUBMIT_LIAISON_ASTRONOMERS_FAIL
-    expect(store.getActions()[5].type).toEqual('SUBMIT_LIAISON_ASTRONOMERS_FAIL')
+    await store.dispatch(submitProposalsLiaison([], '2018-1',  'RSA'))
+    // expect the first action
+    expect(store.getActions()[0].type).toEqual('SUBMIT_LIAISON_ASTRONOMERS_START')
+    // expect the second action
+    expect(store.getActions()[1].type).toEqual('SUBMIT_LIAISON_ASTRONOMERS_FAIL')
   })
 })
 

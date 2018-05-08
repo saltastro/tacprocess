@@ -14,6 +14,11 @@ const store = mockStore(initialState);
 
 // Testing the salt astronomers actions
 describe("SALT Astronomers Actions", () => {
+  afterEach(() => {
+    // Redux Mock store - clear actions after each test to assert the new actions being dispatched
+    store.clearActions();
+  });
+
   /*
   * The SALT Astronomers actions contains asynchronous functions, hence the use of async and await
   * for the returned promises.
@@ -36,29 +41,50 @@ describe("SALT Astronomers Actions", () => {
     await store.dispatch(submitTechnicalReviewDetails(proposals, {username: "brent"}, initProposals, "RSA", "2018-1"));
     // expect the api to have been called with the correct arguments to post
     expect(index.jsonClient().getLatestArguments()[0].data).toEqual(expected)
-    // expect the action to be SUBMIT_TECHNICAL_REVIEWS_START
+    // expect the fist action
     expect(store.getActions()[0].type).toEqual("SUBMIT_TECHNICAL_REVIEWS_START");
-    // expect the action to be FETCH_PROPOSALS_START
+    // expect the second action
     expect(store.getActions()[1].type).toEqual("FETCH_PROPOSALS_START");
-    // expect the action to be SUBMIT_TECHNICAL_REVIEWS_PASS
+    // expect the third action
     expect(store.getActions()[2].type).toEqual("SUBMIT_TECHNICAL_REVIEWS_PASS");
   });
 
   it('should fail to submit the tech reviews', async () => {
     const proposals = [
-     { proposalCode: 'Code-3', techReviews : { "2018-1": { reviewer: { username: null}, feasible: "yes", comment: "New Comment 3 by Eric" } } }
+     { proposalCode: 'Code-3', techReviews : { "2018-1": { reviewer: { }, feasible: "yes", comment: "New Comment 3 by Eric" } } }
     ]
     const initProposals = [
       { proposalCode: 'Code-3', techReviews : { "2018-1": { reviewer: { }, feasible: "yes", comment: "New Comment 2 by Eric" } } }
     ]
 
     await store.dispatch(submitTechnicalReviewDetails(proposals, {username: "brent"}, initProposals, "RSA", "2018-1"));
-    // expect the action type to be SUBMIT_TECHNICAL_REVIEWS_FAIL
-    expect(store.getActions()[5].type).toEqual('SUBMIT_TECHNICAL_REVIEWS_FAIL')
+    // expect the fist action
+    expect(store.getActions()[0].type).toEqual("SUBMIT_TECHNICAL_REVIEWS_START");
+    // expect the second action
+    expect(store.getActions()[1].type).toEqual('SUBMIT_TECHNICAL_REVIEWS_FAIL')
+  })
 
-    index.jsonClient().setOnceOfPromiseReject( () => true)
+  it('should fail to submit the tech reviews', async () => {
+    const proposals = [
+      { proposalCode: 'Code-3', techReviews : { "2018-1": { reviewer: { }, feasible: "yes", comment: "New Comment 3 by Eric" } } }
+    ]
+    const initProposals = [
+      { proposalCode: 'Code-3', techReviews : { "2018-1": { reviewer: { username: "brent" }, feasible: "yes", comment: "New Comment 2 by Eric" } } }
+    ]
+
     await store.dispatch(submitTechnicalReviewDetails(proposals, {username: "brent"}, initProposals, "RSA", "2018-1"));
-    // expect the action type to be SUBMIT_TECHNICAL_REVIEWS_FAIL
-    expect(store.getActions()[7].type).toEqual('SUBMIT_TECHNICAL_REVIEWS_FAIL')
+    // expect the fist action
+    expect(store.getActions()[0].type).toEqual("SUBMIT_TECHNICAL_REVIEWS_START");
+    // expect the second action
+    expect(store.getActions()[1].type).toEqual('SUBMIT_TECHNICAL_REVIEWS_FAIL')
+  })
+
+  it('should reject the promise and fail to submit the tech reviews', async () => {
+    index.jsonClient().setOnceOfPromiseReject( () => true)
+    await store.dispatch(submitTechnicalReviewDetails([], {username: "brent"}, [], "RSA", "2018-1"));
+    // expect the fist action
+    expect(store.getActions()[0].type).toEqual("SUBMIT_TECHNICAL_REVIEWS_START");
+    // expect the second action
+    expect(store.getActions()[1].type).toEqual('SUBMIT_TECHNICAL_REVIEWS_FAIL')
   })
 });

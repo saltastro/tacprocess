@@ -22,16 +22,16 @@ function FetchTargetsFail(error) {
 );
 }
 
-function FetchTargetsPass(targets) {
+/*export function fetchTargetsPass(targets) {
   return (
     {
        type: FETCH_TARGETS_PASS,
        payload: targets
   }
 );
-}
+}*/
 
-function convertTargets(targets){
+export function convertTargets(targets){
   const convertedTargets = targets.targets.map(target => (
           {
               targetId: target.id,
@@ -48,7 +48,7 @@ export default function fetchTargets(semester, partner="All"){
     dispatch(startFetchTargets());
     queryTargets(semester, partner).then( res =>
       {
-        dispatch(FetchTargetsPass(convertTargets(res.data.data)))
+        dispatch(fetchTargetsPass(convertTargets(res.data.data)))
       }
     ).catch((e) => {
       dispatch(FetchTargetsFail(e.message))})

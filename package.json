@@ -14,7 +14,6 @@
     "graphql-tag": "^2.5.0",
     "hoek": "^5.0.3",
     "install": "^0.10.4",
-    "jest": "^22.4.3",
     "lodash": "^4.17.4",
     "papaparse": "^4.3.7",
     "prop-types": "^15.6.0",
@@ -55,7 +54,6 @@
     "fetch-mock": "^6.0.0",
     "prettier": "^1.10.2",
     "react-test-renderer": "^16.2.0",
-    "redux-mock-store": "^1.5.1",
-    "jest": "latest"
+    "redux-mock-store": "^1.5.1"
   }
 }
