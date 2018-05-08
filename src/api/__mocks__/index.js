@@ -15,6 +15,6 @@ export const jsonClient = () => (
 
       getLatestArguments: () => latestArguments,
 
-      setOnceOfPromiseReject: (reject) => { rejectNextPost = reject }
+      rejectNextPost: () => { rejectNextPost = true }
     }
   )
