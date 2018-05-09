@@ -23,7 +23,7 @@ describe("Liaison Astronomers Actions", () => {
   * The Liaison Astronomer actions contains asynchronous function, hence the use of async and await
   * for the returned promises.
   */
-  it('should check the submitProposalsLiaison actions using an async/await for handling asynchronous calls', async () => {
+  it('creates actions when the submitProposalsLiaison function is called. Using async/await for handling asynchronous calls', async () => {
     const proposals = [
       { proposalCode: 'Code-1', liaisonAstronomer: 'LA-1' },
       { proposalCode: 'Code-2', liaisonAstronomer: 'LA-2' },

@@ -23,7 +23,7 @@ describe("Auth Actions", () => {
   * The Auth login actions contains asynchronous functions, hence the use of async and await
   * for the returned promises.
   */
-  it('should check the login actions using an async/awai for handling asynchronous callst', async () => {
+  it('creates actions when the login function is called. Using async/await for handling asynchronous calls', async () => {
     await store.dispatch(login({username:"myezasifiso", password:"Mzukwase11"}))
     // expect the first action to be FETCHING_DATA
     expect(store.getActions()[0].type).toEqual("FETCHING_DATA")
@@ -50,7 +50,7 @@ describe("Auth Actions", () => {
   * The Auth switch user actions contains asynchonous functions, hence the use of async and await
   * for the returned promises.
   */
-  it('should check the switch user actions using an async/await for handling asynchronous calls', async () => {
+  it('creates actions when the switchUser function is called. Using async/await for handling asynchronous calls', async () => {
     await store.dispatch(switchUser("myezasifiso"))
     // expect the first action to be SWITCH_USER_START
     expect(store.getActions()[0].type).toEqual("SWITCH_USER_START")
@@ -77,7 +77,7 @@ describe("Auth Actions", () => {
   /*
   * The Auth logout actions testing
   */
-  it('should check the logout actions', () => {
+  it('creates USER_LOGGED_OUT when logout has been done', () => {
     store.dispatch(logout());
     // expect the first action to be USER_LOGGED_OUT
     expect(store.getActions()[0].type).toEqual("USER_LOGGED_OUT");

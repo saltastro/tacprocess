@@ -1,20 +1,20 @@
 const latestArguments = []
 
-let rejectNextPost = false
+let isRejected = false
 
 export const jsonClient = () => (
     {
       post: (url, data) => new Promise((resolve, reject) => {
         latestArguments.push({url, data})
-        if (!rejectNextPost) {
+        if (!isRejected) {
           resolve({url, data})
         }
         reject('Error Submitting')
-        rejectNextPost = false
+        isRejected = false
         }),
 
       getLatestArguments: () => latestArguments,
 
-      rejectNextPost: () => { rejectNextPost = true }
+      rejectNextPost: () => { isRejected = true }
     }
   )
