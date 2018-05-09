@@ -23,7 +23,7 @@ describe("SALT Astronomers Actions", () => {
   * The SALT Astronomers actions contains asynchronous functions, hence the use of async and await
   * for the returned promises.
   */
-  it('creates actions when the submitTechnicalReviewDetails function is called. Using async/await for handling asynchronous calls', async () => {
+  it('creates the correct actions when the submitTechnicalReviewDetails function is called.', async () => {
     const proposals = [
       { proposalCode: 'Code-1', techReviews : { "2018-1": { reviewer: { username: "brent"}, feasible: "yes", comment: "Comment 1" } } },
       { proposalCode: 'Code-2', techReviews : { "2018-1": { reviewer: { username: 'eric'}, feasible: "yes", comment: "New Comment 2 by Eric" } } }

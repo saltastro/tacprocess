@@ -1,32 +1,14 @@
+let mockProposals = []
+export function setQueryProposals(proposals) {
+  mockProposals = proposals
+}
+
 export function queryProposals(semester, partner){
   return new Promise((resolve) => {
     resolve({
       data: {
         data: {
-          proposals: [
-            {
-              id: 'ID-1',
-              title: 'Title-1',
-              abstract: 'Abstract-1',
-              code: 'Code-1',
-              isP4: true,
-              status: 'active',
-              actOnAlert: true,
-              maxSeeing: 5.5,
-              transparency: 'Clear',
-              instruments: { hrs: [ { exposureMode: "HIGH RESOLUTION" } ], rss: [ { dictatorMode: 'NORMAL', mode: 'Spectroscopy' } ], scam: [ { dictatorMode: "NORMAL" } ], bvit: [{type: "BVIT"}] },
-              timeRequests: [
-                { semester: '2018-1', distribution: [ { partnerCode: 'RSA', time: 150 }, { partnerCode: 'UW', time: 200 }, { partnerCode: 'IUCAA', time: 250 } ] },
-                { semester: '2018-1', distribution: [ { partnerCode: 'RSA', time: 400 }, { partnerCode: 'UW', time: 50 } ] }
-              ],
-              isThesis: true,
-              pi: {surname: 'PI-S1', name: 'PI-N1'},
-              SALTAstronomer: {username: 'SA-1'},
-              techReviews:{},
-              allocatedTime: {},
-              tacComment: {}
-            }
-          ]
+          proposals: mockProposals
         }
       }
     })

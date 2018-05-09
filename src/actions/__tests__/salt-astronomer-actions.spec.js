@@ -16,7 +16,7 @@ describe("SALT Astronomers Actions", () => {
   * The SALT Astronomers actions contains asynchronous functions, hence the use of async and await
   * for the returned promises.
   */
-  it('creates actions when the fetchSA function is called. Using async/await for handling asynchronous calls', async () => {
+  it('creates the correct actions when the fetchSA function is called.', async () => {
     await store.dispatch(fetchSA())
     // expect the first action to be FETCH_SA_START
     expect(store.getActions()[0].type).toEqual("FETCH_SA_START")
