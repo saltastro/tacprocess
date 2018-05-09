@@ -29,7 +29,7 @@ const setLiaison = jest.fn()
 
 // Checking if the LiaisonTableRow Component renders correctly for different input
 describe("LiaisonTableRow Component", () => {
-  //Enzyme method testing if it renders correctly with empty values of the proposals
+  // Enzyme method testing if it renders correctly with empty values of the proposals
   it("Render the LiaisonTableRow Component having unpopulated props with no errors", () => {
     const rendered = mount(<LiaisonTableRow
       proposal= {{}}
@@ -71,11 +71,11 @@ describe("LiaisonTable Component", () => {
       setLiaison= {setLiaison} />)
 
     wrapper.find('.file-download').simulate('click');
-    //Expect the requestSummary function to be called once
+    // Expect the requestSummary function to be called once
     expect(requestSummary.mock.calls.length).toBe(1)
-    //Expect the requestSummary function to be called with the correct proposal code
+    // Expect the requestSummary function to be called with the correct proppsalCode
     expect(requestSummary.mock.calls[0][1]).toBe(proposals[0].proposalCode)
-    //Expect the requestSummary function to be called with the correct semester
+    // Expect the requestSummary function to be called with the correct semester
     expect(requestSummary.mock.calls[0][2]).toBe(semester)
   })
 })
