@@ -6,9 +6,9 @@ import {
 	STATISTICS_PAGE,
 	TAC_PAGE,
 	TECHNICAL_PAGE,
-	PAGE_NOT_FOUND
+	PAGE_NOT_FOUND, SALT_ASTRONOMER, ADMINISTRATOR
 } from "../types"
-import { makeTechComment } from "./index";
+import {currentSemester, defaultSemester, makeTechComment} from "./index";
 
 
 export function totalTimeRequestedPerPartner(proposals, semester, partner="All" ){
@@ -63,18 +63,25 @@ export function totalTimeRequestedForP4(proposals, semester, partner="All" ){
 }
 
 
-export const semestersArray = () => {
+export const semestersArray = (userRoles) => {
+
+	
 	let startYear = 2006;
 	const today = new Date();
 	const year = today.getFullYear();
-	const semester = [];
+	const semesters = [];
 	while (startYear < year + 8){
-		semester.push(
+		semesters.push(
 			`${ startYear }-1`, `${ startYear }-2`
 		);
 		startYear += 1
 	}
-	return semester
+	if((userRoles || []).some(r => r.type === ADMINISTRATOR || r.type === SALT_ASTRONOMER)){
+		return semesters
+	}else if (defaultSemester() !== currentSemester()){
+		return [currentSemester(), defaultSemester()]
+	}
+	return [currentSemester()]
 };
 
 export const getPartnerList = roles => {

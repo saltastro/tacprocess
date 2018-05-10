@@ -35,14 +35,7 @@ class filters extends React.Component {
 		const { selectedPartner, selectedSemester, selectedLiaison } = filters;
 		const partnerList = getPartnerList(user.roles);
 		const astronomersList = ["All", "Assigned"].concat(getAstronomersList(SALTAstronomers)).concat(["Not Assigned"]);
-		let semesters = []
-		if((user.roles || []).some(r => r.type === ADMINISTRATOR || r.type === SALT_ASTRONOMER)){
-			semesters = semestersArray()
-		}else if (defaultSemester() === currentSemester()){
-				semesters = [currentSemester()]
-			} else {
-				semesters = [defaultSemester(), currentSemester()]
-			}
+		const semesters = semestersArray(user.roles)
 		if (location.pathname === "/" ||
 			location.pathname === "/admin" ||
 			location.pathname === "/documentation") {
