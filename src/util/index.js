@@ -191,9 +191,9 @@ export function partners(user) {
 export function hasRole(user, role, partner) {
 	if (role === types.ADMINISTRATOR || role === types.SALT_ASTRONOMER) {
 		return (user.roles || []).some(r => r.type === role);
-	} else {
+	} 
 		return (user.roles || []).some(r => r.type === role && (r.partners || []).includes(partner));
-	}
+	
 }
 
 export function canDo(user, action, partner) {
@@ -284,7 +284,7 @@ export function allocatedTimeTotals( proposals, partner ){
 	 * @return object of allocated time totals per priority
 	 */
 
-	let total = {
+	const total = {
 		p0: 0,
 		p1: 0,
 		p2: 0,
@@ -294,7 +294,7 @@ export function allocatedTimeTotals( proposals, partner ){
 	proposals.forEach(p => {
 		[0, 1, 2, 3, 4].forEach( pr => {
 			if(p.allocatedTime && p.allocatedTime[partner]){
-			total[`p${pr}`] += parseFloat(!!p.allocatedTime[partner] ? p.allocatedTime[partner][`p${pr}`] : 0) || 0
+			total[`p${pr}`] += parseFloat(p.allocatedTime[partner] ? p.allocatedTime[partner][`p${pr}`] : 0) || 0
 			}
 		})
 	});
@@ -322,7 +322,7 @@ export function areAllocatedTimesCorrect(partner, availableTime, proposals){
 }
 
 export function getLiaisonUsername(name, SALTAstronomers){
-	let username = undefined;
+	let username;
 	(SALTAstronomers || []).forEach( sa => {
 		if (sa.name === name){
 			username = sa.username
@@ -351,9 +351,9 @@ export function canViewPage (userRoles, page){
 
 
 export function makeTechComment (techReview){
-	const feasible = techReview.feasible && techReview.feasible !== "none"? "Feasible: " + techReview.feasible + "\n" : "";
-	const comment = techReview.comment ? "Comments: " + techReview.comment.replace(/^\s+|\s+$/g, "") + "\n" : "";
-	const details = techReview.details && techReview.details !== "none" ? "Detailed Check: " + techReview.details + "\n" : "";
+	const feasible = techReview.feasible && techReview.feasible !== "none"? `Feasible: ${  techReview.feasible  }\n` : "";
+	const comment = techReview.comment ? `Comments: ${  techReview.comment.replace(/^\s+|\s+$/g, "")  }\n` : "";
+	const details = techReview.details && techReview.details !== "none" ? `Detailed Check: ${  techReview.details  }\n` : "";
 	return feasible + comment + details;
 }
 
@@ -362,11 +362,11 @@ function testTechReview(rev) {
 	if (rev.length > 2) {
 		(rev || []).forEach(r => {
 			if (r.indexOf("Feasible:") !== -1) {
-				review["feasible"] = r.split("Feasible: ").pop() || null
+				review.feasible = r.split("Feasible: ").pop() || null
 			} else if (r.indexOf("Detailed Check:") !== -1) {
-				review["details"] = r.split("Detailed Check: ").pop() || null;
+				review.details = r.split("Detailed Check: ").pop() || null;
 			} else {
-				review.comment = review.comment.concat(r + "\n")
+				review.comment = review.comment.concat(`${r  }\n`)
 			}
 
 		});
@@ -389,7 +389,7 @@ export function getTechReportFields(report) {
 	}
 	const regExp = /Feasible:\s*(yes|no|yes with caveats)\.?\s+Comments:(.*)\s+Detailed Check:\s*(yes|no|\s)/mi;
 	const fields = regExp.exec(report);
-	if ( !!fields ){
+	if ( fields ){
 		feasible = fields[1].toLowerCase();
 		comment = fields[2];
 		details = fields[3].toLowerCase();
@@ -416,13 +416,30 @@ export function defaultSemester() {
     const month = today.getMonth() + 1;
     let year = today.getFullYear();
     let semester = null;
-    if (1 <= month && month <=4) {
+    if (month >= 1 && month <=4) {
     	semester = 1;
-	} else if (5 <= month && month <= 10) {
+	} else if (month >= 5 && month <= 10) {
     	semester = 2;
 	} else {
     	year += 1;
     	semester = 1;
+	}
+
+	return `${year}-${semester}`;
+}
+
+export function currentSemester() {
+	const today = new Date();
+	const month = today.getMonth() + 1;
+	let year = today.getFullYear();
+	let semester = null;
+	if (month >= 5 && month <=10) {
+		semester = 1;
+	} else if (month >= 11 && month <= 12) {
+		semester = 2;
+	} else {
+		year += 1;
+		semester = 1;
 	}
 
 	return `${year}-${semester}`;
