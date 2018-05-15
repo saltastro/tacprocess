@@ -1,6 +1,7 @@
 import { graphqlClient } from './index';
 import {getTechReportFields} from "../util";
 import { isNewProposal, isLongTermProposal } from "../util/proposal";
+import {removeToken} from "../util/storage";
 
 
 function makeTechReviews(techReviews) {
@@ -155,7 +156,11 @@ export function queryUserData(){
   }`;
 	return graphqlClient().post(`/graphql`, {query})
 	.then( response =>  response)
-    .catch(e => e.response)
+    .catch(e => {
+			if (e.response.status === 401 ){
+    		removeToken()
+    	}
+    	return e.response})
 }
 
 export function queryTargets(semester, partner){
