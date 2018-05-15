@@ -70,7 +70,7 @@ export const semestersArray = (userRoles) => {
 	const today = new Date();
 	const year = today.getFullYear();
 	const semesters = [];
-	while (startYear < year + 8){
+	while (startYear < year + 3){
 		semesters.push(
 			`${ startYear }-1`, `${ startYear }-2`
 		);
