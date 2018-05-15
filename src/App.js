@@ -27,27 +27,24 @@ class App extends React.Component {
 		this.props.dispatch(setLiaisonAstronomer(proposalCode, liaisonUsername))
 	}
 
-  submitLiaisons =  ( proposals) => {
+	submitLiaisons =  ( proposals) => {
 		this.props.dispatch(
 			submitProposalsLiaison(proposals, this.props.filters.selectedSemester, this.props.filters.selectedPartner)
 		)
 	}
 
 	loggingOut = () => {
-    this.props.dispatch(actions.logout())
+		this.props.dispatch(actions.logout())
 	};
 
 	render() {
 		const {user, isAuthenticated, proposals, initProposals, filters, SALTAstronomers, dataStatus} = this.props
-    if (dataStatus.error && !dataStatus.fetchedData){
-		  return (
-		    <FailToLoad />
-      )
-    } else if ( dataStatus.fetchingData) {
-		  return (
-          <Loading />
-        )
-    }
+		
+		if (dataStatus.error && !dataStatus.fetchedData){
+			return <FailToLoad />
+		} else if ( dataStatus.fetchingData) {
+			return <Loading />
+		}
 		return (
 			<BrowserRouter>
 				<div className="root-main">
@@ -71,7 +68,7 @@ class App extends React.Component {
 							initProposals={initProposals}
 							filters={filters}
 							astronomers={SALTAstronomers.SALTAstronomer}
-              submitLiaisons={this.submitLiaisons}
+							submitLiaisons={this.submitLiaisons}
 							setLiaison={this.setLiaison}
 						/>
 						<div className="footer">
@@ -86,15 +83,16 @@ class App extends React.Component {
 
 App.propTypes = {
 	isAuthenticated: PropTypes.bool,
+	dataStatus: PropTypes.object,
 	filters: PropTypes.object,
 	data: PropTypes.object,
 	fetchProposalsError: PropTypes.string,
 	fetchTargetsError: PropTypes.string,
-  proposals: PropTypes.object,
+	proposals: PropTypes.object,
 	initProposals: PropTypes.array,
 	tacs: PropTypes.object,
 	targets: PropTypes.object,
-  SALTAstronomers: PropTypes.object,
+	SALTAstronomers: PropTypes.object,
 	user: PropTypes.object,
 	dispatch: PropTypes.func
 };
@@ -111,7 +109,7 @@ function mapStateToProps(state) { /* state in params */
 		initProposals: state.proposals.initProposals,
 		targets: state.targets,
 		tacs: state.tac,
-    SALTAstronomers: state.SALTAstronomers
+		SALTAstronomers: state.SALTAstronomers
 	};
 }
 
