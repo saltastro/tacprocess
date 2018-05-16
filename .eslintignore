@@ -1,0 +1,6 @@
+/build/**
+/public/**
+/node_modules/**
+**/__mock__/**
+*spec.js
+*test.js
