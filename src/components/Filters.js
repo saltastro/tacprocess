@@ -7,8 +7,9 @@ import  fetchProposals  from "../actions/proposalsActions";
 import  fetchTargets  from "../actions/targetsActions";
 import { fetchPartnerAllocations  } from "../actions/timeAllocationActions";
 import { semestersArray, getPartnerList, getAstronomersList } from "../util/filters";
-import { defaultSemester } from "../util";
+import {currentSemester, defaultSemester} from "../util";
 import { ADMINISTRATOR, SALT_ASTRONOMER } from "../types";
+import Loading from "./messages/Loading";
 
 class filters extends React.Component {
 	updateSemester = value => {
@@ -35,7 +36,7 @@ class filters extends React.Component {
 		const { selectedPartner, selectedSemester, selectedLiaison } = filters;
 		const partnerList = getPartnerList(user.roles);
 		const astronomersList = ["All", "Assigned"].concat(getAstronomersList(SALTAstronomers)).concat(["Not Assigned"]);
-		const semesters = ( user.roles || []).some(r => r.type === ADMINISTRATOR || r.type === SALT_ASTRONOMER) ? semestersArray() : [defaultSemester()];
+		const semesters = ( user.roles || []).some(r => r.type === ADMINISTRATOR || r.type === SALT_ASTRONOMER) ? semestersArray() : [defaultSemester(), currentSemester()];
 		if (location.pathname === "/" ||
 			location.pathname === "/admin" ||
 			location.pathname === "/documentation") {
@@ -45,21 +46,7 @@ class filters extends React.Component {
 				<div className="selector-div">
 					{(loadingProposals || loadingTargets) && <div className="dimScreen" />}
 					{
-						(loadingProposals && loadingTargets) &&
-						<div className="dimScreen">
-							<h1 className={"loader"}>
-								<span className="let1 span-loader">l</span>
-								<span className="let2 span-loader">o</span>
-								<span className="let3 span-loader">a</span>
-								<span className="let4 span-loader">d</span>
-								<span className="let5 span-loader">i</span>
-								<span className="let6 span-loader">n</span>
-								<span className="let7 span-loader">g</span>
-								<span className="let8 span-loader">.</span>
-								<span className="let9 span-loader">.</span>
-								<span className="let10 span-loader">.</span>
-							</h1>
-						</div>
+						(loadingProposals && loadingTargets) && <Loading />
 					}
 					<div className="left">
 						<DropDown
