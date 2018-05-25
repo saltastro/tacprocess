@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component having populated props with no errors 1`] = `
-<SALTICAMStatistics
+exports[`HRSStatistics Component Render the HRSStatistics Component having populated props with no errors 1`] = `
+<HRSStatistics
   proposals={
     Array [
       Object {
@@ -139,17 +139,25 @@ exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component ha
       <thead>
         <tr>
           <th>
-            Detector mode
+            Exposure mode
           </th>
           <th>
-            Number of Proposals
+            Number of configurations
           </th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
-            DRIFT SCAN
+            HIGH RESOLUTION
+          </td>
+          <td>
+            2
+          </td>
+        </tr>
+        <tr>
+          <td>
+            HIGH STABILITY
           </td>
           <td>
             0
@@ -157,7 +165,7 @@ exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component ha
         </tr>
         <tr>
           <td>
-            FRAME XFER
+            INT CAL FIBRE
           </td>
           <td>
             0
@@ -165,7 +173,7 @@ exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component ha
         </tr>
         <tr>
           <td>
-            NORMAL
+            LOW RESOLUTION
           </td>
           <td>
             0
@@ -173,7 +181,7 @@ exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component ha
         </tr>
         <tr>
           <td>
-            SLOT
+            MEDIUM RESOLUTION
           </td>
           <td>
             0
@@ -182,11 +190,11 @@ exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component ha
       </tbody>
     </table>
   </div>
-</SALTICAMStatistics>
+</HRSStatistics>
 `;
 
-exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component having unpopulated props with no errors 1`] = `
-<SALTICAMStatistics
+exports[`HRSStatistics Component Render the HRSStatistics Component having unpopulated props with no errors 1`] = `
+<HRSStatistics
   proposals={Array []}
 >
   <div
@@ -203,17 +211,17 @@ exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component ha
       <thead>
         <tr>
           <th>
-            Detector mode
+            Exposure mode
           </th>
           <th>
-            Number of Proposals
+            Number of configurations
           </th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
-            DRIFT SCAN
+            HIGH RESOLUTION
           </td>
           <td>
             0
@@ -221,7 +229,7 @@ exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component ha
         </tr>
         <tr>
           <td>
-            FRAME XFER
+            HIGH STABILITY
           </td>
           <td>
             0
@@ -229,7 +237,7 @@ exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component ha
         </tr>
         <tr>
           <td>
-            NORMAL
+            INT CAL FIBRE
           </td>
           <td>
             0
@@ -237,7 +245,15 @@ exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component ha
         </tr>
         <tr>
           <td>
-            SLOT
+            LOW RESOLUTION
+          </td>
+          <td>
+            0
+          </td>
+        </tr>
+        <tr>
+          <td>
+            MEDIUM RESOLUTION
           </td>
           <td>
             0
@@ -246,5 +262,5 @@ exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component ha
       </tbody>
     </table>
   </div>
-</SALTICAMStatistics>
+</HRSStatistics>
 `;

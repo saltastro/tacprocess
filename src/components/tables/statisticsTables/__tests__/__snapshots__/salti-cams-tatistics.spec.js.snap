@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RSSObservingModeTable Component Render the RSSObservingModeTable Component having populated props with no errors 1`] = `
-<RSSObservingModeTable
+exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component having populated props with no errors 1`] = `
+<SALTICAMStatistics
   proposals={
     Array [
       Object {
@@ -133,26 +133,23 @@ exports[`RSSObservingModeTable Component Render the RSSObservingModeTable Compon
       }
     }
   >
-    <h2>
-      RSS Observing Mode
-    </h2>
     <table
       className="stat-table"
     >
       <thead>
         <tr>
           <th>
-            Observing mode
+            Detector mode
           </th>
           <th>
-            Number of Proposals
+            Number of configurations
           </th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
-            Fabry Perot
+            DRIFT SCAN
           </td>
           <td>
             0
@@ -160,7 +157,7 @@ exports[`RSSObservingModeTable Component Render the RSSObservingModeTable Compon
         </tr>
         <tr>
           <td>
-            FP polarimetry
+            FRAME XFER
           </td>
           <td>
             0
@@ -168,7 +165,7 @@ exports[`RSSObservingModeTable Component Render the RSSObservingModeTable Compon
         </tr>
         <tr>
           <td>
-            MOS
+            NORMAL
           </td>
           <td>
             0
@@ -176,52 +173,20 @@ exports[`RSSObservingModeTable Component Render the RSSObservingModeTable Compon
         </tr>
         <tr>
           <td>
-            MOS polarimetry
+            SLOT
           </td>
           <td>
             0
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Polarimetric imaging
-          </td>
-          <td>
-            0
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Imaging
-          </td>
-          <td>
-            0
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Spectropolarimetry
-          </td>
-          <td>
-            0
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Spectroscopy
-          </td>
-          <td>
-            2
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-</RSSObservingModeTable>
+</SALTICAMStatistics>
 `;
 
-exports[`RSSObservingModeTable Component Render the RSSObservingModeTable Component having unpopulated props with no errors 1`] = `
-<RSSObservingModeTable
+exports[`SALTICAMStatistics Component Render the SALTICAMStatistics Component having unpopulated props with no errors 1`] = `
+<SALTICAMStatistics
   proposals={Array []}
 >
   <div
@@ -232,26 +197,23 @@ exports[`RSSObservingModeTable Component Render the RSSObservingModeTable Compon
       }
     }
   >
-    <h2>
-      RSS Observing Mode
-    </h2>
     <table
       className="stat-table"
     >
       <thead>
         <tr>
           <th>
-            Observing mode
+            Detector mode
           </th>
           <th>
-            Number of Proposals
+            Number of configurations
           </th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
-            Fabry Perot
+            DRIFT SCAN
           </td>
           <td>
             0
@@ -259,7 +221,7 @@ exports[`RSSObservingModeTable Component Render the RSSObservingModeTable Compon
         </tr>
         <tr>
           <td>
-            FP polarimetry
+            FRAME XFER
           </td>
           <td>
             0
@@ -267,7 +229,7 @@ exports[`RSSObservingModeTable Component Render the RSSObservingModeTable Compon
         </tr>
         <tr>
           <td>
-            MOS
+            NORMAL
           </td>
           <td>
             0
@@ -275,39 +237,7 @@ exports[`RSSObservingModeTable Component Render the RSSObservingModeTable Compon
         </tr>
         <tr>
           <td>
-            MOS polarimetry
-          </td>
-          <td>
-            0
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Polarimetric imaging
-          </td>
-          <td>
-            0
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Imaging
-          </td>
-          <td>
-            0
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Spectropolarimetry
-          </td>
-          <td>
-            0
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Spectroscopy
+            SLOT
           </td>
           <td>
             0
@@ -316,5 +246,5 @@ exports[`RSSObservingModeTable Component Render the RSSObservingModeTable Compon
       </tbody>
     </table>
   </div>
-</RSSObservingModeTable>
+</SALTICAMStatistics>
 `;

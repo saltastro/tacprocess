@@ -1,41 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PartnerTimeTable Component Render the PartnerTimeTable Component having populated props with no errors 1`] = `
-<PartnerTimeTable
-  allocatedTime={
-    Object {
-      "DUR": Object {
-        "p0": 0,
-        "p1": 54720,
-        "p2": 54720,
-        "p3": 8200,
-        "p4": 0,
-      },
-    }
-  }
-  partner="UW"
+exports[`RSSObservingModeTable Component Render the RSSObservingModeTable Component having populated props with no errors 1`] = `
+<RSSObservingModeTable
   proposals={
     Array [
       Object {
-        "allocatedTime": Object {
-          "UKSC": Object {
-            "p0": 0,
-            "p0p1": 0,
-            "p1": 0,
-            "p2": 0,
-            "p3": 0,
-            "p4": 0,
-          },
-          "UW": Object {
-            "p0": 0,
-            "p0p1": 0,
-            "p1": 0,
-            "p2": 0,
-            "p3": 0,
-            "p4": 0,
-          },
-        },
         "instruments": Object {
+          "bvit": Array [
+            Object {
+              "type": "BVIT",
+            },
+          ],
+          "hrs": Array [
+            Object {
+              "exposureMode": "HIGH RESOLUTION",
+            },
+          ],
+          "rss": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+              "mode": "Spectroscopy",
+            },
+          ],
           "scam": Array [
             Object {
               "dictatorMode": "NORMAL",
@@ -79,6 +65,22 @@ exports[`PartnerTimeTable Component Render the PartnerTimeTable Component having
       },
       Object {
         "instruments": Object {
+          "bvit": Array [
+            Object {
+              "type": "BVIT",
+            },
+          ],
+          "hrs": Array [
+            Object {
+              "exposureMode": "HIGH RESOLUTION",
+            },
+          ],
+          "rss": Array [
+            Object {
+              "dictatorMode": "NORMAL",
+              "mode": "Spectroscopy",
+            },
+          ],
           "scam": Array [
             Object {
               "dictatorMode": "NORMAL",
@@ -122,139 +124,197 @@ exports[`PartnerTimeTable Component Render the PartnerTimeTable Component having
       },
     ]
   }
-  semester="2017-1"
 >
   <div
     className="stat-item"
+    style={
+      Object {
+        "textAlign": "center",
+      }
+    }
   >
     <h2>
-      Time for Partner 
-      <strong>
-        UW
-      </strong>
+      RSS Observing Mode
     </h2>
     <table
       className="stat-table"
-      style={
-        Object {
-          "height": "90%",
-        }
-      }
     >
       <thead>
         <tr>
-          <th />
           <th>
-            Total
+            Observing mode
+          </th>
+          <th>
+            Number of configurations
           </th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
-            Time available
+            Fabry Perot
           </td>
           <td>
-            0.00
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Requested Time 
-          </td>
-          <td>
-            0.06
+            0
           </td>
         </tr>
         <tr>
           <td>
-            Subscription rate 
+            FP polarimetry
           </td>
           <td>
-            Infinity
-             %
+            0
           </td>
         </tr>
         <tr>
           <td>
-            Average per Proposal 
+            MOS
           </td>
           <td>
-            0.03
+            0
+          </td>
+        </tr>
+        <tr>
+          <td>
+            MOS polarimetry
+          </td>
+          <td>
+            0
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Polarimetric imaging
+          </td>
+          <td>
+            0
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Imaging
+          </td>
+          <td>
+            0
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Spectropolarimetry
+          </td>
+          <td>
+            0
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Spectroscopy
+          </td>
+          <td>
+            2
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-</PartnerTimeTable>
+</RSSObservingModeTable>
 `;
 
-exports[`PartnerTimeTable Component Render the PartnerTimeTable Component having unpopulated props with no errors 1`] = `
-<PartnerTimeTable
-  allocatedTime={Object {}}
-  partner=""
+exports[`RSSObservingModeTable Component Render the RSSObservingModeTable Component having unpopulated props with no errors 1`] = `
+<RSSObservingModeTable
   proposals={Array []}
-  semester=""
 >
   <div
     className="stat-item"
+    style={
+      Object {
+        "textAlign": "center",
+      }
+    }
   >
     <h2>
-      Time for Partner 
-      <strong />
+      RSS Observing Mode
     </h2>
     <table
       className="stat-table"
-      style={
-        Object {
-          "height": "90%",
-        }
-      }
     >
       <thead>
         <tr>
-          <th />
           <th>
-            Total
+            Observing mode
+          </th>
+          <th>
+            Number of configurations
           </th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
-            Time available
+            Fabry Perot
           </td>
           <td>
-            0.00
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Requested Time 
-          </td>
-          <td>
-            0.00
+            0
           </td>
         </tr>
         <tr>
           <td>
-            Subscription rate 
+            FP polarimetry
           </td>
           <td>
-            NaN
-             %
+            0
           </td>
         </tr>
         <tr>
           <td>
-            Average per Proposal 
+            MOS
           </td>
           <td>
-            NaN
+            0
+          </td>
+        </tr>
+        <tr>
+          <td>
+            MOS polarimetry
+          </td>
+          <td>
+            0
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Polarimetric imaging
+          </td>
+          <td>
+            0
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Imaging
+          </td>
+          <td>
+            0
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Spectropolarimetry
+          </td>
+          <td>
+            0
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Spectroscopy
+          </td>
+          <td>
+            0
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-</PartnerTimeTable>
+</RSSObservingModeTable>
 `;

@@ -1,0 +1,246 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiaisonTableRow Component Render the LiaisonTableRow Component having populated props with no errors 1`] = `
+<LiaisonTableRow
+  astronomers={
+    Array [
+      Object {
+        "name": "LA-1",
+        "username": "LA-1",
+      },
+      Object {
+        "name": "LA-2",
+        "username": "LA-2",
+      },
+      Object {
+        "name": "LA-3",
+        "username": "LA-3",
+      },
+    ]
+  }
+  canAssign={true}
+  initProposals={
+    Array [
+      Object {
+        "liaisonAstronomer": "LIAISON",
+        "pi": "INVESTIGATOR",
+        "proposalCode": "CODE",
+        "proposalId": "ID",
+        "title": "TITLE",
+      },
+      Object {
+        "liaisonAstronomer": "LA-3",
+        "pi": "PI-3",
+        "proposalCode": "Code-3",
+        "proposalId": "2",
+        "title": "Title-3",
+      },
+    ]
+  }
+  proposal={
+    Object {
+      "liaisonAstronomer": "LA-1",
+      "pi": "PI-1",
+      "proposalCode": "Code-1",
+      "proposalId": "0",
+      "title": "Title-1",
+    }
+  }
+  requestSummary={[Function]}
+  semester="2018-1"
+  setLiaison={[Function]}
+  username="myezasifiso"
+>
+  <tr
+    key="liaison-Code-1"
+  >
+    <td>
+      <a
+        href="https://www.salt.ac.za/wm/proposal/Code-1"
+        target="_blank"
+      >
+        Code-1
+      </a>
+    </td>
+    <td
+      className="width-100"
+    >
+      <a
+        className="file-download"
+        href=""
+        onClick={[Function]}
+      >
+        Download
+      </a>
+    </td>
+    <td
+      className=" table-height width-400"
+    >
+      Title-1
+    </td>
+    <td
+      className="width-100"
+    >
+      PI-1
+    </td>
+    <LiaisonSelector
+      astronomers={
+        Array [
+          Object {
+            "name": "LA-1",
+            "username": "LA-1",
+          },
+          Object {
+            "name": "LA-2",
+            "username": "LA-2",
+          },
+          Object {
+            "name": "LA-3",
+            "username": "LA-3",
+          },
+        ]
+      }
+      canAssign={true}
+      initProposals={
+        Array [
+          Object {
+            "liaisonAstronomer": "LIAISON",
+            "pi": "INVESTIGATOR",
+            "proposalCode": "CODE",
+            "proposalId": "ID",
+            "title": "TITLE",
+          },
+          Object {
+            "liaisonAstronomer": "LA-3",
+            "pi": "PI-3",
+            "proposalCode": "Code-3",
+            "proposalId": "2",
+            "title": "Title-3",
+          },
+        ]
+      }
+      inputValue="myezasifiso"
+      proposal={
+        Object {
+          "liaisonAstronomer": "LA-1",
+          "pi": "PI-1",
+          "proposalCode": "Code-1",
+          "proposalId": "0",
+          "title": "Title-1",
+        }
+      }
+      setLiaison={[Function]}
+    >
+      <td>
+        <select
+          className="setLiaison"
+          defaultValue="LA-1"
+          name="selector"
+          onChange={[Function]}
+          style={
+            Object {
+              "color": "blue",
+            }
+          }
+        >
+          <option
+            value="none"
+          >
+            none
+          </option>
+          <option
+            key="LA-1"
+            name="LA-1"
+            value="LA-1"
+          >
+            LA-1
+          </option>
+          <option
+            key="LA-2"
+            name="LA-2"
+            value="LA-2"
+          >
+            LA-2
+          </option>
+          <option
+            key="LA-3"
+            name="LA-3"
+            value="LA-3"
+          >
+            LA-3
+          </option>
+        </select>
+      </td>
+    </LiaisonSelector>
+  </tr>
+</LiaisonTableRow>
+`;
+
+exports[`LiaisonTableRow Component Render the LiaisonTableRow Component having unpopulated props with no errors 1`] = `
+<LiaisonTableRow
+  astronomers={Array []}
+  canAssign={false}
+  initProposals={Array []}
+  proposal={Object {}}
+  requestSummary={[Function]}
+  semester=""
+  setLiaison={[Function]}
+  username=""
+>
+  <tr
+    key="liaison-undefined"
+  >
+    <td>
+      <a
+        href="https://www.salt.ac.za/wm/proposal/undefined"
+        target="_blank"
+      />
+    </td>
+    <td
+      className="width-100"
+    >
+      <a
+        className="file-download"
+        href=""
+        onClick={[Function]}
+      >
+        Download
+      </a>
+    </td>
+    <td
+      className=" table-height width-400"
+    />
+    <td
+      className="width-100"
+    />
+    <LiaisonSelector
+      astronomers={Array []}
+      canAssign={false}
+      initProposals={Array []}
+      inputValue=""
+      proposal={Object {}}
+      setLiaison={[Function]}
+    >
+      <td>
+        <div>
+          <input
+            className="setLiaison"
+            disabled={false}
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <a
+            style={
+              Object {
+                "color": "red",
+              }
+            }
+          >
+            Select
+          </a>
+        </div>
+      </td>
+    </LiaisonSelector>
+  </tr>
+</LiaisonTableRow>
+`;

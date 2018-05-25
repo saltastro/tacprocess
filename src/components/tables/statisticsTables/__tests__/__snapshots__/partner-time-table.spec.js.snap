@@ -1,27 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HRSStatistics Component Render the HRSStatistics Component having populated props with no errors 1`] = `
-<HRSStatistics
+exports[`PartnerTimeTable Component Render the PartnerTimeTable Component having populated props with no errors 1`] = `
+<PartnerTimeTable
+  allocatedTime={
+    Object {
+      "DUR": Object {
+        "p0": 0,
+        "p1": 54720,
+        "p2": 54720,
+        "p3": 8200,
+        "p4": 0,
+      },
+    }
+  }
+  partner="UW"
   proposals={
     Array [
       Object {
+        "allocatedTime": Object {
+          "UKSC": Object {
+            "p0": 0,
+            "p0p1": 0,
+            "p1": 0,
+            "p2": 0,
+            "p3": 0,
+            "p4": 0,
+          },
+          "UW": Object {
+            "p0": 0,
+            "p0p1": 0,
+            "p1": 0,
+            "p2": 0,
+            "p3": 0,
+            "p4": 0,
+          },
+        },
         "instruments": Object {
-          "bvit": Array [
-            Object {
-              "type": "BVIT",
-            },
-          ],
-          "hrs": Array [
-            Object {
-              "exposureMode": "HIGH RESOLUTION",
-            },
-          ],
-          "rss": Array [
-            Object {
-              "dictatorMode": "NORMAL",
-              "mode": "Spectroscopy",
-            },
-          ],
           "scam": Array [
             Object {
               "dictatorMode": "NORMAL",
@@ -65,22 +79,6 @@ exports[`HRSStatistics Component Render the HRSStatistics Component having popul
       },
       Object {
         "instruments": Object {
-          "bvit": Array [
-            Object {
-              "type": "BVIT",
-            },
-          ],
-          "hrs": Array [
-            Object {
-              "exposureMode": "HIGH RESOLUTION",
-            },
-          ],
-          "rss": Array [
-            Object {
-              "dictatorMode": "NORMAL",
-              "mode": "Spectroscopy",
-            },
-          ],
           "scam": Array [
             Object {
               "dictatorMode": "NORMAL",
@@ -124,143 +122,157 @@ exports[`HRSStatistics Component Render the HRSStatistics Component having popul
       },
     ]
   }
+  semester="2017-1"
 >
   <div
     className="stat-item"
-    style={
-      Object {
-        "textAlign": "center",
-      }
-    }
   >
+    <h2>
+      Time for Partner 
+      <strong>
+        UW
+      </strong>
+    </h2>
     <table
       className="stat-table"
+      style={
+        Object {
+          "height": "90%",
+        }
+      }
     >
       <thead>
         <tr>
+          <th />
           <th>
-            Exposure mode
-          </th>
-          <th>
-            Number of Proposals
+            Total  (hours)
           </th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
-            HIGH RESOLUTION
+            Time available
           </td>
           <td>
-            2
-          </td>
-        </tr>
-        <tr>
-          <td>
-            HIGH STABILITY
-          </td>
-          <td>
-            0
+            0.00
+             
           </td>
         </tr>
         <tr>
           <td>
-            INT CAL FIBRE
+            Requested Time 
           </td>
           <td>
-            0
-          </td>
-        </tr>
-        <tr>
-          <td>
-            LOW RESOLUTION
-          </td>
-          <td>
-            0
+            0.06
           </td>
         </tr>
         <tr>
           <td>
-            MEDIUM RESOLUTION
+            Subscription rate 
           </td>
           <td>
-            0
+            Infinity
+             %
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Average per Proposal 
+          </td>
+          <td>
+            0.03
+          </td>
+        </tr>
+        <tr>
+          <td>
+            P4 Requested Time 
+          </td>
+          <td>
+            0.00
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-</HRSStatistics>
+</PartnerTimeTable>
 `;
 
-exports[`HRSStatistics Component Render the HRSStatistics Component having unpopulated props with no errors 1`] = `
-<HRSStatistics
+exports[`PartnerTimeTable Component Render the PartnerTimeTable Component having unpopulated props with no errors 1`] = `
+<PartnerTimeTable
+  allocatedTime={Object {}}
+  partner=""
   proposals={Array []}
+  semester=""
 >
   <div
     className="stat-item"
-    style={
-      Object {
-        "textAlign": "center",
-      }
-    }
   >
+    <h2>
+      Time for Partner 
+      <strong />
+    </h2>
     <table
       className="stat-table"
+      style={
+        Object {
+          "height": "90%",
+        }
+      }
     >
       <thead>
         <tr>
+          <th />
           <th>
-            Exposure mode
-          </th>
-          <th>
-            Number of Proposals
+            Total  (hours)
           </th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
-            HIGH RESOLUTION
+            Time available
           </td>
           <td>
-            0
-          </td>
-        </tr>
-        <tr>
-          <td>
-            HIGH STABILITY
-          </td>
-          <td>
-            0
+            0.00
+             
           </td>
         </tr>
         <tr>
           <td>
-            INT CAL FIBRE
+            Requested Time 
           </td>
           <td>
-            0
-          </td>
-        </tr>
-        <tr>
-          <td>
-            LOW RESOLUTION
-          </td>
-          <td>
-            0
+            0.00
           </td>
         </tr>
         <tr>
           <td>
-            MEDIUM RESOLUTION
+            Subscription rate 
           </td>
           <td>
-            0
+            NaN
+             %
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Average per Proposal 
+          </td>
+          <td>
+            NaN
+          </td>
+        </tr>
+        <tr>
+          <td>
+            P4 Requested Time 
+          </td>
+          <td>
+            0.00
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-</HRSStatistics>
+</PartnerTimeTable>
 `;

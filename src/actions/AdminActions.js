@@ -31,30 +31,30 @@ const fetchingTacMembersStart = () => ({
   type: FETCHING_TAC_MEMBERS_START
 })
 
-function convertSaltUsers(users){
-  return users.saltUsers.map(user => (
-    {
-      name: user.firstName,
-      username: user.username,
-      surname: user.lastName
-    }
-  ))
+export function convertSaltUsers(users){
+	return users.saltUsers.map(user => (
+		{
+			name: user.firstName,
+			username: user.username,
+			surname: user.lastName
+		}
+	));
 }
 
-function convertTacMembers(tacs){
-  const newTacs = {}
-  tacs.tacMembers.forEach(tac => {
-    if (!newTacs[ tac.partnerCode ]){
-      newTacs[ tac.partnerCode ] = []
-    }
-    newTacs[ tac.partnerCode ].push(
-      {
-        name: tac.firstName,
-        username: tac.username,
-        surname: tac.lastName,
-        isTacChair: tac.isChair
-      }
-    )
+export function convertTacMembers(tacs){
+	const newTacs = {}
+	tacs.tacMembers.forEach(tac => {
+		if (!newTacs[ tac.partnerCode ]){
+			newTacs[ tac.partnerCode ] = []
+		}
+		newTacs[ tac.partnerCode ].push(
+			{
+				name: tac.firstName,
+				username: tac.username,
+				surname: tac.lastName,
+				isTacChair: tac.isChair
+			}
+		)
 		
   })
   return newTacs

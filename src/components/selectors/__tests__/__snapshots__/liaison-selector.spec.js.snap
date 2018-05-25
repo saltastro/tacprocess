@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiaisonSelector Component Render the LiaisonSelector Component having populated props with no errors 1`] = `
+<LiaisonSelector
+  astronomers={
+    Array [
+      Object {
+        "name": "LA-1",
+        "username": "LA-1",
+      },
+      Object {
+        "name": "LA-2",
+        "username": "LA-2",
+      },
+      Object {
+        "name": "LA-3",
+        "username": "LA-3",
+      },
+    ]
+  }
+  canAssign={true}
+  initProposals={
+    Array [
+      Object {
+        "liaisonAstronomer": "LIAISON",
+        "proposalCode": "CODE",
+      },
+      Object {
+        "liaisonAstronomer": "LA-3",
+        "proposalCode": "Code-3",
+      },
+    ]
+  }
+  proposal={
+    Array [
+      Object {
+        "liaisonAstronomer": "LA-1",
+        "proposalCode": "Code-1",
+      },
+      Object {
+        "liaisonAstronomer": "LA-2",
+        "proposalCode": "Code-2",
+      },
+      Object {
+        "liaisonAstronomer": "LA-3",
+        "proposalCode": "Code-3",
+      },
+    ]
+  }
+  setLiaison={[Function]}
+  username="myezasifiso"
+>
+  <td>
+    <select
+      className="setLiaison"
+      defaultValue={null}
+      name="selector"
+      onChange={[Function]}
+      style={
+        Object {
+          "color": "blue",
+        }
+      }
+    >
+      <option
+        value="none"
+      >
+        none
+      </option>
+      <option
+        key="LA-1"
+        name="LA-1"
+        value="LA-1"
+      >
+        LA-1
+      </option>
+      <option
+        key="LA-2"
+        name="LA-2"
+        value="LA-2"
+      >
+        LA-2
+      </option>
+      <option
+        key="LA-3"
+        name="LA-3"
+        value="LA-3"
+      >
+        LA-3
+      </option>
+    </select>
+  </td>
+</LiaisonSelector>
+`;
+
+exports[`LiaisonSelector Component Render the LiaisonSelector Component having unpopulated props with no errors 1`] = `
+<LiaisonSelector
+  astronomers={Array []}
+  canAssign={false}
+  initProposals={Array []}
+  proposal={Object {}}
+  setLiaison={[Function]}
+  username=""
+>
+  <td>
+    <div>
+      <input
+        className="setLiaison"
+        disabled={false}
+        onChange={[Function]}
+        type="checkbox"
+        value=""
+      />
+      <a
+        style={
+          Object {
+            "color": "red",
+          }
+        }
+      >
+        Select
+      </a>
+    </div>
+  </td>
+</LiaisonSelector>
+`;
