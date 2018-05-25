@@ -1,22 +1,22 @@
-import React from "react";
-import renderer from "react-test-renderer";
-import { shallow, mount, render } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
-import ObservingStatisticsSeeing from "./ObservingStatisticsSeeing";
+import React from 'react'
+import renderer from 'react-test-renderer'
+import { shallow, mount, render } from 'enzyme'
+import { shallowToJson } from 'enzyme-to-json'
+import ObservingStatisticsSeeing from './ObservingStatisticsSeeing'
 
 const proposals = [
   {
     transparency: 'Clear',
     maxSeeing: 2,
     instruments: {
-      hrs: [ { exposureMode: "HIGH RESOLUTION" } ],
+      hrs: [ { exposureMode: 'HIGH RESOLUTION' } ],
       rss: [ { dictatorMode: 'NORMAL', mode: 'Spectroscopy' } ],
-      scam: [ { dictatorMode: "NORMAL" } ],
-      bvit: [{type: "BVIT"}]
+      scam: [ { dictatorMode: 'NORMAL' } ],
+      bvit: [{type: 'BVIT'}]
     },
     requestedTime: {
       minimum: 26350,
-      semester: "2018-1",
+      semester: '2018-1',
       requests: { OTH: 0, POL: 85000}
     },
     timeRequests: [
@@ -34,14 +34,14 @@ const proposals = [
     transparency: 'Thin cloud',
     maxSeeing: 2,
     instruments: {
-      hrs: [ { exposureMode: "HIGH RESOLUTION" } ],
+      hrs: [ { exposureMode: 'HIGH RESOLUTION' } ],
       rss: [ { dictatorMode: 'NORMAL', mode: 'Spectroscopy' } ],
-      scam: [ { dictatorMode: "NORMAL" } ],
-      bvit: [{type: "BVIT"}]
+      scam: [ { dictatorMode: 'NORMAL' } ],
+      bvit: [{type: 'BVIT'}]
     },
     requestedTime: {
       minimum: 26350,
-      semester: "2017-2",
+      semester: '2017-2',
       requests: { OTH: 0, POL: 85000}
     },
     timeRequests: [
@@ -55,21 +55,21 @@ const proposals = [
       }
     ]
   }
-];
+]
 
-const partners = ['UW', 'RSA'];
+const partners = ['UW', 'RSA']
 
 // Checking if the ObservingStatisticsSeeing Component renders correctly for different input
-describe("ObservingStatisticsSeeing Component", () => {
+describe('ObservingStatisticsSeeing Component', () => {
 
-  //Enzyme method testing if it renders correctly with empty values of the proposals, semester, and partner
-  it("Render the ObservingStatisticsSeeing Component having unpopulated props with no errors", () => {
-    const rendered = mount(<ObservingStatisticsSeeing proposals={[]} partner={""} />);
-    expect(shallowToJson(rendered)).toMatchSnapshot();
-  });
+  // Enzyme method testing if it renders correctly with empty values of the proposals, semester, and partner
+  it('Render the ObservingStatisticsSeeing Component having unpopulated props with no errors', () => {
+    const rendered = mount(<ObservingStatisticsSeeing proposals={ [] } partner='' />)
+    expect(shallowToJson(rendered)).toMatchSnapshot()
+  })
 
   // it("Render the ObservingStatisticsSeeing Component having populated props with no errors", () => {
   //   const rendered = mount(<ObservingStatisticsSeeing proposals={proposals} partner={partners[0]} />);
   //   expect(shallowToJson(rendered)).toMatchSnapshot();
   // });
-});
+})

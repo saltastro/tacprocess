@@ -1,15 +1,11 @@
 export default {
   user: {
-      login: credentials =>{
-        return new Promise((resolve) => {
-          resolve(credentials)
-        })
-      },
+    login: credentials =>new Promise((resolve) => {
+      resolve(credentials)
+    }),
 
-      switchUser: username =>{
-        return new Promise((resolve) => {
-          resolve(username)
-        })
-      }
+    switchUser: username =>new Promise((resolve) => {
+      resolve(username)
+    })
   }
 }

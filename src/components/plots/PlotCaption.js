@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 /**
  * A component containing a plot caption. The caption may contain html.
@@ -9,13 +9,13 @@ import PropTypes from 'prop-types';
  * caption: Text of the caption. (required)
  */
 const PlotCaption = ({caption}) => (
-        <div className="plot-caption"
-             dangerouslySetInnerHTML={{__html: caption}}
-        />
-);
+  <div className='plot-caption'
+    dangerouslySetInnerHTML={ {__html: caption} }
+  />
+)
 
 PlotCaption.propTypes = {
-    caption: PropTypes.string.isRequired
-};
+  caption: PropTypes.string.isRequired
+}
 
-export default PlotCaption;
+export default PlotCaption

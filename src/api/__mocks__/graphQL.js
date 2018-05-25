@@ -1,11 +1,11 @@
 export function queryUserData(){
-	return {
-    firstName:"Sifiso",
-    lastName:"Myeza",
-    email:"sifiso@saao.ac.za",
-    username: "myezasifiso",
-    role:{type:"ADMINISTRATOR", partner:"All"}
-  };
+  return {
+    firstName:'Sifiso',
+    lastName:'Myeza',
+    email:'sifiso@saao.ac.za',
+    username: 'myezasifiso',
+    role:{type:'ADMINISTRATOR', partner:'All'}
+  }
 }
 
 export function queryProposals(semester, partner){
@@ -16,10 +16,10 @@ export function queryProposals(semester, partner){
           transparency: 'Clear',
           maxSeeing: 2,
           instruments: {
-            hrs: [ { exposureMode: "HIGH RESOLUTION" } ],
+            hrs: [ { exposureMode: 'HIGH RESOLUTION' } ],
             rss: [ { dictatorMode: 'NORMAL', mode: 'Spectroscopy' } ],
-            scam: [ { dictatorMode: "NORMAL" } ],
-            bvit: [{type: "BVIT"}]
+            scam: [ { dictatorMode: 'NORMAL' } ],
+            bvit: [{type: 'BVIT'}]
           },
           timeRequests: [
             {
@@ -33,17 +33,17 @@ export function queryProposals(semester, partner){
           ]
         }
       ]
-    });
+    })
   })
 }
 
 export function queryTargets(semester, partner){
-	return new Promise((resolve) => {
+  return new Promise((resolve) => {
     resolve({
       data:{
         data : {
           targets:[
-            { id: "Target: 8062", optional: false, coordinates:{ ra: 4.3256, dec: -3.5896 }}
+            { id: 'Target: 8062', optional: false, coordinates:{ ra: 4.3256, dec: -3.5896 } }
           ]
         }
       }
@@ -51,8 +51,8 @@ export function queryTargets(semester, partner){
   })
 }
 
-export function queryPartnerAllocations(semester, partner="All" ){
-	/**
+export function queryPartnerAllocations(semester, partner='All' ){
+  /**
 	* This method is only called by pages that will need and allocated time
 	* for partner at semester
 	*
@@ -66,7 +66,7 @@ export function queryPartnerAllocations(semester, partner="All" ){
         data:{
           partnerAllocations:[
             {
-              code: "UW",
+              code: 'UW',
               allocatedTime: {
                 AllocatedP0P1: 57.02,
                 AllocatedP2: 57.02,
@@ -81,15 +81,15 @@ export function queryPartnerAllocations(semester, partner="All" ){
 }
 
 export function querySALTAstronomers(){
-	return new Promise((resolve) => {
-		resolve({
+  return new Promise((resolve) => {
+    resolve({
       data:{
         data : {
           SALTAstronomers:[
-            { name: "Sifiso", surname: "Myeza", username: "myezasifiso" }
+            { name: 'Sifiso', surname: 'Myeza', username: 'myezasifiso' }
           ]
         }
       }
     })
-	});
+  })
 }

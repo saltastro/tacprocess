@@ -7,9 +7,9 @@ import {
 	partners,
 	hasRole,
 	canDo, isFloat, canUserWriteAllocations, canUserWriteTechReviews, canSubmitTimeAllocations, allocatedTimeTotals
-} from '../../util/index';
+} from '../../util/index'
 
-import * as types from '../../types';
+import * as types from '../../types'
 
 const proposals = [
     {
@@ -108,7 +108,7 @@ const proposals = [
             }
         ]
     }
-];
+]
 
 describe('observing time in a proposal', () => {
     const proposal = {
@@ -132,69 +132,69 @@ describe('observing time in a proposal', () => {
                 ]
             }
         ]
-    };
+    }
 
     it('should be calculated for a wrong semester', () => {
-        expect(proposalObservingTime(proposal, '2018-1')).toBeCloseTo(0);
-    });
+        expect(proposalObservingTime(proposal, '2018-1')).toBeCloseTo(0)
+    })
 
     it('should be calculated for a correct semester and a partner', () => {
-        expect(proposalObservingTime(proposal, '2017-2', 'IUCAA')).toBeCloseTo(300);
-    });
+        expect(proposalObservingTime(proposal, '2017-2', 'IUCAA')).toBeCloseTo(300)
+    })
 
     it('should be calculated for a correct semester and all partners', () => {
-        expect(proposalObservingTime(proposal, '2017-1', 'All')).toBeCloseTo(2300);
-        expect(proposalObservingTime(proposal, '2017-1')).toBeCloseTo(2300);
-    });
-});
+        expect(proposalObservingTime(proposal, '2017-1', 'All')).toBeCloseTo(2300)
+        expect(proposalObservingTime(proposal, '2017-1')).toBeCloseTo(2300)
+    })
+})
 
 describe('observing time for a transparency', () => {
     it('should be calculated for a single partner', () => {
-        expect(observingTimeForTransparency(proposals, '2017-1', 'Clear', 'RSA')).toBeCloseTo(270);
-        expect(observingTimeForTransparency(proposals, '2017-2', 'Clear', 'RSA')).toBeCloseTo(400);
-        expect(observingTimeForTransparency(proposals, '2017-1', 'Thin cloud', 'RSA')).toBeCloseTo(310);
-        expect(observingTimeForTransparency(proposals, '2017-1', 'Any', 'RSA')).toBeCloseTo(0);
-    });
+        expect(observingTimeForTransparency(proposals, '2017-1', 'Clear', 'RSA')).toBeCloseTo(270)
+        expect(observingTimeForTransparency(proposals, '2017-2', 'Clear', 'RSA')).toBeCloseTo(400)
+        expect(observingTimeForTransparency(proposals, '2017-1', 'Thin cloud', 'RSA')).toBeCloseTo(310)
+        expect(observingTimeForTransparency(proposals, '2017-1', 'Any', 'RSA')).toBeCloseTo(0)
+    })
 
     it('should be calculated for all partners', () => {
-        expect(observingTimeForTransparency(proposals, '2017-1', 'Clear')).toBeCloseTo(540);
-        expect(observingTimeForTransparency(proposals, '2017-1', 'Thin cloud')).toBeCloseTo(350);
-        expect(observingTimeForTransparency(proposals, '2017-1', 'Any')).toBeCloseTo(0);
-        expect(observingTimeForTransparency(proposals, '2017-1', 'Clear', 'All')).toBeCloseTo(540);
-        expect(observingTimeForTransparency(proposals, '2017-1', 'Thin cloud', 'All')).toBeCloseTo(350);
-        expect(observingTimeForTransparency(proposals, '2017-1', 'Any', 'All')).toBeCloseTo(0);
-    });
-});
+        expect(observingTimeForTransparency(proposals, '2017-1', 'Clear')).toBeCloseTo(540)
+        expect(observingTimeForTransparency(proposals, '2017-1', 'Thin cloud')).toBeCloseTo(350)
+        expect(observingTimeForTransparency(proposals, '2017-1', 'Any')).toBeCloseTo(0)
+        expect(observingTimeForTransparency(proposals, '2017-1', 'Clear', 'All')).toBeCloseTo(540)
+        expect(observingTimeForTransparency(proposals, '2017-1', 'Thin cloud', 'All')).toBeCloseTo(350)
+        expect(observingTimeForTransparency(proposals, '2017-1', 'Any', 'All')).toBeCloseTo(0)
+    })
+})
 
 describe('observing time for a seeing', () => {
     it('should be calculated for a single partner', () => {
-        expect(observingTimeForSeeing(proposals, '2017-1', [1, 2], 'RSA')).toBeCloseTo(0);
-        expect(observingTimeForSeeing(proposals, '2017-1', [2, 3], 'RSA')).toBeCloseTo(460);
-        expect(observingTimeForSeeing(proposals, '2017-2', [2, 3], 'RSA')).toBeCloseTo(950);
-        expect(observingTimeForSeeing(proposals, '2017-2', [2.9, 3.1], 'RSA')).toBeCloseTo(0);
-    });
+        expect(observingTimeForSeeing(proposals, '2017-1', [1, 2], 'RSA')).toBeCloseTo(0)
+        expect(observingTimeForSeeing(proposals, '2017-1', [2, 3], 'RSA')).toBeCloseTo(460)
+        expect(observingTimeForSeeing(proposals, '2017-2', [2, 3], 'RSA')).toBeCloseTo(950)
+        expect(observingTimeForSeeing(proposals, '2017-2', [2.9, 3.1], 'RSA')).toBeCloseTo(0)
+    })
 
     it('should be calculated for all partners', () => {
-        expect(observingTimeForSeeing(proposals, '2017-1', [1, 2], 'All')).toBeCloseTo(0);
-        expect(observingTimeForSeeing(proposals, '2017-1', [2, 3], 'All')).toBeCloseTo(700);
-        expect(observingTimeForSeeing(proposals, '2017-2', [2, 3], 'All')).toBeCloseTo(1080);
-        expect(observingTimeForSeeing(proposals, '2017-2', [2.9, 3.1], 'All')).toBeCloseTo(1150);
-        expect(observingTimeForSeeing(proposals, '2017-1', [1, 2])).toBeCloseTo(0);
-        expect(observingTimeForSeeing(proposals, '2017-1', [2, 3])).toBeCloseTo(700);
-        expect(observingTimeForSeeing(proposals, '2017-2', [2, 3])).toBeCloseTo(1080);
-        expect(observingTimeForSeeing(proposals, '2017-2', [2.9, 3.1])).toBeCloseTo(1150);
+        expect(observingTimeForSeeing(proposals, '2017-1', [1, 2], 'All')).toBeCloseTo(0)
+        expect(observingTimeForSeeing(proposals, '2017-1', [2, 3], 'All')).toBeCloseTo(700)
+        expect(observingTimeForSeeing(proposals, '2017-2', [2, 3], 'All')).toBeCloseTo(1080)
+        expect(observingTimeForSeeing(proposals, '2017-2', [2.9, 3.1], 'All')).toBeCloseTo(1150)
+        expect(observingTimeForSeeing(proposals, '2017-1', [1, 2])).toBeCloseTo(0)
+        expect(observingTimeForSeeing(proposals, '2017-1', [2, 3])).toBeCloseTo(700)
+        expect(observingTimeForSeeing(proposals, '2017-2', [2, 3])).toBeCloseTo(1080)
+        expect(observingTimeForSeeing(proposals, '2017-2', [2.9, 3.1])).toBeCloseTo(1150)
 
     })
-});
+})
 
 describe('instrument count', () => {
     it('should be calculated for no instruments', () => {
         const proposal = {
             instruments: {}
-        };
+        }
 
-        expect(instrumentCount(proposal)).toBe(0);
-    });
+        expect(instrumentCount(proposal)).toBe(0)
+    })
 
     it('should be calculated for a single instrument', () => {
         const proposal = {
@@ -205,10 +205,10 @@ describe('instrument count', () => {
                     }
                 ]
             }
-        };
+        }
 
-        expect(instrumentCount(proposal)).toBe(1);
-    });
+        expect(instrumentCount(proposal)).toBe(1)
+    })
 
     it('should be calculated for multiple instruments', () => {
         const proposal = {
@@ -217,11 +217,11 @@ describe('instrument count', () => {
                 rss: [{}, {}, {}],
                 hrs:[]
             }
-        };
+        }
 
-        expect(instrumentCount(proposal)).toBe(4);
-    });
-});
+        expect(instrumentCount(proposal)).toBe(4)
+    })
+})
 
 describe('proposal observing time for an instrument', () => {
     it('should be calculated for a wrong semester', () => {
@@ -241,14 +241,14 @@ describe('proposal observing time for an instrument', () => {
                     {mode: 'Polarimetry'}
                 ]
             }
-        };
+        }
 
         expect(proposalObservingTimeForInstrument(proposal,
                                                   '2017-2',
                                                   'RSS',
                                                   {field: 'mode', value: 'Polarimetry', partner: 'RSA'}))
-                .toBeCloseTo(0);
-    });
+                .toBeCloseTo(0)
+    })
 
     describe('for a single instrument', () => {
         const proposal = {
@@ -276,53 +276,53 @@ describe('proposal observing time for an instrument', () => {
                     {mode: 'Polarimetry'}
                 ]
             }
-        };
+        }
 
         it('should be calculated for a correct mode and a partner', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
                                                       'RSS',
                                                       {field: 'mode', value: 'Polarimetry', partner: 'RSA'}))
-                    .toBeCloseTo(1000);
-        });
+                    .toBeCloseTo(1000)
+        })
 
         it('should be calculated for an incorrect instrument', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
                                                       'Salticam',
                                                       {field: 'mode', value: 'Polarimetry'}))
-                    .toBeCloseTo(0);
-        });
+                    .toBeCloseTo(0)
+        })
 
         it('should be calculated for an incorrect mode', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
                                                       'RSS',
                                                       {field: 'mode', value: 'Imaging', partner: 'RSA'}))
-                    .toBeCloseTo(0);
-        });
+                    .toBeCloseTo(0)
+        })
 
         it('should be calculated without a mode', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
                                                       'RSS',
                                                       {partner: 'RSA'}))
-                    .toBeCloseTo(1000);
-        });
+                    .toBeCloseTo(1000)
+        })
 
         it('should be calculated for a correct mode and all partners', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
                                                       'RSS',
                                                       {field: 'mode', value: 'Polarimetry', partner: 'All'}))
-                    .toBeCloseTo(1500);
+                    .toBeCloseTo(1500)
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
                                                       'RSS',
                                                       {field: 'mode', value: 'Polarimetry'}))
-                    .toBeCloseTo(1500);
-        });
-    });
+                    .toBeCloseTo(1500)
+        })
+    })
 
     describe('for multiple instruments', () => {
         const proposal = {
@@ -362,72 +362,72 @@ describe('proposal observing time for an instrument', () => {
                     {type: 'whatever'}
                 ]
             }
-        };
+        }
 
         it('should be calculated for a correct mode and partner', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
                                                       'RSS',
                                                       {field: 'mode', value: 'Polarimetry', partner: 'RSA'}))
-                    .toBeCloseTo(2 * 1000 / 7);
-        });
+                    .toBeCloseTo(2 * 1000 / 7)
+        })
 
         it('should be calculated for an incorrect instrument', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
                                                       'XYZ',
                                                       {field: 'mode', value: 'Polarimetry', partner: 'RSA'}))
-                    .toBeCloseTo(0);
-        });
+                    .toBeCloseTo(0)
+        })
 
         it('should be calculated for an incorrect mode', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
                                                       'RSS',
                                                       {field: 'mode', value: 'Spectroscopy', partner: 'RSA'}))
-                    .toBeCloseTo(0);
-        });
+                    .toBeCloseTo(0)
+        })
 
         it('should be calculated without a mode', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
                                                       'RSS',
                                                       {partner: 'RSA'}))
-                    .toBeCloseTo(3 * 1000 / 7);
-        });
+                    .toBeCloseTo(3 * 1000 / 7)
+        })
 
         it('should be calculated for a correct mode and all partners', () => {
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
                                                       'RSS',
                                                       {field: 'mode', value: 'Polarimetry'}))
-                    .toBeCloseTo(2 * 1500 / 7);
+                    .toBeCloseTo(2 * 1500 / 7)
             expect(proposalObservingTimeForInstrument(proposal,
                                                       '2017-1',
                                                       'RSS',
                                                       {field: 'mode', value: 'Polarimetry', partner: 'All'}))
-                    .toBeCloseTo(2 * 1500 / 7);
-        });
-    });
-});
+                    .toBeCloseTo(2 * 1500 / 7)
+        })
+    })
+})
 
 describe('partners for a user', () => {
     it('should be calculated for a user without roles', () => {
-        const user = {};
+        const user = {}
 
-        expect(partners(user)).toEqual([]);
+        expect(partners(user)).toEqual([])
 
-    });
+    })
 
     it('should be calculated for a user with a role without partners', () => {
         const user = {
             roles: [
                 {}
             ]
-        };
+        }
 
-        expect(partners(user)).toEqual([]);
-    });
+        expect(partners(user)).toEqual([])
+    })
 
     it('should be calculated for a user with roles', () => {
         const user = {
@@ -446,10 +446,10 @@ describe('partners for a user', () => {
                     partners: ['RSA', 'UKSC', 'DC']
                 }
             ]
-        };
+        }
 
-        expect(partners(user)).toEqual(['AMNH', 'DC', 'IUCAA', 'RSA', 'UKSC']);
-    });
+        expect(partners(user)).toEqual(['AMNH', 'DC', 'IUCAA', 'RSA', 'UKSC'])
+    })
 
     it('should include the partner "All" if the user is administrator', () => {
         const user = {
@@ -463,10 +463,10 @@ describe('partners for a user', () => {
                     partners: ['RSA', 'UKSC', 'DC']
                 }
             ]
-        };
+        }
 
-        expect(partners(user)).toEqual([types.ALL_PARTNER, 'DC', 'RSA', 'UKSC']);
-    });
+        expect(partners(user)).toEqual([types.ALL_PARTNER, 'DC', 'RSA', 'UKSC'])
+    })
 
     it('should include the partner "All" if the user is SALT Astronomer', () => {
         const user = {
@@ -480,18 +480,18 @@ describe('partners for a user', () => {
                     partners: ['RSA', 'UKSC', 'DC']
                 }
             ]
-        };
+        }
 
-        expect(partners(user)).toEqual([types.ALL_PARTNER, 'DC', 'RSA', 'UKSC']);
-    });
-});
+        expect(partners(user)).toEqual([types.ALL_PARTNER, 'DC', 'RSA', 'UKSC'])
+    })
+})
 
 describe('hasRole', () => {
     it('should return false for a user with no roles', () => {
-        const user = {roles:[]};
+        const user = {roles:[]}
 
-        expect(hasRole(user, types.TAC_CHAIR, 'UKSC')).toBe(false);
-    });
+        expect(hasRole(user, types.TAC_CHAIR, 'UKSC')).toBe(false)
+    })
 
     it('should return false if the user does not have the role', () => {
         const user = {
@@ -505,10 +505,10 @@ describe('hasRole', () => {
                     partners: ['UKSC']
                 }
             ]
-        };
+        }
 
-        expect(hasRole(user, types.TAC_MEMBER, 'RSA')).toBe(false);
-    });
+        expect(hasRole(user, types.TAC_MEMBER, 'RSA')).toBe(false)
+    })
 
     it('should return false if the user has the role for another partner', () => {
         const user = {
@@ -518,10 +518,10 @@ describe('hasRole', () => {
                     partners: ['UKSC', 'RSA']
                 }
             ]
-        };
+        }
 
-        expect(hasRole(user, types.TAC_MEMBER, 'AMNH')).toBe(false);
-    });
+        expect(hasRole(user, types.TAC_MEMBER, 'AMNH')).toBe(false)
+    })
 
     it('should return true if the user has the role', () => {
         const user = {
@@ -531,10 +531,10 @@ describe('hasRole', () => {
                     partners: ['DC']
                 }
             ]
-        };
+        }
 
-        expect(hasRole(user, types.TAC_CHAIR, 'DC')).toBe(true);
-    });
+        expect(hasRole(user, types.TAC_CHAIR, 'DC')).toBe(true)
+    })
 
     it('should return true irrespective of the partner if the user is a SALT Astronomer', () => {
         const user = {
@@ -544,11 +544,11 @@ describe('hasRole', () => {
                     partners: ['DC']
                 }
             ]
-        };
+        }
 
-        expect(hasRole(user, types.SALT_ASTRONOMER, 'RSA')).toBe(true);
-        expect(hasRole(user, types.SALT_ASTRONOMER)).toBe(true);
-    });
+        expect(hasRole(user, types.SALT_ASTRONOMER, 'RSA')).toBe(true)
+        expect(hasRole(user, types.SALT_ASTRONOMER)).toBe(true)
+    })
 
     it('should return true irrespective of the partner if the user is an administrator', () => {
         const user = {
@@ -558,12 +558,12 @@ describe('hasRole', () => {
                     partners: ['DC']
                 }
             ]
-        };
+        }
 
-        expect(hasRole(user, types.ADMINISTRATOR, 'RSA')).toBe(true);
-        expect(hasRole(user, types.ADMINISTRATOR)).toBe(true);
+        expect(hasRole(user, types.ADMINISTRATOR, 'RSA')).toBe(true)
+        expect(hasRole(user, types.ADMINISTRATOR)).toBe(true)
     })
-});
+})
 
 describe('canDo', () => {
     it('should work', () => {
@@ -574,355 +574,354 @@ describe('canDo', () => {
                     partners: ['RSA']
                 }
             ]
-        };
+        }
 
-        expect(canDo(user, types.VIEW_TIME_ALLOCATION_PAGE, 'RSA')).toBe(true);
-        expect(canDo(user, types.VIEW_TIME_ALLOCATION_PAGE, 'UKSC')).toBe(false);
+        expect(canDo(user, types.VIEW_TIME_ALLOCATION_PAGE, 'RSA')).toBe(true)
+        expect(canDo(user, types.VIEW_TIME_ALLOCATION_PAGE, 'UKSC')).toBe(false)
     })
-});
+})
 
 describe('isFloat', () =>  {
 	it('should return true if value can be a float', () => {
-        expect(isFloat()).toBe(false);
-        expect(isFloat("23")).toBe(true);
-        expect(isFloat("23.1")).toBe(true);
-        expect(isFloat("23.2.3.2")).toBe(false);
-        expect(isFloat(63)).toBe(true);
-        expect(isFloat(63.2)).toBe(true);
-        expect(isFloat({name: 36.3})).toBe(false);
-        expect(isFloat([2333.3])).toBe(false);
-        expect(isFloat([23.3, 6, 3.1])).toBe(false);
-        expect(isFloat({})).toBe(false);
-        expect(isFloat([])).toBe(false);
-        expect(isFloat("")).toBe(false);
-        expect(isFloat(63+9.0)).toBe(true);
-	});
-});
+        expect(isFloat()).toBe(false)
+        expect(isFloat('23')).toBe(true)
+        expect(isFloat('23.1')).toBe(true)
+        expect(isFloat('23.2.3.2')).toBe(false)
+        expect(isFloat(63)).toBe(true)
+        expect(isFloat(63.2)).toBe(true)
+        expect(isFloat({name: 36.3})).toBe(false)
+        expect(isFloat([2333.3])).toBe(false)
+        expect(isFloat([23.3, 6, 3.1])).toBe(false)
+        expect(isFloat({})).toBe(false)
+        expect(isFloat([])).toBe(false)
+        expect(isFloat('')).toBe(false)
+        expect(isFloat(63+9.0)).toBe(true)
+	})
+})
 
 describe('canUserWriteAllocations', () => {
 	it('should be false for any unknown role', () => {
         const roles = [
 	        {
-		        type: "UNKNOWN",
-		        partners: ["ABC"]
+		        type: 'UNKNOWN',
+		        partners: ['ABC']
 	        }
-        ];
-		expect(canUserWriteAllocations(roles)).toBe(false);
-		expect(canUserWriteAllocations(roles, undefined)).toBe(false);
-		expect(canUserWriteAllocations(roles, null)).toBe(false);
-		expect(canUserWriteAllocations(roles,"RSA")).toBe(false);
-		expect(canUserWriteAllocations()).toBe(false);
-		expect(canUserWriteAllocations(roles, "ABC")).toBe(false);
-	});
+        ]
+		expect(canUserWriteAllocations(roles)).toBe(false)
+		expect(canUserWriteAllocations(roles, undefined)).toBe(false)
+		expect(canUserWriteAllocations(roles, null)).toBe(false)
+		expect(canUserWriteAllocations(roles,'RSA')).toBe(false)
+		expect(canUserWriteAllocations()).toBe(false)
+		expect(canUserWriteAllocations(roles, 'ABC')).toBe(false)
+	})
 	it('should be true when ever the user is an administrator', () => {
         const roles = [
                 {
                     type: types.ADMINISTRATOR,
                     partners: []
                 }
-            ];
-        expect(canUserWriteAllocations(roles, "RSA")).toBe(true);
-        expect(canUserWriteAllocations(roles)).toBe(true);
-        expect(canUserWriteAllocations(roles, undefined)).toBe(true);
-        expect(canUserWriteAllocations(roles, null)).toBe(true);
-        expect(canUserWriteAllocations(roles, "ABC")).toBe(true);
-	});
+            ]
+        expect(canUserWriteAllocations(roles, 'RSA')).toBe(true)
+        expect(canUserWriteAllocations(roles)).toBe(true)
+        expect(canUserWriteAllocations(roles, undefined)).toBe(true)
+        expect(canUserWriteAllocations(roles, null)).toBe(true)
+        expect(canUserWriteAllocations(roles, 'ABC')).toBe(true)
+	})
 	it('should be true only when the user is a tac chair for a partner', () => {
 		const roles = [
 			{
 				type: types.TAC_CHAIR,
-				partners: ["ABC"]
+				partners: ['ABC']
 			}
-		];
-		expect(canUserWriteAllocations(roles)).toBe(false);
-		expect(canUserWriteAllocations(roles, undefined)).toBe(false);
-		expect(canUserWriteAllocations(roles, null)).toBe(false);
-		expect(canUserWriteAllocations(roles,"RSA")).toBe(false);
-		expect(canUserWriteAllocations(roles, "ABC")).toBe(true);
-	});
+		]
+		expect(canUserWriteAllocations(roles)).toBe(false)
+		expect(canUserWriteAllocations(roles, undefined)).toBe(false)
+		expect(canUserWriteAllocations(roles, null)).toBe(false)
+		expect(canUserWriteAllocations(roles,'RSA')).toBe(false)
+		expect(canUserWriteAllocations(roles, 'ABC')).toBe(true)
+	})
 	it('should be false for any other role or no arguments', () => {
         const roles = [
 	        {
 		        type: types.TAC_MEMBER,
-		        partners: ["ABC"]
+		        partners: ['ABC']
 	        },
 	        {
 		        type: types.SALT_ASTRONOMER,
-		        partners: ["ABC"]
+		        partners: ['ABC']
 	        },
-        ];
-		expect(canUserWriteAllocations(roles)).toBe(false);
-		expect(canUserWriteAllocations(roles, undefined)).toBe(false);
-		expect(canUserWriteAllocations(roles, null)).toBe(false);
-		expect(canUserWriteAllocations(roles,"RSA")).toBe(false);
-		expect(canUserWriteAllocations(roles, "ABC")).toBe(false);
-	});
+        ]
+		expect(canUserWriteAllocations(roles)).toBe(false)
+		expect(canUserWriteAllocations(roles, undefined)).toBe(false)
+		expect(canUserWriteAllocations(roles, null)).toBe(false)
+		expect(canUserWriteAllocations(roles,'RSA')).toBe(false)
+		expect(canUserWriteAllocations(roles, 'ABC')).toBe(false)
+	})
 	it('should be true if one of the roles match', () => {
 		const roles1 = [
 			{
 				type: types.TAC_MEMBER,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
 			{
 				type: types.SALT_ASTRONOMER,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
 			{
 				type: types.TAC_CHAIR,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
-		];
+		]
 		const roles2 = [
 			{
 				type: types.TAC_MEMBER,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
 			{
 				type: types.SALT_ASTRONOMER,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
 			{
 				type: types.ADMINISTRATOR,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
-		];
-		expect(canUserWriteAllocations(roles1)).toBe(false);
-		expect(canUserWriteAllocations(roles1, undefined)).toBe(false);
-		expect(canUserWriteAllocations(roles1, null)).toBe(false);
-		expect(canUserWriteAllocations(roles1,"RSA")).toBe(false);
-		expect(canUserWriteAllocations(roles1, "ABC")).toBe(true);
+		]
+		expect(canUserWriteAllocations(roles1)).toBe(false)
+		expect(canUserWriteAllocations(roles1, undefined)).toBe(false)
+		expect(canUserWriteAllocations(roles1, null)).toBe(false)
+		expect(canUserWriteAllocations(roles1,'RSA')).toBe(false)
+		expect(canUserWriteAllocations(roles1, 'ABC')).toBe(true)
 		
-		expect(canUserWriteAllocations(roles2)).toBe(true);
-		expect(canUserWriteAllocations(roles2, undefined)).toBe(true);
-		expect(canUserWriteAllocations(roles2, null)).toBe(true);
-		expect(canUserWriteAllocations(roles2,"RSA")).toBe(true);
-		expect(canUserWriteAllocations(roles2, "ABC")).toBe(true);
-	});
-});
-
+		expect(canUserWriteAllocations(roles2)).toBe(true)
+		expect(canUserWriteAllocations(roles2, undefined)).toBe(true)
+		expect(canUserWriteAllocations(roles2, null)).toBe(true)
+		expect(canUserWriteAllocations(roles2,'RSA')).toBe(true)
+		expect(canUserWriteAllocations(roles2, 'ABC')).toBe(true)
+	})
+})
 
 describe('canUserWriteTechReviews', () => {
 	it('should be false for any unknown role', () => {
 		const roles = [
 			{
-				type: "UNKNOWN",
-				partners: ["ABC"]
+				type: 'UNKNOWN',
+				partners: ['ABC']
 			}
-		];
-		expect(canUserWriteTechReviews(roles)).toBe(false);
-		expect(canUserWriteTechReviews(roles, undefined)).toBe(false);
-		expect(canUserWriteTechReviews(roles, null)).toBe(false);
-		expect(canUserWriteTechReviews(roles,"RSA")).toBe(false);
-		expect(canUserWriteTechReviews()).toBe(false);
-		expect(canUserWriteTechReviews(roles, "ABC")).toBe(false);
-	});
+		]
+		expect(canUserWriteTechReviews(roles)).toBe(false)
+		expect(canUserWriteTechReviews(roles, undefined)).toBe(false)
+		expect(canUserWriteTechReviews(roles, null)).toBe(false)
+		expect(canUserWriteTechReviews(roles,'RSA')).toBe(false)
+		expect(canUserWriteTechReviews()).toBe(false)
+		expect(canUserWriteTechReviews(roles, 'ABC')).toBe(false)
+	})
 	it('should be true when ever the user is an administrator', () => {
 		const roles = [
 			{
 				type: types.ADMINISTRATOR,
 				partners: []
 			}
-		];
-		expect(canUserWriteTechReviews(roles, "RSA")).toBe(true);
-		expect(canUserWriteTechReviews(roles)).toBe(true);
-		expect(canUserWriteTechReviews(roles, undefined)).toBe(true);
-		expect(canUserWriteTechReviews(roles, null)).toBe(true);
-		expect(canUserWriteTechReviews(roles, "ABC")).toBe(true);
-	});
+		]
+		expect(canUserWriteTechReviews(roles, 'RSA')).toBe(true)
+		expect(canUserWriteTechReviews(roles)).toBe(true)
+		expect(canUserWriteTechReviews(roles, undefined)).toBe(true)
+		expect(canUserWriteTechReviews(roles, null)).toBe(true)
+		expect(canUserWriteTechReviews(roles, 'ABC')).toBe(true)
+	})
 	it('should be true only when the user is a SALT astronomer', () => {
 		const roles = [
 			{
 				type: types.SALT_ASTRONOMER,
-				partners: ["ABC"]
+				partners: ['ABC']
 			}
-		];
-		expect(canUserWriteTechReviews(roles)).toBe(true);
-		expect(canUserWriteTechReviews(roles, undefined)).toBe(true);
-		expect(canUserWriteTechReviews(roles, null)).toBe(true);
-		expect(canUserWriteTechReviews(roles,"RSA")).toBe(true);
-		expect(canUserWriteTechReviews(roles, "ABC")).toBe(true);
-	});
+		]
+		expect(canUserWriteTechReviews(roles)).toBe(true)
+		expect(canUserWriteTechReviews(roles, undefined)).toBe(true)
+		expect(canUserWriteTechReviews(roles, null)).toBe(true)
+		expect(canUserWriteTechReviews(roles,'RSA')).toBe(true)
+		expect(canUserWriteTechReviews(roles, 'ABC')).toBe(true)
+	})
 	it('should be false for any other role', () => {
 		const roles = [
 			{
 				type: types.TAC_MEMBER,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
 			{
 				type: types.TAC_CHAIR,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
-		];
-		expect(canUserWriteTechReviews(roles)).toBe(false);
-		expect(canUserWriteTechReviews(roles, undefined)).toBe(false);
-		expect(canUserWriteTechReviews(roles, null)).toBe(false);
-		expect(canUserWriteTechReviews(roles,"RSA")).toBe(false);
-		expect(canUserWriteTechReviews(roles, "ABC")).toBe(false);
-	});
+		]
+		expect(canUserWriteTechReviews(roles)).toBe(false)
+		expect(canUserWriteTechReviews(roles, undefined)).toBe(false)
+		expect(canUserWriteTechReviews(roles, null)).toBe(false)
+		expect(canUserWriteTechReviews(roles,'RSA')).toBe(false)
+		expect(canUserWriteTechReviews(roles, 'ABC')).toBe(false)
+	})
 	it('should be true if one of the roles match', () => {
 		const roles1 = [
 			{
 				type: types.TAC_MEMBER,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
 			{
 				type: types.SALT_ASTRONOMER,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
 			{
 				type: types.TAC_CHAIR,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
-		];
+		]
 		const roles2 = [
 			{
 				type: types.TAC_MEMBER,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
 			{
 				type: types.TAC_CHAIR,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
 			{
 				type: types.ADMINISTRATOR,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
-		];
-		expect(canUserWriteTechReviews(roles1)).toBe(true);
-		expect(canUserWriteTechReviews(roles1, undefined)).toBe(true);
-		expect(canUserWriteTechReviews(roles1, null)).toBe(true);
-		expect(canUserWriteTechReviews(roles1,"RSA")).toBe(true);
-		expect(canUserWriteTechReviews(roles1, "ABC")).toBe(true);
+		]
+		expect(canUserWriteTechReviews(roles1)).toBe(true)
+		expect(canUserWriteTechReviews(roles1, undefined)).toBe(true)
+		expect(canUserWriteTechReviews(roles1, null)).toBe(true)
+		expect(canUserWriteTechReviews(roles1,'RSA')).toBe(true)
+		expect(canUserWriteTechReviews(roles1, 'ABC')).toBe(true)
 		
-		expect(canUserWriteTechReviews(roles2)).toBe(true);
-		expect(canUserWriteTechReviews(roles2, undefined)).toBe(true);
-		expect(canUserWriteTechReviews(roles2, null)).toBe(true);
-		expect(canUserWriteTechReviews(roles2,"RSA")).toBe(true);
-		expect(canUserWriteTechReviews(roles2, "ABC")).toBe(true);
-	});
-});
+		expect(canUserWriteTechReviews(roles2)).toBe(true)
+		expect(canUserWriteTechReviews(roles2, undefined)).toBe(true)
+		expect(canUserWriteTechReviews(roles2, null)).toBe(true)
+		expect(canUserWriteTechReviews(roles2,'RSA')).toBe(true)
+		expect(canUserWriteTechReviews(roles2, 'ABC')).toBe(true)
+	})
+})
 
 describe('canSubmitTimeAllocations', () => {
 	it('should be false for any unknown role', () => {
 		const roles = [
 			{
-				type: "UNKNOWN",
-				partners: ["ABC"]
+				type: 'UNKNOWN',
+				partners: ['ABC']
 			}
-		];
-		expect(canSubmitTimeAllocations(roles)).toBe(false);
-		expect(canSubmitTimeAllocations(roles, undefined)).toBe(false);
-		expect(canSubmitTimeAllocations(roles, null)).toBe(false);
-		expect(canSubmitTimeAllocations(roles,"RSA")).toBe(false);
-		expect(canSubmitTimeAllocations()).toBe(false);
-		expect(canSubmitTimeAllocations(roles, "ABC")).toBe(false);
-	});
+		]
+		expect(canSubmitTimeAllocations(roles)).toBe(false)
+		expect(canSubmitTimeAllocations(roles, undefined)).toBe(false)
+		expect(canSubmitTimeAllocations(roles, null)).toBe(false)
+		expect(canSubmitTimeAllocations(roles,'RSA')).toBe(false)
+		expect(canSubmitTimeAllocations()).toBe(false)
+		expect(canSubmitTimeAllocations(roles, 'ABC')).toBe(false)
+	})
 	it('should be true when ever the user is an administrator', () => {
 		const roles = [
 			{
 				type: types.ADMINISTRATOR,
 				partners: []
 			}
-		];
-		expect(canSubmitTimeAllocations(roles, "RSA")).toBe(true);
-		expect(canSubmitTimeAllocations(roles)).toBe(true);
-		expect(canSubmitTimeAllocations(roles, undefined)).toBe(true);
-		expect(canSubmitTimeAllocations(roles, null)).toBe(true);
-		expect(canSubmitTimeAllocations(roles, "ABC")).toBe(true);
-	});
+		]
+		expect(canSubmitTimeAllocations(roles, 'RSA')).toBe(true)
+		expect(canSubmitTimeAllocations(roles)).toBe(true)
+		expect(canSubmitTimeAllocations(roles, undefined)).toBe(true)
+		expect(canSubmitTimeAllocations(roles, null)).toBe(true)
+		expect(canSubmitTimeAllocations(roles, 'ABC')).toBe(true)
+	})
 	it('should be true only when the user is a tac chair for a partner', () => {
 		const roles = [
 			{
 				type: types.TAC_CHAIR,
-				partners: ["ABC"]
+				partners: ['ABC']
 			}
-		];
-		expect(canSubmitTimeAllocations(roles)).toBe(false);
-		expect(canSubmitTimeAllocations(roles, undefined)).toBe(false);
-		expect(canSubmitTimeAllocations(roles, null)).toBe(false);
-		expect(canSubmitTimeAllocations(roles,"RSA")).toBe(false);
-		expect(canSubmitTimeAllocations(roles, "ABC")).toBe(true);
-	});
+		]
+		expect(canSubmitTimeAllocations(roles)).toBe(false)
+		expect(canSubmitTimeAllocations(roles, undefined)).toBe(false)
+		expect(canSubmitTimeAllocations(roles, null)).toBe(false)
+		expect(canSubmitTimeAllocations(roles,'RSA')).toBe(false)
+		expect(canSubmitTimeAllocations(roles, 'ABC')).toBe(true)
+	})
 	it('should be false for any other role or no arguments', () => {
 		const roles = [
 			{
 				type: types.TAC_MEMBER,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
 			{
 				type: types.SALT_ASTRONOMER,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
-		];
-		expect(canSubmitTimeAllocations(roles)).toBe(false);
-		expect(canSubmitTimeAllocations(roles, undefined)).toBe(false);
-		expect(canSubmitTimeAllocations(roles, null)).toBe(false);
-		expect(canSubmitTimeAllocations(roles,"RSA")).toBe(false);
-		expect(canSubmitTimeAllocations(roles, "ABC")).toBe(false);
-	});
+		]
+		expect(canSubmitTimeAllocations(roles)).toBe(false)
+		expect(canSubmitTimeAllocations(roles, undefined)).toBe(false)
+		expect(canSubmitTimeAllocations(roles, null)).toBe(false)
+		expect(canSubmitTimeAllocations(roles,'RSA')).toBe(false)
+		expect(canSubmitTimeAllocations(roles, 'ABC')).toBe(false)
+	})
 	it('should be true if one of the roles match', () => {
 		const roles1 = [
 			{
 				type: types.TAC_MEMBER,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
 			{
 				type: types.SALT_ASTRONOMER,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
 			{
 				type: types.TAC_CHAIR,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
-		];
+		]
 		const roles2 = [
 			{
 				type: types.TAC_MEMBER,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
 			{
 				type: types.SALT_ASTRONOMER,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
 			{
 				type: types.ADMINISTRATOR,
-				partners: ["ABC"]
+				partners: ['ABC']
 			},
-		];
-		expect(canSubmitTimeAllocations(roles1)).toBe(false);
-		expect(canSubmitTimeAllocations(roles1, undefined)).toBe(false);
-		expect(canSubmitTimeAllocations(roles1, null)).toBe(false);
-		expect(canSubmitTimeAllocations(roles1,"RSA")).toBe(false);
-		expect(canSubmitTimeAllocations(roles1, "ABC")).toBe(true);
+		]
+		expect(canSubmitTimeAllocations(roles1)).toBe(false)
+		expect(canSubmitTimeAllocations(roles1, undefined)).toBe(false)
+		expect(canSubmitTimeAllocations(roles1, null)).toBe(false)
+		expect(canSubmitTimeAllocations(roles1,'RSA')).toBe(false)
+		expect(canSubmitTimeAllocations(roles1, 'ABC')).toBe(true)
 		
-		expect(canSubmitTimeAllocations(roles2)).toBe(true);
-		expect(canSubmitTimeAllocations(roles2, undefined)).toBe(true);
-		expect(canSubmitTimeAllocations(roles2, null)).toBe(true);
-		expect(canSubmitTimeAllocations(roles2,"RSA")).toBe(true);
-		expect(canSubmitTimeAllocations(roles2, "ABC")).toBe(true);
-	});
-});
+		expect(canSubmitTimeAllocations(roles2)).toBe(true)
+		expect(canSubmitTimeAllocations(roles2, undefined)).toBe(true)
+		expect(canSubmitTimeAllocations(roles2, null)).toBe(true)
+		expect(canSubmitTimeAllocations(roles2,'RSA')).toBe(true)
+		expect(canSubmitTimeAllocations(roles2, 'ABC')).toBe(true)
+	})
+})
 
 describe('allocatedTimeTotals', () => {
 	it('should return the sum of allocated time pre priority', () => {
 		const proposals = [
 			{
 				allocatedTime: {
-					"ABC" :{
+					'ABC' :{
 						p0: 1,
 						p1: 1,
 						p2: 1,
 						p3: 1,
 						p4: 1,
 					},
-					"DEF" : {
+					'DEF' : {
 						p0: 2,
 						p1: 2,
 						p2: 2,
 						p3: 2,
 						p4: 2,
                     },
-					"GHI" : {
+					'GHI' : {
 						p0: 3,
 						p1: 3,
 						p2: 3,
@@ -934,14 +933,14 @@ describe('allocatedTimeTotals', () => {
 			},
 			{
 				allocatedTime: {
-					"ABC" :{
+					'ABC' :{
 						p0: 1,
 						p1: 1,
 						p2: 1,
 						p3: 1,
 						p4: 1,
 					},
-					"GHI" : {
+					'GHI' : {
 						p0: 3,
 						p1: 3,
 						p2: 3,
@@ -953,7 +952,7 @@ describe('allocatedTimeTotals', () => {
 			},
 			{
 				allocatedTime: {
-					"XYZ" :{
+					'XYZ' :{
 						p0: 4,
 						p1: 4,
 						p2: 4,
@@ -965,30 +964,30 @@ describe('allocatedTimeTotals', () => {
 			},
 			{
 				allocatedTime: {
-					"ABC" :{
+					'ABC' :{
 						p0: 1,
 						p1: 1,
 						p2: 1,
 						p3: 1,
 						p4: 1,
 					},
-					"DEF" : undefined,
-					"JKL" : { }
+					'DEF' : undefined,
+					'JKL' : { }
 				}
 				
 			},
-		];
-		expect(allocatedTimeTotals(proposals, "XYZ")).toEqual({ p0: 4, p1: 4, p2: 4, p3: 4, p4: 4 });
-		expect(allocatedTimeTotals(proposals, "ABC")).toEqual({ p0: 3, p1: 3, p2: 3, p3: 3, p4: 3 });
-		expect(allocatedTimeTotals(proposals, "DEF")).toEqual({ p0: 2, p1: 2, p2: 2, p3: 2, p4: 2 });
-		expect(allocatedTimeTotals(proposals, "JKL")).toEqual({ p0: 0, p1: 0, p2: 0, p3: 0, p4: 0 });
+		]
+		expect(allocatedTimeTotals(proposals, 'XYZ')).toEqual({ p0: 4, p1: 4, p2: 4, p3: 4, p4: 4 })
+		expect(allocatedTimeTotals(proposals, 'ABC')).toEqual({ p0: 3, p1: 3, p2: 3, p3: 3, p4: 3 })
+		expect(allocatedTimeTotals(proposals, 'DEF')).toEqual({ p0: 2, p1: 2, p2: 2, p3: 2, p4: 2 })
+		expect(allocatedTimeTotals(proposals, 'JKL')).toEqual({ p0: 0, p1: 0, p2: 0, p3: 0, p4: 0 })
   
-	});
+	})
 	it('should return all priority to be zero if no allocation to proposals', () => {
 		const proposals = [
 			{
 				somethingElse: {
-					"ABC" :{
+					'ABC' :{
 						p0: 4,
 						p1: 4,
 						p2: 4,
@@ -1000,7 +999,7 @@ describe('allocatedTimeTotals', () => {
 			},
 			{
 				somethingElse: {
-					"ABC" :{
+					'ABC' :{
 						p0: 1,
 						p1: 1,
 						p2: 1,
@@ -1010,8 +1009,8 @@ describe('allocatedTimeTotals', () => {
 				}
 				
 			},
-		];
-		expect(allocatedTimeTotals(proposals, "ABC")).toEqual({ p0: 0, p1: 0, p2: 0, p3: 0, p4: 0 });
-		expect(allocatedTimeTotals(proposals, "ABC")).not.toEqual({ p0: 5, p1: 5, p2: 5, p3: 5, p4: 5 });
-	});
-});
+		]
+		expect(allocatedTimeTotals(proposals, 'ABC')).toEqual({ p0: 0, p1: 0, p2: 0, p3: 0, p4: 0 })
+		expect(allocatedTimeTotals(proposals, 'ABC')).not.toEqual({ p0: 5, p1: 5, p2: 5, p3: 5, p4: 5 })
+	})
+})

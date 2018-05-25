@@ -1,13 +1,13 @@
 import {
-	SUBMIT_TECHNICAL_REVIEWS_FAIL,
-	SUBMIT_TECHNICAL_REVIEWS_PASS,
-	SUBMIT_TECHNICAL_REVIEWS_START,
-	UPDATE_TECHNICAL_REVIEW,
-} from '../types';
-import { jsonClient } from '../api/';
+  SUBMIT_TECHNICAL_REVIEWS_FAIL,
+  SUBMIT_TECHNICAL_REVIEWS_PASS,
+  SUBMIT_TECHNICAL_REVIEWS_START,
+  UPDATE_TECHNICAL_REVIEW,
+} from '../types'
+import { jsonClient } from '../api/'
 import { isTechReportUpdated, isReviewerUpdated } from '../util/filters'
-import fetchProposals from './proposalsActions';
-import { makeTechComment } from '../util';
+import fetchProposals from './proposalsActions'
+import { makeTechComment } from '../util'
 
 /**
  * An action for updating the technical reviewer of a proposal in the local store.
@@ -18,33 +18,33 @@ import { makeTechComment } from '../util';
  * @returns {{type, payload: {proposalCode: *, reviewer: *}}} The action.
  */
 export function updateTechnicalReview(proposalCode, semester, techReview) {
-	return {
-		type: UPDATE_TECHNICAL_REVIEW,
-		payload: {
-			proposalCode,
-			semester,
-			techReview
-		}
-	}
+  return {
+    type: UPDATE_TECHNICAL_REVIEW,
+    payload: {
+      proposalCode,
+      semester,
+      techReview
+    }
+  }
 }
 
 function startSubmittingTechnicalReviews() {
-	return {
-		type: SUBMIT_TECHNICAL_REVIEWS_START
-	}
+  return {
+    type: SUBMIT_TECHNICAL_REVIEWS_START
+  }
 }
 
 function submittingTechnicalReviewsFail(error) {
-	return {
-		type: SUBMIT_TECHNICAL_REVIEWS_FAIL,
-		payload: { error }
-	}
+  return {
+    type: SUBMIT_TECHNICAL_REVIEWS_FAIL,
+    payload: { error }
+  }
 }
 
 function submittingTechnicalReviewsPass() {
-	return {
-		type: SUBMIT_TECHNICAL_REVIEWS_PASS
-	}
+  return {
+    type: SUBMIT_TECHNICAL_REVIEWS_PASS
+  }
 }
 
 /**
@@ -58,35 +58,35 @@ function submittingTechnicalReviewsPass() {
  * @param semester Semester, such as "2018-1".
  */
 export function submitTechnicalReviewDetails(proposals, user, initProposals, partner, semester) {
-	return async (dispatch) => {
-		dispatch(startSubmittingTechnicalReviews());
-		const updatedProposals = proposals
-		.filter(p => (
-			isReviewerUpdated(p, initProposals, semester) ||
+  return async (dispatch) => {
+    dispatch(startSubmittingTechnicalReviews())
+    const updatedProposals = proposals
+      .filter(p => (
+        isReviewerUpdated(p, initProposals, semester) ||
 			isTechReportUpdated(p, initProposals, semester)
-		));
-		if (updatedProposals.some(p => !p.techReviews[semester].reviewer || !p.techReviews[semester].reviewer.username)) {
-			dispatch(submittingTechnicalReviewsFail('A reviewing astronomer must be assigned to every updated review.'));
-			return;
-		}
-		const reviews = updatedProposals.map(p => {
-			const reviewer = !p.techReviews[semester].reviewer || !p.techReviews[semester].reviewer.username
-				? null
-				: p.techReviews[semester].reviewer.username;
-			return {
-				proposalCode: p.proposalCode,
-				reviewer,
-				report: makeTechComment(p.techReviews[semester])
-			}
-		});
+      ))
+    if (updatedProposals.some(p => !p.techReviews[ semester ].reviewer || !p.techReviews[ semester ].reviewer.username)) {
+      dispatch(submittingTechnicalReviewsFail('A reviewing astronomer must be assigned to every updated review.'))
+      return
+    }
+    const reviews = updatedProposals.map(p => {
+      const reviewer = !p.techReviews[ semester ].reviewer || !p.techReviews[ semester ].reviewer.username
+        ? null
+        : p.techReviews[ semester ].reviewer.username
+      return {
+        proposalCode: p.proposalCode,
+        reviewer,
+        report: makeTechComment(p.techReviews[ semester ])
+      }
+    })
 
-		try {
-			await jsonClient().post('technical-reviews', {semester, reviews});
-		} catch (e) {
-			dispatch(submittingTechnicalReviewsFail(e.message));
-			return;
-		}
-		dispatch(fetchProposals(semester, partner));
-		dispatch(submittingTechnicalReviewsPass());
-	}
+    try {
+      await jsonClient().post('technical-reviews', {semester, reviews})
+    } catch (e) {
+      dispatch(submittingTechnicalReviewsFail(e.message))
+      return
+    }
+    dispatch(fetchProposals(semester, partner))
+    dispatch(submittingTechnicalReviewsPass())
+  }
 }

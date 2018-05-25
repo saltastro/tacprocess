@@ -1,5 +1,5 @@
-import React from 'react';
-import * as _ from 'lodash';
+import React from 'react'
+import * as _ from 'lodash'
 
 /**
  * Return the technical report. The returned object depends on the requested format:
@@ -16,92 +16,89 @@ import * as _ from 'lodash';
  * @returns {*}
  */
 export function getTechnicalReport(proposal, semester, format='string') {
-    const review = proposal.techReviews[semester];
-    const feasible = review && review.feasible ? review.feasible : null;
-    const comment = review && review.comment ? review.comment : null;
-    const details = review && review.details ? review.details : null;
-    const report = review && review.report ? review.report : null;
+  const review = proposal.techReviews[ semester ]
+  const feasible = review && review.feasible ? review.feasible : null
+  const comment = review && review.comment ? review.comment : null
+  const details = review && review.details ? review.details : null
+  const report = review && review.report ? review.report : null
 
-    const lcFormat = format.toLowerCase();
+  const lcFormat = format.toLowerCase()
 
-    if (lcFormat === 'object') {
-        return {
-            feasible,
-            comment,
-            details,
-            report
-        };
+  if (lcFormat === 'object') {
+    return {
+      feasible,
+      comment,
+      details,
+      report
     }
+  }
 
-    let lines;
-    if (!feasible && !comment && !details) {
-        lines = ['(no report yet)'];
-    } else {
-        lines = [
-            `Feasible: ${feasible || ''}`,
-            `Comment: ${comment || ''}`,
-            `Detailed check: ${details || ''}`
-        ];
-    }
+  let lines
+  if (!feasible && !comment && !details) {
+    lines = ['(no report yet)']
+  } else {
+    lines = [
+      `Feasible: ${ feasible || '' }`,
+      `Comment: ${ comment || '' }`,
+      `Detailed check: ${ details || '' }`
+    ]
+  }
 
-    if (lcFormat === 'jsx') {
-        return <div>
-            {lines.map((line) => {
-                return <div key={line}>{line}</div>
-            })}
-        </div>
-    }
+  if (lcFormat === 'jsx') {
+    return <div>
+      {lines.map((line) => <div key={ line }>{line}</div>)}
+    </div>
+  }
 
-    return lines.join('\n');
+  return lines.join('\n')
 }
 
 function getDefaultReview(p, semester) {
-    let name = null;
-    let feasible = null;
-    let details = null;
-    let comment = null;
+  let name = null
+  let feasible = null
+  let details = null
+  let comment = null
 
-    if (Object.keys(p.techReviews).some(s => s < semester)) {
-        Object.keys(p.techReviews).forEach(s => {
+  if (Object.keys(p.techReviews).some(s => s < semester)) {
+    Object.keys(p.techReviews).forEach(s => {
 
-            if (s < semester && (!_.isNull(p.techReviews[s].comment) || p.techReviews[s].comment !== "none")) {
-                name = p.liaisonAstronomer;
-                feasible = "yes";
-                details = "no";
-                comment = "Continuation of an existing proposal. Please see the PI’s report."
-            }
-        })
-    }
-    return {
-        reviewer: {username: name},
-        feasible,
-        comment,
-        details
+      if (s < semester && (!_.isNull(p.techReviews[ s ].comment) || p.techReviews[ s ].comment !== 'none')) {
+        name = p.liaisonAstronomer
+        feasible = 'yes'
+        details = 'no'
+        comment = 'Continuation of an existing proposal. Please see the PI’s report.'
+      }
+    })
+  }
+  return {
+    reviewer: {username: name},
+    feasible,
+    comment,
+    details
 
-    }
+  }
 
 }
 
 export function setDefaultTechReviews(proposals, semester) {
-    return (proposals || []).map(p => {
-        if (p.techReviews[semester]) {
-            return p
+  return (proposals || []).map(p => {
+    if (p.techReviews[ semester ]) {
+      return p
+    }
+        
+    const rev = getDefaultReview(p, semester)
+    return {
+      ...p,
+      techReviews: {
+        ...p.techReviews,
+        [ semester ]: {
+          reviewer: rev.reviewer,
+          feasible: rev.feasible,
+          comment: rev.comment,
+          details: rev.details
         }
-        
-            const rev = getDefaultReview(p, semester);
-            return {
-                ...p,
-                techReviews: {
-                    ...p.techReviews,
-                    [semester]: {
-                        reviewer: rev.reviewer,
-                        feasible: rev.feasible,
-                        comment: rev.comment,
-                        details: rev.details
-                    }
-                }
-            }
-        
+      }
+    }
 
-    })
+  })
 }
