@@ -5,7 +5,7 @@ import {SUBMIT_NEW_TAC_FAIL, SUBMIT_NEW_TAC_PASS, SUBMIT_NEW_TAC_START} from '..
 function submitNewTacMembersStart() {
   return {
     type: SUBMIT_NEW_TAC_START
-  };
+  }
 }
 
 function submitNewTacMembersFail(message) {
@@ -23,7 +23,7 @@ function submitNewTacMembersPass(partner) {
     payload: {
       partner
     }
-  };
+  }
 }
 
 /**
@@ -33,7 +33,7 @@ function submitNewTacMembersPass(partner) {
  */
 export default function submitNewTacMembers(newMembers, removedMembers, partner){
   return async (dispatch) => {
-    dispatch(submitNewTacMembersStart());
+    dispatch(submitNewTacMembersStart())
     const added = newMembers.map(m => ({
       member: m.username,
       is_chair: 0
@@ -42,13 +42,13 @@ export default function submitNewTacMembers(newMembers, removedMembers, partner)
       member: m.username
     }))
     try {
-      await jsonClient().post('update-tac-members', {members: added, partner});
-      await jsonClient().post('remove-tac-members', {members: removed, partner});
+      await jsonClient().post('update-tac-members', {members: added, partner})
+      await jsonClient().post('remove-tac-members', {members: removed, partner})
     } catch (e) {
-      dispatch(submitNewTacMembersFail(e.message));
-      return;
+      dispatch(submitNewTacMembersFail(e.message))
+      return
     }
-    dispatch(fetchTacMembers());
-    dispatch(submitNewTacMembersPass(partner));
+    dispatch(fetchTacMembers())
+    dispatch(submitNewTacMembersPass(partner))
   }
 }

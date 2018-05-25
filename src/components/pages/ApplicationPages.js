@@ -1,5 +1,5 @@
-import React from 'react';
-import propTypes from "prop-types";
+import React from 'react'
+import propTypes from 'prop-types'
 import {Route} from 'react-router-dom'
 import AdminPage from './AdminPage'
 import TimeAllocationPage from './TimeAllocationPage'
@@ -27,44 +27,44 @@ const ApplicationPages = ({
 }) => {
   const userRoles = user.roles
   return (
-    <div className="main-div">
-      <Route path="/" exact component={HomePage}/>
+    <div className='main-div'>
+      <Route path='/' exact component={ HomePage }/>
 
-      <GuestRoute exact path="/login" isAuthenticated={isAuthenticated} component={LoginPage}/>
+      <GuestRoute exact path='/login' isAuthenticated={ isAuthenticated } component={ LoginPage }/>
 
       {
         canViewPage(userRoles, STATISTICS_PAGE) &&
-        <UserRoute exact path="/statistics" isAuthenticated={isAuthenticated}
-          component={StatisticsPage}
+        <UserRoute exact path='/statistics' isAuthenticated={ isAuthenticated }
+          component={ StatisticsPage }
         />
       }
 
-      <UserRoute exact path="/timeallocation" isAuthenticated={isAuthenticated}
-        view={ canViewPage(userRoles, TAC_PAGE)}
-        component={TimeAllocationPage}
+      <UserRoute exact path='/timeallocation' isAuthenticated={ isAuthenticated }
+        view={ canViewPage(userRoles, TAC_PAGE) }
+        component={ TimeAllocationPage }
       />
       {
         canViewPage(userRoles, TECHNICAL_PAGE) &&
-        <UserRoute exact isAuthenticated={isAuthenticated} path="/techreview" component={TechReviewPage} />
+        <UserRoute exact isAuthenticated={ isAuthenticated } path='/techreview' component={ TechReviewPage } />
       }
       {
         canViewPage(userRoles, TECHNICAL_PAGE) &&
-        <UserRoute exact isAuthenticated={isAuthenticated} path="/liaison"
-                   component={() => <LiaisonPage
-                     proposals={proposals}
-                     astronomers={astronomers}
-                     initProposals={initProposals}
-                     user={user}
-                     filters={filters}
-                     setLiaison={setLiaison}
-                     submitLiaisons={submitLiaisons}
-                   />}
+        <UserRoute exact isAuthenticated={ isAuthenticated } path='/liaison'
+                   component={ () => <LiaisonPage
+                     proposals={ proposals }
+                     astronomers={ astronomers }
+                     initProposals={ initProposals }
+                     user={ user }
+                     filters={ filters }
+                     setLiaison={ setLiaison }
+                     submitLiaisons={ submitLiaisons }
+                   /> }
         />
       }
-      <UserRoute exact isAuthenticated={isAuthenticated} path="/documentation" component={DocumentationPage} />
+      <UserRoute exact isAuthenticated={ isAuthenticated } path='/documentation' component={ DocumentationPage } />
       {
         canViewPage(userRoles, ADMIN_PAGE) &&
-        <UserRoute exact isAuthenticated={isAuthenticated} path="/admin" component={AdminPage} />
+        <UserRoute exact isAuthenticated={ isAuthenticated } path='/admin' component={ AdminPage } />
       }
     </div>
 )}
@@ -78,6 +78,6 @@ ApplicationPages.propTypes = {
   astronomers: propTypes.array,
   setLiaison: propTypes.func,
   submitLiaisons: propTypes.func
-};
+}
 
 export default ApplicationPages

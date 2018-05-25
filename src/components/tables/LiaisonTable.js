@@ -1,9 +1,8 @@
-import React from 'react';
-import propTypes from "prop-types";
-import '../../styles/components/tables.css';
+import React from 'react'
+import propTypes from 'prop-types'
+import '../../styles/components/tables.css'
 import {compareByProposalCode} from '../../util/proposal'
 import LiaisonTableRow from './tablesComponents/LiaisonTableRow'
-
 
 const LiaisonTable = ({proposals, canAssign, astronomers, requestSummary, username, setLiaison, initProposals, semester}) => (
   <div className='SATableDiv'>
@@ -20,15 +19,15 @@ const LiaisonTable = ({proposals, canAssign, astronomers, requestSummary, userna
       </thead>
       <tbody>
       {
-        proposals.sort(compareByProposalCode).map(p => ( <LiaisonTableRow key={p.proposalCode}
-          proposal={p}
-          initProposals={initProposals}
-          canAssign={canAssign}
-          astronomers={astronomers}
-          username={username}
-          requestSummary={requestSummary}
-          setLiaison={setLiaison}
-          semester={semester}
+        proposals.sort(compareByProposalCode).map(p => ( <LiaisonTableRow key={ p.proposalCode }
+          proposal={ p }
+          initProposals={ initProposals }
+          canAssign={ canAssign }
+          astronomers={ astronomers }
+          username={ username }
+          requestSummary={ requestSummary }
+          setLiaison={ setLiaison }
+          semester={ semester }
         />))
       }
 
@@ -46,5 +45,5 @@ LiaisonTable.propTypes = {
   requestSummary: propTypes.func.isRequired,  // todo request summary should know the current selected semester
   setLiaison: propTypes.func.isRequired,
   semester: propTypes.string.isRequired
-};
+}
 export default LiaisonTable

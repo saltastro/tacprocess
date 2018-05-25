@@ -6,7 +6,6 @@ import {
 import fetchProposals from './proposalsActions'
 import {jsonClient} from '../api'
 
-
 function submitLiaisonStart() {
   return {
     type: SUBMIT_LIAISON_ASTRONOMERS_START
@@ -36,18 +35,18 @@ function submitLiaisonFail(message) {
  */
 export default function submitProposalsLiaison(proposals, semester, partner){
   return async (dispatch) => {
-    dispatch(submitLiaisonStart());
+    dispatch(submitLiaisonStart())
     const assignments = proposals.map(p => ({
       proposalCode: p.proposalCode,
       liaisonAstronomer: p.liaisonAstronomer
     }))
     try {
-      await jsonClient().post('liaison-astronomers', {assignments});
+      await jsonClient().post('liaison-astronomers', {assignments})
     } catch (e) {
-      dispatch(submitLiaisonFail(e.message));
-      return;
+      dispatch(submitLiaisonFail(e.message))
+      return
     }
-    dispatch(fetchProposals(semester, partner));
-    dispatch(submitLiaisonPass());
+    dispatch(fetchProposals(semester, partner))
+    dispatch(submitLiaisonPass())
   }
 }

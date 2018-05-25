@@ -38,7 +38,7 @@ export function convertSaltUsers(users){
 			username: user.username,
 			surname: user.lastName
 		}
-	));
+	))
 }
 
 export function convertTacMembers(tacs){
