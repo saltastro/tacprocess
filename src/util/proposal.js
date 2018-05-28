@@ -53,12 +53,12 @@ export const didReportChange = (proposal, initProposals, semester) => {
  * check if proposal is requesting anytime from previous semester and if so it can not be new proposal
  * hence return false
  *
- * @param proposal A proposal from API
+ * @param requirements This is Time requirements from API
  * @param semester
  * @return Boolean (true) if the proposal is new
  * */
-export const isNewProposal = (proposal, semester) =>  !(
-  proposal.timeRequests || [] ).some(t =>  t.semester < semester
+export const isNewProposal = (requirements, semester) =>  !(
+	requirements || [] ).some(t =>  t.semester < semester
 )
 
 /**
@@ -66,10 +66,22 @@ export const isNewProposal = (proposal, semester) =>  !(
  * and if so it is a long term proposal
  * hence return false
  *
- * @param proposal A proposal from API
+ * @param requirements This is Time requirements from API
  * @param semester
  * @return Boolean (true) if the proposal is new
  * */
-export const isLongTermProposal = (proposal, semester) =>  (
-  proposal.timeRequests || [] ).some(t => t.semester !== semester
+export const isLongTermProposal = (requirements, semester) =>  (
+	requirements || [] ).some(t => t.semester !== semester
 )
+
+export const compareByProposalCode = (a, b) => {
+	const name1 = a.proposalCode.toUpperCase()
+	const name2 = b.proposalCode.toUpperCase()
+	if (name1 < name2) {
+		return -1
+	}
+	if (name1 > name2) {
+		return 1
+	}
+	return 0
+}

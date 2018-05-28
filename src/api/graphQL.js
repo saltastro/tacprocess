@@ -1,13 +1,22 @@
 import { graphqlClient } from './index'
 import {getTechReportFields} from '../util'
 import { isNewProposal, isLongTermProposal } from '../util/proposal'
+import {convertPartnerAllocations} from '../actions/timeAllocationActions'
+
+export const convertUserData = rowUser => ({
+	firstName: rowUser.firstName,
+	lastName: rowUser.lastName,
+	email: rowUser.email,
+	username: rowUser.username,
+	roles:rowUser.role
+})
 
 function makeTechReviews(techReviews) {
 	
   return ( techReviews|| [] ).reduce((prev, tr) => ({
     ...prev,
     [ tr.semester ]: {
-      reviewer: tr.reviewer,
+      reviewer: tr.reviewer.username,
       ...getTechReportFields(tr.report)
     }
   }), {})
@@ -16,7 +25,7 @@ function makeTechReviews(techReviews) {
 function makeAllocatedTime(alloc){
   const allocations = {}
   alloc.forEach( a => {
-    allocations[ a.partnerCode ] = {
+    allocations[ a.partner.code ] = {
       p0: (a.p0 === null) ? 0 : a.p0,
       p1: (a.p1 === null) ? 0 : a.p1,
       p2: (a.p2 === null) ? 0 : a.p2,
@@ -31,37 +40,37 @@ function makeTacComments(tComm){
 	
   const tacComment = {}
   tComm.forEach( c => {
-    tacComment[ c.partnerCode ] = {
+    tacComment[ c.partner.code ] = {
       comment: c.comment == null ? '' : `${ c.comment }`
     }
   })
   return tacComment
 }
 
-function minimumTotalRequested(distributedTimes, semester){
+function minimumTotalRequested(timeRequirements, semester){
   let total = 0
   let minimum = 0
-  distributedTimes.forEach( t => {
-    if (t.semester === semester ){
-      minimum = t.minimumUsefulTime
-      t.distribution.forEach( d => { total += parseFloat(d.time) }
+  timeRequirements.forEach( requirement => {
+    if (requirement.semester === semester ){
+      minimum = requirement.minimumUsefulTime
+      requirement.timeRequests.forEach( request => { total += parseFloat(request.time) }
       )}
   })
   return { total, minimum }
 }
 
-function requestedTime(requests, semester){
+function requestedTime(requirements, semester){
 	
   const reqTime = {
     minimum: 0,
     semester,
     requests: {}
   }
-  requests.forEach(p => {
-    if (p.semester === semester){
-      reqTime.minimum = p.minimumUsefulTime
-      p.distribution.forEach(d => {
-        reqTime.requests[ d.partnerCode ] = d.time
+	requirements.forEach(requirement => {
+    if (requirement.semester === semester){
+      reqTime.minimum = requirement.minimumUsefulTime
+      requirement.timeRequests.forEach(request => {
+        reqTime.requests[ request.partner.code ] = request.time
       })
     }
   })
@@ -70,33 +79,33 @@ function requestedTime(requests, semester){
 
 export function convertProposals(proposals, semester, partner){
   if (!proposals.proposals){ return []}
-  return proposals.proposals.map( proposal => {
-    const minTotal  = minimumTotalRequested(proposal.timeRequests, semester)
+  const ppp =  proposals.proposals.map( proposal => {
+    const minTotal  = minimumTotalRequested(proposal.timeRequirements, semester)
     return ({
-      proposalId: proposal.id,
       title: proposal.title,
       abstract: proposal.abstract,
       proposalCode: proposal.code,
       isP4: proposal.isP4,
       status: proposal.status,
-      actOnAlert: proposal.actOnAlert,
+      actOnAlert: proposal.isTargetOfOpportunity,
       maxSeeing: proposal.maxSeeing,
       transparency: proposal.transparency,
-      isNew: isNewProposal(proposal, semester),
-      isLong: isLongTermProposal(proposal, semester),
+      isNew: isNewProposal(proposal.timeRequirements, semester),
+      isLong: isLongTermProposal(proposal.timeRequirements, semester),
       isThesis: proposal.isThesis,
       totalRequestedTime: minTotal.total,
-      timeRequests: proposal.timeRequests,
+      timeRequests: proposal.timeRequirements,
       minTime: minTotal.minimum,
       instruments: proposal.instruments,
-      pi: `${ proposal.pi.surname } ${ proposal.pi.name }`,
-      liaisonAstronomer: proposal.SALTAstronomer ? proposal.SALTAstronomer.username : null,
+      pi: `${ proposal.principalInvestigator.lastName } ${ proposal.principalInvestigator.firstName }`,
+      liaisonAstronomer: proposal.liaisonSaltAstronomer ? proposal.liaisonSaltAstronomer.username : null,
       techReviews: makeTechReviews(proposal.techReviews),
       allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner),
       tacComment: makeTacComments(proposal.tacComment, partner),
-      requestedTime: requestedTime(proposal.timeRequests, semester)
+      requestedTime: requestedTime(proposal.timeRequirements, semester)
     })
   })
+	return ppp
 }
 
 const convertData = rowUser => ({
@@ -108,35 +117,33 @@ const convertData = rowUser => ({
 }
 )
 
-export function queryPartnerAllocations(semester, partner='All' ){
+export function queryPartnerAllocations(semester){
   /**
 	 * This method is only called by pages that will need and allocated time
 	 * for partner at semester
 	 *
 	 * @params semester like "2017-1" type String
-	 * @params partner is a partner code as it will be shown on partner filter
 	 * @return GQL results of the below query
 	 */
-  let par = ''
-  if ( partner !== 'All' ) {
-    par = ` , partnerCode:"${ partner }"`
-  }
 	
   const query = `
   {
-    partnerAllocations(semester:"${ semester }" ${ par }){
+    partnerAllocations(semester:"${ semester }"){
       code
-      allocatedTime{
-        AllocatedP0P1
-        AllocatedP2
-        AllocatedP3
+      timeAllocation{
+        allocatedTime {
+          p0Andp1
+          p2
+          p3
+          p4
+        }
       }
     }
   }
   `
   return graphqlClient().post('/graphql', {query})
     .then(
-      response => response
+      response => convertPartnerAllocations(response.data.data)
     )
 }
 
@@ -167,8 +174,8 @@ export function queryTargets(semester, partner){
   const query = `{
     targets(semester:"${ semester }", ${ par }){
       id
-      optional
-      coordinates{
+      isOptional
+      position{
         ra
         dec
       }
@@ -184,14 +191,11 @@ export function queryProposals(semester, partner){
   let par = ''
   if ( partner !== 'All' ) {
     par = ` , partnerCode:"${ partner }"`
-  } else{
-    par = ' allProposals: true '
   }
 	
   const query = `
   {
     proposals(semester: "${ semester }",${ par } ){
-      id
       code
       title
       abstract
@@ -205,45 +209,46 @@ export function queryProposals(semester, partner){
       isP4
       isThesis
       status
-      actOnAlert
+      isTargetOfOpportunity
       transparency
       maxSeeing
       instruments{
-        rss{
+        type
+        ...on RSS{
           mode
           detectorMode
         }
-        hrs{
-          exposureMode
+        ...on HRS{
+          detectorMode
         }
-        bvit{
-          type
-        }
-        scam{
+        ...on SCAM{
           detectorMode
         }
       }
-      timeRequests{
+      timeRequirements{
         semester
         minimumUsefulTime
-        distribution{
-          partnerName
-          partnerCode
+        timeRequests{
+          partner{
+            code
+          }
           time
         }
       }
-      pi{
-        name
-        surname
+      principalInvestigator{
+        firstName
+        lastName
       }
-      SALTAstronomer{
-        name
+      liaisonSaltAstronomer{
+        firstName
         username
-        surname
+        lastName
         email
       }
       allocatedTime{
-        partnerCode
+        partner{
+          code
+        }
         p0
         p1
         p2
@@ -251,7 +256,9 @@ export function queryProposals(semester, partner){
         p4
       }
       tacComment{
-        partnerCode
+        partner{
+          code
+        }
         comment
       }
     }
@@ -268,10 +275,10 @@ export const  submitAllocations = (query) =>  graphqlClient().post('/graphql', {
 export function querySALTAstronomers(){
   const query=`
   {
-    SALTAstronomers{
-        name
-	    username
-	    surname
+    saltAstronomers{
+      firstName
+      lastName
+      username
     }
   }
   `
@@ -285,7 +292,7 @@ export const queryTacMembers = () => {
 	tacMembers{
 		lastName
 	    firstName
-	    partnerCode
+	    partner{code}
 	    username
 	    isChair
 	}

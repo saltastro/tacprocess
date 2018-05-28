@@ -6,12 +6,14 @@ import proposals from './reducers/proposals'
 import targets from './reducers/targets'
 import tac from './reducers/tac'
 import SALTAstronomers from './reducers/astronomers'
+import dataStatus from './reducers/dataStatus'
 
 export default combineReducers({
-  user,
-  filters,
-  tac,
-  proposals,
-  targets,
-  SALTAstronomers
+	dataStatus,
+	user,
+	filters,
+	tac,
+	proposals,
+	targets,
+	SALTAstronomers
 })

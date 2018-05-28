@@ -13,7 +13,7 @@ function startFetchSA() {
   )
 
 }
-function FetchSAFail(error) {
+function fetchSAFail(error) {
   return (
     {
       type: FETCH_SA_FAIL,
@@ -22,7 +22,7 @@ function FetchSAFail(error) {
   )
 }
 
-function FetchSAPass(sa) {
+export function fetchSAPass(sa) {
   return (
     {
       type: FETCH_SA_PASS,
@@ -31,15 +31,14 @@ function FetchSAPass(sa) {
   )
 }
 
-function convertSA(sa){
-  const convertedSA = sa.SALTAstronomers.map(ast => (
+export function convertSA(sa){
+  return sa.saltAstronomers.map(ast => (
     {
-      name: ast.name,
+      name: ast.firstName,
       username: ast.username,
-      surname: ast.surname
+      surname: ast.lastName
     }
   ))
-  return convertedSA
 }
 
 export default function fetchSA(){
@@ -47,9 +46,9 @@ export default function fetchSA(){
     dispatch(startFetchSA())
     querySALTAstronomers().then( res =>
     {
-      dispatch(FetchSAPass(convertSA(res.data.data)))
+      dispatch(fetchSAPass(convertSA(res.data.data)))
     }
     ).catch((e) => {
-      dispatch(FetchSAFail(e.message))})
+      dispatch(fetchSAFail(e.message))})
   }
 }

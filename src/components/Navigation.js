@@ -47,29 +47,51 @@ class Navigation extends React.Component {
       <div>
         <div>
           <ul className='nav'>
-            {isAuthenticated && <li><NavLink exact to='/'>HOME</NavLink></li>}
-            { (canViewPage(userRoles, TECHNICAL_PAGE) && isAuthenticated) &&
-						<li>
-						  <NavLink to='/techreview'>TECH REVIEW</NavLink>
-						</li> }
-            { (canViewPage(userRoles, STATISTICS_PAGE) && isAuthenticated) &&
-						<li>
-						  <NavLink to='/statistics'>STATISTICS</NavLink>
-						</li> }
-            { (canViewPage(userRoles, TAC_PAGE) && isAuthenticated) &&
-						<li>
-						  <NavLink to='/timeallocation'>TIME ALLOCATION</NavLink>
-						</li> }
-            { (canViewPage(userRoles, DOCUMENTATION_PAGE) && isAuthenticated) &&
-						<li>
-						  <NavLink to='/documentation'>DOCUMENTATION</NavLink>
-						</li> }
-            { (canViewPage(userRoles, ADMIN_PAGE) && isAuthenticated) &&
-						<li>
-						  <NavLink to='/admin'>ADMIN</NavLink>
-						</li> }
-            { isAuthenticated && <li className='logoutbtn' onClick={ logout }>Logout</li>}
-            { isAuthenticated && <li>Hello { user.firstName } { user.lastName }</li>}
+            {
+              isAuthenticated && <li><NavLink exact to='/'>HOME</NavLink></li>
+            }
+            {
+							(canViewPage(userRoles, TECHNICAL_PAGE) && isAuthenticated) &&
+							<li>
+								<NavLink to='/techreview'>TECH REVIEW</NavLink>
+							</li>
+            }
+						{
+							(canViewPage(userRoles, TECHNICAL_PAGE) && isAuthenticated) &&
+							<li>
+								<NavLink to='/liaison'>PROPOSAL LIAISON</NavLink>
+							</li>
+						}
+            {
+							(canViewPage(userRoles, STATISTICS_PAGE) && isAuthenticated) &&
+							<li>
+								<NavLink to='/statistics'>STATISTICS</NavLink>
+							</li>
+            }
+            {
+							(canViewPage(userRoles, TAC_PAGE) && isAuthenticated) &&
+							<li>
+								<NavLink to='/timeallocation'>TIME ALLOCATION</NavLink>
+							</li>
+            }
+            {
+							(canViewPage(userRoles, DOCUMENTATION_PAGE) && isAuthenticated) &&
+							<li>
+								<NavLink to='/documentation'>DOCUMENTATION</NavLink>
+							</li>
+						}
+            {
+							(canViewPage(userRoles, ADMIN_PAGE) && isAuthenticated) &&
+							<li>
+								<NavLink to='/admin'>ADMIN</NavLink>
+							</li>
+            }
+            {
+              isAuthenticated && <li className='logoutbtn' onClick={ logout }>Logout</li>
+            }
+            {
+              isAuthenticated && <li>Hello { user.firstName } { user.lastName }</li>
+            }
           </ul>
           <ul className='bigNav'>
             <h1>{ loadedPage(location.pathname) }</h1>

@@ -29,7 +29,7 @@ export const startSubmittingTimeAllocations = () => ({
 
 })
 
-export const TimeAllocationSubmittedSuccessfully = partner => ({
+export const fetchAllocationsPass = partner => ({
   type: SUBMIT_TIME_ALLOCATIONS_PASS,
   payload: { partner }
 })
@@ -55,34 +55,35 @@ export const removeMember = (member, partner) => ({
     partner}
 })
 
-const convertData = (data) => {
-  const availableTime = {
+export const convertPartnerAllocations = (data) => {
+  let availableTime = {
     [ ALL_PARTNER ] :{
       p0p1: 0,
       p2: 0,
       p3: 0
     }}
   data.partnerAllocations.forEach( a => {
-    const partner = a.code || ALL_PARTNER
-    if (partner === ALL_PARTNER){
-      availableTime[ partner ].p0p1 += a.allocatedTime.AllocatedP0P1
-      availableTime[ partner ].p2 += a.allocatedTime.AllocatedP2
-      availableTime[ partner ].p3 += a.allocatedTime.AllocatedP3
+    const partner = a.code
+    availableTime[ ALL_PARTNER ].p0p1 += a.timeAllocation.allocatedTime.p0Andp1
+    availableTime[ ALL_PARTNER ].p2 += a.timeAllocation.allocatedTime.p2
+    availableTime[ ALL_PARTNER ].p3 += a.timeAllocation.allocatedTime.p3
 
-    } else {
-      availableTime[ partner ] = {
-        p0p1: a.allocatedTime.AllocatedP0P1,
-        p2: a.allocatedTime.AllocatedP2,
-        p3: a.allocatedTime.AllocatedP3
-      }}
+    availableTime = {
+      ...availableTime,
+        [ partner ]: {
+				  p0p1: a.timeAllocation.allocatedTime.p0Andp1,
+					p2: a.timeAllocation.allocatedTime.p2,
+					p3: a.timeAllocation.allocatedTime.p3
+			}
+    }
   })
   return availableTime
 }
 
-export const storePartnerAllocations = (semester, partner='All') => function fits(dispatch) {
+export const storePartnerAllocations = (semester) => function fits(dispatch) {
   dispatch(startQuery())
-  queryPartnerAllocations(semester, partner).then( res => {
-    dispatch(passQuery(convertData(res.data.data)))
+  queryPartnerAllocations(semester).then( res => {
+    dispatch(passQuery(res))
   }).catch((e) => {
     dispatch(failQuery(e.message))
   })

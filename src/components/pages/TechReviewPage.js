@@ -81,7 +81,7 @@ TechReviewPage.propTypes = {
   initProposals: propTypes.array.isRequired,
 	partner: propTypes.string.isRequired,
 	semester: propTypes.string.isRequired,
-	reviewsError: propTypes.string.isRequired,
+	reviewsError: propTypes.string,
 	SALTAstronomers: propTypes.array.isRequired,
 	user: propTypes.object.isRequired,
 	loading: propTypes.bool.isRequired,

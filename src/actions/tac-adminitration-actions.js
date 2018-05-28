@@ -1,5 +1,5 @@
 import {jsonClient} from '../api'
-import {fetchTacMembers} from './AdminActions'
+import {fetchTacMembers} from './adminActions'
 import {SUBMIT_NEW_TAC_FAIL, SUBMIT_NEW_TAC_PASS, SUBMIT_NEW_TAC_START} from '../types'
 
 function submitNewTacMembersStart() {

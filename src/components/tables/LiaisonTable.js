@@ -1,7 +1,7 @@
 import React from 'react'
 import propTypes from 'prop-types'
 import '../../styles/components/tables.css'
-import {compareByProposalCode} from '../../util/proposal'
+import { compareByProposalCode } from '../../util/proposal'
 import LiaisonTableRow from './tablesComponents/LiaisonTableRow'
 
 const LiaisonTable = ({proposals, canAssign, astronomers, requestSummary, username, setLiaison, initProposals, semester}) => (

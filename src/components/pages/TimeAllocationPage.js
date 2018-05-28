@@ -11,7 +11,7 @@ import { canUserWriteAllocations, canUserWriteTechReviews, downloadSummaries, ca
 import PartnerProposals  from '../../util/proposal'
 import { submitAllocations } from '../../api/graphQL'
 import { updateProposals } from '../../actions/proposalsActions'
-import { startSubmittingTimeAllocations, TimeAllocationSubmittedSuccessfully, failToSubmitTimeAllocations } from '../../actions/timeAllocationActions'
+import { startSubmittingTimeAllocations, fetchAllocationsPass, failToSubmitTimeAllocations } from '../../actions/timeAllocationActions'
 import { ALL_PARTNER } from '../../types'
 import { getPartnerList, listForDropdown } from '../../util/filters'
 import { checkColumns, getIndexOfColumns, updateProposalFromCSV } from '../../util/uploadCsv'
@@ -33,7 +33,7 @@ class TimeAllocationPage extends React.Component {
       .then(p => p.data)
       .then(d => {
         d.data.updateTimeAllocations.success ?
-          dispatch(TimeAllocationSubmittedSuccessfully(partner))
+          dispatch(fetchAllocationsPass(partner))
           : dispatch(failToSubmitTimeAllocations(partner, 'Something went pear-shaped...'))
       })
       .catch(dispatch(failToSubmitTimeAllocations(partner)))

@@ -6,7 +6,8 @@ import {
   STATISTICS_PAGE,
   TAC_PAGE,
   TECHNICAL_PAGE,
-  PAGE_NOT_FOUND
+  PAGE_NOT_FOUND,
+	LIAISON_PAGE
 } from '../types'
 import { makeTechComment } from './index'
 
@@ -115,16 +116,17 @@ export const getAstronomersList = saList => (saList || []).map( l => (`${ l.name
  * @return name of selected page or Home page by default
  */
 export const loadedPage = pathname => {
-  let page = HOME_PAGE
-  if (pathname === '/' ) page = HOME_PAGE
-  else if (pathname === '/timeallocation' ) page = TAC_PAGE
-  else if( pathname === '/statistics' ) page = STATISTICS_PAGE
-  else if( pathname === '/techreview' ) page = TECHNICAL_PAGE
-  else if( pathname === '/documentation' ) page = DOCUMENTATION_PAGE
-  else if( pathname === '/admin' ) page = ADMIN_PAGE
-  else if( pathname === '/login' ) page = HOME_PAGE
-  else page = PAGE_NOT_FOUND
-  return page
+	let page = HOME_PAGE
+	if (pathname === '/' ) page = HOME_PAGE
+	else if (pathname === '/timeallocation' ) page = TAC_PAGE
+	else if (pathname === '/liaison' ) page = LIAISON_PAGE
+	else if( pathname === '/statistics' ) page = STATISTICS_PAGE
+	else if( pathname === '/techreview' ) page = TECHNICAL_PAGE
+	else if( pathname === '/documentation' ) page = DOCUMENTATION_PAGE
+	else if( pathname === '/admin' ) page = ADMIN_PAGE
+	else if( pathname === '/login' ) page = HOME_PAGE
+	else page = PAGE_NOT_FOUND
+	return page
 }
 
 /**

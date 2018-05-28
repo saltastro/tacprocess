@@ -15,11 +15,11 @@ const failToGetTacMembers = () => ({
   type: FAIL_TO_GET_TAC_MEMBERS
 })
 
-const gotSaltUsers = (users) => ({
+export const fetchSaltUsersPass = (users) => ({
   type: SALT_USERS_QUERY_PASS,
   payload: users
 })
-const gotTacMembers = (tacs) => ({
+export const fetchTacMembersPass = (tacs) => ({
   type: TAC_MEMBERS_QUERY_PASS,
   payload: tacs
 })
@@ -42,12 +42,12 @@ export function convertSaltUsers(users){
 }
 
 export function convertTacMembers(tacs){
-	const newTacs = {}
+	const tacMembers = {}
 	tacs.tacMembers.forEach(tac => {
-		if (!newTacs[ tac.partnerCode ]){
-			newTacs[ tac.partnerCode ] = []
+		if (!tacMembers[ tac.partner.code ]){
+			tacMembers[ tac.partner.code ] = []
 		}
-		newTacs[ tac.partnerCode ].push(
+		tacMembers[ tac.partner.code ].push(
 			{
 				name: tac.firstName,
 				username: tac.username,
@@ -57,7 +57,7 @@ export function convertTacMembers(tacs){
 		)
 		
   })
-  return newTacs
+  return tacMembers
 }
 
 export function fetchSaltUsers(){
@@ -65,7 +65,7 @@ export function fetchSaltUsers(){
     dispatch(fetchingSaltUsersStart())
     querySaltUsers().then( res =>
     {
-      dispatch(gotSaltUsers(convertSaltUsers(res.data.data)))
+      dispatch(fetchSaltUsersPass(convertSaltUsers(res.data.data)))
     }
     ).catch((e) => {
       dispatch(failToGetSaltUsers(e.message))})
@@ -77,7 +77,7 @@ export function fetchTacMembers(){
     dispatch(fetchingTacMembersStart())
     queryTacMembers().then( res =>
     {
-      dispatch(gotTacMembers(convertTacMembers(res.data.data)))
+      dispatch(fetchTacMembersPass(convertTacMembers(res.data.data)))
     }
     ).catch((e) => {
       dispatch(failToGetTacMembers(e.message))})

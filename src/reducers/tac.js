@@ -167,7 +167,7 @@ export default function statistics(state=initState, action = {}) {
       saltUsers: action.payload
     }
   }
-	  case USER_LOGGED_OUT: {
+	case USER_LOGGED_OUT: {
 		  return initState
 	  }
   default:{

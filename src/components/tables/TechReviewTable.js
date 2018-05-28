@@ -3,7 +3,7 @@ import propTypes from 'prop-types'
 import '../../styles/components/tables.css'
 import { canAssignOtherReviewer, defaultSemester, downloadSummary } from '../../util'
 import {getTechnicalReport} from '../../util/technicalReports'
-import {didReportChange} from '../../util/proposal'
+import {compareByProposalCode, didReportChange} from '../../util/proposal'
 
 function getReviewer(proposal, semester){
   const review = proposal.techReviews[ semester ]
@@ -73,17 +73,6 @@ export default class TechReviewTable extends React.Component {
 	    }
 	    return 0
 	  }
-	  const compareByProposalCode = (a, b) => {
-	    const name1 = a.proposalCode.toUpperCase()
-	    const name2 = b.proposalCode.toUpperCase()
-	    if (name1 < name2) {
-	      return -1
-	    }
-	    if (name1 > name2) {
-	      return 1
-	    }
-	    return 0
-	  }
 
 	  const saltAstronomerName = (username) => {
 	    const name = (SALTAstronomers).find(a => a.username === username)
@@ -120,7 +109,7 @@ export default class TechReviewTable extends React.Component {
 	              const techReportString = getTechnicalReport(p, semester, 'string')
 
 	              return (
-	                <tr key={ p.proposalId }>
+	                <tr key={ `tech-review-${ p.proposalCode }` }>
 	                  <td className='width-150'>
 	                    <a target='_blank'
 	                      href={ `https://www.salt.ac.za/wm/proposal/${ p.proposalCode }` }>

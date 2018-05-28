@@ -5,7 +5,7 @@ import SwitchUserForm from '../forms/SwitchUserForm'
 import TacMemberEditTable from '../tables/TacMemberEditTable'
 import { switchUser } from '../../actions/auth'
 import { addNewMember, removeMember } from '../../actions/timeAllocationActions'
-import { fetchTacMembers, fetchSaltUsers } from '../../actions/AdminActions'
+import { fetchTacMembers, fetchSaltUsers } from '../../actions/adminActions'
 import { getPartnerList } from '../../util/filters'
 import { ADMINISTRATOR } from '../../types'
 

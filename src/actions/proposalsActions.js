@@ -4,6 +4,8 @@ import {
   FETCH_PROPOSALS_PASS,
   FETCH_PROPOSALS_FAIL,
   UPDATING_PROPOSALS,
+  SET_LIAISON_ASTRONOMER,
+  UNSET_LIAISON_ASTRONOMER
 } from '../types'
 
 function startFetchProposals() {
@@ -15,7 +17,7 @@ function startFetchProposals() {
 
 }
 
-function FetchProposalsFail(error) {
+function fetchProposalsFail(error) {
   return (
     {
       type: FETCH_PROPOSALS_FAIL,
@@ -24,7 +26,7 @@ function FetchProposalsFail(error) {
   )
 }
 
-function FetchProposalsPass(proposals, semester) {
+export function fetchProposalsPass(proposals, semester) {
   return (
     {
       type: FETCH_PROPOSALS_PASS,
@@ -41,10 +43,10 @@ export default function fetchProposals(semester, partner='All') {
     dispatch(startFetchProposals())
     queryProposals(semester, partner).then( res =>
     {
-      dispatch(FetchProposalsPass(res, semester))
+      dispatch(fetchProposalsPass(res, semester))
     }
     ).catch((e) => {
-      dispatch(FetchProposalsFail(e.message))})
+      dispatch(fetchProposalsFail(e.message))})
   }
 }
 
@@ -55,4 +57,21 @@ export function updateProposals(load) {
       payload: load
     }
   )
+}
+
+export function setLiaisonAstronomer(proposalCode, astronomerUsername) {
+	if ( astronomerUsername ) return {
+		type: SET_LIAISON_ASTRONOMER,
+		payload: {
+			proposalCode,
+			astronomerUsername
+		}
+	}
+	return {
+		type: UNSET_LIAISON_ASTRONOMER,
+		payload: {
+			proposalCode,
+			astronomerUsername
+		}
+	}
 }
