@@ -21,7 +21,7 @@ export function add (a, b) {
 export function proposalObservingTime(proposal, semester, partner='All') {
   return proposal.timeRequests
     .filter(r => r.semester === semester) // semester is correct
-    .reduce((allDistributionItems, r) => [...allDistributionItems, ...r.distribution], []) // collect all partner time requests
+    .reduce((allDistributionItems, r) => [...allDistributionItems, ...r.timeRequests], []) // collect all partner time requests
     .filter(d => partner === 'All' || d.partnerCode === partner) // partner is correct
     .reduce((sum, d) => sum + d.time, 0) // add up all time requests
 }
@@ -39,7 +39,7 @@ export function observingTimeForTransparency(proposals, semester, transparency, 
     .filter(p => p.transparency === transparency) // transparency is correct
     .reduce((allTimeRequests, p) => [...allTimeRequests, ...p.timeRequests], []) // collect time requests
     .filter(r => r.semester === semester) // semester is correct
-    .reduce((allDistributionItems, r) => [...allDistributionItems, ...r.distribution], []) // collect partner time requests
+    .reduce((allDistributionItems, r) => [...allDistributionItems, ...r.timeRequests], []) // collect partner time requests
     .filter(d => partner === 'All' || d.partnerCode === partner) // partner is correct
     .reduce((sum, request) => sum + request.time, 0) // add up all time requests
 }
@@ -61,7 +61,7 @@ export function observingTimeForSeeing(proposals, semester, seeingRange, partner
     .filter(p => seeingRange[ 0 ] <= p.maxSeeing && p.maxSeeing < seeingRange[ 1 ])// seeing is correct
     .reduce((allTimeRequests, p) => [...allTimeRequests, ...p.timeRequests], []) // collect time requests
     .filter(r => r.semester === semester) // semester is correct
-    .reduce((allDistributionItems, r) => [...allDistributionItems, ...r.distribution], []) // collect partner time requests
+    .reduce((allDistributionItems, r) => [...allDistributionItems, ...r.timeRequests], []) // collect partner time requests
     .filter(d => partner === 'All' || d.partnerCode === partner) // partner is correct
     .reduce((sum, request) => sum + request.time, 0) // add up all time requests
 }
@@ -73,6 +73,8 @@ export function observingTimeForSeeing(proposals, semester, seeingRange, partner
  * @returns {*}
  */
 export function instrumentCount(proposal) {
+  console.log('>>>>>:', Object.keys(proposal.instruments)
+		.reduce((sum, key) => sum + proposal.instruments[ key ].length, 0))
   return Object.keys(proposal.instruments)
     .reduce((sum, key) => sum + proposal.instruments[ key ].length, 0)
 }
@@ -109,7 +111,7 @@ export function proposalObservingTimeForInstrument(proposal, semester, instrumen
 
   const totalObservingTime = proposal.timeRequests
     .filter(r => r.semester === semester) // semester is correct
-    .reduce((distributionItems, r) => [...distributionItems, ...r.distribution], []) // collect all partner time requests
+    .reduce((timeRequestsItems, r) => [...timeRequestsItems, ...r.timeRequests], []) // collect all partner time requests
     .filter(d => partner === 'All' || d.partnerCode === partner) // partner is correct
     .reduce((sum, d) => sum + d.time, 0) // add all time requests
 

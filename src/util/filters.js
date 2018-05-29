@@ -7,7 +7,7 @@ import {
   TAC_PAGE,
   TECHNICAL_PAGE,
   PAGE_NOT_FOUND,
-	LIAISON_PAGE
+	LIAISON_PAGE,
 } from '../types'
 import { makeTechComment } from './index'
 
@@ -16,25 +16,18 @@ import { makeTechComment } from './index'
 * @param proposals of a selected partner all or single
 * @param semester selected semester
 * @param partner all partners or a single
-* @return total
+* @return number
 */
 export function totalTimeRequestedPerPartner(proposals, semester, partner='All' ){
-
   let total = 0
   proposals.forEach( p =>{
     if (!p.isP4){
-      p.timeRequests.forEach( r => {
-        if (r.semester === semester){
-          r.distribution.forEach(d => {
-            if ( partner === 'All'){
-              total += d.time
-            }else if (d.partnerCode === partner){
-              total += d.time
-            }
-          })
+    	if (partner === ALL_PARTNER) {
+				total += p.totalRequestedTime
+			} else {
+    		total += p.requestedTime.requests[ partner ]
+			}
 
-        }
-      })
     }
 
   })
@@ -47,10 +40,10 @@ export function totalTimeRequestedForP4(proposals, semester, partner='All' ){
     if (p.isP4){
       p.timeRequests.forEach( r => {
         if (r.semester === semester){
-          r.distribution.forEach(d => {
+          r.timeRequests.forEach(d => {
             if ( partner === 'All'){
               total += d.time
-            }else if (d.partnerCode === partner){
+            }else if (d.partner.code === partner){
               total += d.time
             }
           })
@@ -76,6 +69,11 @@ export const semestersArray = () => {
   return semester
 }
 
+/**
+ * returns an array of partners a user can see
+ * @params roles
+ * @return Array
+ * */
 export const getPartnerList = roles => {
   let partnerList = []// eslint-disable-next-line
   for (const r of roles || []) {

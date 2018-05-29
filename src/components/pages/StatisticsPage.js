@@ -15,7 +15,7 @@ import TargetDistributionScatterPlot from '../plots/TargetDistributionScatterPlo
 import PartnerTimeTable from '../tables/statisticsTables/PartnerTimeTable'
 import ProposalCountTable from '../tables/statisticsTables/ProposalsCountTable'
 import PartnerProposals from '../../util/proposal'
-import {getPartnerList} from '../../util/filters'
+import { getPartnerList } from '../../util/filters'
 import {ALL_PARTNER} from '../../types'
 import TargetStatistics from '../tables/statisticsTables/TargetStatistics'
 import ObservingStatisticsSeeing from '../tables/statisticsTables/ObservingStatisticsSeeing'
@@ -49,6 +49,7 @@ class StatisticsPage extends React.Component {
     }else{
       proposals = PartnerProposals(proposalsData.proposals, getPartnerList(roles))[ partner ] || []
     }
+
     return(
       <div>
 				

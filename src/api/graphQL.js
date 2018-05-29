@@ -47,6 +47,24 @@ function makeTacComments(tComm){
   return tacComment
 }
 
+const makeInstruments = (instruments) => instruments.reduce((made, instrument) =>{
+  made[ instrument.type.toLowerCase() ] = instrument.type ==='HRS' ? [
+		...made[ instrument.type.toLowerCase() ],
+    {
+      type: 'hrs',
+      exposureMode: instrument.detectorMode
+    }
+  ] : [
+    ...made[ instrument.type.toLowerCase() ],
+    instrument
+  ]
+  return made
+}, {
+  rss: [],
+  hrs: [],
+  scam: [],
+  bvit: [],
+})
 function minimumTotalRequested(timeRequirements, semester){
   let total = 0
   let minimum = 0
@@ -79,8 +97,12 @@ function requestedTime(requirements, semester){
 
 export function convertProposals(proposals, semester, partner){
   if (!proposals.proposals){ return []}
-  const ppp =  proposals.proposals.map( proposal => {
+  return proposals.proposals.map( proposal => {
     const minTotal  = minimumTotalRequested(proposal.timeRequirements, semester)
+    const liaisonAstronomer = proposal.liaisonSaltAstronomer ? proposal.liaisonSaltAstronomer.username : null
+    const allocatedTime = makeAllocatedTime(proposal.allocatedTime, partner)
+    const tacComment = makeTacComments(proposal.tacComment, partner)
+    const techReviews = makeTechReviews(proposal.techReviews)
     return ({
       title: proposal.title,
       abstract: proposal.abstract,
@@ -96,16 +118,21 @@ export function convertProposals(proposals, semester, partner){
       totalRequestedTime: minTotal.total,
       timeRequests: proposal.timeRequirements,
       minTime: minTotal.minimum,
-      instruments: proposal.instruments,
+      instruments: makeInstruments(proposal.instruments),
       pi: `${ proposal.principalInvestigator.lastName } ${ proposal.principalInvestigator.firstName }`,
-      liaisonAstronomer: proposal.liaisonSaltAstronomer ? proposal.liaisonSaltAstronomer.username : null,
-      techReviews: makeTechReviews(proposal.techReviews),
-      allocatedTime: makeAllocatedTime(proposal.allocatedTime, partner),
-      tacComment: makeTacComments(proposal.tacComment, partner),
-      requestedTime: requestedTime(proposal.timeRequirements, semester)
+      liaisonAstronomer,
+      techReviews,
+      allocatedTime,
+      tacComment,
+      requestedTime: requestedTime(proposal.timeRequirements, semester),
+      initialState: {
+        liaisonAstronomer,
+        techReviews,
+        allocatedTime,
+        tacComment
+      }
     })
   })
-	return ppp
 }
 
 const convertData = rowUser => ({
