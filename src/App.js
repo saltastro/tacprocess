@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import Navigation from './components/Navigation'
 import * as actions from './actions/auth'
-import {defaultSemester, getLiaisonUsername} from './util'
+import {defaultSemester, downloadSummary, getLiaisonUsername} from './util'
 import ApplicationPages from './components/pages/ApplicationPages'
 import { setLiaisonAstronomer }from './actions/proposalsActions'
 import submitProposalsLiaison from './actions/liaison-astronomer-actions'
@@ -35,7 +35,10 @@ class App extends React.Component {
 		)
 	}
 
-	requestSummary = (proposalCode) => proposalCode
+	requestSummary = (event, proposalCode) => {
+		event.preventDefault()
+		downloadSummary(proposalCode, this.props.filters.selectedSemester, this.props.filters.selectedPartner)
+	}
 	submitTechnicalReviews = () => {
 		console.log('submiting')
 	}

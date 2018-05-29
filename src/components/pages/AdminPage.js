@@ -60,10 +60,10 @@ class AdminPage extends React.Component {
 AdminPage.propTypes = {
   dispatch: propTypes.func.isRequired,
   tacMembers: propTypes.object.isRequired,
-  newMembers: propTypes.object.isRequired,
-  userError: propTypes.object.isRequired,
+  newMembers: propTypes.object,
+  userError: propTypes.object,
   saltUsers: propTypes.array.isRequired,
-  fetchingUser: propTypes.bool.isRequired,
+  fetchingUser: propTypes.bool,
   user: propTypes.object.isRequired,
 }
 
