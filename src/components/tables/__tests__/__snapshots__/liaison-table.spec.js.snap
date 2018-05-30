@@ -133,6 +133,7 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
               },
             ]
           }
+          key="Code-1"
           proposal={
             Object {
               "liaisonAstronomer": "LA-1",
@@ -215,7 +216,6 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
                   },
                 ]
               }
-              inputValue="myezasifiso"
               proposal={
                 Object {
                   "liaisonAstronomer": "LA-1",
@@ -226,6 +226,7 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
                 }
               }
               setLiaison={[Function]}
+              username="myezasifiso"
             >
               <td>
                 <select
@@ -306,6 +307,7 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
               },
             ]
           }
+          key="Code-2"
           proposal={
             Object {
               "liaisonAstronomer": "LA-2",
@@ -388,7 +390,6 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
                   },
                 ]
               }
-              inputValue="myezasifiso"
               proposal={
                 Object {
                   "liaisonAstronomer": "LA-2",
@@ -399,6 +400,7 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
                 }
               }
               setLiaison={[Function]}
+              username="myezasifiso"
             >
               <td>
                 <select
@@ -479,6 +481,7 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
               },
             ]
           }
+          key="Code-3"
           proposal={
             Object {
               "liaisonAstronomer": "LA-3",
@@ -561,7 +564,6 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
                   },
                 ]
               }
-              inputValue="myezasifiso"
               proposal={
                 Object {
                   "liaisonAstronomer": "LA-3",
@@ -572,6 +574,7 @@ exports[`LiaisonTable Component Render the LiaisonTable Component having populat
                 }
               }
               setLiaison={[Function]}
+              username="myezasifiso"
             >
               <td>
                 <select
