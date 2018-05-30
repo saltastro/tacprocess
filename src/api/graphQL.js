@@ -38,13 +38,13 @@ function makeAllocatedTime(alloc){
 
 function makeTacComments(tComm){
 	
-  const tacComment = {}
+  const tacComments = {}
   tComm.forEach( c => {
-    tacComment[ c.partner.code ] = {
+    tacComments[ c.partner.code ] = {
       comment: c.comment == null ? '' : `${ c.comment }`
     }
   })
-  return tacComment
+  return tacComments
 }
 
 const makeInstruments = (instruments) => instruments.reduce((made, instrument) =>{
@@ -101,7 +101,7 @@ export function convertProposals(proposals, semester, partner){
     const minTotal  = minimumTotalRequested(proposal.timeRequirements, semester)
     const liaisonAstronomer = proposal.liaisonSaltAstronomer ? proposal.liaisonSaltAstronomer.username : null
     const allocatedTime = makeAllocatedTime(proposal.allocatedTime, partner)
-    const tacComment = makeTacComments(proposal.tacComment, partner)
+    const tacComment = makeTacComments(proposal.tacComments, partner)
     const techReviews = makeTechReviews(proposal.techReviews)
     return ({
       title: proposal.title,
@@ -134,15 +134,6 @@ export function convertProposals(proposals, semester, partner){
     })
   })
 }
-
-const convertData = rowUser => ({
-  firstName: rowUser.firstName,
-  lastName: rowUser.lastName,
-  email: rowUser.email,
-  username: rowUser.username,
-  roles:rowUser.role
-}
-)
 
 export function queryPartnerAllocations(semester){
   /**
@@ -189,7 +180,7 @@ export function queryUserData(){
   }`
   return graphqlClient().post('/graphql', {query})
     .then(
-      response =>  convertData(response.data.data.user)
+      response =>  convertUserData(response.data.data.user)
     )
 }
 
@@ -282,7 +273,7 @@ export function queryProposals(semester, partner){
         p3
         p4
       }
-      tacComment{
+      tacComments{
         partner{
           code
         }
