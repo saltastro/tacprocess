@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import propTypes from 'prop-types'
 
-import PlotCaption from './PlotCaption';
+import PlotCaption from './PlotCaption'
 
 /**
  * A component for wrapping a plot in a <div> element with class "plot".
@@ -12,16 +12,15 @@ import PlotCaption from './PlotCaption';
  * caption: A plot caption, which may contain html markup. (optional)
  */
 const Plot = ({caption, children}) =>
-{
-    return <div  className={"stat-item"}>
-        {children}
-        <div>{caption && <PlotCaption caption={caption}/>}</div>
-    </div>
-};
+  <div  className='stat-item'>
+    {children}
+    <div>{caption && <PlotCaption caption={ caption }/>}</div>
+  </div>
 
 Plot.propTypes = {
-    caption: PropTypes.string
-};
+  caption: propTypes.string,
+  children: propTypes.string
+}
 
-export default Plot;
+export default Plot
 

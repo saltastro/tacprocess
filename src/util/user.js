@@ -7,5 +7,4 @@
  */
 export const isUser = (user, role) => (user.roles || [] ).some(r => r.type === role)
 
-
 export const dummy = () => undefined

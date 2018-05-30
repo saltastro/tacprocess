@@ -1,21 +1,73 @@
 {
-  "extends": ["airbnb", "prettier", "prettier/react"],
+  "extends": ["airbnb-standard", "airbnb", "prettier", "prettier/react"],
   "plugins": ["prettier"],
   "parser": "babel-eslint",
   "parserOptions": {
-      "ecmaVersion": 2016,
-      "sourcetype": "module",
-      "ecmaFeature": {
-        "jsx": true
-        }
-    },
+    "ecmaVersion": 2016,
+    "sourcetype": "module",
+    "ecmaFeature": {
+      "jsx": true
+    }
+  },
   "env": {
     "es6": true,
     "browser": true,
     "node": true,
     "jest": true
-    },
+  },
   "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
-    }
+    // strings
+    "quotes": [1, "single"],
+    "jsx-quotes": [1, "prefer-single"],
+
+    // Codeing
+    "semi": [1, "never"],
+    "no-console": 1,
+
+    // indentation
+    "indent": [0, 2],
+    "space-before-function-paren": 0,
+
+    // spacing
+    "template-curly-spacing": [1, "always"],
+    "object-curly-spacing": [0, "always"],
+    "computed-property-spacing": [1, "always"],
+    "no-multiple-empty-lines": [2, { "max": 1, "maxEOF": 1, "maxBOF": 0 }],
+
+
+
+    // code arrangement matter
+    "no-use-before-define": [1, { "functions": false }],
+
+    // make it meaningful
+    "prefer-const": 1,
+    "no-unused-vars": 2,
+    "no-shadow": 1,
+    "no-return-assign": 0,
+    "no-underscore-dangle": 0,
+    "no-restricted-globals": 0,
+    "no-undef": 0,
+
+    // react
+    "react/prefer-es6-class": 2,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-curly-spacing": [2, "always"],
+    "react/prefer-stateless-function": 0,
+    "react/forbid-prop-types": 0,
+    "react/require-default-props": 0,
+    "react/no-array-index-key": 0,
+    "react/no-danger": 0,
+
+    // jsx
+    "jsx-a11y/anchor-is-valid": 0,
+    "jsx-a11y/label-has-for": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+
+    //import
+    "import/no-extraneous-dependencies": 0, // Enzyme dont want to Dev dependency
+
+    "no-unused-expressions": 0,
+    "no-param-reassign": 0
+  }
 }

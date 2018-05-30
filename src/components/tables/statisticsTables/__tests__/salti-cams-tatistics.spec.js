@@ -1,18 +1,18 @@
-import React from "react";
-import renderer from "react-test-renderer";
-import { shallow, mount, render } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
-import SALTICAMStatistics from "../SALTICAMStatistics";
+import React from 'react'
+import renderer from 'react-test-renderer'
+import { shallow, mount, render } from 'enzyme'
+import { shallowToJson } from 'enzyme-to-json'
+import SALTICAMStatistics from './SALTICAMStatistics'
 
 const proposals = [
   {
     transparency: 'Clear',
     maxSeeing: 2,
     instruments: {
-      hrs: [ { exposureMode: "HIGH RESOLUTION" } ],
+      hrs: [ { exposureMode: 'HIGH RESOLUTION' } ],
       rss: [ { dictatorMode: 'NORMAL', mode: 'Spectroscopy' } ],
-      scam: [ { dictatorMode: "NORMAL" } ],
-      bvit: [{type: "BVIT"}]
+      scam: [ { dictatorMode: 'NORMAL' } ],
+      bvit: [{type: 'BVIT'}]
     },
     timeRequests: [
       {
@@ -29,10 +29,10 @@ const proposals = [
     transparency: 'Thin cloud',
     maxSeeing: 2,
     instruments: {
-      hrs: [ { exposureMode: "HIGH RESOLUTION" } ],
+      hrs: [ { exposureMode: 'HIGH RESOLUTION' } ],
       rss: [ { dictatorMode: 'NORMAL', mode: 'Spectroscopy' } ],
-      scam: [ { dictatorMode: "NORMAL" } ],
-      bvit: [{type: "BVIT"}]
+      scam: [ { dictatorMode: 'NORMAL' } ],
+      bvit: [{type: 'BVIT'}]
     },
     timeRequests: [
       {
@@ -45,19 +45,19 @@ const proposals = [
       }
     ]
   }
-];
+]
 
 // Checking if the SALTICAMStatistics Component renders correctly for different input
-describe("SALTICAMStatistics Component", () => {
+describe('SALTICAMStatistics Component', () => {
 
-  //Enzyme method testing if it renders correctly with empty values of the proposals, semester, and partner
-  it("Render the SALTICAMStatistics Component having unpopulated props with no errors", () => {
-    const rendered = mount(<SALTICAMStatistics proposals={[]}  />);
-    expect(shallowToJson(rendered)).toMatchSnapshot();
-  });
+  // Enzyme method testing if it renders correctly with empty values of the proposals, semester, and partner
+  it('Render the SALTICAMStatistics Component having unpopulated props with no errors', () => {
+    const rendered = mount(<SALTICAMStatistics proposals={ [] }  />)
+    expect(shallowToJson(rendered)).toMatchSnapshot()
+  })
 
-  it("Render the SALTICAMStatistics Component having populated props with no errors", () => {
-    const rendered = mount(<SALTICAMStatistics proposals={proposals}  />);
-    expect(shallowToJson(rendered)).toMatchSnapshot();
-  });
-});
+  it('Render the SALTICAMStatistics Component having populated props with no errors', () => {
+    const rendered = mount(<SALTICAMStatistics proposals={ proposals }  />)
+    expect(shallowToJson(rendered)).toMatchSnapshot()
+  })
+})

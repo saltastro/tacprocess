@@ -1,13 +1,13 @@
 import {
   FETCHING_DATA,
   FETCHED_DATA, USER_LOGGED_OUT, FETCHING_DATA_FAIL
-} from '../types';
+} from '../types'
 
 const initialState = {
   fetchingData: false,
   fetchedData: false,
   error: null
-};
+}
 
 export default function dataStatus(state = initialState, action = {}) {
   switch (action.type) {
@@ -17,7 +17,7 @@ export default function dataStatus(state = initialState, action = {}) {
         fetchingData: true,
         fetchedData: false,
         error: null
-      };}
+      }}
     case FETCHED_DATA: {
       return {
         ...state,
@@ -37,7 +37,7 @@ export default function dataStatus(state = initialState, action = {}) {
       return initialState
     }
     default:{
-      return state;
+      return state
     }
 
   }

@@ -1,21 +1,23 @@
-import React from 'react';
-import PropTypes from "prop-types";
-import { BrowserRouter }  from "react-router-dom";
-import { connect } from "react-redux";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { BrowserRouter }  from 'react-router-dom'
+import { connect } from 'react-redux'
 
-import Navigation from "./components/Navigation";
-import * as actions from './actions/auth';
-import {defaultSemester} from './util';
+import Navigation from './components/Navigation'
+import * as actions from './actions/auth'
+import {defaultSemester, downloadSummary, getLiaisonUsername} from './util'
 import ApplicationPages from './components/pages/ApplicationPages'
-import {setLiaisonAstronomer} from './actions/proposalAction'
+import { setLiaisonAstronomer }from './actions/proposalsActions'
 import submitProposalsLiaison from './actions/liaison-astronomer-actions'
-import {fetchAllData} from './actions/data-actions'
+import { fetchAllData } from './actions/data-actions'
 import Loading from './components/messages/Loading'
 import FailToLoad from './components/messages/FailToLoad'
+import {ALL_PARTNER} from './types'
+import { reduceProposalsPerAstronomer } from './util/filters'
 
 class App extends React.Component {
 	componentDidMount() {
-		const partner = this.props.filters.selectedPartner
+		const partner = this.props.filters.selectedPartner || ALL_PARTNER
 		const semester = defaultSemester()
 		if (this.props.isAuthenticated) {
 			this.props.dispatch(fetchAllData(semester, partner))
@@ -27,77 +29,90 @@ class App extends React.Component {
 		this.props.dispatch(setLiaisonAstronomer(proposalCode, liaisonUsername))
 	}
 
-  submitLiaisons =  ( proposals) => {
+	submitLiaisons =  ( proposals) => {
 		this.props.dispatch(
 			submitProposalsLiaison(proposals, this.props.filters.selectedSemester, this.props.filters.selectedPartner)
 		)
 	}
 
+	requestSummary = (event, proposalCode) => {
+		event.preventDefault()
+		downloadSummary(proposalCode, this.props.filters.selectedSemester, this.props.filters.selectedPartner)
+	}
+	submitTechnicalReviews = () => {
+		console.log('submiting')
+	}
 	loggingOut = () => {
-    this.props.dispatch(actions.logout())
+		this.props.dispatch(actions.logout())
 	};
 
 	render() {
-		const {user, isAuthenticated, proposals, initProposals, filters, SALTAstronomers, dataStatus} = this.props
-    if (dataStatus.error && !dataStatus.fetchedData){
-		  return (
-		    <FailToLoad />
-      )
-    } else if ( dataStatus.fetchingData) {
-		  return (
-          <Loading />
-        )
-    }
+		const { user, isAuthenticated, proposals, initProposals, filters, SALTAstronomers, dataStatus } = this.props
+
+		if (dataStatus.error && !dataStatus.fetchedData){
+			return <FailToLoad />
+		} else if ( dataStatus.fetchingData) {
+			return <Loading />
+		}
+		const { submittingReviews, submittedReviews, loading }  = proposals
+		const saUser = filters.selectedLiaison === 'All' || filters.selectedLiaison === 'Not Assigned' || filters.selectedLiaison === 'Assigned' ? filters.selectedLiaison : getLiaisonUsername(filters.selectedLiaison, SALTAstronomers)
+
+		const proposalsPerLiaison = reduceProposalsPerAstronomer(proposals.proposals || [], saUser, filters.selectedSemester)
+
 		return (
 			<BrowserRouter>
-				<div className="root-main">
+				<div className='root-main'>
 					<div>
-						<Navigation logout={this.loggingOut}/>
+						<Navigation logout={ this.loggingOut }/>
 					</div>
 					<div>
 						{this.props.fetchProposalsError &&
-						<div className="error">
-							{`The proposals could not be loaded: ${this.props.fetchProposalsError}`}
+						<div className='error'>
+							{`The proposals could not be loaded: ${ this.props.fetchProposalsError }`}
 						</div>}
 
 						{this.props.fetchTargetsError &&
-						<div className="error">
-							{`The targets could not be loaded: ${this.props.fetchTargetsError}`}
+						<div className='error'>
+							{`The targets could not be loaded: ${ this.props.fetchTargetsError }`}
 						</div>}
 						<ApplicationPages
-							proposals={proposals.proposals}
-							isAuthenticated={isAuthenticated}
-							user={user}
-							initProposals={initProposals}
-							filters={filters}
-							astronomers={SALTAstronomers.SALTAstronomer}
-              submitLiaisons={this.submitLiaisons}
-							setLiaison={this.setLiaison}
+							proposals={ proposals.proposals }
+							proposalsPerLiaison={ proposalsPerLiaison }
+							isAuthenticated={ isAuthenticated }
+							user={ user }
+							initProposals={ initProposals }
+							filters={ filters }
+							astronomers={ SALTAstronomers.SALTAstronomer }
+							submitLiaisons={ this.submitLiaisons }
+							setLiaison={ this.setLiaison }
+							submitTechnicalReviews={ this.submitTechnicalReviews }
+							requestSummary={ this.requestSummary }
+							submittingReviews={ submittingReviews }
+							submittedReviews={ submittedReviews }
+							loading={ loading }
 						/>
-						<div className="footer">
+						<div className='footer'>
 							<p>Copyright © 2018 TAC</p>
 						</div>
 					</div>
 				</div>
 			</BrowserRouter>
-		);
+		)
 	}
 }
 
 App.propTypes = {
 	isAuthenticated: PropTypes.bool,
+	dataStatus: PropTypes.object,
 	filters: PropTypes.object,
-	data: PropTypes.object,
 	fetchProposalsError: PropTypes.string,
 	fetchTargetsError: PropTypes.string,
-  proposals: PropTypes.object,
+	proposals: PropTypes.object,
 	initProposals: PropTypes.array,
-	tacs: PropTypes.object,
-	targets: PropTypes.object,
-  SALTAstronomers: PropTypes.object,
+	SALTAstronomers: PropTypes.object,
 	user: PropTypes.object,
 	dispatch: PropTypes.func
-};
+}
 
 function mapStateToProps(state) { /* state in params */
 	return{
@@ -111,8 +126,8 @@ function mapStateToProps(state) { /* state in params */
 		initProposals: state.proposals.initProposals,
 		targets: state.targets,
 		tacs: state.tac,
-    SALTAstronomers: state.SALTAstronomers
-	};
+		SALTAstronomers: state.SALTAstronomers
+	}
 }
 
-export default connect(mapStateToProps,null)(App);
+export default connect(mapStateToProps,null)(App)

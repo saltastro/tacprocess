@@ -1,14 +1,14 @@
-import React from "react";
-import propTypes from "prop-types";
+import React from 'react'
+import propTypes from 'prop-types'
 
 const InfoMessage = ({ page }) => (
-    <div>
-      <h2><strong>Info!</strong> <br />{ page } Page will be placed here.</h2>
-    </div>
-  );
+  <div>
+    <h2><strong>Info!</strong> <br />{ page } Page will be placed here.</h2>
+  </div>
+)
 
-  InfoMessage.propTypes = {
-    page: propTypes.string.isRequired
-  }
+InfoMessage.propTypes = {
+  page: propTypes.string.isRequired
+}
 
-export default InfoMessage;
+export default InfoMessage
