@@ -73,8 +73,6 @@ export function observingTimeForSeeing(proposals, semester, seeingRange, partner
  * @returns {*}
  */
 export function instrumentCount(proposal) {
-  console.log('>>>>>:', Object.keys(proposal.instruments)
-		.reduce((sum, key) => sum + proposal.instruments[ key ].length, 0))
   return Object.keys(proposal.instruments)
     .reduce((sum, key) => sum + proposal.instruments[ key ].length, 0)
 }
