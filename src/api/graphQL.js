@@ -100,7 +100,7 @@ export function convertProposals(proposals, semester, partner){
   return proposals.proposals.map( proposal => {
     const minTotal  = minimumTotalRequested(proposal.timeRequirements, semester)
     const liaisonAstronomer = proposal.liaisonSaltAstronomer ? proposal.liaisonSaltAstronomer.username : null
-    const allocatedTime = makeAllocatedTime(proposal.allocatedTime, partner)
+    const allocatedTime = makeAllocatedTime(proposal.allocatedTimes, partner)
     const tacComment = makeTacComments(proposal.tacComments, partner)
     const techReviews = makeTechReviews(proposal.techReviews)
     return ({
@@ -263,7 +263,7 @@ export function queryProposals(semester, partner){
         lastName
         email
       }
-      allocatedTime{
+      allocatedTimes{
         partner{
           code
         }
