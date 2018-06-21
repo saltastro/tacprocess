@@ -432,3 +432,15 @@ export function downloadSummaries(proposals, semester, partner) {
     }) // eslint-disable-next-line
     .catch(err => console.error(err))
 }
+
+export function addTacMembers(partner, members) {
+	jsonClient('blob').post('/update-tac-members', {partner, members}) // eslint-disable-next-line
+		.then(res => console.log(res)) // eslint-disable-next-line
+		.catch(err => console.error(err))
+}
+
+export function removeTacMembers(partner, members) {
+	jsonClient('blob').post('/remove-tac-members', {partner, members}) // eslint-disable-next-line
+		.then(res => console.log(res)) // eslint-disable-next-line
+		.catch(err => console.error(err))
+}

@@ -1,13 +1,15 @@
 import { queryPartnerAllocations } from '../api/graphQL'
-import { TIME_ALLOCATIONS_QUERY_START,
-  TIME_ALLOCATIONS_QUERY_FAIL,
-  TIME_ALLOCATIONS_QUERY_PASS,
-  SUBMIT_TIME_ALLOCATIONS_START,
-  SUBMIT_TIME_ALLOCATIONS_PASS,
-  SUBMIT_TIME_ALLOCATIONS_FAIL,
-  ADD_NEW_MEMBER,
-  REMOVE_MEMBER,
-  ALL_PARTNER
+import {
+	TIME_ALLOCATIONS_QUERY_START,
+	TIME_ALLOCATIONS_QUERY_FAIL,
+	TIME_ALLOCATIONS_QUERY_PASS,
+	SUBMIT_TIME_ALLOCATIONS_START,
+	SUBMIT_TIME_ALLOCATIONS_PASS,
+	SUBMIT_TIME_ALLOCATIONS_FAIL,
+	ADD_NEW_MEMBER,
+	REMOVE_MEMBER,
+	ALL_PARTNER,
+	SAVE_MEMBERS
 } from '../types'
 
 const startQuery = () => ({
@@ -53,6 +55,11 @@ export const removeMember = (member, partner) => ({
   payload: {
     member,
     partner}
+})
+export const saveMembers = (partner) => ({
+	type: SAVE_MEMBERS,
+	payload: {
+		partner}
 })
 
 export const convertPartnerAllocations = (data) => {

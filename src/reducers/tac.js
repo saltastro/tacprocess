@@ -169,6 +169,14 @@ export default function statistics(state=initState, action = {}) {
   case SAVE_MEMBERS: {
     return {
       ...state,
+			removedMembers: {
+				...state.removedMembers,
+				[ action.payload.partner ]: []
+			},
+			newMembers: {
+				...state.newMembers,
+				[ action.payload.partner ]: []
+			},
       unsavedMember: false
     }
   }
@@ -224,7 +232,9 @@ export default function statistics(state=initState, action = {}) {
         tacsError: undefined
       },
       tacMembers: action.payload,
-      initTacMembers: action.payload
+      initTacMembers: action.payload,
+			removedMembers: [],
+			newMembers: []
     }
   }
   case SALT_USERS_QUERY_PASS: {
