@@ -30,7 +30,9 @@ const initState = {
   submiting: false,
   submited: true,
   newMembers: {},
+  removedMembers: {},
   tacMembers: {},
+  initTacMembers: {},
   saltUsers: []
 }
 
@@ -62,6 +64,9 @@ export default function statistics(state=initState, action = {}) {
     if (!state.newMembers[ action.payload.partner ]){
       state.newMembers[ action.payload.partner ] = []
     }
+		if (!state.removedMembers[ action.payload.partner ]){
+			state.removedMembers[ action.payload.partner ] = []
+		}
     if (state.newMembers[ action.payload.partner ].some( p => (
       p.username === action.payload.member.username)) ||
 						state.tacMembers[ action.payload.partner ].some( p => (
@@ -69,21 +74,78 @@ export default function statistics(state=initState, action = {}) {
     ){
       return {...state}
     }
-    return {
-      ...state,
-      newMembers: {
-        ...state.newMembers,
-        [ action.payload.partner ] : [
-          ...state.newMembers[ action.payload.partner ],
-          action.payload.member
-        ]
-      }
+    if (
+			state.initTacMembers[ action.payload.partner ].some( p => (
+				p.username === action.payload.member.username))
+    ){
+			return {
+				...state,
+				tacMembers: {
+					...state.tacMembers,
+					[ action.payload.partner ] : [
+						...state.tacMembers[ action.payload.partner ],
+						action.payload.member
+					]
+				},
+				removedMembers: {
+					...state.removedMembers,
+					[ action.payload.partner ]: [
+						...state.removedMembers[ action.payload.partner ].filter( m => (action.payload.member.username !== m.username))
+					]
+				}
+			}
     }
+
+		return {
+			...state,
+			newMembers: {
+				...state.newMembers,
+				[ action.payload.partner ] : [
+					...state.newMembers[ action.payload.partner ],
+					action.payload.member
+				]
+			},
+			removedMembers: {
+				...state.removedMembers,
+				[ action.payload.partner ]: [
+					...state.removedMembers[ action.payload.partner ].filter( m => (action.payload.member.username !== m.username))
+				]
+			}
+		}
   }
   case REMOVE_MEMBER: {
     if (!state.newMembers[ action.payload.partner ]){
       state.newMembers[ action.payload.partner ] = []
     }
+		if (!state.removedMembers[ action.payload.partner ]){
+			state.removedMembers[ action.payload.partner ] = []
+		}
+		if (
+			state.initTacMembers[ action.payload.partner ].some( p => (
+				p.username === action.payload.member.username))
+		){
+			return {
+				...state,
+				tacMembers: {
+					...state.tacMembers,
+					[ action.payload.partner ]: [
+						...state.tacMembers[ action.payload.partner ].filter( m => (action.payload.member.username !== m.username))]
+				},
+				newMembers: {
+					...state.newMembers,
+					[ action.payload.partner ]: [
+						...state.newMembers[ action.payload.partner ].filter( m => (action.payload.member.username !== m.username))]
+				},
+				removedMembers: {
+					...state.removedMembers,
+					[ action.payload.partner ]: [
+						...state.removedMembers[ action.payload.partner ].filter( m => (action.payload.member.username !== m.username)),
+						action.payload.member
+					]
+				}
+			}
+    }
+
     return {
       ...state,
       tacMembers: {
@@ -95,12 +157,20 @@ export default function statistics(state=initState, action = {}) {
         ...state.newMembers,
         [ action.payload.partner ]: [
           ...state.newMembers[ action.payload.partner ].filter( m => (action.payload.member.username !== m.username))]
+      },
+      removedMembers: {
+				...state.removedMembers,
+        [ action.payload.partner ]: [
+					...state.removedMembers[ action.payload.partner ].filter( m => (action.payload.member.username !== m.username)),
+        ]
       }
-
     }
   }
   case SAVE_MEMBERS: {
-    return {...state, unsavedMember: false}
+    return {
+      ...state,
+      unsavedMember: false
+    }
   }
   case FAIL_TO_GET_TAC_MEMBERS: {
     return {
@@ -153,7 +223,8 @@ export default function statistics(state=initState, action = {}) {
         ...state.errors,
         tacsError: undefined
       },
-      tacMembers: action.payload
+      tacMembers: action.payload,
+      initTacMembers: action.payload
     }
   }
   case SALT_USERS_QUERY_PASS: {
