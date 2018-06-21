@@ -3,7 +3,7 @@ import propTypes from 'prop-types'
 import Select from 'react-select'
 import { ALL_PARTNER } from '../../types'
 
-const TacMemberEditTable = ({ newMembers, tacMembers, addMember, removeMember, saltUsers, partners, saveMembers }) => {
+const TacMemberEditTable = ({ newMembers,  removedMembers, tacMembers, addMember, removeMember, saltUsers, partners, saveMembers }) => {
   const saltUsersList = ( saltUsers || [] ).map( u => ({ value: u, label: `${ u.surname } ${ u.name }` }))
   return(
     <div>
@@ -28,14 +28,27 @@ const TacMemberEditTable = ({ newMembers, tacMembers, addMember, removeMember, s
                   <td>{!m.isTacChair && <button  onClick={ () => removeMember(m, p) }>- remove</button>}</td>
                 </tr>))
               }
-              {(newMembers[ p ] || []).map((m, c) => (
-                <tr key={ `${ c }c` } className='new-tac-row'>
-                  <td>{m.surname}</td>
-                  <td>{m.name}</td>
-                  <td>{m.isTacChair ? 'True': 'False'}</td>
-                  <td>{!m.isTacChair && <button  onClick={ () => removeMember(m, p) }>- remove</button>}</td>
-                </tr>))
+              {
+                (newMembers[ p ] || []).map((m, c) => (
+									<tr key={ `${ c }c` } className='new-tac-row'>
+										<td>{m.surname}</td>
+										<td>{m.name}</td>
+										<td>{m.isTacChair ? 'True': 'False'}</td>
+										<td>{!m.isTacChair && <button  onClick={ () => removeMember(m, p) }>- remove</button>}</td>
+									</tr>))
               }
+							{
+								(
+								  removedMembers[ p ] || []).map((m, c) => (
+                    <tr key={ `${ c }c` } className='removed-tac-row'>
+                      <td>{m.surname}</td>
+                      <td>{m.name}</td>
+                      <td>{m.isTacChair ? 'True': 'False'}</td>
+                      <td>{!m.isTacChair && <button  onClick={ () => addMember(m, p) }>+ add</button>}</td>
+                    </tr>
+                  )
+                )
+							}
               <tr key='newValue'>
                 <td colSpan='4'>
                   <Select
@@ -57,6 +70,7 @@ const TacMemberEditTable = ({ newMembers, tacMembers, addMember, removeMember, s
 
 TacMemberEditTable.propTypes = {
   newMembers: propTypes.object.isRequired,
+  removedMembers: propTypes.object.isRequired,
   tacMembers: propTypes.object.isRequired,
   saveMembers: propTypes.func.isRequired,
   saltUsers: propTypes.array.isRequired,

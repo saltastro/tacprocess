@@ -44,6 +44,7 @@ class AdminPage extends React.Component {
 	        <TacMemberEditTable
 	          tacMembers={ this.props.tacMembers }
 	          newMembers={ this.props.newMembers }
+	          removedMembers={ this.props.removedMembers }
 	          saveMembers={ this.saveMembers }
 	          saltUsers={ this.props.saltUsers }
 	          addMember={ this.addMember }
@@ -61,6 +62,7 @@ AdminPage.propTypes = {
   dispatch: propTypes.func.isRequired,
   tacMembers: propTypes.object.isRequired,
   newMembers: propTypes.object,
+  removedMembers: propTypes.object,
   userError: propTypes.object,
   saltUsers: propTypes.array.isRequired,
   fetchingUser: propTypes.bool,
@@ -73,5 +75,6 @@ export default connect((store) => ({
   user: store.user.user,
   tacMembers: store.tac.tacMembers,
   saltUsers: store.tac.saltUsers,
-  newMembers: store.tac.newMembers
+  newMembers: store.tac.newMembers,
+  removedMembers: store.tac.removedMembers
 }))(AdminPage)
