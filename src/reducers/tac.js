@@ -233,8 +233,8 @@ export default function statistics(state=initState, action = {}) {
       },
       tacMembers: action.payload,
       initTacMembers: action.payload,
-			removedMembers: [],
-			newMembers: []
+			removedMembers: {},
+			newMembers: {}
     }
   }
   case SALT_USERS_QUERY_PASS: {

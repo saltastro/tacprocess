@@ -48,6 +48,7 @@
     "start": "REACT_APP_API_BASE_URL=http://tacapidev.cape.saao.ac.za react-app-rewired start",
     "dev": "REACT_APP_API_BASE_URL=http://127.0.0.1:5001 react-app-rewired start",
     "build": "REACT_APP_API_BASE_URL=http://saltapi.salt.ac.za react-app-rewired build",
+    "build-dev": "REACT_APP_API_BASE_URL=http://tacapidev.cape.saao.ac.za react-app-rewired build",
     "test": "REACT_APP_API_BASE_URL=http://test; react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint src",

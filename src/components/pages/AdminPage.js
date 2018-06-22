@@ -25,11 +25,10 @@ class AdminPage extends React.Component {
 	removeMember = (member, partner) => {
 	  this.props.dispatch(removeMember(member, partner))
 	};
-	saveMembers = (partner) => { // eslint-disable-next-line
-	  console.log('Saving...', partner)
+	saveMembers = (partner) => {
 		addTacMembers(partner, (this.props.newMembers[ partner ] || []).reduce((prev, cur) => [...prev, {
 			member: cur.username,
-			isChair: false
+			is_chair: false
 		}], []))
 		removeTacMembers(partner, (this.props.removedMembers[ partner ] || []).reduce((prev, cur) => [...prev, {
 			member: cur.username,
