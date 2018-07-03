@@ -322,7 +322,10 @@ export function getLiaisonUsername(name, SALTAstronomers){
 
 const pageRole = (page, role) => {
   if (page === types.TAC_PAGE && (role === types.TAC_CHAIR || role === types.TAC_MEMBER)) { return true }
-  if (page === types.TECHNICAL_PAGE && (role === types.SALT_ASTRONOMER )) { return true }
+  if ((page === types.TECHNICAL_PAGE && (role === types.SALT_ASTRONOMER )) ||
+    (page === types.LIAISON_PAGE && (role === types.SALT_ASTRONOMER ))) {
+    return true
+  }
   return page === types.STATISTICS_PAGE || page === types.DOCUMENTATION_PAGE
 
 }
