@@ -5,7 +5,8 @@ import {
   FETCH_PROPOSALS_FAIL,
   UPDATING_PROPOSALS,
   SET_LIAISON_ASTRONOMER,
-  UNSET_LIAISON_ASTRONOMER
+  UNSET_LIAISON_ASTRONOMER,
+	LIAISON_SELECTED
 } from '../types'
 
 function startFetchProposals() {
@@ -15,6 +16,15 @@ function startFetchProposals() {
     }
   )
 
+}
+
+export function liaisonSelected(liaison) {
+	return (
+		{
+			type: LIAISON_SELECTED,
+			payload: {liaison}
+		}
+	)
 }
 
 function fetchProposalsFail(error) {

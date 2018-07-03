@@ -2,18 +2,30 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { BrowserRouter }  from 'react-router-dom'
 import { connect } from 'react-redux'
+import io from 'socket.io-client'
 
 import Navigation from './components/Navigation'
 import * as actions from './actions/auth'
 import {defaultSemester, downloadSummary, getLiaisonUsername} from './util'
 import ApplicationPages from './components/pages/ApplicationPages'
-import { setLiaisonAstronomer }from './actions/proposalsActions'
+import {liaisonSelected, setLiaisonAstronomer} from './actions/proposalsActions'
 import submitProposalsLiaison from './actions/liaison-astronomer-actions'
 import { fetchAllData } from './actions/data-actions'
 import Loading from './components/messages/Loading'
 import FailToLoad from './components/messages/FailToLoad'
 import {ALL_PARTNER} from './types'
 import { reduceProposalsPerAstronomer } from './util/filters'
+import store from './'
+
+const socket = io.connect('http://127.0.0.1:5001')
+
+socket.on('my response', (data) => {
+	console.log('CCCCCC', data)
+	// socket.emit('news', { hello: 'world' })
+	store.dispatch(liaisonSelected(data))
+	console.log(store)
+
+})
 
 class App extends React.Component {
 	componentDidMount() {
@@ -42,6 +54,12 @@ class App extends React.Component {
 	submitTechnicalReviews = () => {
 		console.log('submiting')
 	}
+
+	// sending sockets
+	send = (liaison, proposalCode) => {
+		socket.emit('liaison socket', {liaison, proposalCode})
+	}
+
 	loggingOut = () => {
 		this.props.dispatch(actions.logout())
 	};
@@ -90,6 +108,7 @@ class App extends React.Component {
 							submittingReviews={ submittingReviews }
 							submittedReviews={ submittedReviews }
 							loading={ loading }
+							send={ this.send }
 						/>
 						<div className='footer'>
 							<p>Copyright © 2018 TAC</p>

@@ -2,7 +2,7 @@ import React from 'react'
 import propTypes from 'prop-types'
 import LiaisonSelector from '../../selectors/LiaisonSelector'
 
-const LiaisonTableRow = ({proposal, initProposals, requestSummary, semester, setLiaison, astronomers, username, canAssign}) => (
+const LiaisonTableRow = ({proposal, initProposals, requestSummary, semester, setLiaison, astronomers, username, canAssign, send}) => (
     <tr key={ `liaison-${ proposal.proposalCode }` }>
       <td>
         <a target='_blank'
@@ -25,6 +25,7 @@ const LiaisonTableRow = ({proposal, initProposals, requestSummary, semester, set
         setLiaison={ setLiaison }
         initProposals={ initProposals }
         username={ username }
+        send={ send }
         canAssign={ canAssign }/>
     </tr>
 )
@@ -37,6 +38,7 @@ LiaisonTableRow.propTypes = {
   username: propTypes.string.isRequired,
   requestSummary: propTypes.func.isRequired,
   setLiaison: propTypes.func.isRequired,
-  semester: propTypes.string.isRequired
+  semester: propTypes.string.isRequired,
+  send: propTypes.func.isRequired,
 }
 export default LiaisonTableRow
