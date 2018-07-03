@@ -33,19 +33,11 @@ const LiaisonSelector = ({proposal, astronomers, setLiaison, initProposals, user
               !hasLiaison(proposal.proposalCode, initProposals) && <option value='none'>none</option>
             }
             {
-              astronomers.map(op => {
-                if ( proposal.possibleLiaison ) {
-                  op = {
-                    username: proposal.possibleLiaison,
-                    name: getSaltAstronomerName(proposal.possibleLiaison, astronomers)
-                  }
-                }
-                return (
+              astronomers.map(op => (
                   <option key={ op.username } value={ op.name } name={ op.username }>
                     {op.name}
                   </option>
-                )
-              })
+              ))
             }
           </select> :
           <div>
