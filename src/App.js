@@ -13,18 +13,14 @@ import submitProposalsLiaison from './actions/liaison-astronomer-actions'
 import { fetchAllData } from './actions/data-actions'
 import Loading from './components/messages/Loading'
 import FailToLoad from './components/messages/FailToLoad'
-import {ALL_PARTNER} from './types'
+import {ALL_PARTNER, API_BASE_URL} from './types'
 import { reduceProposalsPerAstronomer } from './util/filters'
 import store from './'
 
-const socket = io.connect('http://127.0.0.1:5001')
+const socket = io.connect(API_BASE_URL)
 
-socket.on('my response', (data) => {
-	console.log('CCCCCC', data)
-	// socket.emit('news', { hello: 'world' })
+socket.on('broadcast new liaison', (data) => {
 	store.dispatch(liaisonSelected(data))
-	console.log(store)
-
 })
 
 class App extends React.Component {
