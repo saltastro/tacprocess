@@ -35,12 +35,12 @@ class filters extends React.Component {
 		const { selectedPartner, selectedSemester, selectedLiaison } = filters;
 		const partnerList = getPartnerList(user.roles);
 		const astronomersList = ["All", "Assigned"].concat(getAstronomersList(SALTAstronomers)).concat(["Not Assigned"]);
-		const semesters = ( user.roles || []).some(r => r.type === ADMINISTRATOR || r.type === SALT_ASTRONOMER) ? semestersArray() : [defaultSemester(), currentSemester()];
+		const semesters = semestersArray(user.roles)
 		if (location.pathname === "/" ||
 			location.pathname === "/admin" ||
 			location.pathname === "/documentation") {
 			return <b/>
-		}else{
+		}
 			return(
 				<div className="selector-div">
 					{(loadingProposals || loadingTargets) && <div className="dimScreen" />}
@@ -88,7 +88,7 @@ class filters extends React.Component {
 					</div>
 					}
 				</div>
-			)}
+			)
 		
 	}
 }
