@@ -2,26 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { BrowserRouter }  from 'react-router-dom'
 import { connect } from 'react-redux'
-import io from 'socket.io-client'
 
 import Navigation from './components/Navigation'
 import * as actions from './actions/auth'
 import {defaultSemester, downloadSummary, getLiaisonUsername} from './util'
 import ApplicationPages from './components/pages/ApplicationPages'
-import {liaisonSelected, setLiaisonAstronomer} from './actions/proposalsActions'
+import {setLiaisonAstronomer} from './actions/proposalsActions'
 import submitProposalsLiaison from './actions/liaison-astronomer-actions'
 import { fetchAllData } from './actions/data-actions'
 import Loading from './components/messages/Loading'
 import FailToLoad from './components/messages/FailToLoad'
-import {ALL_PARTNER, API_BASE_URL} from './types'
+import {ALL_PARTNER} from './types'
 import { reduceProposalsPerAstronomer } from './util/filters'
-import store from './'
-
-const socket = io.connect(API_BASE_URL)
-
-socket.on('broadcast new liaison', (data) => {
-	store.dispatch(liaisonSelected(data))
-})
 
 class App extends React.Component {
 	componentDidMount() {
@@ -48,7 +40,7 @@ class App extends React.Component {
 		downloadSummary(proposalCode, this.props.filters.selectedSemester, this.props.filters.selectedPartner)
 	}
 	submitTechnicalReviews = () => {
-		console.log('submiting')
+
 	}
 
 	// sending sockets
