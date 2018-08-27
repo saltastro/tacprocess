@@ -1,38 +1,37 @@
-import React from "react";
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import * as actions from "../../actions/auth";
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import * as actions from '../../actions/auth'
 
 const HomePage = ({ isAuthenticated }) => (
-	<div>
+  <div>
 
-		{isAuthenticated ? (
-			<div>
-				<div className="homepage">
-					<h1>Welcome to SALT time allocation committee</h1>
-				</div>
-			</div>
+    {isAuthenticated ? (
+      <div>
+        <div className='homepage'>
+          <h1>Welcome to SALT time allocation committee</h1>
+        </div>
+      </div>
 
-		) : (
-			<div>
-				<h1 style={{textAlign: "left"}}>Please Login</h1>
-				<Link to="/login"> <button className="loginbtn">Login</button> </Link>
-			</div>
+    ) : (
+      <div>
+        <h1 style={ {textAlign: 'left'} }>Please Login</h1>
+        <Link to='/login'> <button className='loginbtn'>Login</button> </Link>
+      </div>
 
-
-		)}
-	</div>
-);
+    )}
+  </div>
+)
 
 HomePage.propTypes = {
-	isAuthenticated: PropTypes.bool.isRequired
-};
-
-function mapStateToProps() { /* state in params */
-	return{
-		isAuthenticated: !!localStorage.tacPageJWT
-	};
+  isAuthenticated: PropTypes.bool.isRequired
 }
 
-export default connect(mapStateToProps, { logout: actions.logout })(HomePage);
+function mapStateToProps() { /* state in params */
+  return{
+    isAuthenticated: !!localStorage.tacPageJWT
+  }
+}
+
+export default connect(mapStateToProps, { logout: actions.logout })(HomePage)
