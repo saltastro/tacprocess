@@ -23,8 +23,7 @@ const ApplicationPages = ({
   isAuthenticated,
   astronomers,
   setLiaison,
-  submitLiaisons,
-  send
+  submitLiaisons
 }) => {
   const userRoles = user.roles
   return (
@@ -59,7 +58,6 @@ const ApplicationPages = ({
                      filters={ filters }
                      setLiaison={ setLiaison }
                      submitLiaisons={ submitLiaisons }
-                     send={ send }
                    /> }
         />
       }
@@ -79,8 +77,7 @@ ApplicationPages.propTypes = {
   filters: propTypes.object,
   astronomers: propTypes.array,
   setLiaison: propTypes.func,
-  submitLiaisons: propTypes.func,
-  send: propTypes.func
+  submitLiaisons: propTypes.func
 }
 
 export default ApplicationPages

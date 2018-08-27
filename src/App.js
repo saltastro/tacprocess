@@ -43,11 +43,6 @@ class App extends React.Component {
 
 	}
 
-	// sending sockets
-	send = (liaison, proposalCode) => {
-		socket.emit('liaison socket', {liaison, proposalCode})
-	}
-
 	loggingOut = () => {
 		this.props.dispatch(actions.logout())
 	};
@@ -96,7 +91,6 @@ class App extends React.Component {
 							submittingReviews={ submittingReviews }
 							submittedReviews={ submittedReviews }
 							loading={ loading }
-							send={ this.send }
 						/>
 						<div className='footer'>
 							<p>Copyright © 2018 TAC</p>
