@@ -7,7 +7,7 @@ import Navigation from './components/Navigation'
 import * as actions from './actions/auth'
 import {defaultSemester, downloadSummary, getLiaisonUsername} from './util'
 import ApplicationPages from './components/pages/ApplicationPages'
-import { setLiaisonAstronomer }from './actions/proposalsActions'
+import {setLiaisonAstronomer} from './actions/proposalsActions'
 import submitProposalsLiaison from './actions/liaison-astronomer-actions'
 import { fetchAllData } from './actions/data-actions'
 import Loading from './components/messages/Loading'
@@ -40,8 +40,14 @@ class App extends React.Component {
 		downloadSummary(proposalCode, this.props.filters.selectedSemester, this.props.filters.selectedPartner)
 	}
 	submitTechnicalReviews = () => {
-		console.log('submiting')
+
 	}
+
+	// sending sockets
+	send = (liaison, proposalCode) => {
+		socket.emit('liaison socket', {liaison, proposalCode})
+	}
+
 	loggingOut = () => {
 		this.props.dispatch(actions.logout())
 	};
@@ -90,6 +96,7 @@ class App extends React.Component {
 							submittingReviews={ submittingReviews }
 							submittedReviews={ submittedReviews }
 							loading={ loading }
+							send={ this.send }
 						/>
 						<div className='footer'>
 							<p>Copyright © 2018 TAC</p>

@@ -95,6 +95,8 @@ export const FETCH_SA_PASS = 'FETCH_SA_PASS'
 export const UPDATE_TAC_COMMENT = 'UPDATE_TAC_COMMENT'
 export const UPDATE_ALLOCATED_PRIORITY = 'UPDATE_ALLOCATED_PRIORITY'
 
+export const LIAISON_SELECTED = 'LIAISON_SELECTED'
+
 export const badTime = {
   color: 'black',
   background:'#FF6060'

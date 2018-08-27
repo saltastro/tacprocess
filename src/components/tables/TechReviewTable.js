@@ -95,9 +95,9 @@ export default class TechReviewTable extends React.Component {
 	            <th>Summary</th>
 	            <th>Proposal Title</th>
 	            <th>Proposal Investigator</th>
-	            {semester >= '2018-1' && <th>Feasible</th> }
+	            {semester >= defaultSemester() && <th>Feasible</th> }
 	            <th>Proposal Comment</th>
-	            {semester >= '2018-1' && <th>Detailed check</th> }
+	            {semester >= defaultSemester() && <th>Detailed check</th> }
 	            <th>Reviewed by</th>
 	          </tr>
 	        </thead>
@@ -126,7 +126,7 @@ export default class TechReviewTable extends React.Component {
 	                  <td className=' table-height width-400'>{p.title}</td>
 	                  <td className='width-100'>{p.pi}</td>
 	                  {
-	                    semester >= '2018-1' && <td>
+	                    semester >= defaultSemester() && <td>
 	                      <select
 	                        defaultValue={ techReport.feasible }
 	                        onChange={ e =>
@@ -149,12 +149,12 @@ export default class TechReviewTable extends React.Component {
 	                      disabled={ isPastSemester }
 	                      className='table-height-fixed width-400'
 	                      value={
-	                        semester >= '2018-1'
+	                        semester >= defaultSemester()
 	                          ? techReport.comment || ''
 	                          : techReportString
 	                      }
 
-	                      onChange={ semester >= '2018-1' ? e => {
+	                      onChange={ semester >= defaultSemester() ? e => {
 	                        this.techReportChange(p.proposalCode,
 	                          techReport,
 	                          'comment',
@@ -166,7 +166,7 @@ export default class TechReviewTable extends React.Component {
                                         <p style={ {color: '#b7a201', textAlign: 'center'} }>A reviewer must be assigned to the review.</p>}
 	                  </td>
 	                  {
-	                    semester >= '2018-1' && <td className='width-100'>
+	                    semester >= defaultSemester() && <td className='width-100'>
 	                      <select
 	                        defaultValue={ techReport.details }
 	                        onChange={ e => {

@@ -7,7 +7,13 @@ import  Papa  from 'papaparse'
 import AvailableTimePerPartner from '../tables/statisticsTables/AvailableTimePerPartner'
 import ProposalsPerPartner from '../tables/ProposalsPerPartner'
 import { getQuaryToAddAllocation } from '../../util/allocation'
-import { canUserWriteAllocations, canUserWriteTechReviews, downloadSummaries, canSubmitTimeAllocations } from '../../util'
+import {
+	canUserWriteAllocations,
+	canUserWriteTechReviews,
+	downloadSummaries,
+	canSubmitTimeAllocations,
+	defaultSemester
+} from '../../util'
 import PartnerProposals  from '../../util/proposal'
 import { submitAllocations } from '../../api/graphQL'
 import { updateProposals } from '../../actions/proposalsActions'
@@ -202,7 +208,7 @@ class TimeAllocationPage extends React.Component {
 	              {
 	                canSubmitTimeAllocations(roles, partner) &&
 									<button
-									  disabled={ semester < '2018-1' }
+									  disabled={ semester < defaultSemester() }
 									  className='btn-success'
 									  onClick={ e => this.submitForPartner(e, partner) }>Submit {partner}</button>
 	              }

@@ -73,8 +73,6 @@ export function observingTimeForSeeing(proposals, semester, seeingRange, partner
  * @returns {*}
  */
 export function instrumentCount(proposal) {
-  console.log('>>>>>:', Object.keys(proposal.instruments)
-		.reduce((sum, key) => sum + proposal.instruments[ key ].length, 0))
   return Object.keys(proposal.instruments)
     .reduce((sum, key) => sum + proposal.instruments[ key ].length, 0)
 }
@@ -324,7 +322,10 @@ export function getLiaisonUsername(name, SALTAstronomers){
 
 const pageRole = (page, role) => {
   if (page === types.TAC_PAGE && (role === types.TAC_CHAIR || role === types.TAC_MEMBER)) { return true }
-  if (page === types.TECHNICAL_PAGE && (role === types.SALT_ASTRONOMER )) { return true }
+  if ((page === types.TECHNICAL_PAGE && (role === types.SALT_ASTRONOMER )) ||
+    (page === types.LIAISON_PAGE && (role === types.SALT_ASTRONOMER ))) {
+    return true
+  }
   return page === types.STATISTICS_PAGE || page === types.DOCUMENTATION_PAGE
 
 }
@@ -433,4 +434,16 @@ export function downloadSummaries(proposals, semester, partner) {
       saveAs(res.data, 'proposal_summaries.zip')
     }) // eslint-disable-next-line
     .catch(err => console.error(err))
+}
+
+export function addTacMembers(partner, members) {
+	jsonClient('blob').post('/update-tac-members', {partner, members}) // eslint-disable-next-line
+		.then(res => console.log(res)) // eslint-disable-next-line
+		.catch(err => console.error(err))
+}
+
+export function removeTacMembers(partner, members) {
+	jsonClient('blob').post('/remove-tac-members', {partner, members}) // eslint-disable-next-line
+		.then(res => console.log(res)) // eslint-disable-next-line
+		.catch(err => console.error(err))
 }

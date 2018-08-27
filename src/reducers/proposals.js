@@ -5,7 +5,7 @@ import {
   SUBMIT_TECHNICAL_REVIEWS_START, SUBMIT_TECHNICAL_REVIEWS_PASS, SUBMIT_TECHNICAL_REVIEWS_FAIL,
   UPDATE_TAC_COMMENT, UPDATE_ALLOCATED_PRIORITY,
   SUBMIT_TIME_ALLOCATIONS_START, SUBMIT_TIME_ALLOCATIONS_FAIL, SUBMIT_TIME_ALLOCATIONS_PASS,
-  USER_LOGGED_OUT
+  USER_LOGGED_OUT, LIAISON_SELECTED
 } from '../types'
 import {setDefaultTechReviews} from '../util/technicalReports'
 
@@ -219,6 +219,24 @@ export default function proposals(state = initialState, action = {}) {
       ...initialState
     }
   }
+	case LIAISON_SELECTED: {
+	  return {
+	    ...state,
+      fetching: false,
+      fetched: true,
+      proposals: state.proposals.map(proposal => {
+				const {liaison} = action.payload
+        console.log(liaison)
+        if (proposal.proposalCode === liaison.proposalCode){
+				  return {
+            ...proposal,
+            possibleLiaison: liaison.liaison
+          }
+        }
+        return proposal
+      }),
+    }
+	}
   default: {
     return state
   }

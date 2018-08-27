@@ -4,10 +4,11 @@ import { connect } from 'react-redux'
 import SwitchUserForm from '../forms/SwitchUserForm'
 import TacMemberEditTable from '../tables/TacMemberEditTable'
 import { switchUser } from '../../actions/auth'
-import { addNewMember, removeMember } from '../../actions/timeAllocationActions'
+import {addNewMember, removeMember, saveMembers} from '../../actions/timeAllocationActions'
 import { fetchTacMembers, fetchSaltUsers } from '../../actions/adminActions'
 import { getPartnerList } from '../../util/filters'
 import { ADMINISTRATOR } from '../../types'
+import { addTacMembers, removeTacMembers } from '../../util'
 
 class AdminPage extends React.Component {
   componentDidMount() {
@@ -24,8 +25,16 @@ class AdminPage extends React.Component {
 	removeMember = (member, partner) => {
 	  this.props.dispatch(removeMember(member, partner))
 	};
-	saveMembers = (partner) => { // eslint-disable-next-line
-	  console.log('Saving...', partner)
+	saveMembers = (partner) => {
+		addTacMembers(partner, (this.props.newMembers[ partner ] || []).reduce((prev, cur) => [...prev, {
+			member: cur.username,
+			is_chair: false
+		}], []))
+		removeTacMembers(partner, (this.props.removedMembers[ partner ] || []).reduce((prev, cur) => [...prev, {
+			member: cur.username,
+		}], []))
+		this.props.dispatch(saveMembers())
+		this.props.dispatch(fetchTacMembers())
 	};
 	
 	render() {
@@ -44,6 +53,7 @@ class AdminPage extends React.Component {
 	        <TacMemberEditTable
 	          tacMembers={ this.props.tacMembers }
 	          newMembers={ this.props.newMembers }
+	          removedMembers={ this.props.removedMembers }
 	          saveMembers={ this.saveMembers }
 	          saltUsers={ this.props.saltUsers }
 	          addMember={ this.addMember }
@@ -61,6 +71,7 @@ AdminPage.propTypes = {
   dispatch: propTypes.func.isRequired,
   tacMembers: propTypes.object.isRequired,
   newMembers: propTypes.object,
+  removedMembers: propTypes.object,
   userError: propTypes.object,
   saltUsers: propTypes.array.isRequired,
   fetchingUser: propTypes.bool,
@@ -73,5 +84,6 @@ export default connect((store) => ({
   user: store.user.user,
   tacMembers: store.tac.tacMembers,
   saltUsers: store.tac.saltUsers,
-  newMembers: store.tac.newMembers
+  newMembers: store.tac.newMembers,
+  removedMembers: store.tac.removedMembers
 }))(AdminPage)
