@@ -121,7 +121,7 @@ App.propTypes = {
 	dispatch: PropTypes.func
 }
 
-function mapStateToProps(state) { /* state in params */
+function mapStateToProps(state) { /* state in params  */
 	return{
 		isAuthenticated: state.user.user.isAuthenticated,
 		dataStatus: state.dataStatus,

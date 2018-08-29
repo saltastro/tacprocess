@@ -35,17 +35,17 @@ const PartnerTimeTable = ({proposals, partner, allocatedTime, semester}) => {
         </thead>
         <tbody>
           <tr>
-            <td>Time available</td>
+            <td>Time available (P0 to P3)</td>
 
             <td>{ allocatedTimeSum.toFixed(2) } </td>
           </tr>
 
           <tr>
-            <td>Requested Time </td>
+            <td>Requested Time (P0 to P3) </td>
             <td>{(total/3600).toFixed(2)}</td>
           </tr>
           <tr>
-            <td>Subscription rate </td>
+            <td>Subscription rate (P0 to P3) </td>
             {
               allocatedTimeSum === 0 ?
             <td> - </td> :
@@ -53,7 +53,7 @@ const PartnerTimeTable = ({proposals, partner, allocatedTime, semester}) => {
             }
           </tr>
           <tr>
-            <td>Average per Proposal </td>
+            <td>Average per Proposal (P0 to P3) </td>
             <td>{((total/3600)/ (proposals.length)).toFixed(2) }</td>
           </tr>
           <tr>
