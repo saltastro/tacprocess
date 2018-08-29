@@ -188,7 +188,7 @@ class TimeAllocationPage extends React.Component {
                 {
                   <div style={ {textAlign: 'left'} }>
                     <p className='danger-line' style={ {padding: '10px'} }>
-                      A proposal with a pick background color is a P4 proposal
+                      A proposal with a pink background color is a P4 proposal
                     </p>
                   </div>
                 }
