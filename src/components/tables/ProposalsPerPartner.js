@@ -77,7 +77,12 @@ const ProposalsPerPartner = ({proposals, partner, tacCommentChange, allocatedTim
               .filter(p => !_.isNull(p.title))
               .map( p => (
                 <tr key={ p.proposalId } className={ (p.isP4 || !p.requestedTime.requests[ partner ] > 0 ) ? 'danger-line' : '' }>
-                  <td><div className='width-150 padding-8' ><a target='_blank' href={ `https://www.salt.ac.za/wm/proposal/${ p.proposalCode }` }>{ p.proposalCode }</a></div></td>
+                  <td>
+                    <div className='width-150 padding-8' >
+                      <a target='_blank' href={ `https://www.salt.ac.za/wm/proposal/${ p.proposalCode }` }>
+                        { p.proposalCode } {p.isP4 && ' (P4)'}
+                      </a>
+                    </div></td>
                   <td><a href='' onClick={ e => requestSummary(e, p.proposalCode, semester, partner) }>Download</a></td>
                   <td><div className='table-height width-300' >{ p.title }</div></td>
                   <td><div className='table-height width-400' >{ p.abstract }</div></td>

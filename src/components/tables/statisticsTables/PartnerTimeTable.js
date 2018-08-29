@@ -35,13 +35,13 @@ const PartnerTimeTable = ({proposals, partner, allocatedTime, semester}) => {
         </thead>
         <tbody>
           <tr>
-            <td>Time available</td>
+            <td>Time available (P0 to P3)</td>
 
             <td>{ allocatedTimeSum.toFixed(2) } </td>
           </tr>
 
           <tr>
-            <td>Requested Time </td>
+            <td>Requested Time (P0 to P3) </td>
             <td>{(total/3600).toFixed(2)}</td>
           </tr>
           <tr>

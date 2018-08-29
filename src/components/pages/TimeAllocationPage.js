@@ -185,6 +185,13 @@ class TimeAllocationPage extends React.Component {
 	                allocatedTimeChange = { this.allocatedTimeChange }
 	                updateFromCSV = { this.updateFromCSV }
 	              />
+                {
+                  <div style={ {textAlign: 'left'} }>
+                    <p className='danger-line' style={ {padding: '10px'} }>
+                      A proposal with a pick background color is a P4 proposal
+                    </p>
+                  </div>
+                }
 	              <label>Download table</label><br/>
 	              <button className='btn'
 								        onClick={ () => { this.downloadCSV(partnerProposals[ partner ] || [], partner) } }>
