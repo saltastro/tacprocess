@@ -16,7 +16,7 @@ function makeTechReviews(techReviews) {
   return ( techReviews|| [] ).reduce((prev, tr) => ({
     ...prev,
     [ tr.semester ]: {
-      reviewer: tr.reviewer.username,
+      reviewer: {username: tr.reviewer.username},
       ...getTechReportFields(tr.report)
     }
   }), {})

@@ -76,7 +76,7 @@ const ProposalsPerPartner = ({proposals, partner, tacCommentChange, allocatedTim
             (arrayOfProposals.sort(byProposalCode))
               .filter(p => !_.isNull(p.title))
               .map( p => (
-                <tr key={ p.proposalId } className={ (p.isP4 || !p.requestedTime.requests[ partner ] > 0 ) ? 'danger-line' : '' }>
+                <tr key={ p.proposalCode } className={ (p.isP4 || !p.requestedTime.requests[ partner ] > 0 ) ? 'danger-line' : '' }>
                   <td>
                     <div className='width-150 padding-8' >
                       <a target='_blank' href={ `https://www.salt.ac.za/wm/proposal/${ p.proposalCode }` }>
@@ -200,7 +200,7 @@ ProposalsPerPartner.propTypes = {
 }
 
 TimeAllocationInput.propTypes = {
-  proposal: propTypes.array.isRequired,
+  proposal: propTypes.object.isRequired,
   onChange: propTypes.func.isRequired,
   priority: propTypes.string.isRequired,
   partner: propTypes.string.isRequired,

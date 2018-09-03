@@ -226,7 +226,6 @@ export default function proposals(state = initialState, action = {}) {
       fetched: true,
       proposals: state.proposals.map(proposal => {
 				const {liaison} = action.payload
-        console.log(liaison)
         if (proposal.proposalCode === liaison.proposalCode){
 				  return {
             ...proposal,
