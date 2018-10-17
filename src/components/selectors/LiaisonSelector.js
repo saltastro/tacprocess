@@ -13,12 +13,11 @@ const getEventValue = (event, astronomers) => {
   return null
 }
 
-const liaisonChange = (event, astronomers, proposalCode, setLiaison, send ) => {
+const liaisonChange = (event, astronomers, proposalCode, setLiaison) => {
 	setLiaison(getEventValue(event, astronomers), proposalCode)
-  send(getEventValue(event, astronomers), proposalCode)
 }
 
-const LiaisonSelector = ({proposal, astronomers, setLiaison, initProposals, username, canAssign, send}) => {
+const LiaisonSelector = ({proposal, astronomers, setLiaison, initProposals, username, canAssign}) => {
   const col = isLiaisonAstronomerUpdated(proposal, initProposals) ? {color: 'blue'} : {color: 'black'}
   const liaison = (proposal.possibleLiaison) ? getSaltAstronomerName(proposal.possibleLiaison, astronomers) :
     getSaltAstronomerName(proposal.liaisonAstronomer, astronomers)
@@ -27,7 +26,7 @@ const LiaisonSelector = ({proposal, astronomers, setLiaison, initProposals, user
       {
         canAssign ?
           <select className='setLiaison' style={ col } defaultValue={ liaison } onChange={
-            e => liaisonChange(e, astronomers, proposal.proposalCode, setLiaison, send)
+            e => liaisonChange(e, astronomers, proposal.proposalCode, setLiaison)
 					} name='selector'>
             {
               !hasLiaison(proposal.proposalCode, initProposals) && <option value='none'>none</option>
@@ -47,7 +46,7 @@ const LiaisonSelector = ({proposal, astronomers, setLiaison, initProposals, user
               disabled={ hasLiaison(proposal.proposalCode, initProposals) }
               type='checkbox'
               value={ username }
-              onChange={ e => liaisonChange(e, astronomers, proposal.proposalCode, setLiaison, send) }/>
+              onChange={ e => liaisonChange(e, astronomers, proposal.proposalCode, setLiaison) }/>
             {
               proposal.liaisonAstronomer ?
               <a style={ col }> {liaison} </a>: <a style={ {color: 'red'} }>Select</a>
@@ -61,7 +60,6 @@ LiaisonSelector.propTypes = {
   proposal: propTypes.object.isRequired,
   astronomers: propTypes.array.isRequired,
   setLiaison: propTypes.func.isRequired,
-  send: propTypes.func.isRequired,
   initProposals: propTypes.array.isRequired,
   username: propTypes.string.isRequired,
   canAssign: propTypes.bool.isRequired
