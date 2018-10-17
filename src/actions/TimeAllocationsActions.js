@@ -26,7 +26,7 @@ export function updateTacComment(proposalCode, semester, partner, tacComment) {
  *
  * @param proposalCode Proposal code, such as "2018-1-SCI-009".
  * @param semester Semester, such as "2018-1".
- * @param partner TAC Partnes.
+ * @param partner TAC Partners.
  * @param time Time being allocated.
  * @param priority either p0, p1, p2, p3 or p4
  * @returns {{type, payload: {proposalCode: *, semester: *, partner: *, time: *, priority: *}}} The action.
