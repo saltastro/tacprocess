@@ -5,7 +5,7 @@ import {
   SUBMIT_TECHNICAL_REVIEWS_START, SUBMIT_TECHNICAL_REVIEWS_PASS, SUBMIT_TECHNICAL_REVIEWS_FAIL,
   UPDATE_TAC_COMMENT, UPDATE_ALLOCATED_PRIORITY,
   SUBMIT_TIME_ALLOCATIONS_START, SUBMIT_TIME_ALLOCATIONS_FAIL, SUBMIT_TIME_ALLOCATIONS_PASS,
-  USER_LOGGED_OUT, LIAISON_SELECTED
+  USER_LOGGED_OUT, LIAISON_SELECTED, SET_LIAISON_ASTRONOMER, UNSET_LIAISON_ASTRONOMER
 } from '../types'
 import {setDefaultTechReviews} from '../util/technicalReports'
 
@@ -93,9 +93,9 @@ export default function proposals(state = initialState, action = {}) {
               [ action.payload.semester ]: action.payload.techReview
             }
           }
-        } 
+        }
         return p
-					
+
       }),
       updatedProposals
     }
@@ -144,9 +144,9 @@ export default function proposals(state = initialState, action = {}) {
             ...p,
             tacComment: commentForPartner
           }
-        } 
+        }
         return p
-					
+
       })
     }
   }
@@ -170,9 +170,9 @@ export default function proposals(state = initialState, action = {}) {
               }
             }
           }
-        } 
+        }
         return p
-					
+
       })
     }
   }
@@ -236,6 +236,34 @@ export default function proposals(state = initialState, action = {}) {
       }),
     }
 	}
+	case SET_LIAISON_ASTRONOMER: {
+    return {
+      ...state,
+      proposals: state.proposals.map(proposal => {
+        if (proposal.proposalCode === action.payload.proposalCode){
+          return {
+            ...proposal,
+            liaisonAstronomer: action.payload.astronomerUsername
+          }
+        }
+        return proposal
+      }),
+    }
+  }
+  case UNSET_LIAISON_ASTRONOMER: {
+    return {
+      ...state,
+      proposals: state.proposals.map(proposal => {
+        if (proposal.proposalCode === action.payload.proposalCode){
+          return {
+            ...proposal,
+            liaisonAstronomer: null
+          }
+        }
+        return proposal
+      }),
+    }
+  }
   default: {
     return state
   }
