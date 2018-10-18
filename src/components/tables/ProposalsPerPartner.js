@@ -55,6 +55,10 @@ const ProposalsPerPartner = ({proposals, partner, tacCommentChange, allocatedTim
             <th>Abstract</th>
             <th>PI</th>
             <th>Semester</th>
+            <th>Act on Alert</th>
+            <th>Transparency</th>
+            <th>Max seeing</th>
+            <th>Tech Report</th>
             <th>TAC comment</th>
             <th>Minimum useful time (seconds)</th>
             <th>Requested Time from {partner} (seconds)</th>
@@ -65,10 +69,7 @@ const ProposalsPerPartner = ({proposals, partner, tacCommentChange, allocatedTim
             <th>P3 (seconds)</th>
             <th>Total P0-P3 (seconds)</th>
             <th>P4 (seconds)</th>
-            <th>Act on Alert</th>
-            <th>Transparency</th>
-            <th>Max seeing</th>
-            <th>Tech Report</th>
+
           </tr>
         </thead>
         <tbody>
@@ -88,6 +89,10 @@ const ProposalsPerPartner = ({proposals, partner, tacCommentChange, allocatedTim
                   <td><div className='table-height width-400' >{ p.abstract }</div></td>
                   <td>{ p.pi }</td>
                   <td>{semester}</td>
+                  <td><div className='table-height width-100' >{ `${ p.actOnAlert }` }</div></td>
+                  <td><div className='table-height width-100' >{ p.transparency }</div></td>
+                  <td><div className='table-height width-100' >{ p.maxSeeing }</div></td>
+                  <td><div className='table-height width-400' >{ getTechnicalReport(p, semester, 'jsx') }</div></td>
                   <td>
                     { canAllocate ?
                       <textarea
@@ -177,10 +182,7 @@ const ProposalsPerPartner = ({proposals, partner, tacCommentChange, allocatedTim
                         priority='p4'/> : <div className='width-100'>{  p.allocatedTime[ partner ] ?  p.allocatedTime[ partner ].p4 : 0 }</div>
                     }
                   </td>
-                  <td><div className='table-height width-100' >{ `${ p.actOnAlert }` }</div></td>
-                  <td><div className='table-height width-100' >{ p.transparency }</div></td>
-                  <td><div className='table-height width-100' >{ p.maxSeeing }</div></td>
-                  <td><div className='table-height width-400' >{ getTechnicalReport(p, semester, 'jsx') }</div></td>
+
                 </tr>
               ))
           }

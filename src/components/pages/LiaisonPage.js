@@ -18,7 +18,7 @@ function preventEvent(event) {
   event.preventDefault()
 }
 
-const LiaisonPage = ({proposals, filters, astronomers, user, setLiaison, initProposals, submitLiaisons, send}) => {
+const LiaisonPage = ({proposals, filters, astronomers, user, setLiaison, initProposals, submitLiaisons}) => {
   const canAssign = (user.roles || [] ).some(r => r.type === ADMINISTRATOR)
   const semester = filters.selectedSemester
   const selectedSA = filters.selectedLiaison
@@ -36,7 +36,6 @@ const LiaisonPage = ({proposals, filters, astronomers, user, setLiaison, initPro
         astronomers={ astronomers }
         setLiaison={ setLiaison }
         semester={ semester }
-        send={ send }
         requestSummary={ requestSummary } />
       <button onClick={ e => {
         preventEvent(e)
@@ -52,7 +51,6 @@ LiaisonPage.propTypes = {
   filters: propTypes.object.isRequired,
   user: propTypes.object.isRequired,
   setLiaison: propTypes.func.isRequired,
-  submitLiaisons: propTypes.func.isRequired,
-  send: propTypes.func.isRequired
+  submitLiaisons: propTypes.func.isRequired
 }
 export default LiaisonPage

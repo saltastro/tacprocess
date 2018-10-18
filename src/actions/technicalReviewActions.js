@@ -79,9 +79,14 @@ export function submitTechnicalReviewDetails(proposals, user, initProposals, par
         report: makeTechComment(p.techReviews[ semester ])
       }
     })
+    const assignments = updatedProposals.map(p => ({
+      proposalCode: p.proposalCode,
+      liaisonAstronomer: p.liaisonAstronomer
+    }))
 
     try {
       await jsonClient().post('technical-reviews', {semester, reviews})
+      await jsonClient().post('liaison-astronomers', {assignments})
     } catch (e) {
       dispatch(submittingTechnicalReviewsFail(e.message))
       return

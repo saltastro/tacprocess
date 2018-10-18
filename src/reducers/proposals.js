@@ -5,7 +5,7 @@ import {
   SUBMIT_TECHNICAL_REVIEWS_START, SUBMIT_TECHNICAL_REVIEWS_PASS, SUBMIT_TECHNICAL_REVIEWS_FAIL,
   UPDATE_TAC_COMMENT, UPDATE_ALLOCATED_PRIORITY,
   SUBMIT_TIME_ALLOCATIONS_START, SUBMIT_TIME_ALLOCATIONS_FAIL, SUBMIT_TIME_ALLOCATIONS_PASS,
-  USER_LOGGED_OUT, LIAISON_SELECTED
+  USER_LOGGED_OUT, LIAISON_SELECTED, SET_LIAISON_ASTRONOMER, UNSET_LIAISON_ASTRONOMER
 } from '../types'
 import {setDefaultTechReviews} from '../util/technicalReports'
 
@@ -19,7 +19,6 @@ const initialState = {
   unSubmittedTacChanges: false,
   proposals:[],
   initProposals: [],
-  updatedProposals: [],
   errors: {
     fetchingError : null,
     submittingError : null,
@@ -78,9 +77,6 @@ export default function proposals(state = initialState, action = {}) {
     }
   }
   case UPDATE_TECHNICAL_REVIEW: {
-    const updatedProposals = state.updatedProposals.indexOf(action.payload.proposalCode) === -1 ?
-      [...state.updatedProposals, action.payload.proposalCode] : state.updatedProposals
-
     return {
       ...state,
       submittedTechnicalReports: false,
@@ -91,13 +87,12 @@ export default function proposals(state = initialState, action = {}) {
             techReviews: {
               ...p.techReviews,
               [ action.payload.semester ]: action.payload.techReview
-            }
+            },
+            liaisonAstronomer: p.liaisonAstronomer ? p.liaisonAstronomer : action.payload.techReview.reviewer.username
           }
-        } 
+        }
         return p
-					
       }),
-      updatedProposals
     }
   }
   case SUBMIT_TECHNICAL_REVIEWS_START: {
@@ -144,9 +139,9 @@ export default function proposals(state = initialState, action = {}) {
             ...p,
             tacComment: commentForPartner
           }
-        } 
+        }
         return p
-					
+
       })
     }
   }
@@ -170,9 +165,9 @@ export default function proposals(state = initialState, action = {}) {
               }
             }
           }
-        } 
+        }
         return p
-					
+
       })
     }
   }
@@ -236,6 +231,34 @@ export default function proposals(state = initialState, action = {}) {
       }),
     }
 	}
+	case SET_LIAISON_ASTRONOMER: {
+    return {
+      ...state,
+      proposals: state.proposals.map(proposal => {
+        if (proposal.proposalCode === action.payload.proposalCode){
+          return {
+            ...proposal,
+            liaisonAstronomer: action.payload.astronomerUsername
+          }
+        }
+        return proposal
+      }),
+    }
+  }
+  case UNSET_LIAISON_ASTRONOMER: {
+    return {
+      ...state,
+      proposals: state.proposals.map(proposal => {
+        if (proposal.proposalCode === action.payload.proposalCode){
+          return {
+            ...proposal,
+            liaisonAstronomer: null
+          }
+        }
+        return proposal
+      }),
+    }
+  }
   default: {
     return state
   }
