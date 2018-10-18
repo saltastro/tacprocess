@@ -81,7 +81,7 @@ export function submitTechnicalReviewDetails(proposals, user, initProposals, par
     })
     const assignments = updatedProposals.map(p => ({
       proposalCode: p.proposalCode,
-      liaisonAstronomer: p.techReviews[ semester ].reviewer.username
+      liaisonAstronomer: p.liaisonAstronomer
     }))
 
     try {

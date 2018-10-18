@@ -19,7 +19,6 @@ const initialState = {
   unSubmittedTacChanges: false,
   proposals:[],
   initProposals: [],
-  updatedProposals: [],
   errors: {
     fetchingError : null,
     submittingError : null,
@@ -78,9 +77,6 @@ export default function proposals(state = initialState, action = {}) {
     }
   }
   case UPDATE_TECHNICAL_REVIEW: {
-    const updatedProposals = state.updatedProposals.indexOf(action.payload.proposalCode) === -1 ?
-      [...state.updatedProposals, action.payload.proposalCode] : state.updatedProposals
-
     return {
       ...state,
       submittedTechnicalReports: false,
@@ -91,13 +87,12 @@ export default function proposals(state = initialState, action = {}) {
             techReviews: {
               ...p.techReviews,
               [ action.payload.semester ]: action.payload.techReview
-            }
+            },
+            liaisonAstronomer: p.liaisonAstronomer ? p.liaisonAstronomer : action.payload.techReview.reviewer.username
           }
         }
         return p
-
       }),
-      updatedProposals
     }
   }
   case SUBMIT_TECHNICAL_REVIEWS_START: {
