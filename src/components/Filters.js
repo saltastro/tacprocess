@@ -8,8 +8,6 @@ import  fetchProposals  from '../actions/proposalsActions'
 import  fetchTargets  from '../actions/targetsActions'
 import { storePartnerAllocations } from '../actions/timeAllocationActions'
 import { semestersArray, getPartnerList, getAstronomersList } from '../util/filters'
-import { defaultSemester } from '../util'
-import { ADMINISTRATOR, SALT_ASTRONOMER } from '../types'
 
 class Filters extends React.Component {
 	updateSemester = value => {
@@ -30,13 +28,13 @@ class Filters extends React.Component {
 	  const { dispatch } = this.props
 	  dispatch(astronomerChange(value))
 	};
-	
+
 	render() {
 	  const { filters, user, SALTAstronomers, location, loadingProposals, loadingTargets } = this.props
 	  const { selectedPartner, selectedSemester, selectedLiaison } = filters
 	  const partnerList = getPartnerList(user.roles)
 	  const astronomersList = ['All', 'Assigned'].concat(getAstronomersList(SALTAstronomers)).concat(['Not Assigned'])
-	  const semesters = ( user.roles || []).some(r => r.type === ADMINISTRATOR || r.type === SALT_ASTRONOMER) ? semestersArray() : [defaultSemester()]
+	  const semesters = semestersArray()
 	  if (location.pathname === '/' ||
 			location.pathname === '/admin' ||
 			location.pathname === '/documentation') {
@@ -70,7 +68,7 @@ class Filters extends React.Component {
 	          OnChange={ this.updateSemester }
 	          value={ selectedSemester }/>
 	      </div>
-					
+
 	      <div className='left-2'>
 	        <DropDown
 	          name='Partner'
@@ -78,7 +76,7 @@ class Filters extends React.Component {
 	          OnChange={ this.updatePartner }
 	          value={ selectedPartner }/>
 	      </div>
-					
+
 	      { location.pathname === '/techreview' &&
 					<div className='left-2'>
 					  <DropDown
@@ -90,7 +88,7 @@ class Filters extends React.Component {
 	      }
 	    </div>
 	  )
-		
+
 	}
 }
 
