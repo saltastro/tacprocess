@@ -130,7 +130,8 @@ export function convertProposals(proposals, semester, partner){
         techReviews,
         allocatedTime,
         tacComment
-      }
+      },
+      blocks: proposal.blocks
     })
   })
 }
@@ -180,7 +181,7 @@ export function queryUserData(){
   }`
   return graphqlClient().post('/graphql', {query})
     .then(
-      response =>  convertUserData(response.data.data.user)
+      response => convertUserData(response.data.data.user)
     )
 }
 
@@ -285,6 +286,89 @@ export function queryProposals(semester, partner){
   return graphqlClient().post('/graphql', { query })
     .then(
       response => convertProposals(response.data.data, semester, partner)
+    )
+}
+
+export function queryPartnerStatProposals (semester, partner) {
+  let query = null
+  if (partner === 'All') {
+    query = `
+    {
+      proposals(semester: "${ semester }"){
+        proposalCode
+        title
+        status
+        statusComment
+        principalInvestigator{
+          givenName
+          familyName
+        }
+        liaisonAstronomer{
+          givenName
+          familyName
+        }
+        completionComments{
+          semester
+          comment
+        }
+        timeAllocations{
+          priority
+          amount
+          semester
+          partnerCode
+        }
+        observations{
+          status
+          block{
+            length
+            priority
+            semester
+          }
+        }
+      }
+    }
+    `
+  } else {
+    query = `
+    {
+      proposals(semester: "${ semester }", partnerCode: ${ partner } ){
+        proposalCode
+        title
+        status
+        statusComment
+        principalInvestigator{
+          givenName
+          familyName
+        }
+        liaisonAstronomer{
+          givenName
+          familyName
+        }
+        completionComments{
+          semester
+          comment
+        }
+        timeAllocations{
+          priority
+          amount
+          semester
+          partnerCode
+        }
+        observations{
+          status
+          block{
+            length
+            priority
+            semester
+          }
+        }
+      }
+    }
+    `
+  }
+  return graphqlClient().post('/graphql-api', { query })
+    .then(
+      response => response.data.data.proposals
     )
 }
 

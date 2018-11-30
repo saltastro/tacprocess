@@ -7,7 +7,8 @@ import {
   TAC_PAGE,
   TECHNICAL_PAGE,
   PAGE_NOT_FOUND,
-	LIAISON_PAGE,
+  LIAISON_PAGE,
+  PARTNER_STAT_PAGE,
 } from '../types'
 import { makeTechComment } from './index'
 
@@ -119,6 +120,7 @@ export const loadedPage = pathname => {
 	else if (pathname === '/timeallocation' ) page = TAC_PAGE
 	else if (pathname === '/liaison' ) page = LIAISON_PAGE
 	else if( pathname === '/statistics' ) page = STATISTICS_PAGE
+	else if( pathname === '/partnerstat' ) page = PARTNER_STAT_PAGE
 	else if( pathname === '/techreview' ) page = TECHNICAL_PAGE
 	else if( pathname === '/documentation' ) page = DOCUMENTATION_PAGE
 	else if( pathname === '/admin' ) page = ADMIN_PAGE

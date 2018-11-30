@@ -322,6 +322,7 @@ export function getLiaisonUsername(name, SALTAstronomers){
 
 const pageRole = (page, role) => {
   if (page === types.TAC_PAGE && (role === types.TAC_CHAIR || role === types.TAC_MEMBER)) { return true }
+  if (page === types.PARTNER_STAT_PAGE && (role === types.BOARD || role === types.TAC_CHAIR)) { return true }
   if ((page === types.TECHNICAL_PAGE && (role === types.SALT_ASTRONOMER )) ||
     (page === types.LIAISON_PAGE && (role === types.SALT_ASTRONOMER ))) {
     return true
@@ -338,6 +339,8 @@ export function canViewPage (userRoles, page){
   if ((userRoles || []).some( p => p.type.toLowerCase() === types.TAC_CHAIR.toLowerCase() && page === 'Admin')) {
     return true
   }
+  if ((userRoles || []).some(p =>
+    (p.type.toLocaleLowerCase() === types.BOARD.toLocaleLowerCase() || p.type.toLocaleLowerCase() === types.TAC_CHAIR.toLocaleLowerCase()) && page === 'Partner\'s Statistics')) { return true }
   return (userRoles || []).some( p => pageRole(page, p.type))
 }
 
