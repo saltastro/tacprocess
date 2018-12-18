@@ -17,7 +17,6 @@ import {ADMIN_PAGE, STATISTICS_PAGE, TAC_PAGE, TECHNICAL_PAGE, PARTNER_STAT_PAGE
 
 const ApplicationPages = ({
   proposals,
-  partnerStatProposals,
   initProposals,
   filters,
   user,
@@ -74,7 +73,7 @@ const ApplicationPages = ({
         <UserRoute
           isAuthenticated={ isAuthenticated }
           exact path='/partnerstat'
-          component={ () => <PartnerStatPage proposals={ partnerStatProposals } filters={ filters } user={ user } /> }
+          component={ PartnerStatPage }
         />
       }
       <UserRoute exact isAuthenticated={ isAuthenticated } path='/documentation' component={ DocumentationPage } />
@@ -88,7 +87,6 @@ const ApplicationPages = ({
 
 ApplicationPages.propTypes = {
   proposals: propTypes.array,
-  partnerStatProposals: propTypes.array,
   isAuthenticated: propTypes.bool,
   user: propTypes.object,
   initProposals: propTypes.array,

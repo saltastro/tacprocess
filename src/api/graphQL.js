@@ -366,7 +366,7 @@ export function queryPartnerStatProposals (semester, partner) {
     }
     `
   }
-  return graphqlClient().post('/graphql-api', { query })
+  return graphqlClient().post('http://127.0.0.1:5000/graphql-api', { query })
     .then(
       response => response.data.data.proposals
     )

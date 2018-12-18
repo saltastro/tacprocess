@@ -11,6 +11,7 @@ import {
   PARTNER_STAT_PAGE,
 } from '../types'
 import { makeTechComment } from './index'
+import { semesterComment } from './partner-stat'
 
 /**
 *
@@ -173,6 +174,11 @@ export const isTechReportUpdated = (proposal, initProposals, semester) => {
 export const isReviewerUpdated = (proposal, initProposals, semester) => {
   const initProposal = initProposals.find(p => p.proposalCode === proposal.proposalCode)
   return !initProposal || initProposal.techReviews[ semester ].reviewer.username !== proposal.techReviews[ semester ].reviewer.username
+}
+
+export const isCompletionCommentUpdated = (proposal, initProposals, semester) => {
+  const initProposal = initProposals.find(p => p.proposalCode === proposal.proposalCode)
+  return !initProposal || semesterComment(proposal, semester) !== semesterComment(initProposal, semester)
 }
 
 export const compareByValue = (a, b) => {

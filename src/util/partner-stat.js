@@ -4,13 +4,13 @@ export const statusPriority = (proposal, priorityType, statusType, semester, par
   const { observations, timeAllocations } = proposal
   if (partnerCode === 'All') {
     // according to the time allocated for the semester and priority
-    timeAllocationPriority = timeAllocations.filter(t => (t.semester === semester && t.priority === priorityType))
+    timeAllocationPriority = timeAllocations.filter(t => (t.semester === semester && t.priority === priorityType)) || []
   } else {
     // according to the time allocated for the semester and priority and by the partner
-    timeAllocationPriority = timeAllocations.filter(t => (t.semester === semester && t.partnerCode === partnerCode && t.priority === priorityType))
+    timeAllocationPriority = timeAllocations.filter(t => (t.semester === semester && t.partnerCode === partnerCode && t.priority === priorityType)) || []
   }
   // according to the observation priority and to the block priority and semester
-  const observationsPriority = observations.filter(o => (o.status === statusType && o.block.priority === priorityType && o.block.semester === semester))
+  const observationsPriority = observations.filter(o => (o.status === statusType && o.block.priority === priorityType && o.block.semester === semester)) || []
   // check if the time is allocated
   if (timeAllocationPriority.length) {
     const allocTimes = timeAllocationPriority.map(at => at.amount)
@@ -33,5 +33,13 @@ export const statusPriority = (proposal, priorityType, statusType, semester, par
 
 export const semesterComment = (proposal, semester) => {
   const { completionComments } = proposal
-  return completionComments.map(c => c.semester === semester ? c.comment : '')[ 0 ]
+  if (completionComments.length) {
+    return completionComments.filter(c => c.semester === semester).length ? completionComments.filter(c => c.semester === semester)[ 0 ].comment || '' : ''
+  }
+  return ''
 }
+
+export const neverObserved = (priorityObservations) => priorityObservations.filter(op =>
+  typeof (op.percentage) === 'string' ?
+    parseFloat(op.percentage) !== 0
+    : op.percentage !== 0)
