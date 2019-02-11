@@ -56,7 +56,11 @@ class App extends React.Component {
 			return <Loading />
 		}
 		const { submittingReviews, submittedReviews, loading }  = proposals
-		const saUser = filters.selectedLiaison === 'All' || filters.selectedLiaison === 'Not Assigned' || filters.selectedLiaison === 'Assigned' ? filters.selectedLiaison : getLiaisonUsername(filters.selectedLiaison, SALTAstronomers)
+		const saUser = filters.selectedLiaison === 'All'
+		|| filters.selectedLiaison === 'Not Assigned'
+		|| filters.selectedLiaison === 'Assigned' ?
+			filters.selectedLiaison
+			: getLiaisonUsername(filters.selectedLiaison, SALTAstronomers.SALTAstronomer)
 
 		const proposalsPerLiaison = reduceProposalsPerAstronomer(proposals.proposals || [], saUser, filters.selectedSemester)
 
