@@ -8,6 +8,7 @@ import {
   TECHNICAL_PAGE,
   TAC_PAGE,
   ADMIN_PAGE,
+  PARTNER_STAT_PAGE,
   PAGE_NOT_FOUND
 } from '../types'
 import {canViewPage} from '../util'
@@ -67,6 +68,12 @@ class Navigation extends React.Component {
 							<li>
 								<NavLink to='/statistics'>STATISTICS</NavLink>
 							</li>
+            }
+            {
+              (canViewPage(userRoles, PARTNER_STAT_PAGE) && isAuthenticated) &&
+              <li>
+                <NavLink to='/partnerstat'>COMPLETION STATS</NavLink>
+              </li>
             }
             {
 							(canViewPage(userRoles, TAC_PAGE) && isAuthenticated) &&
