@@ -5,16 +5,18 @@ import { withRouter } from 'react-router-dom'
 import DropDown from './selectors/DropDown'
 import { partnerChange, semesterChange, astronomerChange } from '../actions/filtersActions'
 import  fetchProposals  from '../actions/proposalsActions'
+import  fetchPartnerStatProposals  from '../actions/partnerStatProposalsActions'
 import  fetchTargets  from '../actions/targetsActions'
 import { storePartnerAllocations } from '../actions/timeAllocationActions'
 import { semestersArray, getPartnerList, getAstronomersList } from '../util/filters'
 import { defaultSemester } from '../util'
-import { ADMINISTRATOR, SALT_ASTRONOMER } from '../types'
+import { ADMINISTRATOR, SALT_ASTRONOMER, BOARD, TAC_CHAIR } from '../types'
 
 class Filters extends React.Component {
 	updateSemester = value => {
 	  const { dispatch, filters } = this.props
 	  dispatch(fetchProposals( value, filters.selectedPartner))
+	  dispatch(fetchPartnerStatProposals( value, filters.selectedPartner))
 	  dispatch(fetchTargets(value, filters.selectedPartner))
 	  dispatch(storePartnerAllocations(value, filters.selectedPartner))
 	  dispatch(semesterChange(value))
@@ -22,6 +24,7 @@ class Filters extends React.Component {
 	updatePartner = value => {
 	  const { dispatch, filters } = this.props
 	  dispatch(fetchProposals( filters.selectedSemester, value))
+	  dispatch(fetchPartnerStatProposals( filters.selectedSemester, value))
 	  dispatch(fetchTargets(filters.selectedSemester, value))
 	  dispatch(storePartnerAllocations(filters.selectedSemester, value))
 	  dispatch(partnerChange(value))
@@ -36,7 +39,7 @@ class Filters extends React.Component {
 	  const { selectedPartner, selectedSemester, selectedLiaison } = filters
 	  const partnerList = getPartnerList(user.roles)
 	  const astronomersList = ['All', 'Assigned'].concat(getAstronomersList(SALTAstronomers)).concat(['Not Assigned'])
-	  const semesters = ( user.roles || []).some(r => r.type === ADMINISTRATOR || r.type === SALT_ASTRONOMER) ? semestersArray() : [defaultSemester()]
+	  const semesters = ( user.roles || []).some(r => r.type === ADMINISTRATOR || r.type === SALT_ASTRONOMER || r.type === BOARD || r.type === TAC_CHAIR) ? semestersArray() : [defaultSemester()]
 	  if (location.pathname === '/' ||
 			location.pathname === '/admin' ||
 			location.pathname === '/documentation') {

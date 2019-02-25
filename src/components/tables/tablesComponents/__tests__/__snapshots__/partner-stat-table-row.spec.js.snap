@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PartnerStatTableRow Component Render the PartnerStatTableRow Component having populated props with no errors 1`] = `
+<PartnerStatTableRow
+  proposal={
+    Object {
+      "liaisonAstronomer": Object {
+        "familyName": "LA-1",
+        "givenName": "LA-1",
+      },
+      "observations": Array [
+        Object {
+          "block": Object {
+            "length": 2000,
+            "priority": 1,
+            "semester": "2018-1",
+          },
+          "status": "ACCEPTED",
+        },
+      ],
+      "principalInvestigator": Object {
+        "familyName": "PI-1",
+        "givenName": "PI-1",
+      },
+      "proposalCode": "Code-1",
+      "status": "Status-1",
+      "statusComment": "Comment-1",
+      "timeAllocations": Array [
+        Object {
+          "amount": 50000,
+          "partnerCode": "RSA",
+          "priority": 1,
+          "semester": "2018-1",
+        },
+      ],
+      "title": "Title-1",
+    }
+  }
+  semester="2018-1"
+/>
+`;
+
+exports[`PartnerStatTableRow Component Render the PartnerStatTableRow Component having unpopulated props with no errors 1`] = `
+<PartnerStatTableRow
+  proposal={Object {}}
+  semester=""
+/>
+`;

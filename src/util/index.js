@@ -322,11 +322,12 @@ export function getLiaisonUsername(name, SALTAstronomers){
 
 const pageRole = (page, role) => {
   if (page === types.TAC_PAGE && (role === types.TAC_CHAIR || role === types.TAC_MEMBER)) { return true }
+  if (page === types.PARTNER_STAT_PAGE && (role === types.BOARD || role === types.TAC_CHAIR)) { return true }
   if ((page === types.TECHNICAL_PAGE && (role === types.SALT_ASTRONOMER )) ||
     (page === types.LIAISON_PAGE && (role === types.SALT_ASTRONOMER ))) {
     return true
   }
-  return page === types.STATISTICS_PAGE || page === types.DOCUMENTATION_PAGE
+  return (page === types.STATISTICS_PAGE && role !== types.BOARD) || page === types.DOCUMENTATION_PAGE
 
 }
 
@@ -338,6 +339,8 @@ export function canViewPage (userRoles, page){
   if ((userRoles || []).some( p => p.type.toLowerCase() === types.TAC_CHAIR.toLowerCase() && page === 'Admin')) {
     return true
   }
+  if ((userRoles || []).some(p =>
+    (p.type.toLocaleLowerCase() === types.BOARD.toLocaleLowerCase() || p.type.toLocaleLowerCase() === types.TAC_CHAIR.toLocaleLowerCase()) && page === 'Completion Statistics')) { return true }
   return (userRoles || []).some( p => pageRole(page, p.type))
 }
 
@@ -402,14 +405,14 @@ export function canAssignOtherReviewer (roles){
   return (roles || []).some(r => r.type === types.ADMINISTRATOR)
 }
 
-export function defaultSemester() {
+export function defaultSemester () {
   const today = new Date()
   const month = today.getMonth() + 1
   let year = today.getFullYear()
   let semester = null
-  if (month >= 1 && month <=4) {
+  if (month >= 1 && month <= 4) {
     semester = 1
-  } else if (month >= 5 && month <= 10) {
+  } else if (month >= 5 && month <= 12) {
     semester = 2
   } else {
     year += 1
