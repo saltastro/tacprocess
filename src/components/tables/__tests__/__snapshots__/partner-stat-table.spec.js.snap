@@ -1,0 +1,379 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PartnerStatTable Component Render the PartnerStatTable Component having populated props with no errors 1`] = `
+<PartnerStatTable
+  partner="RSA"
+  proposals={
+    Array [
+      Object {
+        "completionComments": Array [
+          Object {
+            "comment": "Testing",
+            "semester": "2018-1",
+          },
+        ],
+        "liaisonAstronomer": Object {
+          "familyName": "LA-1",
+          "givenName": "LA-1",
+        },
+        "observations": Array [
+          Object {
+            "block": Object {
+              "length": 2000,
+              "priority": 1,
+              "semester": "2018-1",
+            },
+            "status": "ACCEPTED",
+          },
+        ],
+        "principalInvestigator": Object {
+          "familyName": "PI-1",
+          "givenName": "PI-1",
+        },
+        "proposalCode": "Code-1",
+        "status": "Status-1",
+        "statusComment": "Comment-1",
+        "timeAllocations": Array [
+          Object {
+            "amount": 50000,
+            "partnerCode": "RSA",
+            "priority": 1,
+            "semester": "2018-1",
+          },
+        ],
+        "title": "Title-1",
+      },
+    ]
+  }
+  semester="2018-1"
+  user={
+    Object {
+      "roles": Array [
+        Object {
+          "type": "ADMINISTRATOR",
+        },
+      ],
+    }
+  }
+>
+  <div
+    className="SATableDiv"
+  >
+    <h1>
+      Partner's Statistics
+    </h1>
+    <table
+      align="center"
+      className="SATable"
+    >
+      <thead>
+        <tr>
+          <th>
+            Proposal Code
+          </th>
+          <th>
+            Proposal Title
+          </th>
+          <th>
+            PI
+          </th>
+          <th>
+            Liaison SA
+          </th>
+          <th>
+            Completeness of a Proposal
+          </th>
+          <th>
+            Status
+          </th>
+          <th>
+            Comment
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <PartnerStatTableRow
+          key="Code-1"
+          partner="RSA"
+          proposal={
+            Object {
+              "completionComments": Array [
+                Object {
+                  "comment": "Testing",
+                  "semester": "2018-1",
+                },
+              ],
+              "liaisonAstronomer": Object {
+                "familyName": "LA-1",
+                "givenName": "LA-1",
+              },
+              "observations": Array [
+                Object {
+                  "block": Object {
+                    "length": 2000,
+                    "priority": 1,
+                    "semester": "2018-1",
+                  },
+                  "status": "ACCEPTED",
+                },
+              ],
+              "principalInvestigator": Object {
+                "familyName": "PI-1",
+                "givenName": "PI-1",
+              },
+              "proposalCode": "Code-1",
+              "status": "Status-1",
+              "statusComment": "Comment-1",
+              "timeAllocations": Array [
+                Object {
+                  "amount": 50000,
+                  "partnerCode": "RSA",
+                  "priority": 1,
+                  "semester": "2018-1",
+                },
+              ],
+              "title": "Title-1",
+            }
+          }
+          semester="2018-1"
+          user={
+            Object {
+              "roles": Array [
+                Object {
+                  "type": "ADMINISTRATOR",
+                },
+              ],
+            }
+          }
+        >
+          <tr
+            key="Code-1"
+          >
+            <td>
+              <a
+                href="https://www.salt.ac.za/wm/proposal/Code-1"
+                target="_blank"
+              >
+                Code-1
+              </a>
+            </td>
+            <td
+              className=" table-height width-200"
+            >
+              Title-1
+            </td>
+            <td>
+              PI-1 PI-1
+            </td>
+            <td>
+              LA-1 LA-1
+            </td>
+            <td>
+              <ObservationTable
+                partner="RSA"
+                proposal={
+                  Object {
+                    "completionComments": Array [
+                      Object {
+                        "comment": "Testing",
+                        "semester": "2018-1",
+                      },
+                    ],
+                    "liaisonAstronomer": Object {
+                      "familyName": "LA-1",
+                      "givenName": "LA-1",
+                    },
+                    "observations": Array [
+                      Object {
+                        "block": Object {
+                          "length": 2000,
+                          "priority": 1,
+                          "semester": "2018-1",
+                        },
+                        "status": "ACCEPTED",
+                      },
+                    ],
+                    "principalInvestigator": Object {
+                      "familyName": "PI-1",
+                      "givenName": "PI-1",
+                    },
+                    "proposalCode": "Code-1",
+                    "status": "Status-1",
+                    "statusComment": "Comment-1",
+                    "timeAllocations": Array [
+                      Object {
+                        "amount": 50000,
+                        "partnerCode": "RSA",
+                        "priority": 1,
+                        "semester": "2018-1",
+                      },
+                    ],
+                    "title": "Title-1",
+                  }
+                }
+                semester="2018-1"
+              >
+                <table
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                >
+                  <thead>
+                    <tr>
+                      <th>
+                        Priority
+                      </th>
+                      <th>
+                        Percentage
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ObservationTabelRow
+                      key="0"
+                      observation={
+                        Object {
+                          "percentage": 0,
+                          "priority": 0,
+                        }
+                      }
+                    >
+                      <tr
+                        key="0"
+                      >
+                        <td>
+                          P
+                          0
+                        </td>
+                        <td>
+                          0
+                          %
+                        </td>
+                      </tr>
+                    </ObservationTabelRow>
+                    <ObservationTabelRow
+                      key="1"
+                      observation={
+                        Object {
+                          "percentage": "4.00",
+                          "priority": 1,
+                        }
+                      }
+                    >
+                      <tr
+                        key="1"
+                      >
+                        <td>
+                          P
+                          1
+                        </td>
+                        <td>
+                          4.00
+                          %
+                        </td>
+                      </tr>
+                    </ObservationTabelRow>
+                    <ObservationTabelRow
+                      key="2"
+                      observation={
+                        Object {
+                          "percentage": 0,
+                          "priority": 2,
+                        }
+                      }
+                    >
+                      <tr
+                        key="2"
+                      >
+                        <td>
+                          P
+                          2
+                        </td>
+                        <td>
+                          0
+                          %
+                        </td>
+                      </tr>
+                    </ObservationTabelRow>
+                    <ObservationTabelRow
+                      key="3"
+                      observation={
+                        Object {
+                          "percentage": 0,
+                          "priority": 3,
+                        }
+                      }
+                    >
+                      <tr
+                        key="3"
+                      >
+                        <td>
+                          P
+                          3
+                        </td>
+                        <td>
+                          0
+                          %
+                        </td>
+                      </tr>
+                    </ObservationTabelRow>
+                    <ObservationTabelRow
+                      key="4"
+                      observation={
+                        Object {
+                          "percentage": 0,
+                          "priority": 4,
+                        }
+                      }
+                    >
+                      <tr
+                        key="4"
+                      >
+                        <td>
+                          P
+                          4
+                        </td>
+                        <td>
+                          0
+                          %
+                        </td>
+                      </tr>
+                    </ObservationTabelRow>
+                  </tbody>
+                </table>
+              </ObservationTable>
+            </td>
+            <td
+              style={
+                Object {
+                  "backgroundColor": "",
+                }
+              }
+            >
+              Status-1
+            </td>
+            <td>
+              <textarea
+                defaultValue="Testing"
+                disabled={false}
+                rows={10}
+              />
+            </td>
+          </tr>
+        </PartnerStatTableRow>
+      </tbody>
+    </table>
+  </div>
+</PartnerStatTable>
+`;
+
+exports[`PartnerStatTable Component Render the PartnerStatTable Component having unpopulated props with no errors 1`] = `
+<PartnerStatTable
+  partner=""
+  proposals={Array []}
+  semester=""
+  user={Object {}}
+/>
+`;

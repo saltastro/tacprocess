@@ -12,7 +12,7 @@ export const convertUserData = rowUser => ({
 })
 
 function makeTechReviews(techReviews) {
-	
+
   return ( techReviews|| [] ).reduce((prev, tr) => ({
     ...prev,
     [ tr.semester ]: {
@@ -37,7 +37,7 @@ function makeAllocatedTime(alloc){
 }
 
 function makeTacComments(tComm){
-	
+
   const tacComments = {}
   tComm.forEach( c => {
     tacComments[ c.partner.code ] = {
@@ -78,7 +78,7 @@ function minimumTotalRequested(timeRequirements, semester){
 }
 
 function requestedTime(requirements, semester){
-	
+
   const reqTime = {
     minimum: 0,
     semester,
@@ -130,7 +130,8 @@ export function convertProposals(proposals, semester, partner){
         techReviews,
         allocatedTime,
         tacComment
-      }
+      },
+      blocks: proposal.blocks
     })
   })
 }
@@ -143,7 +144,7 @@ export function queryPartnerAllocations(semester){
 	 * @params semester like "2017-1" type String
 	 * @return GQL results of the below query
 	 */
-	
+
   const query = `
   {
     partnerAllocations(semester:"${ semester }"){
@@ -180,7 +181,7 @@ export function queryUserData(){
   }`
   return graphqlClient().post('/graphql', {query})
     .then(
-      response =>  convertUserData(response.data.data.user)
+      response => convertUserData(response.data.data.user)
     )
 }
 
@@ -210,7 +211,7 @@ export function queryProposals(semester, partner){
   if ( partner !== 'All' ) {
     par = ` , partnerCode:"${ partner }"`
   }
-	
+
   const query = `
   {
     proposals(semester: "${ semester }",${ par } ){
@@ -285,6 +286,54 @@ export function queryProposals(semester, partner){
   return graphqlClient().post('/graphql', { query })
     .then(
       response => convertProposals(response.data.data, semester, partner)
+    )
+}
+
+export function queryPartnerStatProposals (semester, partner) {
+  console.log(semester,partner)
+  let par = ''
+  if ( partner !== 'All' ) {
+    par = ` , partnerCode: ${ partner }"`
+  }
+    const query = `
+    {
+      proposals(semester: "${ semester }",  ${ par } ){
+        proposalCode
+        title
+        status
+        statusComment
+        principalInvestigator{
+          givenName
+          familyName
+        }
+        liaisonAstronomer{
+          givenName
+          familyName
+        }
+        completionComments{
+          semester
+          comment
+        }
+        timeAllocations{
+          priority
+          amount
+          semester
+          partnerCode
+        }
+        observations{
+          status
+          block{
+            length
+            priority
+            semester
+          }
+        }
+      }
+    }
+    `
+  return graphqlClient().post('/graphql-api', { query })
+    .then(
+      response => response.data.data.proposals
     )
 }
 

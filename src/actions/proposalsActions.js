@@ -6,28 +6,27 @@ import {
   UPDATING_PROPOSALS,
   SET_LIAISON_ASTRONOMER,
   UNSET_LIAISON_ASTRONOMER,
-	LIAISON_SELECTED
+  LIAISON_SELECTED
 } from '../types'
 
-function startFetchProposals() {
+function startFetchProposals () {
   return (
     {
       type: FETCH_PROPOSALS_START
     }
   )
-
 }
 
-export function liaisonSelected(liaison) {
-	return (
-		{
-			type: LIAISON_SELECTED,
-			payload: {liaison}
-		}
-	)
+export function liaisonSelected (liaison) {
+  return (
+    {
+      type: LIAISON_SELECTED,
+      payload: {liaison}
+    }
+  )
 }
 
-function fetchProposalsFail(error) {
+function fetchProposalsFail (error) {
   return (
     {
       type: FETCH_PROPOSALS_FAIL,
@@ -36,7 +35,7 @@ function fetchProposalsFail(error) {
   )
 }
 
-export function fetchProposalsPass(proposals, semester) {
+export function fetchProposalsPass (proposals, semester) {
   return (
     {
       type: FETCH_PROPOSALS_PASS,
@@ -48,19 +47,19 @@ export function fetchProposalsPass(proposals, semester) {
   )
 }
 
-export default function fetchProposals(semester, partner='All') {
-  return function disp(dispatch){
+export default function fetchProposals (semester, partner = 'All') {
+  return function disp (dispatch) {
     dispatch(startFetchProposals())
-    queryProposals(semester, partner).then( res =>
-    {
-      dispatch(fetchProposalsPass(res, semester))
-    }
-    ).catch((e) => {
-      dispatch(fetchProposalsFail(e.message))})
+    queryProposals(semester, partner)
+    .then(res => { dispatch(fetchProposalsPass(res, semester)) }
+    )
+    .catch((e) => {
+      dispatch(fetchProposalsFail(e.message))
+    })
   }
 }
 
-export function updateProposals(load) {
+export function updateProposals (load) {
   return (
     {
       type: UPDATING_PROPOSALS,
@@ -70,18 +69,18 @@ export function updateProposals(load) {
 }
 
 export function setLiaisonAstronomer(proposalCode, astronomerUsername) {
-	if ( astronomerUsername ) return {
-		type: SET_LIAISON_ASTRONOMER,
-		payload: {
-			proposalCode,
-			astronomerUsername
-		}
-	}
-	return {
-		type: UNSET_LIAISON_ASTRONOMER,
-		payload: {
-			proposalCode,
-			astronomerUsername
-		}
-	}
+  if (astronomerUsername) return {
+    type: SET_LIAISON_ASTRONOMER,
+    payload: {
+      proposalCode,
+      astronomerUsername
+    }
+  }
+  return {
+    type: UNSET_LIAISON_ASTRONOMER,
+    payload: {
+      proposalCode,
+      astronomerUsername
+    }
+  }
 }

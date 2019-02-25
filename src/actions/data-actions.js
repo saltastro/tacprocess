@@ -1,10 +1,13 @@
 import {ALL_PARTNER, FETCHED_DATA, FETCHING_DATA_FAIL, FETCHING_DATA} from '../types'
-import { storePartnerAllocations } from './timeAllocationActions'
+import {fetchAllocationsPass} from './timeAllocationActions'
 import {convertTargets, fetchTargetsPass} from './targetsActions'
 import {fetchProposalsPass} from './proposalsActions'
+import {fetchPartnerStatProposalsPass} from './partnerStatProposalsActions'
 import {convertSA, fetchSAPass} from './saltAstronomerActions'
 import {
+  queryPartnerAllocations,
   queryProposals,
+  queryPartnerStatProposals,
   querySALTAstronomers, querySaltUsers, queryTacMembers,
   queryTargets,
   queryUserData
@@ -35,30 +38,31 @@ export const fetchedAllDataFail = (message) => ({
  *  @param semester
  *  @param partner
  * */
-export function fetchAllData(semester, partner){
+export function fetchAllData (semester, partner) {
   return async (dispatch) => {
     dispatch(fetchingAllData())
     try {
       const saltAstronomers = querySALTAstronomers()
       const user = queryUserData()
-
       const proposals = queryProposals(semester, partner)
+      const partnerStatProposals = queryPartnerStatProposals(semester, partner)
       const targets = queryTargets(semester, partner)
+      const allocations = queryPartnerAllocations(semester, partner)
       const tacMembers = queryTacMembers()
       const saltUsers = querySaltUsers()
-      await Promise.all([saltAstronomers, user, proposals, targets, tacMembers, saltUsers])
-        .then(data => {
-          dispatch(fetchSAPass(convertSA(data[ 0 ].data.data)))
-          dispatch(userLoggedIn(data[ 1 ]))
-          dispatch(partnersFilter(ALL_PARTNER))
-          dispatch(fetchProposalsPass(data[ 2 ], semester, partner), semester)
-          dispatch(fetchTargetsPass(convertTargets(data[ 3 ].data.data)))
-          dispatch(storePartnerAllocations(semester))
-          dispatch(fetchTacMembersPass(convertTacMembers(data[ 4 ].data.data)))
-          dispatch(fetchSaltUsersPass(convertSaltUsers(data[ 5 ].data.data)))
-        })
-
-    }catch (e) {
+      await Promise.all([saltAstronomers, user, proposals, partnerStatProposals, targets, allocations, tacMembers, saltUsers])
+      .then(data => {
+        dispatch(fetchSAPass(convertSA(data[ 0 ].data.data)))
+        dispatch(userLoggedIn(data[ 1 ]))
+        dispatch(partnersFilter(ALL_PARTNER))
+        dispatch(fetchProposalsPass(data[ 2 ], semester, partner), semester)
+        dispatch(fetchPartnerStatProposalsPass(data[ 3 ], semester, partner), semester)
+        dispatch(fetchTargetsPass(convertTargets(data[ 4 ].data.data)))
+        dispatch(fetchAllocationsPass(data[ 5 ]))
+        dispatch(fetchTacMembersPass(convertTacMembers(data[ 6 ].data.data)))
+        dispatch(fetchSaltUsersPass(convertSaltUsers(data[ 7 ].data.data)))
+      })
+    } catch (e) {
       dispatch(fetchedAllDataFail(e.message))
       return
     }

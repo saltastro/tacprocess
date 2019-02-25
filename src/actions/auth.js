@@ -12,6 +12,7 @@ import api from '../api/api'
 import fetchTargets from './targetsActions'
 import {storePartnerAllocations} from './timeAllocationActions'
 import fetchProposals from './proposalsActions'
+import fetchPartnerStatProposals from './partnerStatProposalsActions'
 import {defaultSemester} from '../util'
 import {setToken, removeToken} from '../util/storage'
 
@@ -74,6 +75,7 @@ export const login = credentials => async (dispatch) => {
     dispatch(partnersFilter(ALL_PARTNER))
 
     dispatch(fetchProposals( semester, ALL_PARTNER))
+    dispatch(fetchPartnerStatProposals( semester, ALL_PARTNER))
     dispatch(fetchTargets(semester, ALL_PARTNER))
     dispatch(storePartnerAllocations(semester, ALL_PARTNER))
   } catch (e) {

@@ -10,38 +10,41 @@ import DocumentationPage from './DocumentationPage'
 import TechReviewPage from './TechReviewPage'
 import HomePage from './HomePage'
 import StatisticsPage from './StatisticsPage'
-
+import PartnerStatPage from './PartnerStatPage'
 import GuestRoute from '../routes/GuestRoute'
 import UserRoute from '../routes/UserRoute'
-import {ADMIN_PAGE, STATISTICS_PAGE, TAC_PAGE, TECHNICAL_PAGE} from '../../types'
+import {ADMIN_PAGE, STATISTICS_PAGE, TAC_PAGE, TECHNICAL_PAGE, PARTNER_STAT_PAGE} from '../../types'
 
 const ApplicationPages = ({
-  proposals,
-  initProposals,
-  filters,
-  user,
-  isAuthenticated,
-  astronomers,
-  setLiaison,
-  submitLiaisons
-}) => {
+                            proposals,
+                            initProposals,
+                            filters,
+                            user,
+                            isAuthenticated,
+                            astronomers,
+                            setLiaison,
+                            submitLiaisons
+                          }) => {
   const userRoles = user.roles
   return (
     <div className='main-div'>
-      <Route path='/' exact component={ HomePage }/>
+      <Route
+        path='/'
+        exact
+        component={ HomePage }
+      />
 
       <GuestRoute exact path='/login' isAuthenticated={ isAuthenticated } component={ LoginPage }/>
 
       {
         canViewPage(userRoles, STATISTICS_PAGE) &&
         <UserRoute exact path='/statistics' isAuthenticated={ isAuthenticated }
-          component={ StatisticsPage }
+                   component={ StatisticsPage }
         />
       }
-
       <UserRoute exact path='/timeallocation' isAuthenticated={ isAuthenticated }
-        view={ canViewPage(userRoles, TAC_PAGE) }
-        component={ TimeAllocationPage }
+                 view={ canViewPage(userRoles, TAC_PAGE) }
+                 component={ TimeAllocationPage }
       />
       {
         canViewPage(userRoles, TECHNICAL_PAGE) &&
@@ -61,13 +64,22 @@ const ApplicationPages = ({
                    /> }
         />
       }
+      {
+        canViewPage(userRoles, PARTNER_STAT_PAGE) &&
+        <UserRoute
+          isAuthenticated={ isAuthenticated }
+          exact path='/partnerstat'
+          component={ PartnerStatPage }
+        />
+      }
       <UserRoute exact isAuthenticated={ isAuthenticated } path='/documentation' component={ DocumentationPage } />
       {
         canViewPage(userRoles, ADMIN_PAGE) &&
         <UserRoute exact isAuthenticated={ isAuthenticated } path='/admin' component={ AdminPage } />
       }
     </div>
-)}
+  )
+}
 
 ApplicationPages.propTypes = {
   proposals: propTypes.array,
@@ -77,7 +89,7 @@ ApplicationPages.propTypes = {
   filters: propTypes.object,
   astronomers: propTypes.array,
   setLiaison: propTypes.func,
-  submitLiaisons: propTypes.func,
+  submitLiaisons: propTypes.func
 }
 
 export default ApplicationPages
