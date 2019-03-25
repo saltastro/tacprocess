@@ -45,11 +45,11 @@ export const getIndexOfColumns = columnArray => {
 export const updateProposalFromCSV = (proposals, partner, rowValues, valueIndex) => (proposals || []).map( p => {
   if (p.proposalCode === rowValues[ valueIndex.proposalCode ] ){
     p.allocatedTime[ partner ] = {
-      p0: rowValues[ valueIndex.P0 ],
-      p1: rowValues[ valueIndex.P1 ],
-      p2: rowValues[ valueIndex.P2 ],
-      p3: rowValues[ valueIndex.P3 ],
-      p4: rowValues[ valueIndex.P4 ],
+      p0: parseFloat(rowValues[ valueIndex.P0 ]).toString(),
+      p1: parseFloat(rowValues[ valueIndex.P1 ]).toString(),
+      p2: parseFloat(rowValues[ valueIndex.P2 ]).toString(),
+      p3: parseFloat(rowValues[ valueIndex.P3 ]).toString(),
+      p4: parseFloat(rowValues[ valueIndex.P4 ]).toString(),
     }
     p.tacComment[ partner ] = {comment: rowValues[ valueIndex.tacComment ]}
 

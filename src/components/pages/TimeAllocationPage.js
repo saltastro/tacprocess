@@ -121,7 +121,6 @@ class TimeAllocationPage extends React.Component {
 	  const { dispatch } = this.props
 	  let allColumns = false
 	  let columnIndex = {}
-		console.log('XXX: ', data)
 	  let updatedProposals = proposals;
 	  (data || []).forEach( (r, i) => {
 	    if (i === 0) {
