@@ -1,3 +1,5 @@
+import isNumber from 'is-number'
+
 export const checkColumns = columnArray => {
   const p0 = (columnArray || [] ).some( p => p.toLowerCase() === 'p0')
   const p1 = (columnArray || [] ).some( p => p.toLowerCase() === 'p1')
@@ -42,14 +44,16 @@ export const getIndexOfColumns = columnArray => {
   return columnIndex
 }
 
+export const priorityValue = (value) => isNumber(value) ? parseFloat(value).toString() : value
+
 export const updateProposalFromCSV = (proposals, partner, rowValues, valueIndex) => (proposals || []).map( p => {
   if (p.proposalCode === rowValues[ valueIndex.proposalCode ] ){
     p.allocatedTime[ partner ] = {
-      p0: parseFloat(rowValues[ valueIndex.P0 ]).toString(),
-      p1: parseFloat(rowValues[ valueIndex.P1 ]).toString(),
-      p2: parseFloat(rowValues[ valueIndex.P2 ]).toString(),
-      p3: parseFloat(rowValues[ valueIndex.P3 ]).toString(),
-      p4: parseFloat(rowValues[ valueIndex.P4 ]).toString(),
+      p0: priorityValue(rowValues[ valueIndex.P0 ]),
+      p1: priorityValue(rowValues[ valueIndex.P1 ]),
+      p2: priorityValue(rowValues[ valueIndex.P2 ]),
+      p3: priorityValue(rowValues[ valueIndex.P3 ]),
+      p4: priorityValue(rowValues[ valueIndex.P4 ]),
     }
     p.tacComment[ partner ] = {comment: rowValues[ valueIndex.tacComment ]}
 

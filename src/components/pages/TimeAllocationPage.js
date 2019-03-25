@@ -206,6 +206,9 @@ class TimeAllocationPage extends React.Component {
 	                  cssClass='btn'
 	                  onFileLoaded={ e => this.updateFromCSV(e, partnerProposals[ partner ] || [], partner) }
 	                  onError={ this.handleDarkSideForce }
+										parserOptions={ {
+											dynamicTyping: true,
+										} }
 	                />
 	              }
 
