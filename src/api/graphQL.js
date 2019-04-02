@@ -292,11 +292,11 @@ export function queryProposals(semester, partner){
 export function queryPartnerStatProposals (semester, partner) {
   let par = ''
   if ( partner !== 'All' ) {
-    par = ` , partnerCode: "${ partner }"`
+    par = `, partnerCode: ${ partner }`
   }
     const query = `
     {
-      proposals(semester: "${ semester }"  ${ par } ){
+      proposals(semester: "${ semester }" ${ par } ){
         proposalCode
         title
         status
