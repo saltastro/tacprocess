@@ -292,7 +292,7 @@ export function queryProposals(semester, partner){
 export function queryPartnerStatProposals (semester, partner) {
   let par = ''
   if ( partner !== 'All' ) {
-    par = ` , partnerCode: ${ partner }`
+    par = ` , partnerCode: "${ partner }"`
   }
     const query = `
     {
