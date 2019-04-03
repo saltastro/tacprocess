@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { API_BASE_URL } from '../types'
+import { API_BASE_URL, SALT_SERVER_API_URL } from '../types'
 import {getToken} from '../util/storage'
 
 export const jsonClient = (responseType='json') => ({
@@ -54,3 +54,29 @@ export const graphqlClient = () => ({
       })
   }
 })
+
+export const saltServerApiClient = () => (
+  {
+    _client: axios.create({
+      baseURL: SALT_SERVER_API_URL,
+      'routes': {
+        'cors': true
+      },
+      headers: {
+        'Authorization': `Token ${ getToken() }`,
+        'Content-Type': 'application/json',
+      }
+    }),
+
+    post(url, data) {
+      return this._client.post(url, data)
+      .then(response => {
+        if (response.data.errors) {
+          throw new Error(response.data.errors.map(error => error.message).join(' | '))
+        }
+        return response
+      })
+    }
+  }
+)
+

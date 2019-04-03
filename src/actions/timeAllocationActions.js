@@ -6,6 +6,7 @@ import {
 	SUBMIT_TIME_ALLOCATIONS_START,
 	SUBMIT_TIME_ALLOCATIONS_PASS,
 	SUBMIT_TIME_ALLOCATIONS_FAIL,
+  FETCH_PARTNER_AVAILABLE_TIME_PASS,
 	ADD_NEW_MEMBER,
 	REMOVE_MEMBER,
 	ALL_PARTNER,
@@ -34,6 +35,11 @@ export const startSubmittingTimeAllocations = () => ({
 export const fetchAllocationsPass = partner => ({
   type: SUBMIT_TIME_ALLOCATIONS_PASS,
   payload: { partner }
+})
+
+export const fetchPartnersAvailableTimePass = data => ({
+  type: FETCH_PARTNER_AVAILABLE_TIME_PASS,
+  payload: {data}
 })
 
 export const failToSubmitTimeAllocations = (partner, error) => ({
