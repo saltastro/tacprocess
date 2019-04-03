@@ -1,5 +1,5 @@
 import {ALL_PARTNER, FETCHED_DATA, FETCHING_DATA_FAIL, FETCHING_DATA} from '../types'
-import {fetchAllocationsPass} from './timeAllocationActions'
+import {fetchPartnersAvailableTimePass} from './timeAllocationActions'
 import {convertTargets, fetchTargetsPass} from './targetsActions'
 import {fetchProposalsPass} from './proposalsActions'
 import {fetchPartnerStatProposalsPass} from './partnerStatProposalsActions'
@@ -58,7 +58,7 @@ export function fetchAllData (semester, partner) {
         dispatch(fetchProposalsPass(data[ 2 ], semester, partner), semester)
         dispatch(fetchPartnerStatProposalsPass(data[ 3 ], semester, partner), semester)
         dispatch(fetchTargetsPass(convertTargets(data[ 4 ].data.data)))
-        dispatch(fetchAllocationsPass(data[ 5 ]))
+        dispatch(fetchPartnersAvailableTimePass(data[ 5 ]))
         dispatch(fetchTacMembersPass(convertTacMembers(data[ 6 ].data.data)))
         dispatch(fetchSaltUsersPass(convertSaltUsers(data[ 7 ].data.data)))
       })
