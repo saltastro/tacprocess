@@ -16,15 +16,15 @@ import UserRoute from '../routes/UserRoute'
 import {ADMIN_PAGE, STATISTICS_PAGE, TAC_PAGE, TECHNICAL_PAGE, PARTNER_STAT_PAGE} from '../../types'
 
 const ApplicationPages = ({
-                            proposals,
-                            initProposals,
-                            filters,
-                            user,
-                            isAuthenticated,
-                            astronomers,
-                            setLiaison,
-                            submitLiaisons
-                          }) => {
+  proposals,
+  initProposals,
+  filters,
+  user,
+  isAuthenticated,
+  astronomers,
+  setLiaison,
+  submitLiaisons
+}) => {
   const userRoles = user.roles
   return (
     <div className='main-div'>

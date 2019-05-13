@@ -1,4 +1,4 @@
-import { graphqlClient } from './index'
+import { graphqlClient, saltServerApiClient } from './index'
 import {getTechReportFields} from '../util'
 import { isNewProposal, isLongTermProposal } from '../util/proposal'
 import {convertPartnerAllocations} from '../actions/timeAllocationActions'
@@ -290,14 +290,13 @@ export function queryProposals(semester, partner){
 }
 
 export function queryPartnerStatProposals (semester, partner) {
-  console.log(semester,partner)
   let par = ''
   if ( partner !== 'All' ) {
-    par = ` , partnerCode: ${ partner }"`
+    par = `, partnerCode: ${ partner }`
   }
     const query = `
     {
-      proposals(semester: "${ semester }",  ${ par } ){
+      proposals(semester: "${ semester }" ${ par } ){
         proposalCode
         title
         status
@@ -331,6 +330,12 @@ export function queryPartnerStatProposals (semester, partner) {
       }
     }
     `
+  if (process.env.NODE_ENV === 'development'){
+    return saltServerApiClient().post('/graphql-api', { query })
+      .then(
+        response => response.data.data.proposals
+      )
+  }
   return graphqlClient().post('/graphql-api', { query })
     .then(
       response => response.data.data.proposals

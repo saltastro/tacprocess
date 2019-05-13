@@ -11,6 +11,7 @@ import {
   SALT_USERS_QUERY_PASS,
   TAC_MEMBERS_QUERY_PASS,
   FETCHING_SALT_USERS_START,
+  FETCH_PARTNER_AVAILABLE_TIME_PASS,
   FETCHING_TAC_MEMBERS_START
 } from '../types'
 
@@ -60,6 +61,14 @@ export default function statistics(state=initState, action = {}) {
       data: action.timeallocation,
     }
   }
+    case FETCH_PARTNER_AVAILABLE_TIME_PASS: {
+      return {
+        ...state,
+        fetching: false,
+        fetched: true,
+        data: action.payload.data,
+      }
+    }
   case ADD_NEW_MEMBER: {
     if (!state.newMembers[ action.payload.partner ]){
       state.newMembers[ action.payload.partner ] = []
