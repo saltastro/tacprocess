@@ -8,7 +8,7 @@ class PartnerStatTable extends React.Component {
   completionCommentChange = (proposalCode, semester, completionComment) => {
     this.props.onCompletenessCommentChange(proposalCode, semester, completionComment)
   }
-  
+
   render () {
     const {proposals, semester, partner, user} = this.props
     return (
@@ -22,23 +22,23 @@ class PartnerStatTable extends React.Component {
             <th>PI</th>
             <th>Liaison SA</th>
             <th>Completeness of a Proposal</th>
+            <th>Overall Completion Rate (P0 - P3)</th>
             <th>Status</th>
             <th>Comment</th>
           </tr>
           </thead>
           <tbody>
           {
-            proposals.length ?
-              proposals.sort(compareByProposalCode).map(p => (
-                <PartnerStatTableRow
-                  key={ p.proposalCode }
-                  proposal={ p }
-                  semester={ semester }
-                  partner={ partner }
-                  user={ user }
-                  completionCommentChange={ this.completionCommentChange }
-                />)
-              ) : (<tr><td>No proposals to show.</td></tr>)
+            proposals.sort(compareByProposalCode).map(p => (
+              <PartnerStatTableRow
+                key={ p.proposalCode }
+                proposal={ p }
+                semester={ semester }
+                partner={ partner }
+                user={ user }
+                completionCommentChange={ this.completionCommentChange }
+              />)
+            )
           }
           </tbody>
         </table>

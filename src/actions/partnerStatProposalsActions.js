@@ -1,6 +1,6 @@
-import { queryPartnerStatProposals } from '../api/graphQL'
+import { queryPartnerStatObservations, queryPartnerStatProposals } from '../api/graphQL'
 import { isCompletionCommentUpdated } from '../util/filters'
-import { semesterComment } from '../util/partner-stat'
+import { calculateTotalObservation, semesterComment } from '../util/partner-stat'
 import {
   FETCH_PARTNER_STAT_PROPOSALS_START,
   FETCH_PARTNER_STAT_PROPOSALS_PASS,
@@ -8,7 +8,8 @@ import {
   UPDATE_PARTNER_STAT_COMMENT,
   SUBMIT_PARTNER_STAT_COMMENT_START,
   SUBMIT_PARTNER_STAT_COMMENT_PASS,
-  SUBMIT_PARTNER_STAT_COMMENT_FAIL
+  SUBMIT_PARTNER_STAT_COMMENT_FAIL,
+  TOTAL_PARTNER_STAT_OBSERVATION
 } from '../types'
 import { jsonClient } from '../api'
 
@@ -52,15 +53,25 @@ export function updateCompletenessComment (proposalCode, semester, completionCom
   }
 }
 
+export function totalObservation (total) {
+  return {
+    type: TOTAL_PARTNER_STAT_OBSERVATION,
+    payload: total
+  }
+}
+
 export default function fetchPartnerStatProposals (semester, partner = 'All') {
-  return function disp (dispatch) {
+  return async function disp (dispatch) {
     dispatch(startFetchPartnerStatProposals())
-    queryPartnerStatProposals(semester, partner)
-      .then(res => { dispatch(fetchPartnerStatProposalsPass(res, semester)) }
-      )
-      .catch((e) => {
-        dispatch(fetchPartnerStatProposalsFail(e.message))
-      })
+    try {
+      const observations = await queryPartnerStatObservations(semester)
+      dispatch(totalObservation(calculateTotalObservation(observations)))
+
+      const partnerStatProposals = await queryPartnerStatProposals(semester, partner)
+      dispatch(fetchPartnerStatProposalsPass(partnerStatProposals, semester))
+    } catch (e) {
+      dispatch(fetchPartnerStatProposalsFail(e.message))
+    }
   }
 }
 

@@ -6,6 +6,8 @@ const ObservationTabelRow = ({observation}) => {
   return (
     <tr key={ observation.priority }>
       <td>P{ observation.priority }</td>
+      <td>{ observation.observedTime } / { observation.allocatedTime }</td>
+      <td>{ observation.remainder }</td>
       <td>{ observation.percentage }%</td>
     </tr>
   )
