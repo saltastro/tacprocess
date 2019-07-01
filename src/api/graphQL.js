@@ -330,12 +330,6 @@ export function queryPartnerStatProposals (semester, partner) {
       }
     }
     `
-  if (process.env.NODE_ENV === 'development'){
-    return saltServerApiClient().post('/graphql-api', { query })
-      .then(
-        response => response.data.data.proposals
-      )
-  }
   return graphqlClient().post('/graphql-api', { query })
     .then(
       response => response.data.data.proposals
@@ -356,12 +350,6 @@ export function queryPartnerShareTimes (semester, partner) {
       }
     }
     `
-  if (process.env.NODE_ENV === 'development'){
-    return saltServerApiClient().post('/graphql-api', { query })
-      .then(
-        response => response.data.data.partnerShareTimes
-      )
-  }
   return graphqlClient().post('/graphql-api', { query })
     .then(
       response => response.data.data.partnerShareTimes
@@ -377,12 +365,6 @@ export function queryPartnerStatObservations (semester) {
       }
     }
     `
-  if (process.env.NODE_ENV === 'development'){
-    return saltServerApiClient().post('/graphql-api', { query })
-      .then(
-        response => response.data.data.partnerStatObservations
-      )
-  }
   return graphqlClient().post('/graphql-api', { query })
     .then(
       response => response.data.data.partnerStatObservations
