@@ -9,14 +9,13 @@ export const sumNumbers = (array) => array.reduce((a, b) => a + b, 0)
  * A function that calculates the percentage and returns it
  * @param dividend
  * @param divisor
- * @returns {string|number}
+ * @returns {number}
  */
 export const calculatePercentage = (dividend, divisor) => {
   if (divisor === 0) {
     return 0
   }
-  const percentage = (dividend / divisor) * 100
-  return percentage.toFixed(2)
+  return (dividend / divisor) * 100
 }
 
 /**
@@ -29,7 +28,7 @@ export const calculateTotalObservation = (observations) => {
   // filter the observed time by status, semester and priorities < 4
   observations = observations.filter((o) =>
     (o.status === 'ACCEPTED')
-  ) || []
+  )
   total += sumNumbers(observations.map((o) => o.observationTime))
 
   return total
@@ -60,17 +59,17 @@ export const statusPriority = (proposal, priorityType, statusType, semester, par
     // according to the time allocated for the semester and priority
     timeAllocationPriority = timeAllocations.filter((t) =>
       (t.semester === semester && t.priority === priorityType)
-    ) || []
+    )
   } else {
     // according to the time allocated for the semester and priority and by the partner
     timeAllocationPriority = timeAllocations.filter((t) =>
       (t.semester === semester && t.partnerCode === partnerCode && t.priority === priorityType)
-    ) || []
+    )
   }
   // according to the observation status and to the block priority and semester
   const observationsPriority = observations.filter((o) =>
     (o.status === statusType && o.block.priority === priorityType && o.block.semester === semester)
-  ) || []
+  )
 
   // calculating the total allocated time
   const totalAllocTime = sumNumbers(timeAllocationPriority.map((t) => t.amount))
@@ -125,14 +124,14 @@ export const overallCompletionRate = (proposal, statusType, semester, partnerCod
 
   if (partnerCode === 'All') {
     // according to the time allocated for the semester
-    timeAllocations = timeAllocations.filter(t => (t.semester === semester)) || []
+    timeAllocations = timeAllocations.filter(t => (t.semester === semester))
   } else {
     // according to the time allocated for the semester and by the partner
-    timeAllocations = timeAllocations.filter(t => (t.semester === semester && t.partnerCode === partnerCode)) || []
+    timeAllocations = timeAllocations.filter(t => (t.semester === semester && t.partnerCode === partnerCode))
   }
 
   // according to the observation status and semester
-  observations = observations.filter(o => (o.status === statusType && o.block.semester === semester)) || []
+  observations = observations.filter(o => (o.status === statusType && o.block.semester === semester))
 
   // calculating the allocated time according to the priority.
   const allocatedTimeP0 = sumNumbers(timeAllocations.filter(t => t.priority === 0).map((t) => t.amount))
@@ -141,25 +140,26 @@ export const overallCompletionRate = (proposal, statusType, semester, partnerCod
   const allocatedTimeP3 = sumNumbers(timeAllocations.filter(t => t.priority === 3).map((t) => t.amount))
 
   // calculating the observed time according to the priority.
-  const observationP0 = sumNumbers(observations.filter(o => o.block.priority === 0).map((o) => o.block.length))
-  const observationP1 = sumNumbers(observations.filter(o => o.block.priority === 1).map((o) => o.block.length))
-  const observationP2 = sumNumbers(observations.filter(o => o.block.priority === 2).map((o) => o.block.length))
-  const observationP3 = sumNumbers(observations.filter(o => o.block.priority === 3).map((o) => o.block.length))
+  const observedTimeP0 = sumNumbers(observations.filter(o => o.block.priority === 0).map((o) => o.block.length))
+  const observedTimeP1 = sumNumbers(observations.filter(o => o.block.priority === 1).map((o) => o.block.length))
+  const observedTimeP2 = sumNumbers(observations.filter(o => o.block.priority === 2).map((o) => o.block.length))
+  const observedTimeP3 = sumNumbers(observations.filter(o => o.block.priority === 3).map((o) => o.block.length))
 
   // calculating the total allocated time
   const allocatedTime = (allocatedTimeP0 + allocatedTimeP1 + allocatedTimeP2 + (allocatedTimeP3 / 3))
 
   // calculating the total observed time
-  const doneObservation = (observationP0 + observationP1 + observationP2 + (observationP3 / 3))
+  const observedTime = (observedTimeP0 + observedTimeP1 + observedTimeP2 + (observedTimeP3 / 3))
 
   // completion overall rate
-  const completionOverallRate = allocatedTime !== 0 ? doneObservation / allocatedTime : 0
+  const completionOverallRate = allocatedTime !== 0 ? observedTime / allocatedTime : 0
 
   return completionOverallRate.toFixed(2)
 }
 
 /**
- * A function for calculating the observed time per partner
+ * A function for calculating the observed time per partner.
+ * All the quantities are for one proposal.
  * @param timeAllocations
  * @param observations
  * @param partnerTimeAllocations
@@ -215,15 +215,15 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
     // filter the time allocated by semester and priorities
     const p0p1TimeAllocations = p.timeAllocations.filter((t) =>
       (t.semester === semester && (t.priority === 0 || t.priority === 1))
-    ) || []
+    )
 
     const p2TimeAllocations = p.timeAllocations.filter((t) =>
       (t.semester === semester && t.priority === 2)
-    ) || []
+    )
 
     const p3TimeAllocations = p.timeAllocations.filter((t) =>
       (t.semester === semester && t.priority === 3)
-    ) || []
+    )
 
     // filter the time allocated by partner
     const p0p1PartnerTimeAllocations = p0p1TimeAllocations.filter((t) => t.partnerCode === partnerCode)
@@ -233,15 +233,15 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
     // filter the observed time by status, semester and priorities
     const p0p1Observations = p.observations.filter((o) =>
       (o.status === 'ACCEPTED' && o.block.semester === semester && (o.block.priority === 0 || o.block.priority === 1))
-    ) || []
+    )
 
     const p2Observations = p.observations.filter((o) =>
       (o.status === 'ACCEPTED' && o.block.semester === semester && o.block.priority === 2)
-    ) || []
+    )
 
     const p3Observations = p.observations.filter((o) =>
       (o.status === 'ACCEPTED' && o.block.semester === semester && o.block.priority === 3)
-    ) || []
+    )
 
     // calculate the time allocated per proposal according to the priorities (P0+P1, P2, P3)
     p0p1Allocated += sumNumbers(p0p1PartnerTimeAllocations.map((t) => t.amount))
@@ -275,12 +275,12 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
       total: totalObserved.toFixed(0)
     },
     completeness: {
-      p0p1: calculatePercentage(p0p1Observed, p0p1Allocated),
-      p2: calculatePercentage(p2Observed, p2Allocated),
-      p3: calculatePercentage(p3Observed, p3Allocated),
-      total: calculatePercentage(totalObserved, (totalAllocated / 1.5))
+      p0p1: calculatePercentage(p0p1Observed, p0p1Allocated).toFixed(2),
+      p2: calculatePercentage(p2Observed, p2Allocated).toFixed(2),
+      p3: calculatePercentage(p3Observed, p3Allocated).toFixed(2),
+      total: calculatePercentage(totalObserved, (totalAllocated / 1.5)).toFixed(2)
     },
     partnerAllocatedShareTime,
-    partnerObservedShareTime
+    partnerObservedShareTime: partnerObservedShareTime.toFixed(2)
   }
 }

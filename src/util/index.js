@@ -427,11 +427,11 @@ export function currentSemester () {
   let semester = null
   if (month >= 5 && month <= 10) {
     semester = 1
-  } else if (month >= 11 && month <= 4) {
+  } else if (month >= 11) {
     semester = 2
   } else {
-    year += 1
-    semester = 1
+    year -= 1
+    semester = 2
   }
 
   return `${ year }-${ semester }`

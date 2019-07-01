@@ -8,7 +8,6 @@ const initialState = {
   fetching: false,
   fetched: false,
   partnerShareTimes: [],
-  initPartnerShareTimes: [],
   errors: {
     fetchingError: null
   }
@@ -29,7 +28,6 @@ export default function partnerShareTimes (state = initialState, action = {}) {
         fetching: false,
         fetched: false,
         partnerShareTimes: [],
-        initPartnerShareTimes: [],
         errors: {
           ...state.errors,
           fetchingError: action.payload.error
@@ -46,7 +44,6 @@ export default function partnerShareTimes (state = initialState, action = {}) {
           fetchingError: null
         },
         partnerShareTimes: action.payload.partnerShareTimes,
-        initPartnerShareTimes: JSON.parse(JSON.stringify(action.payload.partnerShareTimes))
       }
     }
     default: {
