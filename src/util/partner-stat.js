@@ -83,7 +83,7 @@ export const statusPriority = (proposal, priorityType, statusType, semester, par
     priority: priorityType,
     allocatedTime: totalAllocTime,
     observedTime: totalObsTime,
-    percentage: calculatePercentage(totalObsTime, totalAllocTime),
+    percentage: calculatePercentage(totalObsTime, totalAllocTime).toFixed(2),
     remainder: remainedAllocatedTime
   }
 }
