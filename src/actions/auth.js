@@ -9,12 +9,9 @@ import {
 } from '../types'
 import { queryUserData } from '../api/graphQL'
 import api from '../api/api'
-import fetchTargets from './targetsActions'
-import {storePartnerAllocations} from './timeAllocationActions'
-import fetchProposals from './proposalsActions'
-import fetchPartnerStatProposals from './partnerStatProposalsActions'
 import {defaultSemester} from '../util'
 import {setToken, removeToken} from '../util/storage'
+import { fetchAllData } from './data-actions'
 
 export const userLoggedIn = user => ({
   type: USER_LOGGED_IN,
@@ -72,12 +69,7 @@ export const login = credentials => async (dispatch) => {
     dispatch(userLoggedIn(userData))
     const semester = defaultSemester()
 
-    dispatch(partnersFilter(ALL_PARTNER))
-
-    dispatch(fetchProposals( semester, ALL_PARTNER))
-    dispatch(fetchPartnerStatProposals( semester, ALL_PARTNER))
-    dispatch(fetchTargets(semester, ALL_PARTNER))
-    dispatch(storePartnerAllocations(semester, ALL_PARTNER))
+    dispatch(fetchAllData(semester, ALL_PARTNER))
   } catch (e) {
     dispatch(fetchingUserFail(e.message))
   }
