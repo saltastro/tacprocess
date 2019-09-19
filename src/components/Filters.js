@@ -9,8 +9,6 @@ import  fetchPartnerStatProposals  from '../actions/partnerStatProposalsActions'
 import  fetchTargets  from '../actions/targetsActions'
 import { storePartnerAllocations } from '../actions/timeAllocationActions'
 import { semestersArray, getPartnerList, getAstronomersList } from '../util/filters'
-import { defaultSemester } from '../util'
-import { ADMINISTRATOR, SALT_ASTRONOMER, BOARD, TAC_CHAIR } from '../types'
 
 class Filters extends React.Component {
 	updateSemester = value => {
@@ -39,7 +37,7 @@ class Filters extends React.Component {
 	  const { selectedPartner, selectedSemester, selectedLiaison } = filters
 	  const partnerList = getPartnerList(user.roles)
 	  const astronomersList = ['All', 'Assigned'].concat(getAstronomersList(SALTAstronomers)).concat(['Not Assigned'])
-	  const semesters = ( user.roles || []).some(r => r.type === ADMINISTRATOR || r.type === SALT_ASTRONOMER || r.type === BOARD || r.type === TAC_CHAIR) ? semestersArray() : [defaultSemester()]
+	  const semesters = semestersArray()
 	  if (location.pathname === '/' ||
 			location.pathname === '/admin' ||
 			location.pathname === '/documentation') {
