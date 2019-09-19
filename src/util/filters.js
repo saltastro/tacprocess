@@ -87,6 +87,9 @@ export const getPartnerList = roles => {
     if (r.type === 'TAC_MEMBER') {
       partnerList = r.partners
     }
+    if (r.type === 'BOARD') {
+      partnerList = r.partners
+    }
     if (r.type === 'TAC_CHAIR') {
       partnerList = r.partners
     }
