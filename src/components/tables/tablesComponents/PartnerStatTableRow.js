@@ -26,6 +26,20 @@ class PartnerStatTableRow extends React.Component {
       statusPriority(proposal, 3, 'ACCEPTED', semester, partner),
       statusPriority(proposal, 4, 'ACCEPTED', semester, partner)
     ]
+    const p3CompletionRate = priorityObservations[ 3 ].percentage > 33.33 ? {
+      backgroundColor: '#71dced',
+      status: 'COMPLETED'
+    } : {
+      backgroundColor: '',
+      status: ''
+    }
+    const _overallCompletionRate = overallCompletionRate(proposal, 'ACCEPTED', semester, partner) > 0.9 ? {
+      backgroundColor: '#71dced',
+      status: 'COMPLETED'
+    } : {
+      backgroundColor: '',
+      status: ''
+    }
     return (
       <tr>
         <td style={ { width: '10%' } }>
@@ -38,15 +52,21 @@ class PartnerStatTableRow extends React.Component {
         <td style={ { width: '10%' } }>{ proposal.title }</td>
         <td>{ proposal.principalInvestigator ? `${ proposal.principalInvestigator.givenName } ${ proposal.principalInvestigator.familyName }` : ''  }</td>
         <td>{ proposal.liaisonAstronomer ? `${ proposal.liaisonAstronomer.givenName } ${ proposal.liaisonAstronomer.familyName }` : '' }</td>
+        <td style={ { backgroundColor: statusBackgroundColor, width: '50px' } }>{ proposal.status }</td>
+        <td>{ proposal.observations.length }</td>
         <td>
           <ObservationTable
             priorityObservations={ priorityObservations }
           />
         </td>
-        <td>
-          {overallCompletionRate(proposal, 'ACCEPTED', semester, partner)}
+        <td style={ { backgroundColor: p3CompletionRate.backgroundColor } }>
+          { priorityObservations[ 3 ].percentage }%<br /> <br />
+          { p3CompletionRate.status }
         </td>
-        <td style={ { backgroundColor: statusBackgroundColor } }>{ proposal.status }</td>
+        <td style={ { backgroundColor: _overallCompletionRate.backgroundColor } }>
+          {overallCompletionRate(proposal, 'ACCEPTED', semester, partner)} <br /> <br />
+          {_overallCompletionRate.status}
+        </td>
         <td style={ { width: '15%' } }>
           <textarea
             style={ { width: '100%' } }

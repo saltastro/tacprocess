@@ -10,7 +10,8 @@ class PartnerStatTable extends React.Component {
   }
 
   render () {
-    const {proposals, semester, partner, user} = this.props
+    const {proposals, semester, partner, user, selectedLiaison} = this.props
+
     return (
       <div className='SATableDiv'>
         <h1>Partner&#39;s Statistics</h1>
@@ -21,24 +22,43 @@ class PartnerStatTable extends React.Component {
             <th>Proposal Title</th>
             <th>PI</th>
             <th>Liaison SA</th>
+            <th style={ { width: '50px' } }>Proposal Status</th>
+            <th>Number of blocks</th>
             <th>Completeness of a Proposal</th>
+            <th>P3 Completion Rate</th>
             <th>Overall Completion Rate (P0 - P3)</th>
-            <th>Status</th>
             <th>Comment</th>
           </tr>
           </thead>
           <tbody>
           {
-            proposals.sort(compareByProposalCode).map(p => (
-              <PartnerStatTableRow
-                key={ p.proposalCode }
-                proposal={ p }
-                semester={ semester }
-                partner={ partner }
-                user={ user }
-                completionCommentChange={ this.completionCommentChange }
-              />)
-            )
+            proposals.sort(compareByProposalCode).map( p => {
+              const proposalAstronomer = p.liaisonAstronomer ? p.liaisonAstronomer.givenName : ''
+
+              if (['Assigned', 'Not Assigned', 'All'].includes(selectedLiaison)) {
+                return (
+                  <PartnerStatTableRow
+                    key={ p.proposalCode }
+                    proposal={ p }
+                    semester={ semester }
+                    partner={ partner }
+                    user={ user }
+                    completionCommentChange={ this.completionCommentChange }
+                  />
+                )
+              } else if(proposalAstronomer === selectedLiaison) {
+                return (
+                  <PartnerStatTableRow
+                    key={ p.proposalCode }
+                    proposal={ p }
+                    semester={ semester }
+                    partner={ partner }
+                    user={ user }
+                    completionCommentChange={ this.completionCommentChange }
+                  />)
+              }
+              return null
+            })
           }
           </tbody>
         </table>
@@ -52,6 +72,7 @@ PartnerStatTable.propTypes = {
   semester: propTypes.string.isRequired,
   partner: propTypes.string.isRequired,
   user: propTypes.object.isRequired,
+  selectedLiaison: propTypes.string.isRequired,
   onCompletenessCommentChange: propTypes.func.isRequired
 }
 

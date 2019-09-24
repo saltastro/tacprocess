@@ -301,6 +301,7 @@ export function queryPartnerStatProposals (semester, partner) {
         title
         status
         statusComment
+        transparency
         principalInvestigator{
           givenName
           familyName
@@ -330,6 +331,12 @@ export function queryPartnerStatProposals (semester, partner) {
       }
     }
     `
+  if (process.env.NODE_ENV === 'development'){
+    return saltServerApiClient().post('/graphql-api', { query })
+      .then(
+        response => response.data.data.proposals
+      )
+  }
   return graphqlClient().post('/graphql-api', { query })
     .then(
       response => response.data.data.proposals
@@ -350,6 +357,12 @@ export function queryPartnerShareTimes (semester, partner) {
       }
     }
     `
+  if (process.env.NODE_ENV === 'development'){
+    return saltServerApiClient().post('/graphql-api', { query })
+      .then(
+        response => response.data.data.partnerShareTimes
+      )
+  }
   return graphqlClient().post('/graphql-api', { query })
     .then(
       response => response.data.data.partnerShareTimes
@@ -365,10 +378,40 @@ export function queryPartnerStatObservations (semester) {
       }
     }
     `
+  if (process.env.NODE_ENV === 'development'){
+    return saltServerApiClient().post('/graphql-api', { query })
+      .then(
+        response => response.data.data.partnerStatObservations
+      )
+  }
   return graphqlClient().post('/graphql-api', { query })
     .then(
       response => response.data.data.partnerStatObservations
     )
+}
+
+export function queryWeatherDownTime (semester) {
+  const query = `
+    {
+      weatherDownTime(semester: "${ semester }"){
+        science
+        engineering
+        lostToWeather
+        lostToProblems
+        idle
+      }
+    }
+    `
+  if (process.env.NODE_ENV === 'development'){
+    return saltServerApiClient().post('/graphql-api', { query })
+    .then(
+      response => response.data.data.weatherDownTime
+    )
+  }
+  return graphqlClient().post('/graphql-api', { query })
+  .then(
+    response => response.data.data.weatherDownTime
+  )
 }
 
 export const  submitAllocations = (query) =>  graphqlClient().post('/graphql', { query }).then(response => response)

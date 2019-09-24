@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ObservationTableRow Component Render the ObservationTableRow Component having populated props with no errors 1`] = `
-<ObservationTabelRow
+<ObservationTableRow
   proposal={
     Object {
       "liaisonAstronomer": Object {
@@ -41,7 +41,7 @@ exports[`ObservationTableRow Component Render the ObservationTableRow Component 
 `;
 
 exports[`ObservationTableRow Component Render the ObservationTableRow Component having unpopulated props with no errors 1`] = `
-<ObservationTabelRow
+<ObservationTableRow
   proposal={Object {}}
   semester=""
 />

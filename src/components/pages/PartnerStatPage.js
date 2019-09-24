@@ -4,6 +4,10 @@ import { connect } from 'react-redux'
 import { submitCompletionComment, updateCompletenessComment } from '../../actions/partnerStatProposalsActions'
 import PartnerStatTable from '../tables/PartnerStatTable'
 import PartnerSummaryStatTable from '../tables/PartnerSummaryStatTable'
+import TransparencyDistribution from '../plots/TransparencyDistribution'
+import ObservingStatisticsTransparency from '../tables/statisticsTables/ObservingStatisticsTransparacy'
+import WeatherDownTimeDistribution from '../plots/WeatherDownTimeDistribution'
+import ObservingStatisticsWeatherDownTime from '../tables/statisticsTables/ObservingStatisticsWeatherDownTime'
 
 class PartnerStatPage extends React.Component {
   // Updates the comment of the proposal's completeness
@@ -17,11 +21,14 @@ class PartnerStatPage extends React.Component {
   render () {
     const {
       proposals,
+      proposals1,
       user,
       semester,
       partner,
+      selectedLiaison,
       partnerShareTimes,
       totalObservation,
+      weatherDownTime,
       loading,
       submittingCompletionComment,
       submittedCompletionComment,
@@ -39,7 +46,7 @@ class PartnerStatPage extends React.Component {
 
         <div>
           <p style={ {textAlign: 'left'} }>
-            <a target='_blank' href={ linkToDashboard }> Click here for the Weather Statistics </a>
+            <a target='_blank' href={ linkToDashboard }> Click here for navigating to the dashboard </a>
           </p>
           <p>No proposals to show for the partner&apos;s statistics.</p>
         </div>
@@ -50,22 +57,54 @@ class PartnerStatPage extends React.Component {
     return (
       <div>
         <p style={ {textAlign: 'left'} }>
-          <a target='_blank' href={ linkToDashboard }> Click here for the Weather Statistics </a>
+          <a target='_blank' href={ linkToDashboard }> Click here for navigating to the dashboard </a>
         </p>
+
         {partner !== 'All' &&
-        <PartnerSummaryStatTable
-          proposals={ proposals }
-          semester={ semester }
-          partner={ partner }
-          partnerShareTimes={ partnerShareTimes }
-          totalObservation={ totalObservation }
-        />
+          <div>
+            <PartnerSummaryStatTable
+              proposals={ proposals }
+              semester={ semester }
+              partner={ partner }
+              partnerShareTimes={ partnerShareTimes }
+              totalObservation={ totalObservation }
+            />
+          </div>
         }
+
+        <h2>Observing Conditions</h2>
+        <div className='stat-wrapper'>
+          <TransparencyDistribution
+            proposals={ proposals1 }
+            semester={ semester }
+            partner={ partner }
+          />
+          <ObservingStatisticsTransparency
+            proposals={ proposals1 }
+            partner={ partner }
+          />
+        </div>
+
+        {partner === 'All' &&
+        <div>
+          <h2>Weather Down Time</h2>
+          <div className='stat-wrapper'>
+            <WeatherDownTimeDistribution
+              weatherDownTime={ weatherDownTime }
+            />
+            <ObservingStatisticsWeatherDownTime
+              weatherDownTime={ weatherDownTime }
+            />
+          </div>
+        </div>
+        }
+
         <div>
           <PartnerStatTable
             proposals={ filteredProposals }
             semester={ semester }
             partner={ partner }
+            selectedLiaison={ selectedLiaison }
             user={ user }
             onCompletenessCommentChange={ this.onCompletenessCommentChange }
           />
@@ -89,12 +128,15 @@ class PartnerStatPage extends React.Component {
 
 PartnerStatPage.propTypes = {
   proposals: propTypes.array.isRequired,
+  proposals1: propTypes.array.isRequired,
   initProposals: propTypes.array.isRequired,
   totalObservation: propTypes.number.isRequired,
   user: propTypes.object.isRequired,
   semester: propTypes.string.isRequired,
   partner: propTypes.string.isRequired,
+  selectedLiaison: propTypes.string.isRequired,
   partnerShareTimes: propTypes.array.isRequired,
+  weatherDownTime: propTypes.object.isRequired,
   dispatch: propTypes.func.isRequired,
   loading: propTypes.bool.isRequired,
   submittingCompletionComment: propTypes.bool.isRequired,
@@ -105,12 +147,15 @@ PartnerStatPage.propTypes = {
 export default connect(store => (
   {
     proposals: store.partnerStatProposals.proposals,
+    proposals1: store.partnerStat1Proposals.proposals,
     initProposals: store.partnerStatProposals.initProposals,
     totalObservation: store.partnerStatProposals.totalObservation,
     partner: store.filters.selectedPartner,
+    selectedLiaison: store.filters.selectedLiaison,
     semester: store.filters.selectedPartnerStatsSemester,
     user: store.user.user,
     partnerShareTimes: store.partnerShareTimes.partnerShareTimes,
+    weatherDownTime: store.weatherDownTime.weatherDownTime,
     loading: store.proposals.fetching,
     submittingCompletionComment: store.partnerStatProposals.submittingCompletionComment,
     submittedCompletionComment: store.partnerStatProposals.submittedCompletionComment,

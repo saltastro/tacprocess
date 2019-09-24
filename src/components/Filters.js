@@ -12,12 +12,16 @@ import { storePartnerAllocations } from '../actions/timeAllocationActions'
 import { semestersArray, getPartnerList, getAstronomersList } from '../util/filters'
 import { defaultSemester } from '../util'
 import { ADMINISTRATOR, SALT_ASTRONOMER, BOARD, TAC_CHAIR } from '../types'
+import fetchPartnerStat1Proposals from '../actions/partnerStat1ProposalsActions'
+import fetchWeatherDownTime from '../actions/weatherDownTimeActions'
 
 class Filters extends React.Component {
 	updateSemester = value => {
 		const { dispatch, filters } = this.props
 		dispatch(fetchProposals( value, filters.selectedPartner))
 		dispatch(fetchPartnerStatProposals( value, filters.selectedPartner))
+		dispatch(fetchPartnerStat1Proposals( value, filters.selectedPartner))
+		dispatch(fetchWeatherDownTime( value ))
 		dispatch(fetchPartnerShareTimes( value, filters.selectedPartner))
 		dispatch(fetchTargets(value, filters.selectedPartner))
 		dispatch(storePartnerAllocations(value, filters.selectedPartner))
@@ -27,6 +31,8 @@ class Filters extends React.Component {
 		const { dispatch, filters } = this.props
 		dispatch(fetchProposals( filters.selectedSemester, value))
 		dispatch(fetchPartnerStatProposals( filters.selectedPartnerStatsSemester, value))
+		dispatch(fetchPartnerStat1Proposals( filters.selectedPartnerStatsSemester, value))
+		dispatch(fetchWeatherDownTime( filters.selectedPartnerStatsSemester ))
 		dispatch(fetchPartnerShareTimes(filters.selectedPartnerStatsSemester, value))
 		dispatch(fetchTargets(filters.selectedSemester, value))
 		dispatch(storePartnerAllocations(filters.selectedSemester, value))
@@ -42,6 +48,8 @@ class Filters extends React.Component {
 		const { selectedPartner, selectedSemester, selectedPartnerStatsSemester, selectedLiaison } = filters
 		const partnerList = getPartnerList(user.roles)
 		const astronomersList = ['All', 'Assigned'].concat(getAstronomersList(SALTAstronomers)).concat(['Not Assigned'])
+		const partnerStatAstronomersList = astronomersList.filter((astronomer) => !['Assigned', 'Not Assigned'].includes(astronomer))
+		const partnerStatAstronomer = ['Assigned', 'Not Assigned'].includes(selectedLiaison) ? 'All' : selectedLiaison
 		const semesters = ( user.roles || []).some(r => r.type === ADMINISTRATOR || r.type === SALT_ASTRONOMER || r.type === BOARD || r.type === TAC_CHAIR) ? semestersArray() : [defaultSemester()]
 		if (location.pathname === '/' ||
 			location.pathname === '/admin' ||
@@ -70,25 +78,25 @@ class Filters extends React.Component {
 				}
 
 				{ location.pathname === '/partnerstat' &&
-				<div className='left'>
-					<DropDown
-						className='left-2'
-						name='Semester'
-						listToDisplay={ semesters }
-						OnChange={ this.updateSemester }
-						value={ selectedPartnerStatsSemester }/>
-				</div>
+					<div className='left'>
+						<DropDown
+							className='left-2'
+							name='Semester'
+							listToDisplay={ semesters }
+							OnChange={ this.updateSemester }
+							value={ selectedPartnerStatsSemester }/>
+					</div>
 				}
 
 				{ location.pathname !== '/partnerstat' &&
-				<div className='left'>
-					<DropDown
-						className='left-2'
-						name='Semester'
-						listToDisplay={ semesters }
-						OnChange={ this.updateSemester }
-						value={ selectedSemester }/>
-				</div>
+					<div className='left'>
+						<DropDown
+							className='left-2'
+							name='Semester'
+							listToDisplay={ semesters }
+							OnChange={ this.updateSemester }
+							value={ selectedSemester }/>
+					</div>
 				}
 
 				<div className='left-2'>
@@ -99,14 +107,24 @@ class Filters extends React.Component {
 						value={ selectedPartner }/>
 				</div>
 
+				{ location.pathname === '/partnerstat' &&
+					<div className='left-2'>
+						<DropDown
+							name='Liaison SA'
+							listToDisplay={ partnerStatAstronomersList }
+							OnChange={ this.updateLiaison }
+							value={ partnerStatAstronomer }/>
+					</div>
+				}
+
 				{ location.pathname === '/techreview' &&
-				<div className='left-2'>
-					<DropDown
-						name='SALT Astronomer'
-						listToDisplay={ astronomersList }
-						OnChange={ this.updateLiaison }
-						value={ selectedLiaison }/>
-				</div>
+					<div className='left-2'>
+						<DropDown
+							name='SALT Astronomer'
+							listToDisplay={ astronomersList }
+							OnChange={ this.updateLiaison }
+							value={ selectedLiaison }/>
+					</div>
 				}
 			</div>
 		)

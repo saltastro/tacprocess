@@ -3,6 +3,7 @@ import {fetchAllocationsPass} from './timeAllocationActions'
 import {convertTargets, fetchTargetsPass} from './targetsActions'
 import {fetchProposalsPass} from './proposalsActions'
 import {fetchPartnerStatProposalsPass, totalObservation} from './partnerStatProposalsActions'
+import {fetchPartnerStat1ProposalsPass} from './partnerStat1ProposalsActions'
 import {fetchPartnerShareTimesPass} from './partnerShareTimesActions'
 import {convertSA, fetchSAPass} from './saltAstronomerActions'
 import {
@@ -15,11 +16,12 @@ import {
   queryTargets,
   queryUserData,
   queryPartnerShareTimes,
-  queryPartnerStatObservations
+  queryPartnerStatObservations, queryWeatherDownTime
 } from '../api/graphQL'
 import { userLoggedIn, partnersFilter } from './auth'
 import {convertSaltUsers, convertTacMembers, fetchSaltUsersPass, fetchTacMembersPass} from './adminActions'
 import { calculateTotalObservation } from '../util/partner-stat'
+import {fetchWeatherDownTimePass} from './weatherDownTimeActions'
 
 export const fetchingAllData = () => ({
   type: FETCHING_DATA,
@@ -53,35 +55,41 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
       const user = queryUserData()
       const proposals = queryProposals(defaultSemester, partner)
       const partnerStatProposals = queryPartnerStatProposals(currentSemester, partner)
+      const partnerStat1Proposals = queryProposals(currentSemester, partner)
       const targets = queryTargets(defaultSemester, partner)
       const allocations = queryPartnerAllocations(defaultSemester, partner)
       const tacMembers = queryTacMembers()
       const saltUsers = querySaltUsers()
       const partnerShareTimes = queryPartnerShareTimes(currentSemester, partner)
       const partnerStatObservations = queryPartnerStatObservations(currentSemester)
+      const weatherDownTime = queryWeatherDownTime(currentSemester)
       await Promise.all([
         saltAstronomers,
         user,
         proposals,
         partnerStatProposals,
+        partnerStat1Proposals,
         targets,
         allocations,
         tacMembers,
         saltUsers,
         partnerShareTimes,
-        partnerStatObservations
+        partnerStatObservations,
+        weatherDownTime
       ]).then(data => {
         dispatch(fetchSAPass(convertSA(data[ 0 ].data.data)))
         dispatch(userLoggedIn(data[ 1 ]))
         dispatch(partnersFilter(ALL_PARTNER))
         dispatch(fetchProposalsPass(data[ 2 ], defaultSemester, partner), defaultSemester)
         dispatch(fetchPartnerStatProposalsPass(data[ 3 ], currentSemester, partner), currentSemester)
-        dispatch(fetchTargetsPass(convertTargets(data[ 4 ].data.data)))
-        dispatch(fetchAllocationsPass(data[ 5 ]))
-        dispatch(fetchTacMembersPass(convertTacMembers(data[ 6 ].data.data)))
-        dispatch(fetchSaltUsersPass(convertSaltUsers(data[ 7 ].data.data)))
-        dispatch(fetchPartnerShareTimesPass(data[ 8 ], currentSemester, partner), currentSemester)
-        dispatch(totalObservation(calculateTotalObservation(data[ 9 ])))
+        dispatch(fetchPartnerStat1ProposalsPass(data[ 4 ], currentSemester, partner), currentSemester)
+        dispatch(fetchTargetsPass(convertTargets(data[ 5 ].data.data)))
+        dispatch(fetchAllocationsPass(data[ 6 ]))
+        dispatch(fetchTacMembersPass(convertTacMembers(data[ 7 ].data.data)))
+        dispatch(fetchSaltUsersPass(convertSaltUsers(data[ 8 ].data.data)))
+        dispatch(fetchPartnerShareTimesPass(data[ 9 ], currentSemester, partner), currentSemester)
+        dispatch(totalObservation(calculateTotalObservation(data[ 10 ])))
+        dispatch(fetchWeatherDownTimePass(data[ 11 ], currentSemester), currentSemester)
       })
     } catch (e) {
       dispatch(fetchedAllDataFail(e.message))
