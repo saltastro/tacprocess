@@ -16,12 +16,12 @@ import {
   queryTargets,
   queryUserData,
   queryPartnerShareTimes,
-  queryPartnerStatObservations, queryWeatherDownTime
+  queryPartnerStatObservations, queryTimeBreakdown
 } from '../api/graphQL'
 import { userLoggedIn, partnersFilter } from './auth'
 import {convertSaltUsers, convertTacMembers, fetchSaltUsersPass, fetchTacMembersPass} from './adminActions'
 import { calculateTotalObservation } from '../util/partner-stat'
-import {fetchWeatherDownTimePass} from './weatherDownTimeActions'
+import {fetchTimeBreakdownPass} from './timeBreakdownActions'
 
 export const fetchingAllData = () => ({
   type: FETCHING_DATA,
@@ -62,7 +62,7 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
       const saltUsers = querySaltUsers()
       const partnerShareTimes = queryPartnerShareTimes(currentSemester, partner)
       const partnerStatObservations = queryPartnerStatObservations(currentSemester)
-      const weatherDownTime = queryWeatherDownTime(currentSemester)
+      const timeBreakdown = queryTimeBreakdown(currentSemester)
       await Promise.all([
         saltAstronomers,
         user,
@@ -75,7 +75,7 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
         saltUsers,
         partnerShareTimes,
         partnerStatObservations,
-        weatherDownTime
+        timeBreakdown
       ]).then(data => {
         dispatch(fetchSAPass(convertSA(data[ 0 ].data.data)))
         dispatch(userLoggedIn(data[ 1 ]))
@@ -89,7 +89,7 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
         dispatch(fetchSaltUsersPass(convertSaltUsers(data[ 8 ].data.data)))
         dispatch(fetchPartnerShareTimesPass(data[ 9 ], currentSemester, partner), currentSemester)
         dispatch(totalObservation(calculateTotalObservation(data[ 10 ])))
-        dispatch(fetchWeatherDownTimePass(data[ 11 ], currentSemester), currentSemester)
+        dispatch(fetchTimeBreakdownPass(data[ 11 ], currentSemester), currentSemester)
       })
     } catch (e) {
       dispatch(fetchedAllDataFail(e.message))

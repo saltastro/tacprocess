@@ -6,8 +6,8 @@ import PartnerStatTable from '../tables/PartnerStatTable'
 import PartnerSummaryStatTable from '../tables/PartnerSummaryStatTable'
 import TransparencyDistribution from '../plots/TransparencyDistribution'
 import ObservingStatisticsTransparency from '../tables/statisticsTables/ObservingStatisticsTransparacy'
-import WeatherDownTimeDistribution from '../plots/WeatherDownTimeDistribution'
-import ObservingStatisticsWeatherDownTime from '../tables/statisticsTables/ObservingStatisticsWeatherDownTime'
+import TimeBreakdownDistribution from '../plots/TimeBreakdownDistribution'
+import ObservingStatisticsTimeBreakdown from '../tables/statisticsTables/ObservingStatisticsTimeBreakdown'
 
 class PartnerStatPage extends React.Component {
   // Updates the comment of the proposal's completeness
@@ -28,7 +28,7 @@ class PartnerStatPage extends React.Component {
       selectedLiaison,
       partnerShareTimes,
       totalObservation,
-      weatherDownTime,
+      timeBreakdown,
       loading,
       submittingCompletionComment,
       submittedCompletionComment,
@@ -87,13 +87,13 @@ class PartnerStatPage extends React.Component {
 
         {partner === 'All' &&
         <div>
-          <h2>Weather Down Time</h2>
+          <h2>Time Breakdown</h2>
           <div className='stat-wrapper'>
-            <WeatherDownTimeDistribution
-              weatherDownTime={ weatherDownTime }
+            <TimeBreakdownDistribution
+              timeBreakdown={ timeBreakdown }
             />
-            <ObservingStatisticsWeatherDownTime
-              weatherDownTime={ weatherDownTime }
+            <ObservingStatisticsTimeBreakdown
+              timeBreakdown={ timeBreakdown }
             />
           </div>
         </div>
@@ -136,7 +136,7 @@ PartnerStatPage.propTypes = {
   partner: propTypes.string.isRequired,
   selectedLiaison: propTypes.string.isRequired,
   partnerShareTimes: propTypes.array.isRequired,
-  weatherDownTime: propTypes.object.isRequired,
+  timeBreakdown: propTypes.object.isRequired,
   dispatch: propTypes.func.isRequired,
   loading: propTypes.bool.isRequired,
   submittingCompletionComment: propTypes.bool.isRequired,
@@ -155,7 +155,7 @@ export default connect(store => (
     semester: store.filters.selectedPartnerStatsSemester,
     user: store.user.user,
     partnerShareTimes: store.partnerShareTimes.partnerShareTimes,
-    weatherDownTime: store.weatherDownTime.weatherDownTime,
+    timeBreakdown: store.timeBreakdown.timeBreakdown,
     loading: store.proposals.fetching,
     submittingCompletionComment: store.partnerStatProposals.submittingCompletionComment,
     submittedCompletionComment: store.partnerStatProposals.submittedCompletionComment,

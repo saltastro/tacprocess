@@ -5,7 +5,7 @@ import filters from './reducers/filters'
 import proposals from './reducers/proposals'
 import partnerStatProposals from './reducers/partnerStatProposals'
 import partnerStat1Proposals from './reducers/partnerStat1Proposals'
-import weatherDownTime from './reducers/weatherDownTime'
+import timeBreakdown from './reducers/timeBreakdown'
 import targets from './reducers/targets'
 import tac from './reducers/tac'
 import SALTAstronomers from './reducers/astronomers'
@@ -23,5 +23,5 @@ export default combineReducers({
 	targets,
 	SALTAstronomers,
 	partnerShareTimes,
-	weatherDownTime
+	timeBreakdown
 })

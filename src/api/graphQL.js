@@ -390,10 +390,10 @@ export function queryPartnerStatObservations (semester) {
     )
 }
 
-export function queryWeatherDownTime (semester) {
+export function queryTimeBreakdown (semester) {
   const query = `
     {
-      weatherDownTime(semester: "${ semester }"){
+      timeBreakdown(semester: "${ semester }"){
         science
         engineering
         lostToWeather
@@ -405,12 +405,12 @@ export function queryWeatherDownTime (semester) {
   if (process.env.NODE_ENV === 'development'){
     return saltServerApiClient().post('/graphql-api', { query })
     .then(
-      response => response.data.data.weatherDownTime
+      response => response.data.data.timeBreakdown
     )
   }
   return graphqlClient().post('/graphql-api', { query })
   .then(
-    response => response.data.data.weatherDownTime
+    response => response.data.data.timeBreakdown
   )
 }
 

@@ -1,5 +1,7 @@
 import {
-  FETCH_PROPOSALS_START, FETCH_PROPOSALS_PASS, FETCH_PROPOSALS_FAIL
+  FETCH_PARTNER_STAT1_PROPOSALS_START,
+  FETCH_PARTNER_STAT1_PROPOSALS_PASS,
+  FETCH_PARTNER_STAT1_PROPOSALS_FAIL
 } from '../types'
 
 const initialState = {
@@ -14,13 +16,13 @@ const initialState = {
 
 export default function partnerStat1Proposals (state = initialState, action = {}) {
   switch (action.type) {
-    case FETCH_PROPOSALS_START: {
+    case FETCH_PARTNER_STAT1_PROPOSALS_START: {
       return {
         ...state,
         fetching: true,
         fetched: false
       } }
-    case FETCH_PROPOSALS_FAIL: {
+    case FETCH_PARTNER_STAT1_PROPOSALS_FAIL: {
       return {
         ...state,
         fetching: false,
@@ -33,7 +35,7 @@ export default function partnerStat1Proposals (state = initialState, action = {}
         }
       }
     }
-    case FETCH_PROPOSALS_PASS: {
+    case FETCH_PARTNER_STAT1_PROPOSALS_PASS: {
       return {
         ...state,
         fetching: false,

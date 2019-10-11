@@ -13,7 +13,7 @@ import { semestersArray, getPartnerList, getAstronomersList } from '../util/filt
 import { defaultSemester } from '../util'
 import { ADMINISTRATOR, SALT_ASTRONOMER, BOARD, TAC_CHAIR } from '../types'
 import fetchPartnerStat1Proposals from '../actions/partnerStat1ProposalsActions'
-import fetchWeatherDownTime from '../actions/weatherDownTimeActions'
+import fetchTimeBreakdown from '../actions/timeBreakdownActions'
 
 class Filters extends React.Component {
 	updateSemester = value => {
@@ -21,7 +21,7 @@ class Filters extends React.Component {
 		dispatch(fetchProposals( value, filters.selectedPartner))
 		dispatch(fetchPartnerStatProposals( value, filters.selectedPartner))
 		dispatch(fetchPartnerStat1Proposals( value, filters.selectedPartner))
-		dispatch(fetchWeatherDownTime( value ))
+		dispatch(fetchTimeBreakdown( value ))
 		dispatch(fetchPartnerShareTimes( value, filters.selectedPartner))
 		dispatch(fetchTargets(value, filters.selectedPartner))
 		dispatch(storePartnerAllocations(value, filters.selectedPartner))
@@ -32,7 +32,7 @@ class Filters extends React.Component {
 		dispatch(fetchProposals( filters.selectedSemester, value))
 		dispatch(fetchPartnerStatProposals( filters.selectedPartnerStatsSemester, value))
 		dispatch(fetchPartnerStat1Proposals( filters.selectedPartnerStatsSemester, value))
-		dispatch(fetchWeatherDownTime( filters.selectedPartnerStatsSemester ))
+		dispatch(fetchTimeBreakdown( filters.selectedPartnerStatsSemester ))
 		dispatch(fetchPartnerShareTimes(filters.selectedPartnerStatsSemester, value))
 		dispatch(fetchTargets(filters.selectedSemester, value))
 		dispatch(storePartnerAllocations(filters.selectedSemester, value))

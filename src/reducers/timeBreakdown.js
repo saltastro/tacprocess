@@ -7,13 +7,13 @@ import {
 const initialState = {
   fetching: false,
   fetched: false,
-  weatherDownTime: {},
+  timeBreakdown: {},
   errors: {
     fetchingError: null
   }
 }
 
-export default function weatherDownTime (state = initialState, action = {}) {
+export default function timeBreakdown (state = initialState, action = {}) {
   switch (action.type) {
     case FETCH_WEATHER_DOWN_TIME_START: {
       return {
@@ -27,7 +27,7 @@ export default function weatherDownTime (state = initialState, action = {}) {
         ...state,
         fetching: false,
         fetched: false,
-        weatherDownTime: {},
+        timeBreakdown: {},
         errors: {
           ...state.errors,
           fetchingError: action.payload.error
@@ -43,7 +43,7 @@ export default function weatherDownTime (state = initialState, action = {}) {
           ...state.errors,
           fetchingError: null
         },
-        weatherDownTime: action.payload.weatherDownTime
+        timeBreakdown: action.payload.timeBreakdown
       }
     }
     default: {
