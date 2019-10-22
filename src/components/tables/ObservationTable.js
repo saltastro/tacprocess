@@ -18,8 +18,8 @@ const ObservationTable = ({priorityObservations}) => {
       <tr>
         <th>Priority</th>
         <th>Observed / Allocated Time (sec)</th>
-        <th>Remained Time (sec)</th>
-        <th>Percentage</th>
+        <th>Remaining Time (sec)</th>
+        <th>Completion</th>
       </tr>
       </thead>
       <tbody style={ { backgroundColor: notObserved } }>

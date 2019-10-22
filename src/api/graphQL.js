@@ -301,7 +301,6 @@ export function queryPartnerStatProposals (semester, partner) {
         title
         status
         statusComment
-        transparency
         principalInvestigator{
           givenName
           familyName

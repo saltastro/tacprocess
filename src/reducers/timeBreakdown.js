@@ -1,7 +1,7 @@
 import {
-  FETCH_WEATHER_DOWN_TIME_START,
-  FETCH_WEATHER_DOWN_TIME_PASS,
-  FETCH_WEATHER_DOWN_TIME_FAIL
+  FETCH_TIME_BREAKDOWN_START,
+  FETCH_TIME_BREAKDOWN_PASS,
+  FETCH_TIME_BREAKDOWN_FAIL
 } from '../types'
 
 const initialState = {
@@ -15,14 +15,14 @@ const initialState = {
 
 export default function timeBreakdown (state = initialState, action = {}) {
   switch (action.type) {
-    case FETCH_WEATHER_DOWN_TIME_START: {
+    case FETCH_TIME_BREAKDOWN_START: {
       return {
         ...state,
         fetching: true,
         fetched: false
       }
     }
-    case FETCH_WEATHER_DOWN_TIME_FAIL: {
+    case FETCH_TIME_BREAKDOWN_FAIL: {
       return {
         ...state,
         fetching: false,
@@ -34,7 +34,7 @@ export default function timeBreakdown (state = initialState, action = {}) {
         }
       }
     }
-    case FETCH_WEATHER_DOWN_TIME_PASS: {
+    case FETCH_TIME_BREAKDOWN_PASS: {
       return {
         ...state,
         fetching: false,

@@ -77,14 +77,14 @@ export const statusPriority = (proposal, priorityType, statusType, semester, par
   // calculating the total observed time
   const totalObsTime = sumNumbers(observationsPriority.map((o) => o.block.length))
   // calculating the remained allocated time
-  const remainedAllocatedTime = totalObsTime ? totalAllocTime % totalObsTime : totalAllocTime
+  const remainingAllocatedTime = totalObsTime ? totalAllocTime - totalObsTime : totalAllocTime
 
   return {
     priority: priorityType,
     allocatedTime: totalAllocTime,
     observedTime: totalObsTime,
     percentage: calculatePercentage(totalObsTime, totalAllocTime).toFixed(2),
-    remainder: remainedAllocatedTime
+    remainder: remainingAllocatedTime
   }
 }
 
@@ -146,13 +146,14 @@ export const overallCompletionRate = (proposal, statusType, semester, partnerCod
   const observedTimeP3 = sumNumbers(observations.filter(o => o.block.priority === 3).map((o) => o.block.length))
 
   // calculating the total allocated time
-  const allocatedTime = (allocatedTimeP0 + allocatedTimeP1 + allocatedTimeP2 + (allocatedTimeP3 / 3))
+  const allocatedTime = allocatedTimeP0 + allocatedTimeP1 + allocatedTimeP2 + allocatedTimeP3
 
   // calculating the total observed time
   const observedTime = (observedTimeP0 + observedTimeP1 + observedTimeP2 + observedTimeP3)
 
   // completion overall rate
-  const completionOverallRate = allocatedTime !== 0 ? observedTime / allocatedTime : 0
+  const completionOverallRate = allocatedTime !== 0
+    ? observedTime / (allocatedTimeP0 + allocatedTimeP1 + allocatedTimeP2 + allocatedTimeP3 / 3) : 0
 
   return allocatedTime !== 0 ? completionOverallRate.toFixed(2) : 'Nan'
 }
@@ -255,7 +256,7 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
   })
 
   // calculating the total allocated time for the partner
-  const totalAllocated = p0p1Allocated + p2Allocated + (p3Allocated / 3)
+  const totalAllocated = p0p1Allocated + p2Allocated + p3Allocated
   // calculating the total observed time for the partner
   const totalObserved = p0p1Observed + p2Observed + p3Observed
   // Observed share time in percent
@@ -265,7 +266,7 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
     allocatedTime: {
       p0p1: p0p1Allocated,
       p2: p2Allocated,
-      p3: (p3Allocated / 3),
+      p3: p3Allocated,
       total: totalAllocated
     },
     observedTime: {

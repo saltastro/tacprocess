@@ -7,8 +7,8 @@ const ObservationTableRow = ({observation}) => {
     <tr key={ observation.priority }>
       <td>P{ observation.priority }</td>
       <td>{ observation.observedTime } / { observation.allocatedTime }</td>
-      <td>{ observation.allocatedTime ? observation.remainder : 'Nan' }</td>
-      <td>{ observation.allocatedTime ? observation.percentage : 'Nan' }{observation.allocatedTime ? '%' : ''}</td>
+      <td>{ observation.allocatedTime ? observation.remainder : 'n/a' }</td>
+      <td>{ observation.allocatedTime ? `${ observation.percentage } %` : 'n/a' }</td>
     </tr>
   )
 }

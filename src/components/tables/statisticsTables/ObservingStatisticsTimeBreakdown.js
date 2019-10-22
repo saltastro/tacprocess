@@ -6,8 +6,8 @@ const ObservingStatisticsTransparency = ({timeBreakdown}) => (
     <table className='stat-table'>
       <thead>
         <tr>
-          <th>Condition</th>
-          <th>Time used (hrs)</th>
+          <th>Category</th>
+          <th>Time (hrs)</th>
         </tr>
       </thead>
       <tbody>

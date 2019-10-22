@@ -1,14 +1,14 @@
 import { queryTimeBreakdown } from '../api/graphQL'
 import {
-  FETCH_WEATHER_DOWN_TIME_START,
-  FETCH_WEATHER_DOWN_TIME_PASS,
-  FETCH_WEATHER_DOWN_TIME_FAIL
+  FETCH_TIME_BREAKDOWN_START,
+  FETCH_TIME_BREAKDOWN_PASS,
+  FETCH_TIME_BREAKDOWN_FAIL
 } from '../types'
 
 function startFetchTimeBreakdown () {
   return (
     {
-      type: FETCH_WEATHER_DOWN_TIME_START
+      type: FETCH_TIME_BREAKDOWN_START
     }
   )
 }
@@ -16,7 +16,7 @@ function startFetchTimeBreakdown () {
 function fetchTimeBreakdownFail (error) {
   return (
     {
-      type: FETCH_WEATHER_DOWN_TIME_FAIL,
+      type: FETCH_TIME_BREAKDOWN_FAIL,
       payload: { error }
     }
   )
@@ -25,7 +25,7 @@ function fetchTimeBreakdownFail (error) {
 export function fetchTimeBreakdownPass (timeBreakdown) {
   return (
     {
-      type: FETCH_WEATHER_DOWN_TIME_PASS,
+      type: FETCH_TIME_BREAKDOWN_PASS,
       payload: {
         timeBreakdown
       }

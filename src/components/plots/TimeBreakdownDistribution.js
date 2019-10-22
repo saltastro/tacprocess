@@ -6,7 +6,7 @@ import Histogram from './Histogram'
  *
  */
 const TimeBreakdownDistribution = ({timeBreakdown}) => {
-  const downTimes = [
+  const categories = [
     'Science',
     'Engineering',
     'LostToWeather',
@@ -30,10 +30,10 @@ const TimeBreakdownDistribution = ({timeBreakdown}) => {
   ]
 
   return <Histogram
-    keys={ downTimes }
+    keys={ categories }
     datasets={ dataset }
-    xLabel='Weather'
-    yLabel='Down Time (hrs)'/>
+    xLabel='Category'
+    yLabel='Time (hrs)'/>
 }
 
 TimeBreakdownDistribution.propTypes = {

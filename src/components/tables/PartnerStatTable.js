@@ -15,6 +15,10 @@ class PartnerStatTable extends React.Component {
     return (
       <div className='SATableDiv'>
         <h1>Partner&#39;s Statistics</h1>
+        <div>
+          <strong>Note:</strong>
+          The overall completion rate takes into account that P3 time is overallocated by a factor of 3.
+        </div>
         <table className='SATable' align='center'>
           <thead>
           <tr>
@@ -35,7 +39,7 @@ class PartnerStatTable extends React.Component {
             proposals.sort(compareByProposalCode).map( p => {
               const proposalAstronomer = p.liaisonAstronomer ? p.liaisonAstronomer.givenName : ''
 
-              if (['Assigned', 'Not Assigned', 'All'].includes(selectedLiaison)) {
+              if (['Assigned', 'Not Assigned', 'All'].includes(selectedLiaison) || (proposalAstronomer === selectedLiaison)) {
                 return (
                   <PartnerStatTableRow
                     key={ p.proposalCode }
@@ -46,16 +50,6 @@ class PartnerStatTable extends React.Component {
                     completionCommentChange={ this.completionCommentChange }
                   />
                 )
-              } else if(proposalAstronomer === selectedLiaison) {
-                return (
-                  <PartnerStatTableRow
-                    key={ p.proposalCode }
-                    proposal={ p }
-                    semester={ semester }
-                    partner={ partner }
-                    user={ user }
-                    completionCommentChange={ this.completionCommentChange }
-                  />)
               }
               return null
             })
