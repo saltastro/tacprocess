@@ -17,16 +17,16 @@ import Filters from './Filters'
 
 class Navigation extends React.Component {
 
-  render() {
+  render () {
     const { user, logout, location } = this.props
     const userRoles = user.roles
-    const{ isAuthenticated }= user
-    if(loadedPage(location.pathname) === PAGE_NOT_FOUND ) {
+    const { isAuthenticated } = user
+    if (loadedPage(location.pathname) === PAGE_NOT_FOUND) {
       return (
         <div style={ {textAlign:'center'} }>
           <h2 style={ {color: 'red'} }>Page does not Exist</h2><br/>
           <div id='emoticons'>
-					  <div className='emoti' data-emoti='sad'/>
+            <div className='emoti' data-emoti='sad'/>
           </div>
         </div>
       )
@@ -36,7 +36,7 @@ class Navigation extends React.Component {
         <div  style={ {textAlign:'center'} }>
           <h2 style={ {color: 'red'} }>Not allowed to view this page</h2><br/>
           <div id='emoticons'>
-					  <div className='emoti' data-emoti='sad'/>
+            <div className='emoti' data-emoti='sad'/>
           </div>
           <br/>
           <button><Link to='/'>Go Home</Link></button>
@@ -52,22 +52,22 @@ class Navigation extends React.Component {
               isAuthenticated && <li><NavLink exact to='/'>HOME</NavLink></li>
             }
             {
-							(canViewPage(userRoles, TECHNICAL_PAGE) && isAuthenticated) &&
-							<li>
-								<NavLink to='/techreview'>TECH REVIEW</NavLink>
-							</li>
+              (canViewPage(userRoles, TECHNICAL_PAGE) && isAuthenticated) &&
+              <li>
+                <NavLink to='/techreview'>TECH REVIEW</NavLink>
+              </li>
             }
-						{
-							(canViewPage(userRoles, TECHNICAL_PAGE) && isAuthenticated) &&
-							<li>
-								<NavLink to='/liaison'>PROPOSAL LIAISON</NavLink>
-							</li>
-						}
             {
-							(canViewPage(userRoles, STATISTICS_PAGE) && isAuthenticated) &&
-							<li>
-								<NavLink to='/statistics'>STATISTICS</NavLink>
-							</li>
+              (canViewPage(userRoles, TECHNICAL_PAGE) && isAuthenticated) &&
+              <li>
+                <NavLink to='/liaison'>PROPOSAL LIAISON</NavLink>
+              </li>
+            }
+            {
+              (canViewPage(userRoles, STATISTICS_PAGE) && isAuthenticated) &&
+              <li>
+                <NavLink to='/statistics'>STATISTICS</NavLink>
+              </li>
             }
             {
               (canViewPage(userRoles, PARTNER_STAT_PAGE) && isAuthenticated) &&
@@ -76,22 +76,22 @@ class Navigation extends React.Component {
               </li>
             }
             {
-							(canViewPage(userRoles, TAC_PAGE) && isAuthenticated) &&
-							<li>
-								<NavLink to='/timeallocation'>TIME ALLOCATION</NavLink>
-							</li>
+              (canViewPage(userRoles, TAC_PAGE) && isAuthenticated) &&
+              <li>
+                <NavLink to='/timeallocation'>TIME ALLOCATION</NavLink>
+              </li>
             }
             {
-							(canViewPage(userRoles, DOCUMENTATION_PAGE) && isAuthenticated) &&
-							<li>
-								<NavLink to='/documentation'>DOCUMENTATION</NavLink>
-							</li>
-						}
+              (canViewPage(userRoles, DOCUMENTATION_PAGE) && isAuthenticated) &&
+              <li>
+                <NavLink to='/documentation'>DOCUMENTATION</NavLink>
+              </li>
+            }
             {
-							(canViewPage(userRoles, ADMIN_PAGE) && isAuthenticated) &&
-							<li>
-								<NavLink to='/admin'>ADMIN</NavLink>
-							</li>
+              (canViewPage(userRoles, ADMIN_PAGE) && isAuthenticated) &&
+              <li>
+                <NavLink to='/admin'>ADMIN</NavLink>
+              </li>
             }
             {
               isAuthenticated && <li className='logoutbtn' onClick={ logout }>Logout</li>
@@ -103,18 +103,17 @@ class Navigation extends React.Component {
           <ul className='bigNav'>
             <h1>{ loadedPage(location.pathname) }</h1>
           </ul>
-
         </div>
-        {isAuthenticated && <Filters/> }
+        {isAuthenticated && <Filters /> }
       </div>
     )
   }
 }
 
 Navigation.propTypes = {
-	user: propTypes.object.isRequired,
-	location: propTypes.object.isRequired,
-	logout: propTypes.func.isRequired
+  user: propTypes.object.isRequired,
+  location: propTypes.object.isRequired,
+  logout: propTypes.func.isRequired
 }
 
 export default withRouter(connect(

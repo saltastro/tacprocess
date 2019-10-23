@@ -1,19 +1,27 @@
 import {ALL_PARTNER, FETCHED_DATA, FETCHING_DATA_FAIL, FETCHING_DATA} from '../types'
-import {fetchPartnersAvailableTimePass} from './timeAllocationActions'
+import {fetchAllocationsPass} from './timeAllocationActions'
 import {convertTargets, fetchTargetsPass} from './targetsActions'
 import {fetchProposalsPass} from './proposalsActions'
-import {fetchPartnerStatProposalsPass} from './partnerStatProposalsActions'
+import {fetchPartnerStatProposalsPass, totalObservation} from './partnerStatProposalsActions'
+import {fetchPartnerStat1ProposalsPass} from './partnerStat1ProposalsActions'
+import {fetchPartnerShareTimesPass} from './partnerShareTimesActions'
 import {convertSA, fetchSAPass} from './saltAstronomerActions'
 import {
   queryPartnerAllocations,
   queryProposals,
   queryPartnerStatProposals,
-  querySALTAstronomers, querySaltUsers, queryTacMembers,
+  querySALTAstronomers,
+  querySaltUsers,
+  queryTacMembers,
   queryTargets,
-  queryUserData
+  queryUserData,
+  queryPartnerShareTimes,
+  queryPartnerStatObservations, queryTimeBreakdown
 } from '../api/graphQL'
-import {userLoggedIn, partnersFilter} from './auth'
+import { userLoggedIn, partnersFilter } from './auth'
 import {convertSaltUsers, convertTacMembers, fetchSaltUsersPass, fetchTacMembersPass} from './adminActions'
+import { calculateTotalObservation } from '../util/partner-stat'
+import {fetchTimeBreakdownPass} from './timeBreakdownActions'
 
 export const fetchingAllData = () => ({
   type: FETCHING_DATA,
@@ -35,32 +43,53 @@ export const fetchedAllDataFail = (message) => ({
  * dataStatus include:
  *  proposals, targets, user, salt astronomers, partners allocated times, tac members of all partners
  *  and all salt users
- *  @param semester
+ *  @param defaultSemester the default semester for all other pages data
+ *  @param currentSemester the current semester for the partner stats page data
  *  @param partner
  * */
-export function fetchAllData (semester, partner) {
+export function fetchAllData (defaultSemester, currentSemester, partner) {
   return async (dispatch) => {
     dispatch(fetchingAllData())
     try {
       const saltAstronomers = querySALTAstronomers()
       const user = queryUserData()
-      const proposals = queryProposals(semester, partner)
-      const partnerStatProposals = queryPartnerStatProposals(semester, partner)
-      const targets = queryTargets(semester, partner)
-      const allocations = queryPartnerAllocations(semester, partner)
+      const proposals = queryProposals(defaultSemester, partner)
+      const partnerStatProposals = queryPartnerStatProposals(currentSemester, partner)
+      const partnerStat1Proposals = queryProposals(currentSemester, partner)
+      const targets = queryTargets(defaultSemester, partner)
+      const allocations = queryPartnerAllocations(defaultSemester, partner)
       const tacMembers = queryTacMembers()
       const saltUsers = querySaltUsers()
-      await Promise.all([saltAstronomers, user, proposals, partnerStatProposals, targets, allocations, tacMembers, saltUsers])
-      .then(data => {
+      const partnerShareTimes = queryPartnerShareTimes(currentSemester, partner)
+      const partnerStatObservations = queryPartnerStatObservations(currentSemester)
+      const timeBreakdown = queryTimeBreakdown(currentSemester)
+      await Promise.all([
+        saltAstronomers,
+        user,
+        proposals,
+        partnerStatProposals,
+        partnerStat1Proposals,
+        targets,
+        allocations,
+        tacMembers,
+        saltUsers,
+        partnerShareTimes,
+        partnerStatObservations,
+        timeBreakdown
+      ]).then(data => {
         dispatch(fetchSAPass(convertSA(data[ 0 ].data.data)))
         dispatch(userLoggedIn(data[ 1 ]))
         dispatch(partnersFilter(ALL_PARTNER))
-        dispatch(fetchProposalsPass(data[ 2 ], semester, partner), semester)
-        dispatch(fetchPartnerStatProposalsPass(data[ 3 ], semester, partner), semester)
-        dispatch(fetchTargetsPass(convertTargets(data[ 4 ].data.data)))
-        dispatch(fetchPartnersAvailableTimePass(data[ 5 ]))
-        dispatch(fetchTacMembersPass(convertTacMembers(data[ 6 ].data.data)))
-        dispatch(fetchSaltUsersPass(convertSaltUsers(data[ 7 ].data.data)))
+        dispatch(fetchProposalsPass(data[ 2 ], defaultSemester, partner), defaultSemester)
+        dispatch(fetchPartnerStatProposalsPass(data[ 3 ], currentSemester, partner), currentSemester)
+        dispatch(fetchPartnerStat1ProposalsPass(data[ 4 ], currentSemester, partner), currentSemester)
+        dispatch(fetchTargetsPass(convertTargets(data[ 5 ].data.data)))
+        dispatch(fetchAllocationsPass(data[ 6 ]))
+        dispatch(fetchTacMembersPass(convertTacMembers(data[ 7 ].data.data)))
+        dispatch(fetchSaltUsersPass(convertSaltUsers(data[ 8 ].data.data)))
+        dispatch(fetchPartnerShareTimesPass(data[ 9 ], currentSemester, partner), currentSemester)
+        dispatch(totalObservation(calculateTotalObservation(data[ 10 ])))
+        dispatch(fetchTimeBreakdownPass(data[ 11 ], currentSemester), currentSemester)
       })
     } catch (e) {
       dispatch(fetchedAllDataFail(e.message))
