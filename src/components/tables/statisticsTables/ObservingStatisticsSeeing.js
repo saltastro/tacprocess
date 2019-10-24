@@ -8,58 +8,67 @@ function add(a, b) {
 
 function setSeeing(proposals, partner) {
   const maxSeeing =  {
-    less10: {
+    // naming conventions:
+    // le = less or equal
+    // lt = less than
+    // ge = greater or equal
+    // gt = greater than
+    // numbers = arcseconds times 10
+    // update variables
+    le15: {
       timeRequests: 0,
-      noOfProposals: 0,
-			
+      noOfProposals: 0
     },
-    less15: {
+    gt15le20: {
       timeRequests: 0,
-      noOfProposals: 0,
-			
+      noOfProposals: 0
     },
-    less20: {
+    gt20le25: {
       timeRequests: 0,
-      noOfProposals: 0,
-			
+      noOfProposals: 0
     },
-    less50: {
+    gt25le30: {
       timeRequests: 0,
-      noOfProposals: 0,
-			
+      noOfProposals: 0
     },
-		
+    gt30: {
+      timeRequests: 0,
+      noOfProposals: 0
+    }
   }
-	
+
   proposals.forEach(p => {
     const reqTime = partner === ALL_PARTNER ? (Object.values(p.requestedTime.requests)||[]).reduce(add, 0) : p.requestedTime.requests[ partner ] || 0
-		
     // seeing
-    if (p.maxSeeing <= 1){
-      maxSeeing.less10.noOfProposals += 1
-      maxSeeing.less10.timeRequests += reqTime
+    if (p.maxSeeing <= 1.5) {
+      maxSeeing.le15.noOfProposals += 1
+      maxSeeing.le15.timeRequests += reqTime
     }
-    if (p.maxSeeing > 1 && p.maxSeeing <= 1.5){
-			
-      maxSeeing.less15.noOfProposals += 1
-      maxSeeing.less15.timeRequests += reqTime
+    if (p.maxSeeing > 1.5 && p.maxSeeing <= 2) {
+      maxSeeing.gt15le20.noOfProposals += 1
+      maxSeeing.gt15le20.timeRequests += reqTime
     }
-    if (p.maxSeeing > 1.5 && p.maxSeeing <= 2){
-      maxSeeing.less20.noOfProposals += 1
-      maxSeeing.less20.timeRequests += reqTime
+    if (p.maxSeeing > 2 && p.maxSeeing <= 2.5) {
+      maxSeeing.gt20le25.noOfProposals += 1
+      maxSeeing.gt20le25.timeRequests += reqTime
     }
-    if (p.maxSeeing > 2 && p.maxSeeing <= 5.0){
-      maxSeeing.less50.noOfProposals += 1
-      maxSeeing.less50.timeRequests += reqTime
+    if (p.maxSeeing > 2.5 && p.maxSeeing <= 3.0) {
+      maxSeeing.gt25le30.noOfProposals += 1
+      maxSeeing.gt25le30.timeRequests += reqTime
+    }
+
+    if (p.maxSeeing > 3.0) {
+      maxSeeing.gt30.noOfProposals += 1
+      maxSeeing.gt30.timeRequests += reqTime
     }
   })
-	
   return maxSeeing
 }
 
 const ObservingStatisticsSeeing = ({proposals, partner}) => {
   const maxSeeing = setSeeing(proposals, partner)
-  const totalReqTime = (maxSeeing.less10.timeRequests/3600) + (maxSeeing.less15.timeRequests/3600) + (maxSeeing.less20.timeRequests/3600) + (maxSeeing.less50.timeRequests/3600)
+  const totalReqTime = (maxSeeing.le15.timeRequests/3600) + (maxSeeing.gt15le20.timeRequests/3600) +
+    (maxSeeing.gt20le25.timeRequests/3600) + (maxSeeing.gt25le30.timeRequests/3600) + (maxSeeing.gt30.timeRequests/3600)
 	
   return(
     <div className='stat-item'  style={ {textAlign: 'left', width: '100%'} }>
@@ -74,28 +83,34 @@ const ObservingStatisticsSeeing = ({proposals, partner}) => {
         </thead>
         <tbody>
           <tr>
-            <td>Max Seeing <br /> &#x2266; 1.0 </td>
-            <td>{ (maxSeeing.less10.timeRequests/3600).toFixed(2) }</td>
-            <td>{ maxSeeing.less10.noOfProposals }</td>
-            <td>{ (((maxSeeing.less10.timeRequests/3600)/totalReqTime)*100).toFixed(1) }</td>
-          </tr>
-          <tr>
-            <td>Max Seeing <br /> &#x2266; 1.5</td>
-            <td>{ (maxSeeing.less15.timeRequests/3600).toFixed(2) }</td>
-            <td>{ maxSeeing.less15.noOfProposals }</td>
-            <td>{ (((maxSeeing.less15.timeRequests/3600)/totalReqTime)*100).toFixed(1) }</td>
+            <td>Max Seeing <br /> &#x2266; 1.5 </td>
+            <td>{ (maxSeeing.le15.timeRequests/3600).toFixed(2) }</td>
+            <td>{ maxSeeing.le15.noOfProposals }</td>
+            <td>{ (((maxSeeing.le15.timeRequests/3600)/totalReqTime)*100).toFixed(1) }</td>
           </tr>
           <tr>
             <td>Max Seeing <br /> &#x2266; 2.0</td>
-            <td>{ (maxSeeing.less20.timeRequests/3600).toFixed(2) }</td>
-            <td>{ maxSeeing.less20.noOfProposals }</td>
-            <td>{ (((maxSeeing.less20.timeRequests/3600)/totalReqTime)*100).toFixed(1) }</td>
+            <td>{ (maxSeeing.gt15le20.timeRequests/3600).toFixed(2) }</td>
+            <td>{ maxSeeing.gt15le20.noOfProposals }</td>
+            <td>{ (((maxSeeing.gt15le20.timeRequests/3600)/totalReqTime)*100).toFixed(1) }</td>
           </tr>
           <tr>
-            <td>Max Seeing <br /> &#x2266; 5.0</td>
-            <td>{ (maxSeeing.less50.timeRequests/3600).toFixed(2) }</td>
-            <td>{ maxSeeing.less50.noOfProposals }</td>
-            <td>{ (((maxSeeing.less50.timeRequests/3600)/totalReqTime)*100).toFixed(1) }</td>
+            <td>Max Seeing <br /> &#x2266; 2.0</td>
+            <td>{ (maxSeeing.gt20le25.timeRequests/3600).toFixed(2) }</td>
+            <td>{ maxSeeing.gt20le25.noOfProposals }</td>
+            <td>{ (((maxSeeing.gt20le25.timeRequests/3600)/totalReqTime)*100).toFixed(1) }</td>
+          </tr>
+          <tr>
+            <td>Max Seeing <br /> &#x2266; 3.0</td>
+            <td>{ (maxSeeing.gt25le30.timeRequests/3600).toFixed(2) }</td>
+            <td>{ maxSeeing.gt25le30.noOfProposals }</td>
+            <td>{ (((maxSeeing.gt25le30.timeRequests/3600)/totalReqTime)*100).toFixed(1) }</td>
+          </tr>
+          <tr>
+            <td>Max Seeing <br /> &#x2267; 3.0</td>
+            <td>{ (maxSeeing.gt30.timeRequests/3600).toFixed(2) }</td>
+            <td>{ maxSeeing.gt30.noOfProposals }</td>
+            <td>{ (((maxSeeing.gt30.timeRequests/3600)/totalReqTime)*100).toFixed(1) }</td>
           </tr>
         </tbody>
       </table>

@@ -102,9 +102,7 @@ export function instrumentCount(proposal) {
  */
 export function proposalObservingTimeForInstrument(proposal, semester, instrument, {field, value, partner='All'}) {
   const instrumentModeCount = (proposal.instruments[ instrument.toLowerCase() ] || [])
-    .filter(v => !field || v[ field ] === value)
-    .length
-
+    .filter(v => !field || v[ field ] === value).length
   const instrumentModeFraction = instrumentModeCount / instrumentCount(proposal)
 
   const totalObservingTime = proposal.timeRequests
@@ -141,11 +139,11 @@ export function proposalObservingTimeForInstrument(proposal, semester, instrumen
  */
 export function observingTimeForInstrument(proposals, semester, instrument, {field, value, partner}) {
   return proposals
-    .reduce((sum, proposal) =>
-      sum + proposalObservingTimeForInstrument(proposal,
-        semester,
-        instrument,
-        {field, value, partner}), 0)
+  .reduce((sum, proposal) =>
+    sum + proposalObservingTimeForInstrument(proposal,
+    semester,
+    instrument,
+    {field, value, partner}), 0)
 }
 
 /**
@@ -162,7 +160,7 @@ export function partners(user) {
   }
   const initial = hasRole(user, types.ADMINISTRATOR) || hasRole(user, types.SALT_ASTRONOMER) ? [types.ALL_PARTNER] : []
   const rolePartners = user.roles // collect partners from all roles
-    .reduce((prev, role) => [...(role.partners || []), ...prev], initial)
+  .reduce((prev, role) => [...(role.partners || []), ...prev], initial)
   const partnerSet = new Set(rolePartners)
 
   return Array.from(partnerSet).sort()
@@ -189,19 +187,19 @@ export function hasRole(user, role, partner) {
 
 export function canDo(user, action, partner) {
   switch (action) {
-  case types.VIEW_TIME_ALLOCATION_PAGE:
-    return hasRole(user, types.TAC_MEMBER, partner) ||
-                hasRole(user, types.SALT_ASTRONOMER) ||
-                hasRole(user, types.ADMINISTRATOR)
-  case types.EDIT_TIME_ALLOCATION_PAGE:
-    return hasRole(user, types.TAC_CHAIR, partner) ||
-                hasRole(user, types.ADMINISTRATOR)
-  case types.CHANGE_LIAISON:
-    return hasRole(user, types.ADMINISTRATOR)
-  case types.SELF_ASSIGN_TO_PROPOSAL:
-    return hasRole(user, types.SALT_ASTRONOMER)
-  default:
-    return false
+    case types.VIEW_TIME_ALLOCATION_PAGE:
+      return hasRole(user, types.TAC_MEMBER, partner) ||
+        hasRole(user, types.SALT_ASTRONOMER) ||
+        hasRole(user, types.ADMINISTRATOR)
+    case types.EDIT_TIME_ALLOCATION_PAGE:
+      return hasRole(user, types.TAC_CHAIR, partner) ||
+        hasRole(user, types.ADMINISTRATOR)
+    case types.CHANGE_LIAISON:
+      return hasRole(user, types.ADMINISTRATOR)
+    case types.SELF_ASSIGN_TO_PROPOSAL:
+      return hasRole(user, types.SALT_ASTRONOMER)
+    default:
+      return false
   }
 }
 
@@ -265,13 +263,13 @@ export function canSubmitTimeAllocations(roles, partner){
 
 export function allocatedTimeTotals( proposals, partner ){
   /**
-     *
-     *
-     * @param partner
-     * @param availableTime
-     * @param proposals
-     * @return object of allocated time totals per priority
-     */
+   *
+   *
+   * @param partner
+   * @param availableTime
+   * @param proposals
+   * @return object of allocated time totals per priority
+   */
 
   const total = {
     p0: 0,
@@ -293,13 +291,13 @@ export function allocatedTimeTotals( proposals, partner ){
 
 export function areAllocatedTimesCorrect(partner, availableTime, proposals){
   /**
-     *
-     *
-     * @param partner
-     * @param availableTime
-     * @param proposals
-     * @return object stating if allocated time of proposals doen't exceed available time and charector are numbers
-     */
+   *
+   *
+   * @param partner
+   * @param availableTime
+   * @param proposals
+   * @return object stating if allocated time of proposals doen't exceed available time and charector are numbers
+   */
   const allocTotals = allocatedTimeTotals( proposals, partner )
 
   return {
@@ -331,7 +329,7 @@ const pageRole = (page, role) => {
 
 }
 
-export function canViewPage (userRoles, page){
+export function canViewPage (userRoles, page) {
   if (page === types.HOME_PAGE){return true}
   if ((userRoles || []).some( p => p.type.toLowerCase() === types.ADMINISTRATOR.toLowerCase())) {
     return true
@@ -345,13 +343,13 @@ export function canViewPage (userRoles, page){
 }
 
 export function makeTechComment (techReview){
-  const feasible = techReview.feasible && techReview.feasible !== 'none'? `Feasible: ${  techReview.feasible  }\n` : ''
-  const comment = techReview.comment ? `Comments: ${  techReview.comment.replace(/^\s+|\s+$/g, '')  }\n` : ''
-  const details = techReview.details && techReview.details !== 'none' ? `Detailed Check: ${  techReview.details  }\n` : ''
+  const feasible = techReview.feasible && techReview.feasible !== 'none'? `Feasible: ${ techReview.feasible }\n` : ''
+  const comment = techReview.comment ? `Comments: ${ techReview.comment.replace(/^\s+|\s+$/g, '')  }\n` : ''
+  const details = techReview.details && techReview.details !== 'none' ? `Detailed Check: ${ techReview.details }\n` : ''
   return feasible + comment + details
 }
 
-function testTechReview(rev) {
+function testTechReview (rev) {
   let review = { comment: '' }
   if (rev.length > 2) {
     (rev || []).forEach(r => {
@@ -422,6 +420,23 @@ export function defaultSemester () {
   return `${ year }-${ semester }`
 }
 
+export function currentSemester () {
+  const today = new Date()
+  const month = today.getMonth() + 1
+  let year = today.getFullYear()
+  let semester = null
+  if (month >= 5 && month <= 10) {
+    semester = 1
+  } else if (month >= 11) {
+    semester = 2
+  } else {
+    year -= 1
+    semester = 2
+  }
+
+  return `${ year }-${ semester }`
+}
+
 export function downloadSummary(proposalCode, semester, partner) {
   jsonClient('blob').post('/proposal-summary', {proposalCode, semester, partner})
     .then(res => {
@@ -440,13 +455,13 @@ export function downloadSummaries(proposals, semester, partner) {
 }
 
 export function addTacMembers(partner, members) {
-	jsonClient('blob').post('/update-tac-members', {partner, members}) // eslint-disable-next-line
-		.then(res => console.log(res)) // eslint-disable-next-line
-		.catch(err => console.error(err))
+  jsonClient('blob').post('/update-tac-members', {partner, members}) // eslint-disable-next-line
+  .then(res => console.log(res)) // eslint-disable-next-line
+  .catch(err => console.error(err))
 }
 
 export function removeTacMembers(partner, members) {
-	jsonClient('blob').post('/remove-tac-members', {partner, members}) // eslint-disable-next-line
-		.then(res => console.log(res)) // eslint-disable-next-line
-		.catch(err => console.error(err))
+  jsonClient('blob').post('/remove-tac-members', {partner, members}) // eslint-disable-next-line
+  .then(res => console.log(res)) // eslint-disable-next-line
+  .catch(err => console.error(err))
 }

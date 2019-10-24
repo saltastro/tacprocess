@@ -342,6 +342,77 @@ export function queryPartnerStatProposals (semester, partner) {
     )
 }
 
+export function queryPartnerShareTimes (semester, partner) {
+  let par = ''
+  if ( partner !== 'All' ) {
+    par = ` , partnerCode: ${ partner }`
+  }
+  const query = `
+    {
+      partnerShareTimes(semester: "${ semester }"  ${ par } ){
+        partnerCode
+        sharePercent
+        semester
+      }
+    }
+    `
+  if (process.env.NODE_ENV === 'development'){
+    return saltServerApiClient().post('/graphql-api', { query })
+      .then(
+        response => response.data.data.partnerShareTimes
+      )
+  }
+  return graphqlClient().post('/graphql-api', { query })
+    .then(
+      response => response.data.data.partnerShareTimes
+    )
+}
+
+export function queryPartnerStatObservations (semester) {
+  const query = `
+    {
+      partnerStatObservations(semester: "${ semester }"){
+        observationTime
+        status
+      }
+    }
+    `
+  if (process.env.NODE_ENV === 'development'){
+    return saltServerApiClient().post('/graphql-api', { query })
+      .then(
+        response => response.data.data.partnerStatObservations
+      )
+  }
+  return graphqlClient().post('/graphql-api', { query })
+    .then(
+      response => response.data.data.partnerStatObservations
+    )
+}
+
+export function queryTimeBreakdown (semester) {
+  const query = `
+    {
+      timeBreakdown(semester: "${ semester }"){
+        science
+        engineering
+        lostToWeather
+        lostToProblems
+        idle
+      }
+    }
+    `
+  if (process.env.NODE_ENV === 'development'){
+    return saltServerApiClient().post('/graphql-api', { query })
+    .then(
+      response => response.data.data.timeBreakdown
+    )
+  }
+  return graphqlClient().post('/graphql-api', { query })
+  .then(
+    response => response.data.data.timeBreakdown
+  )
+}
+
 export const  submitAllocations = (query) =>  graphqlClient().post('/graphql', { query }).then(response => response)
 
 export function querySALTAstronomers(){

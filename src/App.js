@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import Navigation from './components/Navigation'
 import * as actions from './actions/auth'
-import {defaultSemester, downloadSummary, getLiaisonUsername} from './util'
+import { currentSemester, defaultSemester, downloadSummary, getLiaisonUsername } from './util'
 import ApplicationPages from './components/pages/ApplicationPages'
 import {setLiaisonAstronomer} from './actions/proposalsActions'
 import submitProposalsLiaison from './actions/liaison-astronomer-actions'
@@ -18,9 +18,9 @@ import { reduceProposalsPerAstronomer } from './util/filters'
 class App extends React.Component {
 	componentDidMount() {
 		const partner = this.props.filters.selectedPartner || ALL_PARTNER
-		const semester = defaultSemester()
+
 		if (this.props.isAuthenticated) {
-			this.props.dispatch(fetchAllData(semester, partner))
+			this.props.dispatch(fetchAllData(defaultSemester(), currentSemester(), partner))
 
 		}
 	}
@@ -48,7 +48,7 @@ class App extends React.Component {
 	};
 
 	render() {
-		const { user, isAuthenticated, proposals, partnerStatProposals, initProposals, filters, SALTAstronomers, dataStatus } = this.props
+		const { user, isAuthenticated, proposals, initProposals, filters, SALTAstronomers, dataStatus } = this.props
 
 		if (dataStatus.error && !dataStatus.fetchedData){
 			return <FailToLoad />
@@ -82,7 +82,6 @@ class App extends React.Component {
 						</div>}
 						<ApplicationPages
 							proposals={ proposals.proposals }
-							partnerStatProposals = { partnerStatProposals.proposals }
 							proposalsPerLiaison={ proposalsPerLiaison }
 							isAuthenticated={ isAuthenticated }
 							user={ user }
@@ -114,7 +113,6 @@ App.propTypes = {
 	fetchProposalsError: PropTypes.string,
 	fetchTargetsError: PropTypes.string,
 	proposals: PropTypes.object,
-	partnerStatProposals: PropTypes.object,
 	initProposals: PropTypes.array,
 	SALTAstronomers: PropTypes.object,
 	user: PropTypes.object,
@@ -130,11 +128,10 @@ function mapStateToProps(state) { /* state in params  */
 		fetchProposalsError: state.proposals.errors.fetchingError,
 		fetchTargetsError: state.targets.error,
 		proposals: state.proposals,
-		partnerStatProposals: state.partnerStatProposals,
 		initProposals: state.proposals.initProposals,
 		targets: state.targets,
 		tacs: state.tac,
-		SALTAstronomers: state.SALTAstronomers
+		SALTAstronomers: state.SALTAstronomers,
 	}
 }
 

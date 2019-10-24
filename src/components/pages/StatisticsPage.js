@@ -65,7 +65,41 @@ class StatisticsPage extends React.Component {
             partner={ partner }
           />
         </div>
-				
+        <div className='stat-wrapper' />
+        <div className='stat-wrapper-center'>
+          <TargetStatistics targets={ targets.targets }/>
+        </div>
+        <div className='stat-wrapper'>
+          <Plot caption='Smoothed distribution of all targets on the sky.'>
+            <TargetDistributionContourMap targets={ targets.targets }/>
+          </Plot>
+          <Plot caption='Distribution of mandatory targets <em style="color:green;">(squares)</em> and optional targets <em style="color:purple;">(circles)</em> on the sky.'>
+            <TargetDistributionScatterPlot targets={ targets.targets }/>
+          </Plot>
+        </div>
+        <div className='stat-wrapper'>
+          <RightAscensionDistribution targets={ targets.targets }/>
+          <DeclinationDistribution targets={ targets.targets }/>
+        </div>
+
+        <h2>Seeing requests</h2>
+        <div className='stat-wrapper-center'>
+          <ObservingStatisticsSeeing proposals={ proposals } partner={ partner }/>
+        </div>
+
+        <h2>Observing Conditions</h2>
+        <div className='stat-wrapper'>
+          <TransparencyDistribution
+            proposals={ proposals }
+            semester={ semester }
+            partner={ partner }
+          />
+          <ObservingStatisticsTransparency
+            proposals={ proposals }
+            partner={ partner }
+          />
+        </div>
+
         <div className='stat-wrapper'>
           <InstrumentDistribution
             proposals={ proposals }
@@ -102,38 +136,6 @@ class StatisticsPage extends React.Component {
             partner={ partner }
           />
           <SALTICAMStatistics proposals={ proposals }/>
-        </div>
-        <div className='stat-wrapper' />
-        <div className='stat-wrapper-center'>
-          <TargetStatistics targets={ targets.targets }/>
-        </div>
-        <div className='stat-wrapper'>
-          <Plot caption='Smoothed distribution of all targets on the sky.'>
-            <TargetDistributionContourMap targets={ targets.targets }/>
-          </Plot>
-          <Plot caption='Distribution of mandatory targets <em style="color:green;">(squares)</em> and optional targets <em style="color:purple;">(circles)</em> on the sky.'>
-            <TargetDistributionScatterPlot targets={ targets.targets }/>
-          </Plot>
-        </div>
-        <div className='stat-wrapper'>
-          <RightAscensionDistribution targets={ targets.targets }/>
-          <DeclinationDistribution targets={ targets.targets }/>
-        </div>
-        <h2>Observing Conditions</h2>
-        <div className='stat-wrapper'>
-          <TransparencyDistribution
-            proposals={ proposals }
-            semester={ semester }
-            partner={ partner }
-          />
-          <ObservingStatisticsTransparency
-            proposals={ proposals }
-            partner={ partner }
-          />
-        </div>
-        <h2>Seeing requests</h2>
-        <div className='stat-wrapper-center'>
-          <ObservingStatisticsSeeing proposals={ proposals } partner={ partner }/>
         </div>
       </div>
     )

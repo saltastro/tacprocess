@@ -6,7 +6,8 @@ import {
   SUBMIT_PARTNER_STAT_COMMENT_START,
   SUBMIT_PARTNER_STAT_COMMENT_PASS,
   SUBMIT_PARTNER_STAT_COMMENT_FAIL,
-  USER_LOGGED_OUT
+  USER_LOGGED_OUT,
+  TOTAL_PARTNER_STAT_OBSERVATION
 } from '../types'
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   initProposals: [],
   timeAllocations: [],
   observations: [],
+  totalObservation: 0,
   completionComments: [],
   errors: {
     fetchingError: null,
@@ -103,6 +105,12 @@ export default function partnerStatProposals (state = initialState, action = {})
     case USER_LOGGED_OUT: {
       return {
         ...initialState
+      }
+    }
+    case TOTAL_PARTNER_STAT_OBSERVATION: {
+      return {
+        ...state,
+        totalObservation: action.payload
       }
     }
     default: {
