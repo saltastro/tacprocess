@@ -405,12 +405,24 @@ export function queryTimeBreakdown (semester) {
     return saltServerApiClient().post('/graphql-api', { query })
     .then(
       response => response.data.data.timeBreakdown
-    )
+    ).catch(() => ({
+      'engineering': 0,
+      'idle': 0,
+      'lostToWeather': 0,
+      'lostToProblems': 0,
+      'science': 0
+    }))
   }
   return graphqlClient().post('/graphql-api', { query })
   .then(
     response => response.data.data.timeBreakdown
-  )
+  ).catch(() => ({
+    'engineering': 0,
+    'idle': 0,
+    'lostToWeather': 0,
+    'lostToProblems': 0,
+    'science': 0
+  }))
 }
 
 export const  submitAllocations = (query) =>  graphqlClient().post('/graphql', { query }).then(response => response)
