@@ -60,18 +60,6 @@ class PartnerStatPage extends React.Component {
           <a target='_blank' href={ linkToDashboard }> Click here for navigating to the dashboard </a>
         </p>
 
-        {partner !== 'All' &&
-          <div>
-            <PartnerSummaryStatTable
-              proposals={ proposals }
-              semester={ semester }
-              partner={ partner }
-              partnerShareTimes={ partnerShareTimes }
-              totalObservation={ totalObservation }
-            />
-          </div>
-        }
-
         <h2>Observing Conditions</h2>
         <div className='stat-wrapper'>
           <TransparencyDistribution
@@ -86,18 +74,28 @@ class PartnerStatPage extends React.Component {
         </div>
 
         {partner === 'All' &&
-        <div>
-          <h2>Time Breakdown</h2>
-          <div className='stat-wrapper'>
-            <TimeBreakdownDistribution
-              timeBreakdown={ timeBreakdown }
-            />
-            <ObservingStatisticsTimeBreakdown
-              timeBreakdown={ timeBreakdown }
-            />
+          <div>
+            <h2>Time Breakdown</h2>
+            <div className='stat-wrapper'>
+              <TimeBreakdownDistribution
+                timeBreakdown={ timeBreakdown }
+              />
+              <ObservingStatisticsTimeBreakdown
+                timeBreakdown={ timeBreakdown }
+              />
+            </div>
           </div>
-        </div>
         }
+
+        <div>
+          <PartnerSummaryStatTable
+            proposals={ proposals }
+            semester={ semester }
+            partner={ partner }
+            partnerShareTimes={ partnerShareTimes }
+            totalObservation={ totalObservation }
+          />
+        </div>
 
         <div>
           <PartnerStatTable
