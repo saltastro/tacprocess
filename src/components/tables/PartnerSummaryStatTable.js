@@ -9,7 +9,7 @@ class PartnerSummaryStatTable extends React.Component {
     const {proposals, semester, partner, partnerShareTimes, totalObservation} = this.props
     return (
       <div className='SATableDiv'>
-        <h2>Summary Statistics for {partner}</h2>
+        <h2>Summary Statistics for {partner === 'All' ? 'All Partners' : partner}</h2>
         <table className='SATable' align='center'>
           <thead>
             <tr>
