@@ -1,10 +1,11 @@
 import React from 'react'
 import propTypes from 'prop-types'
 
-const PartnerSummaryStatTableRow = ({partnerSummaryStat}) => {
+const PartnerSummaryStatTableRow = ({partner, partnerSummaryStat}) => {
   if (partnerSummaryStat == null || Object.keys(partnerSummaryStat).length === 0) return null
   return (
     <tr>
+      <td>{ partner }</td>
       <td>{ partnerSummaryStat.allocatedTime.p0p1 }</td>
       <td>{ partnerSummaryStat.allocatedTime.p2 }</td>
       <td>{ partnerSummaryStat.allocatedTime.p3 }</td>
@@ -24,6 +25,7 @@ const PartnerSummaryStatTableRow = ({partnerSummaryStat}) => {
 }
 
 PartnerSummaryStatTableRow.propTypes = {
-  partnerSummaryStat: propTypes.object.isRequired
+  partnerSummaryStat: propTypes.object.isRequired,
+  partner: propTypes.string.isRequired
 }
 export default PartnerSummaryStatTableRow
