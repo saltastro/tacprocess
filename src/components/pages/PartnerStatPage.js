@@ -89,6 +89,7 @@ class PartnerStatPage extends React.Component {
 
         <div>
           <PartnerSummaryStatTable
+            user={ user }
             proposals={ proposals }
             semester={ semester }
             partner={ partner }
