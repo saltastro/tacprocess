@@ -286,7 +286,7 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
       p0p1: calculatePercentage(p0p1Observed, p0p1Allocated).toFixed(2),
       p2: calculatePercentage(p2Observed, p2Allocated).toFixed(2),
       p3: calculatePercentage(p3Observed, (p3Allocated / 3)).toFixed(2),
-      total: calculatePercentage(totalObserved, totalAllocated).toFixed(2)
+      total: calculatePercentage(totalObserved, p0p1Allocated + p2Allocated + p3Allocated / 3).toFixed(2)
     },
     partnerAllocatedShareTime,
     partnerObservedShareTime: partnerObservedShareTime.toFixed(2)
