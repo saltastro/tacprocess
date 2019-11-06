@@ -46,6 +46,7 @@ class PartnerSummaryStatTable extends React.Component {
             {
               partnerList.map((p) => (
                 <PartnerSummaryStatTableRow
+                  key={ p }
                   partner={ p }
                   partnerSummaryStat={
                     partnerSummaryStat(proposals, semester, p, partnerShareTimes, totalObservation)

@@ -204,7 +204,7 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
     // if no partner is selected, sum the share times of all the partner
     partnerAllocatedShareTime = partnerCode === 'All'
       ? sumNumbers(partnerShareTimes.map((partnerShareTime) => partnerShareTime.sharePercent))
-      : partnerShareTimes[ 0 ].sharePercent
+      : partnerShareTimes.filter((partnerShareTime) => partnerShareTime.partnerCode === partnerCode)[ 0 ].sharePercent
   }
 
   let p0p1Allocated = 0
