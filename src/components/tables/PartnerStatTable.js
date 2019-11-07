@@ -29,7 +29,6 @@ class PartnerStatTable extends React.Component {
             <th style={ { width: '50px' } }>Proposal Status</th>
             <th>Number of blocks</th>
             <th>Completeness of a Proposal</th>
-            <th>P3 Completion Rate</th>
             <th>Overall Completion Rate (P0 - P3)</th>
             <th>Comment</th>
           </tr>

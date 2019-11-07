@@ -26,13 +26,6 @@ class PartnerStatTableRow extends React.Component {
       statusPriority(proposal, 3, 'ACCEPTED', semester, partner),
       statusPriority(proposal, 4, 'ACCEPTED', semester, partner)
     ]
-    const p3CompletionRate = priorityObservations[ 3 ].percentage > 33.33 ? {
-      backgroundColor: '#71dced',
-      status: 'COMPLETED'
-    } : {
-      backgroundColor: '',
-      status: ''
-    }
     const _overallCompletionRate = overallCompletionRate(proposal, 'ACCEPTED', semester, partner) > 0.9 ? {
       backgroundColor: '#71dced',
       status: 'COMPLETED'
@@ -58,10 +51,6 @@ class PartnerStatTableRow extends React.Component {
           <ObservationTable
             priorityObservations={ priorityObservations }
           />
-        </td>
-        <td style={ { backgroundColor: p3CompletionRate.backgroundColor } }>
-          { priorityObservations[ 3 ].percentage }%<br /> <br />
-          { p3CompletionRate.status }
         </td>
         <td style={ { backgroundColor: _overallCompletionRate.backgroundColor } }>
           {overallCompletionRate(proposal, 'ACCEPTED', semester, partner)} <br /> <br />
