@@ -201,7 +201,10 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
   let partnerAllocatedShareTime = 0
 
   if (partnerShareTimes && partnerShareTimes.length) {
-    partnerAllocatedShareTime = partnerShareTimes[ 0 ].sharePercent
+    // if no partner is selected, sum the share times of all the partner
+    partnerAllocatedShareTime = partnerCode === 'All'
+      ? sumNumbers(partnerShareTimes.map((partnerShareTime) => partnerShareTime.sharePercent))
+      : partnerShareTimes.find((partnerShareTime) => partnerShareTime.partnerCode === partnerCode).sharePercent
   }
 
   let p0p1Allocated = 0
@@ -227,9 +230,13 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
     )
 
     // filter the time allocated by partner
-    const p0p1PartnerTimeAllocations = p0p1TimeAllocations.filter((t) => t.partnerCode === partnerCode)
-    const p2PartnerTimeAllocations = p2TimeAllocations.filter((t) => t.partnerCode === partnerCode)
-    const p3PartnerTimeAllocations = p3TimeAllocations.filter((t) => t.partnerCode === partnerCode)
+    // if no partner is selected, all the partners are included
+    const p0p1PartnerTimeAllocations = partnerCode === 'All' ? p0p1TimeAllocations
+      : p0p1TimeAllocations.filter((t) => t.partnerCode === partnerCode)
+    const p2PartnerTimeAllocations = partnerCode === 'All' ? p2TimeAllocations
+      : p2TimeAllocations.filter((t) => t.partnerCode === partnerCode)
+    const p3PartnerTimeAllocations = partnerCode === 'All' ? p3TimeAllocations
+      : p3TimeAllocations.filter((t) => t.partnerCode === partnerCode)
 
     // filter the observed time by status, semester and priorities
     const p0p1Observations = p.observations.filter((o) =>
@@ -249,15 +256,15 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
     p2Allocated += sumNumbers(p2PartnerTimeAllocations.map((t) => t.amount))
     p3Allocated += sumNumbers(p3PartnerTimeAllocations.map((t) => t.amount))
 
-    // calculate the observed time per proposal according to priorities and partner
+    // calculate the observed time per proposal according to priorities and partner or all partners
     p0p1Observed += calculateObservedTime(p0p1TimeAllocations, p0p1Observations, p0p1PartnerTimeAllocations)
     p2Observed += calculateObservedTime(p2TimeAllocations, p2Observations, p2PartnerTimeAllocations)
     p3Observed += calculateObservedTime(p3TimeAllocations, p3Observations, p3PartnerTimeAllocations)
   })
 
-  // calculating the total allocated time for the partner
+  // calculating the total allocated time for the partner or all partners
   const totalAllocated = p0p1Allocated + p2Allocated + p3Allocated
-  // calculating the total observed time for the partner
+  // calculating the total observed time for the partner or all the partners
   const totalObserved = p0p1Observed + p2Observed + p3Observed
   // Observed share time in percent
   const partnerObservedShareTime = calculatePercentage(totalObserved, totalObservation)
@@ -279,7 +286,7 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
       p0p1: calculatePercentage(p0p1Observed, p0p1Allocated).toFixed(2),
       p2: calculatePercentage(p2Observed, p2Allocated).toFixed(2),
       p3: calculatePercentage(p3Observed, (p3Allocated / 3)).toFixed(2),
-      total: calculatePercentage(totalObserved, totalAllocated).toFixed(2)
+      total: calculatePercentage(totalObserved, p0p1Allocated + p2Allocated + p3Allocated / 3).toFixed(2)
     },
     partnerAllocatedShareTime,
     partnerObservedShareTime: partnerObservedShareTime.toFixed(2)
