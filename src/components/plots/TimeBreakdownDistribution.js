@@ -10,16 +10,14 @@ const TimeBreakdownDistribution = ({timeBreakdown}) => {
     'Science',
     'Engineering',
     'LostToWeather',
-    'LostToProblems',
-    'Idle'
+    'LostToProblems'
   ]
 
   const data = {
     'Science': timeBreakdown.science / 3600,
     'Engineering': timeBreakdown.engineering / 3600,
     'LostToWeather': timeBreakdown.lostToWeather / 3600,
-    'LostToProblems': timeBreakdown.lostToProblems / 3600,
-    'Idle': timeBreakdown.idle / 3600
+    'LostToProblems': timeBreakdown.lostToProblems / 3600
   }
 
   const dataset = [
