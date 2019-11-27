@@ -60,7 +60,7 @@ const ObservingStatisticsTransparency = ({proposals, partner}) => {
             <th>Conditions</th>
             <th>Time requested (hrs)</th>
             <th>Number of Proposals</th>
-            <th>Fraction of Total Request (%)</th>
+            <th>Completion Time (%)</th>
           </tr>
         </thead>
         <tbody>
