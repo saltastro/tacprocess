@@ -8,12 +8,10 @@ import {getPartnerList} from '../../util/filters'
 class PartnerSummaryStatTable extends React.Component {
   render () {
     const {user, proposals, semester, partner, partnerShareTimes, totalObservation} = this.props
-    const partnerList = partner === 'All'
-      ? getPartnerList(user.roles)
-      : getPartnerList(user.roles).filter((p) => p === partner)
+    const partnerList = getPartnerList(user.roles)
     return (
       <div className='SATableDiv'>
-        <h2>Summary Statistics for {partner === 'All' ? 'All Partners' : partner}</h2>
+        <h2>Summary Statistics</h2>
         <table className='SATable' align='center'>
           <thead>
             <tr>
