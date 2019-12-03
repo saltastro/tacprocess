@@ -11,7 +11,7 @@ import fetchTargets  from '../actions/targetsActions'
 import { storePartnerAllocations } from '../actions/timeAllocationActions'
 import { semestersArray, getPartnerList, getAstronomersList } from '../util/filters'
 import { defaultSemester } from '../util'
-import { ADMINISTRATOR, SALT_ASTRONOMER, BOARD, TAC_CHAIR } from '../types'
+import { ADMINISTRATOR, SALT_ASTRONOMER, BOARD, TAC_CHAIR, ALL_PARTNER } from '../types'
 import fetchPartnerStat1Proposals from '../actions/partnerStat1ProposalsActions'
 import fetchTimeBreakdown from '../actions/timeBreakdownActions'
 
@@ -46,7 +46,8 @@ class Filters extends React.Component {
 	render() {
 		const { filters, user, SALTAstronomers, location, loadingProposals, loadingTargets } = this.props
 		const { selectedPartner, selectedSemester, selectedPartnerStatsSemester, selectedLiaison } = filters
-		const partnerList = getPartnerList(user.roles)
+		const mayViewAll = user.roles.some(role => ['ADMINISTRATOR', 'BOARD', 'SALT_ASTRONOMER'].includes(role.type));
+		const partnerList = mayViewAll ? getPartnerList(user.roles) : getPartnerList(user.roles).filter(partner => partner !== ALL_PARTNER)
 		const astronomersList = ['All', 'Assigned'].concat(getAstronomersList(SALTAstronomers)).concat(['Not Assigned'])
 		const partnerStatAstronomersList = astronomersList.filter((astronomer) => !['Assigned', 'Not Assigned'].includes(astronomer))
 		const partnerStatAstronomer = ['Assigned', 'Not Assigned'].includes(selectedLiaison) ? 'All' : selectedLiaison
