@@ -289,12 +289,145 @@ export function queryProposals(semester, partner){
     )
 }
 
+export function queryStatistics (semester, partner) {
+  let par = ''
+  if ( partner !== 'All' ) {
+    par = `, partner: "${ partner }"`
+  }
+  const query = `
+    {
+      statistics(semester:"${ semester }" ${ par }){
+        instruments{
+          timeRequestedPerInstrument{
+            bvit
+            hrs
+            rss
+            salticam
+          }
+          numberOfConfigurationsPerInstrument{
+             bvit
+            hrs
+            rss
+            salticam
+          }
+          timeRequestedPerRssDetector{
+            driftScan
+            frameTransfer
+            normal
+            shuffle
+            slotMode
+          }
+          numberOfConfigurationsPerRssDetector{
+            driftScan
+            frameTransfer
+            normal
+            shuffle
+            slotMode
+          }
+          timeRequestedPerSalticamDetector{
+            driftScan
+            frameTransfer
+            normal
+            shuffle
+            slotMode
+          }
+          numberOfConfigurationsPerSalticamDetector{
+            driftScan
+            frameTransfer
+            normal
+            shuffle
+            slotMode
+          }
+          timeRequestedPerHrsExposure{
+            lowResolution
+            mediumResolution
+            highResolution
+            highStability
+            intCalFibre
+          }
+          numberOfConfigurationsPerHrsExposure{
+            lowResolution
+            mediumResolution
+            highResolution
+            highStability
+            intCalFibre
+          }
+        }
+        observingConditions{
+          seeing{
+            timeRequested{
+              lessEqual1Dot5
+              lessEqual2
+              lessEqual3
+              moreThan3
+            }
+            numberOfProposals{
+              lessEqual1Dot5
+              lessEqual2
+              lessEqual3
+              moreThan3
+            }
+          }
+          clouds{
+            timeRequested{
+              any
+              clear
+              thinCloud
+              thickCloud
+            }
+            numberOfProposals{
+              any
+              clear
+              thinCloud
+              thickCloud
+            }
+          }
+        }
+        timeBreakdown{
+          engineering
+          idle
+          lostToProblems
+          lostToWeather
+          science
+        }
+        completion{
+          partner
+          sharePercentage
+          summary{
+            allocatedTime{
+              p0
+              p1
+              p2
+              p3
+            }
+            observedTime{
+              p0
+              p1
+              p2
+              p3
+            }
+          }
+        }
+        targets{
+          isOptional
+          rightAscension
+          declination
+        }
+      }
+    }
+  `
+  return graphqlClient().post('/graphql', { query })
+  .then(
+    response => response.data.data.statistics
+  )
+}
+
 export function queryPartnerStatProposals (semester, partner) {
   let par = ''
   if ( partner !== 'All' ) {
     par = `, partnerCode: ${ partner }`
   }
-    const query = `
+  const query = `
     {
       proposals(semester: "${ semester }" ${ par } ){
         proposalCode
