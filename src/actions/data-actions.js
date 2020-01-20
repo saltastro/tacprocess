@@ -16,12 +16,15 @@ import {
   queryTargets,
   queryUserData,
   queryPartnerShareTimes,
-  queryPartnerStatObservations, queryTimeBreakdown
+  queryPartnerStatObservations,
+  queryTimeBreakdown,
+  queryStatistics
 } from '../api/graphQL'
 import { userLoggedIn, partnersFilter } from './auth'
 import {convertSaltUsers, convertTacMembers, fetchSaltUsersPass, fetchTacMembersPass} from './adminActions'
 import { calculateTotalObservation } from '../util/partner-stat'
 import {fetchTimeBreakdownPass} from './timeBreakdownActions'
+import {fetchStatisticsPass} from './statisticsActions'
 
 export const fetchingAllData = () => ({
   type: FETCHING_DATA,
@@ -63,6 +66,7 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
       const partnerShareTimes = queryPartnerShareTimes(currentSemester, partner)
       const partnerStatObservations = queryPartnerStatObservations(currentSemester)
       const timeBreakdown = queryTimeBreakdown(currentSemester)
+      const statistics = queryStatistics(currentSemester, partner)
       await Promise.all([
         saltAstronomers,
         user,
@@ -75,7 +79,8 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
         saltUsers,
         partnerShareTimes,
         partnerStatObservations,
-        timeBreakdown
+        timeBreakdown,
+        statistics
       ]).then(data => {
         dispatch(fetchSAPass(convertSA(data[ 0 ].data.data)))
         dispatch(userLoggedIn(data[ 1 ]))
@@ -90,6 +95,7 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
         dispatch(fetchPartnerShareTimesPass(data[ 9 ], currentSemester, partner), currentSemester)
         dispatch(totalObservation(calculateTotalObservation(data[ 10 ])))
         dispatch(fetchTimeBreakdownPass(data[ 11 ], currentSemester), currentSemester)
+        dispatch(fetchStatisticsPass(data[ 12 ]))
       })
     } catch (e) {
       dispatch(fetchedAllDataFail(e.message))
