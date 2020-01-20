@@ -14,6 +14,7 @@ import { defaultSemester } from '../util'
 import { ADMINISTRATOR, SALT_ASTRONOMER, BOARD, TAC_CHAIR } from '../types'
 import fetchPartnerStat1Proposals from '../actions/partnerStat1ProposalsActions'
 import fetchTimeBreakdown from '../actions/timeBreakdownActions'
+import fetchStatistics from '../actions/statisticsActions'
 
 class Filters extends React.Component {
 	updateSemester = value => {
@@ -21,9 +22,11 @@ class Filters extends React.Component {
 		dispatch(fetchProposals( value, filters.selectedPartner))
 		dispatch(fetchPartnerStatProposals( value, filters.selectedPartner))
 		dispatch(fetchPartnerStat1Proposals( value, filters.selectedPartner))
+		dispatch(fetchStatistics( value, filters.selectedPartner))
 		dispatch(fetchTimeBreakdown( value ))
 		dispatch(fetchPartnerShareTimes( value, filters.selectedPartner))
 		dispatch(fetchTargets(value, filters.selectedPartner))
+		dispatch(fetchStatistics(value, filters.selectedPartner))
 		dispatch(storePartnerAllocations(value, filters.selectedPartner))
 		dispatch(semesterChange(value))
 	};
@@ -35,6 +38,7 @@ class Filters extends React.Component {
 		dispatch(fetchTimeBreakdown( filters.selectedPartnerStatsSemester ))
 		dispatch(fetchPartnerShareTimes(filters.selectedPartnerStatsSemester, value))
 		dispatch(fetchTargets(filters.selectedSemester, value))
+		dispatch(fetchStatistics(filters.selectedPartnerStatsSemester, value))
 		dispatch(storePartnerAllocations(filters.selectedSemester, value))
 		dispatch(partnerChange(value))
 	};
