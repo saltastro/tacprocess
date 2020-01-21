@@ -31,7 +31,8 @@ class StatisticsPage extends React.Component {
   render() {
     /* this will require me to difine a shape on PropTypes  */
 		
-    const { filters, allocatedTime, targets, proposalsData, roles } = this.props
+    const { filters, allocatedTime, targets, proposalsData, roles, statistics } = this.props
+    const { observingConditions, instruments } = statistics
     const partner = filters.selectedPartner || ''
     const semester = filters.selectedSemester
     if(proposalsData.fetching){
@@ -42,7 +43,7 @@ class StatisticsPage extends React.Component {
         </div>
       )
     }
-		
+
     let proposals = []
     if (partner === ALL_PARTNER) { // eslint-disable-next-line
       proposals = proposalsData.proposals
@@ -67,75 +68,64 @@ class StatisticsPage extends React.Component {
         </div>
         <div className='stat-wrapper' />
         <div className='stat-wrapper-center'>
-          <TargetStatistics targets={ targets.targets }/>
+          <TargetStatistics targets={ targets }/>
         </div>
         <div className='stat-wrapper'>
           <Plot caption='Smoothed distribution of all targets on the sky.'>
-            <TargetDistributionContourMap targets={ targets.targets }/>
+            <TargetDistributionContourMap targets={ targets }/>
           </Plot>
           <Plot caption='Distribution of mandatory targets <em style="color:green;">(squares)</em> and optional targets <em style="color:purple;">(circles)</em> on the sky.'>
-            <TargetDistributionScatterPlot targets={ targets.targets }/>
+            <TargetDistributionScatterPlot targets={ targets }/>
           </Plot>
         </div>
         <div className='stat-wrapper'>
-          <RightAscensionDistribution targets={ targets.targets }/>
-          <DeclinationDistribution targets={ targets.targets }/>
+          <RightAscensionDistribution targets={ targets }/>
+          <DeclinationDistribution targets={ targets }/>
         </div>
 
         <h2>Seeing requests</h2>
         <div className='stat-wrapper-center'>
-          <ObservingStatisticsSeeing proposals={ proposals } partner={ partner }/>
+          <ObservingStatisticsSeeing observingConditionsSeeing={ observingConditions.seeing }/>
         </div>
 
         <h2>Observing Conditions</h2>
         <div className='stat-wrapper'>
           <TransparencyDistribution
-            proposals={ proposals }
-            semester={ semester }
-            partner={ partner }
+            observingConditionsClouds={ observingConditions.clouds }
           />
           <ObservingStatisticsTransparency
-            proposals={ proposals }
-            partner={ partner }
+            observingConditionsClouds={ observingConditions.clouds }
           />
         </div>
 
         <div className='stat-wrapper'>
           <InstrumentDistribution
-            proposals={ proposals }
-            semester={ semester }
-            partner={ partner }
+            timeRequestedPerInstrument={ instruments.timeRequestedPerInstrument }
           />
-          <ConfigurationsStatistics proposals={ proposals }/>
+          <ConfigurationsStatistics numberOfConfigurationsPerInstrument={ instruments.numberOfConfigurationsPerInstrument }/>
         </div>
         <div  className='stat-wrapper-center'>
-          <RSSDetectorModeTable proposals={ proposals }/>
+          <RSSDetectorModeTable numberOfConfigurationsPerRssDetector={ instruments.numberOfConfigurationsPerRssDetector }/>
         </div>
         <div  className='stat-wrapper'>
           <RssModeDistribution
-            proposals={ proposals }
-            semester={ semester }
-            partner={ partner }
+            numberOfConfigurationsPerRssObservingMode={ instruments.numberOfConfigurationsPerRssObservingMode }
           />
-          <RSSObservingModeTable proposals={ proposals }/>
+          <RSSObservingModeTable numberOfConfigurationsPerRssObservingMode={ instruments.numberOfConfigurationsPerRssObservingMode }/>
         </div>
         <h2>HRS Detector Mode</h2>
         <div  className='stat-wrapper'>
           <HrsModeDistribution
-            proposals={ proposals }
-            semester={ semester }
-            partner={ partner }
+            timeRequestedPerHrsExposure={ instruments.timeRequestedPerHrsExposure }
           />
-          <HRSStatistics proposals={ proposals }/>
+          <HRSStatistics numberOfConfigurationsPerHrsExposure={ instruments.numberOfConfigurationsPerHrsExposure }/>
         </div>
         <h2>Salticam Detector Mode</h2>
         <div className='stat-wrapper'>
           <SalticamModeDistribution
-            proposals={ proposals }
-            semester={ semester }
-            partner={ partner }
+            timeRequestedPerSalticamDetector={ instruments.timeRequestedPerSalticamDetector }
           />
-          <SALTICAMStatistics proposals={ proposals }/>
+          <SALTICAMStatistics numberOfConfigurationsPerSalticamDetector={ instruments.numberOfConfigurationsPerSalticamDetector }/>
         </div>
       </div>
     )
@@ -144,7 +134,8 @@ class StatisticsPage extends React.Component {
 
 StatisticsPage.propTypes = {
   proposalsData: propTypes.object.isRequired,
-  targets: propTypes.object.isRequired,
+  targets: propTypes.array.isRequired,
+  statistics: propTypes.object.isRequired,
   filters: propTypes.object.isRequired,
   allocatedTime: propTypes.object.isRequired,
   roles: propTypes.array.isRequired,
@@ -153,7 +144,8 @@ StatisticsPage.propTypes = {
 export default connect(
   store => ({
     proposalsData: store.proposals,
-    targets: store.targets,
+    targets: store.statistics.statistics.targets,
+    statistics: store.statistics.statistics,
     filters:store.filters,
     allocatedTime:store.tac.data,
     roles: store.user.user.roles
