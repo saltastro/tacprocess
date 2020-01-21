@@ -1,57 +1,11 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import {ALL_PARTNER} from '../../../types'
 
-function add(a, b) {
-  return a + b
-}
-
-function setTransparency(proposals, partner) {
-  const transparency = {
-    clear: {
-      timeRequests: 0,
-      noOfProposals: 0
-    },
-    thin: {
-      timeRequests: 0,
-      noOfProposals: 0
-    },
-    thick: {
-      timeRequests: 0,
-      noOfProposals: 0
-    },
-    any: {
-      timeRequests: 0,
-      noOfProposals: 0
-    }
-  }
-  proposals.forEach(p => {
-    const reqTime = partner === ALL_PARTNER ? (Object.values(p.requestedTime.requests)||[]).reduce(add, 0) : p.requestedTime.requests[ partner ] || 0
-    if (p.transparency === 'Clear'){
-      transparency.clear.noOfProposals += 1
-      transparency.clear.timeRequests += reqTime
-    }
-    if (p.transparency === 'Any'){
-
-      transparency.any.noOfProposals += 1
-      transparency.any.timeRequests += reqTime
-    }
-    if (p.transparency === 'Thick cloud'){
-      transparency.thick.noOfProposals += 1
-      transparency.thick.timeRequests += reqTime
-    }
-    if (p.transparency === 'Thin cloud'){
-      transparency.thin.noOfProposals += 1
-      transparency.thin.timeRequests += reqTime
-    }
-  })
-  return transparency
-}
-
-const ObservingStatisticsTransparency = ({proposals, partner}) => {
-  const transparency = setTransparency(proposals, partner)
-  const totalReqTime = transparency.clear.timeRequests + transparency.thin.timeRequests +
-    transparency.thick.timeRequests + transparency.any.timeRequests
+const ObservingStatisticsTransparency = ({ observingConditionsClouds }) => {
+  const totalReqTime = observingConditionsClouds.timeRequested.any +
+    observingConditionsClouds.timeRequested.clear +
+    observingConditionsClouds.timeRequested.thinCloud +
+    observingConditionsClouds.timeRequested.thickCloud
   return (
     <div className='stat-item'>
       <table className='stat-table'>
@@ -66,27 +20,27 @@ const ObservingStatisticsTransparency = ({proposals, partner}) => {
         <tbody>
           <tr>
             <td>Clear</td>
-            <td>{ (transparency.clear.timeRequests / 3600).toFixed(2) }</td>
-            <td>{ transparency.clear.noOfProposals }</td>
-            <td>{ ((transparency.clear.timeRequests / totalReqTime) * 100).toFixed(1) }</td>
+            <td>{ observingConditionsClouds.timeRequested.clear.toFixed(2) }</td>
+            <td>{ observingConditionsClouds.numberOfProposals.clear }</td>
+            <td>{ ((observingConditionsClouds.timeRequested.clear / totalReqTime) * 100).toFixed(1) }</td>
           </tr>
           <tr>
             <td>Thin cloud</td>
-            <td>{ (transparency.thin.timeRequests / 3600).toFixed(2) }</td>
-            <td>{ transparency.thin.noOfProposals }</td>
-            <td>{ ((transparency.thin.timeRequests / totalReqTime) * 100).toFixed(1) }</td>
+            <td>{ observingConditionsClouds.timeRequested.thinCloud.toFixed(2) }</td>
+            <td>{ observingConditionsClouds.numberOfProposals.thinCloud }</td>
+            <td>{ ((observingConditionsClouds.timeRequested.thinCloud / totalReqTime) * 100).toFixed(1) }</td>
           </tr>
           <tr>
             <td>Thick cloud</td>
-            <td>{ (transparency.thick.timeRequests / 3600).toFixed(2)}</td>
-            <td>{ transparency.thick.noOfProposals }</td>
-            <td>{ ((transparency.thick.timeRequests / totalReqTime) * 100).toFixed(1)}</td>
+            <td>{ observingConditionsClouds.timeRequested.thickCloud.toFixed(2)}</td>
+            <td>{ observingConditionsClouds.numberOfProposals.thickCloud }</td>
+            <td>{ ((observingConditionsClouds.timeRequested.thickCloud / totalReqTime) * 100).toFixed(1)}</td>
           </tr>
           <tr>
             <td>Any</td>
-            <td>{ (transparency.any.timeRequests / 3600).toFixed(2) }</td>
-            <td>{ transparency.any.noOfProposals }</td>
-            <td>{ ((transparency.any.timeRequests / totalReqTime) * 100).toFixed(1) }</td>
+            <td>{ observingConditionsClouds.timeRequested.any.toFixed(2) }</td>
+            <td>{ observingConditionsClouds.numberOfProposals.any }</td>
+            <td>{ ((observingConditionsClouds.timeRequested.any / totalReqTime) * 100).toFixed(1) }</td>
           </tr>
         </tbody>
       </table>
@@ -95,8 +49,7 @@ const ObservingStatisticsTransparency = ({proposals, partner}) => {
 }
 
 ObservingStatisticsTransparency.propTypes = {
-  proposals: propTypes.array.isRequired,
-  partner: propTypes.string.isRequired
+  observingConditionsClouds: propTypes.object.isRequired
 }
 
 export default ObservingStatisticsTransparency

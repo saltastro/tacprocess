@@ -1,27 +1,13 @@
 import React from 'react'
 import propTypes from 'prop-types'
 
-function countSCAMDetector(proposals) {
-  const expo = {
-    dscan: 0,
-    xfer: 0,
-    normal: 0,
-    shuffle: 0,
-    slot: 0,
-  };
-  (proposals|| []).forEach(p => {
-    p.instruments.scam.forEach( m => {
-      if (m.detectorMode === 'NORMAL') {expo.normal += 1}
-      if (m.detectorMode === 'SLOT') {expo.slot += 1}
-      if (m.detectorMode === 'DRIFTSCAN') {expo.dscan += 1}
-      if (m.detectorMode === 'FRAME XFER') {expo.xfer += 1}
-    })
-  })
-  return expo
-}
-
-const SALTICAMStatistics = ({proposals}) => {
-  const detectorMode = countSCAMDetector(proposals)
+const SALTICAMStatistics = ({numberOfConfigurationsPerSalticamDetector}) => {
+  const {
+    driftScan,
+    frameTransfer,
+    normal,
+    slotMode
+  } = numberOfConfigurationsPerSalticamDetector
   return(
     <div  className='stat-item' style={ {textAlign: 'center'} }>
       <table className='stat-table'>
@@ -34,19 +20,19 @@ const SALTICAMStatistics = ({proposals}) => {
         <tbody>
           <tr>
             <td>DRIFT SCAN</td>
-            <td>{ detectorMode.dscan }</td>
+            <td>{ driftScan }</td>
           </tr>
           <tr>
             <td>FRAME XFER</td>
-            <td>{ detectorMode.xfer }</td>
+            <td>{ frameTransfer }</td>
           </tr>
           <tr>
             <td>NORMAL</td>
-            <td>{ detectorMode.normal }</td>
+            <td>{ normal }</td>
           </tr>
           <tr>
             <td>SLOT</td>
-            <td>{ detectorMode.slot }</td>
+            <td>{ slotMode }</td>
           </tr>
         </tbody>
       </table>
@@ -55,7 +41,7 @@ const SALTICAMStatistics = ({proposals}) => {
 }
 
 SALTICAMStatistics.propTypes = {
-  proposals: propTypes.array.isRequired,
+  numberOfConfigurationsPerSalticamDetector: propTypes.object.isRequired,
 }
 
 export default SALTICAMStatistics

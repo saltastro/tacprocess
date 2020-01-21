@@ -1,28 +1,8 @@
 import React from 'react'
 import propTypes from 'prop-types'
 
-function countRSSDetector(proposals) {
-  const expo = {
-    dscan: 0,
-    xfer: 0,
-    normal: 0,
-    shuffle: 0,
-    slot: 0,
-  };
-  (proposals|| []).forEach(p => {
-    p.instruments.rss.forEach( m => {
-      if (m.detectorMode === 'NORMAL') {expo.normal += 1}
-      if (m.detectorMode === 'SLOT MODE') {expo.slot += 1}
-      if (m.detectorMode === 'DRIFT SCAN') {expo.dscan += 1}
-      if (m.detectorMode === 'SHUFFLE') {expo.shuffle += 1}
-      if (m.detectorMode === 'FRAME TRANSFER') {expo.xfer += 1}
-    })
-  })
-  return expo
-}
-
-const RSSDetectorModeTable = ({proposals}) => {
-  const detectorMode =countRSSDetector(proposals)
+const RSSDetectorModeTable = ({numberOfConfigurationsPerRssDetector}) => {
+  const { driftScan, frameTransfer, normal, shuffle, slotMode } = numberOfConfigurationsPerRssDetector
   return(
     <div className='stat-item' style={ {textAlign: 'center', width: '100%'} }>
 	        <h2>RSS Detector Mode</h2>
@@ -37,23 +17,23 @@ const RSSDetectorModeTable = ({proposals}) => {
 		        <tbody>
 		        <tr>
 			        <td>DRIFT SCAN</td>
-			        <td>{ detectorMode.dscan }</td>
+			        <td>{ driftScan }</td>
 		        </tr>
 		        <tr>
 			        <td>FRAME TRANSFER</td>
-			        <td>{ detectorMode.xfer }</td>
+			        <td>{ frameTransfer }</td>
 		        </tr>
 		        <tr>
 			        <td>NORMAL</td>
-			        <td>{ detectorMode.normal }</td>
+			        <td>{ normal }</td>
 		        </tr>
 		        <tr>
 			        <td>SHUFFLE</td>
-			        <td>{ detectorMode.shuffle }</td>
+			        <td>{ shuffle }</td>
 		        </tr>
 		        <tr>
 			        <td>SLOT MODE</td>
-			        <td>{ detectorMode.slot }</td>
+			        <td>{ slotMode }</td>
 		        </tr>
 		        </tbody>
 	        </table>
@@ -62,7 +42,7 @@ const RSSDetectorModeTable = ({proposals}) => {
 }
 
 RSSDetectorModeTable.propTypes = {
-  proposals: propTypes.array.isRequired,
+	numberOfConfigurationsPerRssDetector: propTypes.object.isRequired,
 }
 
 export default RSSDetectorModeTable
