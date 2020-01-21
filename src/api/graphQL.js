@@ -328,14 +328,12 @@ export function queryStatistics (semester, partner) {
             driftScan
             frameTransfer
             normal
-            shuffle
             slotMode
           }
           numberOfConfigurationsPerSalticamDetector{
             driftScan
             frameTransfer
             normal
-            shuffle
             slotMode
           }
           timeRequestedPerHrsExposure{
@@ -351,6 +349,26 @@ export function queryStatistics (semester, partner) {
             highResolution
             highStability
             intCalFibre
+          }
+          timeRequestedPerRssObservingMode{
+            fabryPerot
+            mos
+            mosPolarimetry
+            fabryPerotPolarimetry
+            spectroscopy
+            spectropolarimetry
+            imaging
+            polarimetricImaging
+          }
+          numberOfConfigurationsPerRssObservingMode{
+            fabryPerot
+            mos
+            mosPolarimetry
+            fabryPerotPolarimetry
+            spectroscopy
+            spectropolarimetry
+            imaging
+            polarimetricImaging
           }
         }
         observingConditions{
