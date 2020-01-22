@@ -28,19 +28,19 @@ const ObservingStatisticsSeeing = ({ observingConditionsSeeing }) => {
             <td>Max Seeing <br /> &#x2266; 2.0</td>
             <td>{ (timeRequested.lessEqual2).toFixed(2) }</td>
             <td>{ numberOfProposals.lessEqual2 }</td>
-            <td>{ (((numberOfProposals.lessEqual2)/totalReqTime)*100).toFixed(1) }</td>
+            <td>{ (((timeRequested.lessEqual2)/totalReqTime)*100).toFixed(1) }</td>
           </tr>
           <tr>
             <td>Max Seeing <br /> &#x2266; 3.0</td>
             <td>{ (timeRequested.lessEqual3).toFixed(2) }</td>
             <td>{ numberOfProposals.lessEqual3 }</td>
-            <td>{ (((numberOfProposals.lessEqual3)/totalReqTime)*100).toFixed(1) }</td>
+            <td>{ (((timeRequested.lessEqual3)/totalReqTime)*100).toFixed(1) }</td>
           </tr>
           <tr>
             <td>Max Seeing <br /> &#x2267; 3.0</td>
             <td>{ (timeRequested.moreThan3).toFixed(2) }</td>
             <td>{ numberOfProposals.moreThan3 }</td>
-            <td>{ (((numberOfProposals.moreThan3)/totalReqTime)*100).toFixed(1) }</td>
+            <td>{ (((timeRequested.moreThan3)/totalReqTime)*100).toFixed(1) }</td>
           </tr>
         </tbody>
       </table>

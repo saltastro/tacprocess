@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { observingTimeForInstrument } from '../../util'
 import Histogram from './Histogram'
 
-const RssModeDistribution = ({proposals, semester, partner}) => {
+const RssModeDistribution = ({numberOfConfigurationsPerRssObservingMode}) => {
   const modes = [
     'Imaging',
     'Fabry Perot',
@@ -15,28 +14,30 @@ const RssModeDistribution = ({proposals, semester, partner}) => {
     'Spectropolarimetry',
     'Spectroscopy'
   ]
-
-  const observingTimes = (part) => modes
-    .reduce((prev, mode) => ({
-      ...prev,
-      [ mode ]: observingTimeForInstrument(proposals,
-        semester,
-        'RSS',
-        {
-          field: 'mode',
-          value: mode,
-          partner: part
-        }) / 3600
-    }), {})
+  const {
+    fabryPerot,
+    mos,
+    mosPolarimetry,
+    fabryPerotPolarimetry,
+    spectroscopy,
+    spectropolarimetry,
+    imaging,
+    polarimetricImaging
+  } = numberOfConfigurationsPerRssObservingMode
 
   const datasets = [
     {
       className: 'all-partners',
-      data: observingTimes()
-    },
-    {
-      className: 'partner-only',
-      data: observingTimes(partner)
+      data: {
+        'Imaging': imaging,
+        'Fabry Perot': fabryPerot,
+        'FP polarimetry': fabryPerotPolarimetry,
+        'polarimetric imaging': polarimetricImaging,
+        'MOS': mos,
+        'MOS polarimetry': mosPolarimetry,
+        'Spectropolarimetry': spectropolarimetry,
+        'Spectroscopy': spectroscopy
+      }
     }
   ]
 
@@ -59,9 +60,7 @@ const RssModeDistribution = ({proposals, semester, partner}) => {
 }
 
 RssModeDistribution.propTypes = {
-  proposals: PropTypes.array.isRequired,
-  partner: PropTypes.string.isRequired,
-  semester: PropTypes.string.isRequired
+  numberOfConfigurationsPerRssObservingMode: PropTypes.object.isRequired,
 }
 
 export default RssModeDistribution

@@ -297,6 +297,14 @@ export function queryStatistics (semester, partner) {
   const query = `
     {
       statistics(semester:"${ semester }" ${ par }){
+        proposalStatistics{
+          numberOfProposals
+          newProposals
+          thesisProposals
+          p4Proposals
+          longTermProposals
+          newLongTermProposals
+        }
         instruments{
           timeRequestedPerInstrument{
             bvit

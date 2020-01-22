@@ -1,38 +1,34 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { observingTimeForInstrument } from '../../util'
 import Histogram from './Histogram'
 
-const HrsModeDistribution = ({proposals, semester, partner}) => {
+const HrsModeDistribution = ({timeRequestedPerHrsExposure}) => {
   const exposureModes = [
     'HIGH RESOLUTION',
     'HIGH STABILITY',
     'LOW RESOLUTION',
-    'MEDIUM RESOLUTION'
+    'MEDIUM RESOLUTION',
+    'INT CAL FIBRE'
   ]
-	
-  const observingTimes = (part) => exposureModes
-    .reduce((prev, exposureMode) => ({
-      ...prev,
-      [ exposureMode ]: observingTimeForInstrument(proposals,
-        semester,
-        'HRS',
-        {
-          field: 'exposureMode',
-          value: exposureMode,
-          partner: part
-        }) / 3600
-    }), {})
+  const {
+    lowResolution,
+    mediumResolution,
+    highResolution,
+    highStability,
+    intCalFibre
+  } = timeRequestedPerHrsExposure
 	
   const datasets = [
     {
       className: 'all-partners',
-      data: observingTimes()
-    },
-    {
-      className: 'partner-only',
-      data: observingTimes(partner)
+      data: {
+        'HIGH RESOLUTION': highResolution,
+        'HIGH STABILITY': highStability,
+        'LOW RESOLUTION': lowResolution,
+        'MEDIUM RESOLUTION': mediumResolution,
+        'INT CAL FIBRE': intCalFibre
+      }
     }
   ]
 	
@@ -54,9 +50,7 @@ const HrsModeDistribution = ({proposals, semester, partner}) => {
 }
 
 HrsModeDistribution.propTypes = {
-  proposals: PropTypes.array.isRequired,
-  partner: PropTypes.string.isRequired,
-  semester: PropTypes.string.isRequired
+  timeRequestedPerHrsExposure: PropTypes.object.isRequired
 }
 
 export default HrsModeDistribution

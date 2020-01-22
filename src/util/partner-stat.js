@@ -214,7 +214,6 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
   let p0p1Observed = 0
   let p2Observed = 0
   let p3Observed = 0
-
   proposals.forEach(p => {
     // filter the time allocated by semester and priorities
     const p0p1TimeAllocations = p.timeAllocations.filter((t) =>

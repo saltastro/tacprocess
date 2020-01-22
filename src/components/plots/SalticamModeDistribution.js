@@ -1,38 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { observingTimeForInstrument } from '../../util'
 import Histogram from './Histogram'
 
-const SalticamModeDistribution = ({proposals, semester, partner}) => {
+const SalticamModeDistribution = ({timeRequestedPerSalticamDetector}) => {
   const detectorModes = [
     'DRIFTSCAN',
     'FRAME XFER',
     'NORMAL',
     'SLOT'
   ]
-	
-  const observingTimes = (part) => detectorModes
-    .reduce((prev, detectorMode) => ({
-      ...prev,
-      [ detectorMode ]: observingTimeForInstrument(proposals,
-        semester,
-        'SCAM',
-        {
-          field: 'detectorMode',
-          value: detectorMode,
-          partner: part
-        }) / 3600
-    }), {})
-	
+  const {
+    driftScan,
+    frameTransfer,
+    normal,
+    slotMode
+  } = timeRequestedPerSalticamDetector
+
   const datasets = [
     {
       className: 'all-partners',
-      data: observingTimes()
-    },
-    {
-      className: 'partner-only',
-      data: observingTimes(partner)
+      data: {
+        'DRIFTSCAN': driftScan,
+        'FRAME XFER': frameTransfer,
+        'NORMAL': normal,
+        'SLOT': slotMode
+      }
     }
   ]
 	
@@ -54,9 +47,7 @@ const SalticamModeDistribution = ({proposals, semester, partner}) => {
 }
 
 SalticamModeDistribution.propTypes = {
-  proposals: PropTypes.array.isRequired,
-  partner: PropTypes.string.isRequired,
-  semester: PropTypes.string.isRequired
+  timeRequestedPerSalticamDetector: PropTypes.object.isRequired
 }
 
 export default SalticamModeDistribution

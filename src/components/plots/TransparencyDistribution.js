@@ -1,34 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { observingTimeForTransparency } from '../../util'
 import Histogram from './Histogram'
 
 /**
  *
  */
-const TransparencyDistribution = ({proposals, semester, partner}) => {
+const TransparencyDistribution = ({ observingConditionsClouds }) => {
   const transparencies = ['Clear', 'Thin cloud', 'Thick Cloud', 'Any']
-
-  // generate an object of transparencies and observing times
-  const observingTimes = (part) => transparencies
-    .reduce((prev, transparency) =>
-      ({
-        ...prev,
-        [ transparency ]: observingTimeForTransparency(proposals,
-          semester,
-          transparency,
-          part) / 3600
-      }), {})
 
   const datasets = [
     {
       className: 'all-partners',
-      data: observingTimes()
-    },
-    {
-      className: 'partner-only',
-      data: observingTimes(partner)
+      data: {
+        'Clear': observingConditionsClouds.timeRequested.clear,
+        'Thin cloud': observingConditionsClouds.timeRequested.thinCloud,
+        'Thick Cloud': observingConditionsClouds.timeRequested.thickCloud,
+        'Any': observingConditionsClouds.timeRequested.any
+      }
     }
   ]
 
@@ -40,9 +29,7 @@ const TransparencyDistribution = ({proposals, semester, partner}) => {
 }
 
 TransparencyDistribution.propTypes = {
-  proposals: PropTypes.array.isRequired,
-  partner: PropTypes.string.isRequired,
-  semester: PropTypes.string.isRequired
+  observingConditionsClouds: PropTypes.object.isRequired
 }
 
 export default TransparencyDistribution

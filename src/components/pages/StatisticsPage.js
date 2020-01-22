@@ -32,7 +32,7 @@ class StatisticsPage extends React.Component {
     /* this will require me to difine a shape on PropTypes  */
 		
     const { filters, allocatedTime, targets, proposalsData, roles, statistics } = this.props
-    const { observingConditions, instruments } = statistics
+    const { observingConditions, instruments, proposalStatistics } = statistics
     const partner = filters.selectedPartner || ''
     const semester = filters.selectedSemester
     if(proposalsData.fetching){
@@ -55,7 +55,7 @@ class StatisticsPage extends React.Component {
       <div>
 				
         <div className='stat-wrapper'>
-          <ProposalCountTable proposals={ proposals }/>
+          <ProposalCountTable proposalStatistics={ proposalStatistics } />
           <PartnerTimeTable proposals={ proposals } allocatedTime={ allocatedTime } partner={ partner } semester={ semester }/>
         </div>
         <h2><br/>Number of proposals vs Requested time</h2>
