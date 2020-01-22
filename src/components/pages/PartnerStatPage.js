@@ -25,7 +25,6 @@ class PartnerStatPage extends React.Component {
       semester,
       partner,
       selectedLiaison,
-      partnerShareTimes,
       totalObservation,
       statistics,
       loading,
@@ -90,11 +89,7 @@ class PartnerStatPage extends React.Component {
 
         <div>
           <PartnerSummaryStatTable
-            user={ user }
-            proposals={ proposals }
-            semester={ semester }
             partner={ partner }
-            partnerShareTimes={ partnerShareTimes }
             completion = { completion }
             totalObservation={ totalObservation }
           />
@@ -135,7 +130,6 @@ PartnerStatPage.propTypes = {
   semester: propTypes.string.isRequired,
   partner: propTypes.string.isRequired,
   selectedLiaison: propTypes.string.isRequired,
-  partnerShareTimes: propTypes.array.isRequired,
   statistics: propTypes.object.isRequired,
   dispatch: propTypes.func.isRequired,
   loading: propTypes.bool.isRequired,
