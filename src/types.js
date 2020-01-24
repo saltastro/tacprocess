@@ -1,5 +1,8 @@
 export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 export const SALT_SERVER_API_URL = process.env.REACT_APP_SALT_SERVER_API_URL
+ export const FRACTION_DIGITS_2 = 2
+ export const FRACTION_DIGITS_1 = 1
+ export const P3_OVERALLOCATION_FACTOR = 3
 
 export const USER_LOGGED_IN = 'USER_LOGGED_IN'
 export const USER_LOGGED_OUT = 'USER_LOGGED_OUT'

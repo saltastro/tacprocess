@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Histogram from './Histogram'
 
 const HrsModeDistribution = ({timeRequestedPerHrsExposure}) => {
-  const exposureModes = [
+  const resolutionModes = [
     'HIGH RESOLUTION',
     'HIGH STABILITY',
     'LOW RESOLUTION',
@@ -33,7 +33,7 @@ const HrsModeDistribution = ({timeRequestedPerHrsExposure}) => {
   ]
 	
   return <Histogram
-    keys={ exposureModes }
+    keys={ resolutionModes }
     datasets={ datasets }
     xLabel=''
     yLabel='Requested Time (hrs)'

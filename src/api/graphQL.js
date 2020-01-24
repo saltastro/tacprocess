@@ -318,40 +318,40 @@ export function queryStatistics (semester, partner) {
             rss
             salticam
           }
-          timeRequestedPerRssDetector{
+          timeRequestedPerRssDetectorMode{
             driftScan
             frameTransfer
             normal
             shuffle
             slotMode
           }
-          numberOfConfigurationsPerRssDetector{
+          numberOfConfigurationsPerRssDetectorMode{
             driftScan
             frameTransfer
             normal
             shuffle
             slotMode
           }
-          timeRequestedPerSalticamDetector{
+          timeRequestedPerSalticamDetectorMode{
             driftScan
             frameTransfer
             normal
             slotMode
           }
-          numberOfConfigurationsPerSalticamDetector{
+          numberOfConfigurationsPerSalticamDetectorMode{
             driftScan
             frameTransfer
             normal
             slotMode
           }
-          timeRequestedPerHrsExposure{
+          timeRequestedPerHrsResolution{
             lowResolution
             mediumResolution
             highResolution
             highStability
             intCalFibre
           }
-          numberOfConfigurationsPerHrsExposure{
+          numberOfConfigurationsPerHrsResolution{
             lowResolution
             mediumResolution
             highResolution

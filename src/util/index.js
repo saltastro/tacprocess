@@ -465,3 +465,11 @@ export function removeTacMembers(partner, members) {
   .then(res => console.log(res)) // eslint-disable-next-line
   .catch(err => console.error(err))
 }
+
+export function getPercentage(divided, divisor) {
+  return ((divided)/divisor)*100
+}
+
+export function removeDot00(number) {
+  return number.replace(/\.00$/, '')
+}

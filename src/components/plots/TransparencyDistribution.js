@@ -6,17 +6,18 @@ import Histogram from './Histogram'
 /**
  *
  */
-const TransparencyDistribution = ({ observingConditionsClouds }) => {
+const TransparencyDistribution = ({ transparencyDistribution }) => {
   const transparencies = ['Clear', 'Thin cloud', 'Thick Cloud', 'Any']
+  const { clear, thinCloud, thickCloud, any } = transparencyDistribution.timeRequested
 
   const datasets = [
     {
       className: 'all-partners',
       data: {
-        'Clear': observingConditionsClouds.timeRequested.clear,
-        'Thin cloud': observingConditionsClouds.timeRequested.thinCloud,
-        'Thick Cloud': observingConditionsClouds.timeRequested.thickCloud,
-        'Any': observingConditionsClouds.timeRequested.any
+        'Clear': clear,
+        'Thin cloud': thinCloud,
+        'Thick Cloud': thickCloud,
+        'Any': any
       }
     }
   ]
@@ -29,7 +30,7 @@ const TransparencyDistribution = ({ observingConditionsClouds }) => {
 }
 
 TransparencyDistribution.propTypes = {
-  observingConditionsClouds: PropTypes.object.isRequired
+  transparencyDistribution: PropTypes.object.isRequired
 }
 
 export default TransparencyDistribution

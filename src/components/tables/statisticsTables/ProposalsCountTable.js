@@ -42,7 +42,7 @@ const ProposalCountTable = ({ proposalStatistics }) => {
             <td>{newLongTermProposals}</td>
           </tr>
           <tr>
-            <td>Thesis projects </td>
+            <td>Thesis proposal </td>
             <td>{thesisProposals}</td>
           </tr>
           <tr>

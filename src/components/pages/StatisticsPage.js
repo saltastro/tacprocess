@@ -85,16 +85,16 @@ class StatisticsPage extends React.Component {
 
         <h2>Seeing requests</h2>
         <div className='stat-wrapper-center'>
-          <ObservingStatisticsSeeing observingConditionsSeeing={ observingConditions.seeing }/>
+          <ObservingStatisticsSeeing seeingDistribution={ observingConditions.seeing }/>
         </div>
 
         <h2>Observing Conditions</h2>
         <div className='stat-wrapper'>
           <TransparencyDistribution
-            observingConditionsClouds={ observingConditions.clouds }
+            transparencyDistribution={ observingConditions.clouds }
           />
           <ObservingStatisticsTransparency
-            observingConditionsClouds={ observingConditions.clouds }
+            transparencyDistribution={ observingConditions.clouds }
           />
         </div>
 
