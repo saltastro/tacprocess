@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Histogram from './Histogram'
 
-const SalticamModeDistribution = ({timeRequestedPerSalticamDetector}) => {
+const SalticamModeDistribution = ({timeRequestedPerSalticamDetectorMode}) => {
   const detectorModes = [
     'DRIFTSCAN',
     'FRAME XFER',
@@ -15,7 +15,7 @@ const SalticamModeDistribution = ({timeRequestedPerSalticamDetector}) => {
     frameTransfer,
     normal,
     slotMode
-  } = timeRequestedPerSalticamDetector
+  } = timeRequestedPerSalticamDetectorMode
 
   const datasets = [
     {
@@ -47,7 +47,7 @@ const SalticamModeDistribution = ({timeRequestedPerSalticamDetector}) => {
 }
 
 SalticamModeDistribution.propTypes = {
-  timeRequestedPerSalticamDetector: PropTypes.object.isRequired
+  timeRequestedPerSalticamDetectorMode: PropTypes.object.isRequired
 }
 
 export default SalticamModeDistribution

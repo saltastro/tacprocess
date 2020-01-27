@@ -1,6 +1,7 @@
 import React from 'react'
 import propTypes from 'prop-types'
 import { FRACTION_DIGITS_1, FRACTION_DIGITS_2 } from '../../../types'
+import { getPercentage } from '../../../util'
 
 const ObservingStatisticsSeeing = ({ seeingDistribution }) => {
   const { numberOfProposals, timeRequested } = seeingDistribution

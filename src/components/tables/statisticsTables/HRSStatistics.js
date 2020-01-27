@@ -1,7 +1,7 @@
 import React from 'react'
 import propTypes from 'prop-types'
 
-const HRSStatistics = ({numberOfConfigurationsPerHrsExposure}) => {
+const HRSStatistics = ({numberOfConfigurationsPerHrsResolution}) => {
 
   const {
     lowResolution,
@@ -9,7 +9,7 @@ const HRSStatistics = ({numberOfConfigurationsPerHrsExposure}) => {
     highResolution,
     highStability,
     intCalFibre
-  } = numberOfConfigurationsPerHrsExposure
+  } = numberOfConfigurationsPerHrsResolution
   return(
     <div  className='stat-item' style={ {textAlign: 'center'} }>
       <table className='stat-table'>
@@ -47,7 +47,7 @@ const HRSStatistics = ({numberOfConfigurationsPerHrsExposure}) => {
 }
 
 HRSStatistics.propTypes = {
-  numberOfConfigurationsPerHrsExposure: propTypes.object.isRequired,
+  numberOfConfigurationsPerHrsResolution: propTypes.object.isRequired,
 }
 
 export default HRSStatistics

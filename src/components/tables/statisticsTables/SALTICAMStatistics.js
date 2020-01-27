@@ -1,13 +1,13 @@
 import React from 'react'
 import propTypes from 'prop-types'
 
-const SALTICAMStatistics = ({numberOfConfigurationsPerSalticamDetector}) => {
+const SALTICAMStatistics = ({numberOfConfigurationsPerSalticamDetectorMode}) => {
   const {
     driftScan,
     frameTransfer,
     normal,
     slotMode
-  } = numberOfConfigurationsPerSalticamDetector
+  } = numberOfConfigurationsPerSalticamDetectorMode
   return(
     <div  className='stat-item' style={ {textAlign: 'center'} }>
       <table className='stat-table'>
@@ -41,7 +41,7 @@ const SALTICAMStatistics = ({numberOfConfigurationsPerSalticamDetector}) => {
 }
 
 SALTICAMStatistics.propTypes = {
-  numberOfConfigurationsPerSalticamDetector: propTypes.object.isRequired,
+  numberOfConfigurationsPerSalticamDetectorMode: propTypes.object.isRequired,
 }
 
 export default SALTICAMStatistics

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Histogram from './Histogram'
 
-const HrsModeDistribution = ({timeRequestedPerHrsExposure}) => {
+const HrsModeDistribution = ({timeRequestedPerHrsResolution}) => {
   const resolutionModes = [
     'HIGH RESOLUTION',
     'HIGH STABILITY',
@@ -17,7 +17,7 @@ const HrsModeDistribution = ({timeRequestedPerHrsExposure}) => {
     highResolution,
     highStability,
     intCalFibre
-  } = timeRequestedPerHrsExposure
+  } = timeRequestedPerHrsResolution
 	
   const datasets = [
     {
@@ -50,7 +50,7 @@ const HrsModeDistribution = ({timeRequestedPerHrsExposure}) => {
 }
 
 HrsModeDistribution.propTypes = {
-  timeRequestedPerHrsExposure: PropTypes.object.isRequired
+  timeRequestedPerHrsResolution: PropTypes.object.isRequired
 }
 
 export default HrsModeDistribution

@@ -1,8 +1,8 @@
 import React from 'react'
 import propTypes from 'prop-types'
 
-const RSSDetectorModeTable = ({numberOfConfigurationsPerRssDetector}) => {
-  const { driftScan, frameTransfer, normal, shuffle, slotMode } = numberOfConfigurationsPerRssDetector
+const RSSDetectorModeTable = ({numberOfConfigurationsPerRssDetectorMode}) => {
+  const { driftScan, frameTransfer, normal, shuffle, slotMode } = numberOfConfigurationsPerRssDetectorMode
   return(
     <div className='stat-item' style={ {textAlign: 'center', width: '100%'} }>
 	        <h2>RSS Detector Mode</h2>
@@ -42,7 +42,7 @@ const RSSDetectorModeTable = ({numberOfConfigurationsPerRssDetector}) => {
 }
 
 RSSDetectorModeTable.propTypes = {
-	numberOfConfigurationsPerRssDetector: propTypes.object.isRequired,
+	numberOfConfigurationsPerRssDetectorMode: propTypes.object.isRequired,
 }
 
 export default RSSDetectorModeTable

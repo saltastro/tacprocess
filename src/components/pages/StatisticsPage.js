@@ -105,7 +105,7 @@ class StatisticsPage extends React.Component {
           <ConfigurationsStatistics numberOfConfigurationsPerInstrument={ instruments.numberOfConfigurationsPerInstrument }/>
         </div>
         <div  className='stat-wrapper-center'>
-          <RSSDetectorModeTable numberOfConfigurationsPerRssDetector={ instruments.numberOfConfigurationsPerRssDetector }/>
+          <RSSDetectorModeTable numberOfConfigurationsPerRssDetectorMode={ instruments.numberOfConfigurationsPerRssDetectorMode }/>
         </div>
         <div  className='stat-wrapper'>
           <RssModeDistribution
@@ -116,16 +116,16 @@ class StatisticsPage extends React.Component {
         <h2>HRS Detector Mode</h2>
         <div  className='stat-wrapper'>
           <HrsModeDistribution
-            timeRequestedPerHrsExposure={ instruments.timeRequestedPerHrsExposure }
+            timeRequestedPerHrsResolution={ instruments.timeRequestedPerHrsResolution }
           />
-          <HRSStatistics numberOfConfigurationsPerHrsExposure={ instruments.numberOfConfigurationsPerHrsExposure }/>
+          <HRSStatistics numberOfConfigurationsPerHrsResolution={ instruments.numberOfConfigurationsPerHrsResolution }/>
         </div>
         <h2>Salticam Detector Mode</h2>
         <div className='stat-wrapper'>
           <SalticamModeDistribution
-            timeRequestedPerSalticamDetector={ instruments.timeRequestedPerSalticamDetector }
+            timeRequestedPerSalticamDetectorMode={ instruments.timeRequestedPerSalticamDetectorMode }
           />
-          <SALTICAMStatistics numberOfConfigurationsPerSalticamDetector={ instruments.numberOfConfigurationsPerSalticamDetector }/>
+          <SALTICAMStatistics numberOfConfigurationsPerSalticamDetectorMode={ instruments.numberOfConfigurationsPerSalticamDetectorMode }/>
         </div>
       </div>
     )

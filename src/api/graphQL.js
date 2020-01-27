@@ -313,7 +313,7 @@ export function queryStatistics (semester, partner) {
             salticam
           }
           numberOfConfigurationsPerInstrument{
-             bvit
+            bvit
             hrs
             rss
             salticam
