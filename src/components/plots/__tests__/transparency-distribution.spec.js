@@ -2,7 +2,7 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import { shallow, mount, render } from 'enzyme'
 import { shallowToJson } from 'enzyme-to-json'
-import TransparencyDistribution from './TransparencyDistribution'
+import TransparencyDistribution from './TransparencyDistributionHistogram'
 import {observingTimeForTransparency} from '../../util'
 
 const proposals = [{
@@ -49,26 +49,26 @@ const proposals = [{
   }
 ]
 
-// Checking if the TransparencyDistribution Component renders correctly for different input
-describe('TransparencyDistribution Component', () => {
+// Checking if the TransparencyDistributionHistogram Component renders correctly for different input
+describe('TransparencyDistributionHistogram Component', () => {
   const semester = '2017-1'
   const partner = 'UW'
 
   // Enzyme method testing if it renders correctly with empty values of the proposals, semester, and partner
-  it('Render the TransparencyDistribution Component having unpopulated props with no errors', () => {
+  it('Render the TransparencyDistributionHistogram Component having unpopulated props with no errors', () => {
     const rendered = mount(<TransparencyDistribution proposals={ [] } semester='' partner=''  />)
     expect(shallowToJson(rendered)).toMatchSnapshot()
   })
 
-  it('Render the TransparencyDistribution Component having unpopulated props with no errors', () => {
+  it('Render the TransparencyDistributionHistogram Component having unpopulated props with no errors', () => {
     const rendered = mount(<TransparencyDistribution proposals={ proposals } semester={ semester } partner={ semester }  />)
     expect(shallowToJson(rendered)).toMatchSnapshot()
   })
 
 })
 
-// Checking the observing time for the TransparencyDistribution
-describe('Observing time for the TransparencyDistribution', () => {
+// Checking the observing time for the TransparencyDistributionHistogram
+describe('Observing time for the TransparencyDistributionHistogram', () => {
   // Testing for a wrong semester
   it('Should return zero for a wrong semester', () => {
     const result = observingTimeForTransparency(proposals, '2019-1', 'Thin cloud')
@@ -82,21 +82,21 @@ describe('Observing time for the TransparencyDistribution', () => {
   })
 
   // Testing for the correct semester and partner
-  it('Should return the correct observing time for the TransparencyDistribution for a semester and partner', () => {
+  it('Should return the correct observing time for the TransparencyDistributionHistogram for a semester and partner', () => {
     const result = observingTimeForTransparency(proposals, '2018-1', 'Thin cloud', 'RSA')
     expect(result).toBe(100)
   })
-  it('Should return the correct observing time for the TransparencyDistribution for a semester and partner', () => {
+  it('Should return the correct observing time for the TransparencyDistributionHistogram for a semester and partner', () => {
     const result = observingTimeForTransparency(proposals, '2018-1', 'Clear', 'UW')
     expect(result).toBe(750)
   })
-  it('Should return the correct observing time for the TransparencyDistribution for a semester and partner', () => {
+  it('Should return the correct observing time for the TransparencyDistributionHistogram for a semester and partner', () => {
     const result = observingTimeForTransparency(proposals, '2017-1', 'Clear', 'RSA')
     expect(result).toBe(800)
   })
 
   // Testing for the correct semester and all partners
-  it('Should return the correct observing time for the TransparencyDistribution for a semester and all partner', () => {
+  it('Should return the correct observing time for the TransparencyDistributionHistogram for a semester and all partner', () => {
     const result = observingTimeForTransparency(proposals, '2018-1', 'Thin cloud', 'All')
     expect(result).toBe(700)
     const result1 = observingTimeForTransparency(proposals, '2018-1', 'Thin cloud')

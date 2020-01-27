@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import { submitCompletionComment, updateCompletenessComment } from '../../actions/partnerStatProposalsActions'
 import PartnerStatTable from '../tables/PartnerStatTable'
 import PartnerSummaryStatTable from '../tables/PartnerSummaryStatTable'
-import TransparencyDistribution from '../plots/TransparencyDistribution'
-import ObservingStatisticsTransparency from '../tables/statisticsTables/ObservingStatisticsTransparacy'
+import TransparencyDistributionHistogram from '../plots/TransparencyDistributionHistogram'
+import TransparencyDistributionTable from '../tables/statisticsTables/ObservingStatisticsTransparacy'
 import TimeBreakdownDistribution from '../plots/TimeBreakdownDistribution'
 import ObservingStatisticsTimeBreakdown from '../tables/statisticsTables/ObservingStatisticsTimeBreakdown'
 
@@ -65,10 +65,10 @@ class PartnerStatPage extends React.Component {
 
         <h2>Observing Conditions</h2>
         <div className='stat-wrapper'>
-          <TransparencyDistribution
+          <TransparencyDistributionHistogram
             transparencyDistribution={ observingConditions.clouds }
           />
-          <ObservingStatisticsTransparency
+          <TransparencyDistributionTable
             transparencyDistribution={ observingConditions.clouds }
           />
         </div>

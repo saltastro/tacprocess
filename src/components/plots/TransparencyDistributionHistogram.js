@@ -6,7 +6,7 @@ import Histogram from './Histogram'
 /**
  *
  */
-const TransparencyDistribution = ({ transparencyDistribution }) => {
+const TransparencyDistributionHistogram = ({ transparencyDistribution }) => {
   const transparencies = ['Clear', 'Thin cloud', 'Thick Cloud', 'Any']
   const { clear, thinCloud, thickCloud, any } = transparencyDistribution.timeRequested
 
@@ -29,8 +29,8 @@ const TransparencyDistribution = ({ transparencyDistribution }) => {
     yLabel='Requested Time (hrs)'/>
 }
 
-TransparencyDistribution.propTypes = {
+TransparencyDistributionHistogram.propTypes = {
   transparencyDistribution: PropTypes.object.isRequired
 }
 
-export default TransparencyDistribution
+export default TransparencyDistributionHistogram

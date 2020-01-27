@@ -9,7 +9,7 @@ import DeclinationDistribution from '../plots/DeclinationDistribution'
 import RightAscensionDistribution from '../plots/RightAscensionDistribution'
 import SalticamModeDistribution from '../plots/SalticamModeDistribution'
 import TotalTimeDistribution from '../plots/TotalTimeDistribution'
-import TransparencyDistribution from '../plots/TransparencyDistribution'
+import TransparencyDistributionHistogram from '../plots/TransparencyDistributionHistogram'
 import TargetDistributionContourMap from '../plots/TargetDistributionContourMap'
 import TargetDistributionScatterPlot from '../plots/TargetDistributionScatterPlot'
 import PartnerTimeTable from '../tables/statisticsTables/PartnerTimeTable'
@@ -90,7 +90,7 @@ class StatisticsPage extends React.Component {
 
         <h2>Observing Conditions</h2>
         <div className='stat-wrapper'>
-          <TransparencyDistribution
+          <TransparencyDistributionHistogram
             transparencyDistribution={ observingConditions.clouds }
           />
           <ObservingStatisticsTransparency
