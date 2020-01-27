@@ -1,7 +1,6 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import { calculatePercentage } from '../../../util/partner-stat'
-import { removeDot00 } from '../../../util'
+import { getPercentage, rounded } from '../../../util'
 import { P3_OVERALLOCATION_FACTOR } from '../../../types'
 
 const PartnerSummaryStatTableRow1 = ({ partnerSummaryStat, totalObservation }) => {
@@ -21,21 +20,21 @@ const PartnerSummaryStatTableRow1 = ({ partnerSummaryStat, totalObservation }) =
       <td>{ partnerSummaryStat.summary.allocatedTime.p0 + partnerSummaryStat.summary.allocatedTime.p1 +
       partnerSummaryStat.summary.allocatedTime.p2 + partnerSummaryStat.summary.allocatedTime.p3 }</td>
       <td>{
-        removeDot00((partnerSummaryStat.summary.observedTime.p0 + partnerSummaryStat.summary.observedTime.p1).toFixed(2))}</td>
-      <td>{ removeDot00(partnerSummaryStat.summary.observedTime.p2.toFixed(2)) }</td>
-      <td>{ removeDot00(partnerSummaryStat.summary.observedTime.p3.toFixed(2)) }</td>
-      <td>{ removeDot00(totalObserved.toFixed(2)) }</td>
+        rounded((partnerSummaryStat.summary.observedTime.p0 + partnerSummaryStat.summary.observedTime.p1).toFixed(2))}</td>
+      <td>{ rounded(partnerSummaryStat.summary.observedTime.p2.toFixed(2)) }</td>
+      <td>{ rounded(partnerSummaryStat.summary.observedTime.p3.toFixed(2)) }</td>
+      <td>{ rounded(totalObserved.toFixed(2)) }</td>
       <td>{
-        removeDot00(calculatePercentage(partnerSummaryStat.summary.observedTime.p0 + partnerSummaryStat.summary.observedTime.p1,
+        rounded(getPercentage(partnerSummaryStat.summary.observedTime.p0 + partnerSummaryStat.summary.observedTime.p1,
           partnerSummaryStat.summary.allocatedTime.p0 + partnerSummaryStat.summary.allocatedTime.p1).toFixed(2)
         ) }%</td>
-      <td>{ removeDot00(calculatePercentage(partnerSummaryStat.summary.observedTime.p2, partnerSummaryStat.summary.allocatedTime.p2).toFixed(2)) }%</td>
-      <td>{ removeDot00(calculatePercentage(partnerSummaryStat.summary.observedTime.p3, partnerSummaryStat.summary.allocatedTime.p3/3).toFixed(2)) }%</td>
-      <td>{ removeDot00(calculatePercentage(totalObserved, partnerSummaryStat.summary.allocatedTime.p0 + partnerSummaryStat.summary.allocatedTime.p1 +
+      <td>{ rounded(getPercentage(partnerSummaryStat.summary.observedTime.p2, partnerSummaryStat.summary.allocatedTime.p2).toFixed(2)) }%</td>
+      <td>{ rounded(getPercentage(partnerSummaryStat.summary.observedTime.p3, partnerSummaryStat.summary.allocatedTime.p3/3).toFixed(2)) }%</td>
+      <td>{ rounded(getPercentage(totalObserved, partnerSummaryStat.summary.allocatedTime.p0 + partnerSummaryStat.summary.allocatedTime.p1 +
         partnerSummaryStat.summary.allocatedTime.p2 + partnerSummaryStat.summary.allocatedTime.p3/P3_OVERALLOCATION_FACTOR)  // as P3 time is over allocated by the factor of 3
       .toFixed(2)) }%</td>
-      <td>{ removeDot00(partnerSummaryStat.sharePercentage.toFixed(2)) }%</td>
-      <td>{ removeDot00(calculatePercentage(totalObserved, totalObservation).toFixed(2)) }%</td>
+      <td>{ rounded(partnerSummaryStat.sharePercentage.toFixed(2)) }%</td>
+      <td>{ rounded(getPercentage(totalObserved, totalObservation).toFixed(2)) }%</td>
     </tr>
   )
 }

@@ -3,6 +3,8 @@
  * @param array
  * @returns {number}
  */
+import { getPercentage } from './index'
+
 export const sumNumbers = (array) => array.reduce((a, b) => a + b, 0)
 
 /**
@@ -11,12 +13,6 @@ export const sumNumbers = (array) => array.reduce((a, b) => a + b, 0)
  * @param divisor
  * @returns {number}
  */
-export const calculatePercentage = (dividend, divisor) => {
-  if (divisor === 0) {
-    return 0
-  }
-  return (dividend / divisor) * 100
-}
 
 /**
  * A function to calculate total observation
@@ -83,7 +79,7 @@ export const statusPriority = (proposal, priorityType, statusType, semester, par
     priority: priorityType,
     allocatedTime: totalAllocTime,
     observedTime: totalObsTime,
-    percentage: calculatePercentage(totalObsTime, totalAllocTime).toFixed(2),
+    percentage: getPercentage(totalObsTime, totalAllocTime).toFixed(2),
     remainder: remainingAllocatedTime
   }
 }
@@ -266,7 +262,7 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
   // calculating the total observed time for the partner or all the partners
   const totalObserved = p0p1Observed + p2Observed + p3Observed
   // Observed share time in percent
-  const partnerObservedShareTime = calculatePercentage(totalObserved, totalObservation)
+  const partnerObservedShareTime = getPercentage(totalObserved, totalObservation)
 
   return {
     allocatedTime: {
@@ -282,10 +278,10 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
       total: totalObserved.toFixed(0)
     },
     completeness: {
-      p0p1: calculatePercentage(p0p1Observed, p0p1Allocated).toFixed(2),
-      p2: calculatePercentage(p2Observed, p2Allocated).toFixed(2),
-      p3: calculatePercentage(p3Observed, (p3Allocated / 3)).toFixed(2),
-      total: calculatePercentage(totalObserved, p0p1Allocated + p2Allocated + p3Allocated / 3).toFixed(2)
+      p0p1: getPercentage(p0p1Observed, p0p1Allocated).toFixed(2),
+      p2: getPercentage(p2Observed, p2Allocated).toFixed(2),
+      p3: getPercentage(p3Observed, (p3Allocated / 3)).toFixed(2),
+      total: getPercentage(totalObserved, p0p1Allocated + p2Allocated + p3Allocated / 3).toFixed(2)
     },
     partnerAllocatedShareTime,
     partnerObservedShareTime: partnerObservedShareTime.toFixed(2)

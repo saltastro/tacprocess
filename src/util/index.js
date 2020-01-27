@@ -467,9 +467,12 @@ export function removeTacMembers(partner, members) {
 }
 
 export function getPercentage(divided, divisor) {
+  if (divisor === 0) {
+    return 0
+  }
   return ((divided)/divisor)*100
 }
 
-export function removeDot00(number) {
+export function rounded(number) {
   return number.replace(/\.00$/, '')
 }
