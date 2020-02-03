@@ -297,68 +297,54 @@ export function queryStatistics (semester, partner) {
   const query = `
     {
       statistics(semester:"${ semester }" ${ par }){
-        proposalStatistics{
+        proposals{
           numberOfProposals
           newProposals
           thesisProposals
           p4Proposals
           longTermProposals
           newLongTermProposals
-        }
+            }
         instruments{
-          timeRequestedPerInstrument{
-            bvit
-            hrs
-            rss
-            salticam
-          }
-          numberOfConfigurationsPerInstrument{
-            bvit
-            hrs
-            rss
-            salticam
-          }
-          timeRequestedPerRssDetectorMode{
-            driftScan
-            frameTransfer
-            normal
-            shuffle
-            slotMode
-          }
-          numberOfConfigurationsPerRssDetectorMode{
-            driftScan
-            frameTransfer
-            normal
-            shuffle
-            slotMode
-          }
-          timeRequestedPerSalticamDetectorMode{
-            driftScan
-            frameTransfer
-            normal
-            slotMode
-          }
-          numberOfConfigurationsPerSalticamDetectorMode{
-            driftScan
-            frameTransfer
-            normal
-            slotMode
-          }
-          timeRequestedPerHrsResolution{
+          bvitRequestedTotal
+          hrsRequestedTotal
+          rssRequestedTotal
+          scamRequestedTotal
+          
+          bvitTotal
+          hrsTotal
+          rssTotal
+          scamTotal
+          
+          hrsResolutionRequestedTotal{
             lowResolution
             mediumResolution
             highResolution
             highStability
             intCalFibre
           }
-          numberOfConfigurationsPerHrsResolution{
+          hrsResolutionTotal{
             lowResolution
             mediumResolution
             highResolution
             highStability
             intCalFibre
           }
-          timeRequestedPerRssObservingMode{
+          rssDetectorModeTotal{
+            driftScan
+            frameTransfer
+            normal
+            shuffle
+            slotMode
+          }
+          rssDetectorModeRequestedTotal{
+            driftScan
+            frameTransfer
+            normal
+            shuffle
+            slotMode
+          }
+          rssObservingModeRequestedTotal{
             fabryPerot
             mos
             mosPolarimetry
@@ -368,7 +354,7 @@ export function queryStatistics (semester, partner) {
             imaging
             polarimetricImaging
           }
-          numberOfConfigurationsPerRssObservingMode{
+          rssObservingModeTotal{
             fabryPerot
             mos
             mosPolarimetry
@@ -377,6 +363,18 @@ export function queryStatistics (semester, partner) {
             spectropolarimetry
             imaging
             polarimetricImaging
+          }
+          salticamDetectorModeRequestedTotal{
+            driftScan
+            frameTransfer
+            normal
+            slotMode
+          }
+          salticamDetectorModeTotal{
+            driftScan
+            frameTransfer
+            normal
+            slotMode
           }
         }
         observingConditions{
@@ -384,17 +382,19 @@ export function queryStatistics (semester, partner) {
             timeRequested{
               lessEqual1Dot5
               lessEqual2
+              lessEqual2Dot5
               lessEqual3
               moreThan3
             }
             numberOfProposals{
               lessEqual1Dot5
               lessEqual2
+              lessEqual2Dot5
               lessEqual3
               moreThan3
             }
           }
-          clouds{
+          transparency{
             timeRequested{
               any
               clear

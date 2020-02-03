@@ -32,9 +32,10 @@ class StatisticsPage extends React.Component {
     /* this will require me to difine a shape on PropTypes  */
 		
     const { filters, allocatedTime, targets, proposalsData, roles, statistics } = this.props
-    const { observingConditions, instruments, proposalStatistics } = statistics
+    const { observingConditions, instruments, proposals: proposalStatistics } = statistics
     const partner = filters.selectedPartner || ''
     const semester = filters.selectedSemester
+    console.log(instruments)
     if(proposalsData.fetching){
       return(
         <div className='spinner'>
@@ -55,7 +56,7 @@ class StatisticsPage extends React.Component {
       <div>
 				
         <div className='stat-wrapper'>
-          <ProposalCountTable proposalStatistics={ proposalStatistics } />
+          <ProposalCountTable proposal={ proposalStatistics } />
           <PartnerTimeTable proposals={ proposals } allocatedTime={ allocatedTime } partner={ partner } semester={ semester }/>
         </div>
         <h2><br/>Number of proposals vs Requested time</h2>
@@ -91,41 +92,53 @@ class StatisticsPage extends React.Component {
         <h2>Observing Conditions</h2>
         <div className='stat-wrapper'>
           <TransparencyDistributionHistogram
-            transparencyDistribution={ observingConditions.clouds }
+            transparencyDistribution={ observingConditions.transparency }
           />
           <ObservingStatisticsTransparency
-            transparencyDistribution={ observingConditions.clouds }
+            transparencyDistribution={ observingConditions.transparency }
           />
         </div>
 
         <div className='stat-wrapper'>
           <InstrumentDistribution
-            timeRequestedPerInstrument={ instruments.timeRequestedPerInstrument }
+            timeRequestedPerInstrument={ {
+              salticam: instruments.scamRequestedTotal,
+              rss: instruments.rssRequestedTotal,
+              hrs: instruments.hrsRequestedTotal,
+              bvit: instruments.bvitRequestedTotal
+            } }
           />
-          <ConfigurationsStatistics numberOfConfigurationsPerInstrument={ instruments.numberOfConfigurationsPerInstrument }/>
+          <ConfigurationsStatistics numberOfConfigurationsPerInstrument={ {
+            salticam: instruments.scamTotal,
+            rss: instruments.rssTotal,
+            hrs: instruments.hrsTotal,
+            bvit: instruments.bvitTotal
+          } }/>
         </div>
         <div  className='stat-wrapper-center'>
-          <RSSDetectorModeTable numberOfConfigurationsPerRssDetectorMode={ instruments.numberOfConfigurationsPerRssDetectorMode }/>
+          <RSSDetectorModeTable numberOfConfigurationsPerRssDetectorMode={ instruments.rssDetectorModeTotal }/>
         </div>
         <div  className='stat-wrapper'>
           <RssModeDistribution
-            numberOfConfigurationsPerRssObservingMode={ instruments.numberOfConfigurationsPerRssObservingMode }
+            numberOfConfigurationsPerRssObservingMode={ instruments.rssObservingModeTotal }
           />
-          <RSSObservingModeTable numberOfConfigurationsPerRssObservingMode={ instruments.numberOfConfigurationsPerRssObservingMode }/>
+          <RSSObservingModeTable numberOfConfigurationsPerRssObservingMode={ instruments.rssObservingModeRequestedTotal }/>
         </div>
         <h2>HRS Detector Mode</h2>
         <div  className='stat-wrapper'>
           <HrsModeDistribution
-            timeRequestedPerHrsResolution={ instruments.timeRequestedPerHrsResolution }
+            timeRequestedPerHrsResolution={ instruments. hrsResolutionRequestedTotal }
           />
-          <HRSStatistics numberOfConfigurationsPerHrsResolution={ instruments.numberOfConfigurationsPerHrsResolution }/>
+          <HRSStatistics numberOfConfigurationsPerHrsResolution={ instruments. hrsResolutionTotal }/>
         </div>
         <h2>Salticam Detector Mode</h2>
         <div className='stat-wrapper'>
           <SalticamModeDistribution
-            timeRequestedPerSalticamDetectorMode={ instruments.timeRequestedPerSalticamDetectorMode }
+            timeRequestedPerSalticamDetectorMode={ instruments.salticamDetectorModeRequestedTotal }
           />
-          <SALTICAMStatistics numberOfConfigurationsPerSalticamDetectorMode={ instruments.numberOfConfigurationsPerSalticamDetectorMode }/>
+          <SALTICAMStatistics
+            numberOfConfigurationsPerSalticamDetectorMode={ instruments.salticamDetectorModeTotal }
+          />
         </div>
       </div>
     )

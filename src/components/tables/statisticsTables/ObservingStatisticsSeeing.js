@@ -33,6 +33,12 @@ const ObservingStatisticsSeeing = ({ seeingDistribution }) => {
             <td>{ getPercentage(timeRequested.lessEqual2, totalReqTime).toFixed(LOW_PRECISION) }</td>
           </tr>
           <tr>
+            <td>Max Seeing <br /> &#x2266; 2.5</td>
+            <td>{ (timeRequested.lessEqual1Dot5).toFixed(HIGH_PRECISION) }</td>
+            <td>{ numberOfProposals.lessEqual1Dot5 }</td>
+            <td>{ getPercentage(timeRequested.lessEqual1Dot5, totalReqTime).toFixed(LOW_PRECISION) }</td>
+          </tr>
+          <tr>
             <td>Max Seeing <br /> &#x2266; 3.0</td>
             <td>{ (timeRequested.lessEqual3).toFixed(HIGH_PRECISION) }</td>
             <td>{ numberOfProposals.lessEqual3 }</td>

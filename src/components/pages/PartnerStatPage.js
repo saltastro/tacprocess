@@ -66,10 +66,10 @@ class PartnerStatPage extends React.Component {
         <h2>Observing Conditions</h2>
         <div className='stat-wrapper'>
           <TransparencyDistributionHistogram
-            transparencyDistribution={ observingConditions.clouds }
+            transparencyDistribution={ observingConditions.transparency }
           />
           <TransparencyDistributionTable
-            transparencyDistribution={ observingConditions.clouds }
+            transparencyDistribution={ observingConditions.transparency }
           />
         </div>
 
