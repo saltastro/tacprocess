@@ -1,6 +1,7 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import { getPercentage } from '../../../util'
+import { getPercentage, rounded } from '../../../util'
+import { LOW_PRECISION } from '../../../types'
 
 const ObservingStatisticsTransparency = ({ transparencyDistribution }) => {
   const { timeRequested, numberOfProposals } = transparencyDistribution
@@ -19,27 +20,27 @@ const ObservingStatisticsTransparency = ({ transparencyDistribution }) => {
         <tbody>
           <tr>
             <td>Clear</td>
-            <td>{ timeRequested.clear.toFixed(2) }</td>
+            <td>{ rounded(timeRequested.clear) }</td>
             <td>{ numberOfProposals.clear }</td>
-            <td>{ getPercentage(timeRequested.clear, totalReqTime).toFixed(1) }</td>
+            <td>{ rounded(getPercentage(timeRequested.clear, totalReqTime), LOW_PRECISION)}</td>
           </tr>
           <tr>
             <td>Thin cloud</td>
-            <td>{ timeRequested.thinCloud.toFixed(2) }</td>
+            <td>{ rounded(timeRequested.thinCloud) }</td>
             <td>{ numberOfProposals.thinCloud }</td>
-            <td>{ getPercentage(timeRequested.thinCloud, totalReqTime).toFixed(1) }</td>
+            <td>{ rounded(getPercentage(timeRequested.thinCloud, totalReqTime), LOW_PRECISION)}</td>
           </tr>
           <tr>
             <td>Thick cloud</td>
-            <td>{ timeRequested.thickCloud.toFixed(2)}</td>
+            <td>{ rounded(timeRequested.thickCloud)}</td>
             <td>{ numberOfProposals.thickCloud }</td>
-            <td>{ getPercentage(timeRequested.thickCloud, totalReqTime).toFixed(1)}</td>
+            <td>{ rounded(getPercentage(timeRequested.thickCloud, totalReqTime),LOW_PRECISION)}</td>
           </tr>
           <tr>
             <td>Any</td>
-            <td>{ timeRequested.any.toFixed(2) }</td>
+            <td>{ rounded(timeRequested.any) }</td>
             <td>{ numberOfProposals.any }</td>
-            <td>{ getPercentage(timeRequested.any, totalReqTime).toFixed(1) }</td>
+            <td>{ rounded(getPercentage(timeRequested.any, totalReqTime), LOW_PRECISION)}</td>
           </tr>
         </tbody>
       </table>

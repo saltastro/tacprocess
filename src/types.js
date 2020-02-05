@@ -1,7 +1,6 @@
 export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 export const SALT_SERVER_API_URL = process.env.REACT_APP_SALT_SERVER_API_URL
 
-export const HIGH_PRECISION = 2
 export const LOW_PRECISION = 1
 export const P3_OVERALLOCATION_FACTOR = 3
 

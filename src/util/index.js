@@ -473,6 +473,9 @@ export function getPercentage(divided, divisor) {
   return ((divided)/divisor)*100
 }
 
-export function rounded(number) {
-  return number.replace(/\.00$/, '')
+export function rounded(number, fixTo=2) {
+  if (number === 0) {
+    return 0
+  }
+  return number.toFixed(fixTo).replace(/\.00$/, '')
 }

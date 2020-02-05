@@ -3,7 +3,7 @@
  * @param array
  * @returns {number}
  */
-import { getPercentage } from './index'
+import { getPercentage, rounded } from './index'
 
 export const sumNumbers = (array) => array.reduce((a, b) => a + b, 0)
 
@@ -79,7 +79,7 @@ export const statusPriority = (proposal, priorityType, statusType, semester, par
     priority: priorityType,
     allocatedTime: totalAllocTime,
     observedTime: totalObsTime,
-    percentage: getPercentage(totalObsTime, totalAllocTime).toFixed(2),
+    percentage: rounded(getPercentage(totalObsTime, totalAllocTime)),
     remainder: remainingAllocatedTime
   }
 }
@@ -151,7 +151,7 @@ export const overallCompletionRate = (proposal, statusType, semester, partnerCod
   const completionOverallRate = allocatedTime !== 0
     ? observedTime / (allocatedTimeP0 + allocatedTimeP1 + allocatedTimeP2 + allocatedTimeP3 / 3) : 0
 
-  return allocatedTime !== 0 ? completionOverallRate.toFixed(2) : 'Nan'
+  return allocatedTime !== 0 ? rounded(completionOverallRate) : 'Nan'
 }
 
 /**
@@ -272,18 +272,18 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
       total: totalAllocated
     },
     observedTime: {
-      p0p1: p0p1Observed.toFixed(0),
-      p2: p2Observed.toFixed(0),
-      p3: p3Observed.toFixed(0),
-      total: totalObserved.toFixed(0)
+      p0p1: rounded(p0p1Observed, 0),
+      p2: rounded(p2Observed, 0),
+      p3: rounded(p3Observed, 0),
+      total: rounded(totalObserved, 0)
     },
     completeness: {
-      p0p1: getPercentage(p0p1Observed, p0p1Allocated).toFixed(2),
-      p2: getPercentage(p2Observed, p2Allocated).toFixed(2),
-      p3: getPercentage(p3Observed, (p3Allocated / 3)).toFixed(2),
-      total: getPercentage(totalObserved, p0p1Allocated + p2Allocated + p3Allocated / 3).toFixed(2)
+      p0p1: rounded(getPercentage(p0p1Observed, p0p1Allocated)),
+      p2: rounded(getPercentage(p2Observed, p2Allocated)),
+      p3: rounded(getPercentage(p3Observed, (p3Allocated / 3))),
+      total: rounded(getPercentage(totalObserved, p0p1Allocated + p2Allocated + p3Allocated / 3))
     },
     partnerAllocatedShareTime,
-    partnerObservedShareTime: partnerObservedShareTime.toFixed(2)
+    partnerObservedShareTime: rounded(partnerObservedShareTime)
   }
 }
