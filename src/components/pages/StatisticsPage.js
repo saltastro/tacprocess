@@ -122,7 +122,7 @@ class StatisticsPage extends React.Component {
           <RssModeDistribution
             numberOfConfigurationsPerRssObservingMode={ instruments.rssObservingModeTotal }
           />
-          <RSSObservingModeTable numberOfConfigurationsPerRssObservingMode={ instruments.rssObservingModeRequestedTotal }/>
+          <RSSObservingModeTable numberOfConfigurationsPerRssObservingMode={ instruments.rssObservingModeTotal }/>
         </div>
         <h2>HRS Detector Mode</h2>
         <div  className='stat-wrapper'>
