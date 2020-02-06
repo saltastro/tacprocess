@@ -32,8 +32,8 @@ const PartnerTimeTable = ({proposals, partner, allocatedTime, semester}) => {
           </tr>
           <tr>
             <td>Actual time available</td>
-
-            <td>{rounded(allocatedTimeSum/1.4) } </td>
+            {/* TODO:  find out why divide by the factor of 1.4 */}
+            <td>{rounded(allocatedTimeSum/1.4)  } </td>
           </tr>
 
           <tr>
