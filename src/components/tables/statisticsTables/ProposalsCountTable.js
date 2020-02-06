@@ -1,7 +1,7 @@
 import React from 'react'
 import propTypes from 'prop-types'
 
-const ProposalCountTable = ({ proposal }) => {
+const ProposalCountTable = ({ proposalStatistics }) => {
   const {
     numberOfProposals,
     newProposals,
@@ -9,7 +9,7 @@ const ProposalCountTable = ({ proposal }) => {
     p4Proposals,
     longTermProposals,
     newLongTermProposals
-  } = proposal
+  } = proposalStatistics
   return(
     <div className='stat-item'>
       <h2>Submitted Proposals</h2>
@@ -56,7 +56,7 @@ const ProposalCountTable = ({ proposal }) => {
 }
 
 ProposalCountTable.propTypes = {
-  proposal: propTypes.object.isRequired
+  proposalStatistics: propTypes.object.isRequired
 }
 
 export default ProposalCountTable

@@ -35,7 +35,6 @@ class StatisticsPage extends React.Component {
     const { observingConditions, instruments, proposals: proposalStatistics } = statistics
     const partner = filters.selectedPartner || ''
     const semester = filters.selectedSemester
-    console.log(instruments)
     if(proposalsData.fetching){
       return(
         <div className='spinner'>
@@ -56,7 +55,7 @@ class StatisticsPage extends React.Component {
       <div>
 				
         <div className='stat-wrapper'>
-          <ProposalCountTable proposal={ proposalStatistics } />
+          <ProposalCountTable proposalStatistics={ proposalStatistics } />
           <PartnerTimeTable proposals={ proposals } allocatedTime={ allocatedTime } partner={ partner } semester={ semester }/>
         </div>
         <h2><br/>Number of proposals vs Requested time</h2>
