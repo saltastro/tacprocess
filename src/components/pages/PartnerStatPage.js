@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import { submitCompletionComment, updateCompletenessComment } from '../../actions/partnerStatProposalsActions'
 import PartnerStatTable from '../tables/PartnerStatTable'
 import PartnerSummaryStatTable from '../tables/PartnerSummaryStatTable'
-import TransparencyDistribution from '../plots/TransparencyDistribution'
-import ObservingStatisticsTransparency from '../tables/statisticsTables/ObservingStatisticsTransparacy'
+import TransparencyDistributionHistogram from '../plots/TransparencyDistributionHistogram'
+import TransparencyDistributionTable from '../tables/statisticsTables/ObservingStatisticsTransparacy'
 import TimeBreakdownDistribution from '../plots/TimeBreakdownDistribution'
 import ObservingStatisticsTimeBreakdown from '../tables/statisticsTables/ObservingStatisticsTimeBreakdown'
 
@@ -21,19 +21,22 @@ class PartnerStatPage extends React.Component {
   render () {
     const {
       proposals,
-      proposals1,
       user,
       semester,
       partner,
       selectedLiaison,
-      partnerShareTimes,
       totalObservation,
-      timeBreakdown,
+      statistics,
       loading,
       submittingCompletionComment,
       submittedCompletionComment,
       submittingCommentError
     } = this.props
+    const {
+      completion,
+      timeBreakdown,
+      observingConditions
+    } = statistics
     if (loading ){
       return ( <div className='spinner'>
         <div className ='dot1'/>
@@ -62,14 +65,11 @@ class PartnerStatPage extends React.Component {
 
         <h2>Observing Conditions</h2>
         <div className='stat-wrapper'>
-          <TransparencyDistribution
-            proposals={ proposals1 }
-            semester={ semester }
-            partner={ partner }
+          <TransparencyDistributionHistogram
+            transparencyDistribution={ observingConditions.transparency }
           />
-          <ObservingStatisticsTransparency
-            proposals={ proposals1 }
-            partner={ partner }
+          <TransparencyDistributionTable
+            transparencyDistribution={ observingConditions.transparency }
           />
         </div>
 
@@ -89,11 +89,8 @@ class PartnerStatPage extends React.Component {
 
         <div>
           <PartnerSummaryStatTable
-            user={ user }
-            proposals={ proposals }
-            semester={ semester }
             partner={ partner }
-            partnerShareTimes={ partnerShareTimes }
+            completion = { completion }
             totalObservation={ totalObservation }
           />
         </div>
@@ -127,15 +124,13 @@ class PartnerStatPage extends React.Component {
 
 PartnerStatPage.propTypes = {
   proposals: propTypes.array.isRequired,
-  proposals1: propTypes.array.isRequired,
   initProposals: propTypes.array.isRequired,
   totalObservation: propTypes.number.isRequired,
   user: propTypes.object.isRequired,
   semester: propTypes.string.isRequired,
   partner: propTypes.string.isRequired,
   selectedLiaison: propTypes.string.isRequired,
-  partnerShareTimes: propTypes.array.isRequired,
-  timeBreakdown: propTypes.object.isRequired,
+  statistics: propTypes.object.isRequired,
   dispatch: propTypes.func.isRequired,
   loading: propTypes.bool.isRequired,
   submittingCompletionComment: propTypes.bool.isRequired,
@@ -146,7 +141,6 @@ PartnerStatPage.propTypes = {
 export default connect(store => (
   {
     proposals: store.partnerStatProposals.proposals,
-    proposals1: store.partnerStat1Proposals.proposals,
     initProposals: store.partnerStatProposals.initProposals,
     totalObservation: store.partnerStatProposals.totalObservation,
     partner: store.filters.selectedPartner,
@@ -154,8 +148,8 @@ export default connect(store => (
     semester: store.filters.selectedPartnerStatsSemester,
     user: store.user.user,
     partnerShareTimes: store.partnerShareTimes.partnerShareTimes,
-    timeBreakdown: store.timeBreakdown.timeBreakdown,
     loading: store.proposals.fetching,
+    statistics: store.statistics.statistics,
     submittingCompletionComment: store.partnerStatProposals.submittingCompletionComment,
     submittedCompletionComment: store.partnerStatProposals.submittedCompletionComment,
     submittingCommentError: store.partnerStatProposals.errors.submittingCommentError

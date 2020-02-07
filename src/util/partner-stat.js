@@ -3,6 +3,8 @@
  * @param array
  * @returns {number}
  */
+import { getPercentage, rounded } from './index'
+
 export const sumNumbers = (array) => array.reduce((a, b) => a + b, 0)
 
 /**
@@ -11,12 +13,6 @@ export const sumNumbers = (array) => array.reduce((a, b) => a + b, 0)
  * @param divisor
  * @returns {number}
  */
-export const calculatePercentage = (dividend, divisor) => {
-  if (divisor === 0) {
-    return 0
-  }
-  return (dividend / divisor) * 100
-}
 
 /**
  * A function to calculate total observation
@@ -83,7 +79,7 @@ export const statusPriority = (proposal, priorityType, statusType, semester, par
     priority: priorityType,
     allocatedTime: totalAllocTime,
     observedTime: totalObsTime,
-    percentage: calculatePercentage(totalObsTime, totalAllocTime).toFixed(2),
+    percentage: rounded(getPercentage(totalObsTime, totalAllocTime)),
     remainder: remainingAllocatedTime
   }
 }
@@ -155,7 +151,7 @@ export const overallCompletionRate = (proposal, statusType, semester, partnerCod
   const completionOverallRate = allocatedTime !== 0
     ? observedTime / (allocatedTimeP0 + allocatedTimeP1 + allocatedTimeP2 + allocatedTimeP3 / 3) : 0
 
-  return allocatedTime !== 0 ? completionOverallRate.toFixed(2) : 'Nan'
+  return allocatedTime !== 0 ? rounded(completionOverallRate) : 'Nan'
 }
 
 /**
@@ -214,7 +210,6 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
   let p0p1Observed = 0
   let p2Observed = 0
   let p3Observed = 0
-
   proposals.forEach(p => {
     // filter the time allocated by semester and priorities
     const p0p1TimeAllocations = p.timeAllocations.filter((t) =>
@@ -267,7 +262,7 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
   // calculating the total observed time for the partner or all the partners
   const totalObserved = p0p1Observed + p2Observed + p3Observed
   // Observed share time in percent
-  const partnerObservedShareTime = calculatePercentage(totalObserved, totalObservation)
+  const partnerObservedShareTime = getPercentage(totalObserved, totalObservation)
 
   return {
     allocatedTime: {
@@ -277,18 +272,18 @@ export const partnerSummaryStat = (proposals, semester, partnerCode, partnerShar
       total: totalAllocated
     },
     observedTime: {
-      p0p1: p0p1Observed.toFixed(0),
-      p2: p2Observed.toFixed(0),
-      p3: p3Observed.toFixed(0),
-      total: totalObserved.toFixed(0)
+      p0p1: rounded(p0p1Observed, 0),
+      p2: rounded(p2Observed, 0),
+      p3: rounded(p3Observed, 0),
+      total: rounded(totalObserved, 0)
     },
     completeness: {
-      p0p1: calculatePercentage(p0p1Observed, p0p1Allocated).toFixed(2),
-      p2: calculatePercentage(p2Observed, p2Allocated).toFixed(2),
-      p3: calculatePercentage(p3Observed, (p3Allocated / 3)).toFixed(2),
-      total: calculatePercentage(totalObserved, p0p1Allocated + p2Allocated + p3Allocated / 3).toFixed(2)
+      p0p1: rounded(getPercentage(p0p1Observed, p0p1Allocated)),
+      p2: rounded(getPercentage(p2Observed, p2Allocated)),
+      p3: rounded(getPercentage(p3Observed, (p3Allocated / 3))),
+      total: rounded(getPercentage(totalObserved, p0p1Allocated + p2Allocated + p3Allocated / 3))
     },
     partnerAllocatedShareTime,
-    partnerObservedShareTime: partnerObservedShareTime.toFixed(2)
+    partnerObservedShareTime: rounded(partnerObservedShareTime)
   }
 }

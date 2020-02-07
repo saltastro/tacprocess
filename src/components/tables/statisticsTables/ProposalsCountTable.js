@@ -1,26 +1,15 @@
 import React from 'react'
 import propTypes from 'prop-types'
 
-const countProposals = proposals => {
-  const  count = {
-    p4: 0,
-    thesis: 0,
-    longProposals: 0,
-    newProposals:0,
-    newAndLong: 0
-  };
-  (proposals || []).forEach(p => {
-    if ( p.isNew) { count.newProposals += 1 }
-    if ( p.isLong) { count.longProposals += 1 }
-    if ( p.isP4) { count.p4 += 1 }
-    if ( p.isThesis) { count.thesis += 1 }
-    if ( p.isNew && p.isLong ) { count.newAndLong += 1 }
-  })
-  return count
-}
-
-const ProposalCountTable = ({proposals}) => {
-  const count = countProposals(proposals)
+const ProposalCountTable = ({ proposalStatistics }) => {
+  const {
+    numberOfProposals,
+    newProposals,
+    thesisProposals,
+    p4Proposals,
+    longTermProposals,
+    newLongTermProposals
+  } = proposalStatistics
   return(
     <div className='stat-item'>
       <h2>Submitted Proposals</h2>
@@ -34,31 +23,31 @@ const ProposalCountTable = ({proposals}) => {
         <tbody>
           <tr>
             <td>Number of Proposals</td>
-            <td>{proposals.length}</td>
+            <td>{numberOfProposals}</td>
           </tr>
           <tr>
             <td>New proposals </td>
-            <td>{ count.newProposals}</td>
+            <td>{ newProposals}</td>
           </tr>
           <tr>
             <td>Older Proposals </td>
-            <td>{proposals.length - count.newProposals}</td>
+            <td>{numberOfProposals - newProposals}</td>
           </tr>
           <tr>
             <td>Number of long term proposals </td>
-            <td>{ count.longProposals}</td>
+            <td>{ longTermProposals}</td>
           </tr>
           <tr>
             <td>Number of new long term proposals </td>
-            <td>{count.newAndLong}</td>
+            <td>{newLongTermProposals}</td>
           </tr>
           <tr>
-            <td>Thesis projects </td>
-            <td>{count.thesis}</td>
+            <td>Proposals used for a thesis </td>
+            <td>{thesisProposals}</td>
           </tr>
           <tr>
             <td>P4 proposals </td>
-            <td>{count.p4}</td>
+            <td>{p4Proposals}</td>
           </tr>
         </tbody>
       </table>
@@ -67,7 +56,7 @@ const ProposalCountTable = ({proposals}) => {
 }
 
 ProposalCountTable.propTypes = {
-  proposals: propTypes.array.isRequired ,
+  proposalStatistics: propTypes.object.isRequired
 }
 
 export default ProposalCountTable

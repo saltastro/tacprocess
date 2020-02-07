@@ -19,7 +19,7 @@ const Plot = ({caption, children}) =>
 
 Plot.propTypes = {
   caption: propTypes.string,
-  children: propTypes.string
+  children: propTypes.object
 }
 
 export default Plot
