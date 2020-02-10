@@ -8,26 +8,16 @@ import { getPercentage, rounded } from './index'
 export const sumNumbers = (array) => array.reduce((a, b) => a + b, 0)
 
 /**
- * A function that calculates the percentage and returns it
- * @param dividend
- * @param divisor
- * @returns {number}
- */
-
-/**
  * A function to calculate total observation
- * @param observations
+ * @param completionStats
  * @returns {number}
  */
-export const calculateTotalObservation = (observations) => {
-  let total = 0
-  // filter the observed time by status.
-  observations = observations.filter((o) =>
-    (o.status === 'ACCEPTED')
-  )
-  total += sumNumbers(observations.map((o) => o.observationTime))
+export const calculateTotalObservation = (completionStats) => {
 
-  return total
+  const allCompletionStats = completionStats
+  .find(c => c.partner.toUpperCase() === 'ALL').summary.observedTime
+
+  return allCompletionStats.p0 + allCompletionStats.p1 + allCompletionStats.p2 + allCompletionStats.p3
 }
 
 /**

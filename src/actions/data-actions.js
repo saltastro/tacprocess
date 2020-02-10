@@ -93,7 +93,7 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
         dispatch(fetchTacMembersPass(convertTacMembers(data[ 7 ].data.data)))
         dispatch(fetchSaltUsersPass(convertSaltUsers(data[ 8 ].data.data)))
         dispatch(fetchPartnerShareTimesPass(data[ 9 ], currentSemester, partner), currentSemester)
-        dispatch(totalObservation(calculateTotalObservation(data[ 10 ])))
+        dispatch(totalObservation(calculateTotalObservation(data[ 12 ].completion)))
         dispatch(fetchTimeBreakdownPass(data[ 11 ], currentSemester), currentSemester)
         dispatch(fetchStatisticsPass(data[ 12 ]))
       })
