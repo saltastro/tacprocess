@@ -1,4 +1,4 @@
-import { queryPartnerStatObservations, queryPartnerStatProposals } from '../api/graphQL'
+import { queryPartnerStatProposals, queryStatistics } from '../api/graphQL'
 import { isCompletionCommentUpdated } from '../util/filters'
 import { calculateTotalObservation, semesterComment } from '../util/partner-stat'
 import {
@@ -64,8 +64,8 @@ export default function fetchPartnerStatProposals (semester, partner = 'All') {
   return async function disp (dispatch) {
     dispatch(startFetchPartnerStatProposals())
     try {
-      const observations = await queryPartnerStatObservations(semester)
-      dispatch(totalObservation(calculateTotalObservation(observations)))
+      const allCompletionStats = await queryStatistics(semester, partner)
+      dispatch(totalObservation(calculateTotalObservation(allCompletionStats.completion)))
 
       const partnerStatProposals = await queryPartnerStatProposals(semester, partner)
       dispatch(fetchPartnerStatProposalsPass(partnerStatProposals, semester))
