@@ -72,7 +72,7 @@ class Navigation extends React.Component {
             {
               (canViewPage(userRoles, PARTNER_STAT_PAGE) && isAuthenticated) &&
               <li>
-                <NavLink to='/partnerstat'>COMPLETION STATS</NavLink>
+                <NavLink to='/partnerstat'>PARTNER STATISTICS</NavLink>
               </li>
             }
             {

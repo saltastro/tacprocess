@@ -37,7 +37,7 @@ class PartnerStatPage extends React.Component {
       timeBreakdown,
       observingConditions
     } = statistics
-    if (loading ){
+    if ( loading ){
       return ( <div className='spinner'>
         <div className ='dot1'/>
         <div className='dot2'/>
@@ -148,7 +148,7 @@ export default connect(store => (
     semester: store.filters.selectedPartnerStatsSemester,
     user: store.user.user,
     partnerShareTimes: store.partnerShareTimes.partnerShareTimes,
-    loading: store.proposals.fetching,
+    loading: store.partnerStatProposals.fetching,
     statistics: store.statistics.statistics,
     submittingCompletionComment: store.partnerStatProposals.submittingCompletionComment,
     submittedCompletionComment: store.partnerStatProposals.submittedCompletionComment,

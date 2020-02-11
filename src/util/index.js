@@ -338,7 +338,12 @@ export function canViewPage (userRoles, page) {
     return true
   }
   if ((userRoles || []).some(p =>
-    (p.type.toLocaleLowerCase() === types.BOARD.toLocaleLowerCase() || p.type.toLocaleLowerCase() === types.TAC_CHAIR.toLocaleLowerCase()) && page === 'Completion Statistics')) { return true }
+    (
+      p.type.toLocaleLowerCase() === types.SALT_ASTRONOMER.toLocaleLowerCase() ||
+      p.type.toLocaleLowerCase() === types.BOARD.toLocaleLowerCase() ||
+      p.type.toLocaleLowerCase() === types.TAC_CHAIR.toLocaleLowerCase()
+    ) && page === 'Partner Statistics'
+  )) { return true }
   return (userRoles || []).some( p => pageRole(page, p.type))
 }
 
