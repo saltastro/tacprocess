@@ -12,7 +12,7 @@ const ObservingStatisticsTimeBreakdown = ({timeBreakdown}) => {
           <tr>
             <th>Category</th>
             <th>Time (hrs)</th>
-            <th>Completion (%)</th>
+            <th>Fraction (%)</th>
           </tr>
         </thead>
         <tbody>
