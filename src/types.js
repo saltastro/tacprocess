@@ -105,7 +105,7 @@ export const ADMIN_PAGE = 'Admin'
 export const STATISTICS_PAGE = 'Statistics'
 export const DOCUMENTATION_PAGE = 'Documentation'
 export const LIAISON_PAGE = 'Liaison'
-export const PARTNER_STAT_PAGE = 'Partner\'s Statistics'
+export const PARTNER_STAT_PAGE = 'Partner Statistics'
 export const PAGE_NOT_FOUND = 'Page not found'
 
 export const VIEW_TIME_ALLOCATION_PAGE = 'VIEW_TIME_ALLOCATION_PAGE'
