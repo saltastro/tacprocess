@@ -17,8 +17,7 @@ class PartnerSummaryStatTable extends React.Component {
             <th colSpan={ 4 }>Allocated Time</th>
             <th colSpan={ 4 }>Observed Time</th>
             <th colSpan={ 4 }>Percent Completed</th>
-            <th>Allocated</th>
-            <th>Observed</th>
+            <th colSpan={ 2 }>Fraction of Observing Time</th>
           </tr>
           <tr>
             <th />
@@ -35,7 +34,7 @@ class PartnerSummaryStatTable extends React.Component {
             <th>P3</th>
             <th>Total</th>
             <th>Shares</th>
-            <th>Shares</th>
+            <th>Fraction to date</th>
           </tr>
           </thead>
           <tbody>

@@ -527,27 +527,6 @@ export function queryPartnerShareTimes (semester, partner) {
     )
 }
 
-export function queryPartnerStatObservations (semester) {
-  const query = `
-    {
-      partnerStatObservations(semester: "${ semester }"){
-        observationTime
-        status
-      }
-    }
-    `
-  if (process.env.NODE_ENV === 'development'){
-    return saltServerApiClient().post('/graphql-api', { query })
-      .then(
-        response => response.data.data.partnerStatObservations
-      )
-  }
-  return graphqlClient().post('/graphql-api', { query })
-    .then(
-      response => response.data.data.partnerStatObservations
-    )
-}
-
 export function queryTimeBreakdown (semester) {
   const query = `
     {
