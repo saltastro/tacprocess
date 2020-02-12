@@ -1,26 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { observingTimeForInstrument } from '../../util'
 import Histogram from './Histogram'
 
-const InstrumentDistribution = ({proposals, semester, partner}) => {
+const InstrumentDistribution = ({timeRequestedPerInstrument}) => {
   const instruments = ['SCAM', 'RSS', 'HRS', 'BVIT']
-
-  const observingTimes = (part) => instruments
-    .reduce((prev, instrument) => ({
-      ...prev,
-      [ instrument ]: observingTimeForInstrument(proposals, semester, instrument, {partner: part}) / 3600
-    }), {})
+  const {salticam, rss, hrs, bvit} = timeRequestedPerInstrument
 
   const datasets = [
     {
       className: 'all-partners',
-      data: observingTimes()
-    },
-    {
-      className: 'partner-only',
-      data: observingTimes(partner)
+      data: {
+        'SCAM': salticam,
+        'RSS': rss,
+        'HRS': hrs,
+        'BVIT': bvit
+
+      }
     }
   ]
 
@@ -33,9 +29,7 @@ const InstrumentDistribution = ({proposals, semester, partner}) => {
 }
 
 InstrumentDistribution.propTypes = {
-  proposals: PropTypes.array.isRequired,
-  partner: PropTypes.string.isRequired,
-  semester: PropTypes.string.isRequired
+  timeRequestedPerInstrument: PropTypes.object.isRequired,
 }
 
 export default InstrumentDistribution

@@ -18,8 +18,8 @@ export function countInstruments (proposals){
 
 }
 
-const ConfigurationsStatistics = ({proposals}) => {
-  const count = countInstruments (proposals)
+const ConfigurationsStatistics = ({numberOfConfigurationsPerInstrument}) => {
+  const { rss, hrs, salticam, bvit } = numberOfConfigurationsPerInstrument
   return(
     <div className='stat-item'>
       <h2>Configuration Statistics</h2>
@@ -33,19 +33,19 @@ const ConfigurationsStatistics = ({proposals}) => {
         <tbody>
           <tr>
             <td>RSS</td>
-            <td>{ count.rss }</td>
+            <td>{ rss }</td>
           </tr>
           <tr>
             <td>SALTICAM</td>
-            <td>{ count.scam }</td>
+            <td>{ salticam }</td>
           </tr>
           <tr>
             <td>HRS</td>
-            <td>{ count.hrs }</td>
+            <td>{ hrs }</td>
           </tr>
           <tr>
             <td>BVIT</td>
-            <td>{ count.bvit }</td>
+            <td>{ bvit }</td>
           </tr>
         </tbody>
       </table>
@@ -54,7 +54,7 @@ const ConfigurationsStatistics = ({proposals}) => {
 }
 
 ConfigurationsStatistics.propTypes = {
-  proposals: propTypes.array.isRequired
+  numberOfConfigurationsPerInstrument: propTypes.object.isRequired
 }
 
 export default ConfigurationsStatistics

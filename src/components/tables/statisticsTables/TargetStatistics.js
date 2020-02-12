@@ -2,7 +2,7 @@ import React from 'react'
 import propTypes from 'prop-types'
 
 const countTargets = targets => targets.reduce( (current, next) => {
-  if (next.optional){
+  if (next.isOptional){
     return {...current, optional: current.optional + 1}
   } 
   return {...current, mandatory: current.mandatory + 1}

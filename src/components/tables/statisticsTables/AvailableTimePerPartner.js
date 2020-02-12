@@ -1,6 +1,6 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import { areAllocatedTimesCorrect, allocatedTimeTotals }  from '../../../util'
+import { areAllocatedTimesCorrect, allocatedTimeTotals, rounded } from '../../../util'
 import {badTime, goodTime} from '../../../types'
 
 const AvailableTimePerPartner = ({partner, availableTime, proposals}) => {
@@ -20,23 +20,23 @@ const AvailableTimePerPartner = ({partner, availableTime, proposals}) => {
         <tbody>
           <tr>
             <td>Priority 0 & 1</td>
-            <td>{ (availableTime.p0p1).toFixed(2) }</td>
-            <td style={ correctAllocations.p0p1 ? goodTime : badTime }><label>{ (parseFloat(allocatedTotals.p0/(60*60)) + parseFloat(allocatedTotals.p1/(60*60))).toFixed(2) || 0 }</label></td>
+            <td>{ rounded(availableTime.p0p1) }</td>
+            <td style={ correctAllocations.p0p1 ? goodTime : badTime }><label>{ rounded(parseFloat(allocatedTotals.p0/(60*60)) + parseFloat(allocatedTotals.p1/(60*60)) || 0) }</label></td>
           </tr>
           <tr>
             <td>Priority 2  </td>
-            <td>{ (availableTime.p2).toFixed(2) } </td>
-            <td style={ correctAllocations.p2 ? goodTime : badTime }><label>{ parseFloat(allocatedTotals.p2/(60*60).toFixed(2)) || 0 }</label></td>
+            <td>{ rounded(availableTime.p2) } </td>
+            <td style={ correctAllocations.p2 ? goodTime : badTime }><label>{ rounded(parseFloat(allocatedTotals.p2/(60*60))) || 0 }</label></td>
           </tr>
           <tr>
             <td>Priority 3  </td>
-            <td>{ (availableTime.p3).toFixed(2) } </td>
-            <td style={ correctAllocations.p3 ? goodTime : badTime }><label>{ parseFloat(allocatedTotals.p3/(60*60).toFixed(2)) || 0 }</label></td>
+            <td>{ rounded(availableTime.p3) } </td>
+            <td style={ correctAllocations.p3 ? goodTime : badTime }><label>{ rounded(parseFloat(allocatedTotals.p3/(60*60))) || 0 }</label></td>
           </tr>
           <tr>
             <td>Priority 4 </td>
             <td style={ {fontSize: '23px'} }> &infin;</td>
-            <td style={ goodTime }>{ parseFloat(allocatedTotals.p4.toFixed(2)) }</td>
+            <td style={ goodTime }>{ rounded(parseFloat(allocatedTotals.p4)) }</td>
           </tr>
         </tbody>
       </table>

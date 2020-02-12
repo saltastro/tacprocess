@@ -1,34 +1,17 @@
 import React from 'react'
 import propTypes from 'prop-types'
 
-function countRSSDetector(proposals) {
-  const obz = {
-    fp: 0,
-    fpp: 0,
-    im: 0,
-    mosp: 0,
-    mos: 0,
-    pi: 0,
-    sp: 0,
-    spec: 0,
-  };
-  (proposals|| []).forEach(p => {
-    p.instruments.rss.forEach( m => {
-      if (m.mode === 'Fabry Perot') {obz.fp += 1}
-      if (m.mode === 'FP polarimetry') {obz.fpp += 1}
-      if (m.mode === 'Imaging') {obz.im += 1}
-      if (m.mode === 'MOS') {obz.mos += 1}
-      if (m.mode === 'MOS polarimetry') {obz.mosp += 1}
-      if (m.mode === 'Polarimetric imaging') {obz.pi += 1}
-      if (m.mode === 'Spectropolarimetry') {obz.sp += 1}
-      if (m.mode === 'Spectroscopy') {obz.spec += 1}
-    })
-  })
-  return obz
-}
-
-const RSSObservingModeTable = ({proposals}) => {
-  const observingMode =countRSSDetector(proposals)
+const RSSObservingModeTable = ({numberOfConfigurationsPerRssObservingMode}) => {
+  const {
+    fabryPerot,
+    mos,
+    mosPolarimetry,
+    fabryPerotPolarimetry,
+    spectroscopy,
+    spectropolarimetry,
+    imaging,
+    polarimetricImaging
+  } = numberOfConfigurationsPerRssObservingMode
   return(
     <div className='stat-item' style={ {textAlign: 'center'} }>
       <h2>RSS Observing Mode</h2>
@@ -44,36 +27,36 @@ const RSSObservingModeTable = ({proposals}) => {
         <tbody>
           <tr>
             <td>Fabry Perot</td>
-            <td>{ observingMode.fp }</td>
+            <td>{ fabryPerot }</td>
           </tr>
           <tr>
             <td>FP polarimetry</td>
-            <td>{ observingMode.fpp }</td>
+            <td>{ fabryPerotPolarimetry }</td>
           </tr>
 
           <tr>
             <td>MOS</td>
-            <td>{ observingMode.mos }</td>
+            <td>{ mos }</td>
           </tr>
           <tr>
             <td>MOS polarimetry</td>
-            <td>{ observingMode.mosp }</td>
+            <td>{ mosPolarimetry }</td>
           </tr>
           <tr>
             <td>Polarimetric imaging</td>
-            <td>{ observingMode.pi }</td>
+            <td>{ polarimetricImaging }</td>
           </tr>
           <tr>
             <td>Imaging</td>
-            <td>{ observingMode.im }</td>
+            <td>{ imaging }</td>
           </tr>
           <tr>
             <td>Spectropolarimetry</td>
-            <td>{ observingMode.sp }</td>
+            <td>{ spectropolarimetry }</td>
           </tr>
           <tr>
             <td>Spectroscopy</td>
-            <td>{ observingMode.spec }</td>
+            <td>{ spectroscopy }</td>
           </tr>
         </tbody>
 
@@ -83,7 +66,7 @@ const RSSObservingModeTable = ({proposals}) => {
 }
 
 RSSObservingModeTable.propTypes = {
-  proposals: propTypes.array.isRequired,
+  numberOfConfigurationsPerRssObservingMode: propTypes.object.isRequired,
 }
 
 export default RSSObservingModeTable

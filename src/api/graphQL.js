@@ -289,12 +289,171 @@ export function queryProposals(semester, partner){
     )
 }
 
+export function queryStatistics (semester, partner) {
+  let par = ''
+  if ( partner !== 'All' ) {
+    par = `, partner: "${ partner }"`
+  }
+  const query = `
+    {
+      statistics(semester:"${ semester }" ${ par }){
+        proposals{
+          numberOfProposals
+          newProposals
+          thesisProposals
+          p4Proposals
+          longTermProposals
+          newLongTermProposals
+            }
+        instruments{
+          bvitRequestedTotal
+          hrsRequestedTotal
+          rssRequestedTotal
+          scamRequestedTotal
+          
+          bvitTotal
+          hrsTotal
+          rssTotal
+          scamTotal
+          
+          hrsResolutionRequestedTotal{
+            lowResolution
+            mediumResolution
+            highResolution
+            highStability
+            intCalFibre
+          }
+          hrsResolutionTotal{
+            lowResolution
+            mediumResolution
+            highResolution
+            highStability
+            intCalFibre
+          }
+          rssDetectorModeTotal{
+            driftScan
+            frameTransfer
+            normal
+            shuffle
+            slotMode
+          }
+          rssDetectorModeRequestedTotal{
+            driftScan
+            frameTransfer
+            normal
+            shuffle
+            slotMode
+          }
+          rssObservingModeRequestedTotal{
+            fabryPerot
+            mos
+            mosPolarimetry
+            fabryPerotPolarimetry
+            spectroscopy
+            spectropolarimetry
+            imaging
+            polarimetricImaging
+          }
+          rssObservingModeTotal{
+            fabryPerot
+            mos
+            mosPolarimetry
+            fabryPerotPolarimetry
+            spectroscopy
+            spectropolarimetry
+            imaging
+            polarimetricImaging
+          }
+          salticamDetectorModeRequestedTotal{
+            driftScan
+            frameTransfer
+            normal
+            slotMode
+          }
+          salticamDetectorModeTotal{
+            driftScan
+            frameTransfer
+            normal
+            slotMode
+          }
+        }
+        observingConditions{
+          seeing{
+            timeRequested{
+              lessEqual1Dot5
+              lessEqual2
+              lessEqual2Dot5
+              lessEqual3
+              moreThan3
+            }
+            numberOfProposals{
+              lessEqual1Dot5
+              lessEqual2
+              lessEqual2Dot5
+              lessEqual3
+              moreThan3
+            }
+          }
+          transparency{
+            timeRequested{
+              any
+              clear
+              thinCloud
+              thickCloud
+            }
+            numberOfProposals{
+              any
+              clear
+              thinCloud
+              thickCloud
+            }
+          }
+        }
+        timeBreakdown{
+          engineering
+          idle
+          lostToProblems
+          lostToWeather
+          science
+        }
+        completion{
+          partner
+          sharePercentage
+          summary{
+            allocatedTime{
+              p0
+              p1
+              p2
+              p3
+            }
+            observedTime{
+              p0
+              p1
+              p2
+              p3
+            }
+          }
+        }
+        targets{
+          isOptional
+          rightAscension
+          declination
+        }
+      }
+    }
+  `
+  return graphqlClient().post('/graphql', { query })
+  .then(
+    response => response.data.data.statistics
+  )
+}
+
 export function queryPartnerStatProposals (semester, partner) {
   let par = ''
   if ( partner !== 'All' ) {
     par = `, partnerCode: ${ partner }`
   }
-    const query = `
+  const query = `
     {
       proposals(semester: "${ semester }" ${ par } ){
         proposalCode
@@ -365,27 +524,6 @@ export function queryPartnerShareTimes (semester, partner) {
   return graphqlClient().post('/graphql-api', { query })
     .then(
       response => response.data.data.partnerShareTimes
-    )
-}
-
-export function queryPartnerStatObservations (semester) {
-  const query = `
-    {
-      partnerStatObservations(semester: "${ semester }"){
-        observationTime
-        status
-      }
-    }
-    `
-  if (process.env.NODE_ENV === 'development'){
-    return saltServerApiClient().post('/graphql-api', { query })
-      .then(
-        response => response.data.data.partnerStatObservations
-      )
-  }
-  return graphqlClient().post('/graphql-api', { query })
-    .then(
-      response => response.data.data.partnerStatObservations
     )
 }
 
