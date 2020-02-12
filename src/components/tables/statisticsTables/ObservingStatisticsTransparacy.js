@@ -14,7 +14,7 @@ const ObservingStatisticsTransparency = ({ transparencyDistribution }) => {
             <th>Conditions</th>
             <th>Time requested (hrs)</th>
             <th>Number of Proposals</th>
-            <th>Completion (%)</th>
+            <th>Fraction (%)</th>
           </tr>
         </thead>
         <tbody>

@@ -16,7 +16,6 @@ import {
   queryTargets,
   queryUserData,
   queryPartnerShareTimes,
-  queryPartnerStatObservations,
   queryTimeBreakdown,
   queryStatistics
 } from '../api/graphQL'
@@ -64,7 +63,6 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
       const tacMembers = queryTacMembers()
       const saltUsers = querySaltUsers()
       const partnerShareTimes = queryPartnerShareTimes(currentSemester, partner)
-      const partnerStatObservations = queryPartnerStatObservations(currentSemester)
       const timeBreakdown = queryTimeBreakdown(currentSemester)
       const statistics = queryStatistics(currentSemester, partner)
       await Promise.all([
@@ -78,7 +76,6 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
         tacMembers,
         saltUsers,
         partnerShareTimes,
-        partnerStatObservations,
         timeBreakdown,
         statistics
       ]).then(data => {
@@ -93,9 +90,9 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
         dispatch(fetchTacMembersPass(convertTacMembers(data[ 7 ].data.data)))
         dispatch(fetchSaltUsersPass(convertSaltUsers(data[ 8 ].data.data)))
         dispatch(fetchPartnerShareTimesPass(data[ 9 ], currentSemester, partner), currentSemester)
-        dispatch(totalObservation(calculateTotalObservation(data[ 12 ].completion)))
-        dispatch(fetchTimeBreakdownPass(data[ 11 ], currentSemester), currentSemester)
-        dispatch(fetchStatisticsPass(data[ 12 ]))
+        dispatch(totalObservation(calculateTotalObservation(data[ 11 ].completion)))
+        dispatch(fetchTimeBreakdownPass(data[ 10 ], currentSemester), currentSemester)
+        dispatch(fetchStatisticsPass(data[ 11 ]))
       })
     } catch (e) {
       dispatch(fetchedAllDataFail(e.message))

@@ -64,11 +64,11 @@ export default function fetchPartnerStatProposals (semester, partner = 'All') {
   return async function disp (dispatch) {
     dispatch(startFetchPartnerStatProposals())
     try {
-      const allCompletionStats = await queryStatistics(semester, partner)
-      dispatch(totalObservation(calculateTotalObservation(allCompletionStats.completion)))
-
       const partnerStatProposals = await queryPartnerStatProposals(semester, partner)
       dispatch(fetchPartnerStatProposalsPass(partnerStatProposals, semester))
+
+      const allCompletionStats = await queryStatistics(semester, partner)
+      dispatch(totalObservation(calculateTotalObservation(allCompletionStats.completion)))
     } catch (e) {
       dispatch(fetchPartnerStatProposalsFail(e.message))
     }
