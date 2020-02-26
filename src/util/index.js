@@ -440,7 +440,7 @@ export function removeTacMembers(partner, members) {
 }
 
 export function getPercentage(divided, divisor) {
-  if (divisor === 0) {
+  if (!divisor) {
     return 0
   }
   return ((divided)/divisor)*100

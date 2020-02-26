@@ -14,10 +14,11 @@ export const sumNumbers = (array) => array.reduce((a, b) => a + b, 0)
  */
 export const calculateTotalObservation = (completionStats) => {
 
-  const allCompletionStats = completionStats
-  .find(c => c.partner.toUpperCase() === 'ALL').summary.observedTime
+  const allCompletionStats = completionStats.find(c => c.partner.toUpperCase() === 'ALL')
+    if (allCompletionStats === undefined) return undefined
+  const allObservedTime = allCompletionStats.summary.observedTime
 
-  return allCompletionStats.p0 + allCompletionStats.p1 + allCompletionStats.p2 + allCompletionStats.p3
+  return allObservedTime.p0 + allObservedTime.p1 + allObservedTime.p2 + allObservedTime.p3
 }
 
 /**
