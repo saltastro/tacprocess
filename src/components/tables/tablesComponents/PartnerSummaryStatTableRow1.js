@@ -5,7 +5,6 @@ import { P3_OVERALLOCATION_FACTOR } from '../../../types'
 
 const PartnerSummaryStatTableRow1 = ({ partnerSummaryStat, totalObservation }) => {
   if (partnerSummaryStat == null || Object.keys(partnerSummaryStat).length === 0) return null
-  console.log({partnerSummaryStat})
 
   // const totalAllocated =  partnerSummaryStat.summary.allocatedTime.p0 + partnerSummaryStat.summary.allocatedTime.p1 +
   //   partnerSummaryStat.summary.allocatedTime.p2 + partnerSummaryStat.summary.allocatedTime.p3
