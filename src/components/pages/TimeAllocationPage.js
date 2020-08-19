@@ -117,6 +117,18 @@ class TimeAllocationPage extends React.Component {
 
 	};
 
+	comparePartners = (partnerA, partnerB) => {
+		const a = partnerA.toUpperCase()
+		const b = partnerB.toUpperCase()
+
+		if (a > b) {
+			return  1
+		} else if (a < b) {
+			return -1
+		}
+		return 0
+	}
+
 	updateFromCSV = (data, proposals, partner) => {
 	  const { dispatch } = this.props
 	  let allColumns = false
@@ -154,8 +166,7 @@ class TimeAllocationPage extends React.Component {
 	  return (
 	    <div>
 	      {
-	        tac.submiting ? (<div><h1>Submitting...</h1></div>) : partners.map(p => p.value).sort().map(partner => {
-
+	        tac.submiting ? (<div><h1>Submitting...</h1></div>) : partners.map(p => p.value).sort(this.comparePartners).map(partner => {
 	          if (partner === ALL_PARTNER){
 	            return null
 	          }
