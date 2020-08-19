@@ -219,3 +219,16 @@ input[disabled]+label {
     font-size: 20px;
     margin-top: 40px;
 }
+
+.buttons-grid {
+    margin: auto;
+    width: 18%;
+    display: grid;
+    grid-template-columns: auto;
+    gap: 8px;
+}
+.button-button {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 8px;
+}
