@@ -157,6 +157,7 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer, semester) =>
         p.initialState &&
         p.initialState.techReviews &&
         p.initialState.techReviews[ semester ] &&
+        p.initialState.techReviews[ semester ].reviewer &&
         p.initialState.techReviews[ semester ].reviewer.username !== null
       ) {prop.push(p)}
     })
@@ -167,6 +168,7 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer, semester) =>
         p.initialState &&
         p.initialState.techReviews &&
         p.initialState.techReviews[ semester ] &&
+        p.initialState.techReviews[ semester ].reviewer &&
         p.initialState.techReviews[ semester ].reviewer.username === null
       ) {prop.push(p)}
     })
