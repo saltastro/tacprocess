@@ -29,13 +29,13 @@ class TargetDistributionContourMap extends React.Component {
 	DEFAULT_WIDTH = 700;
 
 	DEFAULT_HEIGHT = 500;
-	
+
 	updatePlot = () => {
 	  const svg = d3.select(this.target)
-		
+
 	  // remove all existing content
 	  svg.selectAll('*').remove()
-		
+
 	  // set up the geometry, using the margin pattern
 	  const width = svg.attr('width')
 	  const height = svg.attr('height')
@@ -49,7 +49,7 @@ class TargetDistributionContourMap extends React.Component {
 	  const innerHeight = height - margin.top - margin.bottom
 	  const g = svg.append('g')
 	    .attr('transform', `translate(${ margin.left }, ${ margin.top })`)
-		
+
 	  // spatial scales
 	  const xTicks = 5
 	  const yTicks = 10
@@ -59,11 +59,11 @@ class TargetDistributionContourMap extends React.Component {
 	  const yScale = d3.scaleLinear()
 	    .domain([-80, 12])
 	    .range([innerHeight, 0])
-            
+
 	  // color scale
 	  const colorScale = d3.scaleSequential(interpolateOrRd)
 		    .domain([0, 0.05])
-		
+
 	  // axes
 	  const tickPadding = 10
 	  const tickSizeInner = -5
@@ -93,7 +93,7 @@ class TargetDistributionContourMap extends React.Component {
 	    .tickPadding(tickPadding)
 	    .ticks(yTicks)
 	    .tickFormat('')
-		
+
 	  // draw axes
 	  const xAxisBottomG = g.append('g')
 	    .attr('class', 'axis')
@@ -109,7 +109,7 @@ class TargetDistributionContourMap extends React.Component {
 	    .attr('class', 'axis')
 	    .attr('transform', `translate(${ innerWidth }, 0)`)
 	  yAxisRightG.call(yAxisRight)
-		
+
 	  // add axis labels
 	  xAxisBottomG.append('text')
 	    .attr('class', 'label')
@@ -123,7 +123,7 @@ class TargetDistributionContourMap extends React.Component {
 	    .attr('y', -50)
 	    .attr('text-anchor', 'middle')
 	    .text('DEC')
-		
+
 	  // background to avoid that the contour lines overlap the axes
 	  const passepartout = [
 	    {x: -margin.left, y: -margin.top, width, height: margin.top},
@@ -144,15 +144,15 @@ class TargetDistributionContourMap extends React.Component {
 	    .attr('height', d => d.height)
 	    .style('stroke', 'none')
 	    .style('fill', 'white')
-		
+
 	  // add contour lines
 	  const h = 10
 	  const contourDensity = d3ContourDensity()
-	    .x(d => xScale(d.rightAscension))
+	    .x(d => xScale(d.rightAscension / 15))  // 15 degrees in 1 hour
 	    .y(d => yScale(d.declination))
 	    .size([innerWidth, innerHeight])
 	    .bandwidth(h)
-		
+
 	  // get a color range from 0 to the maximum contour value (i.e. target density)
 	  const contourDensityData = contourDensity(this.props.targets)
 	  /* below value was never used  and d3.max() raised an error some how */
@@ -170,7 +170,7 @@ class TargetDistributionContourMap extends React.Component {
 	    .attr('fill', d => colorScale(d.value))
 	    .attr('d', d3.geoPath())
 	};
-	
+
 	render() {
 	  const width = this.props.width || this.DEFAULT_WIDTH
 	  const height = this.props.height || this.DEFAULT_HEIGHT
