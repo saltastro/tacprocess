@@ -75,11 +75,6 @@ class App extends React.Component {
 						<div className='error'>
 							{`The proposals could not be loaded: ${ this.props.fetchProposalsError }`}
 						</div>}
-
-						{this.props.fetchTargetsError &&
-						<div className='error'>
-							{`The targets could not be loaded: ${ this.props.fetchTargetsError }`}
-						</div>}
 						<ApplicationPages
 							proposals={ proposals.proposals }
 							proposalsPerLiaison={ proposalsPerLiaison }
@@ -111,7 +106,6 @@ App.propTypes = {
 	dataStatus: PropTypes.object,
 	filters: PropTypes.object,
 	fetchProposalsError: PropTypes.string,
-	fetchTargetsError: PropTypes.string,
 	proposals: PropTypes.object,
 	initProposals: PropTypes.array,
 	SALTAstronomers: PropTypes.object,
@@ -126,10 +120,8 @@ function mapStateToProps(state) { /* state in params  */
 		user: state.user.user,
 		filters: state.filters,
 		fetchProposalsError: state.proposals.errors.fetchingError,
-		fetchTargetsError: state.targets.error,
 		proposals: state.proposals,
 		initProposals: state.proposals.initProposals,
-		targets: state.targets,
 		tacs: state.tac,
 		SALTAstronomers: state.SALTAstronomers,
 	}
