@@ -130,7 +130,7 @@ class TargetDistributionScatterPlot extends React.Component {
         .style('opacity', .6)
         .style('stroke', '#7da5ff')
         .attr('class', 'mandatory target')
-        .attr('x', d => xScale(d.rightAscension) - squareWidth / 2)
+        .attr('x', d => xScale((d.rightAscension*24)/360) - squareWidth / 2)
         .attr('y', d => yScale(d.declination) - squareWidth / 2)
         .attr('width', squareWidth)
         .attr('height', squareWidth)
@@ -146,7 +146,7 @@ class TargetDistributionScatterPlot extends React.Component {
         .style('opacity', .6)
         .style('stroke', '#7da5ff')
         .attr('class', 'optional target')
-        .attr('cx', d => xScale(d.rightAscension))
+        .attr('cx', d => xScale((d.rightAscension*24)/360))
         .attr('cy', d => yScale(d.declination))
         .attr('r', circleRadius)
     };

@@ -49,7 +49,7 @@ class RightAscensionDistribution extends React.Component {
 	  const targetsHistogramData = targets => {
 	    const histogram = d3.histogram()
 	      .domain([0, 24])
-	      .value(d => d.rightAscension)
+	      .value(d => (d.rightAscension*24)/360)
 	      .thresholds(d3.range(0, 49).map(n => n / 2))
 	    return histogram(targets)
 	  }

@@ -148,7 +148,7 @@ class TargetDistributionContourMap extends React.Component {
 	  // add contour lines
 	  const h = 10
 	  const contourDensity = d3ContourDensity()
-	    .x(d => xScale(d.rightAscension))
+	    .x(d => xScale((d.rightAscension*24)/360))
 	    .y(d => yScale(d.declination))
 	    .size([innerWidth, innerHeight])
 	    .bandwidth(h)
