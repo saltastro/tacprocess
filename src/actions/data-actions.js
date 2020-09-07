@@ -1,6 +1,5 @@
 import {ALL_PARTNER, FETCHED_DATA, FETCHING_DATA_FAIL, FETCHING_DATA} from '../types'
 import {fetchAllocationsPass} from './timeAllocationActions'
-import {convertTargets, fetchTargetsPass} from './targetsActions'
 import {fetchProposalsPass} from './proposalsActions'
 import {fetchPartnerStatProposalsPass, totalObservation} from './partnerStatProposalsActions'
 import {fetchPartnerStat1ProposalsPass} from './partnerStat1ProposalsActions'
@@ -13,7 +12,6 @@ import {
   querySALTAstronomers,
   querySaltUsers,
   queryTacMembers,
-  queryTargets,
   queryUserData,
   queryPartnerShareTimes,
   queryTimeBreakdown,
@@ -43,7 +41,7 @@ export const fetchedAllDataFail = (message) => ({
 /**
  * this method fetch and dispatch all the dataStatus needed on the tac pages
  * dataStatus include:
- *  proposals, targets, user, salt astronomers, partners allocated times, tac members of all partners
+ *  proposals, user, salt astronomers, partners allocated times, tac members of all partners
  *  and all salt users
  *  @param defaultSemester the default semester for all other pages data
  *  @param currentSemester the current semester for the partner stats page data
@@ -58,7 +56,6 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
       const proposals = queryProposals(defaultSemester, partner)
       const partnerStatProposals = queryPartnerStatProposals(currentSemester, partner)
       const partnerStat1Proposals = queryProposals(currentSemester, partner)
-      const targets = queryTargets(defaultSemester, partner)
       const allocations = queryPartnerAllocations(defaultSemester, partner)
       const tacMembers = queryTacMembers()
       const saltUsers = querySaltUsers()
@@ -71,7 +68,6 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
         proposals,
         partnerStatProposals,
         partnerStat1Proposals,
-        targets,
         allocations,
         tacMembers,
         saltUsers,
@@ -85,14 +81,13 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
         dispatch(fetchProposalsPass(data[ 2 ], defaultSemester, partner), defaultSemester)
         dispatch(fetchPartnerStatProposalsPass(data[ 3 ], currentSemester, partner), currentSemester)
         dispatch(fetchPartnerStat1ProposalsPass(data[ 4 ], currentSemester, partner), currentSemester)
-        dispatch(fetchTargetsPass(convertTargets(data[ 5 ].data.data)))
-        dispatch(fetchAllocationsPass(data[ 6 ]))
-        dispatch(fetchTacMembersPass(convertTacMembers(data[ 7 ].data.data)))
-        dispatch(fetchSaltUsersPass(convertSaltUsers(data[ 8 ].data.data)))
-        dispatch(fetchPartnerShareTimesPass(data[ 9 ], currentSemester, partner), currentSemester)
-        dispatch(totalObservation(calculateTotalObservation(data[ 11 ].completion)))
-        dispatch(fetchTimeBreakdownPass(data[ 10 ], currentSemester), currentSemester)
-        dispatch(fetchStatisticsPass(data[ 11 ]))
+        dispatch(fetchAllocationsPass(data[ 5 ]))
+        dispatch(fetchTacMembersPass(convertTacMembers(data[ 6 ].data.data)))
+        dispatch(fetchSaltUsersPass(convertSaltUsers(data[ 7 ].data.data)))
+        dispatch(fetchPartnerShareTimesPass(data[ 8 ], currentSemester, partner), currentSemester)
+        dispatch(totalObservation(calculateTotalObservation(data[ 10 ].completion)))
+        dispatch(fetchTimeBreakdownPass(data[ 9 ], currentSemester), currentSemester)
+        dispatch(fetchStatisticsPass(data[ 10 ]))
       })
     } catch (e) {
       dispatch(fetchedAllDataFail(e.message))

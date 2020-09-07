@@ -7,7 +7,6 @@ import { partnerChange, semesterChange, astronomerChange } from '../actions/filt
 import fetchProposals  from '../actions/proposalsActions'
 import fetchPartnerStatProposals  from '../actions/partnerStatProposalsActions'
 import fetchPartnerShareTimes from '../actions/partnerShareTimesActions'
-import fetchTargets  from '../actions/targetsActions'
 import { storePartnerAllocations } from '../actions/timeAllocationActions'
 import { semestersArray, getPartnerList, getAstronomersList } from '../util/filters'
 import { defaultSemester } from '../util'
@@ -25,7 +24,6 @@ class Filters extends React.Component {
 		dispatch(fetchStatistics( value, filters.selectedPartner))
 		dispatch(fetchTimeBreakdown( value ))
 		dispatch(fetchPartnerShareTimes( value, filters.selectedPartner))
-		dispatch(fetchTargets(value, filters.selectedPartner))
 		dispatch(fetchStatistics(value, filters.selectedPartner))
 		dispatch(storePartnerAllocations(value, filters.selectedPartner))
 		dispatch(semesterChange(value))
@@ -37,7 +35,6 @@ class Filters extends React.Component {
 		dispatch(fetchPartnerStat1Proposals( filters.selectedPartnerStatsSemester, value))
 		dispatch(fetchTimeBreakdown( filters.selectedPartnerStatsSemester ))
 		dispatch(fetchPartnerShareTimes(filters.selectedPartnerStatsSemester, value))
-		dispatch(fetchTargets(filters.selectedSemester, value))
 		dispatch(fetchStatistics(filters.selectedPartnerStatsSemester, value))
 		dispatch(storePartnerAllocations(filters.selectedSemester, value))
 		dispatch(partnerChange(value))
@@ -48,7 +45,7 @@ class Filters extends React.Component {
 	};
 
 	render() {
-		const { filters, user, SALTAstronomers, location, loadingProposals, loadingTargets } = this.props
+		const { filters, user, SALTAstronomers, location, loadingProposals } = this.props
 		const { selectedPartner, selectedSemester, selectedPartnerStatsSemester, selectedLiaison } = filters
 		const partnerList = getPartnerList(user.roles)
 		const astronomersList = ['All', 'Assigned'].concat(getAstronomersList(SALTAstronomers)).concat(['Not Assigned'])
@@ -62,10 +59,9 @@ class Filters extends React.Component {
 		}
 		return(
 			<div className='selector-div'>
-				{(loadingProposals || loadingTargets) && <div className='dimScreen' />}
+				{loadingProposals && <div className='dimScreen' />}
 				{
-					(loadingProposals && loadingTargets) &&
-					<div className='dimScreen'>
+					loadingProposals &&	<div className='dimScreen'>
 						<h1 className='loader'>
 							<span className='let1 span-loader'>l</span>
 							<span className='let2 span-loader'>o</span>
@@ -139,7 +135,6 @@ class Filters extends React.Component {
 Filters.propTypes = {
 	dispatch: propTypes.func.isRequired,
 	loadingProposals: propTypes.bool.isRequired,
-	loadingTargets: propTypes.bool.isRequired,
 	filters: propTypes.object.isRequired,
 	user: propTypes.object.isRequired,
 	location: propTypes.object.isRequired,
@@ -149,7 +144,6 @@ Filters.propTypes = {
 export default withRouter(connect(
 	store => ({
 		filters: store.filters,
-		loadingTargets: store.targets.fetching,
 		loadingProposals: store.proposals.fetching,
 		user:store.user.user,
 		SALTAstronomers: store.SALTAstronomers.SALTAstronomer

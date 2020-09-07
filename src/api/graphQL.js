@@ -185,27 +185,6 @@ export function queryUserData(){
     )
 }
 
-export function queryTargets(semester, partner){
-  let par = ''
-  if ( partner !== 'All' ) {
-    par = ` , partnerCode:"${ partner }"`
-  }
-  const query = `{
-    targets(semester:"${ semester }", ${ par }){
-      id
-      isOptional
-      position{
-        ra
-        dec
-      }
-    }
-  }`
-  return graphqlClient().post('/graphql', {query})
-    .then(
-      response => response
-    )
-}
-
 export function queryProposals(semester, partner){
   let par = ''
   if ( partner !== 'All' ) {
