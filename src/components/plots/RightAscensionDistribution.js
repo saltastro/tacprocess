@@ -142,8 +142,8 @@ class RightAscensionDistribution extends React.Component {
 	  ['all', 'mandatory', 'optional']
 	    .forEach(key => {
 	    	let color = 'purple'
-	    	if ( key === 'mandatory') { color='green'}
-	    	if ( key === 'all') { color='blue'}
+	    	if ( key === 'mandatory') { color='blue'}
+	    	if ( key === 'all') { color='green'}
 	      g.append('g')
 	        .classed(key, true)
 	        .classed('targets', true)
