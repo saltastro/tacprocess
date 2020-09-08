@@ -6,13 +6,10 @@ import DropDown from './selectors/DropDown'
 import { partnerChange, semesterChange, astronomerChange } from '../actions/filtersActions'
 import fetchProposals  from '../actions/proposalsActions'
 import fetchPartnerStatProposals  from '../actions/partnerStatProposalsActions'
-import fetchPartnerShareTimes from '../actions/partnerShareTimesActions'
 import { storePartnerAllocations } from '../actions/timeAllocationActions'
 import { semestersArray, getPartnerList, getAstronomersList } from '../util/filters'
 import { defaultSemester } from '../util'
 import { ADMINISTRATOR, SALT_ASTRONOMER, BOARD, TAC_CHAIR } from '../types'
-import fetchPartnerStat1Proposals from '../actions/partnerStat1ProposalsActions'
-import fetchTimeBreakdown from '../actions/timeBreakdownActions'
 import fetchStatistics from '../actions/statisticsActions'
 
 class Filters extends React.Component {
@@ -20,10 +17,7 @@ class Filters extends React.Component {
 		const { dispatch, filters } = this.props
 		dispatch(fetchProposals( value, filters.selectedPartner))
 		dispatch(fetchPartnerStatProposals( value, filters.selectedPartner))
-		dispatch(fetchPartnerStat1Proposals( value, filters.selectedPartner))
 		dispatch(fetchStatistics( value, filters.selectedPartner))
-		dispatch(fetchTimeBreakdown( value ))
-		dispatch(fetchPartnerShareTimes( value, filters.selectedPartner))
 		dispatch(fetchStatistics(value, filters.selectedPartner))
 		dispatch(storePartnerAllocations(value, filters.selectedPartner))
 		dispatch(semesterChange(value))
@@ -32,9 +26,6 @@ class Filters extends React.Component {
 		const { dispatch, filters } = this.props
 		dispatch(fetchProposals( filters.selectedSemester, value))
 		dispatch(fetchPartnerStatProposals( filters.selectedPartnerStatsSemester, value))
-		dispatch(fetchPartnerStat1Proposals( filters.selectedPartnerStatsSemester, value))
-		dispatch(fetchTimeBreakdown( filters.selectedPartnerStatsSemester ))
-		dispatch(fetchPartnerShareTimes(filters.selectedPartnerStatsSemester, value))
 		dispatch(fetchStatistics(filters.selectedPartnerStatsSemester, value))
 		dispatch(storePartnerAllocations(filters.selectedSemester, value))
 		dispatch(partnerChange(value))

@@ -2,8 +2,6 @@ import {ALL_PARTNER, FETCHED_DATA, FETCHING_DATA_FAIL, FETCHING_DATA} from '../t
 import {fetchAllocationsPass} from './timeAllocationActions'
 import {fetchProposalsPass} from './proposalsActions'
 import {fetchPartnerStatProposalsPass, totalObservation} from './partnerStatProposalsActions'
-import {fetchPartnerStat1ProposalsPass} from './partnerStat1ProposalsActions'
-import {fetchPartnerShareTimesPass} from './partnerShareTimesActions'
 import {convertSA, fetchSAPass} from './saltAstronomerActions'
 import {
   queryPartnerAllocations,
@@ -13,14 +11,11 @@ import {
   querySaltUsers,
   queryTacMembers,
   queryUserData,
-  queryPartnerShareTimes,
-  queryTimeBreakdown,
   queryStatistics
 } from '../api/graphQL'
 import { userLoggedIn, partnersFilter } from './auth'
 import {convertSaltUsers, convertTacMembers, fetchSaltUsersPass, fetchTacMembersPass} from './adminActions'
 import { calculateTotalObservation } from '../util/partner-stat'
-import {fetchTimeBreakdownPass} from './timeBreakdownActions'
 import {fetchStatisticsPass} from './statisticsActions'
 
 export const fetchingAllData = () => ({
@@ -55,24 +50,18 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
       const user = queryUserData()
       const proposals = queryProposals(defaultSemester, partner)
       const partnerStatProposals = queryPartnerStatProposals(currentSemester, partner)
-      const partnerStat1Proposals = queryProposals(currentSemester, partner)
       const allocations = queryPartnerAllocations(defaultSemester, partner)
       const tacMembers = queryTacMembers()
       const saltUsers = querySaltUsers()
-      const partnerShareTimes = queryPartnerShareTimes(currentSemester, partner)
-      const timeBreakdown = queryTimeBreakdown(currentSemester)
       const statistics = queryStatistics(currentSemester, partner)
       await Promise.all([
         saltAstronomers,
         user,
         proposals,
         partnerStatProposals,
-        partnerStat1Proposals,
         allocations,
         tacMembers,
         saltUsers,
-        partnerShareTimes,
-        timeBreakdown,
         statistics
       ]).then(data => {
         dispatch(fetchSAPass(convertSA(data[ 0 ].data.data)))
@@ -80,14 +69,11 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
         dispatch(partnersFilter(ALL_PARTNER))
         dispatch(fetchProposalsPass(data[ 2 ], defaultSemester, partner), defaultSemester)
         dispatch(fetchPartnerStatProposalsPass(data[ 3 ], currentSemester, partner), currentSemester)
-        dispatch(fetchPartnerStat1ProposalsPass(data[ 4 ], currentSemester, partner), currentSemester)
-        dispatch(fetchAllocationsPass(data[ 5 ]))
-        dispatch(fetchTacMembersPass(convertTacMembers(data[ 6 ].data.data)))
-        dispatch(fetchSaltUsersPass(convertSaltUsers(data[ 7 ].data.data)))
-        dispatch(fetchPartnerShareTimesPass(data[ 8 ], currentSemester, partner), currentSemester)
-        dispatch(totalObservation(calculateTotalObservation(data[ 10 ].completion)))
-        dispatch(fetchTimeBreakdownPass(data[ 9 ], currentSemester), currentSemester)
-        dispatch(fetchStatisticsPass(data[ 10 ]))
+        dispatch(fetchAllocationsPass(data[ 4 ]))
+        dispatch(fetchTacMembersPass(convertTacMembers(data[ 5 ].data.data)))
+        dispatch(fetchSaltUsersPass(convertSaltUsers(data[ 6 ].data.data)))
+        dispatch(totalObservation(calculateTotalObservation(data[ 7 ].completion)))
+        dispatch(fetchStatisticsPass(data[ 7 ]))
       })
     } catch (e) {
       dispatch(fetchedAllDataFail(e.message))
