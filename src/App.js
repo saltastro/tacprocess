@@ -51,6 +51,9 @@ class App extends React.Component {
 		const { user, isAuthenticated, proposals, initProposals, filters, SALTAstronomers, dataStatus } = this.props
 
 		if (dataStatus.error && !dataStatus.fetchedData){
+			if (dataStatus.error === 'Request failed with status code 401'){
+					localStorage.removeItem('tacPageJWT')
+			}
 			return <FailToLoad />
 		} else if ( dataStatus.fetchingData) {
 			return <Loading />
