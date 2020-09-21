@@ -51,6 +51,10 @@ export const graphqlClient = () => ({
           throw new Error(res.data.errors.map(error => error.message).join(' | '))
         }
         return res
+      }).catch(error => {
+        if (error.response.status === 401){
+          localStorage.removeItem('tacPageJWT')
+        }
       })
   }
 })
@@ -75,7 +79,11 @@ export const saltServerApiClient = () => (
           throw new Error(response.data.errors.map(error => error.message).join(' | '))
         }
         return response
-      })
+      }).catch(error => {
+          if (error.response.status === 401){
+            localStorage.removeItem('tacPageJWT')
+          }
+        })
     }
   }
 )
