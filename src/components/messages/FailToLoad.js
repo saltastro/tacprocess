@@ -8,8 +8,8 @@ const FailToLoad = () => (
         </div>
       <div>
         <h2>Oops. Data download failed.</h2>
-        <h2>Please refresh the page and, if necessary, login again  </h2>
-        <h2>If this message persist please contact SALT help.</h2>
+        <h2>Please refresh the page and, if necessary, login again.  </h2>
+        <h2>If this message persists please contact SALT help.</h2>
       </div>
     </div>
   </div>
