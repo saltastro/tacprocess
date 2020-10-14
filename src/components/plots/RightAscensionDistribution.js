@@ -49,15 +49,15 @@ class RightAscensionDistribution extends React.Component {
 	  const targetsHistogramData = targets => {
 	    const histogram = d3.histogram()
 	      .domain([0, 24])
-	      .value(d => d.ra)
+	      .value(d => d.rightAscension / 15)  // 15 degrees in 1 hour
 	      .thresholds(d3.range(0, 49).map(n => n / 2))
 	    return histogram(targets)
 	  }
 	  // eslint-disable-next-line
 	  const targets = this.props.targets
-	  const mandatoryTargets = targets.filter(target => !target.optional)
+	  const mandatoryTargets = targets.filter(target => !target.isOptional)
 	  const mandatoryTargetsData = targetsHistogramData(mandatoryTargets)
-	  const optionalTargets = targets.filter(target => target.optional)
+	  const optionalTargets = targets.filter(target => target.isOptional)
 	  const optionalTargetsData = targetsHistogramData(optionalTargets)
 	  const targetsData = targetsHistogramData(targets)
 		
@@ -142,8 +142,8 @@ class RightAscensionDistribution extends React.Component {
 	  ['all', 'mandatory', 'optional']
 	    .forEach(key => {
 	    	let color = 'purple'
-	    	if ( key === 'mandatory') { color='green'}
-	    	if ( key === 'all') { color='blue'}
+	    	if ( key === 'mandatory') { color='blue'}
+	    	if ( key === 'all') { color='green'}
 	      g.append('g')
 	        .classed(key, true)
 	        .classed('targets', true)

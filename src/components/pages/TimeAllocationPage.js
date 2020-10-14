@@ -117,6 +117,18 @@ class TimeAllocationPage extends React.Component {
 
 	};
 
+	comparePartners = (partnerA, partnerB) => {
+		const a = partnerA.toUpperCase()
+		const b = partnerB.toUpperCase()
+
+		if (a > b) {
+			return  1
+		} else if (a < b) {
+			return -1
+		}
+		return 0
+	}
+
 	updateFromCSV = (data, proposals, partner) => {
 	  const { dispatch } = this.props
 	  let allColumns = false
@@ -154,15 +166,11 @@ class TimeAllocationPage extends React.Component {
 	  return (
 	    <div>
 	      {
-	        tac.submiting ? (<div><h1>Submitting...</h1></div>) : partners.map(part => {
-	          const partner = part.value
-
+	        tac.submiting ? (<div><h1>Submitting...</h1></div>) : partners.map(p => p.value).sort(this.comparePartners).map(partner => {
 	          if (partner === ALL_PARTNER){
 	            return null
 	          }
-	          if ((partnerProposals[ partner ] || []).length === 0){
-	            return null
-	          }
+	          const canSubmitForPartner = canSubmitTimeAllocations(roles, partner)
 
 	          return (
 	            <div key={ partner }  style={ {paddingBottom:'40px'} }>
@@ -185,49 +193,53 @@ class TimeAllocationPage extends React.Component {
 	                allocatedTimeChange = { this.allocatedTimeChange }
 	                updateFromCSV = { this.updateFromCSV }
 	              />
-                {
-                  <div style={ {textAlign: 'left'} }>
-                    <p className='danger-line' style={ {padding: '10px'} }>
-                      A proposal with a pink background color is a P4 proposal
-                    </p>
-                  </div>
-                }
-	              <label>Download table</label><br/>
-	              <button className='btn'
-								        onClick={ () => { this.downloadCSV(partnerProposals[ partner ] || [], partner) } }>
-									Download as CSV
-	              </button>
-	              {
-	                canSubmitTimeAllocations(roles, partner) &&
-									<label><br/>Upload Allocations from CSV<br/></label>
-	              }
-	              {
-	                canSubmitTimeAllocations(roles, partner) && <CSVReader
-	                  cssClass='btn'
-	                  onFileLoaded={ e => this.updateFromCSV(e, partnerProposals[ partner ] || [], partner) }
-	                  onError={ this.handleDarkSideForce }
-										parserOptions={ {
-											dynamicTyping: true,
-										} }
-	                />
-	              }
-
-	              <button onClick={ () => downloadSummaries(partnerProposals[ partner ] || [], semester, partner) }>
-									Download summary files
-	              </button>
-	              {
-	                canSubmitTimeAllocations(roles, partner) &&
-									<button
-									  disabled={ semester < defaultSemester() }
-									  className='btn-success'
-									  onClick={ e => this.submitForPartner(e, partner) }>Submit {partner}</button>
-	              }
-	              { // eslint-disable-next-line
-	                submittedTimeAllocations.partner !== partner ? <div />
-	                  : submittedTimeAllocations.results ? <div style={ {color: '#60FF60', fontSize: '20px'} }>Successfully Submitted</div>
-	                    : <div  style={ { color: '#FF6060', 'fontSize': '20px' } }>Fail to submit time allocations</div>
-
-	              }
+	              <div style={ {textAlign: 'left'} }>
+									<p className='danger-line' style={ {padding: '10px'} }>
+										A proposal with a pink background color is a P4 proposal
+									</p>
+	              </div>
+								<div className='buttons-grid'>
+									<button className='btn'
+													onClick={ () => { this.downloadCSV(partnerProposals[ partner ] || [], partner) } }>
+										Download table as CSV
+									</button>
+									{
+										canSubmitForPartner &&
+											<div className='label-button'>
+												<label>Upload Allocations from CSV</label>
+											</div>
+									}
+									{
+										canSubmitForPartner &&
+										<CSVReader
+											onFileLoaded={ e => this.updateFromCSV(e, partnerProposals[ partner ] || [], partner) }
+											onError={ this.handleDarkSideForce }
+											parserOptions={ {
+												dynamicTyping: true,
+											} }
+										/>
+									}
+									<div className='button-button'>
+										<button
+											onClick={ () => downloadSummaries(partnerProposals[ partner ] || [], semester, partner) }>
+											Download summary files
+										</button>
+										{
+											canSubmitForPartner &&
+											<button
+												disabled={ semester < defaultSemester() }
+												onClick={ e => this.submitForPartner(e, partner) }
+											>
+												Submit allocations for {partner}
+											</button>
+										}
+									</div>
+									{ // eslint-disable-next-line
+										submittedTimeAllocations.partner !== partner ? <div />
+											: submittedTimeAllocations.results ? <div style={ {color: '#60FF60', fontSize: '20px'} }>Successfully Submitted</div>
+												: <div  style={ { color: '#FF6060', 'fontSize': '20px' } }>Fail to submit time allocations</div>
+									}
+								</div>
 
 	            </div>
 	          )

@@ -120,7 +120,7 @@ class TargetDistributionScatterPlot extends React.Component {
         // plot mandatory targets
       // eslint-disable-next-line
       const targets = this.props.targets
-      const mandatoryTargets = targets.filter(target => !target.optional)
+      const mandatoryTargets = targets.filter(target => !target.isOptional)
       const squareWidth = 10
       g.selectAll('rect')
         .data(mandatoryTargets)
@@ -130,14 +130,14 @@ class TargetDistributionScatterPlot extends React.Component {
         .style('opacity', .6)
         .style('stroke', '#7da5ff')
         .attr('class', 'mandatory target')
-        .attr('x', d => xScale(d.ra) - squareWidth / 2)
-        .attr('y', d => yScale(d.dec) - squareWidth / 2)
+        .attr('x', d => xScale(d.rightAscension / 15) - squareWidth / 2)  // 15 degrees in 1 hour
+        .attr('y', d => yScale(d.declination) - squareWidth / 2)
         .attr('width', squareWidth)
         .attr('height', squareWidth)
 
         // plot optional targets
       const circleRadius = squareWidth / 2
-      const optionalTargets = targets.filter(target => target.optional)
+      const optionalTargets = targets.filter(target => target.isOptional)
       g.selectAll('circle')
         .data(optionalTargets)
         .enter()
@@ -146,8 +146,8 @@ class TargetDistributionScatterPlot extends React.Component {
         .style('opacity', .6)
         .style('stroke', '#7da5ff')
         .attr('class', 'optional target')
-        .attr('cx', d => xScale(d.ra))
-        .attr('cy', d => yScale(d.dec))
+        .attr('cx', d => xScale(d.rightAscension / 15))  // 15 degrees in 1 hour
+        .attr('cy', d => yScale(d.declination))
         .attr('r', circleRadius)
     };
 

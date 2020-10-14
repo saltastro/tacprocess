@@ -1,6 +1,7 @@
 import React from 'react'
 import propTypes from 'prop-types'
 import {totalTimeRequestedPerPartner, totalTimeRequestedForP4} from '../../../util/filters'
+import { rounded } from '../../../util'
 
 const partnerAlloc = (allocatedTime, partner) => {
   let d = { p0p1: 0, p2: 0, p3:0 }
@@ -27,33 +28,33 @@ const PartnerTimeTable = ({proposals, partner, allocatedTime, semester}) => {
           <tr>
             <td>Time to allocate (P0-P3)</td>
 
-            <td>{ allocatedTimeSum.toFixed(2) } </td>
+            <td>{rounded(allocatedTimeSum)} </td>
           </tr>
           <tr>
             <td>Actual time available</td>
-
-            <td>{ (allocatedTimeSum/1.4).toFixed(2) } </td>
+            {/* TODO:  find out why divide by the factor of 1.4 */}
+            <td>{rounded(allocatedTimeSum/1.4)  } </td>
           </tr>
 
           <tr>
             <td>Requested time (P0 to P3) </td>
-            <td>{(total/3600).toFixed(2)}</td>
+            <td>{rounded(total/3600)}</td>
           </tr>
           <tr>
             <td>Oversubscription (P0-P3) </td>
             {
               allocatedTimeSum === 0 ?
             <td> - </td> :
-            <td>{(((total/3600)/(allocatedTimeSum/1.4))*100).toFixed(2)} %</td>
+            <td>{rounded(((total/3600)/(allocatedTimeSum/1.4))*100)} %</td>
             }
           </tr>
           <tr>
             <td>Average per proposal (P0 to P3) </td>
-            <td>{((total/3600)/ (proposals.length)).toFixed(2) }</td>
+            <td>{rounded((total/3600)/ (proposals.length)) }</td>
           </tr>
           <tr>
             <td>P4 requested time </td>
-            <td>{(p4Total/3600).toFixed(2) }</td>
+            <td>{rounded(p4Total/3600) }</td>
           </tr>
 
         </tbody>

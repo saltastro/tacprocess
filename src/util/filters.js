@@ -153,16 +153,36 @@ export const reduceProposalsPerAstronomer = (proposals, astronomer, semester) =>
   }
   else if (astronomer === 'Assigned'){
     proposals.forEach(p => {
-      if (p.techReviews[ semester ].reviewer.username !== null) {prop.push(p)}
+      if (
+        p.initialState &&
+        p.initialState.techReviews &&
+        p.initialState.techReviews[ semester ] &&
+        p.initialState.techReviews[ semester ].reviewer &&
+        p.initialState.techReviews[ semester ].reviewer.username !== null
+      ) {prop.push(p)}
     })
   }
   else if (astronomer === 'Not Assigned'){
     proposals.forEach(p => {
-      if (p.techReviews[ semester ].reviewer.username === null) {prop.push(p)}
+      if (
+        p.initialState &&
+        p.initialState.techReviews &&
+        p.initialState.techReviews[ semester ] &&
+        p.initialState.techReviews[ semester ].reviewer &&
+        p.initialState.techReviews[ semester ].reviewer.username === null
+      ) {prop.push(p)}
     })
   }else {
     proposals.forEach(p => {
-      if (p.techReviews && p.techReviews[ semester ] && p.techReviews[ semester ].reviewer && p.techReviews[ semester ].reviewer.username === astronomer) {prop.push(p)}
+      if (
+        p.initialState &&
+        p.initialState.techReviews &&
+        p.initialState.techReviews[ semester ] &&
+        p.initialState.techReviews[ semester ].reviewer &&
+        p.initialState.techReviews[ semester ].reviewer.username === astronomer
+      ) {
+        prop.push(p)
+      }
     })
   }
 

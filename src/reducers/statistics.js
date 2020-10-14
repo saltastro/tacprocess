@@ -1,41 +1,40 @@
 import {
-  FETCH_PARTNER_STAT1_PROPOSALS_START,
-  FETCH_PARTNER_STAT1_PROPOSALS_PASS,
-  FETCH_PARTNER_STAT1_PROPOSALS_FAIL
+  FETCH_STATISTICS_START,
+  FETCH_STATISTICS_PASS,
+  FETCH_STATISTICS_FAIL
 } from '../types'
 
 const initialState = {
   fetching: false,
   fetched: false,
-  proposals: [],
-  initProposals: [],
+  statistics: {},
   errors: {
     fetchingError: null
   }
 }
 
-export default function partnerStat1Proposals (state = initialState, action = {}) {
+export default function statistics (state = initialState, action = {}) {
   switch (action.type) {
-    case FETCH_PARTNER_STAT1_PROPOSALS_START: {
+    case FETCH_STATISTICS_START: {
       return {
         ...state,
         fetching: true,
         fetched: false
-      } }
-    case FETCH_PARTNER_STAT1_PROPOSALS_FAIL: {
+      }
+    }
+    case FETCH_STATISTICS_FAIL: {
       return {
         ...state,
         fetching: false,
         fetched: false,
-        proposals: [],
-        initProposals: [],
+        statistics: {},
         errors: {
           ...state.errors,
           fetchingError: action.payload.error
         }
       }
     }
-    case FETCH_PARTNER_STAT1_PROPOSALS_PASS: {
+    case FETCH_STATISTICS_PASS: {
       return {
         ...state,
         fetching: false,
@@ -44,8 +43,7 @@ export default function partnerStat1Proposals (state = initialState, action = {}
           ...state.errors,
           fetchingError: null
         },
-        proposals: action.payload.proposals,
-        initProposals: JSON.parse(JSON.stringify(action.payload.proposals))
+        statistics: action.payload.statistics
       }
     }
     default: {

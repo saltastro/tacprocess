@@ -50,15 +50,15 @@ class DeclinationDistribution extends React.Component {
       const targetsHistogramData = targets => {
         const histogram = d3.histogram()
           .domain([-85, 15])
-          .value(d => d.dec)
+          .value(d => d.declination)
           .thresholds(d3.range(0, 51).map(n => -85 + 2 * n))
         return histogram(targets)
       }
       // eslint-disable-next-line
       const targets = this.props.targets
-      const mandatoryTargets = targets.filter(target => !target.optional)
+      const mandatoryTargets = targets.filter(target => !target.isOptional)
       const mandatoryTargetsData = targetsHistogramData(mandatoryTargets)
-      const optionalTargets = targets.filter(target => target.optional)
+      const optionalTargets = targets.filter(target => target.isOptional)
       const optionalTargetsData = targetsHistogramData(optionalTargets)
       const targetsData = targetsHistogramData(targets)
 		
@@ -143,8 +143,8 @@ class DeclinationDistribution extends React.Component {
       ['all', 'mandatory', 'optional']
         .forEach(key => {
           let color = 'purple'
-          if (key === 'mandatory') {color = 'green'}
-          if (key === 'all') {color = 'blue'}
+          if ( key === 'mandatory') { color='blue'}
+          if ( key === 'all') { color='green'}
           g.append('g')
             .classed(key, true)
             .classed('targets', true)

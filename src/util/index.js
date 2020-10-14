@@ -115,38 +115,6 @@ export function proposalObservingTimeForInstrument(proposal, semester, instrumen
 }
 
 /**
- * Get the observing time requested for a semester and instrument in a list of proposals.
- * If a partner is given, the observing time is calculated for that partner only. If a field is
- * given, in the JavaScript object representing the object this field must have the given
- * value.
- *
- * If a proposal has more than one instrument configuration, the time is split evenly between
- * the configurations.
- *
- * The instrument argument is case-insensitive.
- *
- * The partner, field and value must be passed as an object. For example,
- *
- * observingTimeForInstrument(proposals, '2017-1', 'rss', {partner: 'RSA'})
- * observingTimeForInstrument(proposals, '2017-1', 'rss', {partner: 'RSA', field: 'mode', value: 'Polarimetry'})
-
- * @param proposals
- * @param semester
- * @param instrument
- * @param field
- * @param value
- * @param partner
- */
-export function observingTimeForInstrument(proposals, semester, instrument, {field, value, partner}) {
-  return proposals
-  .reduce((sum, proposal) =>
-    sum + proposalObservingTimeForInstrument(proposal,
-    semester,
-    instrument,
-    {field, value, partner}), 0)
-}
-
-/**
  * Get the sorted list of partners a user should see.
  *
  * A partner is included in this list if it is included in any of the user's roles. If the user is an
@@ -338,7 +306,12 @@ export function canViewPage (userRoles, page) {
     return true
   }
   if ((userRoles || []).some(p =>
-    (p.type.toLocaleLowerCase() === types.BOARD.toLocaleLowerCase() || p.type.toLocaleLowerCase() === types.TAC_CHAIR.toLocaleLowerCase()) && page === 'Completion Statistics')) { return true }
+    (
+      p.type.toLocaleLowerCase() === types.SALT_ASTRONOMER.toLocaleLowerCase() ||
+      p.type.toLocaleLowerCase() === types.BOARD.toLocaleLowerCase() ||
+      p.type.toLocaleLowerCase() === types.TAC_CHAIR.toLocaleLowerCase()
+    ) && page === types.PARTNER_STAT_PAGE
+  )) { return true }
   return (userRoles || []).some( p => pageRole(page, p.type))
 }
 
@@ -464,4 +437,18 @@ export function removeTacMembers(partner, members) {
   jsonClient('blob').post('/remove-tac-members', {partner, members}) // eslint-disable-next-line
   .then(res => console.log(res)) // eslint-disable-next-line
   .catch(err => console.error(err))
+}
+
+export function getPercentage(divided, divisor) {
+  if (divisor === 0) {
+    return 0
+  }
+  return ((divided)/divisor)*100
+}
+
+export function rounded(number, fixTo=2) {
+  if (number === 0) {
+    return 0
+  }
+  return parseFloat(number.toFixed(fixTo).replace(/\.0+$/, ''))
 }
