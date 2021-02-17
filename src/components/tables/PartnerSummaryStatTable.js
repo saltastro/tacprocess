@@ -5,11 +5,10 @@ import PartnerSummaryStatTableRow1 from './tablesComponents/PartnerSummaryStatTa
 
 class PartnerSummaryStatTable extends React.Component {
   render () {
-    const { partner, totalObservation, completion } = this.props
-
+    const { totalObservation, completion } = this.props
     return (
       <div className='SATableDiv'>
-        <h2>Summary Statistics for {partner === 'All' ? 'All Partners' : partner}</h2>
+        <h2>Summary Statistics</h2>
         <table className='SATable' align='center'>
           <thead>
           <tr>
