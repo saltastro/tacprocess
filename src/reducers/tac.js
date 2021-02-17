@@ -58,7 +58,7 @@ export default function statistics(state=initState, action = {}) {
       ...state,
       fetching: false,
       fetched: true,
-      data: action.timeallocation,
+      data: action.payload.timeAllocations
     }
   }
     case FETCH_PARTNER_AVAILABLE_TIME_PASS: {

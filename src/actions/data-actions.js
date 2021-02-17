@@ -1,5 +1,5 @@
 import {ALL_PARTNER, FETCHED_DATA, FETCHING_DATA_FAIL, FETCHING_DATA} from '../types'
-import {fetchAllocationsPass} from './timeAllocationActions'
+import { fetchAllocationsPass, partnerTimeAllocationsPass } from './timeAllocationActions'
 import {fetchProposalsPass} from './proposalsActions'
 import {fetchPartnerStatProposalsPass, totalObservation} from './partnerStatProposalsActions'
 import {convertSA, fetchSAPass} from './saltAstronomerActions'
@@ -54,6 +54,7 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
       const tacMembers = queryTacMembers()
       const saltUsers = querySaltUsers()
       const statistics = queryStatistics(currentSemester, partner)
+      const partnerAllocations = queryPartnerAllocations(defaultSemester)
       await Promise.all([
         saltAstronomers,
         user,
@@ -62,7 +63,8 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
         allocations,
         tacMembers,
         saltUsers,
-        statistics
+        statistics,
+        partnerAllocations
       ]).then(data => {
         dispatch(fetchSAPass(convertSA(data[ 0 ].data.data)))
         dispatch(userLoggedIn(data[ 1 ]))
@@ -74,6 +76,7 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
         dispatch(fetchSaltUsersPass(convertSaltUsers(data[ 6 ].data.data)))
         dispatch(totalObservation(calculateTotalObservation(data[ 7 ].completion)))
         dispatch(fetchStatisticsPass(data[ 7 ]))
+        dispatch(partnerTimeAllocationsPass(data[ 8 ]))
       })
     } catch (e) {
       dispatch(fetchedAllDataFail(e.message))
