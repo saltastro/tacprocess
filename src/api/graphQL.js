@@ -97,7 +97,7 @@ function requestedTime(requirements, semester){
 
 export function convertProposals(proposals, semester, partner){
   if (!proposals.proposals){ return []}
-  return proposals.proposals.map( proposal => {
+  return proposals.proposals.filter(proposal => proposal.status !== "Rejected").map( proposal => {
     const minTotal  = minimumTotalRequested(proposal.timeRequirements, semester)
     const liaisonAstronomer = proposal.liaisonSaltAstronomer ? proposal.liaisonSaltAstronomer.username : null
     const allocatedTime = makeAllocatedTime(proposal.allocatedTimes, partner)
