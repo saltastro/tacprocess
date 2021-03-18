@@ -94,10 +94,11 @@ function requestedTime(requirements, semester){
   })
   return reqTime
 }
+const removeRejectedProposals = proposals => proposals.filter(proposal => proposal.status !== 'Rejected')
 
 export function convertProposals(proposals, semester, partner){
   if (!proposals.proposals){ return []}
-  return proposals.proposals.filter(proposal => proposal.status !== 'Rejected').map( proposal => {
+  return proposals.proposals.map( proposal => {
     const minTotal  = minimumTotalRequested(proposal.timeRequirements, semester)
     const liaisonAstronomer = proposal.liaisonSaltAstronomer ? proposal.liaisonSaltAstronomer.username : null
     const allocatedTime = makeAllocatedTime(proposal.allocatedTimes, partner)
@@ -264,7 +265,10 @@ export function queryProposals(semester, partner){
   `
   return graphqlClient().post('/graphql', { query })
     .then(
-      response => convertProposals(response.data.data, semester, partner)
+      response => {
+        const convertedProposals = convertProposals(response.data.data, semester, partner)
+        return removeRejectedProposals(convertedProposals)
+      }
     )
 }
 
