@@ -23,6 +23,7 @@ import { getPartnerList, listForDropdown } from '../../util/filters'
 import { checkColumns, getIndexOfColumns, updateProposalFromCSV } from '../../util/uploadCsv'
 import {updateTacComment, updateAllocatedTimePriority} from '../../actions/TimeAllocationsActions'
 import { getTechnicalReport } from '../../util/technicalReports'
+import NoRejectProposalMessage from '../messages/NoRejectedProposalMessage'
 
 class TimeAllocationPage extends React.Component {
 
@@ -174,6 +175,7 @@ class TimeAllocationPage extends React.Component {
 
 	          return (
 	            <div key={ partner }  style={ {paddingBottom:'40px'} }>
+								<NoRejectProposalMessage />
 	              <div className='stat-wrapper-center'>
 	                <AvailableTimePerPartner
 	                  proposals={ partnerProposals[ partner ] || [] }

@@ -35,3 +35,9 @@
   color: #013d19;
   padding: 2em 0 1em 0;
 }
+
+.notification {
+  text-align: center;
+  background: #cccccc;
+  font-size: 20px;
+}

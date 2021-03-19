@@ -5,6 +5,7 @@ import {downloadSummary, getLiaisonUsername} from '../../util'
 import {reduceProposalsPerAstronomer} from '../../util/filters'
 import {ADMINISTRATOR} from '../../types'
 import {isLiaisonAstronomerUpdated} from '../../util/proposal-filtering'
+import NoRejectProposalMessage from '../messages/NoRejectedProposalMessage'
 
 const requestSummary = (event, proposalCode, semester) => {
 
@@ -28,6 +29,7 @@ const LiaisonPage = ({proposals, filters, astronomers, user, setLiaison, initPro
   const { username } = user
   return (
     <div>
+      <NoRejectProposalMessage />
       <LiaisonTable
         proposals={ filteredProposals }
         initProposals={ initProposals }

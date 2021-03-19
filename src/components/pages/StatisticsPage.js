@@ -25,6 +25,7 @@ import RSSDetectorModeTable from '../tables/statisticsTables/RSSDetectorModeTabl
 import HRSStatistics from '../tables/statisticsTables/HRSStatistics'
 import RSSObservingModeTable from '../tables/statisticsTables/RSSObservingModeTable'
 import SALTICAMStatistics from '../tables/statisticsTables/SALTICAMStatistics'
+import NoRejectProposalMessage from '../messages/NoRejectedProposalMessage'
 
 class StatisticsPage extends React.Component {
 	
@@ -53,7 +54,7 @@ class StatisticsPage extends React.Component {
 
     return(
       <div>
-				
+				<NoRejectProposalMessage />
         <div className='stat-wrapper'>
           <ProposalCountTable proposalStatistics={ proposalStatistics } />
           <PartnerTimeTable proposals={ proposals } allocatedTime={ allocatedTime } partner={ partner } semester={ semester }/>

@@ -8,6 +8,7 @@ import TransparencyDistributionHistogram from '../plots/TransparencyDistribution
 import TransparencyDistributionTable from '../tables/statisticsTables/ObservingStatisticsTransparacy'
 import TimeBreakdownDistribution from '../plots/TimeBreakdownDistribution'
 import ObservingStatisticsTimeBreakdown from '../tables/statisticsTables/ObservingStatisticsTimeBreakdown'
+import NoRejectProposalMessage from '../messages/NoRejectedProposalMessage'
 
 class PartnerStatPage extends React.Component {
   // Updates the comment of the proposal's completeness
@@ -59,6 +60,7 @@ class PartnerStatPage extends React.Component {
     const filteredProposals = proposals.filter(p => p.status !== 'DELETED' && p.status !== 'REJECTED')
     return (
       <div>
+        <NoRejectProposalMessage />
         <p style={ {textAlign: 'left'} }>
           <a target='_blank' href={ linkToDashboard }> Click here for navigating to the dashboard </a>
         </p>
