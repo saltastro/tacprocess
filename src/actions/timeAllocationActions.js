@@ -22,13 +22,13 @@ const failQuery = (error) => ({
   payload: { error }
 })
 
-export const passQuery = data => ({
+export const partnerTimeAllocationsPass = timeAllocations => ({
   type: TIME_ALLOCATIONS_QUERY_PASS,
-  timeallocation: data
+  payload: { timeAllocations }
 })
 
 export const startSubmittingTimeAllocations = () => ({
-  type: SUBMIT_TIME_ALLOCATIONS_START,
+  type: SUBMIT_TIME_ALLOCATIONS_START
 
 })
 
@@ -96,7 +96,7 @@ export const convertPartnerAllocations = (data) => {
 export const storePartnerAllocations = (semester) => function fits(dispatch) {
   dispatch(startQuery())
   queryPartnerAllocations(semester).then( res => {
-    dispatch(passQuery(res))
+    dispatch(partnerTimeAllocationsPass(res))
   }).catch((e) => {
     dispatch(failQuery(e.message))
   })
