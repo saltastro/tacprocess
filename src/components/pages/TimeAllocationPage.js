@@ -23,6 +23,7 @@ import { getPartnerList, listForDropdown } from '../../util/filters'
 import { checkColumns, getIndexOfColumns, updateProposalFromCSV } from '../../util/uploadCsv'
 import {updateTacComment, updateAllocatedTimePriority} from '../../actions/TimeAllocationsActions'
 import { getTechnicalReport } from '../../util/technicalReports'
+import NoRejectedProposalsMessage from '../messages/NoRejectedProposalsMessage'
 
 class TimeAllocationPage extends React.Component {
 
@@ -174,6 +175,7 @@ class TimeAllocationPage extends React.Component {
 
 	          return (
 	            <div key={ partner }  style={ {paddingBottom:'40px'} }>
+								<NoRejectedProposalsMessage />
 	              <div className='stat-wrapper-center'>
 	                <AvailableTimePerPartner
 	                  proposals={ partnerProposals[ partner ] || [] }
@@ -224,6 +226,11 @@ class TimeAllocationPage extends React.Component {
 											onClick={ () => downloadSummaries(partnerProposals[ partner ] || [], semester, partner) }>
 											Download summary files
 										</button>
+										{ // eslint-disable-next-line
+											submittedTimeAllocations.partner !== partner ? <div />
+											: submittedTimeAllocations.results ? <div style={ {color: '#60FF60', fontSize: '20px'} }>Successfully Submitted</div>
+											: <div  style={ { color: '#FF6060', 'fontSize': '20px' } }>Fail to submit time allocations</div>
+										}
 										{
 											canSubmitForPartner &&
 											<button
@@ -234,11 +241,6 @@ class TimeAllocationPage extends React.Component {
 											</button>
 										}
 									</div>
-									{ // eslint-disable-next-line
-										submittedTimeAllocations.partner !== partner ? <div />
-											: submittedTimeAllocations.results ? <div style={ {color: '#60FF60', fontSize: '20px'} }>Successfully Submitted</div>
-												: <div  style={ { color: '#FF6060', 'fontSize': '20px' } }>Fail to submit time allocations</div>
-									}
 								</div>
 
 	            </div>

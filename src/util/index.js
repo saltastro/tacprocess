@@ -2,6 +2,26 @@ import { saveAs } from 'file-saver'
 import * as types from '../types'
 import { jsonClient } from '../api'
 
+export class NumberParser {
+  constructor(locale) {
+    const parts = new Intl.NumberFormat(locale).formatToParts(12345.6)
+    const numerals = [...new Intl.NumberFormat(locale, {useGrouping: false}).format(9876543210)].reverse()
+    const index = new Map(numerals.map((d, i) => [d, i]))
+    this._group = new RegExp(`[${ parts.find(d => d.type === 'group').value }]`, 'g')
+    this._decimal = new RegExp(`[${ parts.find(d => d.type === 'decimal').value }]`)
+    this._numeral = new RegExp(`[${ numerals.join('') }]`, 'g')
+    this._index = d => index.get(d)
+  }
+  parse(string) {
+    const str = string.toString().trim()
+      .replace(this._group, '')
+      .replace(' ', '')
+      .replace(this._decimal, '.')
+      .replace(this._numeral, this._index)
+    return str ? +str : NaN
+  }
+}
+
 /**
  * Return the sum of a and b
  * */
@@ -177,12 +197,10 @@ export function canDo(user, action, partner) {
  * @return boolean (true)if value can be a float
  * */
 export function isFloat(val) {
-  const floatRegex = /^[+-]?\d+(?:[.,]\d*?)?$/
-  if (!floatRegex.test(val))
-    return false
   if (Array.isArray(val))return false
 
-  const temp = parseFloat(val)
+  // Check if the number have a correct notation
+  const temp = new NumberParser(window.navigator.language).parse(val)
   return !isNaN(temp)
 
 }
@@ -249,7 +267,9 @@ export function allocatedTimeTotals( proposals, partner ){
   proposals.forEach(p => {
     [0, 1, 2, 3, 4].forEach( pr => {
       if(p.allocatedTime && p.allocatedTime[ partner ]){
-        total[ `p${ pr }` ] += parseFloat(p.allocatedTime[ partner ] ? p.allocatedTime[ partner ][ `p${ pr }` ] : 0) || 0
+        total[ `p${ pr }` ] += new NumberParser(window.navigator.language)
+          .parse(p.allocatedTime[ partner ] ?
+            (p.allocatedTime[ partner ][ `p${ pr }` ]) : '0') || 0
       }
     })
   })

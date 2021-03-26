@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { illegalAllocation } from '../../util/allocation'
 import { goodTime, badTime } from '../../types'
 import { getTechnicalReport } from '../../util/technicalReports'
-import {downloadSummary} from '../../util/index'
+import { downloadSummary, NumberParser } from '../../util/index'
 
 const TimeAllocationInput = ({onChange, proposal, priority, partner, name}) => {
   const sty = illegalAllocation(proposal, priority, partner) ? badTime : goodTime
@@ -164,10 +164,14 @@ const ProposalsPerPartner = ({proposals, partner, tacCommentChange, allocatedTim
                     }
                   </td>
                   <td><div className='table-height width-100' >{
-                    parseFloat(p.allocatedTime[ partner ] ? p.allocatedTime[ partner ].p0 : 0 ) +
-									parseFloat(p.allocatedTime[ partner ] ? p.allocatedTime[ partner ].p1 : 0 ) +
-									parseFloat(p.allocatedTime[ partner ] ? p.allocatedTime[ partner ].p2 : 0 ) +
-									parseFloat(p.allocatedTime[ partner ] ? p.allocatedTime[ partner ].p3 : 0 )
+                    new NumberParser(window.navigator.language)
+                      .parse((p.allocatedTime[ partner ] ? p.allocatedTime[ partner ].p0 : 0 )) +
+                    new NumberParser(window.navigator.language)
+                      .parse((p.allocatedTime[ partner ] ? p.allocatedTime[ partner ].p1 : 0 )) +
+                    new NumberParser(window.navigator.language)
+                      .parse((p.allocatedTime[ partner ] ? p.allocatedTime[ partner ].p2 : 0 )) +
+                    new NumberParser(window.navigator.language)
+                      .parse((p.allocatedTime[ partner ] ? p.allocatedTime[ partner ].p3 : 0 ))
                   }</div></td>
                   <td>
                     { canAllocate ?
