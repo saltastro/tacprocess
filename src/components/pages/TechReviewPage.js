@@ -9,6 +9,7 @@ import {
 import TechReviewTable from '../tables/TechReviewTable'
 import {defaultSemester, getLiaisonUsername} from '../../util'
 import { reduceProposalsPerAstronomer } from '../../util/filters'
+import NoRejectedProposalsMessage from '../messages/NoRejectedProposalsMessage'
 
 class TechReviewPage extends React.Component {
 
@@ -47,8 +48,8 @@ class TechReviewPage extends React.Component {
 	  }
 
 	  return(
-
 	    <div>
+				<NoRejectedProposalsMessage />
 	      <TechReviewTable
 	        user={ user }
 	        proposals={ proposals }

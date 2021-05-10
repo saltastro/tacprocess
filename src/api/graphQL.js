@@ -94,6 +94,7 @@ function requestedTime(requirements, semester){
   })
   return reqTime
 }
+const removeRejectedProposals = proposals => proposals.filter(proposal => proposal.status !== 'Rejected')
 
 export function convertProposals(proposals, semester, partner){
   if (!proposals.proposals){ return []}
@@ -264,7 +265,10 @@ export function queryProposals(semester, partner){
   `
   return graphqlClient().post('/graphql', { query })
     .then(
-      response => convertProposals(response.data.data, semester, partner)
+      response => {
+        const convertedProposals = convertProposals(response.data.data, semester, partner)
+        return removeRejectedProposals(convertedProposals)
+      }
     )
 }
 

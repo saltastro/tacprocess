@@ -1,8 +1,8 @@
-import { isFloat } from '../util'
+import { isFloat, NumberParser } from '../util'
 
 export function illegalAllocation(proposal, priority, partner) {
   const t = proposal.allocatedTime[ partner ] ? proposal.allocatedTime[ partner ][ priority ] : 0
-  return !isFloat(t) || parseFloat(t) < 0
+  return !isFloat(t) || new NumberParser(window.navigator.language).parse(t) < 0
 }
 
 export function checkAllocatedTimes(proposals, partner){
@@ -35,7 +35,8 @@ export function getQuaryToAddAllocation(proposals, partner, semester){
           `{
                proposalCode: "${ p.proposalCode }",
                priority: ${ t },
-               time: ${ p.allocatedTime[ partner ] ? p.allocatedTime[ partner ][ priority ] : 0 }
+               time: ${ p.allocatedTime[ partner ] ? 
+            new NumberParser().parse(p.allocatedTime[ partner ][ priority ]) : 0 }
             }`
         )
       })

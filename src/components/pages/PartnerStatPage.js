@@ -8,6 +8,7 @@ import TransparencyDistributionHistogram from '../plots/TransparencyDistribution
 import TransparencyDistributionTable from '../tables/statisticsTables/ObservingStatisticsTransparacy'
 import TimeBreakdownDistribution from '../plots/TimeBreakdownDistribution'
 import ObservingStatisticsTimeBreakdown from '../tables/statisticsTables/ObservingStatisticsTimeBreakdown'
+import NoRejectedProposalsMessage from '../messages/NoRejectedProposalsMessage'
 
 class PartnerStatPage extends React.Component {
   // Updates the comment of the proposal's completeness
@@ -59,6 +60,7 @@ class PartnerStatPage extends React.Component {
     const filteredProposals = proposals.filter(p => p.status !== 'DELETED' && p.status !== 'REJECTED')
     return (
       <div>
+        <NoRejectedProposalsMessage />
         <p style={ {textAlign: 'left'} }>
           <a target='_blank' href={ linkToDashboard }> Click here for navigating to the dashboard </a>
         </p>
@@ -149,7 +151,7 @@ export default connect(store => (
     user: store.user.user,
     partnerShareTimes: store.partnerShareTimes.partnerShareTimes,
     loading: store.partnerStatProposals.fetching,
-    statistics: store.statistics.statistics,
+    statistics: store.statistics.partnerStatistics,
     submittingCompletionComment: store.partnerStatProposals.submittingCompletionComment,
     submittedCompletionComment: store.partnerStatProposals.submittedCompletionComment,
     submittingCommentError: store.partnerStatProposals.errors.submittingCommentError
