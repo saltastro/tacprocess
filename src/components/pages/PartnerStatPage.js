@@ -33,7 +33,6 @@ class PartnerStatPage extends React.Component {
       submittedCompletionComment,
       submittingCommentError
     } = this.props
-    console.log({statistics})
     const {
       completion,
       timeBreakdown,
