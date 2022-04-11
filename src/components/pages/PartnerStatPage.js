@@ -33,6 +33,7 @@ class PartnerStatPage extends React.Component {
       submittedCompletionComment,
       submittingCommentError
     } = this.props
+    console.log({statistics})
     const {
       completion,
       timeBreakdown,
@@ -151,7 +152,7 @@ export default connect(store => (
     user: store.user.user,
     partnerShareTimes: store.partnerShareTimes.partnerShareTimes,
     loading: store.partnerStatProposals.fetching,
-    statistics: store.statistics.partnerStatistics,
+    statistics: store.statistics.statistics,
     submittingCompletionComment: store.partnerStatProposals.submittingCompletionComment,
     submittedCompletionComment: store.partnerStatProposals.submittedCompletionComment,
     submittingCommentError: store.partnerStatProposals.errors.submittingCommentError
