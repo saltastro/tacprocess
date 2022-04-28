@@ -21,7 +21,7 @@ export function countInstruments (proposals){
 const ConfigurationsStatistics = ({numberOfConfigurationsPerInstrument}) => {
   const { rss, hrs, salticam, bvit } = numberOfConfigurationsPerInstrument
   return(
-    <div className='stat-item'>
+    <div className='stat-item' style={ {textAlign: 'center', width: '100%'} }>
       <h2>Configuration Statistics</h2>
       <table className='stat-table'>
         <thead>

@@ -10,6 +10,7 @@ const SALTICAMStatistics = ({numberOfConfigurationsPerSalticamDetectorMode}) => 
   } = numberOfConfigurationsPerSalticamDetectorMode
   return(
     <div  className='stat-item' style={ {textAlign: 'center'} }>
+      <h2>Salticam Detector Mode</h2>
       <table className='stat-table'>
         <thead>
           <tr>

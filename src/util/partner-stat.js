@@ -13,7 +13,6 @@ export const sumNumbers = (array) => array.reduce((a, b) => a + b, 0)
  * @returns {number}
  */
 export const calculateTotalObservation = (completionStats) => {
-
   const allCompletionStats = completionStats
     .find(c => c.partner.toUpperCase() === 'ALL')
   if (allCompletionStats){
@@ -42,7 +41,7 @@ export const calculateTotalObservation = (completionStats) => {
  */
 export const statusPriority = (proposal, priorityType, statusType, semester, partnerCode) => {
   if (proposal == null) { return null }
-  let timeAllocationPriority = []
+  let timeAllocationPriority
   const { observations, timeAllocations } = proposal
   if (partnerCode === 'All') {
     // according to the time allocated for the semester and priority

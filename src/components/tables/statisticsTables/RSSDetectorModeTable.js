@@ -4,7 +4,7 @@ import propTypes from 'prop-types'
 const RSSDetectorModeTable = ({numberOfConfigurationsPerRssDetectorMode}) => {
   const { driftScan, frameTransfer, normal, shuffle, slotMode } = numberOfConfigurationsPerRssDetectorMode
   return(
-    <div className='stat-item' style={ {textAlign: 'center', width: '100%'} }>
+    <div className='stat-item' >
 	        <h2>RSS Detector Mode</h2>
 	        <table className='stat-table'>
 		        {/* RSS Dictator mode */}

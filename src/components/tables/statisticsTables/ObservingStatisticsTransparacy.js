@@ -7,7 +7,7 @@ const ObservingStatisticsTransparency = ({ transparencyDistribution }) => {
   const { timeRequested, numberOfProposals } = transparencyDistribution
   const totalReqTime = timeRequested.any + timeRequested.clear + timeRequested.thinCloud + timeRequested.thickCloud
   return (
-    <div className='stat-item'>
+    <div>
       <table className='stat-table'>
         <thead>
           <tr>

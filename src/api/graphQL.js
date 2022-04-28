@@ -428,7 +428,7 @@ export function queryStatistics (semester, partner) {
   return graphqlClient().post('/graphql', { query })
   .then(
     response => response.data.data.statistics
-  )
+  ).catch(() => {})
 }
 
 export function queryPartnerStatProposals (semester, partner) {
@@ -481,7 +481,7 @@ export function queryPartnerStatProposals (semester, partner) {
   return graphqlClient().post('/graphql-api', { query })
     .then(
       response => response.data.data.proposals
-    )
+    ).catch(() => {})
 }
 
 export const  submitAllocations = (query) =>  graphqlClient().post('/graphql', { query }).then(response => response)

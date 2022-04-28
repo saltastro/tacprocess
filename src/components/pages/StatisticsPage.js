@@ -2,12 +2,8 @@ import React from 'react'
 import propTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Plot from '../plots/Plot'
-import InstrumentDistribution from '../plots/InstrumentDistribution'
-import HrsModeDistribution from '../plots/HrsModeDistribution'
-import RssModeDistribution from '../plots/RssModeDistribution'
 import DeclinationDistribution from '../plots/DeclinationDistribution'
 import RightAscensionDistribution from '../plots/RightAscensionDistribution'
-import SalticamModeDistribution from '../plots/SalticamModeDistribution'
 import TotalTimeDistribution from '../plots/TotalTimeDistribution'
 import TransparencyDistributionHistogram from '../plots/TransparencyDistributionHistogram'
 import TargetDistributionContourMap from '../plots/TargetDistributionContourMap'
@@ -25,12 +21,11 @@ import RSSDetectorModeTable from '../tables/statisticsTables/RSSDetectorModeTabl
 import HRSStatistics from '../tables/statisticsTables/HRSStatistics'
 import RSSObservingModeTable from '../tables/statisticsTables/RSSObservingModeTable'
 import SALTICAMStatistics from '../tables/statisticsTables/SALTICAMStatistics'
-import NoRejectedProposalsMessage from '../messages/NoRejectedProposalsMessage'
 
 class StatisticsPage extends React.Component {
 	
   render() {
-    /* this will require me to difine a shape on PropTypes  */
+    /* this will require me to define a shape on PropTypes  */
 		
     const { filters, allocatedTime, targets, proposalsData, roles, statistics } = this.props
     const { observingConditions, instruments, proposals: proposalStatistics } = statistics
@@ -45,7 +40,7 @@ class StatisticsPage extends React.Component {
       )
     }
 
-    let proposals = []
+    let proposals
     if (partner === ALL_PARTNER) { // eslint-disable-next-line
       proposals = proposalsData.proposals
     }else{
@@ -54,23 +49,30 @@ class StatisticsPage extends React.Component {
 
     return(
       <div>
-				<NoRejectedProposalsMessage />
         <div className='stat-wrapper'>
-          <ProposalCountTable proposalStatistics={ proposalStatistics } />
-          <PartnerTimeTable proposals={ proposals } allocatedTime={ allocatedTime } partner={ partner } semester={ semester }/>
+          <div className='stat-item'>
+            <ProposalCountTable proposalStatistics={ proposalStatistics } />
+          </div>
+          <div className='stat-item'>
+            <PartnerTimeTable proposals={ proposals } allocatedTime={ allocatedTime } partner={ partner } semester={ semester }/>
+          </div>
         </div>
-        <h2><br/>Number of proposals vs Requested time</h2>
+
         <div className='stat-wrapper-center'>
-          <TotalTimeDistribution
-            proposals={ proposals }
-            semester={ semester }
-            partner={ partner }
-          />
+          <div className='stat-item'>
+            <h2>Number of proposals vs Requested time</h2>
+            <TotalTimeDistribution
+              proposals={ proposals }
+              semester={ semester }
+              partner={ partner }
+            />
+          </div>
         </div>
-        <div className='stat-wrapper' />
+
         <div className='stat-wrapper-center'>
           <TargetStatistics targets={ targets }/>
         </div>
+
         <div className='stat-wrapper'>
           <Plot caption='Smoothed distribution of all targets on the sky.'>
             <TargetDistributionContourMap targets={ targets }/>
@@ -79,14 +81,10 @@ class StatisticsPage extends React.Component {
             <TargetDistributionScatterPlot targets={ targets }/>
           </Plot>
         </div>
+
         <div className='stat-wrapper'>
           <RightAscensionDistribution targets={ targets }/>
           <DeclinationDistribution targets={ targets }/>
-        </div>
-
-        <h2>Seeing requests</h2>
-        <div className='stat-wrapper-center'>
-          <ObservingStatisticsSeeing seeingDistribution={ observingConditions.seeing }/>
         </div>
 
         <h2>Observing Conditions</h2>
@@ -94,48 +92,35 @@ class StatisticsPage extends React.Component {
           <TransparencyDistributionHistogram
             transparencyDistribution={ observingConditions.transparency }
           />
-          <ObservingStatisticsTransparency
-            transparencyDistribution={ observingConditions.transparency }
-          />
+          <div className='stat-item'>
+            <ObservingStatisticsTransparency
+              transparencyDistribution={ observingConditions.transparency }
+            />
+            <div >
+              <h2>Seeing requests</h2>
+              <ObservingStatisticsSeeing seeingDistribution={ observingConditions.seeing }/>
+            </div>
+          </div>
+
         </div>
 
-        <div className='stat-wrapper'>
-          <InstrumentDistribution
-            timeRequestedPerInstrument={ {
-              salticam: instruments.scamRequestedTotal,
-              rss: instruments.rssRequestedTotal,
-              hrs: instruments.hrsRequestedTotal,
-              bvit: instruments.bvitRequestedTotal
-            } }
-          />
-          <ConfigurationsStatistics numberOfConfigurationsPerInstrument={ {
-            salticam: instruments.scamTotal,
-            rss: instruments.rssTotal,
-            hrs: instruments.hrsTotal,
-            bvit: instruments.bvitTotal
-          } }/>
+        <div className='stat-wrapper-center'>
+
+            <ConfigurationsStatistics numberOfConfigurationsPerInstrument={ {
+              salticam: instruments.scamTotal,
+              rss: instruments.rssTotal,
+              hrs: instruments.hrsTotal,
+            } }/>
+
         </div>
-        <div  className='stat-wrapper-center'>
-          <RSSDetectorModeTable numberOfConfigurationsPerRssDetectorMode={ instruments.rssDetectorModeTotal }/>
-        </div>
+
         <div  className='stat-wrapper'>
-          <RssModeDistribution
-            numberOfConfigurationsPerRssObservingMode={ instruments.rssObservingModeTotal }
-          />
+          <RSSDetectorModeTable numberOfConfigurationsPerRssDetectorMode={ instruments.rssDetectorModeTotal }/>
           <RSSObservingModeTable numberOfConfigurationsPerRssObservingMode={ instruments.rssObservingModeTotal }/>
         </div>
-        <h2>HRS Detector Mode</h2>
+
         <div  className='stat-wrapper'>
-          <HrsModeDistribution
-            timeRequestedPerHrsResolution={ instruments. hrsResolutionRequestedTotal }
-          />
           <HRSStatistics numberOfConfigurationsPerHrsResolution={ instruments. hrsResolutionTotal }/>
-        </div>
-        <h2>Salticam Detector Mode</h2>
-        <div className='stat-wrapper'>
-          <SalticamModeDistribution
-            timeRequestedPerSalticamDetectorMode={ instruments.salticamDetectorModeRequestedTotal }
-          />
           <SALTICAMStatistics
             numberOfConfigurationsPerSalticamDetectorMode={ instruments.salticamDetectorModeTotal }
           />
