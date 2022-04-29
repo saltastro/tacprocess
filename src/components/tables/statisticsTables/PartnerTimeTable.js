@@ -15,7 +15,7 @@ const PartnerTimeTable = ({proposals, partner, allocatedTime, semester}) => {
   const partnerAllocation = partnerAlloc(allocatedTime, partner)
   const allocatedTimeSum = (partnerAllocation.p0p1 || 0) + (partnerAllocation.p2 || 0) + (partnerAllocation.p3 || 0)
   return(
-    <div className='stat-item'>
+    <div>
       <h2>Time for partner <strong>{partner}</strong></h2>
       <table className='stat-table'  style={ {height: '90%'} }>
         <thead>

@@ -6,11 +6,11 @@ import { getPercentage, rounded } from '../../../util'
 const ObservingStatisticsSeeing = ({ seeingDistribution }) => {
   const { numberOfProposals, timeRequested } = seeingDistribution
   const totalReqTime = timeRequested.lessEqual1Dot5 + timeRequested.lessEqual2 +
-    timeRequested.lessEqual3 + timeRequested.moreThan3
+    timeRequested.lessEqual2Dot5 + timeRequested.lessEqual3 + timeRequested.moreThan3
 
   return(
-    <div className='stat-item'  style={ {textAlign: 'left', width: '100%'} }>
-      <table className='stat-table'  style={ {height: '100%'} }>
+    <div>
+      <table className='stat-table'>
         <thead>
           <tr>
             <th className='width-150'>Conditions</th>
@@ -34,9 +34,9 @@ const ObservingStatisticsSeeing = ({ seeingDistribution }) => {
           </tr>
           <tr>
             <td>Max Seeing <br /> &#x2266; 2.5</td>
-            <td>{ rounded(timeRequested.lessEqual1Dot5) }</td>
-            <td>{ numberOfProposals.lessEqual1Dot5 }</td>
-            <td>{ rounded(getPercentage(timeRequested.lessEqual1Dot5, totalReqTime), LOW_PRECISION) }</td>
+            <td>{ rounded(timeRequested.lessEqual2Dot5) }</td>
+            <td>{ numberOfProposals.lessEqual2Dot5 }</td>
+            <td>{ rounded(getPercentage(timeRequested.lessEqual2Dot5, totalReqTime), LOW_PRECISION) }</td>
           </tr>
           <tr>
             <td>Max Seeing <br /> &#x2266; 3.0</td>

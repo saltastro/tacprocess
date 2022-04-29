@@ -13,7 +13,7 @@ const RSSObservingModeTable = ({numberOfConfigurationsPerRssObservingMode}) => {
     polarimetricImaging
   } = numberOfConfigurationsPerRssObservingMode
   return(
-    <div className='stat-item' style={ {textAlign: 'center'} }>
+    <div className='stat-item'>
       <h2>RSS Observing Mode</h2>
       <table className='stat-table'>
 

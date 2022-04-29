@@ -11,7 +11,7 @@ const ProposalCountTable = ({ proposalStatistics }) => {
     newLongTermProposals
   } = proposalStatistics
   return(
-    <div className='stat-item'>
+    <div>
       <h2>Submitted Proposals</h2>
       <table className='stat-table'  style={ {height: '90%'} }>
         <thead>

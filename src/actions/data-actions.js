@@ -53,7 +53,7 @@ export function fetchAllData (defaultSemester, currentSemester, partner) {
       const allocations = queryPartnerAllocations(defaultSemester, partner)
       const tacMembers = queryTacMembers()
       const saltUsers = querySaltUsers()
-      const statistics = queryStatistics(currentSemester, partner)
+      const statistics = queryStatistics(defaultSemester, partner)
       const partnerAllocations = queryPartnerAllocations(defaultSemester)
       await Promise.all([
         saltAstronomers,
