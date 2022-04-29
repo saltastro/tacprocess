@@ -1,5 +1,5 @@
 import { graphqlClient, saltServerApiClient } from './index'
-import {getTechReportFields} from '../util'
+import {getTechReportFields, logStacktrace} from '../util'
 import { isNewProposal, isLongTermProposal } from '../util/proposal'
 import {convertPartnerAllocations} from '../actions/timeAllocationActions'
 
@@ -363,17 +363,17 @@ export function queryStatistics (semester, partner) {
         observingConditions{
           seeing{
             timeRequested{
-              lessEqual1Dot5
-              lessEqual2
-              lessEqual2Dot5
-              lessEqual3
+              between0And1Dot5
+              between1Dot5And2
+              between2And2Dot5
+              between2Dot5And3
               moreThan3
             }
             numberOfProposals{
-              lessEqual1Dot5
-              lessEqual2
-              lessEqual2Dot5
-              lessEqual3
+              between0And1Dot5
+              between1Dot5And2
+              between2And2Dot5
+              between2Dot5And3
               moreThan3
             }
           }
@@ -428,7 +428,9 @@ export function queryStatistics (semester, partner) {
   return graphqlClient().post('/graphql', { query })
   .then(
     response => response.data.data.statistics
-  ).catch(() => {})
+  ).catch((e) => {
+      logStacktrace(e)
+    })
 }
 
 export function queryPartnerStatProposals (semester, partner) {
@@ -481,7 +483,9 @@ export function queryPartnerStatProposals (semester, partner) {
   return graphqlClient().post('/graphql-api', { query })
     .then(
       response => response.data.data.proposals
-    ).catch(() => {})
+    ).catch((e) => {
+      logStacktrace(e)
+    })
 }
 
 export const  submitAllocations = (query) =>  graphqlClient().post('/graphql', { query }).then(response => response)

@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@sentry/react": "^6.19.7",
+    "@sentry/tracing": "^6.19.7",
     "@types/react-csv": "^1.1.1",
     "apollo-cache-inmemory": "^1.0.0",
     "apollo-client": "^2.0.1",
@@ -56,7 +58,7 @@
     "start": "REACT_APP_API_BASE_URL=http://tacapidev.cape.saao.ac.za react-app-rewired start",
     "start2": "REACT_APP_API_BASE_URL=http://tac.salt.ac.za react-app-rewired start",
     "dev": "REACT_APP_SALT_SERVER_API_URL=http://127.0.0.1:5000 REACT_APP_API_BASE_URL=http://127.0.0.1:5001  react-app-rewired start",
-    "build": "REACT_APP_API_BASE_URL=http://saltapi.salt.ac.za react-app-rewired build",
+    "build": "REACT_APP_API_BASE_URL=http://saltapi.salt.ac.za react-app-rewired build REACT_APP_SENTRY_DSN=https://dbf47d4bad1740b485b98cd87c35a0e6@o226051.ingest.sentry.io/5913441",
     "build-dev": "REACT_APP_API_BASE_URL=http://tacapidev.cape.saao.ac.za react-app-rewired build",
     "test": "REACT_APP_API_BASE_URL=http://test; react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject",

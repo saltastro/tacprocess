@@ -400,7 +400,7 @@ export function defaultSemester () {
   const today = new Date()
   const month = today.getMonth() + 1
   let year = today.getFullYear()
-  let semester = null
+  let semester
   if (month >= 1 && month <= 4) {
     semester = 1
   } else if (month >= 5 && month <= 12) {
@@ -417,7 +417,7 @@ export function currentSemester () {
   const today = new Date()
   const month = today.getMonth() + 1
   let year = today.getFullYear()
-  let semester = null
+  let semester
   if (month >= 5 && month <= 10) {
     semester = 1
   } else if (month >= 11) {
@@ -471,4 +471,11 @@ export function rounded(number, fixTo=2) {
     return 0
   }
   return parseFloat(number.toFixed(fixTo).replace(/\.0+$/, ''))
+}
+
+
+export const logStacktrace = (e) => {
+  if (process.env.NODE_ENV === "development") {
+    log.error(e, e.stacktrace)
+  }
 }
