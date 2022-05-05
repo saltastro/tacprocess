@@ -473,9 +473,6 @@ export function rounded(number, fixTo=2) {
   return parseFloat(number.toFixed(fixTo).replace(/\.0+$/, ''))
 }
 
-
 export const logStacktrace = (e) => {
-  if (process.env.NODE_ENV === "development") {
     log.error(e, e.stacktrace)
-  }
 }

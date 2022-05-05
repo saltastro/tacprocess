@@ -45,7 +45,7 @@ const ObservingStatisticsSeeing = ({ seeingDistribution }) => {
             <td>{ rounded(getPercentage(timeRequested.between2Dot5And3, totalReqTime), LOW_PRECISION) }</td>
           </tr>
           <tr>
-            <td>Max Seeing &ge; 3.0</td>
+            <td>Max Seeing &gt; 3.0</td>
             <td>{ rounded(timeRequested.moreThan3) }</td>
             <td>{ numberOfProposals.moreThan3 }</td>
             <td>{ rounded(getPercentage(timeRequested.moreThan3, totalReqTime), LOW_PRECISION) }</td>
