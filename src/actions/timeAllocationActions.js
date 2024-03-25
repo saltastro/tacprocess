@@ -1,16 +1,16 @@
 import { queryPartnerAllocations } from '../api/graphQL'
 import {
-	TIME_ALLOCATIONS_QUERY_START,
-	TIME_ALLOCATIONS_QUERY_FAIL,
-	TIME_ALLOCATIONS_QUERY_PASS,
-	SUBMIT_TIME_ALLOCATIONS_START,
-	SUBMIT_TIME_ALLOCATIONS_PASS,
-	SUBMIT_TIME_ALLOCATIONS_FAIL,
+  TIME_ALLOCATIONS_QUERY_START,
+  TIME_ALLOCATIONS_QUERY_FAIL,
+  TIME_ALLOCATIONS_QUERY_PASS,
+  SUBMIT_TIME_ALLOCATIONS_START,
+  SUBMIT_TIME_ALLOCATIONS_PASS,
+  SUBMIT_TIME_ALLOCATIONS_FAIL,
   FETCH_PARTNER_AVAILABLE_TIME_PASS,
-	ADD_NEW_MEMBER,
-	REMOVE_MEMBER,
-	ALL_PARTNER,
-	SAVE_MEMBERS
+  ADD_NEW_MEMBER,
+  REMOVE_MEMBER,
+  ALL_PARTNER,
+  SAVE_MEMBERS, MAKE_CHAIR
 } from '../types'
 
 const startQuery = () => ({
@@ -60,12 +60,23 @@ export const removeMember = (member, partner) => ({
   type: REMOVE_MEMBER,
   payload: {
     member,
-    partner}
+    partner
+  }
 })
+
+export const makeChair = (member, partner) => ({
+  type: MAKE_CHAIR,
+  payload: {
+    member,
+    partner
+  }
+})
+
 export const saveMembers = (partner) => ({
 	type: SAVE_MEMBERS,
 	payload: {
-		partner}
+		partner
+  }
 })
 
 export const convertPartnerAllocations = (data) => {
@@ -74,7 +85,8 @@ export const convertPartnerAllocations = (data) => {
       p0p1: 0,
       p2: 0,
       p3: 0
-    }}
+    }
+  }
   data.partnerAllocations.forEach( a => {
     const partner = a.code
     availableTime[ ALL_PARTNER ].p0p1 += a.timeAllocation.allocatedTime.p0Andp1

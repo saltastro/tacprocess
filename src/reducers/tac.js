@@ -12,7 +12,8 @@ import {
   TAC_MEMBERS_QUERY_PASS,
   FETCHING_SALT_USERS_START,
   FETCH_PARTNER_AVAILABLE_TIME_PASS,
-  FETCHING_TAC_MEMBERS_START
+  FETCHING_TAC_MEMBERS_START,
+  MAKE_CHAIR
 } from '../types'
 
 const initState = {
@@ -173,6 +174,35 @@ export default function statistics(state=initState, action = {}) {
 					...state.removedMembers[ action.payload.partner ].filter( m => (action.payload.member.username !== m.username)),
         ]
       }
+    }
+  }
+  case MAKE_CHAIR: {
+    if (!state.newMembers[ action.payload.partner ]){
+      state.newMembers[ action.payload.partner ] = []
+    }
+    if (!state.removedMembers[ action.payload.partner ]){
+      state.removedMembers[ action.payload.partner ] = []
+    }
+    const newMembers = [...state.newMembers[ action.payload.partner ].filter( m => (action.payload.member.username !== m.username))]
+    return {
+      ...state,
+      removedMembers: {
+        ...state.removedMembers,
+        [ action.payload.partner ]: [
+          ...state.removedMembers[ action.payload.partner ].filter( m => (action.payload.member.username !== m.username)),
+        ]
+      },
+      tacMembers: {
+        ...state.tacMembers,
+        [ action.payload.partner ]: [
+          ...state.tacMembers[ action.payload.partner ].filter( m => (action.payload.member.username !== m.username))]
+      },
+      newMembers: {
+        ...state.newMembers,
+        [ action.payload.partner ]: [
+          ...newMembers, action.payload.member
+          ]
+      },
     }
   }
   case SAVE_MEMBERS: {

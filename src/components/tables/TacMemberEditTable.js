@@ -3,7 +3,7 @@ import propTypes from 'prop-types'
 import Select from 'react-select'
 import { ALL_PARTNER } from '../../types'
 
-const TacMemberEditTable = ({ newMembers,  removedMembers, tacMembers, addMember, removeMember, saltUsers, partners, saveMembers }) => {
+const TacMemberEditTable = ({ newMembers,  removedMembers, tacMembers, addMember, removeMember, saltUsers, partners, saveMembers, makeChair }) => {
   const saltUsersList = ( saltUsers || [] ).map( u => ({ value: u, label: `${ u.surname } ${ u.name }` }))
   return(
     <div>
@@ -17,15 +17,25 @@ const TacMemberEditTable = ({ newMembers,  removedMembers, tacMembers, addMember
                 <th>Name</th>
                 <th>Is chair</th>
                 <th/>
+                <th/>
               </tr>
             </thead>
             <tbody>
-              {(tacMembers[ p ] || []).map((m, b) => (
+              {
+                (tacMembers[ p ] || []).map((m, b) => (
                 <tr key={ `${ b }b` }>
                   <td>{m.surname}</td>
                   <td>{m.name}</td>
                   <td>{m.isTacChair ? 'True': 'False'}</td>
-                  <td>{!m.isTacChair && <button  onClick={ () => removeMember(m, p) }>- remove</button>}</td>
+                  <td>
+                    {
+                      <button  onClick={ () => removeMember(m, p) }>- Remove</button>
+                    }
+                    </td>
+                  <td>
+                    {!m.isTacChair && <button onClick={ () => makeChair(m, p, true) }> Make Chair</button>}
+                    {m.isTacChair && <button onClick={ () => makeChair(m, p, false) }> Remove Chair</button>}
+                  </td>
                 </tr>))
               }
               {
@@ -34,7 +44,13 @@ const TacMemberEditTable = ({ newMembers,  removedMembers, tacMembers, addMember
 										<td>{m.surname}</td>
 										<td>{m.name}</td>
 										<td>{m.isTacChair ? 'True': 'False'}</td>
-										<td>{!m.isTacChair && <button  onClick={ () => removeMember(m, p) }>- remove</button>}</td>
+										<td>
+                      {<button  onClick={ () => removeMember(m, p) }>- Remove</button>}
+                    </td>
+                    <td>
+                      {!m.isTacChair && <button onClick={ () => makeChair(m, p, true) }> Make Chair</button>}
+                      {m.isTacChair && <button onClick={ () => makeChair(m, p, false) }> Remove Chair</button>}
+                    </td>
 									</tr>))
               }
 							{
@@ -44,13 +60,14 @@ const TacMemberEditTable = ({ newMembers,  removedMembers, tacMembers, addMember
                       <td>{m.surname}</td>
                       <td>{m.name}</td>
                       <td>{m.isTacChair ? 'True': 'False'}</td>
-                      <td>{!m.isTacChair && <button  onClick={ () => addMember(m, p) }>+ add</button>}</td>
+                      <td>{<button  onClick={ () => addMember(m, p) }>+ Add</button>}</td>
+                      <td/>
                     </tr>
                   )
                 )
 							}
               <tr key='newValue'>
-                <td colSpan='4'>
+                <td colSpan='5'>
                   <Select
                     className ='full-width'
                     options={ saltUsersList }
@@ -76,7 +93,8 @@ TacMemberEditTable.propTypes = {
   saltUsers: propTypes.array.isRequired,
   addMember: propTypes.func.isRequired,
   removeMember: propTypes.func.isRequired,
-  partners: propTypes.array.isRequired
+  partners: propTypes.array.isRequired,
+  makeChair: propTypes.func.isRequired
 }
 
 export default TacMemberEditTable
