@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import SwitchUserForm from '../forms/SwitchUserForm'
 import TacMemberEditTable from '../tables/TacMemberEditTable'
 import { switchUser } from '../../actions/auth'
-import { addNewMember, removeMember, saveMembers, makeChair } from '../../actions/timeAllocationActions'
+import { addNewMember, removeMember, saveMembers, updateMember } from '../../actions/timeAllocationActions'
 import { fetchTacMembers, fetchSaltUsers } from '../../actions/adminActions'
 import { getPartnerList } from '../../util/filters'
 import { ADMINISTRATOR } from '../../types'
@@ -31,7 +31,7 @@ class AdminPage extends React.Component {
 	  this.props.dispatch(removeMember(member, partner))
 	};
 	makeChair = (member, partner, isChair) => {
-		this.props.dispatch(makeChair({ ...member, isTacChair: isChair }, partner))
+		this.props.dispatch(updateMember({ ...member, isTacChair: isChair }, partner))
 	};
 	saveMembers = async (partner) => {
 		await addTacMembers(partner, (this.props.newMembers[partner] || []).reduce((prev, cur) => [...prev, {

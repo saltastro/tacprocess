@@ -10,7 +10,7 @@ import {
   ADD_NEW_MEMBER,
   REMOVE_MEMBER,
   ALL_PARTNER,
-  SAVE_MEMBERS, MAKE_CHAIR
+  SAVE_MEMBERS, UPDATE_MEMBER
 } from '../types'
 
 const startQuery = () => ({
@@ -64,8 +64,8 @@ export const removeMember = (member, partner) => ({
   }
 })
 
-export const makeChair = (member, partner) => ({
-  type: MAKE_CHAIR,
+export const updateMember = (member, partner) => ({
+  type: UPDATE_MEMBER,
   payload: {
     member,
     partner

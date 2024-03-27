@@ -13,7 +13,7 @@ import {
   FETCHING_SALT_USERS_START,
   FETCH_PARTNER_AVAILABLE_TIME_PASS,
   FETCHING_TAC_MEMBERS_START,
-  MAKE_CHAIR
+  UPDATE_MEMBER
 } from '../types'
 
 const initState = {
@@ -176,7 +176,7 @@ export default function statistics(state=initState, action = {}) {
       }
     }
   }
-  case MAKE_CHAIR: {
+  case UPDATE_MEMBER: {
     if (!state.newMembers[ action.payload.partner ]){
       state.newMembers[ action.payload.partner ] = []
     }
