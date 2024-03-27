@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import SwitchUserForm from '../forms/SwitchUserForm'
 import TacMemberEditTable from '../tables/TacMemberEditTable'
 import { switchUser } from '../../actions/auth'
-import {addNewMember, removeMember, saveMembers} from '../../actions/timeAllocationActions'
+import { addNewMember, removeMember, saveMembers, updateMember } from '../../actions/timeAllocationActions'
 import { fetchTacMembers, fetchSaltUsers } from '../../actions/adminActions'
 import { getPartnerList } from '../../util/filters'
 import { ADMINISTRATOR } from '../../types'
@@ -20,21 +20,31 @@ class AdminPage extends React.Component {
 	  this.props.dispatch(switchUser(username))
 	};
 	addMember = (member, partner) => {
+		this.props.tacMembers[ partner ].forEach( m => {
+			if(m.username === member.username && m.isTacChair === member.isTacChair){
+				member = m
+			}
+		})
 	  this.props.dispatch(addNewMember(member, partner))
 	};
 	removeMember = (member, partner) => {
 	  this.props.dispatch(removeMember(member, partner))
 	};
-	saveMembers = (partner) => {
-		addTacMembers(partner, (this.props.newMembers[ partner ] || []).reduce((prev, cur) => [...prev, {
+	makeChair = (member, partner, isChair) => {
+		this.props.dispatch(updateMember({ ...member, isTacChair: isChair }, partner))
+	};
+	saveMembers = async (partner) => {
+		await addTacMembers(partner, (this.props.newMembers[partner] || []).reduce((prev, cur) => [...prev, {
+				member: cur.username,
+				is_chair: cur.isTacChair
+			}]
+			, []))
+		await removeTacMembers(partner, (this.props.removedMembers[partner] || []).reduce((prev, cur) => [...prev, {
 			member: cur.username,
-			is_chair: false
 		}], []))
-		removeTacMembers(partner, (this.props.removedMembers[ partner ] || []).reduce((prev, cur) => [...prev, {
-			member: cur.username,
-		}], []))
+
+		await this.props.dispatch(fetchTacMembers())
 		this.props.dispatch(saveMembers())
-		this.props.dispatch(fetchTacMembers())
 	};
 	
 	render() {
@@ -60,6 +70,7 @@ class AdminPage extends React.Component {
 	          removeMember={ this.removeMember }
 	          newMemberInput={ this.newMemberInput }
 	          partners={ partners }
+						makeChair={ this.makeChair }
 	        />
 	      </div>
 	    </div>
