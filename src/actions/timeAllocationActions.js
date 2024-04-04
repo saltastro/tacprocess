@@ -10,7 +10,8 @@ import {
   ADD_NEW_MEMBER,
   REMOVE_MEMBER,
   ALL_PARTNER,
-  SAVE_MEMBERS, UPDATE_MEMBER
+  SAVE_MEMBERS,
+  UPDATE_MEMBER
 } from '../types'
 
 const startQuery = () => ({

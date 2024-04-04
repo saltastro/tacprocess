@@ -34,12 +34,12 @@ class AdminPage extends React.Component {
 		this.props.dispatch(updateMember({ ...member, isTacChair: isChair }, partner))
 	};
 	saveMembers = async (partner) => {
-		await addTacMembers(partner, (this.props.newMembers[partner] || []).reduce((prev, cur) => [...prev, {
+		await addTacMembers(partner, (this.props.newMembers[ partner ] || []).reduce((prev, cur) => [...prev, {
 				member: cur.username,
 				is_chair: cur.isTacChair
 			}]
 			, []))
-		await removeTacMembers(partner, (this.props.removedMembers[partner] || []).reduce((prev, cur) => [...prev, {
+		await removeTacMembers(partner, (this.props.removedMembers[ partner ] || []).reduce((prev, cur) => [...prev, {
 			member: cur.username,
 		}], []))
 

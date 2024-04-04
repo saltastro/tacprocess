@@ -195,3 +195,15 @@ export const compareByValue = (a, b) => {
   }
   return 0
 }
+
+export const compareBySurname = (a, b) => {
+  const name1 = a.surname
+  const name2 = b.surname
+  if (name1 < name2) {
+    return -1
+  }
+  if (name1 > name2) {
+    return 1
+  }
+  return 0
+}

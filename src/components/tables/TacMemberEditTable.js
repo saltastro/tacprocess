@@ -2,7 +2,7 @@ import React from 'react'
 import propTypes from 'prop-types'
 import Select from 'react-select'
 import { ALL_PARTNER } from '../../types'
-import { compareByFirstName } from '../../util/salt-astronomer'
+import { compareBySurname } from '../../util/filters'
 
 const TacMemberEditTable = ({ newMembers,  removedMembers, tacMembers, addMember, removeMember, saltUsers, partners, saveMembers, makeChair }) => {
   const saltUsersList = ( saltUsers || [] ).map( u => ({ value: u, label: `${ u.surname } ${ u.name }` }))
@@ -22,20 +22,20 @@ const TacMemberEditTable = ({ newMembers,  removedMembers, tacMembers, addMember
             </thead>
             <tbody>
             {
-              (tacMembers[p] || []).map((m, b) => (
+              (tacMembers[ p ] || []).sort(compareBySurname).map((m, b) => (
                 <tr key={ `${b}b` }>
                   <td>{m.surname}</td>
                   <td>{m.name}</td>
                   <td>
                     <input
-                      type="checkbox"
+                      type='checkbox'
                       checked={ m.isTacChair }
                       onChange={ e => {
                         makeChair(m, p, e.target.checked)
                       }
                       }
                     />
-                    { m.isTacChair ? 'Remove As Chair' : 'Make Chair' }
+                    <label>Is a TAC Chair</label>
 
                   </td>
                   <td>
@@ -45,35 +45,38 @@ const TacMemberEditTable = ({ newMembers,  removedMembers, tacMembers, addMember
                   </td>
                 </tr>))
             }
-            <tr>
-              { (newMembers[p] || []).length > 0 && <th colSpan={4}>New or Updated Members</th>}
-            </tr>
             {
-              (newMembers[p] || []).sort(compareByFirstName).map((m, c) => (
-                <tr key={ `${c}c` } className="new-tac-row">
+              (newMembers[ p ] || []).length > 0 && <tr>
+                <th colSpan={4}>Members to Add or Update</th>
+              </tr>}
+            {
+              (newMembers[ p ] || []).sort(compareBySurname).map((m, c) => (
+                <tr key={ `${c}c` } className='new-tac-row'>
                   <td>{ m.surname }</td>
                   <td>{ m.name }</td>
                   <td>
                     <input
-                      type="checkbox"
-                      checked={ m.isTacChair }
-                      onChange={ e => {
+                      type='checkbox'
+                      checked={m.isTacChair}
+                      onChange={e => {
                         makeChair(m, p, e.target.checked)
                       }
                       }
-                    /> { m.isTacChair ? 'Remove As Chair' : 'Make Chair' }</td>
+                    /> <label>Is a TAC Chair</label></td>
                   <td>
-                    <button onClick={ () => removeMember(m, p) }>- Remove</button>
+                  <button onClick={ () => removeMember(m, p) }>- Remove</button>
                   </td>
                 </tr>))
             }
-            <tr>
-              { (removedMembers[p] || []).length > 0 && <th colSpan={4}>Members to Remove</th> }
-            </tr>
+            {
+              (removedMembers[ p ] || []).length > 0 && <tr>
+                 <th colSpan={4}>Members to Remove</th>
+              </tr>
+            }
             {
               (
-                removedMembers[p] || []).sort(compareByFirstName).map((m, c) => (
-                  <tr key={`${c}c`} className="removed-tac-row">
+                removedMembers[ p ] || []).sort(compareBySurname).map((m, c) => (
+                  <tr key={`${c}c`} className='removed-tac-row'>
                     <td>{ m.surname }</td>
                     <td>{ m.name }</td>
                     <td>{ m.isTacChair ? 'True' : 'False' }</td>
@@ -83,13 +86,13 @@ const TacMemberEditTable = ({ newMembers,  removedMembers, tacMembers, addMember
                 )
               )
             }
-            <tr key="newValue">
-              <td colSpan="5">
+            <tr key='newValue'>
+              <td colSpan='5'>
                 <Select
-                  className="full-width"
+                  className='full-width'
                   options={ saltUsersList }
                   clearable={ false }
-                  focusedOption="value"
+                  focusedOption='value'
                   onChange={ event => addMember(event.value, p) }
                 />
               </td>
