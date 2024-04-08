@@ -184,26 +184,8 @@ export const isCompletionCommentUpdated = (proposal, initProposals, semester) =>
   return !initProposal || semesterComment(proposal, semester) !== semesterComment(initProposal, semester)
 }
 
-export const compareByValue = (a, b) => {
-  const name1 = a.value
-  const name2 = b.value
-  if (name1 < name2) {
-    return -1
-  }
-  if (name1 > name2) {
-    return 1
-  }
-  return 0
-}
-
-export const compareBySurname = (a, b) => {
-  const name1 = a.surname
-  const name2 = b.surname
-  if (name1 < name2) {
-    return -1
-  }
-  if (name1 > name2) {
-    return 1
-  }
-  return 0
+export function compareByAttribute(attribute) {
+  return function(a, b) {
+    return a[attribute].toUpperCase().localeCompare(b[attribute].toUpperCase());
+  };
 }

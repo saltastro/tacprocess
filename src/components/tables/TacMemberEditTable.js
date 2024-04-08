@@ -2,7 +2,7 @@ import React from 'react'
 import propTypes from 'prop-types'
 import Select from 'react-select'
 import { ALL_PARTNER } from '../../types'
-import { compareBySurname } from '../../util/filters'
+import { compareByAttribute } from '../../util/filters'
 
 const TacMemberEditTable = ({ newMembers,  removedMembers, tacMembers, addMember, removeMember, saltUsers, partners, saveMembers, makeChair }) => {
   const saltUsersList = ( saltUsers || [] ).map( u => ({ value: u, label: `${ u.surname } ${ u.name }` }))
@@ -22,12 +22,13 @@ const TacMemberEditTable = ({ newMembers,  removedMembers, tacMembers, addMember
             </thead>
             <tbody>
             {
-              (tacMembers[ p ] || []).sort(compareBySurname).map((m, b) => (
-                <tr key={ `${b}b` }>
-                  <td>{m.surname}</td>
-                  <td>{m.name}</td>
+              (tacMembers[ p ] || []).sort(compareByAttribute("surname")).map((m) => (
+                <tr key={ `${m.surname + m.name }` }>
+                  <td>{ m.surname }</td>
+                  <td>{ m.name }</td>
                   <td>
                     <input
+                      id={ `isChair_${ m.surname + m.name }` }
                       type='checkbox'
                       checked={ m.isTacChair }
                       onChange={ e => {
@@ -35,7 +36,7 @@ const TacMemberEditTable = ({ newMembers,  removedMembers, tacMembers, addMember
                       }
                       }
                     />
-                    <label>Is a TAC Chair</label>
+                    <label htmlFor={ `isChair_${ m.surname + m.name }` }>Is a TAC Chair</label>
 
                   </td>
                   <td>
@@ -47,22 +48,24 @@ const TacMemberEditTable = ({ newMembers,  removedMembers, tacMembers, addMember
             }
             {
               (newMembers[ p ] || []).length > 0 && <tr>
-                <th colSpan={4}>Members to Add or Update</th>
+                <th colSpan={ 4 }>Members to Add or Update</th>
               </tr>}
             {
-              (newMembers[ p ] || []).sort(compareBySurname).map((m, c) => (
-                <tr key={ `${c}c` } className='new-tac-row'>
+              (newMembers[ p ] || []).sort(compareByAttribute("surname")).map((m) => (
+                <tr key={ `${ m.surname + m.name }` } className='new-tac-row'>
                   <td>{ m.surname }</td>
                   <td>{ m.name }</td>
                   <td>
                     <input
+                      id={ `isNewChair_${ m.surname + m.name }` }
                       type='checkbox'
-                      checked={m.isTacChair}
-                      onChange={e => {
-                        makeChair(m, p, e.target.checked)
+                      checked={ m.isTacChair }
+                      onChange={
+                        e => {
+                          makeChair(m, p, e.target.checked)
+                        }
                       }
-                      }
-                    /> <label>Is a TAC Chair</label></td>
+                    /> <label htmlFor={ `isNewChair_${ m.surname + m.name }` }>Is a TAC Chair</label></td>
                   <td>
                   <button onClick={ () => removeMember(m, p) }>- Remove</button>
                   </td>
@@ -70,17 +73,17 @@ const TacMemberEditTable = ({ newMembers,  removedMembers, tacMembers, addMember
             }
             {
               (removedMembers[ p ] || []).length > 0 && <tr>
-                 <th colSpan={4}>Members to Remove</th>
+                 <th colSpan={ 4 }>Members to Remove</th>
               </tr>
             }
             {
               (
-                removedMembers[ p ] || []).sort(compareBySurname).map((m, c) => (
-                  <tr key={`${c}c`} className='removed-tac-row'>
+                removedMembers[ p ] || []).sort(compareByAttribute("surname")).map((m) => (
+                  <tr key={ `${ m.surname + m.name }` } className='removed-tac-row'>
                     <td>{ m.surname }</td>
                     <td>{ m.name }</td>
                     <td>{ m.isTacChair ? 'True' : 'False' }</td>
-                    <td>{ <button onClick={() => addMember(m, p) }>+ Add</button> }</td>
+                    <td>{ <button onClick={ () => addMember(m, p) }>+ Add</button> }</td>
                     <td/>
                   </tr>
                 )

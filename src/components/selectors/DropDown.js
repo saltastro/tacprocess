@@ -1,7 +1,7 @@
 import React from 'react'
 import propTypes from 'prop-types'
 import Select from 'react-select'
-import { listForDropdown, compareByValue } from '../../util/filters'
+import { listForDropdown, compareByAttribute } from '../../util/filters'
 
 const DropDown = ({listToDisplay, name, OnChange, value, className}) => (
   <div className={ className || 'left' }>
@@ -9,7 +9,7 @@ const DropDown = ({listToDisplay, name, OnChange, value, className}) => (
     <Select
       className ='selector'
       name={ name }
-      options={ listForDropdown(listToDisplay).sort(compareByValue) }
+      options={ listForDropdown(listToDisplay).sort(compareByAttribute("value")) }
       value={ value }
       clearable={ false }
       focusedOption={ value }

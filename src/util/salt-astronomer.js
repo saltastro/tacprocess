@@ -23,21 +23,6 @@ export const getSaltAstronomerUsername = (name, SALTAstronomers) => {
 }
 
 /**
- * method used for sorting Salt Astronomers by name
- * */
-export const compareByFirstName = (a, b) => {
-  const name1 = a.name.toUpperCase()
-  const name2 = b.name.toUpperCase()
-  if (name1 < name2) {
-    return -1
-  }
-  if (name1 > name2) {
-    return 1
-  }
-  return 0
-}
-
-/**
  * this method checks if the proposal with given proposal code has a liaison astronomer form given proposals
  *
  * @param proposalCode

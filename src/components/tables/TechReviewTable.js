@@ -4,6 +4,7 @@ import '../../styles/components/tables.css'
 import { canAssignOtherReviewer, defaultSemester, downloadSummary } from '../../util'
 import {getTechnicalReport} from '../../util/technicalReports'
 import {compareByProposalCode, didReportChange} from '../../util/proposal'
+import { compareByAttribute } from '../../util/filters'
 
 function getReviewer(proposal, semester){
   const review = proposal.techReviews[ semester ]
@@ -61,25 +62,12 @@ export default class TechReviewTable extends React.Component {
 	    return (<br/>)
 	  }
 
-	  // compare astronomers by their first name
-	  const compareByFirstName = (a, b) => {
-	    const name1 = a.name.toUpperCase()
-	    const name2 = b.name.toUpperCase()
-	    if (name1 < name2) {
-	      return -1
-	    }
-	    if (name1 > name2) {
-	      return 1
-	    }
-	    return 0
-	  }
-
 	  const saltAstronomerName = (username) => {
 	    const name = (SALTAstronomers).find(a => a.username === username)
 	    return name ? name.name : username
 	  }
 
-	  const saltAstronomers = SALTAstronomers.sort(compareByFirstName)
+	  const saltAstronomers = SALTAstronomers.sort(compareByAttribute("name"))
 
 	  const isSaltAstronomer = (username) => saltAstronomers.some(astronomer => astronomer.username === username)
 
@@ -123,8 +111,8 @@ export default class TechReviewTable extends React.Component {
                                             Download
 	                    </a>
 	                  </td>
-	                  <td className=' table-height width-400'>{p.title}</td>
-	                  <td className='width-100'>{p.pi}</td>
+	                  <td className=' table-height width-400'>{ p.title }</td>
+	                  <td className='width-100'>{ p.pi }</td>
 	                  {
 	                    semester >= defaultSemester() && <td>
 	                      <select
