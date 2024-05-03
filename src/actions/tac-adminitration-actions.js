@@ -36,7 +36,7 @@ export default function submitNewTacMembers(newMembers, removedMembers, partner)
     dispatch(submitNewTacMembersStart())
     const added = newMembers.map(m => ({
       member: m.username,
-      is_chair: 0
+      is_chair: m.isTacChair
     }))
     const removed = removedMembers.map(m => ({
       member: m.username
