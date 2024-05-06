@@ -277,7 +277,6 @@ export function queryStatistics (semester, partner) {
   if ( partner !== 'All' ) {
     par = `, partner: "${ partner }"`
   }
-  console.log(par)
   const query = `
     {
   statistics(semester:"${ semester }" ${ par } ){
@@ -371,10 +370,10 @@ export function queryStatistics (semester, partner) {
           moreThan3
         }
         numberOfProposals{
-           between0And1Dot5
+          between0And1Dot5
           between1Dot5And2
           between2And2Dot5
-          between2Dot5And3 
+          between2Dot5And3
           moreThan3
         }
       }
